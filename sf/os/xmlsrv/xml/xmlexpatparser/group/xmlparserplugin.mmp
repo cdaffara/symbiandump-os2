@@ -1,0 +1,55 @@
+// Copyright (c) 2004-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// xmlparserplugin.dll xml parser plugin
+// 
+//
+
+/**
+ @file
+*/
+
+TARGET			xmlparserplugin.dll
+CAPABILITY		All -Tcb
+TARGETTYPE		plugin
+
+// ECom Plugin Dll UID followed by the unique UID for this dll
+// Assigned to UID2 and UID3 respectively
+UID				0x10009D8D 0x101FAA0A
+VENDORID		0x70000001
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_ESTLIB_SYSTEMINCLUDE
+
+USERINCLUDE		../src
+USERINCLUDE		../src/expat-1.95.5/lib
+
+SOURCEPATH		../src
+SOURCE			xmlparserplugin.cpp
+SOURCE			cexpat.cpp
+
+START RESOURCE	101FAA0A.rss
+TARGET			xmlparserplugin.rsc
+END
+
+SOURCEPATH		../src/expat-1.95.5/lib
+SOURCE			xmlparse.c
+SOURCE			xmlrole.c
+SOURCE			xmltok.c
+
+LIBRARY			bafl.lib
+LIBRARY			estlib.lib
+LIBRARY			euser.lib
+LIBRARY			xmlframework.lib
+
+SMPSAFE

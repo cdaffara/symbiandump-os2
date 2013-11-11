@@ -1,0 +1,145 @@
+// Copyright (c) 2005-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// SQL Database server (SQL)
+// 
+//
+
+/**
+ @file
+*/
+
+PRJ_PLATFORMS
+
+PRJ_EXPORTS
+
+../INC/SqlDb.h OS_LAYER_PUBLIC_EXPORT_PATH(sqldb.h)
+#ifndef SYMBIAN_ENABLE_SPLIT_HEADERS
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+../INC/SqlResourceTester.h /epoc32/include/sqlresourcetester.h
+#endif
+#endif
+
+sql.iby		/epoc32/rom/include/sql.iby
+backup_registration.xml z:/private/10281e17/backup_registration.xml
+
+PRJ_MMPFILES
+
+#ifndef GCCXML
+sqlite.mmp
+#endif
+SqlSrv.mmp
+SqlDb.mmp
+
+PRJ_TESTEXPORTS
+
+sqltests.iby                                /epoc32/rom/include/sqltests.iby
+sqltests.bat                                z:/test/sqltests.bat
+
+../TEST/TestDb1.db                          z:/test/testdb1.db
+../TEST/CorruptDb.db                        z:/test/corruptdb.db
+../TEST/contacts_schema_to_vendors.sql      z:/test/contacts_schema_to_vendors.sql
+../TEST/add_simple_contacts.sql             z:/test/add_simple_contacts.sql
+../TEST/t_SqlShortNonDb.db                  z:/test/t_sqlshortnondb.db
+../TEST/contacts_startup_time.sql           z:/test/contacts_startup_time.sql
+../TEST/t_inc095412.db                      z:/test/t_inc095412.db
+../TEST/default_avacon.dbSQL                z:/test/default_avacon.dbsql
+../TEST/t_sqlbur_backup_ver0.bak            z:/test/t_sqlbur_backup_ver0.bak
+../TEST/t_sqlperformance4.sql               z:/test/t_sqlperformance4.sql
+../TEST/{21212122}AADb2.db                  z:/private/10281e17/[21212122]aadb2.db
+../TEST/{21212122}BBDb2.db                  z:/private/10281e17/[21212122]bbdb2.db
+../TEST/{21212125}t_ab.db                   z:/private/10281e17/[21212125]t_ab.db
+../TEST/{1111CCCC}t_ab.db                   z:/private/10281e17/[1111cccc]t_ab.db
+../TEST/{21212125}T_OneDefPolicy.db         z:/private/10281e17/[21212125]t_onedefpolicy.db
+//../TEST/SqlServer.cfg                     z:/private/10281e17/sqlserver.cfg
+../TEST/t_sqldb1.db                         z:/private/21212124/t_sqldb1.db
+../TEST/{98765432}t_2defaultpolicies.db     z:/private/10281e17/[98765432]t_2defaultpolicies.db
+../TEST/{98765432}t_emptysettings.db        z:/private/10281e17/[98765432]t_emptysettings.db
+../TEST/{98765432}t_invobject.db            z:/private/10281e17/[98765432]t_invobject.db
+../TEST/{98765432}t_invversion.db           z:/private/10281e17/[98765432]t_invversion.db
+../TEST/{98765432}t_longcollation.db        z:/private/10281e17/[98765432]t_longcollation.db
+../TEST/{98765432}t_nocollation.db          z:/private/10281e17/[98765432]t_nocollation.db
+../TEST/{98765432}t_nodefaultpolicy.db      z:/private/10281e17/[98765432]t_nodefaultpolicy.db
+../TEST/{98765432}t_nosettings.db           z:/private/10281e17/[98765432]t_nosettings.db
+
+PRJ_TESTMMPFILES
+
+//Before runnning any of the SQL tests, run t_sqlenvcreate first.
+//t_sqlenvcreate has "All -Tcb" capabilities, and is used to copy some secure
+//shared test database files to the SQL server private datacage. These files will
+//be used later by the other SQL tests.
+//To delete the copied database files, use t_sqlenvdestroy.
+
+t_sqlenvcreate.mmp
+t_sqlite.mmp
+t_sqlapi.mmp
+t_sqlapi2.mmp
+t_sqloom1.mmp
+t_sqloom2.mmp
+t_sqloom3.mmp
+t_sqloom4.mmp
+t_sqloom5.mmp
+t_sqloom6.mmp
+t_sqlpanic.mmp
+t_sqllang.mmp
+t_sqlmulti.mmp
+t_sqlcollate.mmp
+t_sqltrans.mmp
+t_sqlload.mmp
+t_sqlgetfirststmt.mmp
+t_sqlsecurity1.mmp
+t_sqlsecurity2.mmp
+t_sqlsecurity3.mmp
+t_sqlsecurity4.mmp
+t_sqlsecurity5.mmp
+t_sqlsecurity6.mmp
+t_sqlattach.mmp
+#ifndef WINS //hardware only
+t_sqlattach2.mmp manual
+#endif
+t_sqlperformance.mmp
+t_sqlperformance2.mmp
+t_sqlperformance3.mmp
+t_sqlperformance4.mmp
+t_sqlperformance5.mmp
+t_sqlood.mmp
+t_sqloslayer.mmp
+t_sqldefect.mmp
+t_sqldefect2.mmp
+t_sqlprivcage.mmp
+t_sqlbadclient.mmp
+t_sqlbur.mmp
+t_sqlbur2.mmp
+t_sqlscalarfullselect.mmp
+t_sqlfserr.mmp
+t_sqlconfig.mmp
+t_sqlconfigfile.mmp
+t_sqldbconfigfile.mmp
+t_sqlcompact1.mmp
+t_sqlcompact2.mmp
+t_sqlcompact3.mmp
+t_sqlcompact4.mmp
+t_sqlblob.mmp
+t_sqlauthorizer.mmp
+t_sqlfilebuf64.mmp
+t_sqldb64.mmp manual
+t_sqlstartup.mmp
+#ifndef WINS //hardware only
+t_sqlfilesrvcrash1.mmp manual
+t_sqlfilesrvcrash2.mmp manual
+#endif
+t_sqlcorrupt.mmp
+t_sqlenvdestroy.mmp
+
+#include "../TEST/testexecute/group/bld.inf"
+

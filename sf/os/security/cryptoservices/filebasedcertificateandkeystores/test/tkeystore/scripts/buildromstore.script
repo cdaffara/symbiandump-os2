@@ -1,0 +1,56 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+START_TESTCASE                SEC-FILETOKENS-BUILDROMSTORE-0001
+
+//! @SYMTestCaseID            SEC-FILETOKENS-BUILDROMSTORE-0001
+
+//! @SYMTestCaseDesc          
+
+//! @SYMTestActions           1) 1, Opening key store in manager mode
+
+//!                           2) 2, Delete everything
+
+//!                           3) 4, Set passphrase timeout to 30 seconds
+
+//!                           4) 3, Import a RSA key
+
+//!                           5) 5, Import a DSA key
+
+//!                           6) 6, List everything (TEST ID: GT0140-KEY001)
+
+//!                           7) 7, Closing key store
+
+RUN_TEST_STEP                 -1    CTestHandler        init                   buildromstore.ini   SEC-FILETOKENS-BUILDROMSTORE-0001-001
+
+RUN_TEST_STEP                 -1    CTestHandler        deletekeys          
+
+RUN_TEST_STEP                 -1    CTestHandler        settimeout             buildromstore.ini   SEC-FILETOKENS-BUILDROMSTORE-0001-003
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              buildromstore.ini   SEC-FILETOKENS-BUILDROMSTORE-0001-004
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              buildromstore.ini   SEC-FILETOKENS-BUILDROMSTORE-0001-005
+
+RUN_TEST_STEP                 -1    CTestHandler        listkeys               buildromstore.ini   SEC-FILETOKENS-BUILDROMSTORE-0001-006
+
+RUN_TEST_STEP                 -1    CTestHandler        delete              
+
+END_TESTCASE                  SEC-FILETOKENS-BUILDROMSTORE-0001
+
+
+
+
+

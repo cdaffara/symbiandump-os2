@@ -1,0 +1,61 @@
+/*
+* Copyright (c) 2000-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* jis.dll JIS charset converter wrapper
+*
+*/
+
+
+/**
+ @file
+*/
+
+TARGET			jis.dll
+TARGETTYPE		PLUGIN
+
+CAPABILITY		All -Tcb
+
+UID				0x10009D8D 0x102044F3
+VENDORID		0x70000001
+
+USERINCLUDE ../inc
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+USERINCLUDE		../src/plugins
+USERINCLUDE		../src/inc
+
+SOURCEPATH		../src/plugins
+SOURCE			jis.cpp
+
+SOURCEPATH		../resource
+START RESOURCE	jis.rss
+TARGETPATH		/resource/charconv
+LANG			sc
+END
+
+START RESOURCE	102044f3.rss
+TARGET			jis.rsc
+END
+
+LIBRARY			euser.lib
+LIBRARY			charconv.lib
+LIBRARY			convutils.lib
+LIBRARY			jisbase_shared.lib 
+LIBRARY			jisx0201.lib
+LIBRARY			jisx0208.lib
+LIBRARY			jisx0212.lib
+LIBRARY			ecom.lib
+LIBRARY			featmgr.lib
+
+SMPSAFE

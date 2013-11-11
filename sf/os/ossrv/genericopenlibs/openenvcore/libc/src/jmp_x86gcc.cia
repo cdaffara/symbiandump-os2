@@ -1,0 +1,73 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+#include <setjmp.h>
+#include <cpudefs.h>
+
+extern "C" {
+
+EXPORT_C __NAKED__ int setjmp(jmp_buf __jmpb)
+	{
+	asm ("mov eax, [esp+4]"); // eax = __jmpb
+	asm ("mov [eax],    ebx");
+	asm ("mov [eax+4],  esi");
+	asm ("mov [eax+8],  edi");
+
+	// Get caller's ESP by popping the parameter and the return address (8 bytes) from current ESP value
+	asm ("mov edx, esp"); 
+	asm ("add edx, 8"); 
+	asm ("mov [eax+12], edx");	// caller's ESP
+	asm ("mov [eax+16], ds");
+	asm ("mov [eax+20], es");
+	asm ("mov [eax+24], fs");
+	asm ("mov [eax+28], gs");
+	asm ("mov [eax+32], ebp");	// caller's EBP (stack frame)
+	asm ("mov edx, [esp]");		// Save the retaddr because it's also the
+	asm ("mov [eax+36], edx");	// place in the calling function to which longjmp() must return to
+	asm ("mov eax, 0");
+	asm ("ret");
+	}
+
+EXPORT_C __NAKED__ void longjmp(jmp_buf __jmpb, int __retval)
+	{
+	asm("mov eax, [esp+4]");	// eax = __jmpb
+
+	// If __retval is 0 (KErrNone?) change it to a non-zero value
+	asm("mov edx, [esp+8]");	// edx = __retval
+	asm("cmp edx, 0");
+	asm("jne is_not_zero");
+	asm("inc edx"); 
+	asm("is_not_zero:");	
+	asm("mov [eax+40],edx");	// __jmpb[10]=__retval
+
+	asm("mov ebp, [eax+12]");
+	asm("mov esp, ebp");		// restore setjmp caller's ESP 
+	asm("mov ebx, [eax]");
+	asm("mov esi, [eax+4]");
+	asm("mov edi, [eax+8]");
+	asm("mov ds, [eax+16]");
+	asm("mov es, [eax+20]");
+	asm("mov fs, [eax+24]");
+	asm("mov gs, [eax+28]");
+
+	asm("mov ebp, [eax+32]"); // restore setjmp caller's EBP
+		
+	asm("mov eax, [eax+36]"); // push return address on stack
+	asm("push eax");
+	asm("mov eax,edx");	
+	asm("ret");				// magically ret's to instruction following call to setjmp() with eax==__retval
+	}
+
+} // extern "C"

@@ -1,0 +1,377 @@
+/** @file  ../include/getopt.h
+@internalComponent
+*/
+
+/** @fn  getopt_long(int argc, char * const *argv, const char *optstring, const struct option *longopts, int *longindex)
+@param argc
+@param argv
+@param optstring
+@param longopts
+@param longindex
+@return   If the flag field in struct option
+is NULL, getopt_long returns the value specified in the val field, which is usually just the corresponding short option.
+If flag is not NULL, this function returns 0 and stores val in the location pointed to by flag. This function returns ' : '
+if there was a missing option argument, ' ? '
+if the user specified an unknown or ambiguous option, and
+-1 when the argument list has been exhausted.
+
+
+  The getopt_long function is similar to getopt but it accepts options in two forms: words and characters.
+The getopt_long function provides a superset of the functionality of getopt .
+The getopt_long function
+can be used in two ways.
+In the first way, every long option understood
+by the program has a corresponding short option, and the option
+structure is only used to translate from long options to short
+options.
+When used in this fashion, getopt_long behaves identically to getopt .
+This is a good way to add long option processing to an existing program
+with the minimum of rewriting.
+
+ In the second mechanism, a long option sets a flag in the option
+structure passed, or will store a pointer to the command line argument
+in the option
+structure passed to it for options that take arguments.
+Additionally,
+the long option's argument may be specified as a single argument with
+an equal sign, e.g.,
+
+@code
+myprogram --myoption=somevalue 
+@endcode
+    
+When a long option is processed, the call to getopt_long will return 0.
+For this reason, long option processing without
+shortcuts is not backwards compatible with getopt . It is possible to combine these methods, providing for long options
+processing with short option equivalents for some options.
+Less
+frequently used options would be processed as long options only. The getopt_long call requires a structure to be initialized describing the long
+options.
+@code
+The structure is: struct option {
+char *name;
+int has_arg;
+int *flag;
+int val;
+};
+@endcode
+ The name field should contain the option name without the leading double dash.
+
+ The has_arg field should be one of:
+
+ no argument no argument to the option is expect required_argument  
+ an argument to the option is required optional_argument  an argument to the option may be presented.
+
+ If flag is not NULL, then the integer pointed to by it will be set to the
+value in the val field.
+If the flag field is NULL, then the val field will be returned.
+Setting flag to NULL and setting val to the corresponding short option will make this function act just
+like getopt .
+
+ If the longindex field is not NULL, then the integer pointed to by it will be set to the index of the long
+option relative to longopts.
+
+ The last element of the longopts array has to be filled with zeroes.
+
+
+
+Examples:
+@code
+#include <unistd.h>
+#include <stdio.h>
+#include <fcntl.h>
+#include <getopt.h>
+#include <errno.h>
+int main()
+{
+    int bflag, ch, fd;
+    int daggerset;            
+          
+    int argc = 3;
+         
+    char *argv[] = { "getopt", "--daggerset","hi" };   
+        
+    struct option  longopts[] = {    
+      { "buffy",      no_argument,            NULL,           'b' },
+      { "fluoride",   required_argument,      NULL,           'f' },
+      { "daggerset",  no_argument,           &daggerset;,   1 },
+      { NULL,         0,                      NULL,           0 }       
+    };
+         
+    bflag = 0;
+       
+    while ((ch = getopt_long(argc, argv, "bf:", longopts, NULL)) != -1) {      
+        switch (ch) {
+          
+                case 'b':
+                    printf("option is \"buffy\"
+");
+                bflag = 1;
+                break;
+                 
+                case 'f':
+                    printf("option is \"fluoride\"
+");
+                if ((fd = open(optarg, O_RDONLY, 0)) == -1)
+                        printf("unable to open %s", optarg);
+                break;
+                
+                case 0:
+                if (daggerset) {
+                        fprintf(stderr,"Buffy will use her dagger to apply 
+fluoride to dracula's teeth
+");
+                }
+                break;
+          default:
+                printf("unknown option
+");
+                
+        }//end of switch
+    }//end of while
+ 
+return 0;
+}
+
+@endcode
+ Output
+@code
+Buffy will use her dagger to apply fluoride to dracula's teeth
+
+@endcode
+@see getopt()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  getopt(int argc, char * const argv[], const char *optstring)
+@param argc
+@param argv[]
+@param optstring
+@return   The getopt function returns the next known option character in optstring. If getopt encounters a character not found in optstring or if it detects a missing option argument, it returns ' ? ' (question mark). If optstring has a leading ' : ' then a missing option argument causes ' : ' to be returned instead of ' ?. ' In either case, the variable optopt is set to the character that caused the error. The getopt function returns -1 when the argument list is exhausted.
+
+  The getopt function incrementally parses a command line argument list argv and returns the next known option character.
+An option character is known if it has been specified in the string of accepted option characters, optstring.
+
+ The option string optstring may contain the following elements: individual characters 
+  and characters followed by a colon to indicate an option argument is to follow. 
+  For example, an option string x recognizes an option "- x ", and an option string x: recognizes an option and argument "- x argument. " It does not matter to getopt if a following argument has leading white space.
+
+ On return from getopt, optarg points to an option argument, if it is anticipated,
+and the variable optind contains the index to the next argv argument for a subsequent call
+to getopt. The variable optopt saves the last known option character returned by getopt.
+
+ The variables opterr and optind are both initialized to 1.
+The optind variable may be set to another value before a set of calls to getopt in order to skip over more or less argv entries.
+
+ In order to use getopt to evaluate multiple sets of arguments, or to evaluate a single set of
+arguments multiple times,
+the variable optreset must be set to 1 before the second and each additional set of calls to getopt, and the variable optind must be reinitialized.
+
+ The getopt function returns -1 when the argument list is exhausted.
+The interpretation of options in the argument list may be cancelled
+by the option ' -- '
+(double dash) which causes getopt to signal the end of argument processing and return -1.
+When all options have been processed (i.e., up to the first non-option
+argument), getopt returns -1.
+
+
+
+Examples:
+@code
+#include <unistd.h>
+#include <stdio.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <string.h>
+ 
+int main()
+{
+        int argc = 3;
+         
+        char *argv[] =
+         {
+                 "getopt","-f","hi"
+         };
+        
+        int bflag, ch, fd;
+        bflag = 0;
+         
+        while ((ch = getopt(argc, argv, "bf:")) != -1) {
+        
+        switch (ch) {
+        case 'b':
+                bflag = 1;
+                printf("option is 'b' \n");
+                break;
+        case 'f':
+                printf("option is 'f' \n");
+                if ((fd = open(optarg, O_RDONLY, 0)) != 0) {
+                        (void)fprintf(stderr,
+                           "myname: %s: %s\n", optarg, strerror(errno));                
+                }                             
+                break;
+        case '?':
+                printf("missing option!");
+        default:
+                printf("unknown option!");
+        }
+       
+}
+argc -= optind;
+return 0;
+}
+
+
+@endcode
+ Output
+@code
+option is 'f'
+myname: hi: No such file or directory
+
+@endcode
+Diagnostics:
+ If the getopt function encounters a character not found in the string optstring or detects
+a missing option argument it writes an error message to the stderr and returns ' ?. '
+Setting opterr to a zero will disable these error messages.
+If optstring has a leading ' : '
+then a missing option argument causes a ' : '
+to be returned in addition to suppressing any error messages. Option arguments are allowed to begin with "-";
+this is reasonable but reduces the amount of error checking possible.
+@see getopt_long()
+
+
+Bugs:
+
+ The getopt function was once specified to return EOF instead of -1.
+This was changed by -p1003.2-92 to decouple getopt from \#include \< stdio.h \> A single dash "-" may be specified as a character in optstring, however it should never have an argument associated with it. This allows getopt to be used with programs that expect "-" as an option flag. This practice is wrong and should not be used in any 
+  current development. It is provided for backward compatibility only. Care should be taken not to use ' - ' as the first character in optstring to avoid a semantic conflict with GNU getopt, which assigns different meaning to an optstring that begins with a ' -. ' By default, a single dash causes getopt to return -1. It is also possible to handle digits as option letters.
+This allows getopt to be used with programs that expect a number ("-3")
+as an option.
+This practice is wrong, and should not be used in any current development.
+It is provided for backward compatibility only. The following code fragment works in most cases.
+@code
+int ch;
+long length;
+char *p, *ep;
+while ((ch = getopt(argc, argv, "0123456789")) != -1)
+        switch (ch) {
+        case ’0’: case ’1’: case ’2’: case ’3’: case ’4’:
+        case ’5’: case ’6’: case ’7’: case ’8’: case ’9’:
+                p = argv[optind - 1];
+                if (p[0] == ’-’ Am]Am] p[1] == ch Am]Am] !p[2]) {
+                        length = ch - ’0’;
+                        ep = "";
+                } else if (argv[optind] Am]Am] argv[optind][1] == ch) {
+                        length = strtol((p = argv[optind] + 1),
+                            Am]ep, 10);
+                        optind++;
+                        optreset = 1;
+                } else
+                        usage();
+                if (*ep != ’\0’)
+                        errx(EX_USAGE, "illegal number -- %s", p);
+                break;
+        }
+
+
+@endcode
+ 
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def optopt
+
+getopt(3) external variables. character checked for validity.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def opterr
+
+getopt(3) external variables. if error message should be printed.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def optind
+
+getopt(3) external variables. index into parent argv vector.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def optarg
+
+argument associated with option
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def optreset
+
+reset getopt
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def no_argument 
+
+no argument required
+
+@publishedAll
+@released
+*/
+
+/** @def required_argument
+
+argument is required
+
+@publishedAll
+@released
+*/
+
+/** @def optional_argument
+
+argument is optional
+
+@publishedAll
+@released
+*/
+
+/** @struct option
+
+Includes following members,
+
+@publishedAll
+@released
+*/
+
+/** @var option::name
+name of long option 
+*/
+
+/** @var option::has_arg
+one of no_argument, required_argument, and optional_argument: whether option takes an argument
+*/
+
+/** @var option::flag
+if not NULL, set flag to val when option found
+*/
+
+/** @var option::val
+if flag not NULL, value to set flag to; else return value
+*/

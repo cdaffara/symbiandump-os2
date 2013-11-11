@@ -1,0 +1,39 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SERVER te_RegBlockTestSuite 
+
+START_TESTCASE DT-TEF-TestBlock-0042
+//! @SYMTestCaseID          DT-TEF-TestBlock-0042
+//! @SYMCreationDate        03-07-2008
+//! @SYMAuthor              DavidZhang
+//! @SYMTestType            CT
+//! @SYMTestPriority        Medium
+//! @SYMTestCaseDesc        Check that if at least one command will end with a not expected error code then the whole test case will fail.
+//! @SYMTestExpectedResults The test case result must be FAIL.
+//! @SYMTestActions         Call multiple commands with an !Error expected. The first command executes a function that sets a wrong error code
+//!                         using CDataWrapper::SetError() and the remaining return expected error codes.
+	PRINT This test case will be failed.
+	START_TEST_BLOCK	100 te_RegBlockTestSuite ${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini
+		CREATE_OBJECT	te_RegBlockTestWrapper	DummyObj
+		COMMAND		!Error=-111	DummyObj	SetError			TestCase078_obj_Error_999
+		COMMAND		!Error=-555	DummyObj	SetError			TestCase078_obj_Error_555
+		COMMAND		!Error=-666	DummyObj	SetError			TestCase078_obj_Error_666
+		COMMAND		!Error=-777	DummyObj	SetError			TestCase078_obj_Error_777
+		COMMAND		!Error=-888	DummyObj	SetError			TestCase078_obj_Error_888
+		COMMAND		!Error=-999	DummyObj	SetError			TestCase078_obj_Error_999
+	END_TEST_BLOCK
+END_TESTCASE DT-TEF-TestBlock-0042

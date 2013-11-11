@@ -1,0 +1,127 @@
+// Copyright (c) 2008-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+//! @file
+//! @SYMTestSuiteName               	uloggerv1-server-unit-test-suite.script
+//! @SYMScriptTestEnvironment       	TEF
+
+
+
+//
+PRINT Run all te_UloggerServerTest Suite Tests
+
+// clears uloggerconfig.ini and then configures it before running the server tests 
+LOAD_SUITE te_createconfigsuite
+RUN_TEST_STEP 1000 te_createconfigsuite CreateConfigFullTestStep
+
+
+//
+LOAD_SUITE te_UloggerServerTestSuite
+//
+
+//Please add or make change of you test steps, here is sample only:
+START_TESTCASE			DT-DEBUG-TRACE-UTFv1-UloggerServerStartStopWatching-0001
+//! @SYMTestCaseID		DT-DEBUG-TRACE-UTFv1-UloggerServerStartStopWatching-0001
+//! @SYMTestCaseDesc     Run test for starting/stopping watching in server
+//! @SYMTestPriority     Critical
+//! @SYMTestActions    STart and Stop watching in the server
+//! @SYMTestExpectedResults      error returns as expected
+//! @SYMTestType         UT
+//! @SYMTestStatus   Implemented
+//! @SYMPREQ                 PREQ1635
+//! @SYMREQ 
+RUN_TEST_STEP 100 te_UloggerServerTestSuite UloggerServerTest0Step 
+END_TESTCASE			DT-DEBUG-TRACE-UTFv1-UloggerServerStartStopWatching-0001
+
+START_TESTCASE			DT-DEBUG-TRACE-UTFv1-UloggerServerConfigureMethods-0001
+//! @SYMTestCaseID		DT-DEBUG-TRACE-UTFv1-UloggerServerConfigureMethods-0001
+//! @SYMTestCaseDesc     Run test for configuring commands the ulogger server
+//! @SYMTestPriority     Critical
+//! @SYMTestActions    Call all possibly get/set/configure ulogger command methods in the server
+//! @SYMTestExpectedResults      error returns as expected
+//! @SYMTestType         UT
+//! @SYMTestStatus   Implemented
+//! @SYMPREQ                 PREQ1635
+//! @SYMREQ 
+RUN_TEST_STEP 1000 te_UloggerServerTestSuite UloggerServerTest1Step 
+END_TESTCASE			DT-DEBUG-TRACE-UTFv1-UloggerServerConfigureMethods-0001
+
+START_TESTCASE			DT-DEBUG-TRACE-UTFv1-UloggerServerSessionNewLNewLC-0001
+//! @SYMTestCaseID		DT-DEBUG-TRACE-UTFv1-UloggerServerSessionNewLNewLC-0001
+//! @SYMTestCaseDesc     Create new server sessions
+//! @SYMTestPriority     Critical
+//! @SYMTestActions    Call NewL and NewLC to create new server sessions
+//! @SYMTestExpectedResults      error returns as expected
+//! @SYMTestType         UT
+//! @SYMTestStatus   Implemented
+//! @SYMPREQ                 PREQ1635
+//! @SYMREQ 
+RUN_TEST_STEP 100 te_UloggerServerTestSuite UloggerServerTest2Step 
+END_TESTCASE			DT-DEBUG-TRACE-UTFv1-UloggerServerSessionNewLNewLC-0001
+
+START_TESTCASE			DT-DEBUG-TRACE-UTFv1-UloggerServerPluginAllocator-0001
+//! @SYMTestCaseID		DT-DEBUG-TRACE-UTFv1-UloggerServerPluginAllocator-0001
+//! @SYMTestCaseDesc     Create new server sessions
+//! @SYMTestPriority     Critical
+//! @SYMTestActions    Call NewL and NewLC to create new plugin allocations under various conditions
+//! @SYMTestExpectedResults      error returns as expected
+//! @SYMTestType         UT
+//! @SYMTestStatus   Implemented
+//! @SYMPREQ                 PREQ1635
+//! @SYMREQ
+RUN_TEST_STEP 100 te_UloggerServerTestSuite UloggerServerTest3Step 
+END_TESTCASE			DT-DEBUG-TRACE-UTFv1-UloggerServerPluginAllocator-0001
+
+START_TESTCASE			DT-DEBUG-TRACE-UTFv1-UloggerServerControlFramework-0001
+//! @SYMTestCaseID		DT-DEBUG-TRACE-UTFv1-UloggerServerControlFramework-0001
+//! @SYMTestCaseDesc     Test server control framework
+//! @SYMTestPriority     Critical
+//! @SYMTestActions    Start/Stop reading and test functionality of passing and translating commands for server control framework
+//! @SYMTestExpectedResults      error returns as expected
+//! @SYMTestType         UT
+//! @SYMTestStatus   Implemented
+//! @SYMPREQ                 PREQ1635
+//! @SYMREQ
+RUN_TEST_STEP 1000 te_UloggerServerTestSuite UloggerServerTest4Step 
+END_TESTCASE			DT-DEBUG-TRACE-UTFv1-UloggerServerControlFramework-0001
+
+START_TESTCASE			DT-DEBUG-TRACE-UTFv1-UloggerServerChannelSettings-0001
+//! @SYMTestCaseID		DT-DEBUG-TRACE-UTFv1-UloggerServerChannelSettings-0001
+//! @SYMTestCaseDesc     Test server channel settings
+//! @SYMTestPriority     Critical
+//! @SYMTestActions    Call methods to change settings of server channels
+//! @SYMTestExpectedResults      error returns as expected
+//! @SYMTestType         UT
+//! @SYMTestStatus   Implemented
+//! @SYMPREQ                 PREQ1635
+//! @SYMREQ
+RUN_TEST_STEP 100 te_UloggerServerTestSuite UloggerServerTest5Step 
+END_TESTCASE			DT-DEBUG-TRACE-UTFv1-UloggerServerChannelSettings-0001
+
+START_TESTCASE			DT-DEBUG-TRACE-UTFv1-UloggerServerData-0001
+//! @SYMTestCaseID		DT-DEBUG-TRACE-UTFv1-UloggerServerData-0001
+//! @SYMTestCaseDesc     Test data mathods of server 
+//! @SYMTestPriority     Critical
+//! @SYMTestActions    Call methods to pass data to/fro server 
+//! @SYMTestExpectedResults      error returns as expected
+//! @SYMTestType         UT
+//! @SYMTestStatus   Implemented
+//! @SYMPREQ                 PREQ1635
+//! @SYMREQ
+RUN_TEST_STEP 100 te_UloggerServerTestSuite UloggerServerTest6Step 
+END_TESTCASE			DT-DEBUG-TRACE-UTFv1-UloggerServerData-0001
+
+
+PRINT Complate_te_UloggerServerTest_Tests

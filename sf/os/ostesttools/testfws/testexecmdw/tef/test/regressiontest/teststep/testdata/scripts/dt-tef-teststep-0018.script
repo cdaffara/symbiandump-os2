@@ -1,0 +1,37 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SUITE	te_RegStepTestSuite
+
+START_TESTCASE DT-TEF-TestStep-0018
+//! @SYMTestCaseID          DT-TEF-TestStep-0018
+//! @SYMCreationDate        02-12-2008
+//! @SYMAuthor              extshuohuang
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        this test case is test &quot;!PanicString&quot; in the RUN_TEST_STEP. Expected panic string is too long.
+//! @SYMTestExpectedResults all the step panic string was too long. The panic string are not match. tef should log the expected and received panic string.
+//! @SYMTestActions         received panic string is &quot;PanicMe&quot;
+//!                         exepecte panic string is different. test case should fail cause fail comparesion.
+	PRINT this test case should fail.
+	RUN_TEST_STEP !PanicString="LongPanicStringxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" 100 te_RegStepTestSuite PanicTestStep ${SYSDRIVE}\testdata\configs\panictest.ini PanicStringCode
+	RUN_TEST_STEP !PanicString="Long Panic String x x x x x xx x x x  x x x x x x  x x x xxxxxxxxxxxxx" 100 te_RegStepTestSuite PanicTestStep ${SYSDRIVE}\testdata\configs\panictest.ini PanicStringCode
+	
+	RUN_TEST_STEP !PanicString=TOO long string without a pair of qute  100 te_RegStepTestSuite PanicTestStep ${SYSDRIVE}\testdata\configs\panictest.ini PanicStringCode
+	RUN_TEST_STEP !PanicString=DoMediaClockStoppedState: Mutex Unheld  100 te_RegStepTestSuite PanicTestStep ${SYSDRIVE}\testdata\configs\panictest.ini PanicStringCode
+	RUN_TEST_STEP !PanicString="TOO long string with a single qute   100 te_RegStepTestSuite PanicTestStep ${SYSDRIVE}\testdata\configs\panictest.ini PanicStringCode
+	RUN_TEST_STEP !PanicString= abc  100 te_RegStepTestSuite PanicTestStep ${SYSDRIVE}\testdata\configs\panictest.ini PanicStringCode
+	RUN_TEST_STEP !PanicString= "abc"  100 te_RegStepTestSuite PanicTestStep ${SYSDRIVE}\testdata\configs\panictest.ini PanicStringCode
+END_TESTCASE DT-TEF-TestStep-0018

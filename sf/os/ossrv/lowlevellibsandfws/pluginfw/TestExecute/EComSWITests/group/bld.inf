@@ -1,0 +1,110 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+
+prj_exports
+
+
+prj_testexports
+
+//armv5 test files
+
+//ecom swi  testexecute sub scripts
+../scripts/TE_EComSWITestARM.script		z:/tef_ecomswi/te_ecomswitestarm.script
+
+//ecom plugin one
+../data/EComPlugin1ARMs.sis				z:/tef_ecomswi/ecomplugin1arms.sis
+
+//ecom plugin one upgrade
+../data/EComPlugin1UpgARMs.sis			z:/tef_ecomswi/ecomplugin1upgarms.sis
+
+//ecomplugintwo
+../data/EComPlugin2ARMs.sis				z:/tef_ecomswi/ecomplugin2arms.sis
+
+//ecom plugin three upgrade
+../data/EComPlugin3UpgARMs.sis			z:/tef_ecomswi/ecomplugin3upgarms.sis
+
+
+// winscw test files
+
+//ecom swi  testexecute sub scripts
+../scripts/TE_EComSWITestWINSCW.script	z:/tef_ecomswi/te_ecomswitestwinscw.script
+
+//ecom plugin one
+../data/EComPlugin1WINSCWs.sis			z:/tef_ecomswi/ecomplugin1winscws.sis
+
+//ecom plugin one upgrade
+../data/EComPlugin1UpgWINSCWs.sis		z:/tef_ecomswi/ecomplugin1upgwinscws.sis
+
+//ecomplugintwo
+../data/EComPlugin2WINSCWs.sis			z:/tef_ecomswi/ecomplugin2winscws.sis
+
+//ecom plugin three upgrade
+../data/EComPlugin3UpgWINSCWs.sis		z:/tef_ecomswi/ecomplugin3upgwinscws.sis
+
+
+
+//ecom swi  testexecute ini files
+../data/ECom-SWI-Install.ini			z:/tef_ecomswi/ecom-swi-install.ini
+../data/ECom-SWI-CheckPlugin.ini		z:/tef_ecomswi/ecom-swi-checkplugin.ini
+../data/ECom-SWI-UsePlugin.ini			z:/tef_ecomswi/ecom-swi-useplugin.ini
+
+// copy in our swicertstore.dat so our signed sis files can install.
+../data/certstore/swicertstore.dat		z:/resource/swicertstore.dat
+../data/certstore/swicertstore.dat		/epoc32/release/winscw/udeb/z/resource/swicertstore.dat
+../data/certstore/swicertstore.dat		/epoc32/release/winscw/urel/z/resource/swicertstore.dat
+
+
+//ecom swi test stub
+../data/EComPluginStub.SIS				z:/system/install/ecompluginstub.sis
+
+//iby file
+./TE_EComSWITestSuite.iby				/epoc32/rom/include/te_ecomswitestsuite.iby
+./swicertstoredat.iby					/epoc32/rom/include/swicertstoredat.iby
+
+//system_backup requires this file
+../data/backup_registration.xml			z:/tef_ecomswi/backup_registration.xml
+
+
+
+prj_testmmpfiles
+//need to build ecomtestutils first
+TE_EComSWITestSuite.mmp manual
+EComSWITestPluginThree.mmp support
+
+// need to uncomment the following to build the ecom test plugin
+// but remember to clean up the binaries once the sis packages have been created.
+
+//EcomSWITestPluginOne.mmp support
+//EComSWITestPluginOneUpg.mmp support
+//EComSWITestPluginTwo.mmp support
+//EComSWITestPluginThreeUpg.mmp support
+
+// Extension makefile to create three SIS packages.
+// Do not use the template extension in GCCXML build.
+#ifndef GCCXML
+
+PRJ_TESTEXTENSIONS
+start extension syslibs/test/ecom3_buildsis
+SOURCES cachedresolverstub.pkg cachedresolverupg2.pkg cachedresolverupg9.pkg
+OPTION OUTDIR tef_ecomswi
+OPTION INDIR ../data
+OPTION CERTPEM certstore/centreproot.pem
+OPTION CERTKEY certstore/centreproot.key
+OPTION STUBLIST cachedresolverstub.pkg
+OPTION SCRIPTNAME tem_dosis.pl
+end
+
+#endif

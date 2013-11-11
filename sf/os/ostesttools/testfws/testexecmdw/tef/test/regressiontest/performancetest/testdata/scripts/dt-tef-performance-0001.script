@@ -1,0 +1,42 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+PREFIX RUN_UTILS
+CopyFile z:\testdata\configs\te_regperformancetest.ini ${SYSDRIVE}\testdata\scripts\te_regperformancetest.ini
+MakeReadWrite ${SYSDRIVE}\testdata\scripts\te_regperformancetest.ini
+REMOVE_PREFIX
+
+LOAD_SUITE	Te_RegPerformanceTestSuite
+
+PRINT
+START_TESTCASE DT-TEF-Performance-0001
+//! @SYMTestCaseID          DT-TEF-Performance-0001
+//! @SYMCreationDate        08-09-2008
+//! @SYMAuthor              extjasonZhou
+//! @SYMTestType            CT
+//! @SYMTestPriority        Medium
+//! @SYMTestCaseDesc        Test TEF can be executed ok in low memory environment.
+//! @SYMTestExpectedResults TEF should be executed ok in low memory environment.
+//! @SYMTestActions         1. Eat up system memroies.
+//!                         2. Execute TEF in such environment.
+//!                         3. Restore system memories.
+	RUN_TEST_STEP 100 Te_RegPerformanceTestSuite Te_RegPerformanceSetLowMemTestStep ${SYSDRIVE}\testdata\configs\te_regperformancetest.ini LowMemory
+	DELAY 500
+	RUN_TEST_STEP 100 Te_RegPerformanceTestSuite Te_RegPerformanceLowMemoryTestStep
+	DELAY 500
+	RUN_TEST_STEP 100 Te_RegPerformanceTestSuite Te_RegPerformanceReleaseMemTestStep ${SYSDRIVE}\testdata\configs\te_regperformancetest.ini LowMemory
+	DELAY 500
+END_TESTCASE DT-TEF-Performance-0001

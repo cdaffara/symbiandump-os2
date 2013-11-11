@@ -1,0 +1,52 @@
+// Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// Specification file for the test stream agent "tsaf_streamagent02" ECOM Plugin
+// 
+//
+
+/**
+ @file
+ @test
+*/
+
+TARGET 		tscaf_streamagent02.dll
+TARGETTYPE 	PLUGIN
+
+UID 		0x10009D8D 0x102859F4
+
+CAPABILITY	AllFiles DRM NetworkServices NetworkControl
+
+MACRO		STREAMAGENT_02
+
+SOURCEPATH 	../test/streamingtestagent/source/plugin
+SOURCE		teststreamagentfactory.cpp
+
+USERINCLUDE 	../test/streamingtestagent/inc
+USERINCLUDE 	../../referencedrmagent/RefTestAgent/streamingrefagent/inc
+USERINCLUDE 	../../referencedrmagent/RefTestAgent/localsdp/inc
+USERINCLUDE 	../../referencedrmagent/RefTestAgent/localsdp/api
+
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+LIBRARY 	euser.lib
+LIBRARY		streamingcaf.lib
+LIBRARY		localsdpcodec.lib
+LIBRARY		stashared.lib
+LIBRARY		srautils.lib
+
+START RESOURCE 102859F4.rss
+	TARGET tscaf_streamagent02.rsc
+END
+SMPSAFE

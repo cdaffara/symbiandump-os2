@@ -1,0 +1,40 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SUITE	TEF_ClientTestUnit
+
+START_TESTCASE DT-TEF-TestClient-0004
+//! @SYMTestCaseID          DT-TEF-TestClient-0004
+//! @SYMCreationDate        26-08-2008
+//! @SYMAuthor              extShuoHuang
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        This test a long step command, the command is a very long string. The test server does not support the long command. this test case just to test testclient handle the long command.
+//!                         /*      RunTestStep() should not send the long command to server
+//!                         *      if(aCommandString.Length() &gt; KMaxTestExecuteCommandLength)
+//!                         {
+//!                         TRequestStatus* status = &amp;aStatus;
+//!                         User::RequestComplete(status,KErrTooBig);
+//!                         return;
+//!                         }
+//!                         SendReceive(....,aStatus);
+//!                         *      In current we don't want change TEF beheivour, so we just let
+//!                         * server send command out.
+//!                         * Because aStatus has be over wirted, KErrTooBig can't be return.
+//!                         * the ASSERT_TRUE can't be execute.
+//!                         */
+//! @SYMTestExpectedResults The command to long test client should return KErrTooBig. The test case should pass.
+RUN_TEST_STEP 100 TEF_ClientTestUnit TEFUnit.CTEFClientSuiteUT.TestRunLongTestStepCommandL
+END_TESTCASE DT-TEF-TestClient-0004

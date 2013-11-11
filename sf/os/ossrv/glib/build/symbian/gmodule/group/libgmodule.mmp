@@ -1,0 +1,63 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+//This is an auto-generated mmp file
+target			libgmodule.dll
+targettype			dll
+UID               0x1000008d  0x10281F3B
+VENDORID 	0x101FB657
+VERSION	2.205
+//List of macros
+//macro			G_LOG_DOMAIN="GModule" 
+//macro			G_DISABLE_DEPRECATED 
+macro			MOBILE_PORT
+macro			HAVE_CONFIG_H
+//macro			BUILDING_LIBGMODULE
+
+//The src directory is added to the (user)include path by default
+userinclude			../../inc
+userinclude			../../../../glib
+userinclude			../../../../gmodule
+//systeminclude			../gmodule
+
+//The top level directory is added to the include path by default
+//systeminclude			.. 			 ../glib 			 ../gmodule 		 
+
+//Adding the Symbian and PIPS include path
+systeminclude			/epoc32/include
+systeminclude			/epoc32/include/stdapis
+systeminclude			/epoc32/include/stdapis/glib-2.0
+systeminclude			/epoc32/include/stdapis/glib-2.0/glib
+
+sourcepath			../../../../gmodule
+source			 gmodule.c
+#ifdef WINSCW
+source			gmodule_wsd.cpp
+#endif
+//Adding some default libraries
+library			euser.lib libc.lib libdl.lib libglib.lib
+#ifdef WINSCW
+library		ewsd.lib
+#endif
+//You may need to modify the capability
+capability			All -TCB
+
+#ifndef WINSCW
+EPOCALLOWDLLDATA
+#endif
+
+SMPSAFE
+PAGED

@@ -1,0 +1,55 @@
+// Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// LOGCLI.RSS
+// 
+//
+
+#include <badef.rh>
+
+// Formatting constants
+RESOURCE LBUF r_log_lit_date_format { txt = "%D%M%Y%1 %2 %3 %H:%T:%S"; }
+
+STRUCT INT16
+	{
+	WORD value;
+	}
+
+//The default contact match count is 7 - the LogServ contact matching is emabled by default.
+//The default value is kept here for compatibility reasons. The resource file is not used anymore.
+//The related LogServ confml file is used for loading the default contact match count.
+RESOURCE INT16 r_log_contact_match_count { value = 7; }
+
+// r_name_format_values enum values are used for for initializing 
+// r_log_contact_name_format integer resource.
+ENUM r_name_format_values
+	{
+	r_western_format,
+	r_chinese_format
+	};
+
+// r_log_contact_name_format value determines the order of storing of 
+// {family_name, given_name} strings pair in the logs.
+//
+// If r_log_contact_name_format = r_chinese_format, then the order will be:
+//	{family_name,name_separator,given_name}
+//
+// If r_log_contact_name_format = r_western_format, then the order will be:
+//	{given_name,name_separator,family_name}
+//
+// By default r_log_contact_name_format value is set to r_western_format.
+// It has to be set to r_chinese_format for chinese builds.
+// The default value is kept here for compatibility reasons. The resource file is not used anymore.
+// The related LogServ confml file is used for loading the default contact name format.
+RESOURCE INT16 r_log_contact_name_format { value = r_western_format; }
+

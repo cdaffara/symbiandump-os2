@@ -1,0 +1,186 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+
+LOAD_SUITE tcaf
+LOAD_SUITE RTAUtils
+
+RUN_UTILS MkDir c:\rta\
+RUN_UTILS MkDir c:\rta\testdata\
+RUN_UTILS MkDir c:\tcaf\
+RUN_UTILS MkDir c:\tcaf\testdata\
+RUN_UTILS MkDir c:\tcaf\testdata\TestAgentPrivateDir\
+
+RUN_UTILS CopyFile z:\rta\testdata\*.* c:\rta\testdata\*.*
+RUN_UTILS CopyFile z:\tcaf\testdata\*.* c:\tcaf\testdata\*.*
+RUN_UTILS CopyFile z:\tcaf\testdata\TestAgentPrivateDir\*.* c:\tcaf\testdata\TestAgentPrivateDir\*.*
+
+
+START_TESTCASE 			SEC-CAF-STRATR-0001
+//! @SYMTestCaseID 		SEC-CAF-STRATR-0001
+//! @SYMTestCaseDesc 		CreateDrmArchive for content.xml
+RUN_TEST_STEP 100 RTAUtils CreateDrmArchive c:\tcaf\stringattributes.ini CreateDrmArchive
+END_TESTCASE 			SEC-CAF-STRATR-0001
+
+START_TESTCASE 			SEC-CAF-STRATR-0002
+//! @SYMTestCaseID 		SEC-CAF-STRATR-0002
+//! @SYMTestCaseDesc 		copy stringattribute.content file to the private directory of the RTA, so the RTA gets picked
+RUN_TEST_STEP 100 tcaf CAFCopyFileStep c:\tcaf\stringattributes.ini PrivateCopyFileOk
+END_TESTCASE 			SEC-CAF-STRATR-0002
+
+
+START_TESTCASE 			SEC-CAF-STRATR-1909
+//------------------------------------- 
+//--  Step to retrieve TransactionID
+//------------------------------------- 
+//! @SYMTestCaseID 		SEC-CAF-STRATR-1909
+//! @SYMTestCaseDesc 		Test addition of new entry,TransactionID, in TStringAttribute
+//! @SYMCR 			CR0895
+//! @SYMREQ 			REQ 6526, 6527
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		RTA gets picked to read the content file, gets the transactionid & compares it with expected value in the .ini file. Both shuold match.
+//! @SYMTestExpectedResults	transactionid in the .ini file should be identical to the one in .content file. 
+RUN_TEST_STEP 100 tcaf CAFStringAttributesStep c:\tcaf\stringattributes.ini TransactionIDAttribute
+END_TESTCASE 			SEC-CAF-STRATR-1909
+
+START_TESTCASE 			SEC-CAF-STRATR-1914
+//--------------------------------------------------- 
+//-- Step to retrieve non existing transaction ID
+//--------------------------------------------------- 
+//! @SYMTestCaseID 		SEC-CAF-STRATR-1914
+//! @SYMTestCaseDesc 		Test retrieval of non-existing TransactionID, in TStringAttribute
+//! @SYMCR 			CR0895
+//! @SYMREQ 			REQ 6526, 6527
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		RTA gets picked to read the content file, calls GetStringAttribute on transactionid and initiliases its value to "". 
+//! @SYMTestExpectedResults	expected value is empty string since there is not TransactionID attribute in this content, and expected result is KErrNotfound. 
+RUN_TEST_STEP 100 tcaf CAFStringAttributesStep c:\tcaf\stringattributes.ini NonExistingTransactionIDAttribute
+END_TESTCASE 			SEC-CAF-STRATR-1914
+
+
+
+START_TESTCASE 			SEC-CAF-STRATR-1915
+//-----------------------------------------------------------------
+//-- Step to retrieve transaction ID using GetStringAttributeSet.
+//-----------------------------------------------------------------
+//! @SYMTestCaseID 		SEC-CAF-STRATR-1915
+//! @SYMTestCaseDesc 		Test TransactionID retrieval calling GetStringAttributeSet()
+//! @SYMCR 			CR0895
+//! @SYMREQ 			REQ 6526, 6527
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		RTA gets picked to read the content file, gets the transactionid, the contentid and compares them with expected values.
+//! @SYMTestExpectedResults	transactionid & contentid should be the same as the ones defined in the .ini file.
+RUN_TEST_STEP 100 tcaf CAFDataStringAttributeSetStep c:\tcaf\stringattributes.ini StringAttributeSet
+END_TESTCASE 			SEC-CAF-STRATR-1915
+
+
+START_TESTCASE 			SEC-CAF-STRATR-3156
+//! @SYMTestCaseID 		SEC-CAF-STRATR-3156
+//! @SYMTestCaseDesc 		Test TransactionID retrieval calling GetStringAttributeSet()
+//! @SYMCR 			CR0895
+//! @SYMREQ 			REQ 6526, 6527
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		RTA gets picked to read the content file, gets the transactionid, the contentid and compares them with expected values.
+//! @SYMTestExpectedResults	transactionid & contentid should be the same as the ones defined in the .ini file.
+RUN_TEST_STEP 100 tcaf CAFManagerStringAttributeSetStep c:\tcaf\stringattributes.ini StringAttributeSet
+END_TESTCASE 			SEC-CAF-STRATR-3156
+
+
+START_TESTCASE 			SEC-CAF-STRATR-1916
+//-------------------------------------------------
+//-- Step to retrieve 1char long transaction ID
+//-------------------------------------------------
+//! @SYMTestCaseID 		SEC-CAF-STRATR-1916
+//! @SYMTestCaseDesc 		Test 1char long transactionid
+//! @SYMCR 			CR0895
+//! @SYMREQ 			REQ 6526, 6527
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		RTA gets picked to read the content file, gets the transactionid & compares it with expected value in the .ini file. Both should match.
+//! @SYMTestExpectedResults	transactionid in the .ini file should be identical to the one in .content file. 
+RUN_TEST_STEP 100 tcaf CAFStringAttributesStep c:\tcaf\stringattributes.ini TransactionIDAttribute1char
+END_TESTCASE 			SEC-CAF-STRATR-1916
+
+
+START_TESTCASE 			SEC-CAF-STRATR-1919
+//-------------------------------------------------
+//-- Step to retrieve 13char long Transaction ID
+//-------------------------------------------------
+//! @SYMTestCaseID 		SEC-CAF-STRATR-1919
+//! @SYMTestCaseDesc 		Test 13char long transactionid
+//! @SYMCR 			CR0895
+//! @SYMREQ 			REQ 6526, 6527
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		RTA gets picked to read the content file, gets the transactionid & compares it with expected value in the .ini file. Both should match.
+//! @SYMTestExpectedResults	transactionid in the .ini file should be identical to the one in .content file. 
+RUN_TEST_STEP 100 tcaf CAFStringAttributesStep c:\tcaf\stringattributes.ini TransactionIDAttribute13char
+END_TESTCASE 			SEC-CAF-STRATR-1919
+
+
+START_TESTCASE 			SEC-CAF-STRATR-1918
+//--------------------------------------------------
+//-- Step to retrieve 257char long transaction ID
+//--------------------------------------------------
+//! @SYMTestCaseID 		SEC-CAF-STRATR-1918
+//! @SYMTestCaseDesc 		Test addition of new entry,TransactionID, in TStringAttribute
+//! @SYMCR 			CR0895
+//! @SYMREQ 			REQ 6526, 6527
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		RTA gets picked to read the content file, gets the transactionid & compares it with expected value in the .ini file. 
+//! @SYMTestExpectedResults	An overflow error is expected as size of transaction ID is greater than the client side buffer size.
+RUN_TEST_STEP 100 tcaf CAFStringAttributesStep c:\tcaf\stringattributes.ini 257LengthTransactionIDAttribute
+END_TESTCASE 			SEC-CAF-STRATR-1918
+
+
+START_TESTCASE 			SEC-CAF-STRATR-3384
+//--------------------------------------------------
+// Regression tests for DEF 101676
+//--------------------------------------------------
+//! @SYMTestCaseID 		SEC-CAF-STRATR-3384
+//! @SYMTestCaseDesc 		Test of GetStringAttribute functions in RTA Content module
+//! @SYMDEF 			DEF101676
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		RTA gets picked to read the content file, gets the StringAttribute values & compares them with expected values in the .ini file. 
+//! @SYMTestExpectedResults	The values should match those in the .ini file
+RUN_TEST_STEP 100 tcaf CAFContentStringAttributeStep c:\tcaf\stringattributes.ini ContentStringAttribute
+RUN_TEST_STEP 100 tcaf CAFContentStringAttributeSetStep c:\tcaf\stringattributes.ini StringAttributeSet
+END_TESTCASE 			SEC-CAF-STRATR-3384
+
+
+START_TESTCASE 			SEC-CAF-STRATR-3399
+//--------------------------------------------------
+// Testing new entries added for DEF102465
+//--------------------------------------------------
+//! @SYMTestCaseID 		SEC-CAF-STRATR-3399
+//! @SYMTestCaseDesc 		Test addition of new entries in TStringAttribute: EContentLocation & ERightsIssuerURI, and in TAttribute: EContentVersion
+//! @SYMDEF 			DEF102465
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		RTA gets picked to read the content file, gets the attributes & compares them with expected values in the .ini file.
+//! @SYMTestExpectedResults	Attributes in the .ini file should be identical to the ones in .content file. 
+RUN_TEST_STEP 100 tcaf CAFContentStringAttributeStep c:\tcaf\stringattributes.ini ContentLocationAttribute
+RUN_TEST_STEP 100 tcaf CAFContentStringAttributeStep c:\tcaf\stringattributes.ini RightsIssuerURIAttribute
+RUN_TEST_STEP 100 tcaf CAFContentAttributeStep c:\tcaf\stringattributes.ini ContentVersionAttribute
+END_TESTCASE 			SEC-CAF-STRATR-3399
+
+
+START_TESTCASE 			SEC-CAF-STRATR-0003
+//! @SYMTestCaseID 		SEC-CAF-STRATR-0003
+//! @SYMTestCaseDesc 		delete the copy created earlier
+RUN_TEST_STEP 100 tcaf CAFDeleteStep c:\tcaf\stringattributes.ini PrivateDeleteFileOk
+END_TESTCASE 			SEC-CAF-STRATR-0003
+
+//delete content file
+RUN_UTILS Delete c:\tcaf\testdata\stringattribute.content
+

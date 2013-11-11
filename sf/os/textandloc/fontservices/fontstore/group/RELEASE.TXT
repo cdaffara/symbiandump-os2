@@ -1,0 +1,638 @@
+Version 061
+===========
+Released by William Roberts, 7th August 1999
+
+Sorted out an alignment problem which shows up with the new GCC compiler. The TCharacterMetrics class member data
+is a TUint16 and six TInt8 values, these values occur as data in a table inside a compiled font, and are extracted
+using code such as:
+
+		metrics=*((matchSection->CharacterMetricsList())+(aCode-matchSection->iStart));
+
+The old GCC used to use memcpy() to transfer the 8 bytes involved, but the new compiler attempts to use
+LDMIA followed by STMIA. This causes an alignment exception if the data does not lie at a multiple of
+4 bytes, even though the most restrictive alignment within the structure is for a multiple of 2 bytes.
+
+The fix is to specify the "packed" attribute for the structure, which tells the compiler not to assume
+any strong alignment for the structure (unless it knows a priori, for example with local variables on the stack).
+This is done by putting __attribute__ ((__packed__)) before the closing semicolon of the class definition,
+but naturally it's done via a #define which is set to nothing unless GCC is being used. The effect in the code
+is to cause the new compiler to use memcpy() once again.
+
+Fixed a couple of problems in openfont.cpp which showed up with the new compiler:
+
+FNTSTORE\SRC\Openfont.cpp: In method `COpenFontGlyphTreeEntry::COpenFontGlyphTreeEntry(TInt, const class TOpenFontCharMetrics &)':
+FNTSTORE\SRC\Openfont.cpp:30: `COpenFontGlyph::~COpenFontGlyph()' is private
+FNTSTORE\SRC\Openfont.cpp:45: within this context
+
+FNTSTORE\SRC\Openfont.cpp:27: warning: return-type of `SetBitmap' defaults to `int'
+
+The fixes are to make COpenFontGlyph::~COpenFontGlyph() protected, and to specify the return type TBool
+for SetBitmap.
+
+Version 060
+===========
+Released by Chris Cooper, 27th May 1999
+
+ER5U baseline
+
+Version 059
+===========
+Released by Graham Asher, 30th March 1999
+
+Breaks binary compatibility and sets a new binary standard for ER5u. The new design allows complex scripts to be supported when necessary, including ligation, kerning, diacritic placement, and access to characters via glyph indices, and there is also provision for future expansion; reserved virtual functions and data members have been added where appropriate.
+
+Works only with version 087 or later of FBSERV, version 085 or later of BITGDI, and version 010 or later of FREETYPE.
+
+Version 058
+===========
+Released by Graham Asher, 22nd January 1999
+
+Fixes the following defect reported in ER5 defects:
+
+EDN227054: The character encoding used in the narrow build is not converted to Unicode correctly for the Open Font System
+
+Binary-compatible (forward and backward) with releases 053-056 inclusive.
+
+Version 057
+===========
+Released by Graham Asher, 15th December 1998
+
+Fixes the following defect reported in ER5 defects:
+
+EDN364691: Allow larger font sizes.
+
+Binary-compatible (forward and backward) with releases 053-056 inclusive.
+
+Version 056
+===========
+Released by Graham Asher, 9th December 1998
+
+Fixes the following defects reported in ER5 defects:
+
+EDN998932: Bold and italic font selection doesn't work for TrueType fonts
+
+EDN569925: Open Font System typefaces are not grouped into families
+
+Binary-compatible (forward and backward) with releases 053-055 inclusive.
+
+Version 055
+===========
+Released by Graham Asher, 9th December 1998
+
+Fixes the following defect reported in ER5 defects:
+
+EDN376593: COpenFont::GetNearestFontHelper always returns typeface index 0
+
+Binary-compatible with 054 and 053.
+
+Version 054
+===========
+Released by Graham Asher, 11th November 1998
+
+Fixes the following defects:
+
+SW1-322: Cache memory calculations are wrong
+SW1-325: Error in the adjustment of almost-square aspect ratios to exactly square
+
+Binary-compatible with 053.
+
+Version 053
+===========
+Released by Graham Asher, 6th November 1998
+
+Allows indefinitely large glyphs to be rendered. This is important for printing on high-resolution printers using resident fonts. This meant a change to the layout of TOpenFontGlyphData, which means that binary compatibility is broken for the Open Font System yet again (for the group consisting of FNTSTORE, FBSERV and FREETYPE).
+
+Open Font System mutually compatible components: FNTSTORE 053, FBSERV 083, FREETYPE 006.
+
+Version 052
+===========
+Released by Graham Asher, 28th October 1998
+
+Uses new Unicode UIDs. Debug and release builds are compatible.
+
+Default algorithmic slant used for Open Fonts changed from 3/16 to 5/16 (fixes SW1-281: ).
+
+The new UIDs are:
+
+KFntstoreDllUid16 = 0x10003B1A (Unicode version of 10000179)
+KUidOpenFontRasterizerValue16 = 0x10003B1F (Unicode version of 0x100012A6)
+
+Version 051
+===========
+Released by Graham Asher, 26th October 1998
+
+Further binary-incompatible changes for the Open Font System. New versions of FBSERV and FREETYPE need to be released. This version is soon to be superseded anyway, in another incompatible change, because of Unicode UIDs and debug/release compatibility.
+
+New features: the new TOpenFontSpec class allows algorithmic slant, width, and other effects to be specified, and these effects are used automatically to compensate for non-square pixels and supply pseudo-italics where italics aren't available.
+
+Version 0.01.050
+================
+Released by Graham Asher, 5th October 1998
+
+Fixes the following defects:
+
+SW1-57: Changes to code page 1252 require changes to FNTSTORE (i.e., euro & z-caron added)
+SW1-125: HasUnicodeCharacterL should be a member of COpenFontFile, not COpenFont
+SW1-218: The Open Font System should allow a file to contain more than one typeface
+
+The most important change is the last one, and it is binary-incompatible with respect
+to rasterizers (but binary-compatible for everything else that depends on it); in other
+words, rasterizer DLLs, like FREETYPE 002, that depend on FNTSTORE 049 or FNTSTORE 048, need
+to be rereleased. No rasterizers are part of an EPOC platform release yet, so this
+is acceptable.
+
+Version 0.01.049
+================
+Released by Graham Asher, 18th May 1998
+
+Fixes bugs introduced in 048, which was the first release to support the Open Font system.
+These are:
+SW1-36: CFontStore memory leaks: COpenFontSessionCache and COpenFontSessionCacheList
+SW1-37: CFontStore::RemoveFile breaks FBSERV test code
+SW1-40: Some font metric functions don't take account of algorithmic width and height
+
+Version 0.01.048
+================
+Released by Graham Asher, 8th May 1998
+
+Added support for the Open Font system. The main changes are those to fntstore.cpp,
+which acquires functions to install Open Font rasterizers and use them to create
+Open Fonts, and the introduction of openfont.h, which declares the base classes for
+the Open Font system, and openfont.cpp, which contains the base class member functions.
+
+Version 0.01.047
+================
+
+1) Rebuilt with E32 125 to achieve MARM DEB/REL compatibility, rendering MARM DEB binary incompatible with previous versions.
+2) Switched to MAKMAKE for building.
+3) Moved the build commands to EBLD.BAT.
+
+Version 0.01.046
+================
+(Release by JamesD, 09-1-98)
+
+1)Built with E32 107, F32 074, STORE 043 and GDI 057
+
+2) Uses .GDR files created by GDTRAN 020 or above. 
+
+3) Re-built against GDI 057 which is incompatible with GDI 053 in 
+Unicode builds
+
+Version 0.01.045
+================
+(Release by JamesD, 22-9-97)
+
+1)Built with E32 107, F32 074, STORE 043 and GDI 053. 
+
+2) Uses .GDR files created by GDTRAN 020 or above. 
+
+3) Only change involves re-writing search through code sections 
+to find the metrics and bitmap for a particular font. This is now 
+done using a binary chop to improve performance when a large 
+number of code sections are present.
+
+Version 0.01.044
+================
+(Release by CJCW, 28-5-97)
+
+1) Released in sync with E32 107, F32 074, STORE 043 and GDI 053. 
+
+2) Uses .GDR files created by GDTRAN 020 or above. 
+
+3) Version number testing of .GDR files changed to fit with above.    
+   
+4) .MAP files added to ARM releasables.  
+
+Version 0.01.043
+================
+(Release by CJCW, 19-5-97)
+
+1) Released in sync with E32 099, F32 069, STORE 042 and GDI 050. 
+
+2) Uses .GDR files created by GDTRAN 020, 021, 022 or 023. 
+
+3) To avoid rounding errors in FNTSTORE, Twips to Pixels conversions 
+   are rounded down and Pixels to Twips conversions are rounded up.  
+   This will eliminate the feature found in the Font dialogue, whereby 
+   a the twips height of a CBitmapFont was larger than the twips height
+   passed into GetNearestFont().  
+   
+Version 0.01.042
+================
+(Release by CJCW, 9-5-97)
+
+1) Released in sync with E32 099, F32 069, STORE 042 and GDI 050. 
+
+2) Uses .GDR files created by GDTRAN 020, 021, 022 or 023. 
+
+3) The FontSpecInTwips() for a CBitmapFont passed into a GetNearestFontInTwips()
+   will return an equivalent font.   
+
+4) Binary compatible with 039.   
+
+Version 0.01.041
+================
+(Release by CJCW, 8-5-97)
+
+1) Released in sync with E32 099, F32 069, STORE 042 and GDI 050. 
+
+2) Uses .GDR files created by GDTRAN 020, 021, 022 or 023. 
+
+3) The FontSpecInTwips() for a CBitmapFont passed into a GetNearestFontInTwips()
+   will return the same font.   
+
+Version 0.01.040
+================
+(Release by CJCW, 6-5-97)
+
+1) Released in sync with E32 099, F32 069, STORE 042 and GDI 050. 
+
+2) Uses .GDR files created by GDTRAN 020, 021, 022 or 023. 
+
+3) CFontBitmaps now delete themselves when the usage count is 0.  
+
+Version 0.01.039
+================
+(Release by CJCW, 22-4-97)
+
+1) Released in sync with E32 099, F32 069, STORE 042 and GDI 050. 
+
+2) Uses .GDR files created by GDTRAN 020 or GDTRAN 21. 
+
+3) uid2 and uid3 added to FNTSTR.DLL during ARM build.  
+
+Version 0.01.038
+================
+(Release by CJCW, 4-4-97)
+
+1) Released in sync with E32 096, F32 065, STORE 040 and GDI 047. 
+
+2) Uses .GDR files created by GDTRAN 020. 
+
+3) WINS builds are done by ordinal.  
+
+4) ARM builds are done using .FRZ files.   
+
+Version 0.01.037
+================
+(Release by CJCW, 27-3-97)
+
+1) Released in sync with E32 095, F32 063, STORE 038 and GDI 046. 
+
+2) Uses .GDR files created by GDTRAN 020. 
+
+3) iKPixelAspectRatio added to CFonStoreFile, so that in GetNearestFontInPixels()
+   the TAlgStyle::iWidthFactor can be adjusted accordingly.  
+
+Version 0.01.036
+================
+(Release by CJCW, 20-2-97)
+
+1) Released in sync with E32 089, F32 055, STORE 035 and GDI 043. 
+
+2) Uses .GDR files created by GDTRAN 017. 
+
+Version 0.01.035
+================
+(Release by CJCW, 30-1-97)
+
+1) Released in sync with E32 086, F32 050, STORE 034 and GDI 042. 
+
+2) Uses .GDR files created by GDTRAN 016. 
+
+3) NumCodeSections() and CodeSection() added to CBitmapFont.  
+
+Version 0.01.034
+================
+(Release by ST, 15-1-97)
+
+1) Released in sync with E32 085, F32 049, STORE 033, E32TOOLS 050, GDI 041. 
+
+2) Uses .GDR files created by GDTRAN 016. 
+
+Version 0.01.033
+================
+(Release by CJCW, 7-1-97)
+
+1) Released in sync with E32 082, F32 046, STORE 032 and GDI 040. 
+
+2) Uses .GDR files created by GDTRAN 016. 
+
+Version 0.01.032
+================
+(Release by LCR, 2-12-96)
+
+1) Released in sync with E32 075, etc.
+
+2) Uses .GDR files created by GDTRAN 014. 
+
+Version 0.01.031
+================
+(Release by CJCW, 88-11-96)
+
+1) Released in sync with E32 074, F32 040, STORE 029 and GDI 038. 
+
+2) Uses .GDR files created by GDTRAN 014. 
+
+Version 0.01.030
+================
+(Release by CJCW, 28-10-96)
+
+1) Released in sync with E32 072, F32 038, STORE 028 and GDI 036. 
+
+2) Uses .GDR files created by GDTRAN 014. 
+
+3) iDoubleWidth and iDoubleHeight changed to iWidthFactor and iHeightFactor
+   in both TTypefaceFontBitmap and TAlgStyle.  
+
+4) Re-released 29-10-96	with amended TAlgStyle::operator ==.  
+
+Version 0.01.029
+================
+(Release by CJCW, 10-10-96)
+
+1) Released in sync with E32 070, F32 036, STORE 026 and GDI 035. 
+
+2) CharWidthInPixels() added to CBitmapFont. 
+
+Version 0.01.028
+================
+(Release by CJCW, 27-9-96)
+
+1) Released in sync with E32 069, F32 035, STORE 025 and GDI 034. 
+
+2) Uses .GDR files created by GDTRAN 013. 
+
+Version 0.01.027
+================
+(Release by CJCW, 27-9-96)
+
+1) Released in sync with E32 069, F32 035, STORE 024 and GDI 034. 
+
+Version 0.01.026
+================
+(Release by CJCW, 24-9-96)
+
+1) Released in sync with E32 068, F32 034, STORE 023 and GDI 033. 
+
+2) Binary compatible with 025.  
+
+3) MNT.CMD and OBY files updated to produce MARM REL and DEB builds.  
+
+Version 0.01.025
+================
+(Release by CJCW, 17-9-96)
+
+1) Released in sync with E32 067, F32 033, STORE 021 and GDI 032. 
+
+2) Binary compatible with 024.  
+
+3) MNT.CMD and OBY files updated.  
+
+Version 0.01.024
+================
+(Release by CJCW, 2-9-96)
+
+1) Released in sync with E32 066, F32 031, STORE 021 and GDI 031. 
+
+Version 0.01.023
+================
+(Release by CJCW, 21-8-96)
+
+1) Released in sync with E32 065, F32 029, STORE 020 and GDI 030. 
+
+2) Relevant changes made with \epoc32 directory structure.  
+
+Version 0.01.022
+================
+(Release by CJCW, 7-8-96)
+
+1) Released in sync with E32 064, F32 028, STORE 019 and GDI 029. 
+
+Version 0.01.021
+================
+(Release by CJCW, 29-7-96)
+
+1) Released in sync with E32 064, F32 028, STORE 019 and GDI 028. 
+
+2) Uses .GDR files from GDTRAN 012.    
+
+Version 0.01.020
+================
+(Release by CJCW, 15-7-96)
+
+1) Released in sync with E32 063, F32 027, STORE 018 and GDI 027. 
+
+2) Code implimented in CFontStore to support AddFontL() and ReleaseFont
+   in CTypefaceStore.  
+
+Version 0.01.019
+================
+(Release by CJCW, 3-7-96)
+
+1) Released in sync with E32 063, F32 027, STORE 017 and GDI 025. 
+
+2) CCodeSection converted to TCodeSection.  
+
+3) CFontBitmap converted to TFontBitmap.  
+
+4) TCodeSection components (bitmap and metrics) are not loaded into
+   RAM if the fontstore file is in ROM to save memory. 
+
+Version 0.01.018
+================
+(Release by CJCW, 12-6-96)
+
+1) Released in sync with E32 062, F32 026, STORE 016 and GDI 024. 
+
+2) CFontBitmap::CharacterMetrics() changed so that the metrics for
+   a character not defined are all zeroed.  
+
+3) Unicode builds do not work due to F32's binary incompatibility. 
+
+4) DoubleHeight and DoubleWidth implimented for FontBitmaps.  
+
+5) KCBitmapFontUid defined for CBitmapFont.  
+
+Version 0.01.017
+================
+(Release by CJCW, 21-5-96)
+
+1) Released in sync with E32 059, F32 023, STORE 014 and GDI 023. 
+
+2) Uses .GDR files produced by GDTRAN 009.  
+
+3) KFontStoreFileVer9Uid used to identify .GDR files. 
+
+Version 0.01.016
+================
+(Release by CJCW, 15-5-96)
+
+1) Released in sync with E32 059, F32 023, STORE 013 and GDI 022. 
+
+2) Uses .GDR files produced by GDTRAN 008.  
+
+3) Three TUids to identify .GDR files. 
+
+4) TInts converted to TUids where appropriate.     
+
+Version 0.01.015
+================
+(Release by CJCW, 9-5-96)
+
+1) Released in sync with E32 058, F32 022, STORE 013 and GDI 021. 
+
+2) Uses .GDR files produced by GDTRAN 007.  
+
+3) The versions of .GDR files are now detected. 
+
+4) Class TAlgStyle used for algorithmic attributes of CBitmapFont.     
+
+Version 0.01.014
+================
+(Release by LCR, 2-5-96)
+
+ARM code size - FNTSTR.DLL: 16900 Bytes.
+
+1) Fixed bold/italic swapping issue.
+
+2) Intermediate release to facilitate the release of BITGDI.
+
+Version 0.01.013
+================
+(Release by CJCW, 25-4-96)
+
+1) Released in sync with E32 057, F32 021, STORE 012 and GDI 019. 
+
+2) Proportional FontBitmaps used with a Monospaced BitmapFont are
+   algorithmically monoized.  
+
+3) Typefaces now have a flag to say wether they consist of symbol
+   or alphabetic characters.  
+   
+4) BitmapFonts created through FontStore::GetFontById() have a blank
+   Typeface.       
+
+Version 0.01.012
+================
+(Release by CJCW, 11-4-96)
+
+1) Released in sync with E32 056, F32 020, STORE 011 and GDI 018. 
+
+Version 0.01.011
+================
+(Release by CJCW, 9-4-96)
+
+1) Released in sync with E32 056, F32 020, STORE 011 and GDI 017. 
+
+2) Uses .GDR files created by FNTTRAN in GDTRAN 005.
+
+3) GetFontById now takes a File Id and a FontBitmap Id. 
+
+4) FontBitmaps can now be shared by Typefaces, useful for 1, 2,
+   3 and 4 pixel FontBitmaps.   
+
+Version 0.01.010
+================
+(Release by CJCW, 20-3-96)
+
+1) Released in sync with E32 055, F32 019, STORE 010 and GDI 016. 
+
+2) Uses .GDR files created by FNTTRAN in GDTRAN 004.  
+
+Version 0.01.009
+================
+(Release by CJCW, 13-3-96)
+
+1) Released in sync with E32 054, F32 018, STORE 009 and GDI 015. 
+
+Version 0.01.008
+================
+(Release by CJCW, 29-2-96)
+
+1) Released in sync with E32 054, F32 018, STORE 009 and GDI 014. 
+
+2) The size of leading counts for strings and lists has been increased
+   to 32 bits in order to be compatible with stream chevrons defined in
+   STORE.  *.GD files must now be compiled using FNTTRAN in GDTRAN
+   004.  
+
+3) Fonts are now held on a user defined heap passed into FontStore::NewL()
+
+Version 0.01.007
+================
+(Release by CJCW, 5-2-96)
+
+1) Released in sync with E32 053, F32 017, STORE 008 and GDI 012. 
+
+Version 0.01.006
+================
+(Release by CJCW, 1-2-96)
+
+1) Released in sync with E32 053, F32 017, STORE 008 and GDI 011. 
+
+2) HCIL3.GDR to be used for HCIL fonts.
+
+4) To be used in conjunction with FNTTRAN, released with GDTRAN 003, 
+   for creating .GDR files - Format has changed slightly.  
+
+5) FontStore functions OpenL() and AppendL() combined in AddFile() which returns 
+   FileStore Id.  
+
+6) Close() can be used to close all FileStores with argument zero or particular
+   FontStore with Id argument.  
+
+Version 0.01.003
+================
+(Release by CJCW, 27-12-95)
+
+1) Released in sync with E32 051, F32 015, STORE 006 and GDI 008
+
+2) HCIL2.GDR to be used for HCIL fonts
+
+4) To be used in conjunction with FNTTRAN, released with GDTRAN 002, 
+   for creating .GDR files
+
+5) FontHeightInTwips has been modified to round up and down to nearest 
+   height in Twips
+
+5) CCodeSection renamed CBitmapCodeSection to avoid confusion with
+   CWidthCodeSection in PdrStore
+
+6) iPixelWidthInTwips and iPixelHeightInTwips changed to iKPixelWidthInTwips
+   and iKPixelHeightInTwips     to indicate 1000 pixels
+
+Version 0.01.002
+================
+(Release by CJCW, 14-12-95)
+
+1) Released in sync with E32 050, F32 014, STORE 005 and GDI 007
+
+2) HCIL2.GDR to be used for HCIL fonts
+
+4) To be used in conjunction with FNTTRAN, released with GDTRAN 002, 
+   for creating .GDR files
+
+5) The directories SGDS and TGDS have been renamed SFS and TFS respectively
+
+Version 0.01.001
+================
+(Release by CJCW, 29-11-95)
+
+1) Released in sync with STORE 004 and GDI 006, replaces GDSTORE
+
+2) New format of .GDR file used - HCIL2.GDR with all your favourite HCIL
+   fonts
+
+3) AppendL() added to CFontStore, so that more than one .GDR files can
+   be opened  
+
+4) To be used in conjunction with FNTTRAN, released with GDTRAN 002, 
+   for creating .GDR files
+
+5) CFontStore is device independant in that no model needs to be set as
+   in CGdStore
+
+6) iPixelHeightInTwips and iPixelWidthInTwips are public data members of
+   CFontStore, with default values corresponding to the Protea screen
+   resolution

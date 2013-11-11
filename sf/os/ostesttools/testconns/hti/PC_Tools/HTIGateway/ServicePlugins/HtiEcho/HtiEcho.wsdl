@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="HtiEcho"
+ targetNamespace="urn:hti"
+ xmlns:tns="urn:hti"
+ xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+ xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+ xmlns:ns1="urn:hti"
+ xmlns:SOAP="http://schemas.xmlsoap.org/wsdl/soap/"
+ xmlns:MIME="http://schemas.xmlsoap.org/wsdl/mime/"
+ xmlns:DIME="http://schemas.xmlsoap.org/ws/2002/04/dime/wsdl/"
+ xmlns:WSDL="http://schemas.xmlsoap.org/wsdl/"
+ xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+<types>
+
+ <schema targetNamespace="urn:hti"
+  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:ns1="urn:hti"
+  xmlns="http://www.w3.org/2001/XMLSchema"
+  elementFormDefault="unqualified"
+  attributeFormDefault="unqualified">
+  <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+  <!-- operation request element -->
+  <element name="ping" type="xsd:string"/>
+  <!-- operation response element -->
+  <element name="result" type="xsd:string"/>
+ </schema>
+
+</types>
+
+<message name="echoRequest">
+ <part name="ping" element="ns1:ping"/>
+</message>
+
+<message name="echoResponse">
+ <part name="result" element="ns1:result"/>
+</message>
+
+<portType name="HtiEchoPortType">
+ <operation name="echo">
+  <documentation>Service definition of function ns1__echo</documentation>
+  <input message="tns:echoRequest"/>
+  <output message="tns:echoResponse"/>
+ </operation>
+</portType>
+
+<binding name="HtiEcho" type="tns:HtiEchoPortType">
+ <SOAP:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+ <operation name="echo">
+  <SOAP:operation style="rpc" soapAction="HtiEcho"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+</binding>
+
+<service name="HtiEcho">
+ <documentation>gSOAP 2.7.6b generated service definition</documentation>
+ <port name="HtiEcho" binding="tns:HtiEcho">
+  <SOAP:address location="http://localhost:2000"/>
+ </port>
+</service>
+
+</definitions>

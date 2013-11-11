@@ -1,0 +1,42 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+/**
+@file
+
+@SYMPurpose TestPlugin.dll Test harness for plugin implemetation
+*/
+
+TARGET testplugin.dll
+CAPABILITY    All -Tcb
+TARGETTYPE PLUGIN
+
+// ECom Dll recognition UID followed by the unique UID for this dll
+UID 0x10009D8D 0x101F4E4E
+VENDORID 0x70000001
+
+SOURCEPATH	.
+SOURCE	TestPlugin.cpp
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+START RESOURCE	101F4E4E.rss
+TARGET testplugin.rsc
+END
+LIBRARY euser.lib
+LIBRARY ctframework.lib
+SMPSAFE

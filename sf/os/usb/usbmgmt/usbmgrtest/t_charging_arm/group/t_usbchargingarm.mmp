@@ -1,0 +1,53 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+*
+*/
+
+TARGETTYPE		exe
+// UID2 = 0x0 for plain exes
+// UID3 = 0
+UID 			0x0 0
+
+TARGET			tusbchargingarm.exe        
+
+CAPABILITY		ALL -Tcb
+
+SOURCEPATH              ../src
+SOURCE			activetest.CPP
+SOURCE			activeconsole.CPP
+SOURCE			testbase.CPP
+
+// -- Add specific test files here.
+SOURCE			usbchargingarmtest.cpp
+// -- End
+
+USERINCLUDE             ../inc
+USERINCLUDE             ../../../usbmgr/usbman/chargingplugin/public
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+LIBRARY			euser.lib
+LIBRARY			usbman.lib
+LIBRARY			c32.lib
+LIBRARY 		btextnotifiers.lib
+LIBRARY			bluetooth.lib
+LIBRARY			esock.lib
+LIBRARY			efsrv.lib
+LIBRARY			btdevice.lib
+LIBRARY			btmanclient.lib
+LIBRARY			gavdp.lib
+LIBRARY			bluetoothav.lib
+// -- Add specific libraries here
+LIBRARY			centralrepository.lib
+

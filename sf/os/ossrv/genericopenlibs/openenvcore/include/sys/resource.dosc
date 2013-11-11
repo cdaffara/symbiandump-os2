@@ -1,0 +1,338 @@
+/** @file ../include/sys/resource.h
+@internalComponent
+*/
+
+/** @fn  getpriority(int which, int who)
+@param which
+@param who
+
+Note: This description also covers the following functions -
+ setpriority() 
+
+@return   Since getpriority can legitimately return the value -1, it is necessary
+to clear the external variable errno prior to the
+call, then check it afterward to determine
+if a -1 is an error or a legitimate value. The setpriority returns 0 on success and -1 on error with the errno set.
+
+  The scheduling
+priority of the process, process group, or user, as indicated by which and who is obtained with the getpriority system call and set with the setpriority system call.
+The which argument
+is one of PRIO_PROCESS, PRIO_PGRP, or PRIO_USER, and who is interpreted relative to which (a process identifier for PRIO_PROCESS, process group
+identifier for PRIO_PGRP, and a user ID for PRIO_USER ). A zero value of who denotes the current process, process group, or user.
+The prio argument
+is a value in the range -20 to 20.
+The default priority is 0;
+lower priorities cause more favorable scheduling.
+
+
+
+ If the prio is greater than the greatest priority supported, it is set to the greatest priority supported.
+If the prio is lesser than the least priority supported, it is set to the least priority supported.
+
+Examples:
+@code
+#include<sys/resource.h>        
+#include<unistd.h>
+#include<stdio.h>
+int test_getpriority()
+{
+   int retVal;
+   errno = 0;
+   retVal = getpriority(PRIO_PROCESS, 0);
+   if((retVal == -1) && (errno == ENOSYS))
+   {
+      printf("Failed");
+      return -1;
+   }
+   else
+   {
+      printf("getpriority passed");
+      printf("
+priority = %d ", retVal);
+   }    
+   return 0;
+}
+
+@endcode
+ Output
+@code
+getpriority passed
+priority = 0
+
+@endcode
+@code
+#include<sys/resource.h>        
+#include<unistd.h>
+#include<stdio.h>
+int test_setpriority()
+{
+   int retVal;
+   errno = 0;
+   retVal = setpriority(PRIO_PROCESS, 0, 0);
+  
+   if((retVal == -1) && (errno == ENOSYS))
+   {
+      printf("Failed");
+      return -1;
+   }
+   else
+   {
+      printf("Setpriority passed");
+      printf(" getpriority now: %d", getpriority(PRIO_PROCESS,0))
+    }   
+   return 0;
+}
+
+@endcode
+ Output
+@code
+Setpriority passed
+getpriority now: 0
+
+@endcode
+
+Limitations:
+
+1. The values PRIO_PGRP and PRIO_USER for the which and any value other than 0 for who are not supported, when given return ENOSYS. 
+2. To effectively increase or decrease the priority of the process, one should consider the following:  
+Highest                                                                 -16 to -20         Above Normal                                                     -6 to -15         Normal                                                                          +4 to -5         Below Normal                                                    +14 to +5         Lowest                                                                    +20 to +15 3. 
+The setting of the priority to values -16 to -20 is not supported, the use of which sets errno to EINVAL.
+
+@see nice()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  setpriority(int which, int who, int value)
+@param which
+@param who
+@param value
+
+Refer to  getpriority() for the documentation
+
+@see nice()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @struct rlimit
+
+Contains the following members,
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @var rlimit::rlim_cur
+current (soft) limit
+*/
+
+/** @var rlimit::rlim_max
+maximum value for rlim_cur
+*/
+
+/** @struct rusage 
+
+Contains the following members,
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @var rusage::ru_utime
+user time used
+*/
+
+/** @var rusage::ru_stime
+system time used
+*/
+
+/** @var rusage::ru_maxrss
+max resident set size
+*/
+
+/** @var rusage::ru_ixrss
+integral shared memory size
+*/
+
+/** @var rusage::ru_idrss
+integral unshared data
+*/
+
+/** @var rusage::ru_isrss
+integral unshared stack
+*/
+
+/** @var rusage::ru_minflt
+page reclaims
+*/
+
+/** @var rusage::ru_majflt
+page faults
+*/
+
+/** @var rusage::ru_nswap
+(c + j) swaps
+*/
+
+/** @var rusage::ru_inblock
+block input operations
+*/
+
+/** @var rusage::ru_oublock
+block output operations
+*/
+
+/** @var rusage::ru_msgsnd
+messages sent
+*/
+
+/** @var rusage::ru_msgrcv
+ messages received 
+*/
+
+/** @var rusage::ru_nsignals
+signals received
+*/
+
+/** @var rusage::ru_nvcsw
+voluntary context switches
+*/
+
+/** @var rusage::ru_nivcsw
+involuntary
+*/
+
+
+/** @typedef typedef	__rlim_t	rlim_t
+
+Unsigned integer type used for limit values.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def RLIM_INFINITY
+
+unsigned long int
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def RLIMIT_CORE
+
+core file size 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def RLIMIT_CPU
+
+cpu time in milliseconds
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def RLIMIT_DATA
+
+data size
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def RLIMIT_FSIZE
+
+maximum file size
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def RLIMIT_NOFILE
+
+number of open files
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def RLIMIT_STACK
+
+stack size
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def RLIMIT_AS
+
+standard name for RLIMIT_VMEM
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def RUSAGE_SELF
+
+Resource utilization information.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def RUSAGE_CHILDREN
+
+Resource utilization information.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def PRIO_PROCESS
+
+Process priority specifications to get or set priority.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def PRIO_PGRP
+
+Process priority specifications to get or set priority.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def PRIO_USER
+
+Process priority specifications to get or set priority.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+
+
+
+
+
+

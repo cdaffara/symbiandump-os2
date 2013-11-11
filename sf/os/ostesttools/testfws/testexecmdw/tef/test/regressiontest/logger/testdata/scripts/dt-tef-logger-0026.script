@@ -1,0 +1,43 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SUITE TEF_LoggerTestStep
+START_TESTCASE DT-TEF-Logger-0026
+//! @SYMTestCaseID          DT-TEF-Logger-0026
+//! @SYMCreationDate        09-07-2008
+//! @SYMAuthor              extShuoHuang
+//! @SYMTestCaseDesc        This test logger compare panic related information. This 7 steps are all about test result compare so group them all together.
+//!                         
+//!                         TEF will compare the test result with expected result. The test result comes form the run time result and the expected result comes form scripts.
+//!                         When test case/step finished, TEF will compare test result and expected result, at last print out test case/step pass or fail information.
+//!                         The compare function is one of the most important parts. And this codes are writing under TEF logger component.
+//!                         So this result compare test case are located here.
+//!                         
+//!                         XML log test
+//! @SYMTestExpectedResults COMMAND is paniced so the command result is INCONCLUSIVE.
+//!                         This case should pass.
+//!                         
+//!                         when the parameter !PanicString= is empty TEF will take whatever expeted panic string as actrual string. this kinds of usage NOT recommand.
+//!                         the rest steps the panic codes and panic string are all exactly same. so the test result will pass.
+  RUN_TEST_STEP !PanicCode=110 !PanicString= 1000 TEF_LoggerTestStep TEFPanicBugStep
+  RUN_TEST_STEP !PanicCode=110 1000 TEF_LoggerTestStep TEFPanicBugStep
+  RUN_TEST_STEP !PanicString= 1000 TEF_LoggerTestStep TEFPanicBugStep
+  RUN_TEST_STEP !PanicCode=110 !PanicString=SomeThing 1000 TEF_LoggerTestStep TEFPanicSomeThingStep
+  RUN_TEST_STEP 1000 TEF_LoggerTestStep TEFPassStep
+  RUN_TEST_STEP !PanicCode=110 1000 TEF_LoggerTestStep TEFPanicSomeThingStep
+  RUN_TEST_STEP !PanicCode=110 1000 TEF_LoggerTestStep TEFPanicEmptyStep
+  RUN_TEST_STEP !PanicCode=110 !PanicString= 1000 TEF_LoggerTestStep TEFPanicEmptyStep
+END_TESTCASE DT-TEF-Logger-0026

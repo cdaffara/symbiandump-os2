@@ -1,0 +1,28 @@
+// SafeBag: CRLBag
+// PARAM1: The name of X509 CRL file
+// PARAM2: Friendly name for CRL bag
+SEQUENCE
+	OID=PKCS12_BAGTYPES_CRLBAG
+	EXPLICIT=0
+		// CRLBag
+		SEQUENCE
+			OID=X509CRL
+			EXPLICIT=0
+				OCTETSTRING
+					INCLUDE_BINARY_FILE=$1
+				END
+			END
+		END
+	END
+	// Attributes
+	SET
+		SEQUENCE
+			OID=PKCS9_FRIENDLY_NAME
+			SET
+				BMPSTRING=$2
+			END
+		END	
+	END
+END
+
+

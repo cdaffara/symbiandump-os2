@@ -1,0 +1,55 @@
+// Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// tef_efm_singlesection.script
+// 
+// @file
+//
+
+//! @SYMTestSuiteName PDS-TEF-EFM-INTEGRATION
+//! @SYMScriptTestEnvironment TEF
+//! @internalComponent
+//! @test
+
+LOAD_SUITE  efm_integration_testserver
+
+START_TESTCASE SYSLIB-EFM-CIT-3682
+//! @SYMTestCaseID 		SYSLIB-EFM-CIT-3682
+//! @SYMTestCaseDesc  		Feature data generator and ROM builder testing: normal use test cases
+//! @SYMTestPriority 		High 
+//! @SYMTestActions		This test must be performed on a ROM image built using the 'helpfiles\singlesection_test_rombuild.bat' batch file.
+//!				The singlesection_test_rombuild.bat batch file builds a rom image using the standard Symbian feature 
+//!				database xml file and a pre-created feature database xml with a set of test features having a known state.
+//!				After loading the rom image into a hardware board the featue information is requested by the test 
+//!				code in this test case. The returned values are compared against the expected values.
+//!
+//!				Feature information in the rom image is as follows:
+//!				TestSupportedUid (status - supported)
+//!				TestUpgradableUid (status - upgradable)
+//!				TestModifiableUid (status - modifiable)
+//!				TestBlacklistedUid (status - blacklisted)
+//!				TestUninitialisedUid (status - uninitialised & modifiable)
+//!				TestPersistedUid (status - persisted & modifiable)
+//!				TestUnsupportedUid (status - unsupported)
+//!				TestOverwrittenByIBYUid (status set to "unsupported" in the xml file, and then changed to "supported" in the IBY file)
+//!				TestDSRUid1 (status - unsupported & modifiable & persisted)
+//!				DSR with the range 0x10279806 - 0x10281805
+
+//! @SYMTestExpectedResults 	Test passes if the feature information returned corresponds to the expected results. i. e. all 
+//!				the feature requests in this test return correct information.
+//! @SYMPREQ  			PREQ1645
+
+RUN_TEST_STEP 1000 efm_integration_testserver SingleRomSectionTest
+
+END_TESTCASE SYSLIB-EFM-CIT-3682
+

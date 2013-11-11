@@ -1,0 +1,74 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* Tests Accessing: SEC-UPS-C005 - Single dialog cancellation
+* SEC-UPS-C006 - Cancellation of first dialog from a queue of pending security dialogs
+* SEC-UPS-C007 - Cancellation of last dialog from a queue of pending security dialogs
+* SEC-UPS-C008 - Cancellation of middle position dialog from a queue of pending security dialogs
+* Service: 100C5678
+* Service: System Server 1 (0x101F7F1F)
+*
+*/
+
+
+#include <ups/policies.rh>
+
+UID2 KUidUpsPolicyResourceFile
+UID3 0x101F7F1F
+
+// Test policy file for WAP GPRS
+RESOURCE POLICIES testpolicies
+	{
+	header = POLICY_HEADER
+		{
+		// use default client config 
+		policyevaluator = 0xe1111e11;
+		dialogcreator = 0xe1111d11;
+		majorversion = 1;
+		minorversion = 0;
+		};
+	policies = 
+		{
+		POLICY
+			{
+			// allow dialog display for all clients
+			sid_classes = KAllSids;
+			destination = "*.co.uk";
+			options = KYes | KNo | KAlways | KNever | KSessionYes | KSessionNo;
+			policyevaluator = 0xe1111e11;
+			dialogcreator = 0xe1111d11;
+			flags = 0x01;
+			},
+		POLICY
+			{
+			// allow dialog display for all clients
+			sid_classes = KAllSids;
+			destination = "*.com";
+			options = KYes | KNo | KAlways | KNever | KSessionYes | KSessionNo;
+			policyevaluator = 0xe1111e21;
+			dialogcreator = 0xe1111d21;
+			flags = 0x02;
+			},
+		POLICY
+			{
+			// allow dialog display for all clients
+			sid_classes = KAllSids;
+			destination = "*.mob";
+			options = KYes | KNo | KAlways | KNever | KSessionYes | KSessionNo;
+			policyevaluator = 0xe1111e31;
+			dialogcreator = 0xe1111d31;
+			flags = 0x03;
+			}
+		};
+	}

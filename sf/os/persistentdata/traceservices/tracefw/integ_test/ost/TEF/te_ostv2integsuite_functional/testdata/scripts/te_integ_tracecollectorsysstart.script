@@ -1,0 +1,49 @@
+// Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+
+//! @file
+//! @SYMTestSuiteName           te_integ_tracecollectorsysstart.script
+//! @SYMScriptTestEnvironment   TEF
+
+
+LOAD_SUITE te_ostv2integsuite_enabled
+
+
+PRINT SysStart_Test
+PRINT Remember to uncomment #define Sysstart in te_dataparameters.h and include uloggersysstarter.exe in startup.rss
+
+START_TESTCASE                  DT-DEBUG-TRACE-OSTv2-TraceControlSysStartLogging-0001
+//! @SYMTestCaseID              DT-DEBUG-TRACE-OSTv2-TraceControlSysStartLogging-0001
+//! @SYMTestCaseDesc            Run tracecontrol api logging test for a rom with loggin at boot 
+//! @SYMTestPriority            Critical
+//! @SYMTestActions             Compile a rom with uloggersysstart.exe compiled into startup sequence and uncomment #define sysstart in TCMLogging datawrapper. Run test step.
+//! @SYMTestExpectedResults     Verify that the output log contains btrace output from boot sequence as well as trace points enabled in TCMLogging datawrapper
+//! @SYMTestType                CT
+//! @SYMTestStatus              Implemented
+//! @SYMPREQ                    PREQ2390
+//! @SYMREQ                     12825 12976 12978
+    START_TEST_BLOCK    100     te_ostv2integsuite_enabled              \testdata\configs\te_integ_tracecollectorsysstart.ini
+        CREATE_OBJECT           TCMLogging                              TCMLogging
+        COMMAND                 TCMLogging                              doTest
+    END_TEST_BLOCK
+END_TESTCASE                    DT-DEBUG-TRACE-OSTv2-TraceControlSysStartLogging-0001
+
+START_TEST_BLOCK    20000       te_ostv2integsuite_enabled              \testdata\configs\te_integ_tracecollectorsysstart.ini
+    CREATE_OBJECT               DefaultTraceControlConfig               DefaultTraceControlConfig
+    COMMAND                     DefaultTraceControlConfig               doTest
+END_TEST_BLOCK
+
+PRINT Complete_SysStart_Tests

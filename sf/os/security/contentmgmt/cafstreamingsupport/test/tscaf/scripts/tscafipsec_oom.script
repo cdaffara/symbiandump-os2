@@ -1,0 +1,64 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+// Streaming CAF IpSec "Out of Memory" Tests
+
+PRINT Run PREQ782 Streaming CAF IpSec OOM Tests
+
+// Load Suite
+LOAD_SUITE tscaf
+
+// Note: For test case descriptions, please refer to the corresponding tscafipsec.script file
+
+//! @SYMTestCaseID 		SEC-SCAF-OOM-E001
+//! @SYMTestCaseDesc 		(ipsec_positiveconstruct_OOM)
+
+START_TESTCASE SEC-SCAF-OOM-E001
+RUN_TEST_STEP 100 tscaf SCAFIpSec z:\tcaf\tscaf\tscaf.ini ipsec_positiveconstruct_OOM
+END_TESTCASE SEC-SCAF-OOM-E001
+
+
+//! @SYMTestCaseID 		SEC-SCAF-OOM-E007
+//! @SYMTestCaseDesc 		(ipsec_negative_OOM)
+
+START_TESTCASE SEC-SCAF-OOM-E007
+RUN_TEST_STEP 100 tscaf SCAFIpSecNegative z:\tcaf\tscaf\tscaf.ini ipsec_negative_OOM
+END_TESTCASE SEC-SCAF-OOM-E007
+
+
+//! @SYMTestCaseID 		SEC-SCAF-OOM-E010
+//! @SYMTestCaseDesc 		(ipsec_algorithm_change_OOM)
+
+START_TESTCASE SEC-SCAF-OOM-E010
+RUN_TEST_STEP 100 tscaf SCAFIpSecAlgorithmChange z:\tcaf\tscaf\tscaf.ini ipsec_algorithm_change_OOM
+END_TESTCASE SEC-SCAF-OOM-E010
+
+
+//! @SYMTestCaseID 		SEC-SCAF-OOM-E011
+//! @SYMTestCaseDesc 		(ipsec_no_authentication_OOM)
+
+START_TESTCASE SEC-SCAF-OOM-E011
+RUN_TEST_STEP 100 tscaf SCAFIpSecSadbVerification z:\tcaf\tscaf\tscaf.ini ipsec_no_authentication_OOM
+END_TESTCASE SEC-SCAF-OOM-E011
+
+
+//! @SYMTestCaseID 		SEC-SCAF-OOM-E015
+//! @SYMTestCaseDesc 		(ipsec_integration_decoder_automatic_OOM)
+
+START_TESTCASE SEC-SCAF-OOM-E015
+RUN_TEST_STEP tscaf SCAFSetupRightsObjects z:\tcaf\tscaf\tscaf.ini Rights_Program
+// The time limit is disabled since this test is manual
+RUN_TEST_STEP -1 tscaf SCAFIpSecDecoderIntegration z:\tcaf\tscaf\tscaf.ini ipsec_integration_decoder_automatic_OOM
+END_TESTCASE SEC-SCAF-OOM-E015

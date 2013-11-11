@@ -1,0 +1,134 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// @file
+// 
+//
+
+//! @SYMTestSuiteName PDS-TEF-SQL-SUITE
+//! @SYMScriptTestEnvironment TEF
+//! @internalComponent
+//! @test
+
+PRINT Run SQL Tests
+
+LOAD_SUITE te_SQL_Suite
+
+START_TESTCASE SYSLIB-SQL-CIT-1800
+//! @SYMTestCaseID    SYSLIB-SQL-CIT-1800
+//! @SYMTestCaseDesc  Attempt to use an RSqlStatement without an RSqlDatabase.
+//! @SYMTestPriority  High
+//! @SYMTestActions   See description and the config file.
+//! @SYMTestExpectedResults
+//!                  The test looks for specific panic codes generated
+//!                  when the equivalent of programmer errors are executed
+//!                  on the SQLite system. For example, attempting to use
+//!                  an RSqlStatement object without an open RSqlDatabase.
+//! @SYMREQ           REQ5792
+	RUN_PANIC_STEP_RESULT 2 SqlDb 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\Panics.ini One-a
+	RUN_PANIC_STEP_RESULT 2 SqlDb 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\Panics.ini One-b
+	RUN_PANIC_STEP_RESULT 2 SqlDb 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\Panics.ini One-c
+	RUN_PANIC_STEP_RESULT 2 SqlDb 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\Panics.ini One-d
+	RUN_PANIC_STEP_RESULT 2 SqlDb 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\Panics.ini One-e
+	RUN_PANIC_STEP_RESULT 2 SqlDb 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\Panics.ini One-f
+	RUN_PANIC_STEP_RESULT 2 SqlDb 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\Panics.ini One-g
+	RUN_PANIC_STEP_RESULT 2 SqlDb 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\Panics.ini One-h
+	RUN_PANIC_STEP_RESULT 2 SqlDb 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\Panics.ini One-i
+	RUN_PANIC_STEP_RESULT 2 SqlDb 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\Panics.ini One-j
+END_TESTCASE SYSLIB-SQL-CIT-1800
+
+START_TESTCASE SYSLIB-SQL-CIT-1801
+//! @SYMTestCaseID    SYSLIB-SQL-CIT-1801
+//! @SYMTestCaseDesc  Attempt to use an RSqlDatabase that isn't open. First 
+//!                  opens a valid database, immediately closes it and then
+//!                  attempts to use an RSqlDatabase method.
+//! @SYMTestPriority  High
+//! @SYMTestActions   See description and the config file.
+//! @SYMTestExpectedResults
+//!                  Panics when an Exec or other RSqlDatabase method is
+//!                  attempted.
+//! @SYMREQ           REQ5792
+	RUN_PANIC_STEP_RESULT 2 SqlDb 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\Panics.ini Two
+	RUN_PANIC_STEP_RESULT 2 SqlDb 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\Panics.ini Two-b
+	RUN_PANIC_STEP_RESULT 2 SqlDb 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\Panics.ini Two-c
+	RUN_PANIC_STEP_RESULT 2 SqlDb 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\Panics.ini Two-d
+	RUN_PANIC_STEP_RESULT 2 SqlDb 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\Panics.ini Two-e
+	RUN_PANIC_STEP_RESULT 2 SqlDb 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\Panics.ini Two-f
+	RUN_PANIC_STEP_RESULT 2 SqlDb 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\Panics.ini Two-g
+END_TESTCASE SYSLIB-SQL-CIT-1801
+
+START_TESTCASE SYSLIB-SQL-CIT-1802
+//! @SYMTestCaseID    SYSLIB-SQL-CIT-1802
+//! @SYMTestCaseDesc  Attempt to use Column* calls following a failed Next.
+//! @SYMTestPriority  High
+//! @SYMTestActions   See description and the config file.
+//! @SYMTestExpectedResults
+//!                  The test looks for specific panic codes generated
+//!                  when Column* methods are called after Next returns
+//!                  'KSqlAtEnd'.
+//! @SYMREQ           REQ5792
+	RUN_PANIC_STEP_RESULT 130 USER 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\Panics.ini Three
+	RUN_PANIC_STEP_RESULT 11 SqlDb 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\Panics.ini Three-b
+	RUN_PANIC_STEP_RESULT 11 SqlDb 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\Panics.ini Three-c
+	RUN_PANIC_STEP_RESULT 11 SqlDb 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\Panics.ini Three-d
+	RUN_PANIC_STEP_RESULT 11 SqlDb 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\Panics.ini Three-e
+	RUN_PANIC_STEP_RESULT 11 SqlDb 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\Panics.ini Three-f
+	RUN_PANIC_STEP_RESULT 11 SqlDb 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\Panics.ini Three-g
+	RUN_PANIC_STEP_RESULT 11 SqlDb 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\Panics.ini Three-h
+	RUN_PANIC_STEP_RESULT 5 SqlDb 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\Panics.ini Three-i
+END_TESTCASE SYSLIB-SQL-CIT-1802
+
+START_TESTCASE SYSLIB-SQL-CIT-1803
+//! @SYMTestCaseID    SYSLIB-SQL-CIT-1803
+//! @SYMTestCaseDesc  Use parameter and column indices which are out of bounds.
+//! @SYMTestPriority  High
+//! @SYMTestActions   See description and the config file.
+//! @SYMTestExpectedResults
+//!                  This test looks for specific panic codes generated
+//!                  when Bind and Column methods are called with Parameter
+//!                  and Column indices which are out of bounds.
+//! @SYMREQ           REQ5792
+	RUN_PANIC_STEP_RESULT 5 SqlDb 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\Panics.ini Four
+	RUN_PANIC_STEP_RESULT 5 SqlDb 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\Panics.ini Four-b
+	RUN_PANIC_STEP_RESULT 2 SqlDb 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\Panics.ini Four-c
+END_TESTCASE SYSLIB-SQL-CIT-1803
+
+START_TESTCASE SYSLIB-SQL-CIT-1804
+//! @SYMTestCaseID    SYSLIB-SQL-CIT-1804
+//! @SYMTestCaseDesc  Attempt to read a cell in a table without selecting the
+//!                  column.
+//! @SYMTestPriority  High
+//! @SYMTestActions   See description and the config file.
+//! @SYMTestExpectedResults
+//!                  The test looks for a specific panic code generated
+//!                  when a Column* method is called on a column that hasn't
+//!                  been selected.
+//! @SYMREQ           REQ5792
+	RUN_PANIC_STEP_RESULT 130 USER 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\Panics.ini Five
+END_TESTCASE SYSLIB-SQL-CIT-1804
+
+START_TESTCASE SYSLIB-SQL-CIT-1805
+//! @SYMTestCaseID    SYSLIB-SQL-CIT-1805
+//! @SYMTestCaseDesc  Attempt to write, using Bind to a non-existent table.
+//! @SYMTestPriority  High
+//! @SYMTestActions   See description and the config file.
+//! @SYMTestExpectedResults
+//!                  The test looks for a specific panic code generated
+//!                  when a Parameter Index call is made following a
+//!                  prepare on a non-existent table.
+//! @SYMREQ           REQ5792
+	RUN_PANIC_STEP_RESULT 2 SqlDb 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\Panics.ini Six
+END_TESTCASE SYSLIB-SQL-CIT-1805
+
+RUN_UTILS DeleteFile C:\Panics0.db
+

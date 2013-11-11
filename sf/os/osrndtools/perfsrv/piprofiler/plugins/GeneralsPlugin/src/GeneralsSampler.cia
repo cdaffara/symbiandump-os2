@@ -1,0 +1,91 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  
+*
+*/
+
+
+#include <platform.h>
+
+#include "GeneralsDriver.h"
+#include <kern_priv.h>		//temporary
+
+#ifdef __SMP__
+#include <e32cia.h>
+#include <arm.h>
+#include <arm_gic.h>
+#include <arm_tmr.h>
+#endif
+
+#if defined(__GCC32__)
+// CIA symbol macros for Gcc98r2
+#define CSM__ZN5NKern14CurrentContextEv " CurrentContext__5NKern"
+#elif defined(__ARMCC__)
+// CIA symbol macros for RVCT
+#define CSM__ZN5NKern14CurrentContextEv " __cpp(NKern::CurrentContext)"
+#else
+// CIA symbol macros for EABI assemblers
+#define CSM__ZN5NKern14CurrentContextEv " _ZN5NKern14CurrentContextEv"
+#endif
+
+#ifdef __WINS__
+__NAKED__ TUint* IntStackPtr()
+{
+	return 0;
+}
+
+__NAKED__ TUint32 SPSR()
+{
+	return 0;
+}
+__NAKED__ void UsrModLr(TUint32* a)
+{
+	*a = 0;
+}
+#else
+
+__NAKED__ TUint* IntStackPtr()
+{
+#ifdef __SMP__
+    asm("stmfd sp!, {r0-r12,lr} ");
+#endif
+	asm("mrs r1, cpsr ");           // copy current program status register (cpsr) to R1 
+	asm("bic r3, r1, #0x1f ");      // compare to 0x1f, i.e. make sure that spsr is available? 
+#ifdef __SMP__
+	__ASM_CLI_MODE(MODE_IRQ);       // disable all interrupts and set to irq mode (we are in NTimer interrupt)
+#else
+	asm("orr r3, r3, #0xd2 ");		// mode_irq, all interrupts off
+	asm("msr cpsr, r3 ");           // write result on R3 back to cpsr, irqs disabled 
+#endif
+	asm("mov r0, sp ");				// read stack pointer to R0, mode r0=sp_irq
+	asm("msr cpsr, r1 ");			// restore interrupts
+#ifdef __SMP__
+    asm("ldmfd sp!, {r0-r12,pc} ");
+#endif
+	__JUMP(,lr);
+}
+
+__NAKED__ TUint32 SPSR()
+{
+	asm("mrs r0, spsr ");
+	__JUMP(,lr);
+}
+__NAKED__ void UsrModLr(TUint32*)
+{
+	// r0 = address to store
+	asm ("stmia r0,{lr}^");
+	__JUMP(,lr);
+}
+
+#endif

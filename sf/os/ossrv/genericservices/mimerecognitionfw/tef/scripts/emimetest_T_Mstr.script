@@ -1,0 +1,42 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+//! @file
+//! @SYMTestCaseID		API-APPFWK-T_MstrStep_doMenuL-0001
+//! @SYMTestCaseDesc 		Tests data type storage
+//! @SYMTestPriority 		High
+//! @SYMTestStatus 		3. Released
+//! @SYMTestActions  		The test creates a storage manager object, which is filled with some mapings.
+//!				The first thing to verify is the correct insertion of these mappings, checking the type, uid
+//!				and priority. Then the mappings are stored in an INI file, and restored from there to a new 
+//!				storage manager object. The test checks that this new object is correct and equal to the
+//!				previous one. The test also tries to find a non-existing app mapping, which gives a 0 Uid.
+//!				API Calls:	
+//!				CTypeStoreManager::NewL(RFs& aFs);
+//!				CTypeStoreManager::InsertDataMappingL(const TDataType& aDataType, TDataTypePriority aPriority, TUid aUid);
+//!				CTypeStoreManager::DeleteDataMapping(const TDataType& aDataType);
+//!				CTypeStoreManager::GetAppByDataType(const TDataType& aDataType, TUid& aUid) const;
+//!				CTypeStoreManager::StoreL();
+//!				CTypeStoreManager::ReStoreL();
+//! @SYMTestExpectedResults 	Test should complete without any panic.
+
+START_TESTCASE API-APPFWK-T_MstrStep_doMenuL-0001
+
+PRINT Run T_Mstr Emime test
+//
+LOAD_SUITE TEmimeTestServer
+RUN_TEST_STEP 100 TEmimeTestServer T_Mstr
+
+END_TESTCASE API-APPFWK-T_MstrStep_doMenuL-0001

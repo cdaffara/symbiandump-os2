@@ -1,0 +1,195 @@
+// Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// SQLite C API test application (used to run the TCL test suite)
+// The "buildrom" command (uncomment before that the line in sqlite3tests.iby file that copies "1020383e.txt" file):
+// buildrom -D_SERIAL_DOWNLOAD -DRVCT -D_EABI=ARMV5 -fm=/epoc32/rom/include/featuredatabase.xml h4hrp.oby textshell.oby sqlite3.iby sqlite3tests.iby openenv.iby bluetooth.iby ups.iby timezonelocalization.iby -orombld.img
+// 
+//
+
+/**
+ @file
+*/
+
+#include "tclsqlite3_macro.mmh"
+
+TARGET		tclsqlite3.exe
+TARGETTYPE	EXE
+
+CAPABILITY	All -Tcb
+
+UID         0x20004C45 0x10285A82
+
+VENDORID	0x70000001
+
+SMPSAFE
+
+EPOCSTACKSIZE 81920  //max 80kb
+EPOCHEAPSIZE 0x00100000 0x02000000
+
+// Need this otherwise get a lot of mismatched IMPORT_C/EXPORT_C even though this is an exe
+MACRO SQLITE_DLL
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////  RVCT compiler warning & optimization options  /////////////////////////////////////////
+
+//550: <entity-kind> "entity" was set but never used
+//C2874W: <name> may be used before being set
+//368: <entity-kind> "<entity>" defines no constructor to initialize the following:
+//177-D: variable <name> was declared but never referenced
+//1293-D: assignment in condition
+//C3017W: <name> may be used before being set
+//61: integer operation result is out of range
+
+OPTION ARMCC --diag_suppress 550,2874,368,177,1293,3017,61
+OPTION ARMCC -Ono_cg_cond
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////  CW compiler warning options  //////////////////////////////////////////////////////////
+
+//Variable/argument <x> is not used in function
+//Possible unwanted <x>
+
+OPTION CW -w nounused -w nounwanted
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////  GCC compiler warning options  /////////////////////////////////////////////////////////
+
+//"-w" option suppresses all warnings! 
+//"<variable> might be used uninitialized in this function" - only this warning needs to be suppressed,
+//but there is no option for that.
+
+OPTION GCC -w
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+USERINCLUDE		../traces_sqlite3
+USERINCLUDE		../SQLite
+USERINCLUDE		../OsLayer
+OS_LAYER_LIBC_SYSTEMINCLUDE
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+USERINCLUDE ../TEST/TCL/tcldistribution/generic
+
+SOURCEPATH	../SQLite
+SOURCE		alter.c
+SOURCE		analyze.c
+SOURCE		attach.c
+SOURCE		auth.c
+SOURCE		bitvec.c
+SOURCE		btree.c
+SOURCE		btmutex.c
+SOURCE		build.c
+SOURCE		callback.c
+SOURCE		complete.c
+SOURCE		date.c
+SOURCE		delete.c
+SOURCE		expr.c
+SOURCE		fault.c
+SOURCE		func.c
+SOURCE		global.c
+SOURCE		hash.c
+SOURCE		insert.c
+SOURCE		journal.c
+SOURCE		legacy.c
+SOURCE		loadext.c
+SOURCE		main.c
+SOURCE		malloc.c
+SOURCE		mem1.c
+SOURCE		mem2.c
+SOURCE		mem3.c
+SOURCE		mem4.c
+SOURCE		mem5.c
+SOURCE		mem6.c
+SOURCE		mutex.c
+SOURCE		opcodes.c
+SOURCE		os.c
+SOURCE		pager.c
+SOURCE		parse.c
+SOURCE		pcache.c
+SOURCE		pragma.c
+SOURCE		prepare.c
+SOURCE		printf.c
+SOURCE		random.c
+SOURCE		resolve.c
+SOURCE		select.c
+SOURCE		status.c
+SOURCE		table.c
+SOURCE		tokenize.c
+SOURCE		trigger.c
+SOURCE		update.c
+SOURCE		utf.c
+SOURCE		util.c
+SOURCE		vacuum.c
+SOURCE		vdbe.c
+SOURCE		vdbeapi.c
+SOURCE		vdbeaux.c
+SOURCE		vdbeblob.c
+SOURCE		vdbefifo.c
+SOURCE		vdbemem.c
+SOURCE		vtab.c
+SOURCE		walker.c
+SOURCE		where.c
+
+SOURCEPATH	../TEST/SRC
+SOURCE		tclsqlite.c
+SOURCE		test1.c
+SOURCE		test2.c
+SOURCE		test3.c
+SOURCE		test4.c
+SOURCE		test5.c
+SOURCE		test6.c
+SOURCE		test7.c
+SOURCE		test8.c
+SOURCE		test9.c
+SOURCE		test_async.c
+SOURCE		test_autoext.c
+SOURCE		test_btree.c	
+SOURCE		test_config.c
+SOURCE		test_devsym.c
+SOURCE		test_func.c
+SOURCE		test_hexio.c
+SOURCE		test_loadext.c
+SOURCE		test_md5.c
+SOURCE		test_malloc.c
+SOURCE		test_mutex.c
+SOURCE		test_onefile.c
+SOURCE		test_osinst.c
+SOURCE		test_schema.c
+SOURCE		test_server.c
+SOURCE		test_tclvar.c
+SOURCE		test_thread.c
+
+SOURCEPATH	../OsLayer
+SOURCE		FileBuf64.cpp
+SOURCE		os_symbian_mt.cpp
+SOURCE		SqliteUtil.cpp
+#ifdef WINSCW
+SOURCE		os_symbian_emul.cpp
+#else
+SOURCE		os_symbian_hrdw.cpp
+#endif
+SOURCE		test_fileutil.cpp
+
+LIBRARY		euser.lib 
+LIBRARY		efsrv.lib 
+LIBRARY		estor.lib
+
+STATICLIBRARY	libcrt0.lib 
+LIBRARY			libc.lib
+LIBRARY			libpthread.lib
+LIBRARY			libm.lib
+LIBRARY			libdl.lib
+STATICLIBRARY	tcl.lib
+#ifdef WINSCW
+LIBRARY		ewsd.lib
+#endif

@@ -1,0 +1,268 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* tcryptospi Test Suite
+*
+*/
+
+
+PRJ_PLATFORMS
+default
+
+#ifndef TOOLS // Don't build anything for tools
+#ifndef TOOLS2 // Don't build anything for tools2
+
+PRJ_TESTMMPFILES
+#ifndef MARM_THUMB
+../../tplugins/group/tplugin01.mmp BUILD_AS_ARM // Don't build for thumb
+../../tplugins/group/tplugin02.mmp BUILD_AS_ARM // For speed use ARM
+#endif
+
+#endif // TOOLS2
+#endif //TOOLS
+
+PRJ_TESTEXPORTS
+
+// Plug-in Configuration Files
+./plug-ins.txt1 z:/resource/cryptospi/plug-ins.txt1
+./plug-ins.txt2 z:/resource/cryptospi/plug-ins.txt2
+./plug-ins.txt3 z:/resource/cryptospi/plug-ins.txt3
+./plug-ins.txt4 z:/resource/cryptospi/plug-ins.txt4
+./plug-ins.txt5 z:/resource/cryptospi/plug-ins.txt5
+./plug-ins.txt6 z:/resource/cryptospi/plug-ins.txt6
+./plug-ins.txt7 z:/resource/cryptospi/plug-ins.txt7
+#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
+./tecchw-plug-ins.txt z:/resource/cryptospi/tecchw-plug-ins.txt
+#endif
+
+// Script Files
+../scripts/te_symmetricciphertestcases.script		/epoc32/winscw/c/testdata/tcryptospi/scripts/te_symmetricciphertestcases.script
+../scripts/te_asymmetricciphertestcases.script		/epoc32/winscw/c/testdata/tcryptospi/scripts/te_asymmetricciphertestcases.script
+../scripts/te_randomtestcases.script				/epoc32/winscw/c/testdata/tcryptospi/scripts/te_randomtestcases.script
+../scripts/te_miscellaneoustestcases.script			/epoc32/winscw/c/testdata/tcryptospi/scripts/te_miscellaneoustestcases.script
+../scripts/te_pluginloadtestcases.script			/epoc32/winscw/c/testdata/tcryptospi/scripts/te_pluginloadtestcases.script
+
+#ifdef SYMBIAN_SDP_IPSEC_VOIP_SUPPORT
+../scripts/te_mac_test_cases.script					/epoc32/winscw/c/testdata/tcryptospi/scripts/te_mac_test_cases.script
+../scripts/te_hash_test_cases.script					/epoc32/winscw/c/testdata/tcryptospi/scripts/te_hash_test_cases.script
+../scripts/tcryptospi_v2.script						/epoc32/winscw/c/testdata/tcryptospi/scripts/tcryptospi.script
+../scripts/te_hashhmactestcases_v2.script				/epoc32/winscw/c/testdata/tcryptospi/scripts/te_hashhmactestcases.script
+../scripts/te_plugincharstestcases_v2.script			/epoc32/winscw/c/testdata/tcryptospi/scripts/te_plugincharstestcases.script
+../scripts/te_ruleselectiontestcases_v2.script			/epoc32/winscw/c/testdata/tcryptospi/scripts/te_ruleselectiontestcases.script
+#else
+../scripts/tcryptospi.script						/epoc32/winscw/c/testdata/tcryptospi/scripts/tcryptospi.script
+../scripts/te_hashhmactestcases.script				/epoc32/winscw/c/testdata/tcryptospi/scripts/te_hashhmactestcases.script
+../scripts/te_plugincharstestcases.script			/epoc32/winscw/c/testdata/tcryptospi/scripts/te_plugincharstestcases.script
+../scripts/te_ruleselectiontestcases.script			/epoc32/winscw/c/testdata/tcryptospi/scripts/te_ruleselectiontestcases.script
+#endif
+
+#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
+../scripts/te_dummyeccciphertestcases.script				/epoc32/winscw/c/testdata/tcryptospi/scripts/te_dummyeccciphertestcases.script
+#endif
+//***********************************************************************************************************************
+
+// Symmetric Step Configuration Files
+../testdata/symmetriccipherpositiveobjectload.ini						/epoc32/winscw/c/testdata/tcryptospi/configs/symmetriccipherpositiveobjectload.ini
+../testdata/symmetriccipherencrypteddatacheck.ini						/epoc32/winscw/c/testdata/tcryptospi/configs/symmetriccipherencrypteddatacheck.ini
+../testdata/symmetriccipherencryptdecrypt.ini							/epoc32/winscw/c/testdata/tcryptospi/configs/symmetriccipherencryptdecrypt.ini
+../testdata/symmetriccipherincrementalencryptdecrypt.ini				/epoc32/winscw/c/testdata/tcryptospi/configs/symmetriccipherincrementalencryptdecrypt.ini
+../testdata/symmetriccipherincrementalencryptdecryptminus1byte.ini		/epoc32/winscw/c/testdata/tcryptospi/configs/symmetriccipherincrementalencryptdecryptminus1byte.ini
+../testdata/symmetriccipherincrementalencryptdecryptminus3bytes.ini		/epoc32/winscw/c/testdata/tcryptospi/configs/symmetriccipherincrementalencryptdecryptminus3bytes.ini
+../testdata/symmetriccipherincrementalencryptdecryptplus1byte.ini		/epoc32/winscw/c/testdata/tcryptospi/configs/symmetriccipherincrementalencryptdecryptplus1byte.ini
+../testdata/symmetriccipherincrementalencryptdecryptplus3bytes.ini		/epoc32/winscw/c/testdata/tcryptospi/configs/symmetriccipherincrementalencryptdecryptplus3bytes.ini
+../testdata/symmetriccipherobjectreuse.ini								/epoc32/winscw/c/testdata/tcryptospi/configs/symmetriccipherobjectreuse.ini
+../testdata/symmetriccipherprocessbeforeivset.ini						/epoc32/winscw/c/testdata/tcryptospi/configs/symmetriccipherprocessbeforeivset.ini
+../testdata/symmetriccipherbadivlength.ini								/epoc32/winscw/c/testdata/tcryptospi/configs/symmetriccipherbadivlength.ini
+../testdata/symmetriccipherctrmodeoutoforder.ini						/epoc32/winscw/c/testdata/tcryptospi/configs/symmetriccipherctrmodeoutoforder.ini
+
+// Asymmetric Step Configuration Files
+../testdata/asymmetriccipherpositiveobjectload.ini		/epoc32/winscw/c/testdata/tcryptospi/configs/asymmetriccipherpositiveobjectload.ini
+../testdata/asymmetriccipherencrypteddatacheck.ini		/epoc32/winscw/c/testdata/tcryptospi/configs/asymmetriccipherencrypteddatacheck.ini
+../testdata/asymmetriccipherencryptdecrypt.ini			/epoc32/winscw/c/testdata/tcryptospi/configs/asymmetriccipherencryptdecrypt.ini
+
+// Hash Step Configuration Files
+../testdata/hashpositiveobjectload.ini					/epoc32/winscw/c/testdata/tcryptospi/configs/hashpositiveobjectload.ini
+../testdata/hashbasichashofdata.ini						/epoc32/winscw/c/testdata/tcryptospi/configs/hashbasichashofdata.ini
+../testdata/hashincrementalhash.ini						/epoc32/winscw/c/testdata/tcryptospi/configs/hashincrementalhash.ini
+../testdata/hashincrementalhashwithcopy.ini				/epoc32/winscw/c/testdata/tcryptospi/configs/hashincrementalhashwithcopy.ini
+../testdata/hashincrementalhashwithreplicate.ini	 	/epoc32/winscw/c/testdata/tcryptospi/configs/hashincrementalhashwithreplicate.ini
+../testdata/hashincrementalhashwithreset.ini			/epoc32/winscw/c/testdata/tcryptospi/configs/hashincrementalhashwithreset.ini
+
+// HMAC Step Configuration Files
+../testdata/hmacincrementalhashwithcopy.ini				/epoc32/winscw/c/testdata/tcryptospi/configs/hmacincrementalhashwithcopy.ini
+../testdata/hmacincrementalhashwithreplicate.ini		/epoc32/winscw/c/testdata/tcryptospi/configs/hmacincrementalhashwithreplicate.ini
+../testdata/hmacsetkeychecking.ini						/epoc32/winscw/c/testdata/tcryptospi/configs/hmacsetkeychecking.ini
+../testdata/hmacsetoperationmodechecking.ini			/epoc32/winscw/c/testdata/tcryptospi/configs/hmacsetoperationmodechecking.ini
+
+// Random Number Generator Step Configuration Files
+../testdata/randomnumbergeneratorgeneralusage.ini		/epoc32/winscw/c/testdata/tcryptospi/configs/randomnumbergeneratorgeneralusage.ini
+
+// Key Exchange, Generation, Signer and Verifier Configuration Files
+../testdata/miscellaneous.ini							/epoc32/winscw/c/testdata/tcryptospi/configs/miscellaneous.ini
+
+// Plugin Load Configuration Files
+../testdata/pluginload.ini								/epoc32/winscw/c/testdata/tcryptospi/configs/pluginload.ini
+
+// Plugin Characteristics Step Configuration Files
+../testdata/plugincharscommon.ini						/epoc32/winscw/c/testdata/tcryptospi/configs/plugincharscommon.ini
+../testdata/plugincharssymmetriccipher.ini				/epoc32/winscw/c/testdata/tcryptospi/configs/plugincharssymmetriccipher.ini
+../testdata/plugincharsasymmetriccipher.ini				/epoc32/winscw/c/testdata/tcryptospi/configs/plugincharsasymmetriccipher.ini
+../testdata/plugincharshash.ini							/epoc32/winscw/c/testdata/tcryptospi/configs/plugincharshash.ini
+../testdata/plugincharsrandom.ini						/epoc32/winscw/c/testdata/tcryptospi/configs/plugincharsrandom.ini
+../testdata/plugincharsasymsign.ini						/epoc32/winscw/c/testdata/tcryptospi/configs/plugincharsasymsign.ini
+../testdata/plugincharskeyagree.ini						/epoc32/winscw/c/testdata/tcryptospi/configs/plugincharskeyagree.ini
+../testdata/plugincharsasymkeypair.ini						/epoc32/winscw/c/testdata/tcryptospi/configs/plugincharsasymkeypair.ini
+../testdata/plugincharsextended.ini						/epoc32/winscw/c/testdata/tcryptospi/configs/plugincharsextended.ini
+
+
+// Plugin Rule Based Selection Step Configuration Files
+../testdata/ruleselection_ascend.ini						/epoc32/winscw/c/testdata/tcryptospi/configs/ruleselection_ascend.ini
+../testdata/ruleselection_descend.ini						/epoc32/winscw/c/testdata/tcryptospi/configs/ruleselection_descend.ini
+../testdata/ruleselection_extended.ini						/epoc32/winscw/c/testdata/tcryptospi/configs/ruleselection_extended.ini
+
+
+#ifdef SYMBIAN_SDP_IPSEC_VOIP_SUPPORT
+../testdata/hash_test_cases.ini 						/epoc32/winscw/c/testdata/tcryptospi/configs/hash_test_cases.ini
+../testdata/mac_test_cases.ini 							/epoc32/winscw/c/testdata/tcryptospi/configs/mac_test_cases.ini
+../testdata/plugin_chars_new_hash.ini						/epoc32/winscw/c/testdata/tcryptospi/configs/plugin_chars_new_hash.ini
+../testdata/plugincharsmac.ini							/epoc32/winscw/c/testdata/tcryptospi/configs/plugincharsmac.ini
+../testdata/hmacincrementalhash_v2.ini						/epoc32/winscw/c/testdata/tcryptospi/configs/hmacincrementalhash.ini
+../testdata/hmacbasichashofdata_v2.ini						/epoc32/winscw/c/testdata/tcryptospi/configs/hmacbasichashofdata.ini
+../testdata/hmacpositiveobjectload_v2.ini					/epoc32/winscw/c/testdata/tcryptospi/configs/hmacpositiveobjectload.ini
+../testdata/hmacincrementalhashwithreset_v2.ini			/epoc32/winscw/c/testdata/tcryptospi/configs/hmacincrementalhashwithreset.ini
+../testdata/ruleselection_interface_v2.ini						/epoc32/winscw/c/testdata/tcryptospi/configs/ruleselection_interface.ini
+../testdata/ruleselection_allchars_v2.ini						/epoc32/winscw/c/testdata/tcryptospi/configs/ruleselection_allchars.ini
+../testdata/ruleselection_matrix_v2.ini						/epoc32/winscw/c/testdata/tcryptospi/configs/ruleselection_matrix.ini
+#else
+../testdata/hmacincrementalhash.ini						/epoc32/winscw/c/testdata/tcryptospi/configs/hmacincrementalhash.ini
+../testdata/hmacbasichashofdata.ini						/epoc32/winscw/c/testdata/tcryptospi/configs/hmacbasichashofdata.ini
+../testdata/hmacpositiveobjectload.ini						/epoc32/winscw/c/testdata/tcryptospi/configs/hmacpositiveobjectload.ini
+../testdata/hmacincrementalhashwithreset.ini			/epoc32/winscw/c/testdata/tcryptospi/configs/hmacincrementalhashwithreset.ini
+../testdata/ruleselection_interface.ini						/epoc32/winscw/c/testdata/tcryptospi/configs/ruleselection_interface.ini
+../testdata/ruleselection_allchars.ini						/epoc32/winscw/c/testdata/tcryptospi/configs/ruleselection_allchars.ini
+../testdata/ruleselection_matrix.ini						/epoc32/winscw/c/testdata/tcryptospi/configs/ruleselection_matrix.ini
+#endif
+
+#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
+../testdata/dummyeccciphertestcases.ini						/epoc32/winscw/c/testdata/tcryptospi/configs/dummyeccciphertestcases.ini
+#endif
+//***********************************************************************************************************************
+
+// Asymmetric and Symmetric Data Files
+../testdata/asymsym/key64bit.txt						/epoc32/winscw/c/testdata/tcryptospi/data/key64bit.txt
+../testdata/asymsym/key128bit.txt						/epoc32/winscw/c/testdata/tcryptospi/data/key128bit.txt
+../testdata/asymsym/key192bit.txt						/epoc32/winscw/c/testdata/tcryptospi/data/key192bit.txt
+
+../testdata/asymsym/smallcipher64bit.txt				/epoc32/winscw/c/testdata/tcryptospi/data/smallcipher64bit.txt
+../testdata/asymsym/smallcipher128bit.txt				/epoc32/winscw/c/testdata/tcryptospi/data/smallcipher128bit.txt
+../testdata/asymsym/largecipher.txt						/epoc32/winscw/c/testdata/tcryptospi/data/largecipher.txt
+
+// Symmetric Encrypted Data Check Data Files
+../testdata/symmetricdatacheck0001/128bitin.txt					/epoc32/winscw/c/testdata/tcryptospi/data/symmetricdatacheck0001/128bitin.txt
+../testdata/symmetricdatacheck0001/128bitkey.txt				/epoc32/winscw/c/testdata/tcryptospi/data/symmetricdatacheck0001/128bitkey.txt
+../testdata/symmetricdatacheck0001/192bitin.txt					/epoc32/winscw/c/testdata/tcryptospi/data/symmetricdatacheck0001/192bitin.txt
+../testdata/symmetricdatacheck0001/192bitiv.txt					/epoc32/winscw/c/testdata/tcryptospi/data/symmetricdatacheck0001/192bitiv.txt
+../testdata/symmetricdatacheck0001/192bitkey.txt				/epoc32/winscw/c/testdata/tcryptospi/data/symmetricdatacheck0001/192bitkey.txt
+../testdata/symmetricdatacheck0001/64bitin.txt					/epoc32/winscw/c/testdata/tcryptospi/data/symmetricdatacheck0001/64bitin.txt
+../testdata/symmetricdatacheck0001/64bitiv.txt					/epoc32/winscw/c/testdata/tcryptospi/data/symmetricdatacheck0001/64bitiv.txt
+../testdata/symmetricdatacheck0001/64bitkey.txt					/epoc32/winscw/c/testdata/tcryptospi/data/symmetricdatacheck0001/64bitkey.txt
+../testdata/symmetricdatacheck0001/aes-cbc-nopadding.txt		/epoc32/winscw/c/testdata/tcryptospi/data/symmetricdatacheck0001/aes-cbc-nopadding.txt
+../testdata/symmetricdatacheck0001/aes-cbc-pkcs5padding.txt		/epoc32/winscw/c/testdata/tcryptospi/data/symmetricdatacheck0001/aes-cbc-pkcs5padding.txt
+../testdata/symmetricdatacheck0001/aes-cfb-nopadding.txt		/epoc32/winscw/c/testdata/tcryptospi/data/symmetricdatacheck0001/aes-cfb-nopadding.txt
+../testdata/symmetricdatacheck0001/aes-cfb-pkcs5padding.txt		/epoc32/winscw/c/testdata/tcryptospi/data/symmetricdatacheck0001/aes-cfb-pkcs5padding.txt
+../testdata/symmetricdatacheck0001/aes-ctr-nopadding.txt		/epoc32/winscw/c/testdata/tcryptospi/data/symmetricdatacheck0001/aes-ctr-nopadding.txt
+../testdata/symmetricdatacheck0001/aes-ecb-nopadding.txt		/epoc32/winscw/c/testdata/tcryptospi/data/symmetricdatacheck0001/aes-ecb-nopadding.txt
+../testdata/symmetricdatacheck0001/aes-ecb-pkcs5padding.txt		/epoc32/winscw/c/testdata/tcryptospi/data/symmetricdatacheck0001/aes-ecb-pkcs5padding.txt
+../testdata/symmetricdatacheck0001/aes-ofb-nopadding.txt		/epoc32/winscw/c/testdata/tcryptospi/data/symmetricdatacheck0001/aes-ofb-nopadding.txt
+../testdata/symmetricdatacheck0001/aes-ofb-pkcs5padding.txt		/epoc32/winscw/c/testdata/tcryptospi/data/symmetricdatacheck0001/aes-ofb-pkcs5padding.txt
+../testdata/symmetricdatacheck0001/des3-cbc-nopadding.txt		/epoc32/winscw/c/testdata/tcryptospi/data/symmetricdatacheck0001/des3-cbc-nopadding.txt
+../testdata/symmetricdatacheck0001/des3-cbc-pkcs5padding.txt	/epoc32/winscw/c/testdata/tcryptospi/data/symmetricdatacheck0001/des3-cbc-pkcs5padding.txt
+../testdata/symmetricdatacheck0001/des3-cfb-nopadding.txt		/epoc32/winscw/c/testdata/tcryptospi/data/symmetricdatacheck0001/des3-cfb-nopadding.txt
+../testdata/symmetricdatacheck0001/des3-cfb-pkcs5padding.txt	/epoc32/winscw/c/testdata/tcryptospi/data/symmetricdatacheck0001/des3-cfb-pkcs5padding.txt
+../testdata/symmetricdatacheck0001/des3-ctr-nopadding.txt		/epoc32/winscw/c/testdata/tcryptospi/data/symmetricdatacheck0001/des3-ctr-nopadding.txt
+../testdata/symmetricdatacheck0001/des3-ecb-nopadding.txt		/epoc32/winscw/c/testdata/tcryptospi/data/symmetricdatacheck0001/des3-ecb-nopadding.txt
+../testdata/symmetricdatacheck0001/des3-ecb-pkcs5padding.txt	/epoc32/winscw/c/testdata/tcryptospi/data/symmetricdatacheck0001/des3-ecb-pkcs5padding.txt
+../testdata/symmetricdatacheck0001/des3-ofb-nopadding.txt		/epoc32/winscw/c/testdata/tcryptospi/data/symmetricdatacheck0001/des3-ofb-nopadding.txt
+../testdata/symmetricdatacheck0001/des3-ofb-pkcs5padding.txt	/epoc32/winscw/c/testdata/tcryptospi/data/symmetricdatacheck0001/des3-ofb-pkcs5padding.txt
+../testdata/symmetricdatacheck0001/des-cbc-nopadding.txt		/epoc32/winscw/c/testdata/tcryptospi/data/symmetricdatacheck0001/des-cbc-nopadding.txt
+../testdata/symmetricdatacheck0001/des-cbc-pkcs5padding.txt		/epoc32/winscw/c/testdata/tcryptospi/data/symmetricdatacheck0001/des-cbc-pkcs5padding.txt
+../testdata/symmetricdatacheck0001/des-cfb-nopadding.txt		/epoc32/winscw/c/testdata/tcryptospi/data/symmetricdatacheck0001/des-cfb-nopadding.txt
+../testdata/symmetricdatacheck0001/des-cfb-pkcs5padding.txt		/epoc32/winscw/c/testdata/tcryptospi/data/symmetricdatacheck0001/des-cfb-pkcs5padding.txt
+../testdata/symmetricdatacheck0001/des-ctr-nopadding.txt		/epoc32/winscw/c/testdata/tcryptospi/data/symmetricdatacheck0001/des-ctr-nopadding.txt
+../testdata/symmetricdatacheck0001/des-ecb-nopadding.txt		/epoc32/winscw/c/testdata/tcryptospi/data/symmetricdatacheck0001/des-ecb-nopadding.txt
+../testdata/symmetricdatacheck0001/des-ecb-pkcs5padding.txt		/epoc32/winscw/c/testdata/tcryptospi/data/symmetricdatacheck0001/des-ecb-pkcs5padding.txt
+../testdata/symmetricdatacheck0001/des-ofb-nopadding.txt		/epoc32/winscw/c/testdata/tcryptospi/data/symmetricdatacheck0001/des-ofb-nopadding.txt
+../testdata/symmetricdatacheck0001/des-ofb-pkcs5padding.txt		/epoc32/winscw/c/testdata/tcryptospi/data/symmetricdatacheck0001/des-ofb-pkcs5padding.txt
+../testdata/symmetricdatacheck0001/rc2-cbc-nopadding.txt		/epoc32/winscw/c/testdata/tcryptospi/data/symmetricdatacheck0001/rc2-cbc-nopadding.txt
+../testdata/symmetricdatacheck0001/rc2-cbc-pkcs5padding.txt		/epoc32/winscw/c/testdata/tcryptospi/data/symmetricdatacheck0001/rc2-cbc-pkcs5padding.txt
+../testdata/symmetricdatacheck0001/rc2-cfb-nopadding.txt		/epoc32/winscw/c/testdata/tcryptospi/data/symmetricdatacheck0001/rc2-cfb-nopadding.txt
+../testdata/symmetricdatacheck0001/rc2-cfb-pkcs5padding.txt		/epoc32/winscw/c/testdata/tcryptospi/data/symmetricdatacheck0001/rc2-cfb-pkcs5padding.txt
+../testdata/symmetricdatacheck0001/rc2-ctr-nopadding.txt		/epoc32/winscw/c/testdata/tcryptospi/data/symmetricdatacheck0001/rc2-ctr-nopadding.txt
+../testdata/symmetricdatacheck0001/rc2-ecb-nopadding.txt		/epoc32/winscw/c/testdata/tcryptospi/data/symmetricdatacheck0001/rc2-ecb-nopadding.txt
+../testdata/symmetricdatacheck0001/rc2-ecb-pkcs5padding.txt		/epoc32/winscw/c/testdata/tcryptospi/data/symmetricdatacheck0001/rc2-ecb-pkcs5padding.txt
+../testdata/symmetricdatacheck0001/rc2-ofb-nopadding.txt		/epoc32/winscw/c/testdata/tcryptospi/data/symmetricdatacheck0001/rc2-ofb-nopadding.txt
+../testdata/symmetricdatacheck0001/rc2-ofb-pkcs5padding.txt		/epoc32/winscw/c/testdata/tcryptospi/data/symmetricdatacheck0001/rc2-ofb-pkcs5padding.txt
+../testdata/symmetricdatacheck0001/rc4-ecb-nopadding.txt		/epoc32/winscw/c/testdata/tcryptospi/data/symmetricdatacheck0001/rc4-ecb-nopadding.txt
+
+// Hash and HMAC Data Files
+../testdata/hashhmac/smallhash-src.dat							/epoc32/winscw/c/testdata/tcryptospi/data/smallhash-src.dat
+../testdata/hashhmac/largehash-src.dat							/epoc32/winscw/c/testdata/tcryptospi/data/largehash-src.dat
+
+#ifdef SYMBIAN_SDP_IPSEC_VOIP_SUPPORT
+// Mac Data Files
+../testdata/mac/symmetric-mac-key.txt							/epoc32/winscw/c/testdata/tcryptospi/data/symmetric-mac-key.txt
+../testdata/mac/symmetric-mac-key10.txt							/epoc32/winscw/c/testdata/tcryptospi/data/symmetric-mac-key10.txt
+../testdata/mac/symmetric-mac-key18.txt							/epoc32/winscw/c/testdata/tcryptospi/data/symmetric-mac-key18.txt
+../testdata/mac/symmetric-mac-src.dat							/epoc32/winscw/c/testdata/tcryptospi/data/symmetric-mac-src.dat
+../testdata/mac/symmetric-mac-3bytes-src.dat						/epoc32/winscw/c/testdata/tcryptospi/data/symmetric-mac-3bytes-src.dat
+../testdata/mac/symmetric-mac-16bytes-src.dat						/epoc32/winscw/c/testdata/tcryptospi/data/symmetric-mac-16bytes-src.dat
+../testdata/mac/symmetric-mac-20bytes-src.dat						/epoc32/winscw/c/testdata/tcryptospi/data/symmetric-mac-20bytes-src.dat
+../testdata/mac/symmetric-mac-32bytes-src.dat						/epoc32/winscw/c/testdata/tcryptospi/data/symmetric-mac-32bytes-src.dat
+../testdata/mac/symmetric-mac-34bytes-src.dat						/epoc32/winscw/c/testdata/tcryptospi/data/symmetric-mac-34bytes-src.dat
+../testdata/mac/symmetric-mac-1000bytes-src.dat						/epoc32/winscw/c/testdata/tcryptospi/data/symmetric-mac-1000bytes-src.dat
+../testdata/mac/symmetric-mac96-mac.dat							/epoc32/winscw/c/testdata/tcryptospi/data/symmetric-mac96-mac.dat
+../testdata/mac/symmetric-mac96-3bytes-mac.dat						/epoc32/winscw/c/testdata/tcryptospi/data/symmetric-mac96-3bytes-mac.dat
+../testdata/mac/symmetric-mac96-16bytes-mac.dat						/epoc32/winscw/c/testdata/tcryptospi/data/symmetric-mac96-16bytes-mac.dat
+../testdata/mac/symmetric-mac96-20bytes-mac.dat						/epoc32/winscw/c/testdata/tcryptospi/data/symmetric-mac96-20bytes-mac.dat
+../testdata/mac/symmetric-mac96-32bytes-mac.dat						/epoc32/winscw/c/testdata/tcryptospi/data/symmetric-mac96-32bytes-mac.dat
+../testdata/mac/symmetric-mac96-34bytes-mac.dat						/epoc32/winscw/c/testdata/tcryptospi/data/symmetric-mac96-34bytes-mac.dat
+../testdata/mac/symmetric-mac96-1000bytes-mac.dat					/epoc32/winscw/c/testdata/tcryptospi/data/symmetric-mac96-1000bytes-mac.dat
+../testdata/mac/symmetric-prf128-mac.dat						/epoc32/winscw/c/testdata/tcryptospi/data/symmetric-prf128-mac.dat
+../testdata/mac/symmetric-prf128-3bytes-mac.dat						/epoc32/winscw/c/testdata/tcryptospi/data/symmetric-prf128-3bytes-mac.dat
+../testdata/mac/symmetric-prf128-16bytes-mac.dat					/epoc32/winscw/c/testdata/tcryptospi/data/symmetric-prf128-16bytes-mac.dat
+../testdata/mac/symmetric-prf128-20bytes-mac.dat					/epoc32/winscw/c/testdata/tcryptospi/data/symmetric-prf128-20bytes-mac.dat
+../testdata/mac/symmetric-prf128-32bytes-mac.dat					/epoc32/winscw/c/testdata/tcryptospi/data/symmetric-prf128-32bytes-mac.dat
+../testdata/mac/symmetric-prf128-34bytes-mac.dat					/epoc32/winscw/c/testdata/tcryptospi/data/symmetric-prf128-34bytes-mac.dat
+../testdata/mac/symmetric-prf128-1000bytes-mac.dat					/epoc32/winscw/c/testdata/tcryptospi/data/symmetric-prf128-1000bytes-mac.dat
+../testdata/mac/symmetric-prf128-key10bytes-mac.dat					/epoc32/winscw/c/testdata/tcryptospi/data/symmetric-prf128-key10bytes-mac.dat
+../testdata/mac/symmetric-prf128-key18bytes-mac.dat					/epoc32/winscw/c/testdata/tcryptospi/data/symmetric-prf128-key18bytes-mac.dat
+#endif
+
+// Nist SP800-38a Data Files
+../testdata/nistsp800-38atestvectors/ctr-aes128key.ctr			/epoc32/winscw/c/testdata/tcryptospi/data/nistsp800-38atestvectors/ctr-aes128key.ctr
+../testdata/nistsp800-38atestvectors/ctr-aesplaintext.ctr		/epoc32/winscw/c/testdata/tcryptospi/data/nistsp800-38atestvectors/ctr-aesplaintext.ctr
+../testdata/nistsp800-38atestvectors/ctr-aesiv.ctr				/epoc32/winscw/c/testdata/tcryptospi/data/nistsp800-38atestvectors/ctr-aesiv.ctr
+../testdata/nistsp800-38atestvectors/ctr-aes128ciphertext.ctr	/epoc32/winscw/c/testdata/tcryptospi/data/nistsp800-38atestvectors/ctr-aes128ciphertext.ctr
+
+../testdata/nistsp800-38atestvectors/ctr-aes192key.ctr			/epoc32/winscw/c/testdata/tcryptospi/data/nistsp800-38atestvectors/ctr-aes192key.ctr
+../testdata/nistsp800-38atestvectors/ctr-aes192ciphertext.ctr	/epoc32/winscw/c/testdata/tcryptospi/data/nistsp800-38atestvectors/ctr-aes192ciphertext.ctr
+
+../testdata/nistsp800-38atestvectors/ctr-aes256key.ctr			/epoc32/winscw/c/testdata/tcryptospi/data/nistsp800-38atestvectors/ctr-aes256key.ctr
+../testdata/nistsp800-38atestvectors/ctr-aes256ciphertext.ctr	/epoc32/winscw/c/testdata/tcryptospi/data/nistsp800-38atestvectors/ctr-aes256ciphertext.ctr
+
+// Copy Batch files
+#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
+../scripts/batchfiles/pre_dummyeccplugin.bat					/epoc32/winscw/c/testdata/tcryptospi/scripts/batchfiles/pre_dummyeccplugin.bat
+../scripts/batchfiles/post_dummyeccplugin.bat					/epoc32/winscw/c/testdata/tcryptospi/scripts/batchfiles/post_dummyeccplugin.bat
+#endif

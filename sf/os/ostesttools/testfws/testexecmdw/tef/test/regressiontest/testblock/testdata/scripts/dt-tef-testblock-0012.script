@@ -1,0 +1,55 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SERVER te_RegBlockTestSuite -SharedData
+
+START_TESTCASE DT-TEF-TestBlock-0012
+//! @SYMTestCaseID          DT-TEF-TestBlock-0012
+//! @SYMCreationDate        03-07-2008
+//! @SYMAuthor              DavidZhang
+//! @SYMTestType            CT
+//! @SYMTestPriority        Medium
+//! @SYMTestCaseDesc        Runs test blocks concurrently in shared mode. Just to check that no parsing problems will happen. TEF doesn't support CONCURRENT in the shared mode.
+//! @SYMTestExpectedResults The test completes without errors.
+//! @SYMTestActions         1. In the first block creates a wrapper object and a wrapped object setting it's value to 1.
+//!                         2. Sets CONCURRENT mode.
+//!                         3. In the second block calls a long delay, and increases the value of the object to 2.
+//!                         4. In the third block checks that the value of the object is 2.
+//!                         5. Sets CONSECUTIVE mode back.
+//!                         6. In the fourth block checks that the value of the object is 2.
+	START_TEST_BLOCK	100 te_RegBlockTestSuite ${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini
+		CREATE_OBJECT	te_RegBlockTestWrapper	DummyObj
+		COMMAND		DummyObj			New				TestCase110_value_1
+		STORE		DummyObj
+	END_TEST_BLOCK
+	CONCURRENT
+	START_TEST_BLOCK	100 te_RegBlockTestSuite ${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini
+		DELAY		1000000
+		RESTORE_OBJECT	te_RegBlockTestWrapper	DummyObj
+		COMMAND		DummyObj			IncreaseObjectValue
+		STORE		DummyObj
+	END_TEST_BLOCK
+	START_TEST_BLOCK	100 te_RegBlockTestSuite ${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini
+		RESTORE_OBJECT	te_RegBlockTestWrapper	DummyObj
+		COMMAND		DummyObj			GetDataObject			TestCase110_value_2
+		STORE		DummyObj
+	END_TEST_BLOCK
+	CONSECUTIVE
+	START_TEST_BLOCK	100 te_RegBlockTestSuite ${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini
+		RESTORE_OBJECT	te_RegBlockTestWrapper	DummyObj
+		COMMAND		DummyObj			GetDataObject			TestCase110_value_2
+	END_TEST_BLOCK
+END_TESTCASE DT-TEF-TestBlock-0012

@@ -1,0 +1,54 @@
+/*
+* Copyright (c) 2008-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* "GSM 7 bit Default Alphabet + Turkish National Language Single Shift Table" converter 
+*
+*/
+
+
+/**
+ @file
+*/
+
+TARGET			gsm7_turkish_single.dll
+TARGETTYPE		PLUGIN
+
+CAPABILITY		All -Tcb
+
+UID				0x10009D8D 0x10286402
+VENDORID		0x70000001
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+SOURCEPATH		../src/plugins
+SOURCE			gsm7_turkish_single.cpp
+
+SOURCEPATH		/epoc32/build/generatedcpp/charconv
+SOURCE			g_gsm7_turkish_single.cpp
+
+SOURCEPATH		../resource
+START RESOURCE	gsm7_turkish_single.rss
+TARGETPATH		/resource/charconv
+LANG			sc
+END
+
+START RESOURCE	10286402.rss
+TARGET			gsm7_turkish_single.rsc
+END
+
+LIBRARY			euser.lib
+LIBRARY			charconv.lib
+LIBRARY			ecom.lib
+
+SMPSAFE

@@ -1,0 +1,125 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+
+#include <platform_paths.hrh>
+
+
+
+
+// General properties
+TARGET          libdbus.dll
+TARGETTYPE      dll
+UID             0x1000008d 0x20010153
+
+// Allow global writeable static data
+#ifndef WINSCW
+EPOCALLOWDLLDATA
+#endif
+ 
+CAPABILITY All -Tcb
+VENDORID 	0x101FB657
+
+// Macros
+MACRO           DBUS_COMPILATION
+MACRO			DBUS_BUILD_TESTS
+
+// User include paths
+USERINCLUDE     ../dbus
+USERINCLUDE     ..\
+
+// System include paths
+//
+//
+//
+//  
+
+OS_LAYER_SYSTEMINCLUDE 
+OS_LAYER_LIBC_SYSTEMINCLUDE       
+OS_LAYER_DBUS_SYSTEMINCLUDE       
+
+SOURCEPATH 		../dbus
+
+// Source files
+#ifdef WINSCW
+SOURCE	libdbus_wsd.cpp
+#endif /*WINSCW*/
+
+// from libdbus code
+SOURCE dbus-address.c
+SOURCE dbus-auth.c
+SOURCE dbus-auth-script.c
+SOURCE dbus-bus.c
+SOURCE dbus-connection.c
+SOURCE dbus-errors.c
+SOURCE dbus-keyring.c
+SOURCE dbus-marshal-header.c
+SOURCE dbus-marshal-byteswap.c
+SOURCE dbus-marshal-recursive.c
+SOURCE dbus-marshal-validate.c
+SOURCE dbus-message.c
+SOURCE dbus-misc.c
+SOURCE dbus-object-tree.c
+SOURCE dbus-pending-call.c
+SOURCE dbus-resources.c
+SOURCE dbus-server.c
+SOURCE dbus-server-debug-pipe.c
+SOURCE dbus-server-socket.c
+SOURCE dbus-server-unix.c
+SOURCE dbus-sha.c
+SOURCE dbus-signature.c
+SOURCE dbus-timeout.c
+SOURCE dbus-threads.c
+SOURCE dbus-transport.c
+SOURCE dbus-transport-socket.c
+SOURCE dbus-transport-unix.c
+SOURCE dbus-uuidgen.c
+SOURCE dbus-watch.c
+// from shared code
+SOURCE dbus-dataslot.c
+SOURCE dbus-hash.c
+SOURCE dbus-internals.c
+SOURCE dbus-list.c
+SOURCE dbus-marshal-basic.c
+SOURCE dbus-memory.c
+SOURCE dbus-mempool.c
+SOURCE dbus-string.c
+SOURCE dbus-sysdeps.c
+SOURCE dbus-sysdeps-pthread.c
+SOURCE dbus-sysdeps-unix.c
+SOURCE dbus-userdb.c
+
+// Library dependencies
+LIBRARY         euser.lib
+LIBRARY         libc.lib
+LIBRARY			libm.lib
+LIBRARY			libpthread.lib
+
+#ifdef WINSCW
+LIBRARY		ewsd.lib //wsd solution
+#endif
+
+//file locking
+LIBRARY 	efsrv.lib 
+SOURCE filecheck.cpp
+
+//MultiDrive support APIs
+SOURCE dbus-sysdeps-unix-helper.cpp
+
+
+SMPSAFE

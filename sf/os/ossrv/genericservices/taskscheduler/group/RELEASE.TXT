@@ -1,0 +1,220 @@
+Release 016
+-----------
+By NicholaT 1st October 2001
+
+* Fix for defect "Task Scheduler asserts that new schedules are inserted at the end of the list" (EXT-4ZT8K9)
+
+Release 015
+-----------
+By NicholaT 15th August 2001
+
+* Fix for defect "Main, KERN-EXEC, 3" (WIR-4Z7J5T)
+
+Release 014
+-----------
+By AlexW 1st June 2001
+
+* Fix for defect "Schedules.dat reserves all disk space although messages were sent" (WIR-4WPENB)
+* Fix for defect "SchSvr: Too many unnecessary TNames on the heap" (WIR-4WPEPX)
+* Fix for defect "SchSvr: Deleting a schedule doesn't cancel the schedule timer" (WIR-4WKD42)
+* Fix for defect "Wins specific task scheduler start up problem" (WIR-4WXHU4)
+* Fix for defect "A short message cannot be sent immeditely if there is a scheduled sms message in outbox." (WIR-4WYLUZ)
+
+Release 013
+-----------
+By ChrisD 6th April 2001
+
+* Fix for defect "SMS sending during bidirectional cable data transfer HSCSD v.120 2+2" (EDNTPAN-4VHHMP)
+
+Release 012
+-----------
+By AlexW 28th February 2001
+
+* Fixed for defect "Messages with "Resend" status are not sent after reboot" (EDNHLJT-4TRAAE)
+
+Release 011
+-----------
+By AlexW 9th June 2000
+
+* Fix for defect "Task files are not created by the task scheduler" (EDNPHAR-4L3P6N)
+* Fixed the task file creation code so that RFs are not leaked anymore
+
+Release 010
+-----------
+By AlexW 1st June 2000
+
+* Fix for defect "Schedule server should use the cleanup stack more" (EDNCDUG-4KVJYF)
+
+Release 009
+-----------
+By ChrisD 6 April 2000
+
+Remove unused variable warnings in schman.cpp.
+
+Release 008
+-----------
+By ChrisD 28 March 2000
+
+Minor changes to fix build warnings in source & testcode.  Reordered testcode 
+in bld.inf to build in dependency order.  Updated testcode to accomodate new 
+Base API for RThread::Create and RProcess::CommandLine which has changed 
+in recent base releases.
+
+All tests run successfully in wins udeb except TTASKLAUNCHING which is not 
+complete yet.
+
+Release 007
+-----------
+By AlexW 29 February 2000
+
+* More boiler plating updates
+* Test code reorganised - all test code now placed in "Test" subdirectory.
+* New test code project to verify fixes for defects
+* Update to TYear2000 so that it now builds properly
+* Added minimal task handler as used by TScheduling test project and TYear2000
+* Fix for defect "CTaskExecutor::DoCancelL() does nothing" (EDNAWIR-4FWKPR)
+* Fix for defect "SCHSVR missing trailing L on internal server calls (and test code)"
+  (EDNAWIR-4GRLA4)
+
+
+Release 006
+-----------
+By AlexW 24 January 2000
+
+
+Summary
+=======
+o  Implemented change request AALR-4EDG75 (GT Change Requests). This required adding additional
+   parameters to two RScheduler methods.
+o  Fixed defect EDNAWIR-4FQJ6A - "Registering twice with the task scheduler causes a memory leak"
+   (Symbian Defect Tracking v3.0)
+o  Fixed defect EDNAWIR-4FRFR6 - "Can't retrieve task data when target buffer is too big to hold 
+   the data" (Symbian Defect Tracking v3.0)
+o  Fixed defect EDNAWIR-4FQGXP - "Cannot schedule new tasks when schedule server data file is
+   missing" (Symbian Defect Tracking v3.0)
+o  Fixed defect EDNAWIR-4GQN48 - "CClientProxy leaves with a "count" value" (Symbian Defect 
+   Tracking v3.0)
+
+
+API Changes
+===========
+
+TTime& aNextDue is new - This returns the next time a task/shedule is due.
+
+  TInt RScheduler::GetScheduleL(const TInt aScheduleHandle, TScheduleState& aState, 
+                                CArrayFixFlat<TScheduleEntryInfo>& aEntries, 
+                                CArrayFixFlat<TTaskInfo>& aTasks, 
+                                TTime& aNextDue);
+
+
+TTime& aNextDue, TSchedulerItemRef& aRef are new - This returns the Schedule reference 
+for the taskId provided as parameter one, and also the next due time for this schedule.
+
+  TInt RScheduler::GetTaskInfoL(const TInt aTaskId, TTaskInfo& aTaskInfo, TPtr8& aTaskData, 
+                                TSchedulerItemRef& aRef, TTime& aNextDue);
+
+
+Source Changes
+==============
+
+o  Added TScheduleBackup::OpenStoreOrCreateLC(...) which attempts to open the schedule 
+   store, or if it doesn't exist, recreates it (schstore.cpp/h).
+   Updated TScheduleBackup to use this new method rather than opening the store explicitly.
+
+o  Amended CSchSession::RegisterClientL(...) to delete any existing iClient instance should
+   the client session have already registered previously (fixes memory leak).
+
+o  Added two new tests to tsch.cpp project, one to check the added Change Request functionality,
+   and the other, an additional task Id test.
+
+o  Added THelpers.cpp/h to provide support methods for the TSch test project.
+
+
+Testing
+=======
+All tests pass under WINS.
+
+
+Building
+========
+All projects for this component build for all platforms.
+
+
+To Do
+=====
+o  testOOM<...> is bugged and no longer works due to the addition of error logging. This is not
+   a defect in the logging, but a defect in the test code.
+o  The tests are based heavily on timing. This prevents satisfactory testing on a target device.
+   Update the test exe and test code to use a semaphore to indicate successful exection rather than
+   relying on a timed delay.
+
+
+Release 005
+-----------
+By AlexW 22 November 1999
+
+Added functionality to report and store task launching, and return value errors
+to the log engine by implementing CClientProxy::FailedToExecute().
+
+Changes
+-------
+1) Renamed FailedToExecute() to FailedToExecuteL() as this method allocates memory and
+may potentially leave.
+
+2) Added new mixin MExecutorErrorHandler to the task executor header file (schexec.h).
+The CClientProxy now implements the virtual function defined within this class, and
+the task executor now requires a reference to this class during construction (this is
+not an optional mixin). Should an error be returned by the launched task, then the
+virtual function implemented by this mixin is called and error cleanup may occur.
+
+3) Added new (private) active object, CLogSubmitter, to the CClientProxy class which 
+manages the submission of the log event to the log server (submission occurs
+asynchronously). The active object waits for the completion of the submission, and
+after completion has occurred, the CLogEvent object is destroyed. 
+
+In order to start the submission process, the active scheduler must be started.
+Due to the nature of the task manager, the next active object to have its RunL
+called is not necessarily the CLogSubmitter (another task may be scheduled to run
+instead). 
+
+Because potentially many tasks may be executed in parallel, multiple errors may 
+occur at the same time for any single client. This therefore requires a nested 
+start of the active scheduler when the CClientProxy::iLogSubmitter is already active.
+
+4) In order to store a contextual error message in the log, FailedToExecuteL() now
+has another overload. This simply takes two parameters, the first being the error
+code, and the second the error message to write to the log. 
+
+As the contextual error message can only be defined at the point in time immediately
+before the tasks are executed, the error message is prepared by the CClientProxy 
+class (in CClientProxy::BuildTaskErrorMessageL(...)) and is subsequently 'given'
+to the CTaskExecutor so that (should an error occur) it can inform the CClientProxy,
+by way of the MExecutorErrorHandler mixin, of the error that occurred and the appropriate
+message to write to the log.
+
+Changed a lot of source files to use _LIT rather than #defined'd _Ls
+	
+Also correctly capitalized full paths in some source files (i.e. "C:\system" => "C:\System").
+
+
+Release 004
+---------
+Steve Etherington 26 October 1999
+Builds under current system.
+No significant changes
+
+Release 001
+-----------
+Built by WilliamB 26 June 1998
+
+Uses e32 128, e32tools 091, e32toolp 091, e32utils 018, f32 095, bafl 078, store 049
+
+Release valids on a clean drive.
+
+First release of task scheduler.
+
+Deb/Rel interoperable.
+
+Test code run and passed for all builds, except Y2K test code (tschy2k.exe) which
+hasn't been run because the test plan hasn't been approved yet
+ since 003

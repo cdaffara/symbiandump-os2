@@ -1,0 +1,181 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* hindiDemo app
+*
+*/
+
+
+NAME HIDI
+
+#include <techview/eikon.rh>
+#include <uiklafgt/eikcore.rsg>
+#include <appinfo.rh>
+
+#include "hindiDemo.hrh"
+//#include "eikon.rsg"
+
+RESOURCE RSS_SIGNATURE { }
+
+RESOURCE TBUF { buf="hindiDemo"; }
+
+RESOURCE EIK_APP_INFO
+	{
+	menubar=r_desc1_menubar;
+	hotkeys=r_desc1_hotkeys;
+	}
+
+RESOURCE HOTKEYS r_desc1_hotkeys
+    {
+    control=
+        {
+        HOTKEY { command=EEikCmdExit; key='e'; }
+        };
+    }
+
+RESOURCE MENU_BAR r_desc1_menubar
+    {
+    titles=
+        {
+        MENU_TITLE { menu_pane=r_desc1_file_menu; txt="File"; },
+//        MENU_TITLE { menu_pane=r_desc2_file_menu; txt="Sample"; }
+	  MENU_TITLE { menu_pane=r_desc2_file_menu; txt="Language"; }
+	  
+	   	
+		};
+    }
+
+RESOURCE MENU_PANE r_desc1_file_menu
+	{
+	items=
+		{
+		MENU_ITEM { command=EEikCmdFont; txt="Font"; },
+		MENU_ITEM { command=EEikCmdMakeHindiTxt; txt="Make Hindi.txt"; },
+		MENU_ITEM { command=EEikCmdMakeKannadaTxt; txt="Make Kannada.txt"; },
+		MENU_ITEM { command=EEikCmdMakeGujaratiTxt; txt="Make Gujarati.txt"; },
+		MENU_ITEM { command=EEikCmdMakeBengaliTxt; txt="Make Bengali.txt"; },
+		MENU_ITEM { command=EEikCmdMakeTamilTxt; txt="Make Tamil.txt"; },
+		MENU_ITEM { command=EEikCmdMakeTeluguTxt; txt="Make Telugu.txt"; },	
+		MENU_ITEM { command=EEikCmdExit; txt="Exit"; }
+		};
+    }
+
+RESOURCE MENU_PANE r_desc2_file_menu
+	{
+	items=
+		{
+		MENU_ITEM { cascade=r_desc3_file_menu; txt="Hindi"; },
+		MENU_ITEM { cascade=r_desc4_file_menu; txt="Kannada"; },
+		MENU_ITEM { cascade=r_desc5_file_menu; txt="Gujarati";},
+		MENU_ITEM { cascade=r_desc6_file_menu; txt="Bengali";},
+		MENU_ITEM { cascade=r_desc7_file_menu; txt="Tamil";},
+		MENU_ITEM { cascade=r_desc8_file_menu; txt="Telugu";}
+        };
+    }
+
+
+RESOURCE MENU_PANE r_desc3_file_menu
+  {
+  items = {
+   		MENU_ITEM { command=EEikCmdSample1; txt="Sample 1"; },
+		MENU_ITEM { command=EEikCmdSample2; txt="Sample 2"; },
+		MENU_ITEM { command=EEikCmdSample3; txt="Sample 3"; },
+		MENU_ITEM { command=EEikCmdSample4; txt="Sample 4"; }
+
+    };
+  }
+
+RESOURCE MENU_PANE r_desc4_file_menu
+  {
+  items = {
+   		MENU_ITEM { command=EEikCmdSample5; txt="Sample 1"; },
+		MENU_ITEM { command=EEikCmdSample6; txt="Sample 2"; },
+		MENU_ITEM { command=EEikCmdSample7; txt="Sample 3"; },
+		MENU_ITEM { command=EEikCmdSample8; txt="Sample 4"; }
+
+    };
+  }
+
+RESOURCE MENU_PANE r_desc5_file_menu
+  {
+  items = {
+   		MENU_ITEM { command=EEikCmdSample9; txt="Sample 1"; },
+		MENU_ITEM { command=EEikCmdSample10; txt="Sample 2"; },
+		MENU_ITEM { command=EEikCmdSample11; txt="Sample 3"; },
+		MENU_ITEM { command=EEikCmdSample12; txt="Sample 4"; }
+
+    };
+  }
+
+RESOURCE MENU_PANE r_desc6_file_menu
+{
+items = {
+ 		MENU_ITEM { command=EEikCmdSample13; txt="Sample 1"; },
+		MENU_ITEM { command=EEikCmdSample14; txt="Sample 2"; },
+		MENU_ITEM { command=EEikCmdSample15; txt="Sample 3"; },
+		MENU_ITEM { command=EEikCmdSample16; txt="Sample 4"; }
+
+  };
+}
+
+RESOURCE MENU_PANE r_desc7_file_menu
+{
+items = {
+ 		MENU_ITEM { command=EEikCmdSample17; txt="Sample 1"; },
+		MENU_ITEM { command=EEikCmdSample18; txt="Sample 2"; },
+		MENU_ITEM { command=EEikCmdSample19; txt="Sample 3"; },
+		MENU_ITEM { command=EEikCmdSample20; txt="Sample 4"; }
+
+  };
+}
+RESOURCE MENU_PANE r_desc8_file_menu
+{
+items = {
+ 		MENU_ITEM { command=EEikCmdSample21; txt="Sample 1"; },
+		MENU_ITEM { command=EEikCmdSample22; txt="Sample 2"; },
+		MENU_ITEM { command=EEikCmdSample23; txt="Sample 3"; },
+		MENU_ITEM { command=EEikCmdSample24; txt="Sample 4"; }
+
+  };
+}
+
+
+//----------------------------------------------------
+//    r_output_rtexted
+//    resource for rich text editor control on main view
+//----------------------------------------------------
+//
+RESOURCE RTXTED r_output_window_rtexted
+    {
+    numlines = 5;
+    textlimit= 500;
+    fontcontrolflags = EGulFontControlAll;
+    fontnameflags = EGulNoSymbolFonts;
+//    default_input_mode = EAknEditorNullInputMode;
+    }
+    
+// 9.1 MCL only -     
+RESOURCE LOCALISABLE_APP_INFO r_lai
+	{
+	short_caption = "Hi";
+	caption_and_icon =
+		{
+		CAPTION_AND_ICON_INFO
+			{
+			caption = "HindiDemo";
+			number_of_icons = 3; // each icon must be a bitmap/mask pair
+			icon_file = "z:\\resource\\apps\\hindiDemo.mbm";
+			}
+		};
+	}

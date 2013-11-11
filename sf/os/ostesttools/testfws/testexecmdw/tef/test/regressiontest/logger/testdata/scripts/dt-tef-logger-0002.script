@@ -1,0 +1,44 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SERVER TEF_LoggerTestBlock -SharedData
+
+START_TESTCASE DT-TEF-Logger-0002
+//! @SYMTestCaseID          DT-TEF-Logger-0002
+//! @SYMCreationDate        09-07-2008
+//! @SYMAuthor              extshuohuang
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        Test LogExtra(.....,TRefByValue, const TDesC  aFmt,...) function with all log levels.
+//!                         
+//!                         HTML log test
+//! @SYMTestExpectedResults All the infomation should be logged with provided level.
+//!                         Pass
+//! @SYMTestActions         1. create TEFLoggerWrapper
+//!                         2. test all kinds of error level.
+
+
+	START_TEST_BLOCK 100	TEF_LoggerTestBlock ${SYSDRIVE}\TestData\configs\loggerTest.ini
+		CREATE_OBJECT	TEFLoggerTestWrapper	TLogSeverity
+		COMMAND		TLogSeverity			PrintNonVA_LIST				ESevrErr
+		COMMAND		TLogSeverity			PrintNonVA_LIST				ESevrHigh
+		COMMAND		TLogSeverity			PrintNonVA_LIST				ESevrWarn
+		COMMAND		TLogSeverity			PrintNonVA_LIST				ESevrMedium
+		COMMAND		TLogSeverity			PrintNonVA_LIST				ESevrInfo
+		COMMAND		TLogSeverity			PrintNonVA_LIST				ESevrLow
+		COMMAND		TLogSeverity			PrintNonVA_LIST				ESevrAll
+	END_TEST_BLOCK	
+END_TESTCASE DT-TEF-Logger-0002
+

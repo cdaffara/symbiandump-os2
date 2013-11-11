@@ -1,0 +1,17 @@
+openssl treq2(3_50_2_6738) test_log testing req conversions p -> d
+openssl treq2(3_50_2_6738) req -config c:/openssl.cnf -in C:/testreq2.pem -inform p -outform d -out C:/f.d
+openssl treq2(3_50_2_6738) test_log p -> p
+openssl treq2(3_50_2_6738) req -config c:/openssl.cnf -in C:/testreq2.pem -inform p -outform p -out C:/f.p
+openssl treq2(3_50_2_6738) test_log d -> d
+openssl treq2(3_50_2_6738) req -config c:/openssl.cnf -verify -in c:/f.d -inform d -outform d -out C:/ff.d1
+openssl treq2(3_50_2_6738) test_log p -> d
+openssl treq2(3_50_2_6738) req -config c:/openssl.cnf -verify -in c:/f.p -inform p -outform d -out C:/ff.d3
+openssl treq2(3_50_2_6738) test_log d -> p
+openssl treq2(3_50_2_6738) req -config c:/openssl.cnf -in c:/f.d -inform d -outform p -out C:/ff.p1
+openssl treq2(3_50_2_6738) test_log p -> p
+openssl treq2(3_50_2_6738) req -config c:/openssl.cnf -in c:/f.p -inform p -outform p -out C:/ff.p3
+openssl treq2(3_50_2_6738) compare c:/testreq2.pem C:/f.p
+openssl treq2(3_50_2_6738) compare c:/testreq2.pem C:/ff.p1
+openssl treq2(3_50_2_6738) compare c:/testreq2.pem C:/ff.p3
+openssl treq2(3_50_2_6738) compare C:/f.p C:/ff.p1
+openssl treq2(3_50_2_6738) compare C:/f.p C:/ff.p3

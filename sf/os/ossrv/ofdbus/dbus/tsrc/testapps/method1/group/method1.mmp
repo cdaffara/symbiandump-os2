@@ -1,0 +1,62 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+
+
+                                                  
+#include <platform_paths.hrh>              
+
+
+TARGET          method1.exe
+TARGETTYPE      exe
+UID             0x100039CE 0x101FB3EF
+
+CAPABILITY      ALL -TCB
+
+SOURCEPATH      ../src
+SOURCE          method1.c
+
+USERINCLUDE     ../inc 
+
+
+
+OS_LAYER_SYSTEMINCLUDE 
+OS_LAYER_LIBC_SYSTEMINCLUDE       
+OS_LAYER_DBUS_SYSTEMINCLUDE
+
+LIBRARY         euser.lib
+
+// Library dependencies
+#ifdef GCCE
+STATICLIBRARY  libcrt0_gcce.lib
+#else
+STATICLIBRARY  libcrt0.lib
+#endif
+LIBRARY        libc.lib 
+
+LIBRARY		libm.lib
+LIBRARY		libpthread.lib
+LIBRARY      	libdbus.lib
+LIBRARY 	libdbus-utils.lib
+
+LANG            SC
+
+
+// End of File
+
+SMPSAFE

@@ -1,0 +1,491 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="HtiPIM"
+ targetNamespace="urn:hti"
+ xmlns:tns="urn:hti"
+ xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+ xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+ xmlns:ns1="urn:hti"
+ xmlns:SOAP="http://schemas.xmlsoap.org/wsdl/soap/"
+ xmlns:MIME="http://schemas.xmlsoap.org/wsdl/mime/"
+ xmlns:DIME="http://schemas.xmlsoap.org/ws/2002/04/dime/wsdl/"
+ xmlns:WSDL="http://schemas.xmlsoap.org/wsdl/"
+ xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+<types>
+
+ <schema targetNamespace="urn:hti"
+  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:ns1="urn:hti"
+  xmlns="http://www.w3.org/2001/XMLSchema"
+  elementFormDefault="unqualified"
+  attributeFormDefault="unqualified">
+  <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+  <simpleType name="SIMContactFieldType">
+   <restriction base="xsd:string">
+    <enumeration value="FieldTypeName"/>
+    <enumeration value="FieldTypeSecondName"/>
+    <enumeration value="FieldTypeNumber"/>
+    <enumeration value="FieldTypeEmail"/>
+    <enumeration value="FieldTypeAdditionalNumber"/>
+   </restriction>
+  </simpleType>
+  <complexType name="HtiSoapAttachment">
+   <sequence>
+     <element name="href" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+     <element name="mimeType" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+   </sequence>
+  </complexType>
+  <complexType name="HtiSIMContactField">
+   <sequence>
+     <element name="fieldType" type="ns1:SIMContactFieldType" minOccurs="1" maxOccurs="1"/>
+     <element name="fieldData" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+   </sequence>
+  </complexType>
+  <complexType name="ArrayOfHtiSIMContactField">
+   <complexContent>
+    <restriction base="SOAP-ENC:Array">
+     <sequence>
+      <element name="HtiSIMContactField" type="ns1:HtiSIMContactField" minOccurs="0" maxOccurs="unbounded"/>
+     </sequence>
+     <attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="ns1:HtiSIMContactField[]"/>
+    </restriction>
+   </complexContent>
+  </complexType>
+  <complexType name="HtiSIMCardCaps">
+   <sequence>
+     <element name="maxNumOfSecondNames" type="xsd:unsignedByte" minOccurs="1" maxOccurs="1"/>
+     <element name="maxNumOfAdditionalNums" type="xsd:unsignedByte" minOccurs="1" maxOccurs="1"/>
+     <element name="maxNumOfEmails" type="xsd:unsignedByte" minOccurs="1" maxOccurs="1"/>
+     <element name="maxLengthOfName" type="xsd:unsignedByte" minOccurs="1" maxOccurs="1"/>
+     <element name="maxLengthOfNumber" type="xsd:unsignedByte" minOccurs="1" maxOccurs="1"/>
+     <element name="maxLengthOfSecondName" type="xsd:unsignedByte" minOccurs="1" maxOccurs="1"/>
+     <element name="maxLengthOfAdditionalNum" type="xsd:unsignedByte" minOccurs="1" maxOccurs="1"/>
+     <element name="maxLenghtOfEmail" type="xsd:unsignedByte" minOccurs="1" maxOccurs="1"/>
+     <element name="totalSlots" type="xsd:unsignedShort" minOccurs="1" maxOccurs="1"/>
+     <element name="usedSlots" type="xsd:unsignedShort" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <!-- operation request element -->
+  <element name="vCard" type="xsd:string"/>
+  <!-- operation response element -->
+  <element name="entryId" type="xsd:int"/>
+  <!-- operation request element -->
+  <element name="vCal" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="vCardDimeAttachment" type="ns1:HtiSoapAttachment"/>
+  <!-- operation request element -->
+  <element name="vCalendarDimeAttachment" type="ns1:HtiSoapAttachment"/>
+  <!-- operation response element -->
+  <element name="returnHtiSIMCardCaps" type="ns1:HtiSIMCardCaps"/>
+  <!-- operation request element -->
+  <element name="SIMContact" type="ns1:ArrayOfHtiSIMContactField"/>
+  <!-- operation request element -->
+  <element name="text" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="filePath" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="folderName" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="bookmarkName" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="url" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="accessPointName" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="userName" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="password" type="xsd:string"/>
+  <!-- operation response element -->
+  <element name="createdItemCount" type="xsd:int"/>
+  <!-- operation response element -->
+  <element name="deletedItemCount" type="xsd:int"/>
+ </schema>
+
+</types>
+
+<message name="import-vCardRequest">
+ <part name="vCard" element="ns1:vCard"/>
+</message>
+
+<message name="import-vCardResponse">
+ <part name="entryId" element="ns1:entryId"/>
+</message>
+
+<message name="import-vCalendarRequest">
+ <part name="vCal" element="ns1:vCal"/>
+</message>
+
+<message name="import-vCalendarResponse">
+ <part name="entryId" element="ns1:entryId"/>
+</message>
+
+<message name="import-vCardDimeRequest">
+ <part name="vCardDimeAttachment" element="ns1:vCardDimeAttachment"/>
+</message>
+
+<message name="import-vCardDimeResponse">
+ <part name="entryId" element="ns1:entryId"/>
+</message>
+
+<message name="import-vCalendarDimeRequest">
+ <part name="vCalendarDimeAttachment" element="ns1:vCalendarDimeAttachment"/>
+</message>
+
+<message name="import-vCalendarDimeResponse">
+ <part name="entryId" element="ns1:entryId"/>
+</message>
+
+<message name="deleteContactEntry">
+ <part name="entryId" element="ns1:entryId"/>
+</message>
+
+<message name="deleteContactEntryResponse">
+</message>
+
+<message name="deleteAllContactEntries">
+</message>
+
+<message name="deleteAllContactEntriesResponse">
+</message>
+
+<message name="deleteCalendarEntry">
+ <part name="entryId" element="ns1:entryId"/>
+</message>
+
+<message name="deleteCalendarEntryResponse">
+</message>
+
+<message name="deleteAllCalendarEntries">
+</message>
+
+<message name="deleteAllCalendarEntriesResponse">
+</message>
+
+<message name="getSIMCardCaps">
+</message>
+
+<message name="getSIMCardCapsResponse">
+ <part name="returnHtiSIMCardCaps" element="ns1:returnHtiSIMCardCaps"/>
+</message>
+
+<message name="importSIMContactRequest">
+ <part name="SIMContact" element="ns1:SIMContact"/>
+</message>
+
+<message name="importSIMContactResponse">
+ <part name="entryId" element="ns1:entryId"/>
+</message>
+
+<message name="deleteSIMContact">
+ <part name="entryId" element="ns1:entryId"/>
+</message>
+
+<message name="deleteSIMContactResponse">
+</message>
+
+<message name="deleteAllSIMContacts">
+</message>
+
+<message name="deleteAllSIMContactsResponse">
+</message>
+
+<message name="notepadAddMemo">
+ <part name="text" element="ns1:text"/>
+</message>
+
+<message name="notepadAddMemoResponse">
+</message>
+
+<message name="notepadAddMemoFromFile">
+ <part name="filePath" element="ns1:filePath"/>
+</message>
+
+<message name="notepadAddMemoFromFileResponse">
+</message>
+
+<message name="notepadDeleteAll">
+</message>
+
+<message name="notepadDeleteAllResponse">
+</message>
+
+<message name="createBookmarkRequest">
+ <part name="folderName" element="ns1:folderName"/>
+ <part name="bookmarkName" element="ns1:bookmarkName"/>
+ <part name="url" element="ns1:url"/>
+ <part name="accessPointName" element="ns1:accessPointName"/>
+ <part name="userName" element="ns1:userName"/>
+ <part name="password" element="ns1:password"/>
+</message>
+
+<message name="createBookmarkResponse">
+ <part name="createdItemCount" element="ns1:createdItemCount"/>
+</message>
+
+<message name="deleteBookmarkRequest">
+ <part name="folderName" element="ns1:folderName"/>
+ <part name="bookmarkName" element="ns1:bookmarkName"/>
+</message>
+
+<message name="deleteBookmarkResponse">
+ <part name="deletedItemCount" element="ns1:deletedItemCount"/>
+</message>
+
+<portType name="HtiPIMPortType">
+ <operation name="import-vCard">
+  <documentation>Service definition of function ns1__import_vCard</documentation>
+  <input message="tns:import-vCardRequest"/>
+  <output message="tns:import-vCardResponse"/>
+ </operation>
+ <operation name="import-vCalendar">
+  <documentation>Service definition of function ns1__import_vCalendar</documentation>
+  <input message="tns:import-vCalendarRequest"/>
+  <output message="tns:import-vCalendarResponse"/>
+ </operation>
+ <operation name="import-vCardDime">
+  <documentation>Service definition of function ns1__import_vCardDime</documentation>
+  <input message="tns:import-vCardDimeRequest"/>
+  <output message="tns:import-vCardDimeResponse"/>
+ </operation>
+ <operation name="import-vCalendarDime">
+  <documentation>Service definition of function ns1__import_vCalendarDime</documentation>
+  <input message="tns:import-vCalendarDimeRequest"/>
+  <output message="tns:import-vCalendarDimeResponse"/>
+ </operation>
+ <operation name="deleteContactEntry">
+  <documentation>Service definition of function ns1__deleteContactEntry</documentation>
+  <input message="tns:deleteContactEntry"/>
+  <output message="tns:deleteContactEntryResponse"/>
+ </operation>
+ <operation name="deleteAllContactEntries">
+  <documentation>Service definition of function ns1__deleteAllContactEntries</documentation>
+  <input message="tns:deleteAllContactEntries"/>
+  <output message="tns:deleteAllContactEntriesResponse"/>
+ </operation>
+ <operation name="deleteCalendarEntry">
+  <documentation>Service definition of function ns1__deleteCalendarEntry</documentation>
+  <input message="tns:deleteCalendarEntry"/>
+  <output message="tns:deleteCalendarEntryResponse"/>
+ </operation>
+ <operation name="deleteAllCalendarEntries">
+  <documentation>Service definition of function ns1__deleteAllCalendarEntries</documentation>
+  <input message="tns:deleteAllCalendarEntries"/>
+  <output message="tns:deleteAllCalendarEntriesResponse"/>
+ </operation>
+ <operation name="getSIMCardCaps">
+  <documentation>Service definition of function ns1__getSIMCardCaps</documentation>
+  <input message="tns:getSIMCardCaps"/>
+  <output message="tns:getSIMCardCapsResponse"/>
+ </operation>
+ <operation name="importSIMContact">
+  <documentation>Service definition of function ns1__importSIMContact</documentation>
+  <input message="tns:importSIMContactRequest"/>
+  <output message="tns:importSIMContactResponse"/>
+ </operation>
+ <operation name="deleteSIMContact">
+  <documentation>Service definition of function ns1__deleteSIMContact</documentation>
+  <input message="tns:deleteSIMContact"/>
+  <output message="tns:deleteSIMContactResponse"/>
+ </operation>
+ <operation name="deleteAllSIMContacts">
+  <documentation>Service definition of function ns1__deleteAllSIMContacts</documentation>
+  <input message="tns:deleteAllSIMContacts"/>
+  <output message="tns:deleteAllSIMContactsResponse"/>
+ </operation>
+ <operation name="notepadAddMemo">
+  <documentation>Service definition of function ns1__notepadAddMemo</documentation>
+  <input message="tns:notepadAddMemo"/>
+  <output message="tns:notepadAddMemoResponse"/>
+ </operation>
+ <operation name="notepadAddMemoFromFile">
+  <documentation>Service definition of function ns1__notepadAddMemoFromFile</documentation>
+  <input message="tns:notepadAddMemoFromFile"/>
+  <output message="tns:notepadAddMemoFromFileResponse"/>
+ </operation>
+ <operation name="notepadDeleteAll">
+  <documentation>Service definition of function ns1__notepadDeleteAll</documentation>
+  <input message="tns:notepadDeleteAll"/>
+  <output message="tns:notepadDeleteAllResponse"/>
+ </operation>
+ <operation name="createBookmark">
+  <documentation>Service definition of function ns1__createBookmark</documentation>
+  <input message="tns:createBookmarkRequest"/>
+  <output message="tns:createBookmarkResponse"/>
+ </operation>
+ <operation name="deleteBookmark">
+  <documentation>Service definition of function ns1__deleteBookmark</documentation>
+  <input message="tns:deleteBookmarkRequest"/>
+  <output message="tns:deleteBookmarkResponse"/>
+ </operation>
+</portType>
+
+<binding name="HtiPIM" type="tns:HtiPIMPortType">
+ <SOAP:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+ <operation name="import-vCard">
+  <SOAP:operation style="rpc" soapAction="HtiPIM"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="import-vCalendar">
+  <SOAP:operation style="rpc" soapAction="HtiPIM"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="import-vCardDime">
+  <SOAP:operation style="rpc" soapAction="HtiPIM"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="import-vCalendarDime">
+  <SOAP:operation style="rpc" soapAction="HtiPIM"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="deleteContactEntry">
+  <SOAP:operation style="rpc" soapAction="HtiPIM"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="deleteAllContactEntries">
+  <SOAP:operation style="rpc" soapAction="HtiPIM"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="deleteCalendarEntry">
+  <SOAP:operation style="rpc" soapAction="HtiPIM"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="deleteAllCalendarEntries">
+  <SOAP:operation style="rpc" soapAction="HtiPIM"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="getSIMCardCaps">
+  <SOAP:operation style="rpc" soapAction="HtiPIM"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="importSIMContact">
+  <SOAP:operation style="rpc" soapAction="HtiPIM"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="deleteSIMContact">
+  <SOAP:operation style="rpc" soapAction="HtiPIM"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="deleteAllSIMContacts">
+  <SOAP:operation style="rpc" soapAction="HtiPIM"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="notepadAddMemo">
+  <SOAP:operation style="rpc" soapAction="HtiPIM"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="notepadAddMemoFromFile">
+  <SOAP:operation style="rpc" soapAction="HtiPIM"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="notepadDeleteAll">
+  <SOAP:operation style="rpc" soapAction="HtiPIM"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="createBookmark">
+  <SOAP:operation style="rpc" soapAction="HtiPIM"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="deleteBookmark">
+  <SOAP:operation style="rpc" soapAction="HtiPIM"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+</binding>
+
+<service name="HtiPIM">
+ <documentation>gSOAP 2.7.6b generated service definition</documentation>
+ <port name="HtiPIM" binding="tns:HtiPIM">
+  <SOAP:address location="http://localhost:2000"/>
+ </port>
+</service>
+
+</definitions>

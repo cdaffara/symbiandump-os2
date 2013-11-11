@@ -1,0 +1,404 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+// Error tests for filetokens cert store, run in configuration 1
+
+
+
+START_TESTCASE                SEC-TCERTSTORE-FILECERTSTORE_ERRORS-1
+
+//! @SYMTestCaseID            SEC-TCERTSTORE-FILECERTSTORE_ERRORS-1
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Opening a writable certificate store manager
+
+//! @SYMREQ                   REQ0000
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) Opening a writable certificate store manager
+
+RUN_TEST_STEP                 -1    CTestHandler        init                   filecertstore_errors.ini   SEC-TCERTSTORE-FILECERTSTORE_ERRORS-1-001
+
+END_TESTCASE                  SEC-TCERTSTORE-FILECERTSTORE_ERRORS-1
+
+
+
+
+
+START_TESTCASE                SEC-TCERTSTORE-FILECERTSTORE_ERRORS-2
+
+//! @SYMTestCaseID            SEC-TCERTSTORE-FILECERTSTORE_ERRORS-2
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Deleting all certs
+
+//! @SYMREQ                   REQ0000
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) Deleting all certs
+
+RUN_TEST_STEP                 -1    CTestHandler        deletecert             filecertstore_errors.ini   SEC-TCERTSTORE-FILECERTSTORE_ERRORS-2-001
+
+END_TESTCASE                  SEC-TCERTSTORE-FILECERTSTORE_ERRORS-2
+
+
+
+
+
+START_TESTCASE                SEC-TCERTSTORE-FILECERTSTORE_ERRORS-3
+
+//! @SYMTestCaseID            SEC-TCERTSTORE-FILECERTSTORE_ERRORS-3
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Add the certificate CAX1
+
+//! @SYMREQ                   REQ0000
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) Add the certificate CAX1
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                filecertstore_errors.ini   SEC-TCERTSTORE-FILECERTSTORE_ERRORS-3-001
+
+END_TESTCASE                  SEC-TCERTSTORE-FILECERTSTORE_ERRORS-3
+
+
+
+
+
+START_TESTCASE                SEC-TCERTSTORE-FILECERTSTORE_ERRORS-4
+
+//! @SYMTestCaseID            SEC-TCERTSTORE-FILECERTSTORE_ERRORS-4
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Add a certificate with duplicate label
+
+//! @SYMREQ                   REQ0000
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrBadName
+
+//! @SYMTestActions           1) Add a certificate with duplicate label
+
+RUN_TEST_STEP !Error=-28      -1    CTestHandler        addcert                filecertstore_errors.ini   SEC-TCERTSTORE-FILECERTSTORE_ERRORS-4-001
+
+END_TESTCASE                  SEC-TCERTSTORE-FILECERTSTORE_ERRORS-4
+
+
+
+
+
+START_TESTCASE                SEC-TCERTSTORE-FILECERTSTORE_ERRORS-5
+
+//! @SYMTestCaseID            SEC-TCERTSTORE-FILECERTSTORE_ERRORS-5
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Add a cert with no label
+
+//! @SYMREQ                   REQ0000
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrArgument
+
+//! @SYMTestActions           1) Add a cert with no label
+
+RUN_TEST_STEP !Error=-6       -1    CTestHandler        addcert                filecertstore_errors.ini   SEC-TCERTSTORE-FILECERTSTORE_ERRORS-5-001
+
+END_TESTCASE                  SEC-TCERTSTORE-FILECERTSTORE_ERRORS-5
+
+
+
+
+
+START_TESTCASE                SEC-TCERTSTORE-FILECERTSTORE_ERRORS-6
+
+//! @SYMTestCaseID            SEC-TCERTSTORE-FILECERTSTORE_ERRORS-6
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Add a cert with the maximum label length (64)
+
+//! @SYMREQ                   REQ0000
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) Add a cert with the maximum label length (64)
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                filecertstore_errors.ini   SEC-TCERTSTORE-FILECERTSTORE_ERRORS-6-001
+
+END_TESTCASE                  SEC-TCERTSTORE-FILECERTSTORE_ERRORS-6
+
+
+
+
+
+START_TESTCASE                SEC-TCERTSTORE-FILECERTSTORE_ERRORS-7
+
+//! @SYMTestCaseID            SEC-TCERTSTORE-FILECERTSTORE_ERRORS-7
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Add a cert with a label longer than max length (65)
+
+//! @SYMREQ                   REQ0000
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrOverflow
+
+//! @SYMTestActions           1) Add a cert with a label longer than max length (65)
+
+RUN_TEST_STEP !Error=-9       -1    CTestHandler        addcert                filecertstore_errors.ini   SEC-TCERTSTORE-FILECERTSTORE_ERRORS-7-001
+
+END_TESTCASE                  SEC-TCERTSTORE-FILECERTSTORE_ERRORS-7
+
+
+
+
+
+START_TESTCASE                SEC-TCERTSTORE-FILECERTSTORE_ERRORS-8
+
+//! @SYMTestCaseID            SEC-TCERTSTORE-FILECERTSTORE_ERRORS-8
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Add a cert with an unknown format
+
+//! @SYMREQ                   REQ0000
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNotSupported
+
+//! @SYMTestActions           1) Add a cert with an unknown format
+
+RUN_TEST_STEP !Error=-5       -1    CTestHandler        addcert                filecertstore_errors.ini   SEC-TCERTSTORE-FILECERTSTORE_ERRORS-8-001
+
+END_TESTCASE                  SEC-TCERTSTORE-FILECERTSTORE_ERRORS-8
+
+
+
+
+
+START_TESTCASE                SEC-TCERTSTORE-FILECERTSTORE_ERRORS-9
+
+//! @SYMTestCaseID            SEC-TCERTSTORE-FILECERTSTORE_ERRORS-9
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Add a cert with an unknown owner type
+
+//! @SYMREQ                   REQ0000
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrArgument
+
+//! @SYMTestActions           1) Add a cert with an unknown owner type
+
+RUN_TEST_STEP !Error=-6       -1    CTestHandler        addcert                filecertstore_errors.ini   SEC-TCERTSTORE-FILECERTSTORE_ERRORS-9-001
+
+END_TESTCASE                  SEC-TCERTSTORE-FILECERTSTORE_ERRORS-9
+
+
+
+
+
+START_TESTCASE                SEC-TCERTSTORE-FILECERTSTORE_ERRORS-10
+
+//! @SYMTestCaseID            SEC-TCERTSTORE-FILECERTSTORE_ERRORS-10
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Test can't add user cert without corresponding private key
+
+//! @SYMREQ                   REQ0000
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrPrivateKeyNotFound
+
+//! @SYMTestActions           1) Test can't add user cert without corresponding private key
+
+RUN_TEST_STEP !Error=-11011   -1    CTestHandler        addcert                filecertstore_errors.ini   SEC-TCERTSTORE-FILECERTSTORE_ERRORS-10-001
+
+END_TESTCASE                  SEC-TCERTSTORE-FILECERTSTORE_ERRORS-10
+
+
+
+
+
+START_TESTCASE                SEC-TCERTSTORE-FILECERTSTORE_ERRORS-11
+
+//! @SYMTestCaseID            SEC-TCERTSTORE-FILECERTSTORE_ERRORS-11
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Test can add peer cert without corresponding private key
+
+//! @SYMREQ                   REQ0000
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) Test can add peer cert without corresponding private key
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                filecertstore_errors.ini   SEC-TCERTSTORE-FILECERTSTORE_ERRORS-11-001
+
+END_TESTCASE                  SEC-TCERTSTORE-FILECERTSTORE_ERRORS-11
+
+
+
+
+
+START_TESTCASE                SEC-TCERTSTORE-FILECERTSTORE_ERRORS-12
+
+//! @SYMTestCaseID            SEC-TCERTSTORE-FILECERTSTORE_ERRORS-12
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Get the list of CA certificates
+
+//! @SYMREQ                   REQ0000
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) Get the list of CA certificates
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               filecertstore_errors.ini   SEC-TCERTSTORE-FILECERTSTORE_ERRORS-12-001
+
+END_TESTCASE                  SEC-TCERTSTORE-FILECERTSTORE_ERRORS-12
+
+
+
+
+
+START_TESTCASE                SEC-TCERTSTORE-FILECERTSTORE_ERRORS-13
+
+//! @SYMTestCaseID            SEC-TCERTSTORE-FILECERTSTORE_ERRORS-13
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Get the list of user certificates
+
+//! @SYMREQ                   REQ0000
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) Get the list of user certificates
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               filecertstore_errors.ini   SEC-TCERTSTORE-FILECERTSTORE_ERRORS-13-001
+
+END_TESTCASE                  SEC-TCERTSTORE-FILECERTSTORE_ERRORS-13
+
+
+
+
+
+START_TESTCASE                SEC-TCERTSTORE-FILECERTSTORE_ERRORS-14
+
+//! @SYMTestCaseID            SEC-TCERTSTORE-FILECERTSTORE_ERRORS-14
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Get the list of peer certificates
+
+//! @SYMREQ                   REQ0000
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) Get the list of peer certificates
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               filecertstore_errors.ini   SEC-TCERTSTORE-FILECERTSTORE_ERRORS-14-001
+
+END_TESTCASE                  SEC-TCERTSTORE-FILECERTSTORE_ERRORS-14
+
+
+
+
+
+START_TESTCASE                SEC-TCERTSTORE-FILECERTSTORE_ERRORS-15
+
+//! @SYMTestCaseID            SEC-TCERTSTORE-FILECERTSTORE_ERRORS-15
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Delete all certs
+
+//! @SYMREQ                   REQ0000
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) Delete all certs
+
+RUN_TEST_STEP                 -1    CTestHandler        deletecert             filecertstore_errors.ini   SEC-TCERTSTORE-FILECERTSTORE_ERRORS-15-001
+
+END_TESTCASE                  SEC-TCERTSTORE-FILECERTSTORE_ERRORS-15
+
+
+
+
+
+START_TESTCASE                SEC-TCERTSTORE-FILECERTSTORE_ERRORS-16
+
+//! @SYMTestCaseID            SEC-TCERTSTORE-FILECERTSTORE_ERRORS-16
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Delete the writable certificate store manager
+
+//! @SYMREQ                   REQ0000
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) Delete the writable certificate store manager
+
+RUN_TEST_STEP                 -1    CTestHandler        delete              
+
+END_TESTCASE                  SEC-TCERTSTORE-FILECERTSTORE_ERRORS-16
+
+
+
+
+

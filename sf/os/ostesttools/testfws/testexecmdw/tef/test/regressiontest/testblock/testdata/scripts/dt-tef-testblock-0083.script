@@ -1,0 +1,49 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SERVER te_RegBlockTestSuite 
+
+START_TESTCASE DT-TEF-TestBlock-0083
+//! @SYMTestCaseID          DT-TEF-TestBlock-0083
+//! @SYMCreationDate        03-07-2008
+//! @SYMAuthor              DavidZhang
+//! @SYMTestType            CT
+//! @SYMTestPriority        Medium
+//! @SYMTestCaseDesc        Multiple blocks with different panics.
+//! @SYMTestExpectedResults The test case result is PASS.
+//! @SYMTestActions         Call multiple blocks with different !PanicCode parameters. The commands of the blocks execute a function
+//!                         that raises a panic with the given code.
+	START_TEST_BLOCK	100 te_RegBlockTestSuite ${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini
+		CREATE_OBJECT	te_RegBlockTestWrapper	TestCase056_obj
+		COMMAND		TestCase056_obj	PanickingFunction		TestCase056_obj_Panic_m2
+	END_TEST_BLOCK		!PanicCode=-2
+	START_TEST_BLOCK	100 te_RegBlockTestSuite ${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini
+		CREATE_OBJECT	te_RegBlockTestWrapper	TestCase056_obj
+		COMMAND		TestCase056_obj	PanickingFunction		TestCase056_obj_Panic_m1
+	END_TEST_BLOCK		!PanicCode=-1
+	START_TEST_BLOCK	100 te_RegBlockTestSuite ${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini
+		CREATE_OBJECT	te_RegBlockTestWrapper	TestCase056_obj
+		COMMAND		TestCase056_obj	PanickingFunction		TestCase056_obj_Panic_0
+	END_TEST_BLOCK		!PanicCode=0
+	START_TEST_BLOCK	100 te_RegBlockTestSuite ${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini
+		CREATE_OBJECT	te_RegBlockTestWrapper	TestCase056_obj
+		COMMAND		TestCase056_obj	PanickingFunction		TestCase056_obj_Panic_1
+	END_TEST_BLOCK		!PanicCode=1
+	START_TEST_BLOCK	100 te_RegBlockTestSuite ${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini
+		CREATE_OBJECT	te_RegBlockTestWrapper	TestCase056_obj
+		COMMAND		TestCase056_obj	PanickingFunction		TestCase056_obj_Panic_2
+	END_TEST_BLOCK		!PanicCode=2
+END_TESTCASE DT-TEF-TestBlock-0083

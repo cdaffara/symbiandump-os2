@@ -1,0 +1,55 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+/**
+@file
+
+@SYMPurpose tpkcs10serverv2.exe New TEF Test harness for PKCS#10 server
+*/
+
+TARGET      tpkcs10serverv2.exe
+TARGETTYPE  exe
+UID             0x1000007A 0x101F7784
+
+CAPABILITY AllFiles WriteDeviceData ReadDeviceData ReadUserData WriteUserData
+
+//Please add any change under here
+SOURCEPATH         .
+SOURCE	           tpkcs10serverv2.cpp
+SOURCE	           tpkcs10stepbasev2.cpp
+SOURCE             tcertrequeststep.cpp
+SOURCE	           tpkcs10negatives.cpp
+SOURCE	           tpkcs10minortests.cpp
+	
+
+USERINCLUDE		.
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+
+LIBRARY     	euser.lib
+LIBRARY		testexecuteutils.lib 
+LIBRARY		testexecutelogclient.lib 
+LIBRARY		efsrv.lib
+LIBRARY		pkcs10.lib 
+LIBRARY		certstore.lib
+LIBRARY		x500.lib 
+LIBRARY		x509.lib
+LIBRARY		asn1.lib
+LIBRARY		cryptography.lib
+LIBRARY 	ctframework.lib
+LIBRARY		hash.lib
+SMPSAFE

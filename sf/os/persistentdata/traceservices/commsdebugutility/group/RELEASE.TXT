@@ -1,0 +1,158 @@
+FLOGGER - File Logging Component
+
+Perforce Changelist 
+========================
+Made by AnnW, 10th November 1999
+
+1. Fixed bug where access counting on open log files was incorrect.
+
+---------------------------------------------------------------------
+
+Release 022
+===========
+Made by AnnW, 1st October 1999
+
+1.	Made static writes to log include date and time.
+
+2.	Added testcode for 8-bit writes and hex dumps.
+
+Release 021
+===========
+Made by AnnW, 19th August 1999
+
+1.	Added functions to write 8-bit descriptors to the log.
+
+2.	Added functions to hex dump to log.
+
+3.	Speeded up static writes to the log by reducing them to use 1 IPC
+	call rather than 3.
+	
+4.	Fixed DEF files for ARM4.
+
+Release 020
+===========
+Made by AnnW, 11th August 1999
+
+Released on mainline share.  Based on the ER5u release 012.
+
+1.	Added timer in on closing of log files so that there is a 5 second pause 
+	before a log file is closed.  This prevents files being opened and closed
+	too much.
+	
+2.	Added WriteFormat() functions to RFileLogger which take a VA_LIST as final 
+	parameter.
+	
+3.	Changed so that date ad time are written to log by default.
+
+-------------------------------------------------------------------------------------------
+
+Release 012
+===========
+Made by AnnW, 4th August 1999
+
+1.	Revised the API to include static write functions.
+
+2.	Rewrote the thread starting code (copied from DBMS server code!)
+
+3.	Added timer in the shutdown so that when the final session is closed
+	there is a 5 second pause before the server is shutdown.
+
+-------------------------------------------------------------------------------------------
+
+Release 011
+===========
+Made by WilliamR, 1st August 1999
+
+Built with VC6
+
+1.  Revised BWINS\FLOGGERU.DEF for MSVC6, which changes the mangled name for
+
+	RFileLogger::WriteFormat
+
+-------------------------------------------------------------------------------------------
+
+Release 010
+===========
+Made by AnnW, 10th June 1999
+
+On the ER5u share.
+
+1.	Added BLD.INF
+
+-------------------------------------------------------------------------------------------
+
+Release 006
+===========
+Made by AnnW, 4th June 1999
+
+1.	Changed FLOGGER API as follows:
+
+	i)   Made all member functions of RFileLogger void (they no longer return any 
+	errors).
+
+	ii)  Added the iLastError data to RFileLogger which is used to record the last 
+	error when writing to the log.  This may be retrieved using the LastError() 
+	function.
+
+	iii) Added LogValid() function for the client to access the iLogValid flag 
+	which determines whether or not logging is taking place.
+
+	iv)  Changed all RFileLogger functions to take Unicode strings and convert them 
+	to UTF8 to write to the file.
+
+2.	Changed TFileLoggingMode enums to have more specific names.
+
+3.	Fixed bug in constructor of RFileLogger which was not initialising iLogValid to
+	EFalse.
+
+-------------------------------------------------------------------------------------------
+
+Release 005
+===========
+Made by AnnW, 30th April 1999
+
+1.	Rewrote FLOGGER as a server running in its own process.
+
+-------------------------------------------------------------------------------------------
+
+Release 004
+===========
+Made by AnnW, 1st March 1999
+
+1.	Added non-static API to the file logger.
+
+-------------------------------------------------------------------------------------------
+
+Release 003
+===========
+Made by AnnW, 25th February 1999
+
+1.	Added support for putting in date and time at the beginning of a logged 
+	line, depending on user preferences.
+
+2.	Added some documentation.
+
+-------------------------------------------------------------------------------------------
+
+Release 002
+===========
+Made by AnnW, 22nd January 1999
+
+1.	Fixed bug where logger was not positioning to the end of the file when
+	appending.
+
+2.	Removed #ifdef __EXE__ code.
+
+-------------------------------------------------------------------------------------------
+
+Release 001
+===========
+Made by AnnW, 22nd January 1999
+
+First release of FLOGGER, dll implementing simple logging code used by NetDial, to make
+this available to other components.
+
+-------------------------------------------------------------------------------------------
+
+
+

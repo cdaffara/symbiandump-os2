@@ -1,0 +1,55 @@
+// Copyright (c) 2004-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// UIDs for loading
+// RTest Dll recognition UID followed by the unique UID for this exe
+// 
+//
+
+// Uses sid of EComserver process to allow access to private dir.
+MACRO __ECOM_REMOTE_TESTABILITY__
+UID 			0x101FB5A8 0x10009D8F  
+VENDORID 		0x70000001
+
+TARGET 			t_registrar.exe			//RTEST
+TARGETTYPE 		exe
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+USERINCLUDE 		../../Test_Bed/inc 
+USERINCLUDE 		../../Framework/frame 
+USERINCLUDE 		../../Framework/inc
+
+SOURCEPATH		../../Framework/RegistrarTest
+SOURCE			t_registrar.cpp 
+
+// To test private areas of this class have to explicitly build in the test class
+SOURCEPATH		../../Framework/frame
+SOURCE			Registrar.cpp Discoverer.cpp BackupNotifier.cpp 
+SOURCE			RegistryData.cpp UnloadPolicy.cpp  
+SOURCE			ImplementationInformation.cpp EComEntry.cpp	DowngradePath.cpp
+SOURCE			EComEntryBase.cpp clientrequest.cpp
+SOURCE			DriveInfo.cpp
+SOURCE			EComPerformance.cpp				
+SOURCE			FileUtils.cpp
+SOURCE			EComPatchDataConstantv2.cpp
+SOURCE			ParseImplementationData.cpp
+
+LIBRARY 		euser.lib 
+LIBRARY 		estor.lib 
+LIBRARY 		bafl.lib 
+LIBRARY 		bsul.lib
+LIBRARY 		efsrv.lib 
+LIBRARY			ecomtestutils.lib
+
+
+SMPSAFE

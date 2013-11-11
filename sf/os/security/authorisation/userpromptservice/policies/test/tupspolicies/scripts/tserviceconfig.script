@@ -1,0 +1,113 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SUITE tupspolicies
+PRINT ----------------------------------------------------------
+PRINT tupspolicies: 
+PRINT User Prompt Service policy library - service config unit test
+PRINT ------------------------------------------------------------
+
+// Clean environment. Policy directory on system drive must not exist for the first tests
+// to allow us to check that the library works if the path doesn't exist.
+RUN_UTILS DELETEFILE c:\tups\tpolicies\policies\ups_01033000_01032001.rsc
+RUN_UTILS DELETEFILE c:\tups\tpolicies\policies\ups_01034000_01032001.rsc
+RUN_UTILS DELETEFILE c:\tups\tpolicies\policies\ups_01035000_01035001.rsc
+RUN_UTILS DELETEFILE c:\tups\tpolicies\policies\ups_01036000_01036001.rsc
+RUN_UTILS DELETEDIRECTORY 	c:\tups\tpolicies\policies\
+
+//! @SYMTestCaseID SEC-UPS-POLICIES-SERVICECONFIG-0001
+//! @SYMTestCaseDesc No policy files.
+//! @SYMTestPriority High
+//! @SYMTestActions Attempt to load a the service configuration data from a directory with no policy files.
+//! @SYMTestExpectedResults An empty set of configuration objects is returned.
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-POLICIES-SERVICECONFIG-0001
+RUN_TEST_STEP 100 tupspolicies serviceconfig z:\tups\tpolicies\scripts\tserviceconfig.ini nopolicies
+END_TESTCASE SEC-UPS-POLICIES-SERVICECONFIG-0001
+
+//! @SYMTestCaseID SEC-UPS-POLICIES-SERVICECONFIG-0002
+//! @SYMTestCaseDesc Ignore invalid policy filenames
+//! @SYMTestPriority High
+//! @SYMTestActions Load service configuration settings for system server 01032000
+//! @SYMTestExpectedResults A single service is configured. Similar but invalid policy filenames are ignored.
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-POLICIES-SERVICECONFIG-0002
+RUN_TEST_STEP 100 tupspolicies serviceconfig z:\tups\tpolicies\scripts\tserviceconfig.ini oneservice
+END_TESTCASE SEC-UPS-POLICIES-SERVICECONFIG-0002
+
+//! @SYMTestCaseID SEC-UPS-POLICIES-SERVICECONFIG-0003
+//! @SYMTestCaseDesc Load service config for the fake messaging server.
+//! @SYMTestPriority High
+//! @SYMTestActions Attempt to load service configuration for server 0x10310000
+//! @SYMTestExpectedResults Two service config objects are created.
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-POLICIES-SERVICECONFIG-0003
+RUN_TEST_STEP 100 tupspolicies serviceconfig z:\tups\tpolicies\scripts\tserviceconfig.ini twoservices
+END_TESTCASE SEC-UPS-POLICIES-SERVICECONFIG-0003
+
+// Setup policy files on the system drive
+RUN_UTILS MKDIR c:\tups\
+RUN_UTILS MKDIR c:\tups\tpolicies\
+RUN_UTILS MKDIR c:\tups\tpolicies\policies\
+RUN_UTILS COPYFILE z:\tups\tpolicies\eclipse\ups_01033000_01032001.rsc c:\tups\tpolicies\policies\ups_01033000_01032001.rsc
+RUN_UTILS COPYFILE z:\tups\tpolicies\eclipse\ups_01034000_01032001.rsc c:\tups\tpolicies\policies\ups_01034000_01032001.rsc
+RUN_UTILS COPYFILE z:\tups\tpolicies\eclipse\ups_01035000_01035001.rsc c:\tups\tpolicies\policies\ups_01035000_01035001.rsc
+
+//! @SYMTestCaseID SEC-UPS-POLICIES-SERVICECONFIG-0004
+//! @SYMTestCaseDesc Policy file on the Z drive is eclipsed a policy file on the system drive.
+//! @SYMTestPriority High
+//! @SYMTestActions Load service config
+//! @SYMTestExpectedResults Make sure the configuration is read from the UPS policy file on the system drive.
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-POLICIES-SERVICECONFIG-0004
+RUN_TEST_STEP 100 tupspolicies serviceconfig z:\tups\tpolicies\scripts\tserviceconfig.ini eclipsevalid
+END_TESTCASE SEC-UPS-POLICIES-SERVICECONFIG-0004
+
+//! @SYMTestCaseID SEC-UPS-POLICIES-SERVICECONFIG-0005
+//! @SYMTestCaseDesc Policy file only exists on the system drive.
+//! @SYMTestPriority High
+//! @SYMTestActions Load service config
+//! @SYMTestExpectedResults Service config should be read correctly.
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-POLICIES-SERVICECONFIG-0005
+RUN_TEST_STEP 100 tupspolicies serviceconfig z:\tups\tpolicies\scripts\tserviceconfig.ini systemdrive
+END_TESTCASE SEC-UPS-POLICIES-SERVICECONFIG-0005
+
+//! @SYMTestCaseID SEC-UPS-POLICIES-SERVICECONFIG-0006
+//! @SYMTestCaseDesc Ignore corrupt policies on system drive.
+//! @SYMTestPriority High
+//! @SYMTestActions Load service config.
+//! @SYMTestExpectedResults Corrupt policy file on system drive should be ignored.
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-POLICIES-SERVICECONFIG-0006
+RUN_TEST_STEP 100 tupspolicies serviceconfig z:\tups\tpolicies\scripts\tserviceconfig.ini eclipseinvalid
+END_TESTCASE SEC-UPS-POLICIES-SERVICECONFIG-0006
+
+//! @SYMTestCaseID SEC-UPS-POLICIES-SERVICECONFIG-0007
+//! @SYMTestCaseDesc Corrupt policies on the Z drive should panic the UPS
+//! @SYMTestPriority High
+//! @SYMTestActions Load service config for a corrupt policy that only exists on the Z drive.
+//! @SYMTestExpectedResults UPS should panic.
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-POLICIES-SERVICECONFIG-0007
+RUN_PANIC_STEP_RESULT 0 UPS-Policies 100 tupspolicies serviceconfig z:\tups\tpolicies\scripts\tserviceconfig.ini panic0
+END_TESTCASE SEC-UPS-POLICIES-SERVICECONFIG-0007
+
+// Cleanup
+RUN_UTILS DELETEFILE c:\tups\tpolicies\policies\ups_01033000_01032001.rsc
+RUN_UTILS DELETEFILE c:\tups\tpolicies\policies\ups_01034000_01032001.rsc
+RUN_UTILS DELETEFILE c:\tups\tpolicies\policies\ups_01035000_01035001.rsc
+RUN_UTILS DELETEFILE c:\upsrefnotifier.txt

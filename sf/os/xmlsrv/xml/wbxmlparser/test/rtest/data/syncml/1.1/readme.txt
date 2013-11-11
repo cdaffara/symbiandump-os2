@@ -1,0 +1,1 @@
+The xml documents in this directory were obtained from the SyncMl group.

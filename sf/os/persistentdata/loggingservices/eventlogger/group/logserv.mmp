@@ -1,0 +1,132 @@
+// Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// T_LogBench test assumes that the default max heap size of Logeng server is 1M.
+// If in the future EPOCHEAPSIZE keyword is used in this mmp file for
+// heap size change - T_LogBench test source code has to be reviewed and updated too.
+// logserv.exe Log server
+// 
+//
+
+/**
+ @file
+*/
+
+#include "LogEng.cfg"
+
+TARGET				logserv.exe
+CAPABILITY ProtServ WriteUserData ReadUserData
+
+TARGETTYPE			EXE
+
+//CodeWarrior compilation options - disable the "illegal pragma" warning
+OPTION CW -w noillpragmas
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+USERINCLUDE			../LogServ/inc
+USERINCLUDE			../logcntmodel/inc
+USERINCLUDE			../Shared
+
+SOURCEPATH			.
+DOCUMENT			LogEng.cfg
+
+SOURCEPATH			../LogServ/src
+
+SOURCE				LOGADD.CPP
+SOURCE				LOGGET.CPP
+SOURCE				LOGDUP.CPP
+SOURCE				LOGQUERY.CPP
+SOURCE				LOGFILTQ.CPP
+SOURCE				LOGMAIN.CPP
+SOURCE				LOGREC.CPP
+SOURCE				LOGCOMP.CPP
+SOURCE				LOGCHNGE.CPP
+SOURCE				LOGDEL.CPP
+SOURCE				LogNotify.cpp
+SOURCE				LogDynBuf.cpp
+
+SOURCE				LogServServer.cpp
+SOURCE				logservsession.cpp
+
+SOURCE				LogServRecentCondition.cpp
+SOURCE				LogServRecentListManager.cpp
+SOURCE				LogServRecentList.cpp
+
+SOURCE				LogServShutDownTimer.cpp
+SOURCE				LogServStartup.cpp
+SOURCE				LogServScheduler.cpp
+SOURCE				LogServPanic.cpp
+//
+SOURCE				LogServView.cpp
+SOURCE				LogServViewChangeManager.cpp
+SOURCE				LogServViewWindowFetcher.cpp
+//
+SOURCE				LogServOperationFactory.cpp
+SOURCE				LogServOperations.cpp
+SOURCE				LogServOperationBase.cpp
+SOURCE				LogServOperationQueue.cpp
+//
+SOURCE				LogServDatabaseDriver.cpp
+SOURCE				LogServDatabaseMarshall.cpp
+SOURCE				LogServDatabaseChangeTracker.cpp
+SOURCE				LogServDatabaseChangeObserver.cpp
+SOURCE				LogServDatabaseTransactionInterface.cpp
+//
+SOURCE				LogServResourceInterpreter.cpp
+//
+SOURCE				LogServBackupManager.cpp
+SOURCE				LogServBackupInterface.cpp
+//
+SOURCE				LogServCacheStrings.cpp
+SOURCE				LogServCacheConfig.cpp
+SOURCE				LogServCacheTypes.cpp
+SOURCE				logservsecurity.cpp
+
+SOURCE				LogServSqlStrings.cpp
+
+SOURCEPATH			../LogServ
+START RESOURCE		LOGSERV.RSS
+TARGETPATH 			private/101f401d
+HEADER
+END
+
+
+LIBRARY				euser.lib
+LIBRARY				efsrv.lib
+LIBRARY				bafl.lib
+LIBRARY				logwrap.lib
+LIBRARY				edbms.lib
+LIBRARY				logcli.lib
+LIBRARY				estor.lib
+LIBRARY				logcntmodel.lib
+LIBRARY				centralrepository.lib
+LIBRARY				ecom.lib
+
+#ifdef MMPSWITCH_LOGGING_ENABLED
+LIBRARY				flogger.lib
+MACRO				LOGGING_ENABLED
+#endif
+
+#ifdef MMPSWITCH_LOGGING_CREATE_LOG_DIRECTORY
+MACRO				LOGGING_CREATE_LOG_DIRECTORY
+#endif
+
+#ifdef MMPSWITCH_LOGGING_WIPE_ON_BOOT
+MACRO				LOGGING_WIPE_ON_BOOT
+#endif
+
+UID					0x00000000 0x101f401d
+VENDORID 0x70000001
+
+SMPSAFE

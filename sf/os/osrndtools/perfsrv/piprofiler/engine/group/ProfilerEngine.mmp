@@ -1,0 +1,54 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  
+*
+*/
+
+
+#include <platform_paths.hrh>
+
+
+TARGET      PIProfilerEngine.exe
+TARGETTYPE  EXE
+UID         0x100039CE 0x2001E5AD
+VENDORID    VID_DEFAULT
+CAPABILITY  ALL -TCB
+SMPSAFE
+
+EPOCSTACKSIZE     	0x10000
+EPOCHEAPSIZE        0x100000 0x2000000  // Min 1MB, Max 32MB
+
+OS_LAYER_SYSTEMINCLUDE
+USERINCLUDE     ../inc
+SOURCEPATH      ../src
+
+SOURCE		ProfilerErrorChecker.cpp
+SOURCE      ProfilerEngine.cpp 
+SOURCE      SamplerController.cpp
+SOURCE      SamplerPluginLoader.cpp 
+SOURCE      WriterController.cpp
+SOURCE      WriterPluginLoader.cpp 
+SOURCE		ProfilerTimer.cpp 
+
+LIBRARY		sysutil.lib 
+LIBRARY     efsrv.lib
+LIBRARY     c32.lib
+LIBRARY     euser.lib 
+LIBRARY     estor.lib 
+LIBRARY     fbscli.lib
+LIBRARY     ws32.lib
+LIBRARY     bafl.lib 
+LIBRARY     charconv.lib
+LIBRARY     ecom.lib
+LIBRARY		platformenv.lib

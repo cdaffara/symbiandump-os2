@@ -1,0 +1,64 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+START_TESTCASE                SEC-CERTMAN-OOM1-CERTSTORE-0001
+
+//! @SYMTestCaseID            SEC-CERTMAN-OOM1-CERTSTORE-0001
+
+//! @SYMTestCaseDesc          
+
+//! @SYMTestActions           1) None
+
+//!                           2) Opening a writable certificate store manager
+
+//!                           3) None
+
+//!                           4) Retrieving number of writable certificate store manager
+
+//!                           5) Retrieving number of read-only certificate store manager
+
+//!                           6) Retrieving number of certificate store manager
+
+//!                           7) None
+
+//!                           8) Deleting the writable certificate store manager
+
+//!                           9) None
+
+RUN_TEST_STEP                 -1    CTestHandler        startmemfailure     
+
+RUN_TEST_STEP                 -1    CTestHandler        init                   oom1.ini   SEC-CERTMAN-OOM1-0001-002
+
+RUN_TEST_STEP                 -1    CTestHandler        stopmemfailure      
+
+RUN_TEST_STEP                 -1    CTestHandler        CUnifiedCertStore_WritableCertStoreCount   oom1.ini   SEC-CERTMAN-OOM1-0001-004
+
+RUN_TEST_STEP                 -1    CTestHandler        CUnifiedCertStore_ReadOnlyCertStoreCount   oom1.ini   SEC-CERTMAN-OOM1-0001-005
+
+RUN_TEST_STEP                 -1    CTestHandler        CUnifiedCertStore_CertStoreCount   oom1.ini   SEC-CERTMAN-OOM1-0001-006
+
+RUN_TEST_STEP                 -1    CTestHandler        startmemfailure     
+
+RUN_TEST_STEP                 -1    CTestHandler        delete              
+
+RUN_TEST_STEP                 -1    CTestHandler        stopmemfailure      
+
+END_TESTCASE                  SEC-CERTMAN-OOM1-CERTSTORE-0001
+
+
+
+
+

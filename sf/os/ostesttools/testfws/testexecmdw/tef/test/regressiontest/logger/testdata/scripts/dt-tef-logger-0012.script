@@ -1,0 +1,44 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SUITE TEF_LoggerTestStep
+
+START_TESTCASE DT-TEF-Logger-0012
+//! @SYMTestCaseID          DT-TEF-Logger-0012
+//! @SYMCreationDate        09-07-2008
+//! @SYMAuthor              extshuohuang
+//! @SYMTestCaseDesc        This test logger compare panic related information.
+//!                         This suite should fail.
+//!                         
+//!                         TEF will compare the test result with expected result. The test result comes form the run time result and the expected result comes form scripts.
+//!                         When test case/step finished, TEF will compare test result and expected result, at last print out test case/step pass or fail information.
+//!                         The compare function is one of the most important parts. And this codes are writing under TEF logger component.
+//!                         So this result compare test case are located here.
+//!                         The Test Server "t_TEFIntegration" are reused from tef block test, the panic related command will be reuse.
+//!                         
+//!                         
+//!                         HTML log test
+//! @SYMTestExpectedResults The first PanicString which contains two spaces which will be converted to one space. this step should fail.
+//!                         The second PanicString different with expacted string. this step should fail.
+//!                         The third PanicString compared with empty string. this step should fail.
+//!                         test case result Fail.
+
+PRINT should fail
+RUN_TEST_STEP !PanicCode=110 !PanicString="a  b" 1000 TEF_LoggerTestStep TEFPanicDblSpaceStep
+RUN_TEST_STEP !PanicCode=110 !PanicString=OtherThing 1000 TEF_LoggerTestStep TEFPanicSomeThingStep 
+RUN_TEST_STEP !PanicCode=110 !PanicString=OtherThing 1000 TEF_LoggerTestStep TEFPanicEmptyStep
+END_TESTCASE DT-TEF-Logger-0012
+

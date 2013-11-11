@@ -1,0 +1,88 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// @file
+// 
+//
+
+//! @SYMTestSuiteName PDS-TEF-SQL-SUITE
+//! @SYMScriptTestEnvironment TEF
+//! @internalComponent
+//! @test
+
+PRINT Run SQL Tests
+
+LOAD_SUITE te_SQL_Suite
+
+RUN_UTILS MkDir c:\private\10281e17\
+RUN_UTILS CopyFile z:\TEF_SQL\TestData\test1.db c:\test1.db
+RUN_UTILS MakeReadWrite c:\test1.db
+
+START_TESTCASE SYSLIB-SQL-CIT-1690
+//! @SYMTestCaseID    SYSLIB-SQL-CIT-1690
+//! @SYMTestCaseDesc  Retrieves various information from a pre-existing database
+//!                  (300Kb) checking for correct result as it goes.
+//! @SYMTestPriority  High
+//! @SYMTestActions   See description and the config file.
+//! @SYMTestExpectedResults
+//!                  The test looks for errors and content
+//!                  within the database. If these are not seen test errors
+//!                  will be generated.
+//!                  
+//! @SYMREQ           REQ5792
+
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\robust_size.ini LargeSelect
+END_TESTCASE SYSLIB-SQL-CIT-1690
+
+RUN_UTILS DeleteFile c:\test1.db
+
+START_TESTCASE SYSLIB-SQL-CIT-1691
+//! @SYMTestCaseID    SYSLIB-SQL-CIT-1691
+//! @SYMTestCaseDesc  Dynamically creates a new db and adds a table. Inserts
+//!                  various data into this deliberately violating constraints
+//!                  that were set when the table was created. Checks for the
+//!                  expected 'KSqlErrConstraint' error when appropriate.
+//! @SYMTestPriority  High
+//! @SYMTestActions   See description and the config file.
+//! @SYMTestExpectedResults
+//!                  This test looks for errors. If these are not seen test
+//!                  errors will be generated, none should be seen.
+//!                  
+//! @SYMREQ           REQ5792
+
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\constraints.ini constraints
+END_TESTCASE SYSLIB-SQL-CIT-1691
+
+RUN_UTILS DeleteFile c:\test2.db
+
+START_TESTCASE SYSLIB-SQL-CIT-1692
+//! @SYMTestCaseID    SYSLIB-SQL-CIT-1692
+//! @SYMTestCaseDesc  Dynamically creates a database, adding various data to
+//!                  a new table. Performs an SQL 'create view' operation
+//!                  and the retrieves data fromt this view checking for
+//!                  expected values and any errors as it goes. Performs
+//!                  a second 'create view' operation and again checks for
+//!                  correct content in this new view.
+//! @SYMTestPriority  High
+//! @SYMTestActions   See description and the config file.
+//! @SYMTestExpectedResults
+//!                  The test looks for errors and content within views.
+//!                  Any unexpected errors or incorrect content will generate
+//!                  test errors, none should be seen.
+//!                  
+//! @SYMREQ           REQ5792
+
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\views.ini views
+END_TESTCASE SYSLIB-SQL-CIT-1692
+
+RUN_UTILS DeleteFile c:\test3.db

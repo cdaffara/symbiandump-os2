@@ -1,0 +1,66 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+* 
+* Description: Specifies HTI OS layer components for ROM image
+*
+*/
+
+#ifndef __HTIOS_IBY__
+#define __HTIOS_IBY__
+
+// HTI config file library
+file=ABI_DIR\BUILD_DIR\HtiCfg.dll                   SHARED_LIB_DIR\HtiCfg.dll               
+
+// HTI Framework
+file=ABI_DIR\BUILD_DIR\HtiFramework.exe             SHARED_LIB_DIR\HtiFramework.exe
+
+// Serial Interface
+ECOM_PLUGIN(HtiSerialCommEcomPlugin.dll, HtiSerialCommEcomPlugin.rsc)
+
+// USB Serial Interface
+ECOM_PLUGIN(HtiUsbSerialCommEcomPlugin.dll, HtiUsbSerialCommEcomPlugin.rsc)
+
+// Bluetooth Interface
+file=ABI_DIR\BUILD_DIR\HtiBtSerialComHelper.dll     SHARED_LIB_DIR\HtiBtSerialComHelper.dll
+file=ABI_DIR\BUILD_DIR\HtiBtCommServer.dll          SHARED_LIB_DIR\HtiBtCommServer.dll
+file=ABI_DIR\BUILD_DIR\HtiBtCommInterface.dll       SHARED_LIB_DIR\HtiBtCommInterface.dll
+ECOM_PLUGIN(HtiBtCommEcomPlugin.dll, HtiBtCommEcomPlugin.rsc)
+
+// TCP/IP interface
+file=ABI_DIR\BUILD_DIR\HtiIPCommServer.exe          SHARED_LIB_DIR\HtiIPCommServer.exe
+file=ABI_DIR\BUILD_DIR\HtiIPCommServerClient.dll    SHARED_LIB_DIR\HtiIPCommServerClient.dll
+ECOM_PLUGIN(HtiIPCommEcomPlugin.dll, HtiIPCommEcomPlugin.rsc)
+
+// HtiAutoStart plug-in
+ECOM_PLUGIN(HtiAutoStart.dll,HtiAutoStart.rsc)
+
+// Test service plug-ins
+ECOM_PLUGIN(HtiAppServicePlugin.dll,HtiAppServicePlugin.rsc)
+ECOM_PLUGIN(HtiEchoServicePlugin.dll,HtiEchoServicePlugin.rsc)
+ECOM_PLUGIN(HtiFtpServicePlugin.dll,HtiFtpServicePlugin.rsc)
+ECOM_PLUGIN(HtiIpProxyServicePlugin.dll,HtiIpProxyServicePlugin.rsc)
+ECOM_PLUGIN(HtiStifTfServicePlugin.dll,HtiStifTfServicePlugin.rsc)
+
+// File helper
+file=ABI_DIR\BUILD_DIR\HtiFileHlp.exe               SHARED_LIB_DIR\HtiFileHlp.exe
+
+ // HTI Watchdog
+file=ABI_DIR\BUILD_DIR\HtiWatchDog.exe              SHARED_LIB_DIR\HtiWatchDog.exe
+
+ // HTI Restart
+file=ABI_DIR\BUILD_DIR\HtiRestart.exe               SHARED_LIB_DIR\HtiRestart.exe
+
+
+#endif // __HTIOS_IBY__
+
+// End of file

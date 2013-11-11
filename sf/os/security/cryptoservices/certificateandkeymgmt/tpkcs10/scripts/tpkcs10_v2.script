@@ -1,0 +1,514 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+PRINT Run Positive and OOM tests tpkcs1010serverv2 Suite 
+
+LOAD_SUITE tpkcs10serverv2
+
+// pre- test: move out of the way key store file.
+RUN_UTILS CopyFile c:\private\101f72a6\keys.dat c:\keys.dat
+START_TESTCASE 			SEC-PKCS10-RSA-0001
+//! @SYMTestCaseID 		SEC-PKCS10-RSA-0001
+//! @SYMTestCaseDesc 		check that CPKCS10Request class generates correct encoding for 
+//!		     		certificate requests using the parameters listed below.
+//!		  		Key Algorithm: RSA
+//!				Key size: 512 bits 
+//!		    		Digest Algorithm: SHA1 
+//!				Number of attributes: 0	
+//! @SYMPREQ 			CR0973
+//! @SYMREQ 			REQ1581.5
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		PKCS10 certificate request construction.
+//! @SYMTestExpectedResults 	Encoding successfully validated
+//! @SYMTestType CIT
+RUN_UTILS DeleteFile c:\private\101f72a6\keys.dat
+RUN_TEST_STEP 500 tpkcs10serverv2 PKCS10CertRequest c:\tpkcs10\scripts\tpkcs10_v2.ini SEC-PKCS10-RSA-0001
+END_TESTCASE 			SEC-PKCS10-RSA-0001
+
+START_TESTCASE 			SEC-PKCS10-RSA-0002
+//! @SYMTestCaseID 		SEC-PKCS10-RSA-0002
+//! @SYMTestCaseDesc		check that CPKCS10Request class generates correct encoding for 
+//!		     		certificate requests using the parameters listed below.
+//!		  		Key Algorithm: RSA
+//!				Key size: 512 bits 
+//!		    	  	Digest Algorithm: MD2 
+//!				Number of attributes: 0	
+//! @SYMPREQ 			CR0973
+//! @SYMREQ 			REQ1581.5
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		PKCS10 certificate request construction.
+//! @SYMTestExpectedResults 	Encoding successfully validated
+//! @SYMTestType 		CIT
+RUN_UTILS DeleteFile c:\private\101f72a6\keys.dat
+RUN_TEST_STEP 500 tpkcs10serverv2 PKCS10CertRequest c:\tpkcs10\scripts\tpkcs10_v2.ini SEC-PKCS10-RSA-0002
+END_TESTCASE 			SEC-PKCS10-RSA-0002
+
+START_TESTCASE 			SEC-PKCS10-RSA-0003
+
+//! @SYMTestCaseID 		SEC-PKCS10-RSA-0003
+//! @SYMTestCaseDesc 		check that CPKCS10Request class generates correct encoding for 
+//!		     		certificate requests using the parameters listed below.
+//!		  		Key Algorithm: RSA
+//!				Key size: 512 bits 
+//!		     		   Digest Algorithm: MD5 
+//!				Number of attributes: 0
+//! @SYMPREQ 			CR0973
+//! @SYMREQ 			REQ1581.5
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions	 	PKCS10 certificate request construction.
+//! @SYMTestExpectedResults 	Encoding successfully validated
+//! @SYMTestType 		CIT
+RUN_UTILS DeleteFile c:\private\101f72a6\keys.dat
+RUN_TEST_STEP 500 tpkcs10serverv2 PKCS10CertRequest c:\tpkcs10\scripts\tpkcs10_v2.ini SEC-PKCS10-RSA-0003
+END_TESTCASE 			SEC-PKCS10-RSA-0003
+
+START_TESTCASE 			SEC-PKCS10-RSA-0004
+//! @SYMTestCaseID 		SEC-PKCS10-RSA-0004
+//! @SYMTestCaseDesc 		check that CPKCS10Request class generates correct encoding for 
+//!		     		certificate requests using the parameters listed below.
+//!		  		Key Algorithm: RSA
+//!				Key size: 512 bits 
+//!		     		   Digest Algorithm: SHA1
+//!				Number of attributes: 1 (challenge password)
+//! @SYMPREQ 			CR0973
+//! @SYMREQ 			REQ1581.5
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		PKCS10 certificate request construction.
+//! @SYMTestExpectedResults 	Encoding successfully validated
+//! @SYMTestType 		CIT
+RUN_UTILS DeleteFile c:\private\101f72a6\keys.dat
+RUN_TEST_STEP 500 tpkcs10serverv2 PKCS10CertRequest c:\tpkcs10\scripts\tpkcs10_v2.ini SEC-PKCS10-RSA-0004
+END_TESTCASE 			SEC-PKCS10-RSA-0004
+
+START_TESTCASE 			SEC-PKCS10-RSA-0005
+//! @SYMTestCaseID 		SEC-PKCS10-RSA-0005
+//! @SYMTestCaseDesc 		check that CPKCS10Request class generates correct encoding for 
+//!		     		certificate requests using the parameters listed below.
+//!		  		Key Algorithm: RSA
+//!				Key size: 512 bits 
+//!		        	Digest Algorithm: SHA1 
+//!				Number of attributes: 2 (challenge password and structured name)
+//! @SYMPREQ 			CR0973
+//! @SYMREQ 			REQ1581.5
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		PKCS10 certificate request construction.
+//! @SYMTestExpectedResults 	Encoding successfully validated
+//! @SYMTestType 		CIT
+RUN_UTILS DeleteFile c:\private\101f72a6\keys.dat
+RUN_TEST_STEP 500 tpkcs10serverv2 PKCS10CertRequest c:\tpkcs10\scripts\tpkcs10_v2.ini SEC-PKCS10-RSA-0005
+END_TESTCASE 			SEC-PKCS10-RSA-0005
+
+START_TESTCASE 			SEC-PKCS10-RSA-0006
+//! @SYMTestCaseID 		SEC-PKCS10-RSA-0006
+//! @SYMTestCaseDesc 		check that CPKCS10Request class generates correct encoding for 
+//!		     		certificate requests using the parameters listed below.
+//!		  		Key Algorithm: RSA
+//!				Key size: 2048 bits 
+//!		     		   Digest Algorithm: SHA1 
+//!				Number of attributes: 2 (challenge password and structured name)
+//! @SYMPREQ 			CR0973
+//! @SYMREQ 			REQ1581.5
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		PKCS10 certificate request construction.
+//! @SYMTestExpectedResults 	Encoding successfully validated
+//! @SYMTestType 		CIT
+RUN_UTILS DeleteFile c:\private\101f72a6\keys.dat
+RUN_TEST_STEP 500 tpkcs10serverv2 PKCS10CertRequest c:\tpkcs10\scripts\tpkcs10_v2.ini SEC-PKCS10-RSA-0006
+END_TESTCASE 			SEC-PKCS10-RSA-0006
+
+START_TESTCASE 			SEC-PKCS10-DSA-0001
+//! @SYMTestCaseID 		SEC-PKCS10-DSA-0001
+//! @SYMTestCaseDesc 		check that CPKCS10Request class generates correct encoding for 
+//!		     		certificate requests using the parameters listed below.
+//!		  		Key Algorithm: DSA
+//!				Key size: 512 bits 
+//!		        	Digest Algorithm: SHA1 
+//!				Number of attributes: 0
+//! @SYMPREQ 			CR0973
+//! @SYMREQ 			REQ1581.5
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		PKCS10 certificate request construction.
+//! @SYMTestExpectedResults 	Encoding successfully validated
+//! @SYMTestType 		CIT
+RUN_UTILS DeleteFile c:\private\101f72a6\keys.dat
+RUN_TEST_STEP 500 tpkcs10serverv2 PKCS10CertRequest c:\tpkcs10\scripts\tpkcs10_v2.ini SEC-PKCS10-DSA-0001
+END_TESTCASE 			SEC-PKCS10-DSA-0001
+
+START_TESTCASE 			SEC-PKCS10-DSA-0002
+//! @SYMTestCaseID 		SEC-PKCS10-DSA-0002
+//! @SYMTestCaseDesc 		check that CPKCS10Request class generates correct encoding for 
+//!		    		 certificate requests using the parameters listed below.
+//!		  		Key Algorithm: DSA
+//!				Key size: 512 bits 
+//!		        	Digest Algorithm: SHA1
+//!				Number of attributes: 1 (challenge password)
+//! @SYMPREQ 			CR0973
+//! @SYMREQ 			REQ1581.5
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		PKCS10 certificate request construction.
+//! @SYMTestExpectedResults 	Encoding successfully validated
+//! @SYMTestType 		CIT
+RUN_UTILS DeleteFile c:\private\101f72a6\keys.dat
+RUN_TEST_STEP 500 tpkcs10serverv2 PKCS10CertRequest c:\tpkcs10\scripts\tpkcs10_v2.ini SEC-PKCS10-DSA-0002
+END_TESTCASE 			SEC-PKCS10-DSA-0002
+
+START_TESTCASE 			SEC-PKCS10-DSA-0003
+//! @SYMTestCaseID 		SEC-PKCS10-DSA-0003
+//! @SYMTestCaseDesc 		check that CPKCS10Request class generates correct encoding for 
+//!		     		certificate requests using the parameters listed below.
+//!		  		Key Algorithm: DSA
+//!				Key size: 512 bits 
+//!		        	Digest Algorithm: SHA1 
+//!				Number of attributes: 2 (challenge password and structured name)
+//! @SYMPREQ 			CR0973
+//! @SYMREQ 			REQ1581.5
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		PKCS10 certificate request construction.
+//! @SYMTestExpectedResults 	Encoding successfully validated
+//! @SYMTestType 		CIT
+RUN_UTILS DeleteFile c:\private\101f72a6\keys.dat
+RUN_TEST_STEP 500 tpkcs10serverv2 PKCS10CertRequest c:\tpkcs10\scripts\tpkcs10_v2.ini SEC-PKCS10-DSA-0003
+END_TESTCASE 			SEC-PKCS10-DSA-0003
+
+START_TESTCASE 			SEC-PKCS10-DSA-0004
+//! @SYMTestCaseID 		SEC-PKCS10-DSA-0004
+//! @SYMTestCaseDesc 		check that CPKCS10Request class generates correct encoding for 
+//!		     		certificate requests using the parameters listed below.
+//!		  		Key Algorithm: DSA
+//!				Key size: 2048 bits 
+//!		     		Digest Algorithm: SHA1 
+//!				Number of attributes: 2 (challenge password and structured name)
+//! @SYMPREQ 			CR0973
+//! @SYMREQ 			REQ1581.5
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		PKCS10 certificate request construction.
+//! @SYMTestExpectedResults 	Encoding successfully validated
+//! @SYMTestType 		CIT
+RUN_UTILS DeleteFile c:\private\101f72a6\keys.dat
+RUN_TEST_STEP 500 tpkcs10serverv2 PKCS10CertRequest c:\tpkcs10\scripts\tpkcs10_v2.ini SEC-PKCS10-DSA-0004
+END_TESTCASE 			SEC-PKCS10-DSA-0004
+
+START_TESTCASE 			SEC-PKCS10-EXT-0001
+//! @SYMTestCaseID 		SEC-PKCS10-EXT-0001
+//! @SYMTestCaseDesc 		check that CPKCS10Request class generates correct encoding for 
+//!		     		certificate requests including extension requestsusing the parameters listed below.
+//!		  		Key Algorithm: RSA
+//!				Key size: 2048 bits 
+//!		     		   Digest Algorithm: SHA1 
+//!				Number of attributes: 2 (challenge password and structured name)
+//!				Extensions used: basic Constraints,
+//!				 subject Alt Name,
+//!				 issuer Alt Name, 
+//!			         key Usage,
+//!                              extended Key Usage,
+//!				 authority Info Access 
+//! @SYMPREQ 			CR0973
+//! @SYMREQ 			REQ1581.5
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		PKCS10 certificate request construction.
+//! @SYMTestExpectedResults 	Encoding successfully validated
+//! @SYMTestType 		CIT
+RUN_UTILS DeleteFile c:\private\101f72a6\keys.dat
+RUN_TEST_STEP 500 tpkcs10serverv2 PKCS10CertRequest c:\tpkcs10\scripts\tpkcs10_v2.ini SEC-PKCS10-EXT-0001
+END_TESTCASE 			SEC-PKCS10-EXT-0001
+
+START_TESTCASE 			SEC-PKCS10-EXT-0002
+//! @SYMTestCaseID 		SEC-PKCS10-EXT-0002
+//! @SYMTestCaseDesc 		check that CPKCS10Request class generates correct encoding for 
+//!		     		certificate requests including extension requestsusing the parameters listed below.
+//!		  		Key Algorithm: RSA
+//!				Key size: 2048 bits 
+//!		       		 Digest Algorithm: MD2 
+//!				Number of attributes: 2 (challenge password and structured name)
+//!				Extensions used: basic Constraints,
+//!					 subject Alt Name,
+//!					 issuer Alt Name, 
+//!			                 key Usage,
+//!                                      extended Key Usage,
+//!					 authority Info Access 
+//!		
+//! @SYMPREQ 			CR0973
+//! @SYMREQ 			REQ1581.5
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		PKCS10 certificate request construction.
+//! @SYMTestExpectedResults 	Encoding successfully validated
+//! @SYMTestType 		CIT
+RUN_UTILS DeleteFile c:\private\101f72a6\keys.dat
+RUN_TEST_STEP 500 tpkcs10serverv2 PKCS10CertRequest c:\tpkcs10\scripts\tpkcs10_v2.ini SEC-PKCS10-EXT-0002
+END_TESTCASE 			SEC-PKCS10-EXT-0002
+
+START_TESTCASE 			SEC-PKCS10-EXT-0003
+//! @SYMTestCaseID 		SEC-PKCS10-EXT-0003
+//! @SYMTestCaseDesc 		check that CPKCS10Request class generates correct encoding for 
+//!		     		certificate requests including extension requestsusing the parameters listed below.
+//!		  		Key Algorithm: RSA
+//!				Key size: 2048 bits 
+//!		     	   	Digest Algorithm: MD5 
+//!				Number of attributes: 2 (challenge password and structured name)
+//!				Extensions used: basic Constraints,
+//!					 subject Alt Name,
+//!					 issuer Alt Name, 
+//!			                 key Usage,
+//!                                      extended Key Usage,
+//!					 authority Info Access 
+//!		
+//! @SYMPREQ 			CR0973
+//! @SYMREQ 			REQ1581.5
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		PKCS10 certificate request construction.
+//! @SYMTestExpectedResults 	Encoding successfully validated
+//! @SYMTestType 		CIT
+RUN_UTILS DeleteFile c:\private\101f72a6\keys.dat
+RUN_TEST_STEP 500 tpkcs10serverv2 PKCS10CertRequest c:\tpkcs10\scripts\tpkcs10_v2.ini SEC-PKCS10-EXT-0003
+END_TESTCASE 			SEC-PKCS10-EXT-0003
+
+START_TESTCASE 			SEC-PKCS10-EXT-0004
+//! @SYMTestCaseID 		SEC-PKCS10-EXT-0004
+//! @SYMTestCaseDesc 		check that CPKCS10Request class generates correct encoding for 
+//!		     		certificate requests including extension requestsusing the parameters listed below.
+//!		  		Key Algorithm: DSA
+//!				Key size: 2048 bits 
+//!		        	Digest Algorithm: SHA1 
+//!				Number of attributes: 2 (challenge password and structured name)
+//!				Extensions used: basic Constraints,
+//!					 subject Alt Name,
+//!					 issuer Alt Name, 
+//!			                 key Usage,
+//!                                      extended Key Usage,
+//!					 authority Info Access 
+//!		
+//! @SYMPREQ 			CR0973
+//! @SYMREQ 			REQ1581.5
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		PKCS10 certificate request construction.
+//! @SYMTestExpectedResults 	Encoding successfully validated
+//! @SYMTestType 		CIT
+RUN_UTILS DeleteFile c:\private\101f72a6\keys.dat
+RUN_TEST_STEP 500 tpkcs10serverv2 PKCS10CertRequest c:\tpkcs10\scripts\tpkcs10_v2.ini SEC-PKCS10-EXT-0004
+END_TESTCASE 			SEC-PKCS10-EXT-0004
+
+START_TESTCASE 			SEC-PKCS10-OOM-0001
+//! @SYMTestCaseID 		SEC-PKCS10-OOM-0001
+//! @SYMTestCaseDesc 		To check that CPKCS10Request class can manage out of memory conditions graciously
+//!		  		Use the following parameters:
+//!				Key Algorithm: RSA
+//!				Key size: 512 bits 
+//!		     		   Digest Algorithm: SHA1 
+//!				Number of attributes: 2
+//!		
+//! @SYMPREQ 			CR0973
+//! @SYMREQ 			REQ1581.5
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		PKCS10 certificate request construction in OOM conditions.
+//! @SYMTestExpectedResults 	Encoding successfully validated
+//! @SYMTestType 		CIT
+RUN_UTILS DeleteFile c:\private\101f72a6\keys.dat
+RUN_TEST_STEP 500 tpkcs10serverv2 PKCS10CertRequest c:\tpkcs10\scripts\tpkcs10_v2.ini SEC-PKCS10-OOM-0001
+END_TESTCASE 			SEC-PKCS10-OOM-0001
+
+START_TESTCASE 			SEC-PKCS10-OOM-0002
+//! @SYMTestCaseID 		SEC-PKCS10-OOM-0002
+//! @SYMTestCaseDesc 		To check that CPKCS10Request class can manage out of memory conditions graciously
+//!		  		Use the following parameters:
+//!				Key Algorithm: DSA
+//!				Key size: 512 bits 
+//!		       		 Digest Algorithm: SHA1 
+//!				Number of attributes: 2
+//! @SYMPREQ 			CR0973
+//! @SYMREQ 			REQ1581.5
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		PKCS10 certificate request construction in OOM conditions.
+//! @SYMTestExpectedResults 	Encoding successfully validated
+//! @SYMTestType 		CIT
+RUN_UTILS DeleteFile c:\private\101f72a6\keys.dat
+RUN_TEST_STEP 500 tpkcs10serverv2 PKCS10CertRequest c:\tpkcs10\scripts\tpkcs10_v2.ini SEC-PKCS10-OOM-0002
+END_TESTCASE 			SEC-PKCS10-OOM-0002
+
+START_TESTCASE 			SEC-PKCS10-REU-0001
+//! @SYMTestCaseID 		SEC-PKCS10-REU-0001
+//! @SYMTestCaseDesc  		To check that a CPKCS10Attribute can be reused with new values.		
+//! @SYMPREQ 			CR0973
+//! @SYMREQ 			REQ1581.5
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Create CPKCS10Attribute test object using using valid values.
+//!					Use GetEncodingLC to retrieve ASN1 value from this instance.
+//!					Use Reset method of CPKCS10Attribute test object with appropriate parameters.
+//!					Use GetEncodingLC method again to check that new ASN1 value had been 
+//!					updated correctly. 
+//!
+//! @SYMTestExpectedResults 	Encoding matches in both cases.
+//! @SYMTestType 		CIT
+RUN_UTILS DeleteFile c:\private\101f72a6\keys.dat
+RUN_TEST_STEP 500 tpkcs10serverv2 PKCS10ReuseAttribute c:\tpkcs10\scripts\tpkcs10_v2.ini SEC-PKCS10-REU-0001
+END_TESTCASE 			SEC-PKCS10-REU-0001
+
+START_TESTCASE 			SEC-PKCS10-REU-0002
+//! @SYMTestCaseID 		SEC-PKCS10-REU-0002
+//! @SYMTestCaseDesc  		To check that a CPKCS10Attribute can be reused with new values.	
+//! @SYMPREQ 			CR0973
+//! @SYMREQ 			REQ1581.5
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions     	Create CPKCS10Attribute instance with appropiate values
+//!                     	GetEncodingLC from test instance
+//!                     	repopulate data using appropiate methods 
+//! 				request a new cert request	
+//! @SYMTestExpectedResults 	New cert request in created correctly
+//! @SYMTestType 		CIT
+RUN_UTILS DeleteFile c:\private\101f72a6\keys.dat
+RUN_TEST_STEP 500 tpkcs10serverv2 PKCS10CertRequest c:\tpkcs10\scripts\tpkcs10_v2.ini SEC-PKCS10-REU-0002
+END_TESTCASE 			SEC-PKCS10-REU-0002
+
+START_TESTCASE 			SEC-PKCS10-REU-0003
+//! @SYMTestCaseID 		SEC-PKCS10-REU-0003
+//! @SYMTestCaseDesc  		To check that a CPKCS10Attribute can be reused with new values.	
+//! @SYMPREQ 			CR0973
+//! @SYMREQ 			REQ1581.5
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions    		Create CPKCS10Attribute instance with appropiate values
+//!                     	GetEncodingLC from test instance
+//!                     	Do not repopulate data.
+//! 				request a new cert request	
+//! @SYMTestExpectedResults 	New cert request in created correctly
+//! @SYMTestType 		CIT
+RUN_UTILS DeleteFile c:\private\101f72a6\keys.dat
+RUN_TEST_STEP 500 tpkcs10serverv2 PKCS10CertRequest c:\tpkcs10\scripts\tpkcs10_v2.ini SEC-PKCS10-REU-0003
+END_TESTCASE 			SEC-PKCS10-REU-0003
+
+START_TESTCASE 			SEC-PKCS10-REU-0004
+//! @SYMTestCaseID 		SEC-PKCS10-REU-0004
+//! @SYMTestCaseDesc  		To check that a CPKCS9ChallengePasswordAttr can be reused with new values.
+//! @SYMPREQ 			CR0973
+//! @SYMREQ 			REQ1581.5
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Create CPKCS9ChallengePasswordAttr test object using valid value.
+//!					Use GetEncodingLC to retrieve ASN1 value from this instance.
+//!					Use Reset method of CPKCS9ChallengePasswordAttr test object 
+//!					with appropriate parameter.
+//!					Use GetEncodingLC method again to check that new ASN1 value 
+//!					had been updated correctly. 
+//! @SYMTestExpectedResults 	Encoding matches in both cases.
+//! @SYMTestType 		CIT
+RUN_UTILS DeleteFile c:\private\101f72a6\keys.dat
+RUN_TEST_STEP 500 tpkcs10serverv2 PKCS10ReuseChallengePasswordAttr c:\tpkcs10\scripts\tpkcs10_v2.ini SEC-PKCS10-REU-0004
+END_TESTCASE 			SEC-PKCS10-REU-0004
+
+START_TESTCASE 			SEC-PKCS10-REU-0005
+//! @SYMTestCaseID 		SEC-PKCS10-REU-0005
+//! @SYMTestCaseDesc  		To check that a CPKCS10GenericAttr can be reused with new values.
+//! @SYMPREQ 			CR0973
+//! @SYMREQ 			REQ1581.5
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Create CPKCS9ExtensionRequestAttr test object using valid values.
+//!					Use GetEncodingLC to retrieve ASN1 value from this instance.
+//!					Use ResetL method of CPKCS9ExtensionRequestAttr test object 
+//!					with appropriate parameters.
+//!					Use GetEncodingLC method again to check that new ASN1 value had 
+//!					been updated correctly. 
+//! @SYMTestExpectedResults Encoding matches in both cases.
+//! @SYMTestType 		CIT
+RUN_UTILS DeleteFile c:\private\101f72a6\keys.dat
+RUN_TEST_STEP 500 tpkcs10serverv2 PKCS10ReuseExtensionAttr c:\tpkcs10\scripts\tpkcs10_v2.ini SEC-PKCS10-REU-0005
+END_TESTCASE 			SEC-PKCS10-REU-0005
+
+START_TESTCASE 			SEC-PKCS10-NEG-0001
+//! @SYMTestCaseID 		SEC-PKCS10-NEG-0001
+//! @SYMTestCaseDesc 		Check that CPKCS10GenericAttr class returns a 
+//!				KErrBadDescriptor (or KErrArgument) when its methods are used with 
+//!				invalid/null value parameters. 
+//! @SYMPREQ 			CR0973
+//! @SYMREQ 			REQ1581.5
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		PKCS10 CPKCS10GenericAttr construction
+//! @SYMTestExpectedResults 	Returns KErrBadDescriptor (or KErrArgument)
+//! @SYMTestType 		CIT
+RUN_UTILS DeleteFile c:\private\101f72a6\keys.dat
+RUN_TEST_STEP 500 tpkcs10serverv2 PKCS10NegPKCS10GenericAttr c:\tpkcs10\scripts\tpkcs10_v2.ini SEC-PKCS10-NEG-0001
+END_TESTCASE 			SEC-PKCS10-NEG-0001
+
+START_TESTCASE 			SEC-PKCS10-NEG-0002
+//! @SYMTestCaseID 		SEC-PKCS10-NEG-0002
+//! @SYMTestCaseDesc 		Check that CPKCS9ChallengePasswordAttr class returns a 
+//!				KErrArgument when its methods are used with null value parameters. 
+//! @SYMPREQ 			CR0973
+//! @SYMREQ 			REQ1581.5
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		PKCS10 CPKCS9ChallengePasswordAttr construction
+//! @SYMTestExpectedResults 	Returns KErrArgument
+//! @SYMTestType 		CIT
+RUN_UTILS DeleteFile c:\private\101f72a6\keys.dat
+RUN_TEST_STEP 500 tpkcs10serverv2 PKCS10NegPKCS9ChPwdAttr c:\tpkcs10\scripts\tpkcs10_v2.ini SEC-PKCS10-NEG-0002
+END_TESTCASE 			SEC-PKCS10-NEG-0002
+
+START_TESTCASE 			SEC-PKCS10-NEG-0003
+//! @SYMTestCaseID 		SEC-PKCS10-NEG-0003
+//! @SYMTestCaseDesc 		Check that CPKCS9ExtensionRequestAttr class can recognise 
+//!				when application is trying to add malformed or un-initialised cert 
+//!				extension object to extension request.
+//! @SYMPREQ 			CR0973
+//! @SYMREQ 			REQ1581.5
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		PKCS10 CPKCS9ExtensionRequestAttr construction.
+//! @SYMTestExpectedResults 	Returns KErrBadDescriptor
+//! @SYMTestType 		CIT
+RUN_UTILS DeleteFile c:\private\101f72a6\keys.dat
+RUN_TEST_STEP 500 tpkcs10serverv2 PKCS10NegPKCS9ExtReqAttr c:\tpkcs10\scripts\tpkcs10_v2.ini SEC-PKCS10-NEG-0003
+END_TESTCASE 			SEC-PKCS10-NEG-0003
+
+START_TESTCASE 			SEC-PKCS10-NEG-0004
+//! @SYMTestCaseID 		SEC-PKCS10-NEG-0004
+//! @SYMTestCaseDesc 		Check that CPKCS9ExtensionRequestAttr class returns a 
+//!				KErrArgument when its methods are used with null value parameters.
+//! @SYMPREQ 			CR0973
+//! @SYMREQ 			REQ1581.5
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		PKCS10 CPKCS9ExtensionRequestAttr construction
+//! @SYMTestExpectedResults 	Returns KErrArgument
+//! @SYMTestType 		CIT
+RUN_UTILS DeleteFile c:\private\101f72a6\keys.dat
+RUN_TEST_STEP 500 tpkcs10serverv2 PKCS10NegPKCS10Attributes c:\tpkcs10\scripts\tpkcs10_v2.ini SEC-PKCS10-NEG-0004
+END_TESTCASE 			SEC-PKCS10-NEG-0004
+
+START_TESTCASE 			SEC-PKCS10-NEG-0005
+//! @SYMTestCaseID 		SEC-PKCS10-NEG-0005
+//! @SYMTestCaseDesc 		Check that CPKCS10Request class returns a KErrArgument when 
+//!				its methods are used with invalid value parameters.
+//! @SYMPREQ 			CR0973
+//! @SYMREQ 			REQ1581.5
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		PKCS10 CPKCS10Request construction.
+//! @SYMTestExpectedResults 	Returns KErrArgument
+//! @SYMTestType 		CIT
+RUN_UTILS DeleteFile c:\private\101f72a6\keys.dat
+RUN_TEST_STEP 500 tpkcs10serverv2 PKCS10NegPKCS10Request c:\tpkcs10\scripts\tpkcs10_v2.ini SEC-PKCS10-NEG-0005
+END_TESTCASE 			SEC-PKCS10-NEG-0005
+
+START_TESTCASE 			SEC-PKCS10-DEF103311-0001
+//! @SYMTestCaseID 		SEC-PKCS10-DEF103311-0001
+//! @SYMTestCaseDesc 		Test case added for defect DEF103311, increases test coverage for PKCS1-
+//! @SYMREQ 			REQ0000
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Creates a CPKCS10Request and then cancels it. 
+//! @SYMTestExpectedResults 	Returns KErrNone, no memory leak.
+//! @SYMTestType 		CIT
+RUN_UTILS DeleteFile c:\private\101f72a6\keys.dat
+RUN_TEST_STEP 500 tpkcs10serverv2 PKCS10CancelRequestA c:\tpkcs10\scripts\tpkcs10_v2.ini DEF103311-0001
+END_TESTCASE 			SEC-PKCS10-DEF103311-0001
+
+//Post- test: re-states key store file
+RUN_UTILS CopyFile c:\keys.dat c:\private\101f72a6\keys.dat 
+RUN_UTILS DeleteFile c:\keys.dat 
+
+PRINT Complete_tpkcs10serverv2_Tests

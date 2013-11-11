@@ -1,0 +1,55 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* @file
+* This is the project specification file for the server of the streaming reference agent.
+*
+*/
+
+
+TARGET		sraserver.exe
+TARGETTYPE	exe
+UID		0 0x10285A1C
+
+CAPABILITY	DRM NetworkControl NetworkServices
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+USERINCLUDE ../streamingrefagent/inc
+USERINCLUDE 	../localsdp/inc
+USERINCLUDE 	../localsdp/api
+
+SOURCEPATH 	../streamingrefagent/source/server
+SOURCE 		sraserver.cpp
+SOURCE		startup.cpp
+SOURCE		srasession.cpp
+SOURCE		panic.cpp 
+SOURCE		shutdown.cpp 
+SOURCE		sraprocessor.cpp
+
+LIBRARY 	euser.lib
+LIBRARY		efsrv.lib
+LIBRARY		cafutils.lib
+LIBRARY		estor.lib
+LIBRARY		localsdpcodec.lib
+LIBRARY		bafl.lib
+LIBRARY 	streamingcaf.lib
+LIBRARY 	srautils.lib
+
+// Networking libraries
+LIBRARY	esock.lib
+LIBRARY	insock.lib 
+LIBRARY lib_pfkey.lib
+LIBRARY	c32.lib
+SMPSAFE

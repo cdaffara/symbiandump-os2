@@ -1,0 +1,50 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// recapp2.dll Symbian OS app MIME type recogniser
+// 
+//
+
+/**
+ @file
+*/
+
+
+target 		recapp2.dll
+targettype 	plugin
+uid			0x10009d8d 0x1000415f
+VENDORID 	0x70000001
+
+start resource 1000415F.rss
+target recapp2.rsc
+end
+
+
+CAPABILITY ProtServ
+
+SOURCEPATH		../rec
+userinclude   ../inc
+// OS_LAYER_SYSTEMINCLUDE_SYMBIAN -- should be this, but has dependency on apmstd.h in MW layer_SYMBIAN
+MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+source          RECAPP.CPP
+
+library         euser.lib apmime.lib
+
+START WINS
+	baseaddress	0x71200000
+END
+
+SMPSAFE
+
+

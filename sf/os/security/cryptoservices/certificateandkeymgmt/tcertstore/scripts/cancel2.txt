@@ -1,0 +1,533 @@
+//! Cancel2.txt
+//! Cancellation tests for the certificate addition, deletion, trust&application setting with notification
+//! to the client process.
+
+// Note: The in-source test tag is only added to the new tests for PREQ226. The tests without test tag is the existing tests
+// in the certstore component, which are used to set up the environment needed by the PREQ226 tests.
+
+// Setup ///////////////////////////////////////////////////////////////////////
+
+<action>
+	<actionname>No Test,Opening a CertificateAppInfoManager</actionname>
+	<actiontype>initappmanager</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>No Test,Adding client A1</actionname>
+	<actiontype>addclient</actiontype>
+	<actionbody>
+		<name>A1</name>
+		<uid>1</uid>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>No Test,Adding client A2</actionname>
+	<actiontype>addclient</actiontype>
+	<actionbody>
+		<name>A2</name>
+		<uid>2</uid>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>No Test,Adding client A3</actionname>
+	<actiontype>addclient</actiontype>
+	<actionbody>
+		<name>A3</name>
+		<uid>3</uid>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>No Test,Adding client A4</actionname>
+	<actiontype>addclient</actiontype>
+	<actionbody>
+		<name>A4</name>
+		<uid>4</uid>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>No Test,Deleting the CertificateAppInfoManager</actionname>
+	<actiontype>deleteappmanager</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Import a RSA key rsacertkey1</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>rsacertkey1.txt</ImportData>
+		<keyusage>AllUsagesButNR</keyusage>
+		<keylabel>*IMPORTED* RSA key 1</keylabel>
+		<keyaccesstype>Extractable</keyaccesstype>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Opening a writable certificate store manager</actionname>
+	<actiontype>init</actiontype>
+	<actionbody>
+		<mode>write</mode>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Deleting all certs</actionname>
+	<actiontype>deletecert</actiontype>
+	<actionbody>
+		<label>*.*</label>
+		<deleteallcerts>1</deleteallcerts>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Deleting the writable certificate store manager</actionname>
+	<actiontype>delete</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Enabling cancellation testing</actionname>
+	<actiontype>startcancellation</actiontype>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+// Initialisation //////////////////////////////////////////////////////////////
+
+<action>
+	<actionname>Opening a writable certificate store manager</actionname>
+	<actiontype>init</actiontype>
+	<actionbody>
+		<mode>write</mode>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+// Add certs ///////////////////////////////////////////////////////////////////
+
+//! @file 
+//! @SYMTestCaseID UCTSSEC-CT-WModeUCTAddCCancelWN1.1
+//! @SYMTestCaseDesc The test is to test cancellation of X509 CA certificate addition with notification. 
+//! @SYMPREQ 226
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+
+<action>
+	<actionname>1.1, Cancel X509 CA certificate CAX1 addition with notification</actionname>
+	<actiontype>addcert</actiontype>
+	<actionbody>
+		<format>X509</format>
+		<label>CAX1</label>
+		<issuerkey></issuerkey>
+		<subjectkey></subjectkey>
+		<certstore>0</certstore>
+		<certfile>c:\unifiedcertstore2\CAX1.cer</certfile>
+		<certowner>CA</certowner>
+		<ChangeNotification>1</ChangeNotification>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file 
+//! @SYMTestCaseID UCTSSEC-CT-WModeUCTAddCCancelWN1.2
+//! @SYMTestCaseDesc The test is to test cancellation of WTLS CA certificate addition with notification. 
+//! @SYMPREQ 226
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>1.2, Cancel WTLS CA certificate CAW1 addition with notification</actionname>
+	<actiontype>addcert</actiontype>
+	<actionbody>
+		<format>WTLS</format>
+		<label>CAW1</label>
+		<issuerkey></issuerkey>
+		<subjectkey></subjectkey>
+		<certstore>0</certstore>
+		<certfile>c:\unifiedcertstore2\CAW1.cer</certfile>
+		<certowner>CA</certowner>
+		<ChangeNotification>1</ChangeNotification>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file 
+//! @SYMTestCaseID UCTSSEC-CT-WModeUCTAddCCancelWN1.3
+//! @SYMTestCaseDesc The test is to test cancellation of X509 user certificate addition with notification. 
+//! @SYMPREQ 226
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>1.3, Cancel X509 user certificate rsacert1 addition with notification</actionname>
+	<actiontype>addcert</actiontype>
+	<actionbody>
+		<format>X509</format>
+		<label>rsacert1</label>
+		<issuerkey></issuerkey>
+		<subjectkey>4808f03892fe836e78d048bcefcca4a37913d886</subjectkey>
+		<certstore>0</certstore>
+		<certfile>c:\unifiedcertstore2\rsacert1.cer</certfile>
+		<certowner>User</certowner>
+		<ChangeNotification>1</ChangeNotification>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+// List certs //////////////////////////////////////////////////////////////////
+
+<action>
+	<actionname>List CA certificates</actionname>
+	<actiontype>listcert</actiontype>
+	<actionbody>
+		<filter>
+			<ownertype>ca</ownertype>
+		</filter>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<CCTCertInfo><label>CAX1</label></CCTCertInfo>
+		<CCTCertInfo><label>CAW1</label></CCTCertInfo>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>List user certificates</actionname>
+	<actiontype>listcert</actiontype>
+	<actionbody>
+		<filter>
+		<ownertype>user</ownertype>
+		<keyusagedescription>
+			<keyusagescheme>pkcs15</keyusagescheme>
+			<keytype>private</keytype>
+			<keyusage>AllUsagesButNR</keyusage>
+		</keyusagedescription>
+		</filter>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<CCTCertInfo><label>rsacert1</label></CCTCertInfo>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>List user certificates filtered by key usage</actionname>
+	<actiontype>listcert</actiontype>
+	<actionbody>
+		<filter>
+		<ownertype>user</ownertype>
+		<keyusagedescription>
+			<keyusagescheme>pkcs15</keyusagescheme>
+			<keytype>private</keytype>
+			<keyusage>Decrypt</keyusage>
+		</keyusagedescription>
+		</filter>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<CCTCertInfo><label>rsacert1</label></CCTCertInfo>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>List user certificates filtered by key usage</actionname>
+	<actiontype>listcert</actiontype>
+	<actionbody>
+		<filter>
+		<ownertype>user</ownertype>
+		<keyusagedescription>
+			<keyusagescheme>pkcs15</keyusagescheme>
+			<keyusage>NonRepudiation</keyusage>
+		<keyusagedescription>
+		</filter>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>List certificates filtered by Issuer DN</actionname>
+	<actiontype>listcert</actiontype>
+	<actionbody>
+		<filter>
+			<ownertype>ca</ownertype>
+		</filter>
+		<issuerdn>c:\unifiedcertstore2\CAX1.cer</issuerdn>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<CCTCertInfo><label>CAX1</label></CCTCertInfo>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>List certificates filtered by Issuer DN</actionname>
+	<actiontype>listcert</actiontype>
+	<actionbody>
+		<filter>
+			<ownertype>ca</ownertype>
+		</filter>
+		<issuerdn>c:\unifiedcertstore2\CAX1.cer</issuerdn>
+		<issuerdn>c:\unifiedcertstore2\CAX2.cer</issuerdn>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<CCTCertInfo><label>CAX1</label></CCTCertInfo>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>List certificates filtered by Issuer DN</actionname>
+	<actiontype>listcacert</actiontype>
+	<actionbody>
+		<uid></uid>
+		<formatflags></formatflags>
+		<issuerdn>c:\unifiedcertstore2\CAX2.cer</issuerdn>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+// Retrieve certs
+
+<action>
+	<actionname>Retrieve CAX1 cert</actionname>
+	<actiontype>retrieve</actiontype>
+	<actionbody>
+		<label>CAX1</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Retrieve CAW1 cert</actionname>
+	<actiontype>retrieve</actiontype>
+	<actionbody>
+		<label>CAW1</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+// Applications and trust //////////////////////////////////////////////////////
+
+//! @file 
+//! @SYMTestCaseID UCTSSEC-CT-WModeUCTSAppCCancelWN4.1
+//! @SYMTestCaseDesc The test is to test cancellation of setting X509 CA certificate application with notification. 			
+//! @SYMPREQ 226
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>4.1 Cancel applications setting to the CAX1 certificate with notification</actionname>
+	<actiontype>setapplications</actiontype>
+	<actionbody>
+		<label>CAX1</label>
+		<uid>1 2 3</uid>
+		<ChangeNotification>1</ChangeNotification>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Get applications for CAX1</actionname>
+	<actiontype>getapplications</actiontype>
+	<actionbody>
+		<label>CAX1</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<uid>1 2 3</uid>
+	</actionresult>
+</action>
+
+//! @file 
+//! @SYMTestCaseID UCTSSEC-CT-WModeUCTSTrustCCancelWN3.1
+//! @SYMTestCaseDesc The test is to test cancellation of setting X509 CA certificates trust with notification. 
+//! @SYMPREQ 226
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>3.1, Cancel the trust setting for CAX1 with notification</actionname>
+	<actiontype>settrust</actiontype>
+	<actionbody>
+		<label>CAX1</label>
+		<trust>1</trust>
+		<ChangeNotification>1</ChangeNotification>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Get the trust for CAX1</actionname>
+	<actiontype>gettrusters</actiontype>
+	<actionbody>
+		<label>CAX1</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<trust>1</trust>
+	</actionresult>
+</action>
+
+// Delete certs ////////////////////////////////////////////////////////////////
+//! @file 
+//! @SYMTestCaseID UCTSSEC-CT-WModeUCTDelCCancelWN2.1
+//! @SYMTestCaseDesc The test is to test cancellation of X509 CA certificates deletion with notification. 		
+//! @SYMPREQ 226
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>2.1, Cancel CAX1 certs deletion with notification</actionname>
+	<actiontype>deletecert</actiontype>
+	<actionbody>
+		<certtype>ca</certtype>
+		<label>CAX1</label>
+		<ChangeNotification>1</ChangeNotification>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+// Cleanup /////////////////////////////////////////////////////////////////////
+
+<action>
+	<actionname>Disabling cancellation testing</actionname>
+	<actiontype>stopcancellation</actiontype>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Deleting all certs</actionname>
+	<actiontype>deletecert</actiontype>
+	<actionbody>
+		<label>*.*</label>
+		<deleteallcerts>1</deleteallcerts>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Deleting the writable certificate store manager</actionname>
+	<actiontype>delete</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>No Test,Opening a CertificateAppInfoManager</actionname>
+	<actiontype>initappmanager</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>No Test,Deleting the client A1</actionname>
+	<actiontype>removeclient</actiontype>
+	<actionbody>
+		<uid>1</uid>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>No Test,Deleting the client A2</actionname>
+	<actiontype>removeclient</actiontype>
+	<actionbody>
+		<uid>2</uid>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>No Test,Deleting the client A3</actionname>
+	<actiontype>removeclient</actiontype>
+	<actionbody>
+		<uid>3</uid>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>No Test,Deleting the client A4</actionname>
+	<actiontype>removeclient</actiontype>
+	<actionbody>
+		<uid>4</uid>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>No Test,Deleting the CertificateAppInfoManager</actionname>
+	<actiontype>deleteappmanager</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>

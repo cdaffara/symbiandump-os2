@@ -1,0 +1,455 @@
+/** @file  ../include/signal.h
+@internalComponent
+*/
+
+/** @fn  sigaction(int sig, const struct sigaction *act, struct sigaction *oact)
+@param sig -
+@param act -
+@param oact -
+
+@return  -
+
+For full documentation see: http://www.opengroup.org/onlinepubs/009695399/functions/sigaction.html
+
+The Symbian version of the sigaction() function has the following limitations:
+
+1.	The sa_mask member of the sigaction structure is ignored.
+
+2.	Currently, only the SA_SIGINFO flag will be supported in the sa_flags member of the sigaction structure.
+
+3.	Only the following portions of the signal catching function specified in sa_sigaction member will be supported:
+
+a. The first argument (signo)
+
+b. si_signo and si_value members of the second argument (info)
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  sigemptyset(sigset_t* set)
+@param set -
+@return  -
+
+For full documentation see: http://www.opengroup.org/onlinepubs/009695399/functions/sigemptyset.html
+
+The Symbian implementation of this API fully supports POSIX functionality.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def  SIG_UNBLOCK
+
+For full documentation see: http://www.opengroup.org/onlinepubs/009695399/basedefs/signal.h.html
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def  SIG_SETMASK
+
+For full documentation see: http://www.opengroup.org/onlinepubs/009695399/basedefs/signal.h.html
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def  SIG_BLOCK
+
+For full documentation see: http://www.opengroup.org/onlinepubs/009695399/basedefs/signal.h.html
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def  SIG_DFL
+
+For full documentation see: http://www.opengroup.org/onlinepubs/009695399/basedefs/signal.h.html
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def  SIG_ERR
+
+For full documentation see: http://www.opengroup.org/onlinepubs/009695399/basedefs/signal.h.html
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def  SIG_HOLD
+
+For full documentation see: http://www.opengroup.org/onlinepubs/009695399/basedefs/signal.h.html
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def  SA_SIGINFO
+
+For full documentation see: http://www.opengroup.org/onlinepubs/009695399/basedefs/signal.h.html
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @struct sigaction
+
+For full documentation see: http://www.opengroup.org/onlinepubs/009695399/basedefs/signal.h.html
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @typedef sigset_t
+
+For full documentation see: http://www.opengroup.org/onlinepubs/009695399/basedefs/signal.h.html
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+#ifdef SYMBIAN_OE_POSIX_SIGNALS
+/** @fn  kill(pid_t pid, int sig)
+@param pid -
+@param sig -
+@return  -
+
+For full documentation see: http://www.opengroup.org/onlinepubs/009695399/functions/kill.html
+
+The Symbian version of the sigaction() function has the following limitations:
+
+1.	Handling of pid values less than or equal to 0 is not supported.
+
+2.	PowerManagement capability is required to send SIGKILL/SIGSTOP to another process.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  raise(int sig)
+@param sig -
+@return  -
+
+For full documentation see: http://www.opengroup.org/onlinepubs/009695399/functions/raise.html
+
+The Symbian implementation of this API fully supports POSIX functionality.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  sigqueue(pid_t pid, int sig, const union sigval value)
+@param pid -
+@param sig -
+@param value -
+@return  -
+
+For full documentation see: http://www.opengroup.org/onlinepubs/009695399/functions/sigqueue.html
+
+The Symbian version of the sigaction() function has the following limitation:
+
+1.	PowerManagement capability is required to send SIGKILL/SIGSTOP to another process.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  sigfillset(sigset_t *set)
+@param set -
+@return  -
+
+For full documentation see: http://www.opengroup.org/onlinepubs/009695399/functions/sigfillset.html
+
+The Symbian implementation of this API fully supports POSIX functionality.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  sigaddset(sigset_t *set, int signo)
+@param set -
+@param signo -
+@return  -
+
+For full documentation see: http://www.opengroup.org/onlinepubs/009695399/functions/sigaddset.html
+
+The Symbian implementation of this API fully supports POSIX functionality.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  sigdelset(sigset_t *set, int signo)
+@param set -
+@param signo -
+@return  -
+
+For full documentation see: http://www.opengroup.org/onlinepubs/009695399/functions/sigdelset.html
+
+The Symbian implementation of this API fully supports POSIX functionality.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  sigismember(const sigset_t *set, int signo)
+@param set -
+@param signo -
+@return  -
+
+For full documentation see: http://www.opengroup.org/onlinepubs/009695399/functions/sigismember.html
+
+The Symbian implementation of this API fully supports POSIX functionality.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  sigandset(sigset_t * set, const sigset_t * left, const sigset_t * right)
+@param set -
+@param left -
+@param right -
+@return  -
+
+For full documentation see: http://refspecs.freestandards.org/LSB_3.1.0/LSB-Core-generic/LSB-Core-generic/baselib-sigandset.html
+
+The Symbian implementation of this API fully supports POSIX functionality.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  sigorset(sigset_t * set, const sigset_t * left, const sigset_t * right)
+@param set -
+@param left -
+@param right -
+@return  -
+
+For full documentation see: http://refspecs.freestandards.org/LSB_3.1.0/LSB-Core-generic/LSB-Core-generic/baselib-sigorset.html
+
+The Symbian implementation of this API fully supports POSIX functionality.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  sigisemptyset(const sigset_t * set)
+@param set -
+@return  -
+
+For full documentation see: http://refspecs.freestandards.org/LSB_3.1.0/LSB-Core-generic/LSB-Core-generic/baselib-sigisemptyset.html
+
+The Symbian implementation of this API fully supports POSIX functionality.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  sigprocmask(int how, const sigset_t* set,sigset_t* oset)
+@param how -
+@param set -
+@param oset -
+@return  -
+
+For full documentation see: http://www.opengroup.org/onlinepubs/009695399/functions/sigprocmask.html
+
+The Symbian implementation of this API fully supports POSIX functionality.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  sighold(int signo)
+@param signo -
+@return  -
+
+For full documentation see: http://www.opengroup.org/onlinepubs/009695399/functions/sighold.html
+
+The Symbian implementation of this API fully supports POSIX functionality.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  sigrelse(int signo)
+@param signo -
+@return  -
+
+For full documentation see: http://www.opengroup.org/onlinepubs/009695399/functions/sigrelse.html
+
+The Symbian implementation of this API fully supports POSIX functionality.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  sigpause(int signo)
+@param signo -
+@return  -
+
+For full documentation see: http://www.opengroup.org/onlinepubs/009695399/functions/sigpause.html
+
+The Symbian implementation of this API fully supports POSIX functionality.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  sigwait(const sigset_t *set, int *sig)
+@param set -
+@param sig -
+@return  -
+
+For full documentation see: http://www.opengroup.org/onlinepubs/009695399/functions/sigwait.html
+
+The Symbian implementation of this API fully supports POSIX functionality.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  sigtimedwait(const sigset_t *set, siginfo_t *info,
+       const struct timespec *timeout)
+@param set -
+@param info -
+@param timeout -
+@return  -
+
+For full documentation see: http://www.opengroup.org/onlinepubs/009695399/functions/sigtimedwait.html
+
+The Symbian implementation of this API fully supports POSIX functionality.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  sigwaitinfo(const sigset_t *set, siginfo_t *info)
+@param set -
+@param info -
+@return  -
+
+For full documentation see: http://www.opengroup.org/onlinepubs/009695399/functions/sigwaitinfo.html
+
+The Symbian implementation of this API fully supports POSIX functionality.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  bsd_signal(int, void (*)(int))
+
+For full documentation see: http://www.opengroup.org/onlinepubs/009695399/functions/bsd_signal.html
+
+The Symbian implementation of this API fully supports POSIX functionality.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  sigset(int, void (*)(int))
+
+For full documentation see: http://www.opengroup.org/onlinepubs/009695399/functions/sigset.html
+
+The Symbian implementation of this API fully supports POSIX functionality.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  signal(int, void (*)(int))
+
+For full documentation see: http://www.opengroup.org/onlinepubs/009695399/functions/signal.html
+
+The Symbian implementation of this API fully supports POSIX functionality.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  sigpending(sigset_t *set)
+@param set -
+@return  -
+
+For full documentation see: http://www.opengroup.org/onlinepubs/009695399/functions/sigpending.html
+
+The Symbian implementation of this API fully supports POSIX functionality.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  sigignore(int sig)
+@param sig -
+@return  -
+
+For full documentation see: http://www.opengroup.org/onlinepubs/009695399/functions/sigignore.html
+
+The Symbian implementation of this API fully supports POSIX functionality.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  psignal(int sig, const char *s)
+@param sig -
+@param s -
+@return  -
+
+For full documentation see: http://refspecs.linux-foundation.org/LSB_3.1.0/LSB-Core-generic/LSB-Core-generic/baselib-psignal-3.html
+
+The Symbian implementation of this API fully supports POSIX functionality.
+
+@publishedAll
+@externallyDefinedApi
+*/
+/** @struct sigevent 
+
+For full documentation of struct sigevent see: http://www.opengroup.org/onlinepubs/009695399/basedefs/signal.h.html
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @var sigevent::sigev_value
+*/
+
+/** @var sigevent::sigev_signo
+*/
+
+/** @var sigevent::sigev_notify
+*/
+
+/** @var sigevent::sigev_notify_function
+*/
+
+/** @var sigevent::sigev_notify_attributes
+*/
+
+/** @def SIGEV_SIGNAL
+
+For full documentation of SIGEV_SIGNAL see: http://www.opengroup.org/onlinepubs/009695399/basedefs/signal.h.html
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def SIGEV_NONE
+
+For full documentation of SIGEV_NONE see: http://www.opengroup.org/onlinepubs/009695399/basedefs/signal.h.html
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def SIGEV_THREAD
+
+For full documentation of SIGEV_THREAD see: http://www.opengroup.org/onlinepubs/009695399/basedefs/signal.h.html
+
+@publishedAll
+@externallyDefinedApi
+*/
+#endif
+

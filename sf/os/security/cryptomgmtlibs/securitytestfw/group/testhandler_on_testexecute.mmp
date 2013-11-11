@@ -1,0 +1,46 @@
+/*
+* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* Using relative paths for sourcepath and user includes
+* testhandler_on_testexecute.dll Test harness handler
+*
+*/
+
+
+/**
+ @file
+*/
+
+TARGET          testhandler_on_testexecute.dll
+CAPABILITY    	All -Tcb
+
+UID             0x101F777C
+VENDORID 0x70000001
+TARGETTYPE  	dll
+
+SOURCEPATH  	../test/testhandler_on_testexecute
+SOURCE		testexecuteinterface.cpp
+SOURCE		server.cpp
+SOURCE		step.cpp	
+
+USERINCLUDE   	../test/testhandler_on_testexecute 
+USERINCLUDE   	../test/testhandler2
+USERINCLUDE   	../inc
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+LIBRARY    	euser.lib
+LIBRARY		testexecuteutils.lib
+LIBRARY		testexecutelogclient.lib
+LIBRARY		t_testhandler2.lib
+SMPSAFE

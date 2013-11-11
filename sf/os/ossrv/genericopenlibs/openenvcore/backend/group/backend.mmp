@@ -1,0 +1,163 @@
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// Name        : backend.mmp
+// Part of     : backend specific include MMP file
+// This is a project specific include file for building the 
+// backend library.
+//
+
+   
+
+TARGET            backend.dll
+TARGETTYPE        dll
+UID               0x1000008d  0x102828D5
+
+LANG            SC
+CAPABILITY      ALL -TCB
+VENDORID        0x70000001
+VERSION 				1.1
+// Macro defs
+#include "../../libc/group/libcflags.mmpi"
+#ifdef GCCXML
+MACRO __wchar_t_defined
+#endif //GCCXML
+
+USERINCLUDE			../inc
+USERINCLUDE			../../libc/inc 
+USERINCLUDE     		../../ewsd/inc
+USERINCLUDE			../ipcserver/ipccli/inc
+USERINCLUDE			../ipcserver/ipcsrv/inc
+
+// Illegal dependancy on tz.h in MW layer. Needs fixing
+MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_LIBC_SYSTEMINCLUDE
+
+//backend without signals and librt support
+#ifndef SYMBIAN_OE_POSIX_SIGNALS
+#ifdef WINSCW
+DEFFILE			../bwins/old_backend.def
+#else
+DEFFILE			../eabi/old_backend.def
+#endif
+#endif
+
+//backend without librt support
+#if (defined SYMBIAN_OE_POSIX_SIGNALS && !defined SYMBIAN_OE_LIBRT)
+#ifdef WINSCW
+DEFFILE			../bwins/backendwolibrt.def 
+#else
+DEFFILE			../eabi/backendwolibrt.def
+#endif
+#endif
+
+SOURCEPATH   	../inc
+DOCUMENT     	base.dosc
+DOCUMENT     	consolestream.dosc
+DOCUMENT     	fdesc.dosc
+DOCUMENT     	fdtransfermsg.dosc
+DOCUMENT     	fdtransfer_cli.dosc
+DOCUMENT     	fdtransfer_srv.dosc
+DOCUMENT     	filestream.dosc
+DOCUMENT     	link.dosc
+DOCUMENT     	lposix.dosc
+DOCUMENT     	ltime.dosc
+DOCUMENT     	netdb_r.dosc
+DOCUMENT     	readrequesthandler.dosc
+DOCUMENT     	serialstream.dosc
+DOCUMENT     	shutdown.dosc
+DOCUMENT     	spawn_r.dosc
+DOCUMENT     	stdioclient.dosc
+DOCUMENT     	stdioserver.dosc
+DOCUMENT     	stdiosession.dosc
+DOCUMENT     	streambase.dosc
+DOCUMENT     	sysif.dosc
+DOCUMENT     	sysreent.dosc
+DOCUMENT     	systemspecialfilercg.dosc
+DOCUMENT 		mmap.dosc
+DOCUMENT 		mmapcontrollernode.dosc
+DOCUMENT    	mmapmemorynode.dosc
+DOCUMENT    	stdio_r.dosc
+DOCUMENT    	stdlib_r.dosc
+DOCUMENT		sysusrinclude.dosc
+
+
+SOURCEPATH   	../ipcserver/ipccli/inc
+DOCUMENT    	ipcclient.dosc
+
+#ifndef WINSCW
+EPOCALLOWDLLDATA
+#endif //WINSCW
+
+//Main Backend codes
+SOURCEPATH	../src/corebackend
+
+SOURCE		localif.cpp posixfs.cpp
+SOURCE		ftable.cpp fdesc.cpp uconsole.cpp usocket.cpp
+SOURCE		userial.cpp upipedesc.cpp uredirdesc.cpp udirectorydesc.cpp 
+SOURCE		utilityfuns.cpp systemspecialfilercg.cpp conv.cpp
+SOURCE		fdtransfer_srv.cpp fdtransfer_cli.cpp
+SOURCE		ufilesocket.cpp
+SOURCE      usocketbase.cpp
+
+//Syscall code
+SOURCEPATH ../src/syscall
+
+SOURCE handlefms.cpp handlenms.cpp handlepms.cpp
+#ifdef SYMBIAN_OE_POSIX_SIGNALS
+SOURCE handlesms.cpp
+#endif
+SOURCE handleipc.cpp handlemmap.cpp
+SOURCE mmapcontroller.cpp mmapmemorynode.cpp
+SOURCE handlestringfuncs.cpp
+
+//ipcserver-client code
+SOURCEPATH ../ipcserver/ipccli/src
+SOURCE ipcclient.cpp
+
+//StdioServer-Client Code
+SOURCEPATH 	../src/StdioRedir/Client
+SOURCE		StdioClient.cpp
+
+#ifdef SYMBIAN_OE_POSIX_SIGNALS
+//signal server client code
+SOURCEPATH 	../src/signalserver/client
+SOURCE		signalclient.cpp
+#endif
+
+//Backend dependent Libraries
+
+LIBRARY 	euser.lib
+LIBRARY		commdb.lib
+LIBRARY 	efsrv.lib
+LIBRARY		esock.lib
+LIBRARY		c32.lib
+LIBRARY		bluetooth.lib
+LIBRARY 	insock.lib 
+LIBRARY		rpipe.lib
+LIBRARY		charconv.lib
+LIBRARY     estor.lib 
+LIBRARY     tzclient.lib 
+
+#ifdef WINSCW
+//wsd solution
+LIBRARY		ewsd.lib
+#endif
+
+
+PAGED
+// End of File
+
+
+SMPSAFE

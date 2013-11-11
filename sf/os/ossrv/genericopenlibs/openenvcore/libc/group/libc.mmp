@@ -1,0 +1,291 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// Name        : libc.mmp
+// Part of     : libc
+// This is a project specific file for building the 
+// libc library.
+// This material, including documentation and any related
+// computer programs, is protected by copyright controlled by
+// Nokia. All rights are reserved. Copying, including
+// reproducing, storing, adapting or translating, any
+// or all of this material requires the prior written consent of
+// Nokia. This material also contains confidential
+// information which may not be disclosed to others without the
+// prior written consent of Nokia.
+//
+
+
+TARGET            libc.dll
+TARGETTYPE        dll
+UID               0x1000008d  0x10207369
+
+LANG            SC
+CAPABILITY      ALL -TCB
+VENDORID        0x70000001
+
+//this is used to supress warnings 'Old-style function' 
+//for armv5 compilation. This warning is sourced from FreeBSD
+//code only and so it needs to be supressed globally for LIBC
+OPTION ARMCC --diag_suppress 1294
+#ifdef ARMCC_3_1
+OPTION ARMCC --diag_remark 3017
+#endif
+VERSION 				1.1
+
+#ifndef WINSCW
+EPOCALLOWDLLDATA
+#endif //WINSCW
+
+
+// Macro defs
+#include "libcflags.mmpi"
+
+#ifndef SYMBIAN_OE_POSIX_SIGNALS
+#ifdef WINSCW
+DEFFILE			../bwins/old_libc.def
+#else
+DEFFILE			../eabi/old_libc.def
+#endif
+#endif
+
+USERINCLUDE     ../../include
+USERINCLUDE     ../src/stdio
+USERINCLUDE     ../src/locale
+USERINCLUDE     ../include
+USERINCLUDE     ../inc
+USERINCLUDE     ../../backend/inc
+USERINCLUDE     ../../backend/ipcserver/ipccli/inc
+USERINCLUDE     ../src/stdtime
+USERINCLUDE     ../src/regex/inc
+USERINCLUDE    	../../ewsd/inc
+
+// OS_LAYER_SYSTEMINCLUDE_SYMBIAN illegal dependancy on tz.h in MW layer. Needs fixing
+MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_LIBC_SYSTEMINCLUDE
+
+SOURCEPATH ../../include
+DOCUMENT stddef.dosc		        
+DOCUMENT stdio.dosc        	       
+DOCUMENT stdlib.dosc       	        
+DOCUMENT string.dosc       	          
+DOCUMENT strings.dosc       	     
+DOCUMENT errno.dosc		              
+DOCUMENT wchar.dosc		              
+DOCUMENT time.dosc		              
+DOCUMENT unistd.dosc		         
+DOCUMENT limits.dosc		         
+DOCUMENT ctype.dosc		              
+DOCUMENT _ctype.dosc		          
+DOCUMENT locale.dosc		     
+DOCUMENT wctype.dosc		       
+DOCUMENT monetary.dosc		       
+DOCUMENT memory.dosc		       
+DOCUMENT inttypes.dosc	            
+DOCUMENT stdbool.dosc	            
+DOCUMENT langinfo.dosc	             
+DOCUMENT sysexits.dosc	            
+DOCUMENT paths.dosc	                
+DOCUMENT regex.dosc	                
+DOCUMENT fcntl.dosc	                 
+DOCUMENT _ansi.dosc	                 
+DOCUMENT setjmp.dosc	           
+DOCUMENT err.dosc	       		    
+DOCUMENT assert.dosc	   		     
+DOCUMENT getopt.dosc	   		   
+DOCUMENT dirent.dosc	   		     
+DOCUMENT grp.dosc	   		    		  
+DOCUMENT pwd.dosc	   		    		 
+DOCUMENT glob.dosc				 
+DOCUMENT utmp.dosc				
+DOCUMENT iconv.dosc			 
+DOCUMENT posix4/sched.dosc			 
+DOCUMENT signal.dosc			 
+DOCUMENT utime.dosc		  
+DOCUMENT spawn.dosc				 
+DOCUMENT stdint.dosc			
+DOCUMENT netconfig.dosc	   		    		
+DOCUMENT nsswitch.dosc	   		    		 
+DOCUMENT resolv.dosc	              
+DOCUMENT ftw.dosc	              
+			
+DOCUMENT sys/_iovec.dosc		 
+DOCUMENT sys/_lock.dosc	           
+DOCUMENT sys/_mutex.dosc
+DOCUMENT sys/_null.dosc	             
+DOCUMENT sys/_pthreadtypes.dosc	      
+DOCUMENT sys/_sigset.dosc
+DOCUMENT sys/_timespec.dosc
+DOCUMENT sys/_timeval.dosc		     
+DOCUMENT sys/_types.dosc	          
+DOCUMENT sys/cdefs.dosc		         
+DOCUMENT sys/dirent.dosc		 
+DOCUMENT sys/endian.dosc	         
+DOCUMENT sys/errno.dosc		  
+DOCUMENT sys/event.dosc	           
+DOCUMENT sys/fcntl.dosc	           
+DOCUMENT sys/file.dosc
+DOCUMENT sys/filio.dosc			
+DOCUMENT sys/ioccom.dosc		  
+DOCUMENT sys/ioctl.dosc		  
+DOCUMENT sys/ipc.dosc	             
+DOCUMENT sys/limits.dosc
+DOCUMENT sys/mman.dosc			  
+DOCUMENT sys/msg.dosc	              
+DOCUMENT sys/param.dosc	           
+DOCUMENT sys/queue.dosc	             
+DOCUMENT sys/resource.dosc	         
+DOCUMENT sys/select.dosc	      
+DOCUMENT sys/sem.dosc	             
+DOCUMENT sys/serial.dosc		  
+DOCUMENT sys/shm.dosc	              
+DOCUMENT sys/signal.dosc              
+DOCUMENT sys/socket.dosc		 
+DOCUMENT sys/sockio.dosc		  
+DOCUMENT sys/stat.dosc	           	  
+DOCUMENT sys/stdint.dosc	         
+DOCUMENT sys/sysctl.dosc              
+DOCUMENT sys/syslimits.dosc	         
+DOCUMENT sys/syslog.dosc 
+DOCUMENT sys/times.dosc 	     
+DOCUMENT sys/time.dosc	
+DOCUMENT sys/timespec.dosc		    
+DOCUMENT sys/ttycom.dosc		
+DOCUMENT sys/ttydefaults.dosc	     
+DOCUMENT sys/types.dosc	          
+DOCUMENT sys/uio.dosc	             
+DOCUMENT sys/un.dosc		
+DOCUMENT sys/unistd.dosc		     
+DOCUMENT sys/utsname.dosc		 	
+DOCUMENT sys/wait.dosc
+DOCUMENT sys/aeselect.dosc
+
+DOCUMENT machine/signal.dosc         
+DOCUMENT machine/param.dosc	        
+DOCUMENT machine/_types.dosc	     
+DOCUMENT machine/_limits.dosc	     
+DOCUMENT machine/_stdint.dosc	     
+DOCUMENT machine/_inttypes.dosc      
+DOCUMENT machine/endian.dosc	      
+DOCUMENT machine/setjmp.dosc	    
+
+DOCUMENT arpa/inet.dosc	            
+DOCUMENT arpa/nameser.dosc	     
+DOCUMENT arpa/nameser_compat.dosc      
+
+DOCUMENT net/if.dosc       			  
+DOCUMENT net/route.dosc       	      
+DOCUMENT net/radix.dosc       	     
+DOCUMENT net/if_var.dosc       	     
+
+DOCUMENT netdb.dosc		              
+ 
+DOCUMENT netinet/in.dosc		 
+DOCUMENT netinet6/in6.dosc
+DOCUMENT netinet6/in6_var.dosc
+SOURCEPATH  ../inc
+DOCUMENT    stdarg.dosc		 
+DOCUMENT    stdarg_e.dosc		  
+DOCUMENT    common_def.dosc	 
+ 
+DOCUMENT getaddrinfo_private.dosc
+DOCUMENT estlib.dosc
+DOCUMENT getnameinfo_private.dosc
+DOCUMENT libc_wsd_defs.dosc
+DOCUMENT localeinfo.dosc
+DOCUMENT localetlsinfo.dosc
+DOCUMENT reent.dosc
+DOCUMENT staticlibinit_gcce.dosc
+DOCUMENT wcharcnv.dosc
+DOCUMENT stringfuncs_private.dosc
+SOURCEPATH  ../include
+DOCUMENT fpmath.dosc
+DOCUMENT libc_private.dosc
+DOCUMENT link.dosc
+DOCUMENT namespace.dosc
+DOCUMENT reentrant.dosc
+DOCUMENT spinlock.dosc
+DOCUMENT un-namespace.dosc
+ 
+SOURCEPATH  ../src 
+DOCUMENT      arm/_fpmath.dosc
+DOCUMENT      locale/libc_collate.dosc
+DOCUMENT       locale/lmonetary.dosc
+DOCUMENT       locale/lnumeric.dosc
+
+DOCUMENT     net/netdb_private.dosc
+DOCUMENT     net/res_config.dosc
+ 
+DOCUMENT     regex/inc/regex2.dosc
+DOCUMENT      regex/inc/utils.dosc
+DOCUMENT      regex/inc/cname.dosc
+ 
+DOCUMENT     stdio/floatio.dosc
+DOCUMENT    stdio/fvwrite.dosc
+DOCUMENT    stdio/glue.dosc
+DOCUMENT     stdio/local.dosc
+ 
+DOCUMENT      stdlib/atexit.dosc
+ 
+DOCUMENT    stdtime/private.dosc
+DOCUMENT    stdtime/timelocal.dosc
+DOCUMENT     stdtime/tzfile.dosc
+
+// include all mmpi files
+#include "libc_init.mmpi"
+#include "stdio.mmpi"
+#include "string.mmpi"
+#include "libc_std.mmpi"
+#include "syscalls.mmpi"
+#include "wchar.mmpi"
+#include "ctype.mmpi"
+#include "locale.mmpi"
+#include "time.mmpi"
+#include "libc_sys.mmpi"
+#include "inet.mmpi"
+#include "libc_db.mmpi"
+#include "netdb.mmpi"
+#include "ipc.mmpi"
+#include "regex.mmpi"
+#include "socket.mmpi"
+
+
+SOURCEPATH  ../src/gdtoa/ 
+SOURCE glue.c gdtoa.c  dmisc.c dtoa.c misc.c  _hdtoa.c _ldtoa.c sum.c
+SOURCE strtod.c gethex.c strtord.c strtodg.c ulp.c gmisc.c smisc.c hd_init.c hexnan.c
+
+
+
+// linking libraries.
+LIBRARY 	euser.lib
+LIBRARY 	efsrv.lib
+LIBRARY 	libpthread.lib
+LIBRARY 	libm.lib
+LIBRARY 	charconv.lib
+LIBRARY 	backend.lib
+LIBRARY		esock.lib
+LIBRARY		bafl.lib 
+LIBRARY		insock.lib 
+LIBRARY		tzclient.lib
+LIBRARY		timezonelocalization.lib
+
+#ifdef WINSCW
+//wsd solution
+LIBRARY		ewsd.lib
+#endif
+
+
+
+PAGED
+// End of File
+SMPSAFE

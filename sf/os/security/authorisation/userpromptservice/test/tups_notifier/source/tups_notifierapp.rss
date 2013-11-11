@@ -1,0 +1,199 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* User Prompt Service Test techview notifier resources
+*
+*/
+
+
+NAME TUPS
+
+#include <techview/eikon.rh>
+#include <techview/eikon.rsg>
+
+#include "tups_notifierapp.hrh"
+#include "tups_notifierapp.rh"
+#include "tups_notifierapp.rls"
+
+RESOURCE RSS_SIGNATURE { }
+
+// Application Info 
+RESOURCE EIK_APP_INFO 
+	{
+	}
+
+// Buttons
+RESOURCE DLG_BUTTONS r_upsdlg_buttons
+	{
+	buttons =
+		{
+		DLG_BUTTON
+			{
+			id = EBtnIdYes;
+			button = CMBUT { txt = STRING_r_upsdlg_yes_button; };
+			hotkey = HOTKEY_r_upsdlg_yes_button;
+			},
+		DLG_BUTTON
+			{
+			id = EBtnIdNo;
+			button = CMBUT { txt = STRING_r_upsdlg_no_button; };
+			hotkey = HOTKEY_r_upsdlg_no_button;
+			},
+		DLG_BUTTON
+			{
+			id = EBtnIdSession;
+			button = CMBUT { txt = STRING_r_upsdlg_session_button; };
+			hotkey = HOTKEY_r_upsdlg_session_button;
+			},
+		DLG_BUTTON
+			{
+			id = EBtnIdAlways;
+			button = CMBUT { txt = STRING_r_upsdlg_always_button; };
+			hotkey = HOTKEY_r_upsdlg_always_button;
+			},
+		DLG_BUTTON
+			{
+			id = EBtnIdNever;
+			button = CMBUT { txt = STRING_r_upsdlg_never_button; };
+			hotkey = HOTKEY_r_upsdlg_never_button;
+			}
+		};
+	}
+
+// Security Prompt Dialog
+RESOURCE DIALOG r_upsdlg_dialog
+{
+//	flags = EEikDialogFlagWait;
+	buttons = r_upsdlg_buttons;
+	title = STRING_r_upsdlg_dialog_title; 
+	// title = r_upsdlg_dialog_title;
+	items =
+	{
+		DLG_LINE
+		{
+		id = EUpsDlgInfoLabel;
+		type = EEikCtLabel;
+		control = LABEL 
+			{
+			horiz_align=EEikLabelAlignHLeft;
+			txt = STRING_r_upsdlg_info_label;
+			};
+		},
+		DLG_LINE
+		{
+		id = EUpsDlgQuestionLabel;
+		type = EEikCtLabel;
+		control = LABEL 
+			{
+			txt = STRING_r_upsdlg_question_label;
+			horiz_align=EEikLabelAlignHLeft;
+			};
+		},
+		DLG_LINE
+		{
+		id = EUpsDlgApplicationLabel;
+		type = EEikCtLabel;
+		control = LABEL 
+			{
+			txt = STRING_r_upsdlg_application_label;
+			horiz_align=EEikLabelAlignHLeft;
+			};
+		},
+		DLG_LINE
+		{
+		id = EUpsDlgVendorLabel;
+		type = EEikCtLabel;
+		control = LABEL 
+			{
+			txt = STRING_r_upsdlg_vendor_label;
+			horiz_align=EEikLabelAlignHLeft;
+			};
+		},
+		DLG_LINE
+		{
+		id = EUpsDlgServiceLabel;
+		type = EEikCtLabel;
+		control = LABEL 
+			{
+			txt = STRING_r_upsdlg_service_label;
+			horiz_align=EEikLabelAlignHLeft;
+			};
+		},
+		DLG_LINE
+		{
+		id = EUpsDlgDestinationLabel;
+		type = EEikCtLabel;
+		control = LABEL 
+			{
+			txt = STRING_r_upsdlg_destination_label;
+			horiz_align=EEikLabelAlignHLeft;
+			};
+		}
+	};
+}
+
+RESOURCE SERVICE_DESCRIPTIONS r_service_descriptions
+	{
+	services = 
+		{
+		SERVICE_DESCRIPTION
+			{
+			systemserversid = 0x01041000;
+			serviceid = 0x01041001;
+			name = STRING_r_upsdlg_service_sms;
+			},
+		SERVICE_DESCRIPTION
+			{
+			systemserversid = 0x01041000;
+			serviceid = 0x01041002;
+			name = STRING_r_upsdlg_service_mms;
+			},
+		SERVICE_DESCRIPTION
+			{
+			systemserversid = 0x01042000;
+			serviceid = 0x01042001;
+			name = STRING_r_upsdlg_service_ip;
+			},
+		SERVICE_DESCRIPTION
+			{
+			systemserversid = 0x01043000;
+			serviceid = 0x01043001;
+			name = STRING_r_upsdlg_service_tel;
+			}
+		};
+	}
+
+
+// Strings
+
+// Button text
+RESOURCE TBUF r_upsdlg_yes_button		{ buf = STRING_r_upsdlg_yes_button; }
+RESOURCE TBUF r_upsdlg_no_button		{ buf = STRING_r_upsdlg_no_button; }
+RESOURCE TBUF r_upsdlg_session_button		{ buf = STRING_r_upsdlg_session_button; }
+RESOURCE TBUF r_upsdlg_always_button		{ buf = STRING_r_upsdlg_always_button; }
+RESOURCE TBUF r_upsdlg_never_button		{ buf = STRING_r_upsdlg_never_button; }
+
+RESOURCE TBUF r_upsdlg_dialog_title		{ buf = STRING_r_upsdlg_dialog_title; }
+RESOURCE TBUF r_upsdlg_info_label		{ buf = STRING_r_upsdlg_info_label; }
+RESOURCE TBUF r_upsdlg_question_label		{ buf = STRING_r_upsdlg_question_label; }
+RESOURCE TBUF r_upsdlg_application_label	{ buf = STRING_r_upsdlg_application_label; }
+RESOURCE TBUF r_upsdlg_vendor_label		{ buf = STRING_r_upsdlg_vendor_label; }
+RESOURCE TBUF r_upsdlg_destination_label	{ buf = STRING_r_upsdlg_destination_label; }
+RESOURCE TBUF r_upsdlg_service_label		{ buf = STRING_r_upsdlg_service_label; }
+
+// Localisable service names
+RESOURCE TBUF r_upsdlg_service_sms { buf = STRING_r_upsdlg_service_sms; }
+RESOURCE TBUF r_upsdlg_service_mms { buf = STRING_r_upsdlg_service_mms; }
+RESOURCE TBUF r_upsdlg_service_ip  { buf = STRING_r_upsdlg_service_ip; }
+RESOURCE TBUF r_upsdlg_service_tel { buf = STRING_r_upsdlg_service_tel; }

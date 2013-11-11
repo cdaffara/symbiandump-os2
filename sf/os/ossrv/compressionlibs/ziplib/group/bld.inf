@@ -1,0 +1,58 @@
+// Copyright (c) 1999-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+PRJ_PLATFORMS
+DEFAULT TOOLS TOOLS2
+
+// Define this to prevent duplicate exports in tools INF file.
+#define ZLIB_H_EXPORTED_ALREADY
+
+PRJ_EXPORTS
+../inc/zlib.h						SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(zlib.h)
+../inc/zconf.h						SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(zconf.h)
+../inc/ezbufman.h 					SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(ezbufman.h)
+../inc/ezcompressor.h 				SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(ezcompressor.h)
+../inc/ezconf.h 					SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(ezconf.h)
+../inc/ezdecompressor.h 			SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(ezdecompressor.h)
+../inc/ezfilebuffer.h 				SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(ezfilebuffer.h)
+../inc/ezgzip.h 					SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(ezgzip.h)
+../inc/ezlib.h 						SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(ezlib.h)
+../inc/ezstream.h 					SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(ezstream.h)
+../inc/ezliberrorcodes.h 			SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(ezliberrorcodes.h)
+../inc/localtypes.h					SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(localtypes.h)
+../inc/zipfile.h					SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(zipfile.h)
+../inc/ziparchive.h					SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(ziparchive.h)
+../inc/zipfilememberinputstream.h 	SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(zipfilememberinputstream.h)
+../inc/zipfilemember.h 				SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(zipfilemember.h)
+../inc/zipfilememberiterator.h 		SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(zipfilememberiterator.h)
+
+// ROMKIT include
+../inc/ezlib.iby 					/epoc32/rom/include/ezlib.iby
+
+//If DEFAULT Platform
+#ifndef TOOLS2
+#ifndef TOOLS
+    #include "libz/bld.inf"
+PRJ_MMPFILES
+    ezlib.mmp
+    ezip.mmp
+	#include "../test/oldezlib/group/bld.inf"
+	#include "../test/rtest/group/bld.inf"
+	#include "../test/tef/group/bld.inf"
+#endif //ifndef TOOLS endif
+#endif //ifndef TOOLS2 endif
+
+//If TOOLS OR TOOLS2 Platform
+#include "../group/tools/bld.inf"

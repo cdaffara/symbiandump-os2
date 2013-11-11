@@ -1,0 +1,310 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* Library to add s32strm support for IPC (ie. stream via multiple IPC read/writes instead of
+* copying to a buffer and streaming to/from there.
+*
+*/
+
+START_TESTCASE                SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-0001
+
+//! @SYMTestCaseID            SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-0001
+
+//! @SYMTestCaseDesc          Script 2: Test authentication, paspphrase caching, etc
+
+//!                           
+
+//!                           //////////////////////////////////////////////////////////////////////////////
+
+//!                           0. Initialisation
+
+//!                           //////////////////////////////////////////////////////////////////////////////
+
+//!                           
+
+//!                           First we delete the keystore data file, so that we know we are setting the
+
+//!                           passphrase with our first key add operation.
+
+//!                           Then we set up some keys for the rest of the test script to use:
+
+//!                           
+
+//!                           Key:     Type:
+
+//!                           banana	RSA
+
+//!                           mango	DSA
+
+//!                           tomato	DH
+
+//!                           
+
+//!                           test passphrase timeout affects all keys, and all processes
+
+//! @SYMTestActions           1) 0.1, Delete keystore data file
+
+//!                           2) 0.2, Opening key store in manager mode
+
+//!                           3) 0.3 Delete everything
+
+RUN_TEST_STEP                 -1    CTestHandler        deletekeystoredata  
+
+RUN_TEST_STEP                 -1    CTestHandler        init                   authobjects_useauth.ini	SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-1-002
+
+RUN_TEST_STEP                 -1    CTestHandler        deletekeys          
+
+END_TESTCASE                  SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-0001
+
+
+
+
+
+START_TESTCASE                SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-0002
+
+//! @SYMTestCaseID            SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-0002
+
+//! @SYMTestCaseDesc          //////////////////////////////////////////////////////////////////////////////
+
+//!                           1. Test passphrase caching
+
+//!                           //////////////////////////////////////////////////////////////////////////////
+
+//!                           
+
+//!                           1.1 Test adding a key leaves it open and with default timeout of 30 seconds
+
+//! @SYMTestActions           1) 1.1.1, Add key banana
+
+//!                           5) 1.1.5, Add key mango
+
+//!                           6) 1.1.6, Add key tomato
+
+//!                           7) 1.1.7, Check everything added ok
+
+RUN_TEST_STEP                 -1    CTestHandler        addkey                 authobjects_useauth.ini   SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-2-001
+
+RUN_TEST_STEP                 -1    CTestHandler        addkey                 authobjects_useauth.ini   SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-2-005
+
+RUN_TEST_STEP                 -1    CTestHandler        addkey                 authobjects_useauth.ini   SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-2-006
+
+RUN_TEST_STEP                 -1    CTestHandler        listkeys               authobjects_useauth.ini   SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-2-007
+
+END_TESTCASE                  SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-0002
+
+
+
+
+START_TESTCASE                SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-0003
+
+//! @SYMTestCaseID            SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-0003
+
+//! @SYMTestCaseDesc          //////////////////////////////////////////////////////////////////////////////
+
+//!                           6. Test security policies
+
+//!                           //////////////////////////////////////////////////////////////////////////////
+
+//!                           
+
+//!                           6.1 Test default policy is to police based on SID of the creator
+
+//! @SYMTestActions           1) 6.1.1, Get default use policy
+
+//!                           2) 6.1.2, Get default management policy
+
+RUN_TEST_STEP                 -1    CTestHandler        getusepolicy           authobjects_useauth.ini   SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-3-001
+
+RUN_TEST_STEP                 -1    CTestHandler        getmanagementpolicy    authobjects_useauth.ini   SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-3-002
+
+END_TESTCASE                  SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-0003
+
+
+
+
+
+START_TESTCASE                SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-0004
+
+//! @SYMTestCaseID            SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-0004
+
+//! @SYMTestCaseDesc          6.2 Test setting policies for the keys
+
+//! @SYMTestActions           1) 6.2.1, Set banana's use policy based on SID and capabilities
+
+//!                           2) 6.2.2, Check banana's use policy set correctly
+
+//!                           3) 6.2.3, Set mango's use policy based on VID and capabilities
+
+//!                           4) 6.2.4, Check mango's use policy set correctly
+
+//!                           5) 6.2.5, Set tomato's use policy based on just capabilities
+
+//!                           6) 6.2.6, Check tomato's use policy set correctly
+
+//!                           7) 6.2.7.1, Test we can't set management policy that doesn't include the calling process
+
+//!                           8) 6.2.7.2, Test we can't set management policy that doesn't include the calling process
+
+//!                           9) 6.2.7.3, Test we can't set management policy that doesn't include the calling process
+
+//!                           10) 6.2.7.4, Set banana's management policy based on just capabilities
+
+//!                           11) 6.2.8, Check banana's management policy set correctly
+
+//!                           12) 6.2.9, Set mango's management policy based on SID and capabilities
+
+//!                           13) 6.2.10, Check mango's management policy set correctly
+
+//!                           14) 6.2.11, Set tomato's management policy based on VID and capabilities
+
+//!                           15) 6.2.12, Check tomato's management policy set correctly
+
+RUN_TEST_STEP                 -1    CTestHandler        setusepolicy           authobjects_useauth.ini   SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-4-001
+
+RUN_TEST_STEP                 -1    CTestHandler        getusepolicy           authobjects_useauth.ini   SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-4-002
+
+RUN_TEST_STEP                 -1    CTestHandler        setusepolicy           authobjects_useauth.ini   SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-4-003
+
+RUN_TEST_STEP                 -1    CTestHandler        getusepolicy           authobjects_useauth.ini   SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-4-004
+
+RUN_TEST_STEP                 -1    CTestHandler        setusepolicy           authobjects_useauth.ini   SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-4-005
+
+RUN_TEST_STEP                 -1    CTestHandler        getusepolicy           authobjects_useauth.ini   SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-4-006
+
+RUN_TEST_STEP !Error=-6       -1    CTestHandler        setmanagementpolicy    authobjects_useauth.ini   SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-4-007
+
+RUN_TEST_STEP !Error=-6       -1    CTestHandler        setmanagementpolicy    authobjects_useauth.ini   SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-4-008
+
+RUN_TEST_STEP !Error=-6       -1    CTestHandler        setmanagementpolicy    authobjects_useauth.ini   SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-4-009
+
+RUN_TEST_STEP                 -1    CTestHandler        setmanagementpolicy    authobjects_useauth.ini   SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-4-010
+
+RUN_TEST_STEP                 -1    CTestHandler        getmanagementpolicy    authobjects_useauth.ini   SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-4-011
+
+RUN_TEST_STEP                 -1    CTestHandler        setmanagementpolicy    authobjects_useauth.ini   SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-4-012
+
+RUN_TEST_STEP                 -1    CTestHandler        getmanagementpolicy    authobjects_useauth.ini   SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-4-013
+
+RUN_TEST_STEP                 -1    CTestHandler        setmanagementpolicy    authobjects_useauth.ini   SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-4-014
+
+RUN_TEST_STEP                 -1    CTestHandler        getmanagementpolicy    authobjects_useauth.ini   SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-4-015
+
+END_TESTCASE                  SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-0004
+
+
+
+
+
+START_TESTCASE                SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-0005
+
+//! @SYMTestCaseID            SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-0005
+
+//! @SYMTestCaseDesc          6.3 Test enforcement of security policies
+
+//! @SYMTestActions           1) 6.3.1, Test use policy enforcement for SID and capabilities
+
+//!                           2) 6.3.2, Test use policy enforcement for VID and capabilities
+
+//!                           3) 6.3.3, Test use policy enforcement for just capabilities
+
+//!                           4) 6.3.4, Test banana's management policy enforcement (just capabilities)
+
+//!                           5) 6.3.5, Test mango's management policy enforcement (SID and capabilities)
+
+//!                           6) 6.3.6, Test tomato's management policy enforcement (VID and capabilities)
+
+RUN_TEST_STEP                 -1    CTestHandler        policytest             authobjects_useauth.ini   SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-5-001
+
+RUN_TEST_STEP                 -1    CTestHandler        policytest             authobjects_useauth.ini   SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-5-002
+
+RUN_TEST_STEP                 -1    CTestHandler        policytest             authobjects_useauth.ini   SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-5-003
+
+RUN_TEST_STEP                 -1    CTestHandler        policytest             authobjects_useauth.ini   SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-5-004
+
+RUN_TEST_STEP                 -1    CTestHandler        policytest             authobjects_useauth.ini   SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-5-005
+
+RUN_TEST_STEP                 -1    CTestHandler        policytest             authobjects_useauth.ini   SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-5-006
+
+END_TESTCASE                  SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-0005
+
+
+
+
+
+START_TESTCASE                SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-0006
+
+//! @SYMTestCaseID            SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-0006
+
+//! @SYMTestCaseDesc          //////////////////////////////////////////////////////////////////////////////
+
+//!                           7. Test policing of other APIs
+
+//!                           //////////////////////////////////////////////////////////////////////////////
+
+//!                           
+
+//!                           7.1 Test set timeout is policed with WriteDeviceData capability
+
+//! @SYMTestActions           1) 7.1, Test policing of set timeout
+
+//!                           2) 7.2, Test policing of create and import by WriteUserData
+
+//!                           3) 7.3, Test policing of list by ReadUserData
+
+RUN_TEST_STEP                 -1    CTestHandler        policytest             authobjects_useauth.ini   SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-6-001
+
+RUN_TEST_STEP                 -1    CTestHandler        policytest             authobjects_useauth.ini   SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-6-002
+
+END_TESTCASE                  SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-0006
+
+
+
+
+
+START_TESTCASE                SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-0007
+
+//! @SYMTestCaseID            SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-0007
+
+//! @SYMTestCaseDesc          //////////////////////////////////////////////////////////////////////////////
+
+//!                           Cleanup
+
+//!                           //////////////////////////////////////////////////////////////////////////////
+
+//! @SYMTestActions           1) 8.0, List keys
+
+//!                           2) 8.1, Delete keys
+
+//!                           3) 8.2, Close key store
+
+//!                           4) 8.3, Sleep 5 seconds
+
+//!                           5) 8.4, Check for server heap error
+
+RUN_TEST_STEP                 -1    CTestHandler        listkeys               authobjects_useauth.ini   SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-7-001
+
+RUN_TEST_STEP                 -1    CTestHandler        deletekeys             authobjects_useauth.ini   SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-7-002
+
+RUN_TEST_STEP                 -1    CTestHandler        delete              
+
+RUN_TEST_STEP                 -1    CTestHandler        sleep                  authobjects_useauth.ini   SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-7-004
+
+RUN_TEST_STEP                 -1    CTestHandler        checkserverheaperror
+
+END_TESTCASE                  SEC-FILETOKENS-AUTHOBJECTS_V2_USEAUTH-0007
+
+
+
+
+

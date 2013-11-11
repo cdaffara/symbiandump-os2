@@ -1,0 +1,32 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SERVER te_RegBlockTestSuite 
+
+START_TESTCASE DT-TEF-TestBlock-0065
+//! @SYMTestCaseID          DT-TEF-TestBlock-0065
+//! @SYMCreationDate        03-07-2008
+//! @SYMAuthor              DavidZhang
+//! @SYMTestType            CT
+//! @SYMTestPriority        Medium
+//! @SYMTestCaseDesc        Pass parameters to a START_TEST_BLOCK in the next order: &lt;server name&gt; &lt;timeout&gt; &lt;ini file&gt;.
+//! @SYMTestExpectedResults The test completes without errors.
+//! @SYMTestActions         See description
+	START_TEST_BLOCK	te_RegBlockTestSuite 100 ${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini
+		CREATE_OBJECT	te_RegBlockTestWrapper	TestCase008_obj
+		COMMAND		TestCase008_obj			DummyFunction
+	END_TEST_BLOCK
+END_TESTCASE DT-TEF-TestBlock-0065

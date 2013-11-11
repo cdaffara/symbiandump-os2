@@ -1,0 +1,39 @@
+/*
+* Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+* Configuration for NCM functions
+*
+*/
+
+#ifndef USBNCM_IBY
+#define USBNCM_IBY
+
+// NCM Feature flag
+#ifdef FF_AUTOMOTIVESTACK
+
+#include <usbncmconfiguration.hby>
+
+// *** NCM (networking control model) Class Controller.
+
+#ifdef USBNCM_PATCHDATA_KUSBNCM_CUSTOM_ETHERNET_FRAME_SIZE
+patchdata ncmclasscontroller.dll@KEthernetFrameSize USBNCM_PATCHDATA_KUSBNCM_CUSTOM_ETHERNET_FRAME_SIZE
+#endif
+
+USB_PLUGIN(ncmclasscontroller.dll,2002bcfd.rsc)
+file=ABI_DIR\USB_DIR\ncmpkt.drv        ncmpkt.drv
+file=ABI_DIR\USB_DIR\ncminternalsrv.dll   ncminternalsrv.dll
+
+#endif // FF_AUTOMOTIVESTACK
+
+#endif // USBNCM_IBY

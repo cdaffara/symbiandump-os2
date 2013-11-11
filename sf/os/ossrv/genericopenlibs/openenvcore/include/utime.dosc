@@ -1,0 +1,74 @@
+/** @file  ../include/utime.h
+@internalComponent
+*/
+
+/** @struct utimbuf
+
+The utimbuf structure is used with the utime function to specify new access and modification times for a file. It contains the following members:
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @var utimbuf::actime
+Access time 
+*/
+
+/** @var utimbuf::modtime
+Modification time 
+*/
+
+/** @fn  utime(const char *name, const struct utimbuf *filetimes)
+@param name
+@param filetimes
+@return   errno is set appropriately.
+
+  This interface is obsoleted by utimes.
+
+The utime function sets the access and modification times of the named file from the actime and modtime fields of the struct utimbuf pointed at by filetimes.
+
+If the times are specified (the timep argument is non- NULL) the caller must be the owner of the file or be the super-user.
+
+If the times are not specified (the timep argument is NULL) the caller must be the owner of the file, have permission to write the file, or be the super-user.
+
+Examples:
+@code
+/* Detailed description:  Sample usage of utime system call
+ *  Preconditions:  Example.txt file should exist in the working directory
+ */
+#include <stdio.h>
+#include <utime.h>
+int main()
+{
+  struct utimbuf Time ;
+  if(utime("Example.txt" , &Time;) < 0 ) 
+  {
+     printf("Utime call failed") ;
+     return -1 ;
+  }
+  printf("Utime call succeded") ;
+  return 0 ;
+}
+
+@endcode
+ Output
+@code
+Utime call succeded
+
+@endcode
+
+Limitations:
+
+KErrNotReady of Symbian error code is mapped to ENOENT, which typically means drive
+not found or filesystem not mounted on the drive.
+
+@see stat()
+@see utimes()
+
+
+
+@capability Deferred @ref RFs::SetModified(const TDesC16&, const TTime&)
+
+@publishedAll
+@externallyDefinedApi
+*/

@@ -1,0 +1,96 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+START_TESTCASE                SEC-OLDSERVER_NEWFEATURE-0001
+
+//! @SYMTestCaseID            SEC-OLDSERVER_NEWFEATURE-0001
+
+//! @SYMTestCaseDesc          
+
+//! @SYMTestActions           1) Delete keystore data file
+
+//!                           2) Retrieving label of a particular key store
+
+//!                           3) Closing key store
+
+//!                           4) Retrieving label of a particular key store
+
+//!                           5) Closing key store
+
+//!                           6) 1.0.0.0.1,Opening key store 1 in manager mode
+
+//!                           7) 1.0.0.0.2,Opening key store 2 in manager mode
+
+//!                           8) 1.0.0.1 NOT A TEST Delete default keys
+
+//!                           9) 1.0.0.1.0,Add a key (TEST ID: GT0140-KEY002 and GT0140-KEY003)
+
+//!                           10) 1.0.0.1.0,Add a key (TEST ID: GT0140-KEY002 and GT0140-KEY003)
+
+//!                           11) Set a new authentication policy for a key with which the user is not registered
+
+//!                           12) Gets authentication policy for a key
+
+//!                           13) 1.1.0 Import a RSA key
+
+//!                           14) 1.2.0.69.0 Closing key store 1
+
+//!                           15) 1.2.0.69.1 Closing key store 2
+
+//!                           16) 1.4.999.2, Sleep 5 seconds
+
+//!                           17) 1.4.999.3, Check for server heap error
+
+RUN_TEST_STEP                 -1    CTestHandler        deletekeystoredata  
+
+RUN_TEST_STEP                 -1    CTestHandler        init                   oldserver_newfeature.ini   SEC-OLDSERVER_NEWFEATURE-0001-002
+
+RUN_TEST_STEP                 -1    CTestHandler        delete              
+
+RUN_TEST_STEP !Error=-2       -1    CTestHandler        init                   oldserver_newfeature.ini   SEC-OLDSERVER_NEWFEATURE-0001-004
+
+RUN_TEST_STEP                 -1    CTestHandler        delete              
+
+RUN_TEST_STEP                 -1    CTestHandler        init                   oldserver_newfeature.ini   SEC-OLDSERVER_NEWFEATURE-0001-006
+
+RUN_TEST_STEP                 -1    CTestHandler        init                   oldserver_newfeature.ini   SEC-OLDSERVER_NEWFEATURE-0001-007
+
+RUN_TEST_STEP                 -1    CTestHandler        deletekeys          
+
+RUN_TEST_STEP                 -1    CTestHandler        addkey                 oldserver_newfeature.ini   SEC-OLDSERVER_NEWFEATURE-0001-009
+
+RUN_TEST_STEP !Error=-5       -1    CTestHandler        addkey                 oldserver_newfeature.ini   SEC-OLDSERVER_NEWFEATURE-0001-010
+
+RUN_TEST_STEP !Error=-5       -1    CTestHandler        authenticationpolicy   oldserver_newfeature.ini   SEC-OLDSERVER_NEWFEATURE-0001-011
+
+RUN_TEST_STEP !Error=-5       -1    CTestHandler        authenticationpolicy   oldserver_newfeature.ini   SEC-OLDSERVER_NEWFEATURE-0001-012
+
+RUN_TEST_STEP !Error=-5       -1    CTestHandler        importkey              oldserver_newfeature.ini   SEC-OLDSERVER_NEWFEATURE-0001-013
+
+RUN_TEST_STEP                 -1    CTestHandler        delete              
+
+RUN_TEST_STEP                 -1    CTestHandler        delete              
+
+RUN_TEST_STEP                 -1    CTestHandler        sleep                  oldserver_newfeature.ini   SEC-OLDSERVER_NEWFEATURE-0001-016
+
+RUN_TEST_STEP                 -1    CTestHandler        checkserverheaperror
+
+END_TESTCASE                  SEC-OLDSERVER_NEWFEATURE-0001
+
+
+
+
+

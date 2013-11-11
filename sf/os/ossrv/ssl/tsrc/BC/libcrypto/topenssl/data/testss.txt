@@ -1,0 +1,41 @@
+openssl testss(3_50_2_6735) test_log make a certificate request using 'req'
+openssl testss(3_50_2_6735) req -config C:/CAss.cnf -out C:/reqCA.ss -keyout C:/keyCA.ss -new
+openssl testss(3_50_2_6735) test_log convert the certificate request into a self signed certificate using 'x509'
+openssl testss(3_50_2_6735) x509 -sha1 -CAcreateserial -in C:/reqCA.ss -days 30 -req -out C:/certCA.ss -signkey C:/keyCA.ss -extfile C:/CAss.cnf -extensions v3_ca
+openssl testss(3_50_2_6735) test_log convert a certificate into a certificate request using 'x509'
+openssl testss(3_50_2_6735) x509 -sha1 -in C:/certCA.ss -x509toreq -signkey C:/keyCA.ss -out C:/reqCA.ss2
+openssl testss(3_50_2_6735) req -config c:/openssl.cnf -verify -in C:/reqCA.ss -noout
+openssl testss(3_50_2_6735) req -config c:/openssl.cnf -verify -in C:/reqCA.ss2 -noout
+openssl testss(3_50_2_6735) verify -CAfile C:/certCA.ss C:/certCA.ss
+openssl testss(3_50_2_6735) test_log make a user certificate request using 'req'
+openssl testss(3_50_2_6735) req -config C:/Uss.cnf -out C:/reqU.ss -keyout C:/keyU.ss -new
+openssl testss(3_50_2_6735) test_log sign user certificate request with the just created CA via 'x509'
+openssl testss(3_50_2_6735) x509 -sha1 -CAcreateserial -in C:/reqU.ss -days 30 -req -out C:/certU.ss -CA C:/certCA.ss -CAkey C:/keyCA.ss -extfile C:/Uss.cnf -extensions v3_ee
+openssl testss(3_50_2_6735) verify -CAfile C:/certCA.ss C:/certU.ss
+openssl testss(3_50_2_6735) test_log Certificate details
+openssl testss(3_50_2_6735) x509 -sha1 -subject -issuer -startdate -enddate -noout -in C:/certU.ss
+openssl testss(3_50_2_6735) test_log make a proxy certificate request using 'req'
+openssl testss(3_50_2_6735) req -config C:/P1ss.cnf -out C:/reqP1.ss -keyout C:/keyP1.ss -new
+openssl testss(3_50_2_6735) test_log sign proxy certificate request with the just created user certificate via 'x509'
+openssl testss(3_50_2_6735) x509 -sha1 -CAcreateserial -in C:/reqP1.ss -days 30 -req -out C:/certP1.ss -CA C:/certU.ss -CAkey C:/keyU.ss -extfile C:/P1ss.cnf -extensions v3_proxy
+openssl testss(3_50_2_6735) verify -CAfile C:/certCA.ss -untrusted c:/certU.ss C:/certP1.ss
+openssl testss(3_50_2_6735) test_log Certificate details
+openssl testss(3_50_2_6735) x509 -sha1 -subject -issuer -startdate -enddate -noout -in C:/certP1.ss
+openssl testss(3_50_2_6735) test_log make another proxy certificate request using 'req'
+openssl testss(3_50_2_6735) req -config C:/P2ss.cnf -out C:/reqP2.ss -keyout C:/keyP2.ss -new
+openssl testss(3_50_2_6735) sign second proxy certificate request with the first proxy certificate via 'x509'
+openssl testss(3_50_2_6735) x509 -sha1 -CAcreateserial -in C:/reqP2.ss -days 30 -req -out C:/certP2.ss -CA C:/certP1.ss -CAkey C:/keyP1.ss -extfile C:/P2ss.cnf -extensions v3_proxy
+openssl testss(3_50_2_6735) append c:/certU.ss c:/certP1.ss c:/tmp_intP2.ss
+openssl testss(3_50_2_6735) verify -CAfile C:/certCA.ss -untrusted c:/tmp_intP2.ss C:/certP2.ss
+openssl testss(3_50_2_6735) test_log Certificate details
+openssl testss(3_50_2_6735) x509 -sha1 -subject -issuer -startdate -enddate -noout -in C:/certP2.ss
+openssl testss(3_50_2_6735) test_log The generated CA certificate is C:/certCA.ss
+openssl testss(3_50_2_6735) test_log The generated CA private key is C:/keyCA.ss
+openssl testss(3_50_2_6735) test_log The generated user certificate is C:/certU.ss
+openssl testss(3_50_2_6735) test_log The generated user private key is C:/keyU.ss
+openssl testss(3_50_2_6735) test_log The first generated proxy certificate is C:/certP1.ss
+openssl testss(3_50_2_6735) test_log The first generated proxy private key is C:/keyP1.ss
+openssl testss(3_50_2_6735) test_log The second generated proxy certificate is C:/certP2.ss
+openssl testss(3_50_2_6735) test_log The second generated proxy private key is C:/keyP2.ss
+openssl testss(3_50_2_6735) append c:/certCA.ss c:/certU.ss c:/intP1.ss
+openssl testss(3_50_2_6735) append c:/intP1.ss C:/certP1.ss C:/intP2.ss

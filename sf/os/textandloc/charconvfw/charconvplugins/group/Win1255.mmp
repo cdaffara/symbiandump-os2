@@ -1,0 +1,50 @@
+/*
+* Copyright (c) 1255 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:     This is project specification file for the Win1255 (Hebrew)
+*                charconvplugin.
+*
+*/
+
+
+TARGET               win1255.dll
+TARGETTYPE           PLUGIN
+CAPABILITY           All -Tcb
+
+uid                  0x10009D8D 0x10207409
+VENDORID		0x70000001
+
+SOURCEPATH			../src/plugins
+SOURCE               Win1255.cpp
+SOURCEPATH		/epoc32/build/generatedcpp/charconv
+SOURCE               g_win1255.cpp 
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+USERINCLUDE		../inc
+
+LIBRARY              euser.lib
+LIBRARY              charconv.lib
+LIBRARY              ecom.lib
+
+SOURCEPATH		../resource
+
+Start resource       Win1255.rss
+Targetpath           /resource/charconv
+End
+
+start resource       10207409.rss
+target               win1255.rsc
+
+end
+
+SMPSAFE

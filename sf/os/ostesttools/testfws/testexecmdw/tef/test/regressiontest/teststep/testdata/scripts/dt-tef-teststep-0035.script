@@ -1,0 +1,46 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SUITE	te_RegStepTestSuite -SharedData
+
+START_TESTCASE DT-TEF-TestStep-0035
+//! @SYMTestCaseID          DT-TEF-TestStep-0035
+//! @SYMCreationDate        09-12-2008
+//! @SYMAuthor              extShuoHuang
+//! @SYMTestType            CT
+//! @SYMTestPriority        Medium
+//! @SYMTestCaseDesc        This test case test RUN_TEST_STEP_RESULT, RUN_PANIC_STEP and RUN_PANIC_STEP_RESULT grammer with server -SharedData.
+//! @SYMTestExpectedResults every step should be pass. the test case should be pass.
+	RUN_TEST_STEP_RESULT 106 100 te_RegStepTestSuite SetErrorStep ${SYSDRIVE}\testdata\configs\Error_codes.ini ResultFail
+	RUN_TEST_STEP_RESULT 107 100 te_RegStepTestSuite SetErrorStep ${SYSDRIVE}\testdata\configs\Error_codes.ini ResultInconclusive
+ 	RUN_TEST_STEP_RESULT 108 100 te_RegStepTestSuite SetErrorStep ${SYSDRIVE}\testdata\configs\Error_codes.ini ResultTestSuiteError
+	RUN_TEST_STEP_RESULT 109 100 te_RegStepTestSuite SetErrorStep ${SYSDRIVE}\testdata\configs\Error_codes.ini ResultAbort
+
+	RUN_PANIC_STEP 100 te_RegStepTestSuite PanicTestStep ${SYSDRIVE}\testdata\configs\panictest.ini TestPanic1	
+	RUN_PANIC_STEP 100 te_RegStepTestSuite PanicTestStep ${SYSDRIVE}\testdata\configs\panictest.ini TestPanicFail            
+	RUN_PANIC_STEP 100 te_RegStepTestSuite PanicTestStep ${SYSDRIVE}\testdata\configs\panictest.ini TestPanicInconclusive        
+	RUN_PANIC_STEP 100 te_RegStepTestSuite PanicTestStep ${SYSDRIVE}\testdata\configs\panictest.ini TestPanicTestSuiteError      
+	RUN_PANIC_STEP 100 te_RegStepTestSuite PanicTestStep ${SYSDRIVE}\testdata\configs\panictest.ini TestPanicAbort               
+ 	RUN_PANIC_STEP 100 te_RegStepTestSuite PanicTestStep ${SYSDRIVE}\testdata\configs\panictest.ini TestPanicIgnore
+  
+	RUN_PANIC_STEP_RESULT 1 1 100 te_RegStepTestSuite PanicTestStep ${SYSDRIVE}\testdata\configs\panictest.ini TestPanic1
+	RUN_PANIC_STEP_RESULT 106 "" 100 te_RegStepTestSuite PanicTestStep ${SYSDRIVE}\testdata\configs\panictest.ini TestPanicFail
+	RUN_PANIC_STEP_RESULT 107 "" 100 te_RegStepTestSuite PanicTestStep ${SYSDRIVE}\testdata\configs\panictest.ini TestPanicInconclusive   
+ 	RUN_PANIC_STEP_RESULT 108 "" 100 te_RegStepTestSuite PanicTestStep ${SYSDRIVE}\testdata\configs\panictest.ini TestPanicTestSuiteError 
+	RUN_PANIC_STEP_RESULT 109 "" 100 te_RegStepTestSuite PanicTestStep ${SYSDRIVE}\testdata\configs\panictest.ini TestPanicAbort          
+	RUN_PANIC_STEP_RESULT 110 "" 100 te_RegStepTestSuite PanicTestStep ${SYSDRIVE}\testdata\configs\panictest.ini TestPanicIgnore  	
+	RUN_PANIC_STEP_RESULT 110 "a panic string" 100 te_RegStepTestSuite PanicTestStep ${SYSDRIVE}\testdata\configs\panictest.ini TestPanicIgnoreAString
+END_TESTCASE DT-TEF-TestStep-0035

@@ -1,0 +1,77 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* certtool.exe Certification tool implementation
+*
+*/
+
+
+/**
+ @file
+*/
+
+TARGET		certtool.exe
+TARGETTYPE	exe
+UID 0x10000079 0x101F7E95   
+VENDORID 0x70000001
+
+CAPABILITY WriteDeviceData ReadUserData WriteUserData
+
+
+SOURCEPATH	.
+
+SOURCE 		certtool.cpp 
+SOURCE 		certtool_controller.cpp 
+SOURCE 		certtool_engine.cpp 
+SOURCE 		certtool_command.cpp 
+SOURCE 		certtool_list.cpp 
+SOURCE 		certtool_remove.cpp 
+SOURCE 		certtool_import.cpp 
+SOURCE 		certtool_usage.cpp 
+SOURCE 		certtool_liststores.cpp 
+SOURCE 		certtool_setapps.cpp 
+SOURCE 		certtool_addapps.cpp
+SOURCE 		certtool_removeapps.cpp 
+
+SOURCE 		../keytool/keytool_import.cpp
+SOURCE 		../keytool/keytool_utils.cpp
+SOURCE		../keytool/keytool_view_imp.cpp
+SOURCE		../keytool/keytool_command.cpp
+SOURCE 		../keytool/keytool_params.cpp  
+SOURCE 		../keytool/controller.cpp  
+SOURCE 		../keytool/keytoolfileview.cpp  
+SOURCE		../keytool/keytool_controller.cpp
+SOURCE		../keytool/keytool_remove.cpp
+SOURCE		../keytool/keytool_engine.cpp
+SOURCE		../keytool/keytool_list.cpp
+SOURCE		../keytool/keytool_usage.cpp
+SOURCE		../keytool/keytool_liststores.cpp
+SOURCE		../keytool/keytool_setpolicy.cpp
+
+START RESOURCE	../keytool/keytool.rss
+HEADER
+TARGETPATH	/resource/apps
+END
+
+USERINCLUDE	.
+USERINCLUDE	../keytool
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+LIBRARY	euser.lib efsrv.lib
+LIBRARY certstore.lib crypto.lib
+LIBRARY ctframework.lib
+LIBRARY bafl.lib charconv.lib
+LIBRARY estor.lib 
+SMPSAFE
+

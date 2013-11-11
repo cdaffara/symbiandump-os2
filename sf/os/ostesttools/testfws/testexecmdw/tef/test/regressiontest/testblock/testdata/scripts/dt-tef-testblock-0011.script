@@ -1,0 +1,42 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SERVER te_RegBlockTestSuite -SharedData
+
+START_TESTCASE DT-TEF-TestBlock-0011
+//! @SYMTestCaseID          DT-TEF-TestBlock-0011
+//! @SYMCreationDate        03-07-2008
+//! @SYMAuthor              DavidZhang
+//! @SYMTestType            CT
+//! @SYMTestPriority        Medium
+//! @SYMTestCaseDesc        Check that wrapped object keeps it's value after RESTORE_OBJECT.
+//! @SYMTestExpectedResults The test completes without errors and the variables's value in the second test block must be 1.
+//! @SYMTestActions         1. In the first test block create wrapper object and initialize a wrapped object.
+//!                         2. Call a command to set a value of the object to 1.
+//!                         3. Store the object.
+//!                         4. In the second test block restore the object
+//!                         5. Accessing the object through GetDataObjectL() check the value, it should be equal to 1.
+	START_TEST_BLOCK	100 te_RegBlockTestSuite ${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini
+		CREATE_OBJECT	te_RegBlockTestWrapper	DummyObj
+		COMMAND		DummyObj			New				TestCase108_value_0
+		COMMAND		DummyObj			IncreaseObjectValue
+		STORE		DummyObj
+	END_TEST_BLOCK
+	START_TEST_BLOCK	100 te_RegBlockTestSuite ${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini
+		RESTORE_OBJECT	te_RegBlockTestWrapper	DummyObj
+		COMMAND		DummyObj			GetDataObject			TestCase108_value_1
+	END_TEST_BLOCK
+END_TESTCASE DT-TEF-TestBlock-0011

@@ -1,0 +1,44 @@
+/*
+* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+#ifndef __CHARCONV_ALL_PLUGINS_IBY__
+#define __CHARCONV_ALL_PLUGINS_IBY__
+
+#include <charconv_chinese_simplfied.iby>
+#include <charconv_chinese_traditional.iby>
+
+// Include either charconv_japanese.iby or charconv_japanese_s60.iby to choose operator specific
+// versions of Japanese plugins. Note only ONE of these versions may be present in ROM at any time.
+#include <charconv_japanese.iby>
+//#include <charconv_japanese_s60.iby>
+
+#include <charconv_iso8859x.iby>
+#include <charconv_codepage.iby>
+#include <charconv_sms7bit.iby>
+#include <charconv_gsm7_turkish.iby>
+#include <charconv_spanish_smsencoding.iby>
+#include <charconv_portuguese_smsencoding.iby>
+#include <charconv_s60.iby>
+
+#ifndef __UCS2_PLUGIN__
+#define __UCS2_PLUGIN__
+ECOM_PLUGIN(UCS2.DLL, 102044FE.RSC)
+data=MULTI_LINGUIFY(RSC ZRESOURCE\charconv\ucs2  resource\charconv\ucs2)
+#endif
+
+#endif

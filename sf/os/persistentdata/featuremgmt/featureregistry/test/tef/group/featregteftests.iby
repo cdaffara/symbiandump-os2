@@ -1,0 +1,46 @@
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+#ifndef FEATREGTEFTESTS_IBY
+#define FEATREGTEFTESTS_IBY
+
+#include <testexecute.iby>
+
+// tefplatsec.iby includes setcap.exe. The latter is used to set capabilities
+// of featreg_testpublish.exe for platsec tests.
+// Cannot use setcap.iby directly because that will conflict with components
+// that use TefPlatSec to set capabilities.
+#include <tefplatsec.iby>
+
+#include <featregtesthelper.iby>
+
+// featreg TEF harnesses - exe and script for each
+data=ABI_DIR\BUILD_DIR\te_featreg.exe					system\programs\te_featreg.exe
+data=EPOCROOT##epoc32\data\z\testdata\featreg\dummy.ini             		testdata\featreg\dummy.ini
+
+#ifndef SYMBIAN_FEATURE_MANAGER
+// Feature Registry Main TEF script - runs the above scripts
+data=EPOCROOT##epoc32\data\z\testdata\featreg\featregteftests.script		testdata\featreg\featregteftests.script
+data=EPOCROOT##epoc32\data\z\testdata\featreg\te_featreg.script		testdata\featreg\te_featreg.script
+data=EPOCROOT##epoc32\data\z\testdata\featreg\te_featreg_perf.script        	testdata\featreg\te_featreg_perf.script
+#else
+#include "tef_feature_generator.iby"
+#include "test_efm.iby"
+// Regression tests for the feature registry wrapper layer
+data=EPOCROOT##epoc32\data\z\testdata\featreg\te_efm_regression.script        	testdata\featreg\te_efm_regression.script
+data=EPOCROOT##epoc32\data\z\testdata\featreg\te_efm_regression.ini        	testdata\featreg\te_efm_regression.ini
+#endif
+
+#endif

@@ -1,0 +1,47 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SERVER te_RegBlockTestSuite 
+
+START_TESTCASE DT-TEF-TestBlock-0063
+//! @SYMTestCaseID          DT-TEF-TestBlock-0063
+//! @SYMCreationDate        03-07-2008
+//! @SYMAuthor              DavidZhang
+//! @SYMTestType            CT
+//! @SYMTestPriority        Medium
+//! @SYMTestCaseDesc        Create a number of data wrapper objects, initialize underlying wrapped objects and check they
+//!                         can be accessed and modified using their names via the API.
+//! @SYMTestExpectedResults The test completes without errors.
+//! @SYMTestActions         1. Use CREATE_OBJECT instructions to create 2 data wrapper objects.
+//!                         2. Call a wrapper's API command named New that creates wrapped objects for the wrappers.
+//!                         3. Make sure that the wrapped objects are accessible through other wrapper's CDataWrapper::GetDataObject() function
+//!                         4. Change the wrapped object's values though a different wrapper
+//!                         5. Check that the new values were set properly getting the wrapped objects using CDataWrapper::GetDataObject() function again.
+	START_TEST_BLOCK	100 te_RegBlockTestSuite ${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini
+		CREATE_OBJECT	te_RegBlockTestWrapper	TestCase006_obj
+		CREATE_OBJECT	te_RegBlockTestWrapper	TestCase006_obj_1
+		CREATE_OBJECT	te_RegBlockTestWrapper	TestCase006_obj_2
+		COMMAND		TestCase006_obj_1		New				TestCase006_obj_1
+		COMMAND		TestCase006_obj_2		New				TestCase006_obj_2
+		COMMAND		TestCase006_obj			GetDataObject			TestCase006_obj_1
+		COMMAND		TestCase006_obj			GetDataObject			TestCase006_obj_2
+		COMMAND		TestCase006_obj			ModifyByName			TestCase006_obj1_value2
+		COMMAND		TestCase006_obj			ModifyByName			TestCase006_obj2_value2
+		COMMAND		TestCase006_obj			GetDataObject			TestCase006_obj1_value2
+		COMMAND		TestCase006_obj			GetDataObject			TestCase006_obj2_value2
+		COMMAND		TestCase006_obj			SetDataObject			TestCase006_obj
+	END_TEST_BLOCK
+END_TESTCASE DT-TEF-TestBlock-0063

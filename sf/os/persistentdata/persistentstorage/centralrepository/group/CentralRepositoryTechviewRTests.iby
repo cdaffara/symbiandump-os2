@@ -1,0 +1,87 @@
+// Copyright (c) 2006-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+#ifndef __CENTRALREPOSITORYTECHVIEWRTESTS_IBY__
+#define __CENTRALREPOSITORYTECHVIEWRTESTS_IBY__
+
+REM Central Repository Tests that require Techview.
+
+#ifdef SYMBIAN_BAFL_SYSUTIL
+    #ifdef CENTREP_MW_TESTS
+        #include <swicertstoredat.iby>
+    #endif // CENTREP_MW_TESTS
+#endif // SYMBIAN_BAFL_SYSUTIL
+
+#ifdef CENTREP_MW_TESTS
+	file=ABI_DIR\BUILD_DIR\t_cenrep_back_rest_defect.exe          test\t_cenrep_back_rest_defect.exe
+#endif // CENTREP_MW_TESTS
+	
+#ifdef SYMBIAN_BAFL_SYSUTIL
+	#ifdef CENTREP_MW_TESTS
+	    file=ABI_DIR\BUILD_DIR\t_cenrep_fotaut.exe                test\t_cenrep_fotaut.exe
+	#endif // CENTREP_MW_TESTS
+#endif // SYMBIAN_BAFL_SYSUTIL
+
+#ifndef __CENTREPTESTDATA_IBY__
+    data=DATAZ_\private\10202be9\babababa.txt                 private\10202be9\babababa.txt
+
+    #ifdef SYMBIAN_CENTREP_SUPPORT_MULTIROFS
+         #ifdef PDS_TEST_MULTIROFS
+            // Emulated multirofs regression testing.
+            data=DATAZ_\private\10202be9\babababa.txt         private\10202be9\babababa.txt[01-00]
+        #endif // PDS_TEST_MULTIROFS
+    #endif // SYMBIAN_CENTREP_SUPPORT_MULTIROFS
+
+    #ifdef SYMBIAN_BAFL_SYSUTIL
+        #include <centrepswiteststub.iby>
+        data=DATAZ_\private\10202be9\10033333.txt             private\10202be9\10033333.txt
+        data=DATAZ_\private\10202be9\10033333_modified2.cre   private\10202be9\10033333_modified2.cre
+        data=DATAZ_\private\10202be9\10033333_modified3.cre   private\10202be9\10033333_modified3.cre
+        data=DATAZ_\private\10202be9\10033340_reserved.cre    private\10202be9\10033340_reserved.cre
+        data=DATAZ_\private\10202be9\10033341_reserved.cre    private\10202be9\10033341_reserved.cre
+        data=DATAZ_\private\10202be9\10043336_persists.cre    private\10202be9\10043336_persists.cre
+        data=DATAZ_\private\10202be9\10043337_persists.cre    private\10202be9\10043337_persists.cre
+        data=DATAZ_\private\10202be9\10043338_persists.cre    private\10202be9\10043338_persists.cre
+        data=DATAZ_\private\10202be9\10033341_orig.cre        private\10202be9\10033341_orig.cre
+        data=DATAZ_\private\10202be9\10043336.txt             private\10202be9\10043336.txt
+        data=DATAZ_\private\10202be9\10043337.txt             private\10202be9\10043337.txt
+        data=DATAZ_\private\10202be9\10043338.txt             private\10202be9\10043338.txt
+        data=DATAZ_\private\10202be9\10033333_modified.cre    private\10202be9\10033333_modified.cre
+        data=DATAZ_\private\10202be9\cabacaba.txt             private\10202be9\cabacaba.txt
+        data=DATAZ_\private\10202be9\cadacada.txt             private\10202be9\cadacada.txt
+
+        #ifdef SYMBIAN_CENTREP_SUPPORT_MULTIROFS
+            #ifdef PDS_TEST_MULTIROFS
+                //Emulated multirofs regression testing
+                data=DATAZ_\private\10202be9\10033333.txt     private\10202be9\10033333.txt[01-00]
+                data=DATAZ_\private\10202be9\10043336.txt     private\10202be9\10043336.txt[01-00]
+                data=DATAZ_\private\10202be9\10043337.txt     private\10202be9\10043337.txt[01-00]
+                data=DATAZ_\private\10202be9\10043338.txt     private\10202be9\10043338.txt[01-00]
+            #endif // PDS_TEST_MULTIROFS
+        #endif // SYMBIAN_CENTREP_SUPPORT_MULTIROFS
+
+        #ifndef __TE_SYSUTILTEFTESTS_IBY__
+            data=DATAZ_\RESOURCE\versions\sw.txt              resource\versions\sw.txt
+        #endif // __TE_SYSUTILTEFTESTS_IBY__
+
+        data=DATAZ_\private\10202be9\sw_modified.txt          private\10202be9\sw_modified.txt
+        data=DATAZ_\private\10202be9\sw_modified1.txt         private\10202be9\sw_modified1.txt
+        data=DATAZ_\private\10202be9\RF1.sis                  private\10202be9\RF1.sis
+        data=DATAZ_\private\10202be9\RF4.sis                  private\10202be9\RF4.sis
+    #endif // SYMBIAN_BAFL_SYSUTIL
+
+#endif // __CENTREPTESTDATA_IBY__
+
+#endif // __CENTRALREPOSITORYTECHVIEWRTESTS_IBY__

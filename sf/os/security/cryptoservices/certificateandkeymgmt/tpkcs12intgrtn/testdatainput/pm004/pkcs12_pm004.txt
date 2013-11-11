@@ -1,0 +1,51 @@
+// A simple PKCS#12 file containing a certificate and a private key.
+
+SEQUENCE
+	// Version
+	INTEGER=3
+
+	// authSafe - PFX
+	SEQUENCE
+		OID=PKCS7_DATA
+		EXPLICIT		
+			OCTETSTRING
+				OUTPUT_BINARY_FILE=authsafecontents.der,1
+					// First PDU
+					SEQUENCE
+						INCLUDE=encrypted_contentinfo.txt,07:EE:43:28:2E:FF:F9:D4,1024,PKCS12_PBEIDS_SHAAND3KEYTRIPLEDESCBC,des-ede3-cbc,928fc8bcc6185ddabda211f3c6d2728afbb3239a8c95208d,f59b7405f41d3314,../safecontents.txt,safebag_certbag.txt,../root5ca.der,Encrypted ContentInfo
+	
+INCLUDE=encrypted_contentinfo.txt,07:EE:43:28:2E:FF:F9:D4,1024,PKCS12_PBEIDS_SHAAND3KEYTRIPLEDESCBC,des-ede3-cbc,928fc8bcc6185ddabda211f3c6d2728afbb3239a8c95208d,f59b7405f41d3314,../safecontents.txt,safebag_shroudedkeybag.txt,17:D3:2E:39:CD:F9:CC:D6,2048,PKCS12_PBEIDS_SHAAND3KEYTRIPLEDESCBC,des-ede3-cbc,3abe08c2e6a4782090258b75936f730c81165ad16a968401,d23d26d5f997e21f,../root5ca_key.pk8,../root5ca.der,Root5CA
+
+					END
+				END
+			END
+		END
+	END
+
+	// macData
+	SEQUENCE
+		// DigestInfo
+		SEQUENCE
+			SEQUENCE
+				OID=SHA1
+				NULL
+			END
+			// DIGEST		
+			OCTETSTRING
+				OUTPUT_BINARY_FILE=pm004_mac,1
+					HMAC=SHA1,d9c9d4803178c611251ccefef608bda2bf7ec183
+						INCLUDE_BINARY_FILE=authsafecontents.der
+					END
+				END
+			END		
+		END		
+		// macSalt
+		OCTETSTRING
+			OUTPUT_BINARY_FILE=pm004_macsalt,1
+				RAW=6F:85:5D:15:3C:61:8D:4C
+			END
+		END
+		// iterations
+		INTEGER=2048	
+	END
+END

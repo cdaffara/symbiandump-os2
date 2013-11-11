@@ -1,0 +1,103 @@
+<!--
+* ==============================================================================
+*  Name        : libcrypto_topenssltestenc_blr_winsspd_component.xml
+*  Part of     : topenssl
+*
+*  Description : xml for winsspd
+*  Version:   0.5
+*
+*  Copyright (C) 2006 Nokia Corporation.
+*  This material, including documentation and any related 
+*  computer programs, is protected by copyright controlled by 
+*  Nokia Corporation. All rights are reserved. Copying, 
+*  including reproducing, storing,  adapting or translating, any 
+*  or all of this material requires the prior written consent of 
+*  Nokia Corporation. This material also contains confidential 
+*  information which may not be disclosed to others without the 
+*  prior written consent of Nokia Corporation.
+*
+* ============================================================================
+-->
+<component>
+		<name>libcrypto_topenssltestenc_blr_winsspd_component</name>
+		
+		<testset>
+				<id>libcrypto_topenssltestenc_blr</id>
+				<priority>High</priority>
+		
+		<install type="binary">
+				<src>openssl.exe</src>
+				<dst>z:\sys\bin\openssl.exe</dst>
+		</install>
+		<install type="data">
+                		<src>CAss.cnf</src>
+                		<dst>c:\CAss.cnf</dst>
+    </install>
+    <install type="data">
+                		<src>reqCA.ss</src>
+                		<dst>c:\reqCA.ss</dst>
+    </install>
+    <install type="data">
+                		<src>keyCA.ss</src>
+                		<dst>c:\CAss.cnf</dst>
+    </install>
+		<install type="data">
+                		<src>certCA.ss</src>
+                		<dst>c:\certCA.ss</dst>
+    </install>
+		
+		<install type="data">
+                		<src>openssl.cnf</src>
+                		<dst>c:\openssl.cnf</dst>
+    </install>
+    
+    <install type="data">
+                		<src>reqCA.ss2</src>
+                		<dst>c:\reqCA.ss2</dst>
+    </install>
+     <install type="data">
+                		<src>Uss.cnf</src>
+                		<dst>c:\Uss.cnf</dst>
+    </install>
+     <install type="data">
+                		<src>keyU.ss</src>
+                		<dst>c:\keyU.ss</dst>
+    </install>
+     <install type="data">
+                		<src>reqU.ss</src>
+                		<dst>c:\reqU.ss</dst>
+    </install>
+     <install type="data">
+                		<src>certU.ss</src>
+                		<dst>c:\certU.ss</dst>
+    </install>
+     <install type="data">
+                		<src>P1ss.cnf</src>
+                		<dst>c:\P1ss.cnf</dst>
+    </install>
+
+    <install type="data">
+                		<src>P2ss.cnf</src>
+                		<dst>c:\P2ss.cnf</dst>
+    </install>
+    <install type="data">
+                		<src>Makefile</src>
+                		<dst>c:\Makefile</dst>
+    </install>
+    <install type="data">
+                		<src>testenc.txt</src>
+                		<dst>c:\testenc.txt</dst>
+    </install>
+    		
+		<execute>
+				<file>Z:\sys\bin\openssl.exe</file>
+				<parameters>c:/testenc.txt</parameters>
+        <result type="common">
+            <file>c:\spd_logs\xml\testenc(3_50_2_6732).xml</file>
+        </result>
+        <timeout>600</timeout>
+		</execute>
+		
+		</testset>
+		
+</component>

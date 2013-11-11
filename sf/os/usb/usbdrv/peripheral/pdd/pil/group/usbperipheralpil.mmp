@@ -1,0 +1,45 @@
+/*
+  Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies). 
+  All rights reserved.
+
+  This program and the accompanying materials are made available 
+  under the terms of the Eclipse Public License v1.0 which accompanies 
+  this distribution, and is available at 
+  http://www.eclipse.org/legal/epl-v10.html
+
+  Initial Contributors:
+  Nokia Corporation - initial contribution.
+
+  Contributors:
+*/
+
+#include <platform_paths.hrh>
+
+#include        "kernel/kern_ext.mmh"
+
+target          usbperipheralpil.dll
+targettype      kext
+linkas          usbperipheralpil.dll
+deffile         ../~/usbperipheralpil.def
+vendorid        0x70000001
+uid             0x00000000  0x2002E6DB
+capability      all
+epocallowdlldata
+
+// The sytem include paths are declared by using the following macros
+
+OS_LAYER_SYSTEMINCLUDE
+
+
+
+// Include dirs of the HS-USB component
+userinclude     ../inc
+
+// PIL layer source files
+sourcepath   ../src
+source       chapter9.cpp
+source       descriptors.cpp
+source       misc.cpp
+source       ps_usbc.cpp
+source       queue.cpp
+source       controltransfersm.cpp

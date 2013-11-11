@@ -1,0 +1,397 @@
+/** @file  ../include/spawn.h
+@internalComponent
+*/
+
+/** @def POSIX_SPAWN_RESETIDS
+
+Flags that can be set in posix_spawnattr_t.
+The POSIX_SPAWN_RESETIDS flag in the spawn-flags attribute of the object referenced by attrp governs the effective user ID of the child process. If this flag is not set, the child process shall inherit the parent process' effective user ID. 
+If this flag is set, the child process' effective user ID shall be reset to the parent's real user ID. In either case, if the set-user-ID mode bit of the new process image file is set, the effective user ID of the child process shall become that file's owner ID before the new process image begins execution.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def POSIX_SPAWN_SETPGROUP
+
+Flags that can be set in posix_spawnattr_t
+If the POSIX_SPAWN_SETPGROUP flag is set in the spawn-flags attribute of the object referenced by attrp, and the spawn-pgroup attribute of the same object is non-zero, 
+then the child's process group shall be as specified in the spawn-pgroup attribute of the object referenced by attrp.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def POSIX_SPAWN_SETSIGDEF
+
+Flags that can be set in posix_spawnattr_t
+If the POSIX_SPAWN_SETSIGDEF flag is set in the spawn-flags attribute of the object referenced by attrp, the signals specified in the spawn-sigdefault attribute of the same object shall be set to their default actions in the child process. 
+Signals set to the default action in the parent process shall be set to the default action in the child process.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def POSIX_SPAWN_SETSIGMASK
+
+Flags that can be set in posix_spawnattr_t
+If the POSIX_SPAWN_SETSIGMASK flag is set in the spawn-flags attribute of the object referenced by attrp, the child process shall initially have the signal mask specified in the spawn-sigmask attribute of the object referenced by attrp.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def POSIX_SPAWN_SETSCHEDPARAM
+
+Flags that can be set in posix_spawnattr_t
+If the POSIX_SPAWN_SETSCHEDPARAM flag is set in the spawn-flags attribute of the object referenced by attrp, but POSIX_SPAWN_SETSCHEDULER is not set, the new process image shall initially have the scheduling policy of the calling process with the scheduling parameters specified in the spawn-schedparam attribute of the object referenced by attrp.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def POSIX_SPAWN_SETSCHEDULER
+
+Flags that can be set in posix_spawnattr_t
+If the POSIX_SPAWN_SETSCHEDULER flag is set in the spawn-flags attribute of the object referenced by attrp (regardless of the setting of the POSIX_SPAWN_SETSCHEDPARAM flag), the new process image shall initially have the scheduling policy specified in the spawn-schedpolicy attribute of the object referenced by attrp and the scheduling parameters specified in the spawn-schedparam attribute of the same object.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  posix_spawn(int* aPid, const wchar_t* aFile, const posix_spawn_file_actions_t* aFileActions, const posix_spawnattr_t* attrp, const wchar_t* aArgs, wchar_t** aEnvp)
+@param aPid
+@param aFile
+@param aFileActions
+@param attrp
+@param aArgs
+@param aEnvp
+@return Upon successful completion, posix_spawn() and posix_spawnp() shall return the process ID of the child process to the parent process, in the variable pointed to by a non-NULL aPid argument, and shall return zero as the function return value. Otherwise, no child process shall be created, the value stored into the variable pointed to by a non-NULL aPid is unspecified, and an error number shall be returned as the function return value to indicate the error. If the pid argument is a null pointer, the process ID of the child is not returned to the caller.
+
+The posix_spawn() and posix_spawnp() functions shall create a new process (child process) from the specified process image. The new process image shall be constructed from a regular executable file called the new process image file.
+
+Note: When a child process created using posix_spawn() exits, the parent process receives a SIGCHLD signal.
+
+@code
+
+When a C program is executed as the result of this call, it shall be entered as a C-language function call as follows:
+int main(int argc, char *aArgs[]);
+where argc is the argument count and aArgs is an array of character pointers to the arguments themselves. In addition, the following variable:
+extern char **environ;
+shall be initialized as a pointer to an array of character pointers to the environment strings.
+
+@endcode
+  
+The argument aArgs is an array of character pointers to null-terminated strings. The last member of this array shall be a null pointer and is not counted in argc. These strings constitute the argument list available to the new process image. The value in aArgs[0] should point to a filename that is associated with the process image being started by the posix_spawn() or posix_spawnp() function.
+
+The argument aEnvp is an array of character pointers to null-terminated strings. These strings constitute the environment for the new process image. The environment array is terminated by a null pointer.
+The aFile argument to posix_spawn() is a pathname that identifies the new process image file to execute.
+
+If aFileActions is a null pointer, then file descriptors open in the calling process shall remain open in the child process, except for those whose close-on- exec flag FD_CLOEXEC is set (see fcntl() ). For those file descriptors that remain open, all attributes of the corresponding open file descriptions, including file locks (see fcntl() ), shall remain unchanged.
+
+If aFileActions is not NULL, then the file descriptors open in the child process shall be those open in the calling process as modified by the spawn file actions object pointed to by file_actions and the FD_CLOEXEC flag of each remaining open file descriptor after the spawn file actions have been processed. The effective order of processing the spawn file actions shall be:
+
+@code
+1. The set of open file descriptors for the child process shall initially be the same set as is open for the calling process. All attributes of the corresponding open file descriptions, including file locks (see fcntl() ), shall remain unchanged.
+2. The signal mask, signal default actions, and the effective user and group IDs for the child process shall be changed as specified in the attributes object referenced by attrp.
+3. The file actions specified by the spawn file actions object shall be performed in the order in which they were added to the spawn file actions object.
+4. Any file descriptor that has its FD_CLOEXEC flag set (see fcntl() ) shall be closed.
+@endcode
+
+The posix_spawn() and posix_spawnp() functions may fail if:
+
+[EINVAL] The value specified by file_actions or attrp is invalid. 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  posix_spawn_file_actions_addclose(posix_spawn_file_actions_t* file_actions, int fid)
+@param file_actions
+@param fid
+@return Upon successful completion, these functions shall return zero; otherwise, an error number shall be returned to indicate the error.
+
+Add a close action to the file actions structure
+The posix_spawn_file_actions_addclose() function shall add a close action to the object referenced by file_actions that shall cause the file descriptor fildes to be closed (as if close( fildes) had been called) when a new process is spawned using this file actions object.
+
+A spawn file actions object is of type posix_spawn_file_actions_t (defined in <spawn.h>) and is used to specify a series of actions to be performed by a posix_spawn() or posix_spawnp() operation in order to arrive at the set of open file descriptors for the child process given the set of open file descriptors of the parent. 
+These functions shall fail if:
+
+@code
+[EBADF] The value specified by fildes is negative or greater than or equal to {OPEN_MAX}.
+These functions may fail if:
+[EINVAL] The value specified by file_actions is invalid.
+[ENOMEM] Insufficient memory exists to add to the spawn file actions object. 
+@encode
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  posix_spawn_file_actions_adddup2(posix_spawn_file_actions_t* file_actions, int fid1,int fid2)
+@param file_actions
+@param fid1
+@param fid2
+@return Upon successful completion, the posix_spawn_file_actions_adddup2() function shall return zero; otherwise, an error number shall be returned to indicate the error.
+
+Add a dup2 action to the file actions structure
+
+The posix_spawn_file_actions_adddup2() function shall add a dup2() action to the object referenced by file_actions that shall cause the file descriptor fildes to be duplicated as newfildes (as if dup2( fid1, fid2) had been called) when a new process is spawned using this file actions object.
+
+@code
+The posix_spawn_file_actions_adddup2() function shall fail if:
+
+[EBADF] The value specified by fildes or newfildes is negative or greater than or equal to {OPEN_MAX}.
+[ENOMEM] Insufficient memory exists to add to the spawn file actions object.
+The posix_spawn_file_actions_adddup2() function may fail if:
+[EINVAL] The value specified by file_actions is invalid. 
+@encode
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  posix_spawn_file_actions_addopen(posix_spawn_file_actions_t* file_actions, int fid,const char* path, int oflag, mode_t mode)
+@param file_actions
+@param fid
+@param path
+@param oflag
+@param mode
+@return Upon successful completion, these functions shall return zero; otherwise, an error number shall be returned to indicate the error.
+
+Add an open action to the file actions structure
+
+The posix_spawn_file_actions_addopen() function shall add an open action to the object referenced by file_actions that shall cause the file named by path to be opened (as if open( path, oflag, mode) had been called, and the returned file descriptor, if not fid, had been changed to fid) when a new process is spawned using this file actions object. 
+If fid was already an open file descriptor, it shall be closed before the new file is opened.
+
+@code
+These functions shall fail if:
+[EBADF] The value specified by fildes is negative or greater than or equal to {OPEN_MAX}.
+These functions may fail if:
+[EINVAL]  The value specified by file_actions is invalid.
+[ENOMEM]   Insufficient memory exists to add to the spawn file actions object. 
+@encode
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  posix_spawn_file_actions_destroy(posix_spawn_file_actions_t* file_actions)
+@param file_actions
+@return Upon successful completion, these functions shall return zero; otherwise, an error number shall be returned to indicate the error.
+
+Empty and destroy the file actions structure.
+The posix_spawn_file_actions_destroy() function shall destroy the object referenced by file_actions; the object becomes, in effect, uninitialized. An implementation may cause posix_spawn_file_actions_destroy() to set the object referenced by file_actions to an invalid value. A destroyed spawn file actions object can be reinitialized using posix_spawn_file_actions_init(); the results of otherwise referencing the object after it has been destroyed are undefined.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  posix_spawn_file_actions_init(posix_spawn_file_actions_t* file_actions)
+@param file_actions
+@return Upon successful completion, these functions shall return zero; otherwise, an error number shall be returned to indicate the error.
+
+Initialize the file actions structure.
+
+The posix_spawn_file_actions_init() function shall fail if:
+[ENOMEM] Insufficient memory exists to initialize the spawn file actions object. 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  posix_spawnattr_destroy(posix_spawnattr_t* attrp)
+@param attrp
+@return Returns 0
+
+Empty and cleanup the spawn attributes structure
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  posix_spawnattr_getsigdefault(const posix_spawnattr_t* attrp, sigset_t* sigdefault)
+@param attrp
+@param sigdefault
+@return Returns the sigdefault attribute
+
+The posix_spawnattr_getsigdefault() function shall obtain the value of the spawn-sigdefault attribute from the attributes object referenced by attrp.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  posix_spawnattr_getflags(const posix_spawnattr_t* attrp,short* flags)
+@param attrp
+@param flags
+@return Return the flags attribute
+
+The posix_spawnattr_getflags() function shall obtain the value of the spawn-flags attribute from the attributes object referenced by attrp.
+
+These functions may fail if:
+[EINVAL] The value specified by attrp is invalid. 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  posix_spawnattr_getpgroup(const posix_spawnattr_t* attrp, pid_t* pgroup)
+@param attrp
+@param pgroup
+@return Return the process group attribute
+
+The posix_spawnattr_getpgroup() function shall obtain the value of the spawn-pgroup attribute from the attributes object referenced by attrp.
+
+These functions may fail if:
+[EINVAL] The value specified by attrp is invalid. 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  posix_spawnattr_getschedparam(const posix_spawnattr_t* attrp,struct sched_param* schedparam)
+@param attrp
+@param schedparam
+@return Return scheduling parameters attribute
+
+The posix_spawnattr_getschedparam() function shall obtain the value of the spawn-schedparam attribute from the attributes object referenced by attrp.
+
+These functions may fail if:
+[EINVAL] The value specified by attrp is invalid. 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  posix_spawnattr_getschedpolicy(const posix_spawnattr_t* attrp, int* policy)
+@param attrp
+@param policy
+@return Return the scheduling policy attribute
+
+The posix_spawnattr_getschedpolicy() function shall obtain the value of the spawn-schedpolicy attribute from the attributes object referenced by attrp.
+
+These functions may fail if:
+[EINVAL] The value specified by attrp is invalid. 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  posix_spawnattr_getsigmask(const posix_spawnattr_t* attrp, sigset_t* sigmask)
+@param attrp
+@param sigmask
+@return Return the signal mask attribute
+
+The posix_spawnattr_getsigmask() function shall obtain the value of the spawn-sigmask attribute from the attributes object referenced by attrp.
+
+These functions may fail if:
+[EINVAL] The value specified by attrp is invalid. 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  posix_spawnattr_init(posix_spawnattr_t* attrp)
+@param attrp
+@return Upon successful completion, posix_spawnattr_destroy() and posix_spawnattr_init() shall return zero; otherwise, an error number shall be returned to indicate the error.
+
+Initialize the spawn attributes structure.
+The posix_spawnattr_init() function shall initialize a spawn attributes object attr with the default value for all of the individual attributes used by the implementation. Results are undefined if posix_spawnattr_init() is called specifying an already initialized attr attributes object.
+
+The posix_spawnattr_init() function shall fail if:
+[ENOMEM]  Insufficient memory exists to initialize the spawn attributes object. 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  posix_spawnattr_setsigdefault(posix_spawnattr_t* attrp,const sigset_t* sigdefault)
+@param attrp
+@param sigdefault
+@return Upon successful completion, posix_spawnattr_setsigdefault() shall return zero; otherwise, an error number shall be returned to indicate the error.
+
+The posix_spawnattr_setsigdefault() function shall set the spawn-sigdefault attribute in an initialized attributes object referenced by attrp.
+
+The posix_spawnattr_setsigdefault() function may fail if:
+[EINVAL] The value of the attribute being set is not valid. 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  posix_spawnattr_setflags(posix_spawnattr_t* attrp, short flags)
+@param attrp
+@param flags
+@return Upon successful completion, posix_spawnattr_setflags() shall return zero; otherwise, an error number shall be returned to indicate the error.
+
+The posix_spawnattr_setflags() function shall set the spawn-flags attribute in an initialized attributes object referenced by attrp.
+
+The posix_spawnattr_setflags() function may fail if:
+[EINVAL]  The value of the attribute being set is not valid. 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  posix_spawnattr_setpgroup(posix_spawnattr_t* attrp, pid_t pgroup)
+@param attrp
+@param pgroup
+@return Upon successful completion, posix_spawnattr_setpgroup() shall return zero; otherwise, an error number shall be returned to indicate the error.
+
+Sets the process group attribute
+The posix_spawnattr_setpgroup() function shall set the spawn-pgroup attribute in an initialized attributes object referenced by attrp.
+
+The spawn-pgroup attribute represents the process group to be joined by the new process image in a spawn operation (if POSIX_SPAWN_SETPGROUP is set in the spawn-flags attribute). The default value of this attribute shall be zero.
+The posix_spawnattr_setpgroup() function may fail if:
+[EINVAL]The value of the attribute being set is not valid. 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  posix_spawnattr_setschedparam(posix_spawnattr_t* attrp,const struct sched_param* schedparam)
+@param attrp
+@param schedparam
+@return Upon successful completion, posix_spawnattr_setschedparam() shall return zero; otherwise, an error number shall be returned to indicate the error.
+
+Sets the scheduling parameters attribute.
+The posix_spawnattr_setschedparam() function shall set the spawn-schedparam attribute in an initialized attributes object referenced by attrp.
+
+The posix_spawnattr_setschedparam() function may fail if:
+
+EINVAL The value of the attribute being set is not valid.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  posix_spawnattr_setschedpolicy(posix_spawnattr_t* attrp, int policy)
+@param attrp
+@param policy
+@return Upon successful completion, posix_spawnattr_setschedpolicy() shall return zero; otherwise, an error number shall be returned to indicate the error.
+
+The posix_spawnattr_setschedpolicy() function shall set the spawn-schedpolicy attribute in an initialized attributes object referenced by attrp.
+
+The posix_spawnattr_setschedpolicy() function may fail if:
+EINVAL The value of the attribute being set is not valid.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  posix_spawnattr_setsigmask(posix_spawnattr_t* attrp, const sigset_t* sigmask)
+@param attrp
+@param sigmask
+@return @return Upon successful completion, posix_spawnattr_setschedpolicy() shall return zero; otherwise, an error number shall be returned to indicate the error.
+
+
+Sets the sigmask attribute.
+The posix_spawnattr_setsigmask() function shall set the spawn-sigmask attribute in an initialized attributes object referenced by attrp.
+
+The posix_spawnattr_setsigmask() function may fail if:
+
+EINVAL The value of the attribute being set is not valid.
+
+@publishedAll
+@externallyDefinedApi
+*/

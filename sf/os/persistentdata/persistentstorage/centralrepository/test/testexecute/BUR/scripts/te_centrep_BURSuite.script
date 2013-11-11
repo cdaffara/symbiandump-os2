@@ -1,0 +1,220 @@
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+//! @file
+//! @SYMTestSuiteName SYSLIB-CENTRALREPOSITORY-TE_CENTREP_BURSUITE
+//! @SYMScriptTestEnvironment this script requires Techview ROM for BURTestserver dependency. BURTestserver must be built for this test to run.
+//! @internalComponent
+//! @test
+
+
+PRINT Run all te_centrep_BUR Suite Tests
+
+LOAD_SUITE te_centrep_BURSuite
+LOAD_SUITE te_centrep_burobserversuite -SharedData
+LOAD_SUITE BURTestServer
+
+// Create spoof SID and copy backup registration file
+
+RUN_UTILS MkDir c:\private\
+RUN_UTILS MkDir c:\private\0AB7E57C\
+RUN_UTILS CopyFile z:\TEF_CentralRepository\backup_registration.xml c:\private\0AB7E57C\backup_registration.xml
+RUN_UTILS DeleteFile c:\private\10202be9\persists\bacbacba.*
+RUN_UTILS DeleteFile c:\private\10202be9\persists\bac2bac2.*
+RUN_UTILS DeleteFile c:\private\10202be9\persists\baebaeba.*
+RUN_UTILS DeleteFile c:\private\10202be9\bacbacba.*
+RUN_UTILS DeleteFile c:\private\10202be9\bac2bac2.*
+RUN_UTILS DeleteFile c:\private\10202be9\baebaeba.*
+
+START_TESTCASE  SYSLIB-CENTRALREPOSITORY-CIT-0131  //Unchanged
+//! @SYMTestCaseID SYSLIB-CENTRALREPOSITORY-CIT-0131
+//! @SYMTestCaseDesc Test Backup & Restore functionality, when repository unchanged
+//! @SYMTestPriority High
+//! @SYMTestActions  Create repository, backup, restore, check values
+//! @SYMTestExpectedResults The test must not fail
+//! @SYMPREQ PREQ752
+//!         PREQ908
+
+	RUN_UTILS DeleteFile c:\private\10202be9\persists\bac2bac2.*
+	RUN_TEST_STEP 300 te_centrep_BURSuite initailiseStep 
+	RUN_TEST_STEP -1 BURTestServer TestBackup z:\TEF_CentralRepository\BUR.ini test1
+	RUN_TEST_STEP -1 BURTestServer TestRestore z:\TEF_CentralRepository\BUR.ini test1
+ 	RUN_TEST_STEP 100 te_centrep_BURSuite compareStep z:\TEF_CentralRepository\BUR.ini step1
+END_TESTCASE  SYSLIB-CENTRALREPOSITORY-CIT-0131  //Unchanged
+
+RUN_UTILS DeleteFile c:\private\10202be9\persists\bacbacba.*
+RUN_UTILS DeleteFile c:\private\10202be9\persists\bac2bac2.*
+RUN_UTILS DeleteFile c:\private\10202be9\persists\baebaeba.*
+RUN_UTILS DeleteFile c:\private\10202be9\bacbacba.*
+RUN_UTILS DeleteFile c:\private\10202be9\bac2bac2.*
+RUN_UTILS DeleteFile c:\private\10202be9\baebaeba.*
+
+START_TESTCASE SYSLIB-CENTRALREPOSITORY-CIT-0132  //Corrupt
+//! @SYMTestCaseID SYSLIB-CENTRALREPOSITORY-CIT-0132
+//! @SYMTestCaseDesc Test Backup & Restore functionality, when repository corrupt
+//! @SYMTestPriority High
+//! @SYMTestActions  Create repository, backup, corrupt, restore, check values
+//! @SYMTestExpectedResults The test must not fail
+//! @SYMPREQ PREQ752
+//!         PREQ908
+
+	RUN_TEST_STEP 300 te_centrep_BURSuite initailiseStep 
+	RUN_TEST_STEP -1 BURTestServer TestBackup z:\TEF_CentralRepository\BUR.ini test1
+	RUN_UTILS CopyFile z:\private\10202be9\BADBADBA.txt c:\private\10202be9\BACBACBA.txt
+	RUN_UTILS MakeReadWrite c:\private\10202be9\BACBACBA.txt
+	RUN_TEST_STEP -1 BURTestServer TestRestore z:\TEF_CentralRepository\BUR.ini test1
+ 	RUN_TEST_STEP 100 te_centrep_BURSuite compareStep z:\TEF_CentralRepository\BUR.ini step2
+END_TESTCASE SYSLIB-CENTRALREPOSITORY-CIT-0132 //Corrupt
+
+RUN_UTILS DeleteFile c:\private\10202be9\persists\bacbacba.*
+RUN_UTILS DeleteFile c:\private\10202be9\persists\bac2bac2.*
+RUN_UTILS DeleteFile c:\private\10202be9\persists\baebaeba.*
+RUN_UTILS DeleteFile c:\private\10202be9\bacbacba.*
+RUN_UTILS DeleteFile c:\private\10202be9\bac2bac2.*
+RUN_UTILS DeleteFile c:\private\10202be9\baebaeba.*
+
+START_TESTCASE  SYSLIB-CENTRALREPOSITORY-CIT-0133 //Modify
+//! @SYMTestCaseID SYSLIB-CENTRALREPOSITORY-CIT-0133
+//! @SYMTestCaseDesc Test Backup & Restore functionality, when repository modified
+//! @SYMTestPriority High
+//! @SYMTestActions  Create repository, backup, modify, restore, check values
+//! @SYMTestExpectedResults The test must not fail
+//! @SYMPREQ PREQ752
+//!         PREQ908
+
+	RUN_TEST_STEP 300 te_centrep_BURSuite initailiseStep 
+	RUN_TEST_STEP -1 BURTestServer TestBackup z:\TEF_CentralRepository\BUR.ini test1
+	RUN_TEST_STEP 100 te_centrep_BURSuite modifyStep 	
+	RUN_TEST_STEP -1 BURTestServer TestRestore z:\TEF_CentralRepository\BUR.ini test1
+ 	RUN_TEST_STEP 100 te_centrep_BURSuite compareStep z:\TEF_CentralRepository\BUR.ini step3
+END_TESTCASE  SYSLIB-CENTRALREPOSITORY-CIT-0133 //Modify
+
+RUN_UTILS DeleteFile c:\private\10202be9\persists\bacbacba.*
+RUN_UTILS DeleteFile c:\private\10202be9\persists\bac2bac2.*
+RUN_UTILS DeleteFile c:\private\10202be9\persists\baebaeba.*
+RUN_UTILS DeleteFile c:\private\10202be9\bacbacba.*
+RUN_UTILS DeleteFile c:\private\10202be9\bac2bac2.*
+RUN_UTILS DeleteFile c:\private\10202be9\baebaeba.*
+
+START_TESTCASE SYSLIB-CENTRALREPOSITORY-CIT-0134 //Delete
+//! @SYMTestCaseID SYSLIB-CENTRALREPOSITORY-CIT-0134
+//! @SYMTestCaseDesc Test Backup & Restore functionality, when repository deleted
+//! @SYMTestPriority High
+//! @SYMTestActions  Create repository, backup, delete, restore, check values
+//! @SYMTestExpectedResults The test must not fail
+//! @SYMPREQ PREQ752
+//!         PREQ908
+
+	RUN_TEST_STEP 300 te_centrep_BURSuite initailiseStep 
+	RUN_TEST_STEP -1 BURTestServer TestBackup z:\TEF_CentralRepository\BUR.ini test1
+	RUN_UTILS DeleteFile c:\private\10202be9\persists\bacbacba.*
+	//Delay to make sure that cache has been emptied.
+	DELAY 8000
+	RUN_TEST_STEP -1 BURTestServer TestRestore z:\TEF_CentralRepository\BUR.ini test1
+ 	RUN_TEST_STEP 100 te_centrep_BURSuite compareStep z:\TEF_CentralRepository\BUR.ini step4
+END_TESTCASE  SYSLIB-CENTRALREPOSITORY-CIT-0134 //Delete
+
+RUN_UTILS DeleteFile c:\private\10202be9\persists\bacbacba.*
+RUN_UTILS DeleteFile c:\private\10202be9\persists\bac2bac2.*
+RUN_UTILS DeleteFile c:\private\10202be9\persists\baebaeba.*
+RUN_UTILS DeleteFile c:\private\10202be9\bacbacba.*
+RUN_UTILS DeleteFile c:\private\10202be9\bac2bac2.*
+RUN_UTILS DeleteFile c:\private\10202be9\baebaeba.*
+
+START_TESTCASE  SYSLIB-CENTRALREPOSITORY-CIT-1387 //INC067079
+//! @SYMTestCaseID SYSLIB-CENTRALREPOSITORY-CIT-1387
+//! @SYMTestCaseDesc CenRep restore does not work if only some settings from the rep. are backed up
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test that partial restore merges with existing data in private data cage or ROM
+//! @SYMTestExpectedResults The test must not fail
+//! @SYMDEF INC067079 
+
+	RUN_TEST_STEP 100 te_centrep_BURSuite initialiseDefStep 
+	DELAY 10000
+	RUN_TEST_STEP -1 BURTestServer TestBackup z:\TEF_CentralRepository\BUR.ini test1
+	RUN_UTILS DeleteFile c:\private\10202be9\persists\baebaeba.*
+	//Delay to make sure that cache has been emptied.
+	DELAY 8000
+	RUN_TEST_STEP -1 BURTestServer TestRestore z:\TEF_CentralRepository\BUR.ini test1
+ 	RUN_TEST_STEP 100 te_centrep_BURSuite compareDefStep
+END_TESTCASE  SYSLIB-CENTRALREPOSITORY-CIT-1387 //INC067079
+ 
+RUN_UTILS DeleteFile c:\private\10202be9\persists\baebaeba.*
+RUN_UTILS DeleteFile c:\private\10202be9\persists\bacbacba.*
+RUN_UTILS DeleteFile c:\private\10202be9\persists\bac2bac2.*
+RUN_UTILS DeleteFile c:\private\10202be9\bacbacba.*
+RUN_UTILS DeleteFile c:\private\10202be9\bac2bac2.*
+RUN_UTILS DeleteFile c:\private\10202be9\baebaeba.*
+
+START_TESTCASE   SYSLIB-CENTRALREPOSITORY-CIT-1892 //DEF091759
+//! @SYMTestCaseID SYSLIB-CENTRALREPOSITORY-CIT-1892
+//! @SYMTestCaseDesc Recoverable errors during installation of repositories are not handled
+//! @SYMTestPriority High
+//! @SYMTestActions  Fail backup by removing persists directory, observe no panic, restore persists directory
+//! @SYMTestExpectedResults The test must not panic. Backup will fail but Centrep server will handle leave condition gracefully
+//! @SYMDEF DEF091759 
+
+	RUN_UTILS MkDir c:\private\10202be9\temp
+	RUN_UTILS CopyFile c:\private\10202be9\persists\*.* c:\private\10202be9\temp
+	RUN_UTILS DeleteDirectory c:\private\10202be9\persists
+	RUN_TEST_STEP !Result=Fail -1 BURTestServer TestBackup z:\TEF_CentralRepository\BUR.ini test1
+	RUN_UTILS MkDir c:\private\10202be9\persists
+	RUN_UTILS CopyFile c:\private\10202be9\temp\*.* c:\private\10202be9\persists
+	RUN_UTILS DeleteDirectory c:\private\10202be9\temp
+END_TESTCASE   SYSLIB-CENTRALREPOSITORY-CIT-1892 //DEF091759
+
+RUN_UTILS DeleteFile c:\private\10202be9\persists\bacbacba.*
+RUN_UTILS DeleteFile c:\private\10202be9\persists\bac2bac2.*
+RUN_UTILS DeleteFile c:\private\10202be9\persists\baebaeba.*
+RUN_UTILS DeleteFile c:\private\10202be9\bacbacba.*
+RUN_UTILS DeleteFile c:\private\10202be9\bac2bac2.*
+RUN_UTILS DeleteFile c:\private\10202be9\baebaeba.*
+
+
+START_TESTCASE  SYSLIB-CENTRALREPOSITORY-CIT-3415 //INC101923
+//! @SYMTestCaseID SYSLIB-CENTRALREPOSITORY-CIT-3415
+//! @SYMTestCaseDesc Restoration Notification Test
+//! @SYMTestPriority High
+//! @SYMTestActions  This test checks that the restoration sends notifications about 
+//! the changed repositories and keys. The test process is:
+//! 1. Create repositories.
+//! 2. Backup repositories.
+//! 3. Modify repositories.
+//! 4. Request notifications
+//! 5. Restore repositories.
+//! 6. Wait for the notifications and check the result of the restore.
+//! Step 4 and step 6 must be run in the same thread for the receiving of notifications.
+//! @SYMTestExpectedResults The notification requesting test step should be notified about 
+//! the changes by the restoration and get the new values of changed keys successfully.
+//! @SYMDEF INC101923
+// cenrep notifier does not fire when restoring from backup
+	RUN_TEST_STEP 300 te_centrep_BURSuite initailiseStep 
+	RUN_TEST_STEP -1 BURTestServer TestBackup z:\TEF_CentralRepository\BUR.ini test1
+	RUN_TEST_STEP 100 te_centrep_BURSuite modifyStep 	
+	RUN_TEST_STEP 100 te_centrep_burobserversuite RestoreNotificationsInitialiseStep
+	RUN_TEST_STEP 100 te_centrep_burobserversuite RestoreNotificationsRequestStep
+	RUN_TEST_STEP -1 BURTestServer TestRestore z:\TEF_CentralRepository\BUR.ini test1
+	RUN_TEST_STEP 100 te_centrep_burobserversuite RestoreNotificationsWaitStep
+	RUN_TEST_STEP 100 te_centrep_burobserversuite RestoreNotificationsReleaseStep
+END_TESTCASE  SYSLIB-CENTRALREPOSITORY-CIT-3415 //INC101923
+
+RUN_UTILS DeleteFile c:\private\10202be9\persists\bacbacba.*
+RUN_UTILS DeleteFile c:\private\10202be9\persists\bac2bac2.*
+RUN_UTILS DeleteFile c:\private\10202be9\persists\baebaeba.*
+RUN_UTILS DeleteFile c:\private\10202be9\bacbacba.*
+RUN_UTILS DeleteFile c:\private\10202be9\bac2bac2.*
+RUN_UTILS DeleteFile c:\private\10202be9\baebaeba.*
+
+PRINT Complete_te_centrep_BUR_Tests

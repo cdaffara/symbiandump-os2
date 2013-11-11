@@ -1,0 +1,2588 @@
+/** @file ../include/stdlib.h
+@internalComponent
+*/
+
+/** @fn  abort(void)
+
+@return   The abort function
+never returns.
+
+  The abort function causes abnormal program termination to occur, unless the
+signal SIGABRT is being caught and the signal handler does not return.
+
+ Any open streams are flushed and closed.
+
+Examples:
+@code
+#include  <stdio.h>
+#include  <stdlib.h>
+ 
+int main( void )
+{
+   FILE *stream;
+ 
+   if( (stream = fopen( "notexist.file", "r" )) == NULL )
+   {
+      perror( "Error occurred while opening file" );
+      abort();
+   }
+   else
+      fclose( stream );
+   return 0;
+}
+
+@endcode
+
+ Output
+@code
+Error occurred while opening file: No such file or directory
+
+@endcode
+  
+Implementation notes: 
+  
+  The abort function is thread-safe. It is unknown whether it is async-cancel-safe.
+
+Limitations:
+
+The signal related functionalities are not applicable to the Symbian OS implementation
+as there is no support for signals from Symbian OS.
+
+@see exit()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  abs(int j)
+@param j
+@return   The abs function
+returns
+the absolute value.
+
+  The abs function computes the absolute value of an integer j. The absolute value is always postive, it has size but not direction.
+
+
+
+Examples:
+@code
+#include  <stdio.h>
+#include  <stdlib.h>
+ 
+int main( void )
+{
+   int    ix = -4, iy;
+   long   lx = -41567L, ly;
+   long long llx = -5343546758, lly;
+ 
+   iy = abs( ix );
+   printf( "The absolute value of %d is %d
+", ix, iy);
+ 
+   ly = labs( lx );
+   printf( "The absolute value of %ld is %ld
+", lx, ly);
+ 
+   lly = llabs( llx );
+   printf( "The absolute value of %lld is %lld
+", llx, lly );
+ 
+   return 0;
+}
+
+@endcode
+ 
+@code
+Output
+
+The absolute value of -4 is 4
+The absolute value of -41567 is 41567
+The absolute value of -5343546758 is 5343546758
+
+@endcode
+@see fabs()
+@see floor()
+@see hypot()
+@see labs()
+@see llabs()
+@see math()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  atexit(void(*)(void) func)
+@param func
+@return   The atexit function returns the value 0 if successful; otherwise it returns 
+the value -1 and sets the global variable errno to indicate the error.
+
+  The atexit function
+registers the given function to be called at program exit, whether via exit or via return from the program's main. Functions so registered are called in reverse order;
+no arguments are passed.
+
+ These functions must not call exit . If it is necessary to terminate the process while in such a 
+  function, the _exit function should be used. Alternatively, 
+  the function may cause abnormal process termination, for example by calling abort
+
+ At least 32 functions can always be registered and more are allowed as long 
+  as sufficient memory can be allocated.
+
+In Symbian app with an entry point E32Main, the registered functions will not be called unless exit() is specified explicitly.
+
+Limitation:
+atexit() is not supported on emulator.
+
+Examples:
+@code
+#include <stdlib.h>
+#include <stdio.h>
+ 
+void fun1( void ), fun2( void ), fun3( void ), fun4( void );
+ 
+int main( void )
+{
+   atexit( fun1 );
+   atexit( fun2 );
+   atexit( fun3 );
+   atexit( fun4 );
+   printf( "Before exiting...." );
+}
+ 
+void fun1()
+{
+   printf( " fun1 " );
+}
+ 
+void fun2()
+{
+   printf( " fun2" );
+}
+ 
+void fun3()
+{
+   printf( " fun3 " );
+}
+ 
+void fun4()
+{
+   printf( " fun4 " );
+}
+
+@endcode
+@code
+Output
+
+Before exiting...
+fun4
+fun3
+fun2
+fun1
+
+@endcode
+
+@code
+#include <stdlib.h>
+#include <stdio.h>
+#include <e32base.h>
+
+void fun1(void),fun2(void),fun3(void);
+
+LOCAL_C int MainL()
+	{
+	atexit( fun1 );
+   	atexit( fun2 );
+   	atexit( fun3 );
+    	printf( "Before exiting....\n" );
+  	getchar();
+	exit();
+	}
+
+
+void fun1()
+{
+printf( " fun1\n " );
+getchar();
+}
+ 
+void fun2()
+{
+printf( " fun2\n " );
+getchar();
+}
+ 
+void fun3()
+{
+printf( " fun3\n " );
+getchar();
+}
+
+
+GLDEF_C TInt E32Main()
+	{
+	__UHEAP_MARK;
+	CTrapCleanup* cleanup = CTrapCleanup::New();
+	if(cleanup == NULL)
+		{
+		return KErrNoMemory;
+		}
+	TInt ret;
+	TRAPD(err,ret = MainL());
+
+	delete cleanup;
+	__UHEAP_MARKEND;
+	return KErrNone;
+   	}
+
+@encode
+
+@code
+Output
+
+Before exiting...
+
+fun3
+fun2
+fun1
+
+@endcode
+
+@see exit()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  atof(const char *nptr)
+@param nptr
+@return   The atof function
+returns
+the converted value if the value can be represented.
+
+  The atof function converts the initial portion of the string pointed to by nptr to double
+representation.
+
+@code
+ It is equivalent to: strtod(nptr, (char **)NULL);
+
+The decimal point
+character is defined in the program's locale (category LC_NUMERIC).
+@endcode
+
+
+Examples:
+@code
+#include <stdlib.h>
+#include <stdio.h>
+ 
+void main( void )
+{
+ /* Test of atof */
+ double d = atof("  86778E-2");
+ 
+ printf( "result of atof: %f
+", d );
+}
+
+@endcode
+
+@code
+Output
+result of atof: 867.78
+
+@endcode
+
+Implementation notes:
+  
+The atof function is not thread-safe and also not async-cancel-safe. The atof function has been deprecated. Use strtod instead.
+
+@see atoi()
+@see atol()
+@see strtod()
+@see strtol()
+@see strtoul()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  atoi(const char *nptr)
+@param nptr
+@return   The atoi function
+returns
+the converted value if the value can be represented.
+
+  The atoi function converts the initial portion of the string pointed to by nptr to int
+representation.
+
+@code
+
+ It is equivalent to: (int)strtol(nptr, (char **)NULL, 10);
+@endocde
+
+
+Examples:
+@code
+#include <stdlib.h>
+#include <stdio.h>
+ 
+void main( void )
+{
+  /* call to atoi */
+  char *str = "  -56957jdhfjk";    
+  int i = atoi( str );
+  printf( "result of atoi: %d
+", i );
+}
+
+@endcode
+
+@code
+Output
+result of atoi: -56957
+
+@endcode
+
+Implementation notes:
+  
+The atoi function is not thread-safe and also not async-cancel safe. The atoi function has been deprecated. Use strtol instead.
+
+@see atof()
+@see atol()
+@see strtod()
+@see strtol()
+@see strtoul()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  atol(const char *nptr)
+@param nptr
+
+Note: 
+
+This description also covers the following functions -
+ atoll() 
+
+@return   The atol and atoll functions
+return
+the converted value if the value can be represented.
+
+  The atol function converts the initial portion of the string pointed to by nptr to long
+integer
+representation.
+
+ It is equivalent to:
+
+@code
+
+    strtol(nptr, (char **)NULL, 10); 
+@endcode
+The atoll function converts the initial portion of the string pointed to by nptr to long long
+integer representation. It is equivalent to:    
+@code
+    strtoll(nptr, (char **)NULL, 10);
+@endcode
+
+Examples:
+@code
+#include <stdlib.h>
+#include <stdio.h>
+ 
+void main( void )
+{
+ /* call to atol */
+ long l = atol( "-000002344" );
+ 
+ printf( "result of atol: %ld
+", l );
+}
+@endcode
+
+@code
+Output
+
+result of atol: -2344
+
+@endcode
+@code
+#include <stdlib.h>
+#include <stdio.h>
+ 
+void main( void )
+{
+ /* call to atoll */
+ long long l = atoll("454756356bs");
+ 
+ printf( "result of atoll: %ld
+", l );
+}
+
+@endcode
+
+@code
+Output
+
+result of atoll: 454756356
+
+@endcode
+@see atof()
+@see atoi()
+@see strtod()
+@see strtol()
+@see strtoul()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  bsearch(const void *key, const void *base, size_t nmemb, size_t size, int (*compar) (const void *, const void *))
+@param key
+@param base
+@param nmemb
+@param size
+@param compar
+@return   The bsearch function returns a pointer to a matching member of the array, 
+or a null pointer if no match is found. If two or more matching members are found 
+the result is unspecified.
+
+  The bsearch function searches an array of nmemb objects, the initial member of which is
+pointed to by base, for a member that matches the object pointed to by key. The size of each member of the array is specified by size.
+
+ The contents of the array should be in ascending sorted order according to 
+  the comparison function referenced by compar. The compar routine is expected to have two arguments which point to the key object and to an array member, in that order. It return an integer 
+  less than, equal to, or greater than zero if the key object is found, respectively, to be less than, to match, or be 
+  greater than the array member.
+
+Examples:
+@code
+#include<stdlib.h>
+#include<stdio.h>
+ 
+int search_function(const void* a,const void* b)
+{
+    return(*(int *)a - *(int *)b);
+}
+ 
+int main()
+{
+int arr[] = {3,5,7,8,10};
+int key = 7;
+int i = 5;
+ 
+int *ele;
+ 
+ele  = ( int* ) bsearch(&key;, (void *)arr, i, sizeof(arr[0]), search_function);
+ 
+if (ele != NULL)
+        printf("
+element found: %d", *ele);
+else
+        printf("
+element not found");
+return 0;
+}
+
+@endcode
+@code
+Output
+
+element found: 7
+
+@endcode
+@see qsort()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  calloc(size_t number, size_t size)
+@param number
+@param size
+
+Refer to  malloc() for the documentation
+@see brk()
+@see mmap()
+@see getpagesize()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  div(int num, int denom)
+@param num
+@param denom
+@return   The div function
+returns a structure of type div_t that contains two int
+members named quot (quotient)
+and rem (remainder).
+
+  The div function
+computes the value num/denom and returns the quotient and remainder in a structure named div_t that contains two int
+members named quot and rem.
+
+Examples:
+@code
+#include <stdlib.h>
+#include <stdio.h>
+ 
+void main( void )
+{
+ int numer = -14;
+ int denom = -3;
+ int exp_numer = 0;
+    
+ /* call to div */
+ div_t x = div(numer, denom);
+ 
+ printf("Result->
+ Quotient = %d
+ Remainder = %d
+", x.quot, x.rem);
+                
+ exp_numer = (denom * x.quot) + x.rem;
+ 
+ if( exp_numer == (numer) )
+    printf("Result is same as the expected output");  
+ else
+    printf("Unexpected output");
+    
+ return 0; 
+}
+
+@endcode
+@code
+Output
+
+Result->
+Quotient = 4
+Remainder = -2
+Result is same as the expected output
+
+@endcode
+@see ldiv()
+@see lldiv()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  exit(int status)
+@param status
+
+Note: 
+
+This description also covers the following functions -
+ _Exit() 
+
+@return   The exit and _Exit functions
+never return.
+
+ The  exit and  _Exit functions terminate a process.
+
+Before termination, exit performs the following functions in the order listed:
+
+@code
+
+   1. Call the functions registered with the atexit function, in the reverse order of their registration.
+   2. Flush all open output streams.
+   3. Close all open streams.
+   4. Unlink all files created with the tmpfile function. 
+@endcode
+
+The _Exit function terminates without calling the functions registered with the atexit function, and may or may not perform the other actions listed. 
+Both functions make the low-order eight bits of the status argument available to a parent process which has called a wait function.
+
+The C Standard (-isoC-99) defines the values 0, EXIT_SUCCESS, and EXIT_FAILURE as possible values of status. 
+Cooperating processes may use other values.
+
+Note that exit does nothing to prevent bottomless recursion should a function registered using atexit itself call exit. 
+Such functions must call _Exit instead (although this has other effects as well which may not be desired).
+
+Examples:
+@code
+/* Detailed description : Sample usage of exit system call. */
+#include <stdlib.h>
+ 
+void main()
+{
+  exit(0) ; //Here 0 is exit status of the process
+}
+
+@endcode
+@see _exit()
+@see wait()
+@see atexit()
+@see tmpfile()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  free(void *p)
+@param p
+
+Refer to  malloc() for the documentation
+@see brk()
+@see mmap()
+@see getpagesize()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  getenv(const char *name)
+@param name
+
+Note: 
+
+This description also covers the following functions -
+ setenv()  putenv()  unsetenv() 
+
+@return   The getenv function returns the value of the environment variable as a NULL -terminated string. If the variable name is not in the current environment, NULL is returned. The setenv and putenv functions return the value 0 if successful; otherwise they 
+  return the value -1 and set the global variable errno is set to indicate the error. The unsetenv function never returns.
+
+These functions set, unset and fetch environment variables from the
+host environment list.
+For compatibility with differing environment conventions,
+the given arguments name and value may be appended and prepended,
+respectively,
+with an equal sign "="
+
+ The getenv function obtains the current value of the environment variable name.
+
+ The setenv function inserts or resets the environment variable name in the current environment list.
+If the variable name does not exist in the list,
+it is inserted with the given value. If the variable does exist, the argument overwrite is tested; if overwrite is
+zero, the
+variable is not reset, otherwise it is reset
+to the given value.
+
+ The putenv function takes an argument of the form "name=value" and is
+equivalent to: setenv(name, value, 1);
+
+ The unsetenv function
+deletes all instances of the variable name pointed to by name from the list.
+
+Examples:
+@code
+#include <stdlib.h> //getenv
+#include <stdio.h> //printf
+ 
+int main( void )
+{
+  int iret = putenv("PATH=c:\sys\bin;");
+ 
+  if( iret == -1)
+     printf( "putenv() failed!!
+" );
+ 
+   /* fetch new value. */
+  char *psc = getenv("PATH");
+ 
+  if( psc != NULL )
+      printf( "new PATH variable is: %s
+", psc );
+ 
+  return 0;
+}
+
+@endcode
+@code
+Output
+
+new PATH variable is: c:\sys\bin;
+
+@endcode
+@code
+#include <stdlib.h> //setenv, getenv
+#include <stdio.h> //printf
+ 
+int main( void )
+{
+   char *var;
+ 
+   /* Unset the value of the HOME environment variable
+    * to make sure that it is non-existing.
+    */
+   unsetenv( "HOME" );
+ 
+   /* Set the value of HOME environment with no overwrite option */
+   int iret = setenv("HOME", "/home", 0);
+    
+   if(iret == -1)
+      printf( "Setenv failed!!" );
+    
+   /* Get new value. */
+   var = getenv( "HOME" );
+ 
+   if( var != NULL )
+      printf( "new HOME variable is: %s
+", var );
+    
+   /* Set the value of HOME environment with the overwrite option */
+   iret = setenv("HOME", "/check", 1);
+    
+   /* Get new value. */
+   var = getenv( "HOME" );
+ 
+   if( var != NULL )
+      printf( "new HOME variable is: %s
+", var );
+     
+   return 0;
+}
+
+@endcode
+@code
+Output
+
+new HOME variable is: \home
+new HOME variable is: \check
+
+@endcode
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  labs(long j)
+@param j
+@return   The labs() function shall return the absolute value of the long integer operand.
+
+ The labs function
+returns the absolute value of the long integer j.
+
+
+
+Examples:
+@code
+#include  <stdio.h>
+#include  <stdlib.h>
+ 
+int main( void )
+{
+   int    ix = -4, iy;
+   long   lx = -41567L, ly;
+   long long llx = -5343546758, lly;
+ 
+   iy = abs( ix );
+   printf( "The abs value of %d is %d
+", ix, iy);
+ 
+   ly = labs( lx );
+   printf( "The abs value of %ld is %ld
+", lx, ly);
+ 
+   lly = llabs( llx );
+   printf( "The abs value of %lld is %lld
+", llx, lly );
+ 
+   return 0;
+}
+
+@endcode
+@code
+Output
+
+The absolute value of -4 is 4
+The absolute value of -41567 is 41567
+The absolute value of -5343546758 is 5343546758
+
+@endcode
+@see abs()
+@see floor()
+@see llabs()
+@see math()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  ldiv(long num, long denom)
+@param num
+@param denom
+@return   The ldiv function
+returns a structure of type ldiv_t that contains two long
+members named quot (quotient)
+and rem (remainder).
+
+  The ldiv function
+computes the value num / denom and returns the quotient and remainder in a structure named ldiv_t
+that contains two long
+members named quot and rem.
+
+Examples:
+@code
+#include <stdlib.h>
+#include <stdio.h>
+ 
+int main( void )
+{
+ long numer = 13;
+ long denom = -3;
+ 
+ /* call to ldiv */
+ ldiv_t x = ldiv(numer, denom);
+ 
+ printf("Result-> 
+Quotient = %ld 
+Remainder = %ld", x.quot, x.rem);
+                 
+ long exp_numer = (denom * x.quot) + x.rem;
+  
+ if( exp_numer == (numer) )
+    printf("
+Result is same as the expected output");  
+ else
+    printf("
+Unexpected output");
+ 
+ return 0;
+}
+
+@endcode
+@code
+Output
+
+Result->
+Quotient = 4
+Remainder = -1
+Result is same as the expected output
+
+@endcode
+@see div()
+@see lldiv()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  malloc(size_t nbytes)
+@param nbytes
+
+Note: 
+
+This description also covers the following functions -
+ calloc()  realloc()  reallocf()  free() 
+
+@return   The malloc and calloc functions return a pointer to the allocated memory if successful; otherwise
+a NULL pointer is returned and errno is set to ENOMEM. The realloc and reallocf functions return a pointer, possibly identical to ptr, to the allocated memory if successful; otherwise a NULL pointer is returned and errno is set to ENOMEM if the error was the result of an allocation failure. The realloc function always leaves the original buffer intact when an 
+  error occurs, whereas reallocf deallocates it in this case. The free function returns no value.
+
+  The malloc function allocates nbytes of memory. The allocated space is suitably aligned (after possible 
+pointer coercion) for storage of any type of object. If the space is at least pagesize bytes in length (see getpagesize ) the returned memory will be 
+page boundary aligned as well. If malloc fails a NULL pointer is returned.
+
+ Note that malloc does NOT normally initialize the returned memory to zero bytes.
+
+ The calloc function allocates space for number of objects, each nbytes in length. The result is identical to calling malloc with an argument of "number * nbytes", with the exception that the allocated memory is explicitly 
+  initialized to zero bytes.
+
+ The realloc function changes the size of the previously allocated memory 
+  referenced by ptr to nbytes. The contents of the memory are unchanged up to the lesser 
+  of the new and old sizes. If the new size is larger, the value of the newly 
+  allocated portion of the memory is undefined. If the requested memory cannot 
+  be allocated, NULL is returned and the memory referenced by ptr is valid and unchanged. If memory can be allocated, the memory referenced 
+  by ptr is freed and a pointer to the newly allocated memory is returned. 
+  Note that realloc and reallocf may move the memory allocation resulting in a different return 
+  value from ptr. If ptr is NULL, the realloc function behaves identically to malloc for the specified nbytes.
+
+ The reallocf function is identical to the realloc function, except that it
+will free the passed pointer when the requested memory cannot be allocated.
+This is a specific API designed to ease the problems with traditional coding styles
+for realloc causing memory leaks in libraries.
+
+ The free function causes the allocated memory referenced by ptr to be made available for future allocations.
+If ptr is NULL, no action occurs.
+
+Examples:
+@code
+#include <stdlib.h>    //malloc
+#include <stdio.h>    //printf
+  
+int main( void )
+{
+   /* allocate memory */
+   char  *pc = (char *)malloc( sizeof(char) * 3);
+   
+   if( pc == NULL )
+      printf( "memory insufficient
+" );
+   else
+   {
+      printf( "memory allocated
+" );
+      free( pc );
+      printf( "memory freed
+" );
+   }
+  
+   return 0;
+}
+
+@endcode
+@code
+Output
+
+memory allocated
+memory freed
+
+@endcode
+@code
+#include <stdio.h> //printf
+#include <stdlib.h> //calloc
+   
+int main( void )
+{
+   int  *pint = (int *)calloc(2, sizeof (int) * 2);
+   if( pint != NULL )
+      printf( "allocated 2 blocks of memory, each of size -
+               twice the size of an integer
+" );
+   else
+      printf( "can't allocate memory
+" );
+   free( pint );
+  
+   return 0;
+}
+
+@endcode
+@code
+Output
+
+allocated 2 blocks of memory, each of size - 2 integers
+
+@endcode
+@code
+#include <stdio.h> //printf
+#include <stdlib.h> //realloc
+ 
+int main( void )
+{
+ int  *pint = (int *)calloc(2, sizeof (int) * 2);
+ if (pint == NULL)
+  {
+  printf("calloc failed to allocate memory
+");
+  return -1;
+  }
+ else
+  {
+  printf("calloc allocated memory: 128 bytes
+");
+  }
+ 
+ pint = (int *)realloc(pint, (sizeof (int) * 6) );
+ if (pint == NULL)
+  {
+  printf("realloc failed to allocate memory
+");
+  return -1;
+  }
+ else
+  {
+  printf("realloc allocated memory: 192 bytes
+");
+  }
+  
+  free( pint );
+  return 0;
+}
+
+@endcode
+@code
+Output
+
+calloc allocated memory: 128 bytes
+realloc allocated memory: 192 bytes
+
+@endcode
+@see brk()
+@see mmap()
+@see getpagesize()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  mblen(const char *s, size_t n)
+@param s
+@param n
+@return   If s is a null pointer, mblen returns non-zero 0 value depending upon the current locale (see 
+  below). If s is not a null pointer, mblen returns : 0 (if mbchar points to the null byte), the number of bytes that constitute the character (if the next n or fewer bytes form a valid character), or -1 (if they do not form a valid character) and may set errno to indicate the error. In no case is the value returned greater than n or the value of the {MB_CUR_MAX} macro.
+
+  The mblen function computes the length in bytes
+of a multibyte character s according to the current conversion state.
+Up to n bytes are examined.
+
+ A call with a null s pointer returns nonzero if the current locale requires shift states,
+zero otherwise;
+if shift states are required, the shift state is reset to the initial state.
+
+ The behavior of the mblen is affected by LC_CTYPE category of the current locale.
+
+Examples:
+@code
+#include <stdlib.h>
+#include <wchar.h>
+/* Illustrates how to use mblen API */
+int example_mblen(wchar_t wc)
+{
+ int len;
+ 
+ /* determine the number bytes in the multibyte char */
+ len = mblen(wc, MB_CUR_MAX);
+ if(len == -1)
+ {
+        wprintf(L"mblen returned error!!
+");
+ }
+ /* return the no of bytes */
+ return(len);
+}
+
+@endcode
+
+Limitations:   
+
+The current implementation of mblen is not affected by the LC_CTYPE category of the current locale.
+It works only for UTF8 character set.
+
+@see mbrlen()
+@see mbtowc()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  mbstowcs(wchar_t *  pwcs, const char *  s, size_t n)
+@param pwcs
+@param s
+@param n
+@return   The mbstowcs function returns the number of wide characters converted,
+not counting any terminating null wide character, or -1
+if an invalid multibyte character was encountered.
+
+  The mbstowcs function converts a multibyte character string mbstring beginning in the initial conversion state
+into a wide character string wcstring. No more than n wide characters are stored.
+A terminating null wide character is appended if there is room.
+
+ The behavior of the mbstowcs is affected by LC_CTYPE category of the current locale.
+
+
+
+Examples:
+@code
+#include <stdio.h>
+#include <stdlib.h>
+#include <wchar.h>
+/* Illustrates how to use mbstowcs API */
+size_t example_mbstowcs(wchar_t *wc, char *s, size_t n)
+{
+ size_t len;
+ /* converting multibyte string to a wide-char string */
+ len = mbstowcs(wc, s, n);
+ /* checking for error */
+ if(len < 0)
+ {
+        wprintf(L"mbstowcs returned error!!
+");
+ }
+ /* returning no of bytes consumed */
+ return (len);
+}
+
+@endcode
+
+Limitations:   
+
+The current implementation of mbstowcs is not affected by the LC_CTYPE category of the current locale.
+It works only for UTF8 character set.
+
+@see mbsrtowcs()
+@see mbtowc()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  mbtowc(wchar_t * pwc, const char *  s, size_t n)
+@param pwc
+@param s
+@param n
+@return   If mbchar is NULL, the mbtowc function returns nonzero if shift states are supported,
+zero otherwise. Otherwise, if mbchar is not a null pointer, mbtowc either returns 0 if mbchar represents the null wide character, or returns
+the number of bytes processed in mbchar, or returns -1 if no multibyte character
+could be recognized or converted.
+In this case, mbtowc internal conversion state is undefined.
+
+  The mbtowc function converts a multibyte character mbchar into a wide character according to the current conversion state,
+and stores the result in the object pointed to by wcharp. Up to n bytes are examined.
+
+ A call with a null mbchar pointer returns nonzero if the current encoding requires shift 
+  states, zero otherwise. If shift states are required the shift state is reset 
+  to the initial state.
+
+ The behavior of the mbtowc is affected by LC_CTYPE category of the current locale.
+
+
+
+Examples:
+@code
+#include <stdlib.h>
+#include <wchar.h>
+/* Illustrates how to use mbtowc API */
+int example_mbtowc(wchar_t *wc, char *s)
+{
+ int len;
+ /* converting multibyte sequence to a wide-character */
+ len = mbtowc(wc, s, MB_CUR_MAX);
+ /* checking for error */
+ if(len < 0)
+ {
+        wprintf(L"mbtowc returned error!!
+");
+ }
+ /* returning no of bytes consumed */
+ return (len;);
+}
+
+@endcode
+
+Limitations:
+
+The current implementation of mbtowc is not affected by the LC_CTYPE category of the current locale.
+It works only for UTF8 character set.
+
+@see btowc()
+@see mblen()
+@see mbrtowc()
+@see mbstowcs()
+@see wctomb()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  qsort(void *, size_t, size_t, int(*)(const void *, const void *))
+
+@return   The qsort function
+returns no value.
+
+  The qsort function is a modified partition-exchange sort, or quicksort.
+
+ The qsort function sorts an array of nmemb objects, the initial member of which is pointed to by base. The size of each object is specified by size.
+
+ The contents of the array base are sorted in ascending order according to
+a comparison function pointed to by compar, which requires two arguments pointing to the objects being
+compared.
+
+ The comparison function must return an integer less than, equal to, or
+greater than zero if the first argument is considered to be respectively
+less than, equal to, or greater than the second.
+
+ The algorithm implemented by qsort is not stable, that is, if two members compare as equal, their order in
+the sorted array is undefined.
+
+ The qsort function is an implementation of C.A.R.
+Hoare's "quicksort"
+algorithm,
+a variant of partition-exchange sorting; in particular, see D.E. Knuth Ns's Algorithm Q . Quicksort takes O N lg N average time.
+
+@code
+
+This implementation uses median selection to avoid its O N**2 worst-case behavior.
+@endcode
+
+Examples:
+@code
+#include <stdio.h>
+#include <stdlib.h>
+int sort_function( const void *a, const void *b);
+ 
+int main(void)
+{
+   int  x;
+   int list[5] = {4,2,3,5,1};
+   qsort((void *)list, 5, sizeof(list[0]), sort_function);
+   for (x = 0; x < 5; x++)
+   printf("%d
+", list[x]);
+  
+   return 0;
+}
+int sort_function( const void *a, const void *b)
+{
+ int *p1 = (int *)a;
+ int val1 = *p1;
+ int *p2 = (int *)b;
+ int val2 = *p2;
+ int x = -1;
+ if(val1  > val2 )
+   x=1;
+ if(val1  == val2 )
+   x=0; 
+ 
+ return x;
+}
+
+@endcode
+@code
+Output
+
+1
+2
+3
+4
+5
+
+@endcode
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  rand(void)
+
+
+Refer to  srand() for the documentation
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  realloc(void *p, size_t nbytes)
+@param p
+@param nbytes
+
+Refer to  malloc() for the documentation
+@see brk()
+@see mmap()
+@see getpagesize()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  srand(unsigned seed)
+@param seed
+
+Note: 
+
+This description also covers the following functions -
+ rand() 
+
+@return   The rand function
+never returns return the next pseudo-random number in the sequence. The srand function never returns.
+
+  The rand function computes a sequence of pseudo-random integers in the range
+of 0 to RAND_MAX (as defined by the header file \#include \<stdlib.h\> ).
+
+ The srand function sets its argument seed as the seed for a new sequence of
+pseudo-random numbers to be returned by rand. These sequences are repeatable by calling srand with the same seed value.
+
+ If no seed value is provided, the functions are automatically
+seeded with a value of 1.
+
+
+
+Examples:
+@code
+#include <stdlib.h>
+#include <stdio.h>
+ 
+int main( void )
+{
+  int randArray[20];
+  int i=0;
+    
+  while(i<20)
+  {
+        randArray[i]=rand();
+        printf("
+%d", randArray[i]);
+        i++;
+  }
+ 
+  return 0;
+}
+
+@endcode
+@code
+Output
+
+16807
+282475249
+1622650073
+984943658
+1144108930
+470211272
+101027544
+1457850878
+1458777923
+2007237709
+823564440
+1115438165
+1784484492
+74243042
+114807987
+1137522503
+1441282327
+16531729
+823378840
+143542612
+
+@endcode
+@code
+#include <stdlib.h>
+#include <stdio.h>
+int main( void )
+{
+ int seedVal = 45454652;
+ int randVal;
+ srand(seedVal);
+ randVal=rand();
+ printf("Random Value returned is %d"), randVal);
+}
+
+@endcode
+@code
+Output
+
+Random Value returned is 1599641479
+
+@endcode
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  strtod(const char *  s, char **  tail)
+@param s
+@param tail
+
+Note: 
+
+This description also covers the following functions -
+ strtof()  strtold() 
+
+@return   The strtod , strtof ,
+and strtold functions return the converted value, if any. If endptr is not NULL ,
+a pointer to the character after the last character used
+in the conversion is stored in the location referenced by endptr . If no conversion is performed, zero is returned and the value of nptr is stored in the location referenced by endptr . If the correct value would cause overflow, plus or minus HUGE_VAL , HUGE_VALF , or HUGE_VALL is returned (according to the sign and type of the return 
+  value), and ERANGE is stored in errno . If the correct value would cause underflow a value, of the appropriate 
+  type, with magnitude is no greater than the smallest normalized positive number 
+  (KMinTReal in case of Symbian OS) is returned and ERANGE is stored in errno .
+
+  These conversion functions convert the initial portion of the string pointed to by  nptr to double , float , and long double representation, respectively.
+
+The expected form of the string is an optional plus ("+") or minus sign ("-") followed by either:
+
+@code
+
+    * a decimal significand consisting of a sequence of decimal digits optionally containing a decimal-point character, or
+    * a hexadecimal significand consisting of a "0X" or "0x" followed by a sequence of hexadecimal digits optionally containing a decimal-point character. 
+@endcode
+
+In both cases, the significand may be optionally followed by an exponent. An exponent consists of an "E" or "e" (for decimal constants) or a "P" or 
+"p" (for hexadecimal constants), followed by an optional plus or minus sign, followed by a sequence of decimal digits. 
+For decimal constants, the exponent indicates the power of 10 by which the significand should be scaled. For hexadecimal constants, the scaling is instead done by powers of 2.
+
+Alternatively, if the portion of the string following the optional plus or minus sign begins with "INFINITY" or "NAN", ignoring case, it is interpreted as an infinity or a quiet NaN, respectively.
+
+In any of the above cases, leading white-space characters in the string (as defined by the isspace function) are skipped. The decimal point character is defined in the program's locale (category LC_NUMERIC).
+
+Examples:
+@code
+#include <stdlib.h>
+#include <stdio.h>
+ 
+int main( void )
+{
+ char *endpt = NULL;
+ double d = 0.0;
+  
+ d = strtod("0x00e123bhduitri", &endpt;);
+  
+ printf("{Expected: 922171.0} %f
+", d);
+ printf("{Expected: \"hduitri\"} %s
+", endpt);
+  
+ return 0;
+}
+
+@endcode
+ Output
+@code
+{Expected: 922171.0} 922171.0
+{Expected: "hduitri"} hduitri
+
+@endcode
+
+Limitations:
+
+All these functions don't support the long double length modifiers.
+
+@see atof()
+@see atoi()
+@see atol()
+@see strtol()
+@see strtoul()
+@see wcstod()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  strtof(const char *  s, char **  tail)
+@param s
+@param tail
+
+Refer to  strtod() for the documentation
+@see atof()
+@see atoi()
+@see atol()
+@see strtol()
+@see strtoul()
+@see wcstod()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  strtol(const char *  nptr, char **  endptr, int base)
+@param nptr
+@param endptr
+@param base
+
+Note: 
+
+This description also covers the following functions -
+ strtoll()  strtoimax()  strtoq() 
+
+@return   The strtol , strtoll , strtoimax and strtoq functions return the result of the conversion, unless the value 
+  would underflow or overflow. If no conversion could be performed, 0 is returned 
+  and the global variable errno is set to EINVAL (the last feature is not portable across all platforms). If 
+  an overflow or underflow occurs, errno is set to ERANGE and the function return value is clamped according to the following 
+  table:
+
+ @code
+
+  Function	underflow	overflow 
+
+  strtol        LONG_MIN	LONG_MAX 
+  strtoll	LLONG_MIN	LLONG_MAX 
+  strtoimax	INTMAX_MIN	INTMAX_MAX 
+  strtoq	LLONG_MIN	LLONG_MAX
+@endcode
+
+  The strtol function
+converts the string in nptr to a long
+value.
+The strtoll function
+converts the string in nptr to a long long
+value.
+The strtoimax function
+converts the string in nptr to an intmax_t
+value.
+The strtoq function
+converts the string in nptr to a quad_t
+value.
+The conversion is done according to the given base ,
+which must be between 2 and 36 inclusive,
+or be the special value 0.
+
+ The string may begin with an arbitrary amount of white space
+(as determined by isspace )
+followed by a single optional "+"
+or "-"
+sign.
+If base is zero or 16,
+the string may then include a "0x"
+prefix,
+and the number will be read in base 16; otherwise, a zero base is taken as 10 (decimal) unless the next character is "0",
+in which case it is taken as 8 (octal).
+
+ The remainder of the string is converted to a long , long long , intmax_t
+or quad_t
+value in the obvious manner,
+stopping at the first character which is not a valid digit
+in the given base.
+(In bases above 10, the letter "A"
+in either upper or lower case
+represents 10, "B"
+represents 11, and so forth, with "Z"
+representing 35.)
+
+ If endptr is not NULL , strtol stores the address of the first invalid character in *endptr .
+If there were no digits at all, however, strtol stores the original value of nptr in *endptr .
+(Thus, if *nptr is not "\\0"
+but **endptr is "\\0"
+on return, the entire string was valid.)
+
+Examples:
+@code
+#include <stdlib.h>
+#include <stdio.h>
+  
+int main( void )
+{
+ char *endpt = NULL;
+ long l = 0;
+  
+ l = strtol("0x1236nvbi", &endpt;, 0);
+  
+ printf("{Expected: 4662} %ld
+", l);
+ printf("{Expected: \"nvbi\"} %s
+", endpt);
+  
+ return 0;
+}
+
+@endcode
+@code
+Output
+
+{Expected: 4662} 4662
+{Expected: "nvbi"} nvbi
+
+@endcode
+@see atof()
+@see atoi()
+@see atol()
+@see strtod()
+@see strtoul()
+@see wcstol()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  strtold(const char *s, char **sp)
+@param s
+@param sp
+
+Refer to  strtod() for the documentation
+@see atof()
+@see atoi()
+@see atol()
+@see strtol()
+@see strtoul()
+@see wcstod()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  strtoul(const char *  nptr, char **  endptr, int base)
+@param nptr
+@param endptr
+@param base
+
+Note: 
+
+This description also covers the following functions -
+ strtoull()  strtoumax()  strtouq() 
+
+@return   The strtoul , strtoull , strtoumax and strtouq functions
+return either the result of the conversion
+or, if there was a leading minus sign,
+the negation of the result of the conversion,
+unless the original (non-negated) value would overflow;
+in the latter case, strtoul returns ULONG_MAX , strtoull returns ULLONG_MAX , strtoumax returns UINTMAX_MAX ,
+and strtouq returns ULLONG_MAX .
+In all cases, errno is set to ERANGE .
+If no conversion could be performed, 0 is returned and
+the global variable errno is set to EINVAL (the last feature is not portable across all platforms).
+
+  The strtoul function
+converts the string in nptr to an unsigned long
+value.
+The strtoull function
+converts the string in nptr to an unsigned long long
+value.
+The strtoumax function
+converts the string in nptr to an uintmax_t
+value.
+The strtouq function
+converts the string in nptr to a u_quad_t
+value.
+The conversion is done according to the given base ,
+which must be between 2 and 36 inclusive,
+or be the special value 0.
+
+ The string may begin with an arbitrary amount of white space
+(as determined by isspace )
+followed by a single optional "+"
+or "-"
+sign.
+If base is zero or 16,
+the string may then include a "0x"
+prefix,
+and the number will be read in base 16; otherwise, a zero base is taken as 10 (decimal) unless the next character is 'o',
+in which case it is taken as 8 (octal).
+
+ The remainder of the string is converted to an unsigned long
+value in the obvious manner,
+stopping at the end of the string
+or at the first character that does not produce a valid digit
+in the given base.
+(In bases above 10, the letter "A"
+in either upper or lower case
+represents 10, "B"
+represents 11, and so forth, with "Z"
+representing 35.)
+
+ If endptr is not NULL , strtoul stores the address of the first invalid character in *endptr .
+If there were no digits at all, however, strtoul stores the original value of nptr in *endptr .
+(Thus, if *nptr is not "\\0"
+but **endptr is "\\0"
+on return, the entire string was valid.)
+
+Examples:
+@code
+#include <stdlib.h>
+#include <stdio.h>
+ 
+int main( void )
+{
+ char *endpt = NULL;
+ unsigned long ul = 0;
+  
+ ul = strtoul("435435hmnb", &endpt;, 12);
+  
+ printf("{Expected: 1066793} %ld
+", ul);
+ printf("{Expected: \"hmnb\"} %s
+", endpt);
+  
+ return 0;
+}
+
+@endcode
+@code
+Output
+
+{Expected: 1066793} 1066793
+{Expected: "hmnb"} hmnb
+
+@endcode
+@see strtol()
+@see wcstoul()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  system(const char *cmd)
+@param cmd
+@return   The system function returns the exit status of the child process as returned by process exit reason or -1 if an error occurred when spawning a new process. It returns a non-zero value when NULL is passed as its argument.
+
+  The system function
+spawns another process with the argument cmd. The calling process waits for the child process
+to finish executing.
+
+ If cmd is a NULL pointer, system will return non-zero to indicate that system is suporrted
+and zero if it is not supported.
+
+ The system function
+returns the exit status of the child process as returned by
+process' exit reason
+or -1 if an error occurred when spawning a new process.
+
+Examples:
+@code
+#include <stdlib.h> //system
+#include <stdio.h> //printf
+ 
+int main( void )
+{
+   int retVal = -1;
+  
+   printf( "Calling system()...
+" );
+  
+   /* helloworld.exe is an executable that just prints
+    * "Hello world!" and it should be created before
+    * executing this example code.
+    */
+   retVal = system("c:\sys\bin\helloworld.exe");
+   
+   /* Print the return value of system() */
+   printf( "system() returned: %d", retVal );
+   
+   return 0;
+}
+
+@endcode
+@code
+Output
+
+Calling system()...
+system() returned: -1
+
+@endcode
+@see popen()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  wctomb(char *s, wchar_t wchar)
+@param s
+@param wchar
+@return   If s is a null pointer, wctomb returns a non-zero or 0 value according to the current locale. If s is not a null pointer, wctomb returns -1 if the value of src does not correspond to 
+  a valid character, or returns the number of bytes that constitute the character 
+  corresponding to the value of wchar . In no case is value returned greater than the value of the {MB_CUR_MAX} macro.
+
+  The wctomb function converts a wide character wchar into a multibyte character and stores
+the result in mbchar .
+The object pointed to by mbchar must be large enough to accommodate the multibyte character, which
+may be up to MB_LEN_MAX bytes.
+
+ A call with a null mbchar pointer returns nonzero if the current locale requires shift states,
+zero otherwise;
+if shift states are required, the shift state is reset to the initial state.
+
+ The behavior of the wctomb is affected by LC_CTYPE category of the current locale.
+
+Examples:
+@code
+#include <stdlib.h>
+#include <wchar.h>
+/* Illustrates how to use wctomb API */
+int example_wctomb(wchar_t wc)
+{
+ char s[MAX_CUR_MAX];
+  int len;
+  
+  /* represent a wide-char in a single byte*/
+  len = wctomb(s, wc);
+  /* return the number of bytes */
+  return(len);
+}
+
+@endcode
+
+Limitations:
+
+The current implementation of wctomb is not affected by the LC_CTYPE category of the current locale.
+It works only for UTF8 character set.
+
+@see mbtowc()
+@see wcrtomb()
+@see wcstombs()
+@see wctob()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  wcstombs(char *  s, const wchar_t *  pwcs, size_t n)
+@param s
+@param pwcs
+@param n
+@return   The wcstombs function returns the number of bytes converted (not including 
+any terminating null), if successful, otherwise it returns ( size_t)(-1) .
+
+  The wcstombs function converts a wide character string wcstring into a multibyte character string, mbstring ,
+beginning in the initial conversion state.
+Up to n bytes are stored in mbstring .
+Partial multibyte characters at the end of the string are not stored.
+The multibyte character string is null terminated if there is room.
+
+ The behavior of the wcstombs is affected by LC_CTYPE category of the current locale.
+
+Examples:
+@code
+#include <stdlib.h>
+#include <wchar.h>
+/* Illustrates how to use wcstombs API */
+size_t example_wcstombs(wchar_t *wcs, char *s, size_t n)
+{
+ size_t len;
+ /* converting multibyte string to a wide-char string */
+ len = wcstombs(s, (const wchar_t *)wcs, n);
+ /* returning no of bytes that make up the multibyte sequence */
+ return (len;);
+}
+
+@endcode
+
+Limitations:
+
+The current implementation of wcstombs is not affected by the LC_CTYPE category of the current locale.
+It works only for UTF8 character set.
+
+@see mbstowcs()
+@see wcsrtombs()
+@see wctomb()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  atoll(str) const char *str
+@param str
+
+Refer to  atol() for the documentation
+@see atof()
+@see atoi()
+@see strtod()
+@see strtol()
+@see strtoul()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  llabs(long long j)
+@param j
+@return   The llabs function
+returns the absolue value.
+
+  The llabs function returns the absolute value of j.
+
+
+
+Examples:
+@code
+#include  <stdio.h>
+#include  <stdlib.h>
+ 
+int main( void )
+{
+   int    ix = -4, iy;
+   long   lx = -41567L, ly;
+   long long llx = -5343546758, lly;
+ 
+   iy = abs( ix );
+   printf( "The abs value of %d is %d
+", ix, iy);
+ 
+   ly = labs( lx );
+   printf( "The abs value of %ld is %ld
+", lx, ly);
+ 
+   lly = llabs( llx );
+   printf( "The abs value of %lld is %lld
+", llx, lly );
+ 
+   return 0;
+}
+
+@endcode
+@code
+Output
+
+The absolute value of -4 is 4
+The absolute value of -41567 is 41567
+The absolute value of -5343546758 is 5343546758
+
+@endcode
+@see abs()
+@see fabs()
+@see hypot()
+@see labs()
+@see math()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  lldiv(long long numer, long long denom)
+@param numer
+@param denom
+
+The  lldiv function computes the value of  numer divided by  denom and returns the stored result in the form of the lldiv_t type.
+
+The lldiv_t type is defined as:
+@code
+typedef struct {
+        long long quot; /* Quotient. */
+        long long rem;  /* Remainder. */
+} lldiv_t;
+@endcode
+
+Examples:
+@code
+#include <stdlib.h>
+#include <stdio.h>
+#include <math.h> /* link to the math lib -libm */
+ 
+int main( void )
+{
+ long long numer = pow(2, 40);
+ long long denom = 3;
+ 
+ /* call to lldiv */
+ lldiv_t x = lldiv(-numer, denom);
+ 
+ printf("Result-> 
+Quotient = %ld 
+Remainder = %ld", x.quot, x.rem);
+                 
+ long long exp_numer = (denom * x.quot) + x.rem;
+  
+ if( exp_numer == (-numer) )
+    printf("
+Expected output");  
+ else
+    printf("Unexpected output");
+  
+ return 0;
+}
+
+@endcode
+@code
+Output
+
+Result->
+Quotient = -366503875925
+Remainder = -1
+Expected output
+
+
+@endcode
+@see div()
+@see ldiv()
+@see math()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  strtoll(const char *  nptr, char **  endptr, int base)
+@param nptr
+@param endptr
+@param base
+
+Refer to  strtol() for the documentation
+@see atof()
+@see atoi()
+@see atol()
+@see strtod()
+@see strtoul()
+@see wcstol()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  strtoull(const char *  nptr, char **  endptr, int base)
+@param nptr
+@param endptr
+@param base
+
+Refer to  strtoul() for the documentation
+@see strtol()
+@see wcstoul()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn _Exit(int code) 
+@param code
+
+Refer to  _exit() for the documentation
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  setenv(const char *name, const char *value, int overwrite)
+@param name
+@param value
+@param overwrite
+
+Refer to  getenv() for the documentation
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  unsetenv(const char *name)
+@param name
+
+Refer to  getenv() for the documentation
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @fn  mkstemp(char *template)
+@param template
+@return   The mkstemp function
+returns -1 if no suitable file could be created
+and an error code is placed in the global variable. errno.
+
+The mkstemp function
+takes the given file name template and overwrites a portion of it
+to create a file with that name and returns a file descriptor
+opened for reading and writing.
+This file name is guaranteed not to exist at the time of function invocation
+and is suitable for use
+by the application.
+The template may be any file name with some number of "X s"
+appended
+to it, for example
+@code
+/tmp/temp.XXXXXX.
+@endcode
+ The trailing "X s" are replaced with a
+unique alphanumeric combination.
+The number of unique file names mkstemp can return depends on the number of "X s"
+provided; six "X s"
+will
+result in mkstemp selecting one of 56800235584 (62 ** 6) possible temporary file names.
+
+
+Examples:
+@code
+#include <stdlib.h>
+#include <stdio.h> //printf, SEEK_SET
+#include <unistd.h>
+ 
+int main( void )
+{
+ char arr[] = "c:\someXXXXXXXX";
+ char buf[10];
+  
+ //create a temporary file using mkstemp()
+ int fd = mkstemp(arr);
+  
+ if(fd != -1)
+ {
+    //write to the file
+    write(fd, "hello", 5);
+    //seek to the beginning of the file
+    lseek(fd, 0, SEEK_SET); //beg of the file
+    //read from the file
+    read(fd, buf, 5);
+    buf[5] = '\0';
+    //close the file
+    close(fd);
+ }
+ 
+ printf("buf read: %s", buf);
+ return 0;
+}
+
+@endcode
+@code
+Output
+
+buf read: hello
+
+@endcode
+
+Notes:
+
+ A common problem that results in a core dump is that the programmer passes 
+in a read-only string to mkstemp. This is particulary so with programs that were developed before -isoC compilers were common. For example, calling mkstemp with an argument of "/tmp/tempfile.XXXXXX" will result in a core dump due to mkstemp attempting to modify the string constant that was given. If 
+the program in question makes heavy use of that type of function call, you do 
+have the option of compiling the program so that it will store string constants 
+in a writable segment of memory.
+@see chmod()
+@see getpid()
+@see mkdir()
+@see open()
+@see stat()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  mkstemp64(char *template)
+@param template
+@return   The mkstemp64 function
+returns -1 if no suitable file could be created
+and an error code is placed in the global variable. errno.
+
+The mkstemp64() function generates a unique temporary file name from template. The last six characters of template must be XXXXXX and these are replaced with a string that makes the filename unique.
+The mkstemp64() function is a 64-bit version of mkstemp.
+This function can be used to create tmp files which can grow more than 32 bit sizes
+
+@see mkstemp()
+ 
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  putenv(const char *string)
+@param string
+
+Refer to  getenv() for the documentation
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  random(void)
+
+Note: 
+
+This description also covers the following functions -
+ srandom()  srandomdev()  initstate()  setstate() 
+
+The random function
+uses a non-linear additive feedback random number generator employing a
+default table of size 31 long integers to return successive pseudo-random
+numbers in the range from 0 to
+(2**(310) -1). The period of this random number generator is very large, approximately
+16*(2**(310) -1).
+
+ The random and srandom functions have (almost) the same calling sequence and initialization properties as the rand and srand functions.
+The difference is that rand produces a much less random sequence  in fact, the low dozen bits
+generated by rand go through a cyclic pattern.
+All the bits generated by random are usable.
+For example, 'random()\&01'
+will produce a random binary
+value.
+
+ Like rand random will by default produce a sequence of numbers that can be duplicated
+by calling srandom with "1"
+as the seed.
+
+ The srandomdev routine initializes a state array using the random random number device which returns good random numbers,
+suitable for cryptographic use.
+Note that this particular seeding
+procedure can generate states which are impossible to reproduce by
+calling srandom with any value, since the succeeding terms in the
+state buffer are no longer derived from the LC algorithm applied to
+a fixed seed.
+
+ The initstate routine allows a state array, passed in as an argument, to be initialized
+for future use.
+The size of the state array (in bytes) is used by initstate to decide how sophisticated a random number generator it should use  the
+more state, the better the random numbers will be.
+(Current "optimal" values for the amount of state information are
+8, 32, 64, 128, and 256 bytes; other amounts will be rounded down to
+the nearest known amount.
+Using less than 8 bytes will cause an error.)
+The seed for the initialization (which specifies a starting point for
+the random number sequence, and provides for restarting at the same
+point) is also an argument.
+The initstate function
+returns a pointer to the previous state information array.
+
+ Once a state has been initialized, the setstate routine provides for rapid switching between states.
+The setstate function
+returns a pointer to the previous state array; its
+argument state array is used for further random number generation
+until the next call to initstate or setstate.
+
+ Once a state array has been initialized, it may be restarted at a different 
+  point either by calling initstate (with the desired seed, the state array, and its size) or 
+  by calling both setstate (with the state array) and srandom (with the desired seed). The advantage of calling both setstate and srandom is that the size of the state array does not have to be remembered 
+  after it is initialized.
+
+ With 256 bytes of state information, the period of the random number generator 
+  is greater than 2**(690) , which should be sufficient for most purposes.
+
+Examples:
+@code
+//Illustrates how to use srandom API.
+#include <stdlib.h>
+void  srandomTest()
+{
+       long randNum;
+       // srandom function call sets its argument as the seed for the new sequence of random integers //generated by  random
+       srandom(2);
+// Function call to generate the random number, which will generate the random based on the //argument passed to the srandom function.
+       randNum = random();
+       //print the random number generated.
+       printf("random number is %d",randNum);
+}
+
+@endcode
+@code
+Output
+
+random number is 1505335290.
+
+@endcode
+Diagnostics:
+
+ If initstate is called with less than 8 bytes of state information, or if setstate detects that the state information has been garbled, error
+messages are printed on the standard error output.
+@see arc4random()
+@see rand()
+@see srand()
+@see random()
+
+Bugs:
+
+ About 2/3 the speed of rand The historical implementation used to have a very weak seeding; the
+random sequence did not vary much with the seed.
+The current implementation employs a better pseudo-random number
+generator for the initial state calculation. Applications requiring cryptographic quality randomness should use arc4random .
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  srandom(unsigned long seed)
+@param seed
+
+Refer to  random() for the documentation
+@see arc4random()
+@see rand()
+@see srand()
+@see random()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  realpath(const char *pathname, char resolved_path[])
+@param pathname
+@param resolved_path[]
+@return   The realpath function returns resolved_path on success.
+If an error occurs, realpath returns NULL, and resolved_path contains the pathname which caused the problem.
+
+  The realpath function resolves all symbolic links, extra "/"
+characters and references to /./ and /../ in pathname, and copies the resulting absolute pathname into
+the memory referenced by resolved_path. The resolved_path argument must refer to a buffer capable of storing at least PATH_MAX characters.
+
+ The realpath function will resolve both absolute and relative paths
+and return the absolute pathname corresponding to pathname. All but the last component of pathname must exist when realpath is called.
+
+Examples:
+@code
+#include<stdlib.h>
+#include<stdio.h> //printf
+#include<sys/stat.h> //S_IWUSR
+#include<sys/syslimits.h> //PATH_MAX
+#include<unistd.h> //chdir
+ 
+int main()
+{
+ char resolvepath[PATH_MAX];
+ FILE *fp = NULL;
+ char *rpath = NULL;
+ int isymlink = 0;
+  
+ fp = fopen("c:\xyz.txt", "w");
+ if(!fp)
+ {
+     printf("fopen failed!!");
+     return -1;
+ }
+    
+ mkdir("c:\tmdir", S_IWUSR);
+  
+ int c = chdir("c:\");
+ if(c == -1)
+ {
+     printf("chdir failed!!");
+     return -1;
+ }
+  
+ rpath = realpath(".\tmdir\..\xyz.txt", resolvepath);
+ printf("resolvepath: %s", resolvepath);
+ if(rpath != NULL)
+    printf("rpath: %s", rpath);
+  
+ fclose(fp);
+ rmdir("c:\tmdir");
+ unlink("c:\xyz.txt");
+  
+ mkdir("c:\tdir", S_IWUSR);
+  
+ fp = fopen("c:\tdir\xyz.txt", "w");
+ if(!fp)
+ {
+     printf("fopen failed!!");
+     return -1;
+ }
+  
+ fclose(fp);
+  
+ unlink("c:\linkname.txt");
+    
+ isymlink = symlink("c:\tdir\xyz.txt", "c:\linkname.txt");
+ if (isymlink == -1)
+ {
+     printf("symlink failed!!");
+     return -1;
+ }
+   
+ rpath = realpath("c:\linkname.txt", resolvepath);
+  
+ printf("resolvepath: %s", resolvepath);
+ if(rpath != NULL)
+    printf("rpath: %s", rpath);
+  
+ unlink("c:\tdir\xyz.txt");
+ rmdir("c:\tdir");
+   
+ return 0;
+}
+
+@endcode
+@code
+Output
+
+resolvepath: C:\xyz.txt
+rpath: C:\xyz.txt
+resolvepath: c:	dir\xyz.txt
+rpath: c:	dir\xyz.txt
+
+@endcode
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  setstate(char *state)
+@param state
+
+Refer to  random() for the documentation
+@see arc4random()
+@see rand()
+@see srand()
+@see random()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  initstate(unsigned long seed, char *state, long n)
+@param seed
+@param state
+@param n
+
+Refer to  random() for the documentation
+@see arc4random()
+@see rand()
+@see srand()
+@see random()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @fn  getprogname(void)
+
+Refer to  setprogname() for the documentation
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  reallocf(void *ptr, size_t size)
+@param ptr
+@param size
+
+Refer to  malloc() for the documentation
+@see brk()
+@see mmap()
+@see getpagesize()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn setprogname(const char *programname)
+@param programname
+
+These utility functions get and set the current program's name as used by
+various error-reporting functions.getprogname() returns the name of the current program.
+This function is typically useful when generating error messages or other diagnostic out-put.
+If the program name has not been set, getprogname() will return NULL.
+setprogname() sets the name of the current program to be the last path-name component of the programname argument.
+It should be invoked at the start of the program, using the argv[0] passed into the program's main() function.
+A pointer into the string pointed to by the programname argument is kept as the program name.
+Therefore, the string pointed to by programname should not be modified during the rest of the program's operation.
+A program's name can only be set once, and in NetBSD that is actually done by program start-up code that is run before main() is called.
+Therefore, in NetBSD, calling setprogname() from main() has no effect.
+However, it does serve to increase the portability of the program:
+on other operating systems, getprogname() and setprogname() may be implemented by a portability library, 
+and a call to setprogname() allows that library to know the program name without modifications to that system's program start-up code.
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  strtoq(const char *nptr, char **endptr, int base)
+@param nptr
+@param endptr
+@param base
+
+Refer to  strtol() for the documentation
+@see atof()
+@see atoi()
+@see atol()
+@see strtod()
+@see strtoul()
+@see wcstol()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  strtouq(const char *nptr, char **endptr, int base)
+@param nptr
+@param endptr
+@param base
+
+Refer to  strtoul() for the documentation
+@see strtol()
+@see wcstoul()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @struct div_t 
+
+Contains the following members
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @var div_t::quot
+quotient
+*/
+
+/** @var div_t::rem
+remainder
+*/
+
+
+/** @struct ldiv_t 
+
+Contains the following members
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @var ldiv_t::quot
+quotient
+*/
+
+/** @var ldiv_t::rem
+remainder
+*/
+
+
+/** @struct lldiv_t 
+
+Contains the following members
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @var lldiv_t::quot
+quotient
+*/
+
+/** @var lldiv_t::rem
+remainder
+*/
+
+
+/** @def EXIT_FAILURE 
+
+These are arguments for the exit and _exit functions and the return values for the atexit and _onexit functions.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def EXIT_SUCCESS 
+
+These are arguments for the exit and _exit functions and the return values for the atexit and _onexit functions.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def  RAND_MAX
+
+The constant RAND_MAX is the maximum value that can be returned by the rand function.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @def MB_CUR_MAX 
+
+The value of MB_CUR_MAX is the maximum number of bytes in a multibyte character for the current locale.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+
+

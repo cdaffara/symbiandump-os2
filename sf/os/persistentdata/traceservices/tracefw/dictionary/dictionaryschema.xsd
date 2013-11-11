@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) 2006 Symbian Software Ltd. All rights reserved. -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<!-- root element for dictionary -->
+	<xs:element name="tracedictionary">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="metadata" type="options" minOccurs="0"/>
+				<xs:element name="typedef" type="typedef" minOccurs="0"/>
+				<xs:element name="data" type="data" minOccurs="0"/>
+				<xs:element name="locations" type="locations" minOccurs="0"/>
+				<xs:element name="component" type="component" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="version" type="xs:float" default="1.0"/>
+		</xs:complexType>
+	</xs:element>
+	<!--typemember type definition-->
+	<xs:complexType name="typemember">
+		<xs:sequence/>
+		<xs:attribute name="name" type="xs:string" use="required"/>
+		<xs:attribute name="type" type="xs:string" use="optional"/>
+		<xs:attribute name="value" type="xs:integer" use="optional"/>
+	</xs:complexType>
+	<!--object type-->
+	<xs:complexType name="object">
+		<xs:sequence>
+			<xs:element name="member" type="typemember" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="type" type="xs:string" use="required"/>
+		<xs:attribute name="classification" type="datatype" use="required"/>
+		<xs:attribute name="size" type="xs:positiveInteger" use="optional"/>
+		<xs:attribute name="formatchar" type="xs:string" use="optional"/>
+	</xs:complexType>
+	<!--Typedef object-->
+	<xs:complexType name="typedef">
+		<xs:sequence>
+			<xs:element name="external-def" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="object" type="object" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--enumeration for data->type attributes-->
+	<xs:simpleType name="datatype">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="string"/>
+			<xs:enumeration value="integer"/>
+			<xs:enumeration value="float"/>
+			<xs:enumeration value="hex"/>
+			<xs:enumeration value="binary"/>
+			<xs:enumeration value="octal"/>
+			<xs:enumeration value="enum"/>
+			<xs:enumeration value="raw"/>
+			<xs:enumeration value="compound"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--Options type-->
+	<xs:complexType name="options">
+		<xs:sequence>
+			<xs:any namespace="##any" processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--def type definition-->
+	<xs:complexType name="def">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="id" type="xs:positiveInteger" use="required"/>
+				<xs:attribute name="type" type="datatype" default="string"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<!--data type definition-->
+	<xs:complexType name="data">
+		<xs:sequence>
+			<xs:element name="def" type="def" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--file type definition-->
+	<xs:complexType name="file">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="id" type="xs:positiveInteger" use="required"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<!--path type definition-->
+	<xs:complexType name="path">
+		<xs:sequence>
+			<xs:element name="file" type="file" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="val" type="xs:string" use="required"/>
+	</xs:complexType>
+	<!--locations type definition-->
+	<xs:complexType name="locations">
+		<xs:sequence>
+			<xs:element name="path" type="path" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--instance type definition-->
+	<xs:complexType name="instance">
+		<xs:all>
+			<xs:element name="options" type="options" minOccurs="0"/>
+		</xs:all>
+		<xs:attribute name="id" type="xs:positiveInteger" use="required"/>
+		<xs:attribute name="loc-ref" type="xs:positiveInteger" use="required"/>
+		<xs:attribute name="line" type="xs:positiveInteger" use="required"/>
+		<xs:attribute name="methodname" type="xs:string" use="required"/>
+		<xs:attribute name="classname" type="xs:string" use="optional"/>
+	</xs:complexType>
+	<!--trace type definition-->
+	<xs:complexType name="trace">
+		<xs:sequence>
+			<xs:element name="options" type="options" minOccurs="0"/>
+			<xs:element name="instance" type="instance" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="data-ref" type="xs:positiveInteger" use="optional"/>
+	</xs:complexType>
+	<!--tracetype type definition-->
+	<xs:complexType name="group">
+		<xs:sequence>
+			<xs:element name="options" type="options" minOccurs="0"/>
+			<xs:element name="trace" type="trace" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:positiveInteger" use="required"/>
+		<xs:attribute name="name" type="xs:string" use="required"/>
+		<xs:attribute name="prefix" type="xs:string" use="optional"/>
+		<xs:attribute name="suffix" type="xs:string" use="optional"/>
+	</xs:complexType>
+	<!--copmponent type definition-->
+	<xs:complexType name="component">
+		<xs:sequence>
+			<xs:element name="options" type="options" minOccurs="0"/>
+			<xs:element name="group" type="group" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:integer" use="required"/>
+		<xs:attribute name="name" type="xs:string" use="required"/>
+		<xs:attribute name="prefix" type="xs:string" use="optional"/>
+		<xs:attribute name="suffix" type="xs:string" use="optional"/>
+	</xs:complexType>
+</xs:schema>

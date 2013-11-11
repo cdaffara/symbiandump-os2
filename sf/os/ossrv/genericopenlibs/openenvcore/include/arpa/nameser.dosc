@@ -1,0 +1,270 @@
+/** @file ../include/arpa/nameser.h
+@internalComponent
+*/
+
+/** @def  NS_PACKETSZ
+
+maximum packet size
+
+@publishedAll
+@released
+*/
+
+
+/** @def  NS_MAXDNAME
+
+maximum domain name
+
+@publishedAll
+@released
+*/
+
+
+/** @def  NS_MAXCDNAME
+
+maximum compressed domain name
+
+@publishedAll
+@released
+*/
+
+
+/** @def  NS_MAXLABEL
+
+maximum length of domain label
+
+@publishedAll
+@released
+*/
+
+
+/** @def  NS_HFIXEDSZ
+
+bytes of fixed data in header
+
+@publishedAll
+@released
+*/
+
+
+/** @def  NS_QFIXEDSZ
+
+bytes of fixed data in query
+
+@publishedAll
+@released
+*/
+
+
+/** @def  NS_RRFIXEDSZ
+
+bytes of fixed data in r record 
+
+@publishedAll
+@released
+*/
+
+
+/** @def  NS_INT32SZ
+
+bytes of data in a u_int32_t
+
+@publishedAll
+@released
+*/
+
+/** @def  NS_INT16SZ
+
+bytes of data in a u_int16_t
+
+@publishedAll
+@released
+*/
+
+/** @def  NS_INT8SZ
+
+bytes of data in a u_int8_t 
+
+@publishedAll
+@released
+*/
+
+/** @def  NS_INADDRSZ
+
+IPv4 T_A
+
+@publishedAll
+@released
+*/
+
+/** @def  NS_IN6ADDRSZ
+
+IPv6 T_AAAA
+
+@publishedAll
+@released
+*/
+
+/** @def  NS_CMPRSFLGS
+
+Flag bits indicating name compression.
+
+@publishedAll
+@released
+*/
+
+/** @def  NS_DEFAULTPORT
+
+For both TCP and UDP.
+
+@publishedAll
+@released
+*/
+  
+/** @typedef typedef enum __ns_sect ns_sect
+
+These can be expanded with synonyms, just keep ns_parse.c:ns_parserecord() in synch with it.
+
+@publishedAll
+@released
+*/
+
+  
+/** @typedef typedef struct __ns_msg ns_msg
+
+This is a message handle.  It is caller allocated and has no dynamic data.
+This structure is intended to be opaque to all but ns_parse.c, thus the leading _'s on the member names.  Use the accessor functions, not the _'s.
+
+@publishedAll
+@released
+*/
+
+/** @typedef typedef	struct __ns_rr ns_rr
+
+This is a parsed record.  It is caller allocated and has no dynamic data.
+
+@publishedAll
+@released
+*/
+
+
+/** @typedef typedef enum __ns_flag  ns_flag
+
+These don't have to be in the same order as in the packet flags word, and they can even overlap in some cases, but they will need to be kept in synch with ns_parse.c:ns_flagdata[].
+
+@publishedAll
+@released
+*/
+
+
+/** @typedef typedef enum __ns_opcode ns_opcode
+
+Currently defined opcodes.
+
+@publishedAll
+@released
+*/
+
+/** @typedef typedef  enum __ns_rcode ns_rcode
+
+Currently defined response codes.
+
+@publishedAll
+@released
+*/
+
+/** @typedef typedef enum __ns_update_operation  ns_update_operation
+
+BIND_UPDATE
+
+@publishedAll
+@released
+*/
+
+
+/** @struct ns_updrec 
+
+This RR-like structure is particular to UPDATE.
+
+@publishedAll
+@released
+*/
+
+/** @var ns_updrec::r_prev
+prev record
+*/
+
+/** @var ns_updrec::r_next
+next record
+*/
+
+/** @var ns_updrec::r_section
+ZONE or PREREQUISITE or UPDATE
+*/
+
+/** @var ns_updrec::r_dname
+owner of the RR
+*/
+	
+/** @var ns_updrec::r_class
+class number
+*/
+
+/** @var ns_updrec::r_type
+type number
+*/
+
+/** @var ns_updrec::r_ttl
+time to live
+*/
+
+/** @var ns_updrec::r_data
+rdata fields as text string 
+*/
+
+/** @var ns_updrec::r_size
+size of r_data field
+*/
+
+/** @var ns_updrec::r_opcode
+type of operation
+*/
+
+/** @var ns_updrec::r_grpnext
+next record when grouped
+*/
+
+/** @var ns_updrec::r_dp
+databuf to process
+*/
+
+/** @var ns_updrec::r_deldp
+databuf's deleted or overwritten
+*/
+
+/** @var ns_updrec::r_zone
+zone number on server
+*/
+
+/** @typedef typedef enum __ns_type ns_type
+
+Currently defined type values for resources and queries.
+
+@publishedAll
+@released
+*/
+
+/** @typedef typedef enum __ns_class ns_class
+
+Values for class field
+
+@publishedAll
+@released
+*/
+
+
+
+
+
+
+

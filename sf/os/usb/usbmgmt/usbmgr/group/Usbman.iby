@@ -1,0 +1,144 @@
+/*
+* Copyright (c) 2003-2010 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+* Universal Serial Bus Interface Manager
+*
+*/
+
+#ifndef __USBMAN_IBY__
+#define __USBMAN_IBY__
+
+REM *** The following iby files are always included, whether usb is supported
+REM *** by the device or not.
+
+#include <c32.iby>
+#include <ecom.iby>
+
+// If __USB_DEBUG__ is defined pull in debug versions of the
+// USB DLLs and Plugins regardless of the ROM type
+#ifdef __USB_DEBUG__
+define USB_DIR UDEB
+#define USB_PLUGIN ECOM_PLUGIN_UDEB
+#else
+define USB_DIR BUILD_DIR
+#define USB_PLUGIN ECOM_PLUGIN
+#endif
+
+
+// *** Check we have been given a sensible set of buildrom options
+#if defined (__OBEX_OVER_USB__) && (defined (__TEST_USB_ZLP__) || defined (__USBMAN_DUMMYCC__))
+#error Defining both OBEX over USB _and_ Zero Length Packet testing or dummy class controllers does not make sense.
+#endif
+
+// *** USBMAN.DLL is the client side. It is always included in the ROM,
+// *** whether USB is supported by the device or not, so that client
+// *** applications can link against it regardless.
+file=ABI_DIR\USB_DIR\usbman.dll			usbman.dll
+
+// The main backup registration file. Plug-ins should use its own backup registration file in order to back its perfered data.
+data=ZPRIVATE\101fe1db\backup_registration.xml	private\101fe1db\backup_registration.xml
+
+
+#if defined(_DEBUG) || defined (__USB_DEBUG__)
+#include "commsdebugutility.iby"
+#endif
+
+// *** Now for things which should only be included if the device supports
+// *** USB, to save ROM space...
+#if !defined(__USB) || !defined(EUSBC)
+REM Feature USB is not included in this ROM (usbman.iby)
+#else //defined(__USB) && defined(EUSBC)
+
+#include <usbacm.iby>
+
+#include <usbncm.iby>
+
+#ifndef __OBEX_OVER_USB__
+  #ifndef __TEST_USB_ZLP__
+    #ifdef __EXAMPLE_OBEX_CC__
+      // *** OBEX Class Controller plugin. 
+      USB_PLUGIN(obexclasscontroller.dll,1027433a.rsc)
+      // *** All the files needed by Obex Class Controller
+      // *** The executable that the class controller links to
+      file=ABI_DIR\BUILD_DIR\classControllerServerSession.exe         sys\bin\classControllerServerSession.exe
+      // *** The dll that the class controller uses as a client 
+      file=ABI_DIR\BUILD_DIR\classControllerClientSession.dll         sys\bin\classControllerClientSession.dll
+    #endif //__EXAMPLE_OBEX_CC__	
+  #endif //__TEST_USB_ZLP__
+#endif //__OBEX_OVER_USB__
+
+// *** 'buildrom -D__USBMAN_DUMMYCC__' will use the dummy Class Controller
+// *** build of USBSVR for testing purposes.
+// *** Note: DummyCC never includes OTG code.
+#ifdef __USBMAN_DUMMYCC__
+#include <dummyccinifiles.iby>
+file=ABI_DIR\USB_DIR\t_usbman_dummycc.exe		usbsvr.exe
+#else
+//
+// Configuration of OTG or Client.
+//
+#if defined(SYMBIAN_ENABLE_USB_OTG_HOST)
+
+	#if defined(SYMBIAN_INCLUDE_USB_OTG_HOST)
+		REM Feature USB Host (and related OTG) is included in this ROM (usbman.iby)
+		file=ABI_DIR\USB_DIR\usbsvrotg.exe		usbsvr.exe
+		#include <fdf.iby>
+		REM Host Mass Storage binaries
+		#ifdef WITH_MASS_STORAGE
+			#include <usbhostmsmm.iby>
+			#include <msfdc.iby>
+		#endif
+	#else
+		REM Feature USB Host (and related OTG) is NOT included in this ROM (usbman.iby)
+		file=ABI_DIR\USB_DIR\usbsvr.exe			usbsvr.exe
+	#endif // SYMBIAN_INCLUDE_USB_OTG_HOST
+
+#else
+
+	REM SYMBIAN_ENABLE_USB_OTG_HOST is not defined - so we fall back to building in the 
+	REM non-OTG usbsvr.exe
+	file=ABI_DIR\USB_DIR\usbsvr.exe			usbsvr.exe
+
+#endif // SYMBIAN_ENABLE_USB_OTG_HOST
+
+#endif
+
+file=ABI_DIR\USB_DIR\usbclasscontroller.dll		usbclasscontroller.dll
+file=ABI_DIR\USB_DIR\usbmanextensionplugin.dll		usbmanextensionplugin.dll
+
+#if defined(SYMBIAN_USB_BATTERYCHARGING_V1_1) || defined (WITH_REFERENCE_USB_CHARGING_PLUGIN)
+	#if defined(SYMBIAN_ENABLE_USB_OTG_HOST) && defined (SYMBIAN_INCLUDE_USB_OTG_HOST)
+		USB_PLUGIN(usbbatterychargingpluginotg.dll,usbbatterychargingpluginotg.rsc)
+	#else
+		USB_PLUGIN(usbbatterychargingplugin.dll,usbbatterychargingplugin.rsc)
+	#endif
+#endif
+
+// *** WHCM Class Controller - used for OBEX over USB.
+USB_PLUGIN(whcmclasscontroller.dll,101fbf23.rsc)
+
+// *** Mass Storage Class Controller.
+USB_PLUGIN(msclasscontroller.dll,10204bbb.rsc)
+data=ZPRIVATE\10204bbb\usbms.rsc	PRIVATE\101fe1db\usbms.rsc
+#ifdef WITH_MASS_STORAGE_EXAMPLE_APP
+file=ABI_DIR\USB_DIR\usbmsexampleapp.exe		usbmsexampleapp.exe
+#endif
+
+// *** OBEX Class Controller. This is test code, used for descriptor checking
+// *** only.
+// USB_PLUGIN(Obexclasscontroller.dll,101fbf27.rsc)
+
+#endif // !defined(__USB) || !defined(EUSBC)
+
+#endif // __USBMAN_IBY__

@@ -1,0 +1,200 @@
+<?xml version="1.0"?>
+<relnotes schema="1.0.0" name="Plugin Framework" purpose="" type="component">
+  <purpose>
+    DLL/Object Plugin framework of the OS comprising of a Plugin Server and Client API. Allows users to list and create plugin objects. It gives clients a way of having run-time dynamic linkages to object implementations in DLLs not known at build time (static linkage).
+  </purpose>
+  <defect number="DEF142843" title="Public headers include platform headers" revision="059">
+  Rectified the header classifications wherever necessary, either including it in .cpp or promoting it
+  </defect> 
+  <defect number="PDEF139263" title="TE_EComSWITestWINSCW.script (udeb) v9.5 fails" revision="058">
+    Removed the test te_ecomswitestwinscw from the winscw script file
+  </defect>
+   <defect number="PDEF138059" title="ECOM manual test t_heaptest is obsolete" revision="057">
+    Updated test t_heaptest to upgrade ecom plugin using SWI 
+  </defect>
+  <defect number="PDEF138060" title="ECOM manual test t_ecomeikerrortest needs update" revision="056">
+  Updated the EcomErrorCodes.h and EcomErr.ra so that they reflect the latest error codes and t_ecomeikerrortest is updated to test the new error codes.
+  </defect> 
+  <deliverystep number="1462" name="PREQ2475: Splitting Mixed Header files for Base Services API" osproject="SymTB9.2" revision="055">
+    <milestone project="GT0494" number="3.9"/>
+    <preq number="2475" title="Splitting Mixed header">
+    Splitting Mixed Header files for Base Services API
+  </preq>
+  </deliverystep>	
+ <defect number="PDEF134636" title="T_PLUGINUPGRADE test fails on Rel MCL" revision="054">
+  Fixed the slash issues relevant to this testcase in ecom3_postbuild.mk file. 
+  </defect>
+  <defect number="DEF133163" title="TLanguage fails in ECOM" revision="053">
+  Updated test to export ecom-1-2.s02 and ecom-1-3.s03 .
+  </defect>
+  <defect number="DEF131679 " title="[WDP] {WDP} T_RESOLVERPERF tests failing on H4." revision="052">
+    Updated  test to put in appropriate time thresholds.
+  </defect>
+  <defect number="DEF133785 " title="T_RESOLVERCACHE test fails on ARMV5" revision="051">
+    Updated  test to make the Time Period Fall in the time Interval.
+  </defect>
+  <defect number="INC133328" title="[SPHINX] Landmarks application cannot be started" revision="050">
+    Missing Object initialisation updated in Sphinx .
+  </defect>
+  <defect number="DEF133145" title="PerfTest Fails on h6 3430 board for ecom " revision="049">
+    Updated test to make it compatible with h6 i.e OMAP3430 Board.
+  </defect>
+  <deliverystep number="1416" name="CR1573:ECOM clients shall be able to list all plug-in implementations for a given plug-in interface" osproject="Diran" revision="048" >
+    <cr number="1573" title="ECOM clients shall be able to list all plug-in implementations for a given plug-in interface ">
+      Addition of 3 new client API's to list the plug-in implmentations of a plug-in interface, without doing any capability filtering And Server Side Changes.
+    </cr>
+    <milestone project="GT0494" number="3.8"/>
+  </deliverystep>
+  <defect number="DEF129269" title="T_RESOLVERCACHE (udeb) failing 9.5 dev_dpfunctional (onwards)" revision="047">
+    Updated test to make it more resilient to scheduling variances.
+  </defect>
+  <defect number="DEF117562" title="Investigate leave in CDiscoverer::CDirScanner::DoScanDriveL" revision="046">
+    Updates to improve panic logging and handling. Published ECOM panic codes.
+  </defect>
+  <defect number="DEF127158" title="Updating startup domain definitions used in ECOM" revision="045">
+    Updates made in accordance to the changes in the Starup domain definitions as per System model v2. 
+  </defect>
+  <defect number="DEF120545" title="ECOM manual test t_multipleImageTest documentation out of date" revision="044">
+	Updated the instructions on how to build t_multipleimagetest are documented in SGL.GT0292.509 ECOM Component Test Spec.doc and buildecomMultiImage.cmd.
+  </defect>
+  <defect number="DEF120850" title="TEM for ecom should have ecom3_ prefix" revision="043">
+	  Renamed buildsis.mk/meta and relocatetarget.mk/meta to add the ecom3_ prefix. Update bld.inf files.
+  </defect>
+  <defect number="PDEF119731" title="BAFL Backup System Potential Security Vulnerability" revision="042">
+	Have changed the capabilities for CloseAll, CloseFileL, RestartAll, RestartFile and NotifyBackupOperationL. Have removed the CloseServer API.
+  </defect>
+  <defect number="PDEF116654" title="Robustness of REComSession::CreateImplementationL() on a leave must be improved " revision="041">
+	Improved robustness and add several test cases.
+  </defect>
+  <defect number="DEF117387" title="T_EXTENDEDINTERFACES test is failing in 9.5 Development WINSCW build" revision="040">
+	Updated t_extendedinterfaces.cpp
+  </defect> 
+  <defect number="DEF116366" title="Remove awkward dependency of syslibs_ecom on cbr/dummy - prop to ecom3" revision="039">
+	Removed the dummy.exe target
+  </defect> 
+  <defect number=" DEF116246" title="Propagate INC115057 to ecom3 - ecomserver out of heap space  " revision="038">
+	Increased the heap min and max sizes. Changed implementation of plug-in scanning to be more efficient.
+  </defect> 
+  <defect number="PDEF116150" title="'Contact retailer' when booting phone" revision="037">
+	Modified all sorting algorithms based on UIDs to use comparisons instead of subtractions.
+  </defect> 
+  <deliverystep number="486" name="ECOM Interface Extensions" osproject="Oghma" revision="036">
+   	<ec number="043" title="ECOM Interface Compatibility, Extensions and Versioning">
+   	Allow the existing plug-in implementation interfaces to be extended without breaking BC
+  	</ec>
+   	<milestone project="GT0329" number="3.2"/>
+  </deliverystep>
+  <defect number="DEF113573" title="CObserverStub initialises TDriveUnit object with invalid drive parameter " revision="035">
+	Modified the t_discoverer code not to initialize a TDriveUnit with -1 otherwise it will panic(drive number of out of the 0-25 range)
+  </defect> 
+  <defect number="DEF113257" title="(ecom) calls to GetDesLength() not checked for error return " revision="034">
+    Added User::LeaveIfError to catch and leave with error code returned by TClientRequest::GetDesLength if it returns error.
+  </defect>
+  <defect number="DEF103909" title="ECOM ignores changes that occur during a Backup" revision="033">
+    Changed the dicoverer to only cancel/activate the scanning timer on suspend/resume, leaving other notifiers active. Notifications are then processed once the discoverer is resumed.
+  </defect>
+  <defect number="DEF111559" title="In-Source documentation must be provided for usage of ECOM aDtorIDKey argument" revision="032">
+    Changed the description of "aDtorIDKey"
+  </defect>
+  <defect number="DEF111309" title="ECOM dependency on swi/swispubsubdefs.h breaks Core OS layering" revision="031">
+    Updated ECOM to depend on definitions in sacls.h and e32property.h rather than swi/swispubsubdefs.h.
+  </defect>
+  <defect number="DEF111789" title="Cannot determine impl. uid after call to REComSession:: CreateImplementationL()" revision="030">
+    Fixed issue by providing an additional method to retrieve uid given the destructor key
+  </defect>
+  <defect number="PDEF111246" title="ECOM does not notify when plug-ins get uninstalled" revision="029">
+    Fixed issue with notification of plugin uninstallation
+  </defect>
+  <defect number="DEF111107" title="IPR errors in syslibs_ecom" revision="028">
+    Changed syslibs_ecom.mrp, added a entry for DisableDrivesTest in IPR section to classify this test component to T
+  </defect>
+  <defect number="DEF110156" title="Incorrect component name in distribution.policy files" revision="027">
+    Changed schedule 12 information for the distribution.policy files from Tools to Plugin Framework Server
+  </defect>
+  <defect number="PDEF110202" title="Undesireable interaction between ECOM and SWI" revision="026">
+    Disabled discovery of plugins during SWI
+  </defect>
+  <defect number="DEF110141" title="WordScan error in ECOM" revision="025">
+    Rephrase commented out in t_disabledrives.cpp
+  </defect>
+<deliverystep number="646" name="Allow licensees to disable scanning on specific drives" osproject="Naiad" revision="024">
+    <preq number="1783" title="Traceability PREQ for functionality added to legacy components in Naiad">
+    Derived req 7447: ECOM shall allow licensees to indicate disabled drives.
+   </preq>
+    <milestone project="GT0304" number="3.12"/>
+  </deliverystep>
+  <minorchange revision="023">
+    Updated the value of the patchable buffer size constant in the HowToFAQ
+  </minorchange>
+  <deliverystep number="558" name="Extension makefile changes" osproject="Oghma" revision="022">
+    <preq number="1182" title="GNU Make-based build system">
+    Migrating the makefiles to Template Extension Makefiles.
+  </preq>
+    <milestone project="GT0329" number="3.13"/>
+  </deliverystep>
+  <defect number="DEF105913" title="Documentation defect in &quot;REComSession::CreateImplementationL()&quot;" revision="021">
+    Updated interfaceuid documentation in EcomSession.cpp
+  </defect>
+  <defect number="PDEF101458" title="ECOM Optimise KListImpBufferSize default value for RAM/NOR/NAND configs" revision="020">
+    ECOM Optimise KListImpBufferSize default value for RAM/NOR/NAND configs
+  </defect>
+  <deliverystep number="557" name="Filename policy changes" osproject="Oghma" revision="019">
+    <milestone project="GT0329" number="3.11"/>
+    <preq number="1182" title="GNU Make-based build system">
+    Updating the component source files to comply with the Symbian filename policy.
+  </preq>
+  </deliverystep>
+  <minorchange revision="018">
+    Symbian OS v9.3 component branched from common codeline
+  </minorchange>
+  <defect number="DEF098054" title="Ecom Multiple Image test fail" revision="017">
+    Correction to the documentation for multiple image support and addition of scripts for setting up the multiple image test environment
+  </defect>
+  <defect number="PDEF101488" title="ECom test failure" revision="016">
+    Remove set system drive test cases
+  </defect>
+  <defect number="DEF101931" title="ECOMSERVERTEST timeout in WINSCW only" revision="015">
+    Modified ECOMServerTest to improve the OOM server test
+  </defect>
+  <defect number="DEF101930" title="Incorrect policy object returned in CLoadManager::InstantiationMethodL" revision="014">
+    Updated policy mapping code to return correct object.
+  </defect>
+  <defect number="DEF099923" title="ECOM Non-SPI 2nd boot performance degraded by 30ms" revision="013">
+    The server no longer persists any data in its internal registry. This means that DAT and LANG files are not created.
+  </defect>
+  <defect number="DEF098715" title="Calls to REComSession::CreateImplementationL can leak memory." revision="012">
+    All resource handles are released if a Leave occurs during a call to any of the ListImplementations() or CreateImplementation() methods.
+  </defect>
+  <defect number="DEF099960" title="Failure of T_Registrydata test on Nand Build" revision="011">
+    ECOM Server will no longer unnecessary saves the DAT file for drives which has not changed(non-SPI)
+  </defect>
+  <defect number="DEF098984" title="ECOM saves the DAT file for a drive which has not changed [non-SPI]" revision="010">
+    ECOM Server will no longer unnecessary saves the DAT file for drives which has not changed(non-SPI)
+  </defect>
+  <defect number="DEF097252" title="ONB: ARMV5 ABIv2 is causing 2 Ecom tests to fail to build." revision="009">
+    Add ecom.lib to 2 ecom test mmp files.
+  </defect>
+  <defect number="PDEF099954" title="Format c: in boot up causes htiframework to crash" revision="008">
+    Server no longer panics when multiple threads/processes attempt to start the server simultaneously
+  </defect>
+  <defect number="DEF099467" title="ECOM Performance tests fail on H4 NAND (UREL)" revision="007">
+    Added benchmarks for all Performance tests for each configuration tested during the nightly test run.
+  </defect>
+  <deliverystep number="455" name="ECOM Performance Improvements" osproject="Naiad" revision="006">
+    <preq number="1480" title="Naiad System Quality: Performance, ROM and RAM targets">
+    General client and server performance improvements. This includes improvements to server startup as well as improvements to ROM and RAM usage.
+  </preq>
+    <milestone project="GT0304" number="3.8"/>
+  </deliverystep>
+  <defect number="DEF098623" title="Test Failure in ECOM for NAND2 configuration in H4" revision="005">
+    Updated test to select a drive from a list of those available for the current configuration rather than hardcoding it.
+  </defect>
+  <defect number="DEF097099" title="ONB: TESTEXECUTETE_EComSWITestARM.script1 fails" revision="004">
+    Disabled lazy dll unloading during test setup to ensure that the loader unloads DLLs immediately rather than after some unspecified amount of time.
+  </defect>
+  <preq number="1001" title="Allow UI language to be settable at run-time within a locale." revision="003"/>
+  <cr number="0902" title="Enable Dynamic Language Switching in APPARC, ECOM and EIKSTD" revision="002">
+    Added support for the runtime setting of the language downgrade path. When a change to the language downgrade path occurs ECOM will update its internal registry accordingly.
+  </cr>
+  <milestone project="GT0292" number="3.14" revision="001"/>  
+</relnotes>

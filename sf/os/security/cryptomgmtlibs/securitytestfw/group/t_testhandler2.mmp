@@ -1,0 +1,67 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+/**
+@file
+
+@SYMPurpose t_testhandler2.dll Test harness handler
+*/
+
+TARGET	t_testhandler2.dll
+CAPABILITY    All -Tcb
+TARGETTYPE	dll
+UID 0x10000079 0x101F546C
+VENDORID 0x70000001
+
+// Different def file because no TCapabilitySet on EKA1
+DEFFILE t_testhandler2_sss.def
+
+USERINCLUDE ../test/testhandler2
+USERINCLUDE ../inc
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+#ifdef SYMBIAN_AUTH_SERVER
+SYSTEMINCLUDE OS_LAYER_PUBLIC_EXPORT_PATH(authserver)
+#endif
+
+SOURCEPATH	../test/testhandler2
+
+SOURCE t_testhandler.cpp
+SOURCE Ttesthandlersettings.cpp
+SOURCE t_errorconverter.cpp
+SOURCE T_input.cpp
+SOURCE T_tefinput.cpp
+SOURCE t_output.cpp
+SOURCE t_utils.cpp
+SOURCE t_testaction.cpp
+SOURCE t_testsetup.cpp
+SOURCE t_testactionspec.cpp
+SOURCE t_certstoreactionmemfail.cpp
+SOURCE Tcancel.cpp
+SOURCE t_message.cpp
+SOURCE tTestSpec.cpp
+SOURCE tScriptSetup.cpp
+SOURCE Thardcodedsetup.cpp
+SOURCE tSyncAction.cpp
+SOURCE t_bacline.cpp
+SOURCE t_testrunner.cpp
+SOURCE t_sleep.cpp
+SOURCE t_capabilities.cpp
+SOURCE t_policy.cpp
+
+LIBRARY euser.lib efsrv.lib estor.lib flogger.lib charconv.lib
+SMPSAFE

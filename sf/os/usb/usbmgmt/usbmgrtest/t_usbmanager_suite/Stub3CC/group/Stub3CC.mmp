@@ -1,0 +1,51 @@
+/*
+* Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+* ACMClassController.MMP
+*
+*/
+
+/**
+ @file
+*/
+
+target stub3cc.dll
+CAPABILITY CommDD NetworkControl NetworkServices LocalServices ProtServ
+targettype plugin
+
+// ECom Dll recognition UID followed by the unique dll UID 
+UID              	0x10009d8d 0x10203288
+VENDORID 0x70000001
+DEFFILE stub3cc.def
+
+SOURCEPATH		../src
+SOURCE			Stub3CCImpCollection.cpp
+SOURCE			Stub3CC.cpp
+
+USERINCLUDE		../inc
+USERINCLUDE		../../../../usbmgr/usbman/server/public 
+USERINCLUDE     ../traces
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+SYSTEMINCLUDE	/epoc32/include
+SYSTEMINCLUDE	/epoc32/include/ecom
+
+
+start resource 10203288.rss
+target stub3cc.rsc
+END
+
+LIBRARY			euser.lib 
+LIBRARY			usbclasscontroller.lib
+LIBRARY 		esock.lib
+

@@ -1,0 +1,253 @@
+/** @file  ../include/glob.h
+@internalComponent
+*/
+
+/** @struct glob_t
+
+Includes the following members,
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @var glob_t::gl_pathc
+Count of total paths so far.
+*/
+
+/** @var glob_t::gl_matchc
+Count of paths matching pattern
+*/
+
+/** @var glob_t::gl_offs
+Reserved at beginning of gl_pathv.
+*/
+
+/** @var glob_t::gl_flags
+Copy of flags parameter to glob.
+*/
+
+/** @var glob_t::gl_pathv
+List of paths matching pattern.
+*/
+
+/** @var glob_t::gl_closedir
+Alternate filesystem access methods for glob; replacement versions of closedir(3), readdir(3), opendir(3), stat(2) and lstat(2).
+*/
+
+/** @var glob_t::gl_stat
+Alternate filesystem access methods for glob; replacement versions of closedir(3), readdir(3), opendir(3), stat(2) and lstat(2).
+*/
+
+/** @var glob_t::gl_opendir
+Alternate filesystem access methods for glob; replacement versions of closedir(3), readdir(3), opendir(3), stat(2) and lstat(2).
+*/
+
+/** @var glob_t::gl_lstat
+Alternate filesystem access methods for glob; replacement versions of closedir(3), readdir(3), opendir(3), stat(2) and lstat(2).
+*//** @struct glob64_t
+
+Includes the following members,
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @var glob64_t::gl_pathc
+Count of total paths so far.
+*/
+
+/** @var glob64_t::gl_matchc
+Count of paths matching pattern
+*/
+
+/** @var glob64_t::gl_offs
+Reserved at beginning of gl_pathv.
+*/
+
+/** @var glob64_t::gl_flags
+Copy of flags parameter to glob.
+*/
+
+/** @var glob64_t::gl_pathv
+List of paths matching pattern.
+*/
+
+/** @var glob64_t::gl_closedir
+Alternate filesystem access methods for glob; replacement versions of closedir(3), readdir(3), opendir(3), stat(2) and lstat(2).
+*/
+
+/** @var glob64_t::gl_stat
+Alternate filesystem access methods for glob; replacement versions of closedir(3), readdir(3), opendir(3), stat(2) and lstat(2).
+*/
+
+/** @var glob64_t::gl_opendir
+Alternate filesystem access methods for glob; replacement versions of closedir(3), readdir(3), opendir(3), stat(2) and lstat(2).
+*/
+
+/** @var glob64_t::gl_lstat
+Alternate filesystem access methods for glob; replacement versions of closedir(3), readdir(3), opendir(3), stat(2) and lstat(2).
+*/
+
+/** @fn glob(const char *, int, int (*)(const char *, int), glob_t *)
+
+generate pathnames matching a pattern.
+The glob() function shall match all accessible pathnames against this pattern and develop a list of all pathnames that match. 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn glob64(const char *, int, int (*)(const char *, int), glob64_t *)
+
+glob64() is a large-file version of the glob()
+The glob64() function shall match all accessible pathnames against this pattern and develop a list of all pathnames that match. 
+
+For full documentation see: http://www.unix.org/version2/whatsnew/lfs20mar.html#3.0
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn globfree(glob_t *)
+
+generate pathnames matching a pattern
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn globfree64(glob64_t *)
+
+globfree64() frees the dynamically allocated storage from an earlier call to glob64().
+globfree64() is a 64-bit version of globfree().
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def GLOB_APPEND
+
+Append to output from previous call.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def GLOB_DOOFFS
+
+Use gl_offs.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def GLOB_ERR
+
+Return on error.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def GLOB_MARK
+
+Append / to matching directories. 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def GLOB_NOCHECK
+
+Return pattern itself if nothing matches.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def GLOB_NOSORT
+
+Don't sort. 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def GLOB_NOSPACE
+
+Error values returned by glob(3). Malloc call failed.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def GLOB_ABORTED
+
+Error values returned by glob(3). Unignored error.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def GLOB_NOMATCH
+
+Error values returned by glob(3). No match and GLOB_NOCHECK was not set. 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def GLOB_ALTDIRFUNC
+
+Use alternately specified directory funcs.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def GLOB_BRACE
+
+Expand braces ala csh. 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def GLOB_QUOTE
+
+Quote special chars with \\.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def GLOB_TILDE
+
+Expand tilde names from the passwd file.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def GLOB_LIMIT
+
+limit number of returned paths
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def GLOB_NOMAGIC
+
+GLOB_NOCHECK without magic chars (csh).
+
+@publishedAll
+@externallyDefinedApi
+*/
+

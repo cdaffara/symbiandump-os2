@@ -1,0 +1,65 @@
+// Copyright (c) 2008-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// Name        : librt.mmp
+// Part of     : librt
+// This is a project specific file for building the 
+// librt library.
+// 
+//
+
+TARGET            librt.dll
+TARGETTYPE        dll
+UID               0x1000008d  0x2001E553
+
+CAPABILITY      ALL -TCB
+VENDORID        0x70000001
+
+#ifdef GCCXML
+MACRO __wchar_t_defined
+#endif //GCCXML
+
+USERINCLUDE		../../openenvcore/backend/inc
+USERINCLUDE		../../openenvcore/backend/ipcserver/ipccli/inc
+USERINCLUDE		../inc/
+
+// Illegal dependancy on tz.h in MW layer. Needs fixing
+MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_LIBC_SYSTEMINCLUDE
+
+SOURCEPATH      ../src
+SOURCE  clock_funcs.cpp
+SOURCE  timer_funcs.cpp
+SOURCE	timerhandler.cpp
+SOURCE	timer.cpp
+SOURCE  posixshm.c
+SOURCE  timerclient.cpp
+SOURCE  timerserver.cpp
+
+
+LIBRARY        euser.lib
+LIBRARY        backend.lib //MapError
+LIBRARY        libc.lib //errno
+LIBRARY	       rpipe.lib //RPipe
+LIBRARY	       libpthread.lib //pthread_create
+
+#ifdef WINSCW
+//wsd solution
+LIBRARY	       ewsd.lib
+#else //WINSCW
+EPOCALLOWDLLDATA
+#endif //WINSCW
+// End of File
+SMPSAFE
+

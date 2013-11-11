@@ -1,0 +1,46 @@
+/*
+* Copyright (c) 2000-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+#ifndef __CHARCONV_JAPANESE_S60_IBY__
+
+#ifndef __CHARCONV_JAPANESE_IBY__
+#define __CHARCONV_JAPANESE_IBY__
+
+// Include either charconv_japanese_docomo.iby or charconv_japanese_kddiau.iby to choose operator specific
+// versions of shiftjis and j5 plugins. Note only ONE of these versions may be present in ROM at any time.
+#include <charconv_japanese_docomo.iby>
+
+file=ABI_DIR\BUILD_DIR\jisbase_shared.dll              sys\bin\jisbase_shared.dll
+file=ABI_DIR\BUILD_DIR\jisx0201.dll                    sys\bin\jisx0201.dll
+file=ABI_DIR\BUILD_DIR\jisx0208.dll                    sys\bin\jisx0208.dll
+file=ABI_DIR\BUILD_DIR\jisx0212.dll                    sys\bin\jisx0212.dll
+
+ECOM_PLUGIN(iso2022jp.dll, 102044F5.rsc)
+ECOM_PLUGIN(iso2022jp1.dll, 102044F6.rsc)
+ECOM_PLUGIN(jis.dll, 102044F3.rsc)
+ECOM_PLUGIN(eucjp_packed.dll, 102044F4.rsc)
+
+data=MULTI_LINGUIFY(RSC ZRESOURCE\charconv\shiftjis      resource\charconv\shiftjis)
+data=MULTI_LINGUIFY(RSC ZRESOURCE\charconv\iso2022jp     resource\charconv\iso2022jp)
+data=MULTI_LINGUIFY(RSC ZRESOURCE\charconv\iso2022jp1    resource\charconv\iso2022jp1)
+data=MULTI_LINGUIFY(RSC ZRESOURCE\charconv\jis           resource\charconv\jis)
+data=MULTI_LINGUIFY(RSC ZRESOURCE\charconv\eucjp_packed  resource\charconv\eucjp_packed)
+data=MULTI_LINGUIFY(RSC ZRESOURCE\charconv\j5            resource\charconv\j5)
+
+#endif
+
+#endif

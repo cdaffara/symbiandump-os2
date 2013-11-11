@@ -1,0 +1,50 @@
+// Copyright (c) 2003-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+
+TARGET       t_heaptest.exe			//RTEST
+TARGETTYPE   exe
+CAPABILITY  All -TCB
+
+SOURCEPATH  ../../TestExecute/EComSWITests/src
+SOURCE      tui.cpp    
+
+SOURCEPATH   ../../Framework/HeapTest
+SOURCE       T_HeapTest.cpp
+
+USERINCLUDE  ../HeapTestImpl ../frame
+USERINCLUDE  ../../TestExecute/EComSWITests/src
+
+
+MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+
+
+
+
+LIBRARY     euser.lib ecom.lib
+LIBRARY     bafl.lib efsrv.lib
+
+
+//SWI Libraries
+LIBRARY 		sishelper.lib
+LIBRARY 		sisregistryclient.lib
+LIBRARY 		siscontroller.lib
+LIBRARY 		swidataprovider.lib
+
+VENDORID 0x70000001
+
+
+SMPSAFE

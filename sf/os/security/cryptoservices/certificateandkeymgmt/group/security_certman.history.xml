@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<relnotes name="Certificate and Key Management">
+  <purpose>
+    Certificate management supporting public key cryptography including storage and retrieval, assignment of trust status, certificate chain construction, validation and revocation.
+  </purpose>
+
+  <defect numer="DEF139848" title="Forward Propogation from Symtb9.1 - Illegal dependency from OCSP to HTTP" revision="051">
+                 OCSP is relocated to MW layer.
+  </defect>
+
+  <defect number="DEF130792" title="[Coverity]-SYMBIAN.CLEANUP_STACK -security/certman" revision="050">
+	The object was pushed onto the cleanup stack before calling the leaving function
+  </defect>
+
+  <defect number="DEF129395" title="[Coverity]-SYMBIAN.CLEANUP_STACK-security/tlsprovider" revision="049">
+	coverity issues fixed
+  </defect>
+
+  <defect number="DEF127711" title="[Coverity]-SYMBIAN.CLEANUP_STACK-security/tlsprovider" revision="048">
+	coverity issues fixed
+  </defect>
+
+  <deliverystep number="" name="PREQ2193 SMP-Safe Crypto Services Components" osproject="Diran" revision="047">
+	  <milestone project="GT0433" number="MS3.7"/>
+	  <preq number="2193" title="SMP-Safe Crypto Services Components">
+		  Add SMPSAFE keyword in SDP mmp files
+	  </preq>
+  </deliverystep>
+
+  <defect number="PDEF130289" title="OCSP tries to make to OCSP check to empty URI if default URI is not defined" revision="046">
+     Instead of NULL verification KNullDesC8 is used 	
+  </defect>
+
+  <defect number="DEF129271" title="security subsystem has two identical files called certstorepatchdata.h" revision="045">
+     certstorepatchdata.h removed from swicertstore. This file has been already exported to epoc32/include by filetokens. All references to this header file have been updated. 
+  </defect> 
+
+  <deliverystep number="1116" name="PREQ1269: Crypto Services: Core Delivery" osproject="Diran" revision="044">
+    <milestone project="GT0433" number="MS3.1"/>
+    <preq number="1269" title="Universal Software Install Framework">
+      Delivers the main set of features for the Diran Early Phase. Includes the new components (SCR, SIF and STS), migration of the native installer to use       the new components and most reference code. Excludes non-mandatory features and post-production plugin management.
+    </preq>
+  </deliverystep>
+
+  <defect number="DEF126976" title="Change the reference in security to use new IWS RExplicitHttpSession" revision="043">
+     Reference in security changed to use new IWS RExplicitHttpSession
+  </defect> 
+
+  <defect number="PDEF126983" title="Symbian, CX500DistinguishedName::ExactMatchL fails if DNs contain unsupported at" revision="042">
+     Add support for the PKCS#9 unstructuredName attribute
+  </defect>  
+
+  <defect number="PDEF126470" title="Provide Test Cases for PDEF125098" revision="041">
+     Added test cases for case sensitive / case-insensitive comaprison of distinguished names in different encodings.
+  </defect>  
+  
+  <defect number="DEF126187" title="Extra member qualifactions" revision="040">
+    Removed class name qualifier from declaration of CX509Certificate::DecodeCertsL
+  </defect>
+
+  <defect number="DEF124902" title="Certificate name matching does not conform to RFC3280" revision="039">
+    Case IN-Sensitive comparisons for 'PrintableString' and 'IA5String' has been added as per RFC 3280 standard. 
+  </defect>
+
+  <deliverystep number="1091" name="CR1393: Crypto Services: Multiple Certificate Stores Support" osproject="Sphinx" revision="038">
+	  <milestone project="GT0379" number="MS3.31"/>
+	  <cr number="1393" title="Support for aggregation of several certificate databases in different rofs layers">
+		Support for aggregation of several certificate databases in different rofs layers	  
+	  </cr>
+  </deliverystep>
+
+  <defect number="PDEF123374" title="GTCK_TCT_CAS: OCSP validation through a proxy server is not possible." revision="037">
+    Added OCSP validation through a proxy server. 
+  </defect>
+
+  <defect number="PDEF120168" title="Cannot install University of Helsinki root certificate to the phone" revision="036">
+    Increase the buffer size read in from file for certificate recognizer in order to handle non-conforming CA certificate
+  </defect>
+  
+  <deliverystep number="959" name="CR1313: OCSP Changes for Cingular/AT&T" osproject="Sphinx" revision="035">
+	  <milestone project="GT0379" number="MS3.19"/>
+	  <cr number="1313" title="OCSP Changes for Cingular/AT&T">
+		OCSP Changes for Cingular/AT&T	  
+	  </cr>
+  </deliverystep>
+  
+  <cr number="1399" title="X.509 Critical Extension for MIDP IMEI Binding" revision="034">
+    The PKIX certificate chain validator has been updated to accept a set of zero or more critical extension OIDs defined by the caller.
+  </cr>
+  
+  <cr number="1240" title="Allow Certificate Validity Dates to be Ignored when Verifying SIS Controllers" revision="033">
+    Added a new Sis Registry API to check the integrity of installed applications without requiring that the signing certificate chain be valid for the current date and time.
+  </cr>  
+  
+  <defect number="PDEF118846" title="Certificate validation incorrectly handles the Key Usage and SAN extensions" revision="032">
+    Removed the SAN extension once it has been processed and added support for the Inhibit Any-Policy critical extension.
+  </defect>
+  
+  <defect number="DEF115915" title="ASN.1 GeneralizedTime does not completely conform to standard" revision="031">
+    gentimedec.cpp now fully supports decoding for any form of ASN.1 generalizedTime
+  </defect>
+  
+  <defect number="DEF115687" title="OCSP does not use local device time for validating responses" revision="030">
+     COCSPValidator::ValidationTime() uses local secure universal time instead of produceAt time if no specific validation time is supplied.
+  </defect>  
+  
+  <defect number="DEF114790" title="Extra class qualification on a function" revision="029">
+     Remove extra class qualification on a function.
+  </defect>  
+  
+  <defect number="PDEF113914" title="Certificate Key Identifier returned does not match the certificate's Key Identif" revision="028">
+     Added a new function for CX509Certificate - SubjectKeyIdentifier. This fixes issues when a calculated key identifier is returned instead of the one present in the ceritificate.
+  </defect>
+  
+  <defect number="DEF112877" title="WLAN: Search for keys in CCheckedCertCtore.cpp incorrect " revision="027">
+     Allow EList state to return KErrNotFound in CCheckedCertStore::RunL()
+  </defect>
+  
+  <defect number="DEF107092 " title="Remove/Ratify \TO\DO comments from security's test component - tpkixcert" revision="026">
+     Minor changes made to commenting and code to finish off leftover comments from the component "pkixcert".
+  </defect>
+ 
+  <defect number="DEF107091" title="Remove/Ratify \TO\DO comments from security's test component - tcertstore" revision="025">
+    The comments in tcertstore have been fixed accordingly.
+  </defect>
+  
+  <defect number="DEF110582" title="IMPORT_C/EXPORT_C: ~CPKIXValidationResultBase()" revision="024">
+    Class destructor ~CPKIXValidationResultBase() now properly exported
+  </defect>
+
+  <deliverystep number="496" name="EC073: Security: Crypto Services Header File Refactoring" osproject="Oghma" revision="023">
+	  <milestone project="GT0313" number="MS3.7"/>
+	  <ec number="73" title="Crypto Services Header File Refactoring (to simplify the SDK creation process)">
+		  Non-exported published functions made internal.
+		  Status added to published files if it was missing.
+		  Some classes made publishedPartner from internal because it was referenced from a publishedPartner interface.
+		  Removed internal header file inclusions. BR2143 raised against this.
+	  </ec>
+  </deliverystep>
+
+  <deliverystep number="708" name="Security - Alignment of CBR and System Model components" osproject="Oghma" revision="022">
+    <milestone project="GT0313" number="MS3.7"/>
+    <preq number="775" title="Alignment of CBR and System Model components">
+      Removed swicertstoretool from certman and added as a part of swi devicetools.
+    </preq>
+  </deliverystep>
+
+  <defect number="DEF108963" title="TBAS (T3648_Symbian_OS_v9.5) DP tests hang at tasn1_log.txt" revision="?21">
+    Fixed the test hang (in tasn1.txt) by adding a CSystemRandom to test threat (tasn1.exe) to avoid construct/destruct (hw initialisation) delay.
+  </defect>
+
+  <defect number="PDEF108960" title="www.nhs.net can't be accessed" revision="020">
+    Remove the name validation when building RFC822 name tree.
+  </defect>
+
+  <defect number="DEF106230" title="Clean up build's tagscan errors" revision="019">
+    Removed tagscan errors
+  </defect>
+
+  <defect number="DEF106935" title="Remove/Ratify \TO\DO comments from security's taddtionalcertstore" revision="018">
+    Update copyright, implement , remove meaningless comments, update comments
+  </defect>
+
+  <defect number="DEF107276" title="Lint errors in security code should be fixed (production and test)" revision="017">
+    Minor changes to remove lint errors
+  </defect>
+
+  <defect number="DEF106934" title="Remove/Ratify \TO\DO comments from security's tocsp" revision="016">
+    Change in tocsp. update copyright and doxygen comments. remove meaningless comments.
+  </defect>
+
+  <defect number="DEF106933" title="Remove/Ratify \TO\DO comments from security's tcertdump and unifiedcertstore" revision="015">
+    change in tcertdump and unifiedcertstore. Add doxygen comments. Update copyright. remove meaningless comments. add function to dump issuer’s altname.
+  </defect>
+
+  <defect number="DEF106797" title="Remove/Ratify \TO\DO comments from security's test component - tcertcommon" revision="014">
+    Clean up tcertcommon. Remove meaningless comments. update copyright and code according to the coding standard.
+  </defect>
+
+  <defect number="PDEF103734" title="CX509Certificate::ConstructL() does not copy the certificate version number" revision="013">
+    Version has been copied. Incorrect version check has been removed. Comment added that version check is not been done in order to maintain binary compatibility.
+  </defect>
+
+  <defect number="PDEF106529" title="Computed SubjectKeyId of CA certificate doesn't match with the value given in Su" revision="012">
+    Fixed handling of SubjectKeyId for CA certificates
+  </defect>
+
+  <defect number="DEF105240" title="[BR2067] Downgrade CPKCS10Attributes classification level and deprecate method" revision="011">
+    CPKCS10Attributes classification level downgraded from publishedAll to publishedPartner and AddAttributeL method deprecated.
+  </defect>
+
+  <defect number="DEF105069" title="CX500DistinguishedName::IsWithinSubtreeL should not be order-dependant" revision="010">
+    CX500DistinguishedName::IsWithinSubtreeL now accepts matching attributes in any order, before they had to also be in matching order.
+  </defect>
+
+  <preq number="1182" title="GNU Make-based build system" revision="009">
+    TOOLS2 macro is added with TOOLS.
+  </preq>
+
+  <defect number="DEF103295" title="Test perl script certstorePlugins should be moved" revision="008">
+    From V9.4 onwards the certstorePlugins file is moved from //PR/share/DABSRelease/buildscripts/projects/security/zephyr to //EPOC/DV3/team/2006/security/master/defectsA/security/certman/twtlscert/scripts/batchfiles. The older version of the file is kept untouched for the reference of earlyer OS versions(Till 9.3). Corresponding ONB test files are updated towards the new location of the certstorePlugins.
+  </defect>
+
+  <preq number="1182" title="GNU Make-based build system" revision="007">
+    Changed according to filename policy to support the building of Symbian OS on both Windows and Linux for the test code.
+  </preq>
+
+  <cr number="0973" title="Add Support for PKCS#10 to Security" revision="006">
+    Made substantial changes to the implementation of PKCS#10 and changed access to publishedPartner. Also added tests for testing the PKCS#10 implementation.
+  </cr>
+
+  <defect number="PDEF102745" title="Test Failure in testasyncancel in panicscan.pl" revision="005">
+    In COCSPTransportHttpPost::DoCancel() one more iStatus check point is added before calling the request completion. This is to handle the exceptional situation in which after starting execution of the DoCancel(), the asynchronous request is getting completed normally and calling again the request completion one more time leads to the stray signal and ends up in Panic - E32USER-CBase 46.
+  </defect>
+
+  <defect number="INC096420" title="UnifiedKeyStore can't get Key Manager Interface from keystore token plugin" revision="004">
+    UnifiedKeyStore cannot get Key Manager Interface from keystore token plugin
+  </defect>
+
+  <defect number="DEF102043" title="Makesis &amp; SWI assumes system drive is c:" revision="003">
+    Removed hardcoded references to C drive and replaced with system drive.
+  </defect>
+
+  <defect number="DEF099289" title="Remove SYMBIAN_PKCS12 #ifdefs from code" revision="002">
+    Removed SYMBIAN_PKCS12 #ifdefs from code.
+  </defect>
+
+  <defect number="DEF099095" title="OID parsing error can cause X509.v3 extensions to be eclipsed." revision="001">
+    Fixed OID decoding defect . Values which caused an overflow were incorrectly truncated. TASN1DecObjectIdentifier now leaves with KErrOverflow.
+  </defect>
+</relnotes>

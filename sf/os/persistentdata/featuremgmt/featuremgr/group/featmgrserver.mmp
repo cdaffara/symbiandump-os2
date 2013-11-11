@@ -1,0 +1,63 @@
+// Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+#ifdef __FEATMGR_TESTCFG__
+TARGET          test_featmgrserver.exe
+CAPABILITY      AllFiles ProtServ ReadDeviceData
+#else
+TARGET          featmgrserver.exe
+CAPABILITY      ProtServ ReadDeviceData
+#endif // __FEATMGR_TESTCFG__
+
+// Since this is an exe with no alternate implementations,
+// just use same UID for both UID2 and UID3
+UID             0x10205054 0x10205054
+
+TARGETTYPE      exe
+VENDORID        0x70000001
+
+
+//CodeWarrior compilation options - disable the "illegal pragma" warning
+OPTION CW -w noillpragmas
+
+SOURCEPATH      ../src/serverexe
+
+SOURCE          featmgrpluginhandler.cpp
+SOURCE          featmgrsession.cpp
+SOURCE          featmgrserver.cpp
+SOURCE          featmgrtimer.cpp
+SOURCE          featmgrfeatureregistry.cpp
+SOURCE          featmgrfeatureentry.cpp
+SOURCE          featmgrpatchdata.cpp
+SOURCE          burstate.cpp
+SOURCE          swilistener.cpp 
+SOURCE          featmgrstartup.cpp 
+
+SOURCEPATH      ../src/shared
+SOURCE          featurecmn.cpp
+
+USERINCLUDE     ../src/inc
+USERINCLUDE     ../inc
+USERINCLUDE     ../src/serverexe
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+LIBRARY         efsrv.lib
+LIBRARY         estor.lib
+LIBRARY         euser.lib
+LIBRARY         ecom.lib
+LIBRARY	        bafl.lib     // required for MBackupOperationObserver
+
+SMPSAFE

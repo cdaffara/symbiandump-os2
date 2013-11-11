@@ -1,0 +1,44 @@
+/*
+* Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+
+#ifdef SYMBIAN_SYSTEM_STATE_MANAGEMENT
+TARGET wrapperutilsplugin5.dll
+CAPABILITY	All -TCB
+#else
+TARGET wrapperutilsplugin1.dll
+CAPABILITY	All
+#endif
+TARGETTYPE dll
+
+UID		0x1000008d 0x10210D36
+VENDORID	0x70000001
+
+SOURCEPATH	../src
+SOURCE		wrapperutilsplugin.cpp fileservplugin.cpp sysstartplugin.cpp
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+
+LIBRARY euser.lib efsrv.lib
+
+#ifdef SYMBIAN_SYSTEM_STATE_MANAGEMENT
+LIBRARY ssmcmn.lib
+#else
+LIBRARY domaincli.lib
+#endif

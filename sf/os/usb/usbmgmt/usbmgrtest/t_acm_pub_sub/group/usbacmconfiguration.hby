@@ -1,0 +1,45 @@
+/*
+* Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+* Configuration for ACM functions
+*
+*/
+
+#ifndef USBACMCONFIGURATION_HBY
+#define USBACMCONFIGURATION_HBY
+
+#define USBACM_PATCHDATA_KUSBACMNUMBEROFACMFUNCTIONS  3
+
+// USBACM_PATCHDATA_KUSBACMPROTOCOLNUMACM[X] is referring to the Xth ACM *function*
+// which is accessed by the (X-1)th ACM *port*
+
+#define USBACM_PATCHDATA_KUSBACMPROTOCOLNUMACM1  1
+//0x01 - code taken from USBCDC 1.1 Table 17- Hayes compatible modem
+
+#define USBACM_PATCHDATA_KUSBACMPROTOCOLNUMACM2  255
+//0xFF - Vendor-specific
+
+#define USBACM_PATCHDATA_KUSBACMPROTOCOLNUMACM3  127
+//0x7F - Random code
+
+//#define USBACM_PATCHDATA_KUSBACMPROTOCOLNUMACM4  1
+//#define USBACM_PATCHDATA_KUSBACMPROTOCOLNUMACM5  1
+
+// To enable an ACM function, you need to change the 
+// value of USBACM_PATCHDATA_KUSBACMNUMBEROFACMFUNCTIONS,
+// uncomment one define line then replace the protocol number with
+// the ACM protocol number expected.
+//
+
+#endif // USBACMCONFIGURATION_HBY

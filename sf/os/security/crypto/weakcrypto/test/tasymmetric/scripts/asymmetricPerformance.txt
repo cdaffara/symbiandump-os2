@@ -1,0 +1,1228 @@
+/////////////////////////////////////////////////////////////////////////
+//	Switch on performance testing
+//////////////////////////////////////////////////////////////////////////
+
+<action>
+	<actionname>Switch on performance testing</actionname>
+	<actiontype>PerformanceTestSettings</actiontype>
+	<actionbody>
+		<KPerformanceTesting>ETrue</KPerformanceTesting>
+		<iterations>5</iterations>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+
+
+/////////////////////////////////////////////////////////////////////////
+// It should be noted that the time period specified denotes one of
+// the three steps key creation, signing and verification of keys.
+// So total execution time can be three times as long.
+// <iterations> is actually the amount of time the test will run
+// and should perhaps be changed to something like <iterationtime>.
+/////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////
+//	Forward-backward self tests (standard and CRT)
+//////////////////////////////////////////////////////////////////////////
+<action>
+	<actionname>DH key agreement</actionname>
+	<actiontype>DHVector</actiontype>
+	<actionbody>
+		<iterations>10</iterations>
+		<n>DA9A18547FF03B385CC16508C173A7EF4EB61CB40EF8FEF3B31F145051676166BCDC3FE6B799FC394D08C26385F9413F896E09117E46209D6923602683CEA100924A6EE695281775C619DAA94EA8CB3691B4275B0183F1D39639EBC92995FE645D6C1BC28D409E585549BBD2C5DCDD6C208B04EADD8B7A6D997F72CBAD88390F</n>
+		<g>02</g>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Forward-backward self test RSA encrypt&decrypt: 512 bit key, standard, 15 sec</actionname>
+	<actiontype>RSAEncryptStandardAndCRTFB</actiontype>
+	<actionbody>
+			<iterations>15</iterations>
+			<cryptotype>EStandard</cryptotype>
+			<keybits>512</keybits>
+			<input>123456789ABCDEFEDCBA987654321123456789ABCDEFEDCBA987654321123456789ABCDEFEDCBA987654321123456789ABCDEFEDCB</input>			
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Forward-backward self test RSA encrypt&decrypt: 1024 bit key, standard, 30 sec</actionname>
+	<actiontype>RSAEncryptStandardAndCRTFB</actiontype>
+	<actionbody>
+			<iterations>30</iterations>
+			<cryptotype>EStandard</cryptotype>
+			<keybits>1024</keybits>
+			<input>123456789ABCDEFEDCBA987654321123456789ABCDEFEDCBA987654321123456789ABCDEFEDCBA987654321123456789ABCDEFEDCBA987654321</input>			
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Forward-backward self test RSA encrypt&decrypt: 2048 bit key, standard, 60 sec</actionname>
+	<actiontype>RSAEncryptStandardAndCRTFB</actiontype>
+	<actionbody>
+			<iterations>60</iterations>
+			<cryptotype>EStandard</cryptotype>
+			<keybits>2048</keybits>
+			<input>123456789ABCDEFEDCBA987654321123456789ABCDEFEDCBA987654321123456789ABCDEFEDCBA987654321123456789ABCDEFEDCBA987654321</input>			
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Forward-backward self test RSA encrypt&decrypt: 512 bit key, CRT, 10 sec</actionname>
+	<actiontype>RSAEncryptStandardAndCRTFB</actiontype>
+	<actionbody>
+			<iterations>10</iterations>
+			<cryptotype>EStandardCRT</cryptotype>
+			<keybits>512</keybits>
+			<input>123456789ABCDEFEDCBA987654321123456789ABCDEFEDCBA987654321123456789ABCDEFEDCBA987654321123456789ABCDEFEDCB</input>			
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Forward-backward self test RSA encrypt&decrypt: 1024 bit key, CRT, 30 sec</actionname>
+	<actiontype>RSAEncryptStandardAndCRTFB</actiontype>
+	<actionbody>
+			<iterations>30</iterations>
+			<cryptotype>EStandardCRT</cryptotype>
+			<keybits>1024</keybits>
+			<input>123456789ABCDEFEDCBA987654321123456789ABCDEFEDCBA987654321123456789ABCDEFEDCBA987654321123456789ABCDEFEDCBA987654321</input>			
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Forward-backward self test RSA encrypt&decrypt: 2048 bit key, CRT, 60 sec</actionname>
+	<actiontype>RSAEncryptStandardAndCRTFB</actiontype>
+	<actionbody>
+			<iterations>60</iterations>
+			<cryptotype>EStandardCRT</cryptotype>
+			<keybits>2048</keybits>
+			<input>123456789ABCDEFEDCBA987654321123456789ABCDEFEDCBA987654321123456789ABCDEFEDCBA987654321123456789ABCDEFEDCBA987654321</input>			
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Forward-backward self test RSA sign&verify: 512 bit key, standard, 10 seconds</actionname>
+	<actiontype>RSASignStandardAndCRTFB</actiontype>
+	<actionbody>
+			<iterations>10</iterations>
+			<cryptotype>EStandard</cryptotype>
+			<keybits>512</keybits>
+			<input>123456789ABCDEF123456789ABCDEF</input>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Forward-backward self test RSA sign&verify: 1024 bit key, standard, 15 seconds</actionname>
+	<actiontype>RSASignStandardAndCRTFB</actiontype>
+	<actionbody>
+			<iterations>15</iterations>
+			<cryptotype>EStandard</cryptotype>
+			<keybits>1024</keybits>
+			<input>123456789ABCDEF123456789ABCDEF</input>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Forward-backward self test RSA sign&verify: 2048 bit key, standard, 30 seconds</actionname>
+	<actiontype>RSASignStandardAndCRTFB</actiontype>
+	<actionbody>
+			<iterations>30</iterations>
+			<cryptotype>EStandard</cryptotype>
+			<keybits>2048</keybits>
+			<input>123456789ABCDEF123456789ABCDEF</input>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Forward-backward self test RSA sign&verify : 512 bit key, CRT, 10 seconds</actionname>
+	<actiontype>RSASignStandardAndCRTFB</actiontype>
+	<actionbody>
+			<iterations>10</iterations>
+			<cryptotype>EStandardCRT</cryptotype>
+			<keybits>512</keybits>
+			<input>123456789ABCDEF123456789ABCDEF123456789ABCDEF123456789ABCDEF</input>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Forward-backward self test RSA sign&verify : 1024 bit key, CRT, 15 seconds</actionname>
+	<actiontype>RSASignStandardAndCRTFB</actiontype>
+	<actionbody>
+			<iterations>15</iterations>
+			<cryptotype>EStandardCRT</cryptotype>
+			<keybits>1024</keybits>
+			<input>123456789ABCDEF123456789ABCDEF123456789ABCDEF123456789ABCDEF</input>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Forward-backward self test RSA sign&verify : 2048 bit key, CRT, 30 seconds</actionname>
+	<actiontype>RSASignStandardAndCRTFB</actiontype>
+	<actionbody>
+			<iterations>30</iterations>
+			<cryptotype>EStandardCRT</cryptotype>
+			<keybits>2048</keybits>
+			<input>123456789ABCDEF123456789ABCDEF123456789ABCDEF123456789ABCDEF</input>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+
+
+//////////////////////////////////////////////////////////////////////////
+//	Vector Test RSA: encrypt
+//////////////////////////////////////////////////////////////////////////
+<action>
+	<actionname>Vector Test RSA: Encrypt e = 0x3, 512 bit key, standard, 1 sec</actionname>
+	<actiontype>RSAEncryptVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>A3079A90DF0DFD72AC090CCC2A78B87413133E40759C98FAF8204F358A0B263C6770E783A93B6971B73779D2717BE83477CF</modulus>
+		<publicExponent>03</publicExponent>
+		<plaintext>54859B342C49EA2A</plaintext>
+		<ciphertext>6A572306B13C00C2D442E1B45A1719F21DC6A3B9810CD6BBA8B945A031054BC2E47BAB0DBB9BFBD3540D5745BF8EDE7B88A9</ciphertext>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test RSA: Encrypt e = 0x11, 512 bit key, standard, 1 sec</actionname>
+	<actiontype>RSAEncryptVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>AA36ABCE88ACFDFF55523C7FC4523F90EFA00DF3774A259F2E62B4C5D99CB5ADB300A0285E5301930E0C70FB6876939CE616CE624A11E0086D341EBCACA0A1F5</modulus>
+		<publicExponent>11</publicExponent>
+		<plaintext>54859B342C49EA2A</plaintext>
+		<ciphertext>1C1AF0EF61C813383F7204D64A56E4BDF903D25D2A2B3A393DD8447E6CB81B6F0AC0E670DEE1505AC2E526D2429C2355A27E9BE18E9A5A54CF4BE8D89756A039</ciphertext>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test RSA: Encrypt e = 0x010001, 512 bit key, standard, 1 sec</actionname>
+	<actiontype>RSAEncryptVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>A3504534C29C59CA9A34CBB95A18D435FE66FBC7DECD572B91C80F72EE0786D4DD92F8B8416D54BDE12DF2E83F8DC9B1642980BD31852650A5A8F6D6D8C6A9BE965B34FE7659AC5DD372AB91277B2C9CEB797C4B4B5888E33C0D2CFBE9AAD53E158475ED88884D5DCC663AF5AAA62030E3799FAA1FA47AB2665208597F358497</modulus>
+		<publicExponent>010001</publicExponent>
+		<plaintext>54859B342C49EA2A</plaintext>
+		<ciphertext>31A8C19C6BF5FBB637B4523016DB47C2FB596D60F0465A49C8854F461DE2ACE0A84598E6B3792612DE30032C0A7BAB75D0F3C6A0F83CBA5B36BDFCDD3B6BDDDEA8BCCB7ADBBB0FE332B4E897B5EEC85514A654709653A956410F13C86CB2E7F27EA09EB8D169844D1C1909A34DA43F752B24338157C64216F98535B58334CD7A</ciphertext>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+
+//////////////////////////////////////////////////////////////////////////
+//	Vector Test RSA: standard decrypt
+//////////////////////////////////////////////////////////////////////////
+<action>
+	<actionname>Vector Test RSA: Decrypt, 512 bit key, standard, 1 sec</actionname>
+	<actiontype>RSADecryptVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>A3504534C29C59CA9A34CBB95A18D435FE66FBC7DECD572B91C80F72EE0786D4DD92F8B8416D54BDE12DF2E83F8DC9B1642980BD31852650A5A8F6D6D8C6A9BE965B34FE7659AC5DD372AB91277B2C9CEB797C4B4B5888E33C0D2CFBE9AAD53E158475ED88884D5DCC663AF5AAA62030E3799FAA1FA47AB2665208597F358497</modulus>
+		<privateExponent>85B3B3D4EBF6C0F443A7319A7F8E903DDC1747CE6C33C447E143DE9203199A632F3BA1F0877010CE9B49D8F21705E7B818FE796D6ADB4D70FD0F0577036631948DD21FFE77157AAF978857E4358DED82B58CC85F5EF70480FFD7BE0848DAFB983543B2E867F83155084D8541A14B5EA6CF5FCB651127B2C64383114F02A14CB1</privateExponent>
+		<ciphertext>2D3CD1EAE8BC3AF7D85B57937CBBBEC362486FA1FD7161F7085597D0670AFF84DE33ADEE71AEC4AA3717876E12FBF76286E0AB0428729169977EE6FEDF108CC37BB991AC059B8E80323199CDA22FB29CA7FD93CFD1416B94D6491FCF63C39B715B129101251E295E0A089450163D8470A8573EF459492C135C2BE9B0C5D48D96</ciphertext>
+		<plaintext>0E2561AF55EB9C10904FD427FD0D1DF438BD9ED0C71C480B50A1D3F1B4DBBA2D0081596E61433550F95F7020B247487F32F7E82E50C180454B5CF8456AA00F33F1EC9AB179F5CC921C3012B0557B490693A8305A68798A219AD76870F8A1F10A528575F92D26D31B37DCDC608777CB9757004FF181</plaintext>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+
+//////////////////////////////////////////////////////////////////////////
+//	Vector Test RSA: CRT decrypt
+//////////////////////////////////////////////////////////////////////////
+<action>
+	<actionname>Vector Test RSA: Decrypt, 512 bit key, CRT, 1 sec</actionname>
+	<actiontype>RSADecryptVectorCRT</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>BBF82F090682CE9C2338AC2B9DA871F7368D07EED41043A440D6B6F07454F51FB8DFBAAF035C02AB61EA48CEEB6FCD4876ED520D60E1EC4619719D8A5B8B807FAFB8E0A3DFC737723EE6B4B7D93A2584EE6A649D060953748834B2454598394EE0AAB12D7B61A51F527A9A41F6C1687FE2537298CA2A8F5946F8E5FD091DBDCB</modulus>
+		<P>EECFAE81B1B9B3C908810B10A1B5600199EB9F44AEF4FDA493B81A9E3D84F632124EF0236E5D1E3B7E28FAE7AA040A2D5B252176459D1F397541BA2A58FB6599</P>
+		<Q>C97FB1F027F453F6341233EAAAD1D9353F6C42D08866B1D05A0F2035028B9D869840B41666B42E92EA0DA3B43204B5CFCE3352524D0416A5A441E700AF461503</Q>
+		<dP>54494CA63EBA0337E4E24023FCD69A5AEB07DDDC0183A4D0AC9B54B051F2B13ED9490975EAB77414FF59C1F7692E9A2E202B38FC910A474174ADC93C1F67C981</dP>
+		<dQ>471E0290FF0AF0750351B7F878864CA961ADBD3A8A7E991C5C0556A94C3146A7F9803F8F6F8AE342E931FD8AE47A220D1B99A495849807FE39F9245A9836DA3D</dQ>
+		<qInv>B06C4FDABB6301198D265BDBAE9423B380F271F73453885093077FCD39E2119FC98632154F5883B167A967BF402B4E9E2E0F9656E698EA3666EDFB25798039F7</qInv>
+		<ciphertext>4B9C35BC3CA99B3908EF91C91F4D661544B5462CB3079D7B7A610B90039602F080417B049B7F31BAF16A87B59986620EC1BBD791AD30774309C05F0AFA24B0BF1EA1FEAA3A8EFA2C24F5626B8A9C9A157C1018DA54D314E728E2DB75E84FB5E99082561D904139B95C4DA70A5AB6412527B97CEDA04C6FB00BE1E44537706FF2</ciphertext>
+		<plaintext>D436E99569FD32A7C8A05BBC90D32C49</plaintext>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+
+//////////////////////////////////////////////////////////////////////////
+//	More Vector Tests RSA: standard encrypt & decrypt
+//////////////////////////////////////////////////////////////////////////
+<action>
+	<actionname>Vector Test 2 RSA: Encrypt e = 0x3, 512 bit key, standard, 1 sec</actionname>
+	<actiontype>RSAEncryptVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>A3079A90DF0DFD72AC090CCC2A78B87413133E40759C98FAF8204F358A0B263C6770E783A93B6971B73779D2717BE83477CF</modulus>
+		<publicExponent>03</publicExponent>
+		<plaintext>23</plaintext>
+		<ciphertext>41DDDCD534E5716F20C21FED7F93B64802A55180E8896D2B770721A48FC4C2C3E67E5CDCD552C8F5782D8CA318A338170648</ciphertext>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 3 RSA: Encrypt e = 0x3, 512 bit key, standard, 1 sec</actionname>
+	<actiontype>RSAEncryptVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>A3079A90DF0DFD72AC090CCC2A78B87413133E40759C98FAF8204F358A0B263C6770E783A93B6971B73779D2717BE83477CF</modulus>
+		<publicExponent>03</publicExponent>
+		<plaintext>CDA22C4B6A20000EADAD74BDB304BDC5727302119D6D3775665AF2E6476579807C92EC09F533EA</plaintext>
+		<ciphertext>0C2EF71B3106368FEB8CA6B0542480372423058C40BDE47C7DD5E828A8E16DE588324DE8C4035AF6CAE44F24B89097324FBF</ciphertext>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 4 RSA: Encrypt e = 0x3, 512 bit key, standard, 1 sec</actionname>
+	<actiontype>RSAEncryptVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>A3079A90DF0DFD72AC090CCC2A78B87413133E40759C98FAF8204F358A0B263C6770E783A93B6971B73779D2717BE83477CF</modulus>
+		<publicExponent>03</publicExponent>
+		<plaintext>0B0A7CEB6C1745531DA724AD438BF74689C39F095E883ED88E04363849C00F41</plaintext>
+		<ciphertext>9BFEE36BFB6A5B5A06D8F75F4C36F88BB53A30192968EEB8F0CA9A083766A218DF68A719C1D142990522545B6154C3F3E206</ciphertext>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 5 RSA: Encrypt e = 0x3, 512 bit key, standard, 1 sec</actionname>
+	<actiontype>RSAEncryptVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>A3079A90DF0DFD72AC090CCC2A78B87413133E40759C98FAF8204F358A0B263C6770E783A93B6971B73779D2717BE83477CF</modulus>
+		<publicExponent>03</publicExponent>
+		<plaintext>47AB927609FD75A7E20885EB7E4CFF0A</plaintext>
+		<ciphertext>811E3047119584FE1810535AD29127F8469EE8249EAB8ED422CAE21816CF1C2B430F800016BAC3A82E25FA730616243787CD</ciphertext>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 6 RSA: Encrypt e = 0x11, 512 bit key, standard, 1 sec</actionname>
+	<actiontype>RSAEncryptVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>AA36ABCE88ACFDFF55523C7FC4523F90EFA00DF3774A259F2E62B4C5D99CB5ADB300A0285E5301930E0C70FB6876939CE616CE624A11E0086D341EBCACA0A1F5</modulus>
+		<publicExponent>11</publicExponent>
+		<plaintext>54859B342C49EA2A</plaintext>
+		<ciphertext>1C1AF0EF61C813383F7204D64A56E4BDF903D25D2A2B3A393DD8447E6CB81B6F0AC0E670DEE1505AC2E526D2429C2355A27E9BE18E9A5A54CF4BE8D89756A039</ciphertext>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 7 RSA: Encrypt e = 0x11, 512 bit key, standard, 1 sec</actionname>
+	<actiontype>RSAEncryptVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>AA36ABCE88ACFDFF55523C7FC4523F90EFA00DF3774A259F2E62B4C5D99CB5ADB300A0285E5301930E0C70FB6876939CE616CE624A11E0086D341EBCACA0A1F5</modulus>
+		<publicExponent>11</publicExponent>
+		<plaintext>47AB927609FD75A7E20885EB7E4CFF0A</plaintext>
+		<ciphertext>3E479CDAE2775909FF36C72BB0E49C9368DE432DD4819789633FA3117AEDE13AAFEC7D0AC49FF5269C4E9581D951DC07CFDCA0A29D3FAB61EF7B3B71A24FE0CD</ciphertext>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 8 RSA: Encrypt e = 0x11, 512 bit key, standard, 1 sec</actionname>
+	<actiontype>RSAEncryptVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>AA36ABCE88ACFDFF55523C7FC4523F90EFA00DF3774A259F2E62B4C5D99CB5ADB300A0285E5301930E0C70FB6876939CE616CE624A11E0086D341EBCACA0A1F5</modulus>
+		<publicExponent>11</publicExponent>
+		<plaintext>0B0A7CEB6C1745531DA724AD438BF74689C39F095E883ED88E04363849C00F41</plaintext>
+		<ciphertext>939AF059CF096A38F696ABF7E903FEE9931059018839AF59F12FD404A56A4A3417339C87BC8EB1A3C9911969948A4C50EF2CE29118AA98DDC0C57F5DD7452E22</ciphertext>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 9 RSA: Encrypt e = 0x11, 512 bit key, standard, 1 sec</actionname>
+	<actiontype>RSAEncryptVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>AA36ABCE88ACFDFF55523C7FC4523F90EFA00DF3774A259F2E62B4C5D99CB5ADB300A0285E5301930E0C70FB6876939CE616CE624A11E0086D341EBCACA0A1F5</modulus>
+		<publicExponent>11</publicExponent>
+		<plaintext>23</plaintext>
+		<ciphertext>72BA7B987C4DBF1611B781F321498FDBA3962E0B62F502A726B17CE511984B771F474C23F9F6532A1FDC30C160596D83A13198CCCE6EC4E22A204977682FDD2D</ciphertext>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 10 RSA: Encrypt e = 0x11, 512 bit key, standard, 1 sec</actionname>
+	<actiontype>RSAEncryptVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>AA36ABCE88ACFDFF55523C7FC4523F90EFA00DF3774A259F2E62B4C5D99CB5ADB300A0285E5301930E0C70FB6876939CE616CE624A11E0086D341EBCACA0A1F5</modulus>
+		<publicExponent>11</publicExponent>
+		<plaintext>6679F38482069906CDF1DF3FDDB537744676BA0DB8D682B6826F31B1D8230CCA4E392877053FAC5A13FF3A39352EAFB185E4D060F4</plaintext>
+		<ciphertext>403325E9263F5CDBD03FAE2E5D6CDF884E8B2F5AE8D0AEBD27C950E4D69C9499B0A5435B0024CE35B92383F1E864C6426A97AC6DAC42EA70AEE000C7B9ECA83F</ciphertext>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 11 RSA: Encrypt e = 0x010001, 512 bit key, standard, 1 sec</actionname>
+	<actiontype>RSAEncryptVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>A3504534C29C59CA9A34CBB95A18D435FE66FBC7DECD572B91C80F72EE0786D4DD92F8B8416D54BDE12DF2E83F8DC9B1642980BD31852650A5A8F6D6D8C6A9BE965B34FE7659AC5DD372AB91277B2C9CEB797C4B4B5888E33C0D2CFBE9AAD53E158475ED88884D5DCC663AF5AAA62030E3799FAA1FA47AB2665208597F358497</modulus>
+		<publicExponent>010001</publicExponent>
+		<plaintext>0E2561AF55EB9C10904FD427FD0D1DF438BD9ED0C71C480B50A1D3F1B4DBBA2D0081596E61433550F95F7020B247487F32F7E82E50C180454B5CF8456AA00F33F1EC9AB179F5CC921C3012B0557B490693A8305A68798A219AD76870F8A1F10A528575F92D26D31B37DCDC608777CB9757004FF181</plaintext>
+		<ciphertext>2D3CD1EAE8BC3AF7D85B57937CBBBEC362486FA1FD7161F7085597D0670AFF84DE33ADEE71AEC4AA3717876E12FBF76286E0AB0428729169977EE6FEDF108CC37BB991AC059B8E80323199CDA22FB29CA7FD93CFD1416B94D6491FCF63C39B715B129101251E295E0A089450163D8470A8573EF459492C135C2BE9B0C5D48D96</ciphertext>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 12 RSA: Encrypt e = 0x010001, 512 bit key, standard, 1 sec</actionname>
+	<actiontype>RSAEncryptVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>A3504534C29C59CA9A34CBB95A18D435FE66FBC7DECD572B91C80F72EE0786D4DD92F8B8416D54BDE12DF2E83F8DC9B1642980BD31852650A5A8F6D6D8C6A9BE965B34FE7659AC5DD372AB91277B2C9CEB797C4B4B5888E33C0D2CFBE9AAD53E158475ED88884D5DCC663AF5AAA62030E3799FAA1FA47AB2665208597F358497</modulus>
+		<publicExponent>010001</publicExponent>
+		<plaintext>54859B342C49EA2A</plaintext>
+		<ciphertext>31A8C19C6BF5FBB637B4523016DB47C2FB596D60F0465A49C8854F461DE2ACE0A84598E6B3792612DE30032C0A7BAB75D0F3C6A0F83CBA5B36BDFCDD3B6BDDDEA8BCCB7ADBBB0FE332B4E897B5EEC85514A654709653A956410F13C86CB2E7F27EA09EB8D169844D1C1909A34DA43F752B24338157C64216F98535B58334CD7A</ciphertext>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 13 RSA: Encrypt e = 0x010001, 512 bit key, standard, 1 sec</actionname>
+	<actiontype>RSAEncryptVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>A3504534C29C59CA9A34CBB95A18D435FE66FBC7DECD572B91C80F72EE0786D4DD92F8B8416D54BDE12DF2E83F8DC9B1642980BD31852650A5A8F6D6D8C6A9BE965B34FE7659AC5DD372AB91277B2C9CEB797C4B4B5888E33C0D2CFBE9AAD53E158475ED88884D5DCC663AF5AAA62030E3799FAA1FA47AB2665208597F358497</modulus>
+		<publicExponent>010001</publicExponent>
+		<plaintext>47AB927609FD75A7E20885EB7E4CFF0A</plaintext>
+		<ciphertext>397C86C824FDC6F1D0B966BD21A829D6F62C40F23A9B345486B8EF6C0BCC5EC9A21ECC12BDF477617B0E3E6EE1988B0918092DE46B78B74FD8EF8B1B42C1E32744DAF0D94FBC46D4523271BEE029B1BEF43136EDE8D86A8D1F65CBBCA80538E968F32C1B0F6D1888F3A83514969994CBA8128251D31BBC2C506F9DDEE6B53FD3</ciphertext>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 14 RSA: Encrypt e = 0x010001, 512 bit key, standard, 1 sec</actionname>
+	<actiontype>RSAEncryptVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>A3504534C29C59CA9A34CBB95A18D435FE66FBC7DECD572B91C80F72EE0786D4DD92F8B8416D54BDE12DF2E83F8DC9B1642980BD31852650A5A8F6D6D8C6A9BE965B34FE7659AC5DD372AB91277B2C9CEB797C4B4B5888E33C0D2CFBE9AAD53E158475ED88884D5DCC663AF5AAA62030E3799FAA1FA47AB2665208597F358497</modulus>
+		<publicExponent>010001</publicExponent>
+		<plaintext>23</plaintext>
+		<ciphertext>59B7E7F8DB3D1E9BD58E1AB534F5D2CB9D28CF03BF8FC468F488940380CDF853DA52B10BAB8D0046A296E5EC98830EC350605185EF6A4C290A087DEEB4BD990996733B7161685C2A8971B6214B8F84A521B0AB5709A21C8C9D7A847C73E34865AFC3CA8B5EF85D720AE370E6147FC22206ACA77CFCE5A0FC46ACD9F446DE537A</ciphertext>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 15 RSA: Encrypt e = 0x010001, 512 bit key, standard, 1 sec</actionname>
+	<actiontype>RSAEncryptVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>A3504534C29C59CA9A34CBB95A18D435FE66FBC7DECD572B91C80F72EE0786D4DD92F8B8416D54BDE12DF2E83F8DC9B1642980BD31852650A5A8F6D6D8C6A9BE965B34FE7659AC5DD372AB91277B2C9CEB797C4B4B5888E33C0D2CFBE9AAD53E158475ED88884D5DCC663AF5AAA62030E3799FAA1FA47AB2665208597F358497</modulus>
+		<publicExponent>010001</publicExponent>
+		<plaintext>0B0A7CEB6C1745531DA724AD438BF74689C39F095E883ED88E04363849C00F41</plaintext>
+		<ciphertext>9B20439E8572CFFC1218B6CCFBEEB46BEAE8F53C49BA2CE09E9023F3C5E3B73ECC9B5B388972BA018FE4D34F12B7674239A4EAF76A7D712B2B67EFDA0A0C992438B0A25CE7C9ED56F5E8AF6AABC7B94C55D0F4524750B9194E7C2210239448A90C59AC4AECBEE1660D02F24B2AA46B6C8C3D61344049327C964A137D4FBA91DF</ciphertext>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 2 RSA: Decrypt, 512 bit key, standard, 1 sec</actionname>
+	<actiontype>RSADecryptVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>AA36ABCE88ACFDFF55523C7FC4523F90EFA00DF3774A259F2E62B4C5D99CB5ADB300A0285E5301930E0C70FB6876939CE616CE624A11E0086D341EBCACA0A1F5</modulus>
+		<privateExponent>0A033748626487695F5F30BC38B98B44C2CD2DFF434098CD20D8A138D090BF64797C3FA7A2CDCB3CD1E0BDBA2654B4F9DF8E8AE59D733D9F33B301624AFD1D51</privateExponent>
+		<ciphertext>1C1AF0EF61C813383F7204D64A56E4BDF903D25D2A2B3A393DD8447E6CB81B6F0AC0E670DEE1505AC2E526D2429C2355A27E9BE18E9A5A54CF4BE8D89756A039</ciphertext>
+		<plaintext>54859B342C49EA2A</plaintext>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 3 RSA: Decrypt, 512 bit key, standard, 1 sec</actionname>
+	<actiontype>RSADecryptVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>A3079A90DF0DFD72AC090CCC2A78B87413133E40759C98FAF8204F358A0B263C6770E783A93B6971B73779D2717BE83477CF</modulus>
+		<privateExponent>6CAFBC6094B3FE4C72B0B332C6FB25A2B76229804E6865FCA45A74DF0F8FB8413B52C0D0E53D9B590FF19BE79F49DD21E5EB</privateExponent>
+		<ciphertext>6A572306B13C00C2D442E1B45A1719F21DC6A3B9810CD6BBA8B945A031054BC2E47BAB0DBB9BFBD3540D5745BF8EDE7B88A9</ciphertext>
+		<plaintext>54859B342C49EA2A</plaintext>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 4 RSA: Decrypt, 512 bit key, standard, 1 sec</actionname>
+	<actiontype>RSADecryptVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>A3504534C29C59CA9A34CBB95A18D435FE66FBC7DECD572B91C80F72EE0786D4DD92F8B8416D54BDE12DF2E83F8DC9B1642980BD31852650A5A8F6D6D8C6A9BE965B34FE7659AC5DD372AB91277B2C9CEB797C4B4B5888E33C0D2CFBE9AAD53E158475ED88884D5DCC663AF5AAA62030E3799FAA1FA47AB2665208597F358497</modulus>
+		<privateExponent>85B3B3D4EBF6C0F443A7319A7F8E903DDC1747CE6C33C447E143DE9203199A632F3BA1F0877010CE9B49D8F21705E7B818FE796D6ADB4D70FD0F0577036631948DD21FFE77157AAF978857E4358DED82B58CC85F5EF70480FFD7BE0848DAFB983543B2E867F83155084D8541A14B5EA6CF5FCB651127B2C64383114F02A14CB1</privateExponent>
+		<ciphertext>31A8C19C6BF5FBB637B4523016DB47C2FB596D60F0465A49C8854F461DE2ACE0A84598E6B3792612DE30032C0A7BAB75D0F3C6A0F83CBA5B36BDFCDD3B6BDDDEA8BCCB7ADBBB0FE332B4E897B5EEC85514A654709653A956410F13C86CB2E7F27EA09EB8D169844D1C1909A34DA43F752B24338157C64216F98535B58334CD7A</ciphertext>
+		<plaintext>54859B342C49EA2A</plaintext>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 5 RSA: Decrypt, 512 bit key, standard, 1 sec</actionname>
+	<actiontype>RSADecryptVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>AA36ABCE88ACFDFF55523C7FC4523F90EFA00DF3774A259F2E62B4C5D99CB5ADB300A0285E5301930E0C70FB6876939CE616CE624A11E0086D341EBCACA0A1F5</modulus>
+		<privateExponent>0A033748626487695F5F30BC38B98B44C2CD2DFF434098CD20D8A138D090BF64797C3FA7A2CDCB3CD1E0BDBA2654B4F9DF8E8AE59D733D9F33B301624AFD1D51</privateExponent>
+		<ciphertext>3E479CDAE2775909FF36C72BB0E49C9368DE432DD4819789633FA3117AEDE13AAFEC7D0AC49FF5269C4E9581D951DC07CFDCA0A29D3FAB61EF7B3B71A24FE0CD</ciphertext>
+		<plaintext>47AB927609FD75A7E20885EB7E4CFF0A</plaintext>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 6 RSA: Decrypt, 512 bit key, standard, 1 sec</actionname>
+	<actiontype>RSADecryptVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>A3079A90DF0DFD72AC090CCC2A78B87413133E40759C98FAF8204F358A0B263C6770E783A93B6971B73779D2717BE83477CF</modulus>
+		<privateExponent>6CAFBC6094B3FE4C72B0B332C6FB25A2B76229804E6865FCA45A74DF0F8FB8413B52C0D0E53D9B590FF19BE79F49DD21E5EB</privateExponent>
+		<ciphertext>811E3047119584FE1810535AD29127F8469EE8249EAB8ED422CAE21816CF1C2B430F800016BAC3A82E25FA730616243787CD</ciphertext>
+		<plaintext>47AB927609FD75A7E20885EB7E4CFF0A</plaintext>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 7 RSA: Decrypt, 512 bit key, standard, 1 sec</actionname>
+	<actiontype>RSADecryptVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>A3504534C29C59CA9A34CBB95A18D435FE66FBC7DECD572B91C80F72EE0786D4DD92F8B8416D54BDE12DF2E83F8DC9B1642980BD31852650A5A8F6D6D8C6A9BE965B34FE7659AC5DD372AB91277B2C9CEB797C4B4B5888E33C0D2CFBE9AAD53E158475ED88884D5DCC663AF5AAA62030E3799FAA1FA47AB2665208597F358497</modulus>
+		<privateExponent>85B3B3D4EBF6C0F443A7319A7F8E903DDC1747CE6C33C447E143DE9203199A632F3BA1F0877010CE9B49D8F21705E7B818FE796D6ADB4D70FD0F0577036631948DD21FFE77157AAF978857E4358DED82B58CC85F5EF70480FFD7BE0848DAFB983543B2E867F83155084D8541A14B5EA6CF5FCB651127B2C64383114F02A14CB1</privateExponent>
+		<ciphertext>397C86C824FDC6F1D0B966BD21A829D6F62C40F23A9B345486B8EF6C0BCC5EC9A21ECC12BDF477617B0E3E6EE1988B0918092DE46B78B74FD8EF8B1B42C1E32744DAF0D94FBC46D4523271BEE029B1BEF43136EDE8D86A8D1F65CBBCA80538E968F32C1B0F6D1888F3A83514969994CBA8128251D31BBC2C506F9DDEE6B53FD3</ciphertext>
+		<plaintext>47AB927609FD75A7E20885EB7E4CFF0A</plaintext>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 8 RSA: Decrypt, 512 bit key, standard, 1 sec</actionname>
+	<actiontype>RSADecryptVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>AA36ABCE88ACFDFF55523C7FC4523F90EFA00DF3774A259F2E62B4C5D99CB5ADB300A0285E5301930E0C70FB6876939CE616CE624A11E0086D341EBCACA0A1F5</modulus>
+		<privateExponent>0A033748626487695F5F30BC38B98B44C2CD2DFF434098CD20D8A138D090BF64797C3FA7A2CDCB3CD1E0BDBA2654B4F9DF8E8AE59D733D9F33B301624AFD1D51</privateExponent>
+		<ciphertext>939AF059CF096A38F696ABF7E903FEE9931059018839AF59F12FD404A56A4A3417339C87BC8EB1A3C9911969948A4C50EF2CE29118AA98DDC0C57F5DD7452E22</ciphertext>
+		<plaintext>0B0A7CEB6C1745531DA724AD438BF74689C39F095E883ED88E04363849C00F41</plaintext>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 9 RSA: Decrypt, 512 bit key, standard, 1 sec</actionname>
+	<actiontype>RSADecryptVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>A3079A90DF0DFD72AC090CCC2A78B87413133E40759C98FAF8204F358A0B263C6770E783A93B6971B73779D2717BE83477CF</modulus>
+		<privateExponent>6CAFBC6094B3FE4C72B0B332C6FB25A2B76229804E6865FCA45A74DF0F8FB8413B52C0D0E53D9B590FF19BE79F49DD21E5EB</privateExponent>
+		<ciphertext>9BFEE36BFB6A5B5A06D8F75F4C36F88BB53A30192968EEB8F0CA9A083766A218DF68A719C1D142990522545B6154C3F3E206</ciphertext>
+		<plaintext>0B0A7CEB6C1745531DA724AD438BF74689C39F095E883ED88E04363849C00F41</plaintext>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 10 RSA: Decrypt, 512 bit key, standard, 1 sec</actionname>
+	<actiontype>RSADecryptVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>A3504534C29C59CA9A34CBB95A18D435FE66FBC7DECD572B91C80F72EE0786D4DD92F8B8416D54BDE12DF2E83F8DC9B1642980BD31852650A5A8F6D6D8C6A9BE965B34FE7659AC5DD372AB91277B2C9CEB797C4B4B5888E33C0D2CFBE9AAD53E158475ED88884D5DCC663AF5AAA62030E3799FAA1FA47AB2665208597F358497</modulus>
+		<privateExponent>85B3B3D4EBF6C0F443A7319A7F8E903DDC1747CE6C33C447E143DE9203199A632F3BA1F0877010CE9B49D8F21705E7B818FE796D6ADB4D70FD0F0577036631948DD21FFE77157AAF978857E4358DED82B58CC85F5EF70480FFD7BE0848DAFB983543B2E867F83155084D8541A14B5EA6CF5FCB651127B2C64383114F02A14CB1</privateExponent>
+		<ciphertext>9B20439E8572CFFC1218B6CCFBEEB46BEAE8F53C49BA2CE09E9023F3C5E3B73ECC9B5B388972BA018FE4D34F12B7674239A4EAF76A7D712B2B67EFDA0A0C992438B0A25CE7C9ED56F5E8AF6AABC7B94C55D0F4524750B9194E7C2210239448A90C59AC4AECBEE1660D02F24B2AA46B6C8C3D61344049327C964A137D4FBA91DF</ciphertext>
+		<plaintext>0B0A7CEB6C1745531DA724AD438BF74689C39F095E883ED88E04363849C00F41</plaintext>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 11 RSA: Decrypt, 512 bit key, standard, 1 sec</actionname>
+	<actiontype>RSADecryptVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>AA36ABCE88ACFDFF55523C7FC4523F90EFA00DF3774A259F2E62B4C5D99CB5ADB300A0285E5301930E0C70FB6876939CE616CE624A11E0086D341EBCACA0A1F5</modulus>
+		<privateExponent>0A033748626487695F5F30BC38B98B44C2CD2DFF434098CD20D8A138D090BF64797C3FA7A2CDCB3CD1E0BDBA2654B4F9DF8E8AE59D733D9F33B301624AFD1D51</privateExponent>
+		<ciphertext>72BA7B987C4DBF1611B781F321498FDBA3962E0B62F502A726B17CE511984B771F474C23F9F6532A1FDC30C160596D83A13198CCCE6EC4E22A204977682FDD2D</ciphertext>
+		<plaintext>23</plaintext>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 12 RSA: Decrypt, 512 bit key, standard, 1 sec</actionname>
+	<actiontype>RSADecryptVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>A3079A90DF0DFD72AC090CCC2A78B87413133E40759C98FAF8204F358A0B263C6770E783A93B6971B73779D2717BE83477CF</modulus>
+		<privateExponent>6CAFBC6094B3FE4C72B0B332C6FB25A2B76229804E6865FCA45A74DF0F8FB8413B52C0D0E53D9B590FF19BE79F49DD21E5EB</privateExponent>
+		<ciphertext>41DDDCD534E5716F20C21FED7F93B64802A55180E8896D2B770721A48FC4C2C3E67E5CDCD552C8F5782D8CA318A338170648</ciphertext>
+		<plaintext>23</plaintext>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 13 RSA: Decrypt, 512 bit key, standard, 1 sec</actionname>
+	<actiontype>RSADecryptVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>A3504534C29C59CA9A34CBB95A18D435FE66FBC7DECD572B91C80F72EE0786D4DD92F8B8416D54BDE12DF2E83F8DC9B1642980BD31852650A5A8F6D6D8C6A9BE965B34FE7659AC5DD372AB91277B2C9CEB797C4B4B5888E33C0D2CFBE9AAD53E158475ED88884D5DCC663AF5AAA62030E3799FAA1FA47AB2665208597F358497</modulus>
+		<privateExponent>85B3B3D4EBF6C0F443A7319A7F8E903DDC1747CE6C33C447E143DE9203199A632F3BA1F0877010CE9B49D8F21705E7B818FE796D6ADB4D70FD0F0577036631948DD21FFE77157AAF978857E4358DED82B58CC85F5EF70480FFD7BE0848DAFB983543B2E867F83155084D8541A14B5EA6CF5FCB651127B2C64383114F02A14CB1</privateExponent>
+		<ciphertext>59B7E7F8DB3D1E9BD58E1AB534F5D2CB9D28CF03BF8FC468F488940380CDF853DA52B10BAB8D0046A296E5EC98830EC350605185EF6A4C290A087DEEB4BD990996733B7161685C2A8971B6214B8F84A521B0AB5709A21C8C9D7A847C73E34865AFC3CA8B5EF85D720AE370E6147FC22206ACA77CFCE5A0FC46ACD9F446DE537A</ciphertext>
+		<plaintext>23</plaintext>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 14 RSA: Decrypt, 512 bit key, standard, 1 sec</actionname>
+	<actiontype>RSADecryptVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>AA36ABCE88ACFDFF55523C7FC4523F90EFA00DF3774A259F2E62B4C5D99CB5ADB300A0285E5301930E0C70FB6876939CE616CE624A11E0086D341EBCACA0A1F5</modulus>
+		<privateExponent>0A033748626487695F5F30BC38B98B44C2CD2DFF434098CD20D8A138D090BF64797C3FA7A2CDCB3CD1E0BDBA2654B4F9DF8E8AE59D733D9F33B301624AFD1D51</privateExponent>
+		<ciphertext>403325E9263F5CDBD03FAE2E5D6CDF884E8B2F5AE8D0AEBD27C950E4D69C9499B0A5435B0024CE35B92383F1E864C6426A97AC6DAC42EA70AEE000C7B9ECA83F</ciphertext>
+		<plaintext>6679F38482069906CDF1DF3FDDB537744676BA0DB8D682B6826F31B1D8230CCA4E392877053FAC5A13FF3A39352EAFB185E4D060F4</plaintext>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 15 RSA: Decrypt, 512 bit key, standard, 1 sec</actionname>
+	<actiontype>RSADecryptVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>A3079A90DF0DFD72AC090CCC2A78B87413133E40759C98FAF8204F358A0B263C6770E783A93B6971B73779D2717BE83477CF</modulus>
+		<privateExponent>6CAFBC6094B3FE4C72B0B332C6FB25A2B76229804E6865FCA45A74DF0F8FB8413B52C0D0E53D9B590FF19BE79F49DD21E5EB</privateExponent>
+		<ciphertext>0C2EF71B3106368FEB8CA6B0542480372423058C40BDE47C7DD5E828A8E16DE588324DE8C4035AF6CAE44F24B89097324FBF</ciphertext>
+		<plaintext>CDA22C4B6A20000EADAD74BDB304BDC5727302119D6D3775665AF2E6476579807C92EC09F533EA</plaintext>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+
+
+//////////////////////////////////////////////////////////////////////////
+//	Vector Test RSA: Standard Sign
+//////////////////////////////////////////////////////////////////////////
+<action>
+	<actionname>Vector Test RSA: Sign, 512 bit key, Standard, 1 sec</actionname>
+	<actiontype>RSASignVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>AA36ABCE88ACFDFF55523C7FC4523F90EFA00DF3774A259F2E62B4C5D99CB5ADB300A0285E5301930E0C70FB6876939CE616CE624A11E0086D341EBCACA0A1F5</modulus>
+		<privateExponent>0A033748626487695F5F30BC38B98B44C2CD2DFF434098CD20D8A138D090BF64797C3FA7A2CDCB3CD1E0BDBA2654B4F9DF8E8AE59D733D9F33B301624AFD1D51</privateExponent>
+		<digestInfo>54859B342C49EA2A</digestInfo>
+		<signature>786C08484F59280886A19919BECA53711819B2D2DD82D702E2F6DE991DC89CB968C01B1315A742B5BE783A781B5B1286F46DAFE29DE675C64A3BA4781DEF8F19</signature>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+
+//////////////////////////////////////////////////////////////////////////
+//	Vector Test RSA: CRT Sign
+//////////////////////////////////////////////////////////////////////////
+//	Test vector from cryptopp "Everybody gets Friday off"
+<action>
+	<actionname>Vector Test RSA: Sign, 512 bit key, CRT, 1 sec</actionname>
+	<actiontype>RSASignVectorCRT</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>0A66791DC6988168DE7AB77419BB7FB0C001C62710270075142942E19A8D8C51D053B3E3782A1DE5DC5AF4EBE99468170114A1DFE67CDC9A9AF55D655620BBAB</modulus>
+		<P>33D48445C859E52340DE704BCDDA065FBB4058D740BD1D67D29E9C146C11CF61</P>
+		<Q>335E8408866B0FD38DC7002D3F972C67389A65D5D8306566D5C4F2A5AA52628B</Q>
+		<dP>045EC90071525325D3D46DB79695E9AFACC4523964360E02B119BAA366316241</dP>
+		<dQ>15EB327360C7B60D12E5E2D16BDCD97981D17FBA6B70DB13B20B436E24EADA59</dQ>
+		<qInv>2CA6366D72781DFA24D34A9A24CBC2AE927A9958AF426563FF63FB11658A461D</qInv>
+		<digestInfo>3020300C06082A864886F70D0202050004101D32DE009F9C56EA4636D39AAFFDAEA1</digestInfo>
+		<signature>05FA6A812FC7DF8BF4F2542509E03E846E11B9C620BE2009EFB440EFBCC669216994AC04F341B57D05202D428FB2A27B5C77DFD9B15BFC3D559353503410C1E1</signature>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+
+//////////////////////////////////////////////////////////////////////////
+//	Vector Test RSA: Verify
+//////////////////////////////////////////////////////////////////////////
+<action>
+	<actionname>Vector Test RSA: Verify, e = 0x3 512 bit key, 1 sec</actionname>
+	<actiontype>RSAVerifyVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>A3079A90DF0DFD72AC090CCC2A78B87413133E40759C98FAF8204F358A0B263C6770E783A93B6971B73779D2717BE83477CF</modulus>
+		<publicExponent>03</publicExponent>
+		<digestInfo>54859B342C49EA2A</digestInfo>
+		<signature>6268EE3023E0CCC02FDF5896C4E1C87EEEE82EFE5C87EFC3C41D3E976FD286F35A0678ED0157DC06F3F889B15CAF91C783EF</signature>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test RSA: Verify, e = 0x11 512 bit key, 1 sec</actionname>
+	<actiontype>RSAVerifyVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>AA36ABCE88ACFDFF55523C7FC4523F90EFA00DF3774A259F2E62B4C5D99CB5ADB300A0285E5301930E0C70FB6876939CE616CE624A11E0086D341EBCACA0A1F5</modulus>
+		<publicExponent>11</publicExponent>
+		<digestInfo>47AB927609FD75A7E20885EB7E4CFF0A</digestInfo>
+		<signature>32BCB348294467EA925B0B8E0420E3B6482A9F12C42081B4A0EB76A807D4A35CBB8E49C5BB958300D5713A15748660AF8EDD1EDDF674AFECD270813BB2420550</signature>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test RSA: Verify, e = 0x10001 512 bit key, 1 sec</actionname>
+	<actiontype>RSAVerifyVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>0A66791DC6988168DE7AB77419BB7FB0C001C62710270075142942E19A8D8C51D053B3E3782A1DE5DC5AF4EBE99468170114A1DFE67CDC9A9AF55D655620BBAB</modulus>
+		<publicExponent>010001</publicExponent>
+		<digestInfo>3020300C06082A864886F70D0202050004101D32DE009F9C56EA4636D39AAFFDAEA1</digestInfo>
+		<signature>05FA6A812FC7DF8BF4F2542509E03E846E11B9C620BE2009EFB440EFBCC669216994AC04F341B57D05202D428FB2A27B5C77DFD9B15BFC3D559353503410C1E1</signature>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+
+//////////////////////////////////////////////////////////////////////////
+//	More Vector Tests RSA: standard sign & verify
+//////////////////////////////////////////////////////////////////////////
+<action>
+	<actionname>Vector Test 2 RSA: Sign, 512 bit key, Standard, 1 sec</actionname>
+	<actiontype>RSASignVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>0A66791DC6988168DE7AB77419BB7FB0C001C62710270075142942E19A8D8C51D053B3E3782A1DE5DC5AF4EBE99468170114A1DFE67CDC9A9AF55D655620BBAB</modulus>
+		<privateExponent>0123C5B61BA36EDB1D3679904199A89EA80C09B9122E1400C09ADCF7784676D01D23356A7D44D6BD8BD50E94BFC723FA87D8862B75177691C11D757692DF8881</privateExponent>
+		<digestInfo>3020300C06082A864886F70D0202050004101D32DE009F9C56EA4636D39AAFFDAEA1</digestInfo>
+		<signature>05FA6A812FC7DF8BF4F2542509E03E846E11B9C620BE2009EFB440EFBCC669216994AC04F341B57D05202D428FB2A27B5C77DFD9B15BFC3D559353503410C1E1</signature>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 3 RSA: Sign, 512 bit key, Standard, 1 sec</actionname>
+	<actiontype>RSASignVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>A3504534C29C59CA9A34CBB95A18D435FE66FBC7DECD572B91C80F72EE0786D4DD92F8B8416D54BDE12DF2E83F8DC9B1642980BD31852650A5A8F6D6D8C6A9BE965B34FE7659AC5DD372AB91277B2C9CEB797C4B4B5888E33C0D2CFBE9AAD53E158475ED88884D5DCC663AF5AAA62030E3799FAA1FA47AB2665208597F358497</modulus>
+		<privateExponent>85B3B3D4EBF6C0F443A7319A7F8E903DDC1747CE6C33C447E143DE9203199A632F3BA1F0877010CE9B49D8F21705E7B818FE796D6ADB4D70FD0F0577036631948DD21FFE77157AAF978857E4358DED82B58CC85F5EF70480FFD7BE0848DAFB983543B2E867F83155084D8541A14B5EA6CF5FCB651127B2C64383114F02A14CB1</privateExponent>
+		<digestInfo>54859B342C49EA2A</digestInfo>
+		<signature>A2B1465F0B5271A8C700D60A0717C38A48ECB67CE2592ADAFC5C672F6AA21319477CFB3A407587F7A2BF004BB709273051F1D81DC3B5E7409DFEB0E2B8DEE9780FBD0045E999A2D9C8313887BF16E380533E8E505DB231C22DCC72A5AF4B92E5D7EB1F3F37E6763C2C650A9F641992ABD858AB40AAADDAB598F9A81C4C99E68D</signature>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 4 RSA: Sign, 512 bit key, Standard, 1 sec</actionname>
+	<actiontype>RSASignVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>AA36ABCE88ACFDFF55523C7FC4523F90EFA00DF3774A259F2E62B4C5D99CB5ADB300A0285E5301930E0C70FB6876939CE616CE624A11E0086D341EBCACA0A1F5</modulus>
+		<privateExponent>0A033748626487695F5F30BC38B98B44C2CD2DFF434098CD20D8A138D090BF64797C3FA7A2CDCB3CD1E0BDBA2654B4F9DF8E8AE59D733D9F33B301624AFD1D51</privateExponent>
+		<digestInfo>47AB927609FD75A7E20885EB7E4CFF0A</digestInfo>
+		<signature>32BCB348294467EA925B0B8E0420E3B6482A9F12C42081B4A0EB76A807D4A35CBB8E49C5BB958300D5713A15748660AF8EDD1EDDF674AFECD270813BB2420550</signature>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 5 RSA: Sign, 512 bit key, Standard, 1 sec</actionname>
+	<actiontype>RSASignVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>A3079A90DF0DFD72AC090CCC2A78B87413133E40759C98FAF8204F358A0B263C6770E783A93B6971B73779D2717BE83477CF</modulus>
+		<privateExponent>6CAFBC6094B3FE4C72B0B332C6FB25A2B76229804E6865FCA45A74DF0F8FB8413B52C0D0E53D9B590FF19BE79F49DD21E5EB</privateExponent>
+		<digestInfo>47AB927609FD75A7E20885EB7E4CFF0A</digestInfo>
+		<signature>301786087160F4EEB99B005A56457792FC9264E28549F2AC4C65982BC1AF797C09E3ACFABE703F5C72754BD58D0403D4433C</signature>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 6 RSA: Sign, 512 bit key, Standard, 1 sec</actionname>
+	<actiontype>RSASignVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>A3504534C29C59CA9A34CBB95A18D435FE66FBC7DECD572B91C80F72EE0786D4DD92F8B8416D54BDE12DF2E83F8DC9B1642980BD31852650A5A8F6D6D8C6A9BE965B34FE7659AC5DD372AB91277B2C9CEB797C4B4B5888E33C0D2CFBE9AAD53E158475ED88884D5DCC663AF5AAA62030E3799FAA1FA47AB2665208597F358497</modulus>
+		<privateExponent>85B3B3D4EBF6C0F443A7319A7F8E903DDC1747CE6C33C447E143DE9203199A632F3BA1F0877010CE9B49D8F21705E7B818FE796D6ADB4D70FD0F0577036631948DD21FFE77157AAF978857E4358DED82B58CC85F5EF70480FFD7BE0848DAFB983543B2E867F83155084D8541A14B5EA6CF5FCB651127B2C64383114F02A14CB1</privateExponent>
+		<digestInfo>47AB927609FD75A7E20885EB7E4CFF0A</digestInfo>
+		<signature>6B68F9744C7F6535B4AE3A09133FB573C73DECB13ABACB0D3E31CDECC206F5023A91F7634F46350EF06D840420CAEB8029DAC5DCFF1C1A0C7EB33D60E348FC079A4CF478DAB02BEFCA8242FE5CBF52BE39CAB47B16D61C77A1B36B52D371C846BA330A4B21B73C0E1D7D6732EFBA08B06AB4B4FB07E19D89A5B9398A8D093A40</signature>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 7 RSA: Sign, 512 bit key, Standard, 1 sec</actionname>
+	<actiontype>RSASignVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>AA36ABCE88ACFDFF55523C7FC4523F90EFA00DF3774A259F2E62B4C5D99CB5ADB300A0285E5301930E0C70FB6876939CE616CE624A11E0086D341EBCACA0A1F5</modulus>
+		<privateExponent>0A033748626487695F5F30BC38B98B44C2CD2DFF434098CD20D8A138D090BF64797C3FA7A2CDCB3CD1E0BDBA2654B4F9DF8E8AE59D733D9F33B301624AFD1D51</privateExponent>
+		<digestInfo>0B0A7CEB6C1745531DA724AD438BF74689C39F095E883ED88E04363849C00F41</digestInfo>
+		<signature>069D76426B5096CDFB1F37F4ABABFBD9C2786174D35F32A83250EB22600A493C742135F811122899A9D1060CBB4DE0DA41C8073B6DC1DC401DD2536A514EE966</signature>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 8 RSA: Sign, 512 bit key, Standard, 1 sec</actionname>
+	<actiontype>RSASignVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>A3079A90DF0DFD72AC090CCC2A78B87413133E40759C98FAF8204F358A0B263C6770E783A93B6971B73779D2717BE83477CF</modulus>
+		<privateExponent>6CAFBC6094B3FE4C72B0B332C6FB25A2B76229804E6865FCA45A74DF0F8FB8413B52C0D0E53D9B590FF19BE79F49DD21E5EB</privateExponent>
+		<digestInfo>0B0A7CEB6C1745531DA724AD438BF74689C39F095E883ED88E04363849C00F41</digestInfo>
+		<signature>56CB9D7521600FAC739A7BA2F64C8833EFA9B631970F8C80AC56F5D06B48C9DE98BEBBAEAA71908BF4ECB3BD9CA074EFE491</signature>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 9 RSA: Sign, 512 bit key, Standard, 1 sec</actionname>
+	<actiontype>RSASignVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>A3504534C29C59CA9A34CBB95A18D435FE66FBC7DECD572B91C80F72EE0786D4DD92F8B8416D54BDE12DF2E83F8DC9B1642980BD31852650A5A8F6D6D8C6A9BE965B34FE7659AC5DD372AB91277B2C9CEB797C4B4B5888E33C0D2CFBE9AAD53E158475ED88884D5DCC663AF5AAA62030E3799FAA1FA47AB2665208597F358497</modulus>
+		<privateExponent>85B3B3D4EBF6C0F443A7319A7F8E903DDC1747CE6C33C447E143DE9203199A632F3BA1F0877010CE9B49D8F21705E7B818FE796D6ADB4D70FD0F0577036631948DD21FFE77157AAF978857E4358DED82B58CC85F5EF70480FFD7BE0848DAFB983543B2E867F83155084D8541A14B5EA6CF5FCB651127B2C64383114F02A14CB1</privateExponent>
+		<digestInfo>0B0A7CEB6C1745531DA724AD438BF74689C39F095E883ED88E04363849C00F41</digestInfo>
+		<signature>4F2A49D3F53D380CF3812A21F4CA61CA39920C4F5E7D16757C8BBC9C3EB9FCF3146EF9FCCF3E674B9792B764CC7486342760D42DC08C94BC9126B7601C7287BE98CAE6D1FFB9B2CBA28536C87D84B12B6F8913F6A373399CA7BA3AE507DCA8054575030D192DBC52CC28F54AFCCE7A0370C577548088709634B2B332EF429C10</signature>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 10 RSA: Sign, 512 bit key, Standard, 1 sec</actionname>
+	<actiontype>RSASignVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>AA36ABCE88ACFDFF55523C7FC4523F90EFA00DF3774A259F2E62B4C5D99CB5ADB300A0285E5301930E0C70FB6876939CE616CE624A11E0086D341EBCACA0A1F5</modulus>
+		<privateExponent>0A033748626487695F5F30BC38B98B44C2CD2DFF434098CD20D8A138D090BF64797C3FA7A2CDCB3CD1E0BDBA2654B4F9DF8E8AE59D733D9F33B301624AFD1D51</privateExponent>
+		<digestInfo>23</digestInfo>
+		<signature>242272B19E612D4E1B1702CBE2EE64945A4DC1F8EE3C84D1FDA317517DB723D84712A0FD13E898E578E979DFAEC3FCB7B3F0CEDC3B859E287AA2F3C22768B18D</signature>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 11 RSA: Sign, 512 bit key, Standard, 1 sec</actionname>
+	<actiontype>RSASignVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>A3079A90DF0DFD72AC090CCC2A78B87413133E40759C98FAF8204F358A0B263C6770E783A93B6971B73779D2717BE83477CF</modulus>
+		<privateExponent>6CAFBC6094B3FE4C72B0B332C6FB25A2B76229804E6865FCA45A74DF0F8FB8413B52C0D0E53D9B590FF19BE79F49DD21E5EB</privateExponent>
+		<digestInfo>23</digestInfo>
+		<signature>9D12DA842EE999C9EDE51E1C7130C2B61AAD5CEBD85C38F20345D0ABAEAAC651FB34B35C8D983CABC985CD0F29EAB1EEFD46</signature>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 12 RSA: Sign, 512 bit key, Standard, 1 sec</actionname>
+	<actiontype>RSASignVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>A3504534C29C59CA9A34CBB95A18D435FE66FBC7DECD572B91C80F72EE0786D4DD92F8B8416D54BDE12DF2E83F8DC9B1642980BD31852650A5A8F6D6D8C6A9BE965B34FE7659AC5DD372AB91277B2C9CEB797C4B4B5888E33C0D2CFBE9AAD53E158475ED88884D5DCC663AF5AAA62030E3799FAA1FA47AB2665208597F358497</modulus>
+		<privateExponent>85B3B3D4EBF6C0F443A7319A7F8E903DDC1747CE6C33C447E143DE9203199A632F3BA1F0877010CE9B49D8F21705E7B818FE796D6ADB4D70FD0F0577036631948DD21FFE77157AAF978857E4358DED82B58CC85F5EF70480FFD7BE0848DAFB983543B2E867F83155084D8541A14B5EA6CF5FCB651127B2C64383114F02A14CB1</privateExponent>
+		<digestInfo>23</digestInfo>
+		<signature>1938080C595F1C2278818BB3B6D9D400FBF6DD7FD6B1E5A1E568DAF69A1A538158F74866916C1A19386D09284F2478BAB8D6C932F2F5756596449FB55E72B103AB68D17592A3928AE46D2350673C8E9BD69F36E96090D30A02AB72E7F4C35D815D2DEE660B2C4098367815B5E10B9008FA701AFF9E1D2B756564064455FCE4A1</signature>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 13 RSA: Sign, 512 bit key, Standard, 1 sec</actionname>
+	<actiontype>RSASignVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>AA36ABCE88ACFDFF55523C7FC4523F90EFA00DF3774A259F2E62B4C5D99CB5ADB300A0285E5301930E0C70FB6876939CE616CE624A11E0086D341EBCACA0A1F5</modulus>
+		<privateExponent>0A033748626487695F5F30BC38B98B44C2CD2DFF434098CD20D8A138D090BF64797C3FA7A2CDCB3CD1E0BDBA2654B4F9DF8E8AE59D733D9F33B301624AFD1D51</privateExponent>
+		<digestInfo>6679F38482069906CDF1DF3FDDB537744676BA0DB8D682B6826F31B1D8230CCA4E392877053FAC5A13FF3A39352EAFB185E4D060F4</digestInfo>
+		<signature>07AE66D658801E68EF06A8F448DE504F5492457B2891F491AAB3C1DAFBE61F5ADB478E77A06F42F7985E2854A83980A70FA394AA955AF279D00215D778482997</signature>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 14 RSA: Sign, 512 bit key, Standard, 1 sec</actionname>
+	<actiontype>RSASignVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>A3079A90DF0DFD72AC090CCC2A78B87413133E40759C98FAF8204F358A0B263C6770E783A93B6971B73779D2717BE83477CF</modulus>
+		<privateExponent>6CAFBC6094B3FE4C72B0B332C6FB25A2B76229804E6865FCA45A74DF0F8FB8413B52C0D0E53D9B590FF19BE79F49DD21E5EB</privateExponent>
+		<digestInfo>CDA22C4B6A20000EADAD74BDB304BDC5727302119D6D3775665AF2E6476579807C92EC09F533EA</digestInfo>
+		<signature>7AA56CFBA701353E0402AAC8B71DF6E33DB3F7E2D1B96385D566FCAEF7243AB7170778FE4E6544C306003B393AB82F3AA4C3</signature>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 15 RSA: Sign, 512 bit key, Standard, 1 sec</actionname>
+	<actiontype>RSASignVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>A3504534C29C59CA9A34CBB95A18D435FE66FBC7DECD572B91C80F72EE0786D4DD92F8B8416D54BDE12DF2E83F8DC9B1642980BD31852650A5A8F6D6D8C6A9BE965B34FE7659AC5DD372AB91277B2C9CEB797C4B4B5888E33C0D2CFBE9AAD53E158475ED88884D5DCC663AF5AAA62030E3799FAA1FA47AB2665208597F358497</modulus>
+		<privateExponent>85B3B3D4EBF6C0F443A7319A7F8E903DDC1747CE6C33C447E143DE9203199A632F3BA1F0877010CE9B49D8F21705E7B818FE796D6ADB4D70FD0F0577036631948DD21FFE77157AAF978857E4358DED82B58CC85F5EF70480FFD7BE0848DAFB983543B2E867F83155084D8541A14B5EA6CF5FCB651127B2C64383114F02A14CB1</privateExponent>
+		<digestInfo>0E2561AF55EB9C10904FD427FD0D1DF438BD9ED0C71C480B50A1D3F1B4DBBA2D0081596E61433550F95F7020B247487F32F7E82E50C180454B5CF8456AA00F33F1EC9AB179F5CC921C3012B0557B490693A8305A68798A219AD76870F8A1F10A528575F92D26D31B37DCDC608777CB9757004FF181</digestInfo>
+		<signature>363E0A0A5672F9BAB4B4A8EE3F236C12B439D63B6B1893BC025E225AA1DF42C9A09951CFAC8B6AA8098502A347A2C5D8B9FE0D47F34E0848539D24D0B32B79669276597FE082AC24BE8DA961FA184739EF04915ACFDAA172197EED5EB7EB2999FA8B327AF4A9419E64D9D314D67770A006C99C97E90715540880661F9187860A</signature>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 2 RSA: Verify, e = 0x3 512 bit key, 1 sec</actionname>
+	<actiontype>RSAVerifyVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>A3079A90DF0DFD72AC090CCC2A78B87413133E40759C98FAF8204F358A0B263C6770E783A93B6971B73779D2717BE83477CF</modulus>
+		<publicExponent>03</publicExponent>
+		<digestInfo>23</digestInfo>
+		<signature>9D12DA842EE999C9EDE51E1C7130C2B61AAD5CEBD85C38F20345D0ABAEAAC651FB34B35C8D983CABC985CD0F29EAB1EEFD46</signature>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 3 RSA: Verify, e = 0x3 512 bit key, 1 sec</actionname>
+	<actiontype>RSAVerifyVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>A3079A90DF0DFD72AC090CCC2A78B87413133E40759C98FAF8204F358A0B263C6770E783A93B6971B73779D2717BE83477CF</modulus>
+		<publicExponent>03</publicExponent>
+		<digestInfo>CDA22C4B6A20000EADAD74BDB304BDC5727302119D6D3775665AF2E6476579807C92EC09F533EA</digestInfo>
+		<signature>7AA56CFBA701353E0402AAC8B71DF6E33DB3F7E2D1B96385D566FCAEF7243AB7170778FE4E6544C306003B393AB82F3AA4C3</signature>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 4 RSA: Verify, e = 0x3 512 bit key, 1 sec</actionname>
+	<actiontype>RSAVerifyVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>A3079A90DF0DFD72AC090CCC2A78B87413133E40759C98FAF8204F358A0B263C6770E783A93B6971B73779D2717BE83477CF</modulus>
+		<publicExponent>03</publicExponent>
+		<digestInfo>0B0A7CEB6C1745531DA724AD438BF74689C39F095E883ED88E04363849C00F41</digestInfo>
+		<signature>56CB9D7521600FAC739A7BA2F64C8833EFA9B631970F8C80AC56F5D06B48C9DE98BEBBAEAA71908BF4ECB3BD9CA074EFE491</signature>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 5 RSA: Verify, e = 0x3 512 bit key, 1 sec</actionname>
+	<actiontype>RSAVerifyVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>A3079A90DF0DFD72AC090CCC2A78B87413133E40759C98FAF8204F358A0B263C6770E783A93B6971B73779D2717BE83477CF</modulus>
+		<publicExponent>03</publicExponent>
+		<digestInfo>47AB927609FD75A7E20885EB7E4CFF0A</digestInfo>
+		<signature>301786087160F4EEB99B005A56457792FC9264E28549F2AC4C65982BC1AF797C09E3ACFABE703F5C72754BD58D0403D4433C</signature>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 6 RSA: Verify, e = 0x11 512 bit key, 1 sec</actionname>
+	<actiontype>RSAVerifyVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>AA36ABCE88ACFDFF55523C7FC4523F90EFA00DF3774A259F2E62B4C5D99CB5ADB300A0285E5301930E0C70FB6876939CE616CE624A11E0086D341EBCACA0A1F5</modulus>
+		<publicExponent>11</publicExponent>
+		<digestInfo>0B0A7CEB6C1745531DA724AD438BF74689C39F095E883ED88E04363849C00F41</digestInfo>
+		<signature>069D76426B5096CDFB1F37F4ABABFBD9C2786174D35F32A83250EB22600A493C742135F811122899A9D1060CBB4DE0DA41C8073B6DC1DC401DD2536A514EE966</signature>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 7 RSA: Verify, e = 0x11 512 bit key, 1 sec</actionname>
+	<actiontype>RSAVerifyVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>AA36ABCE88ACFDFF55523C7FC4523F90EFA00DF3774A259F2E62B4C5D99CB5ADB300A0285E5301930E0C70FB6876939CE616CE624A11E0086D341EBCACA0A1F5</modulus>
+		<publicExponent>11</publicExponent>
+		<digestInfo>54859B342C49EA2A</digestInfo>
+		<signature>786C08484F59280886A19919BECA53711819B2D2DD82D702E2F6DE991DC89CB968C01B1315A742B5BE783A781B5B1286F46DAFE29DE675C64A3BA4781DEF8F19</signature>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 8 RSA: Verify, e = 0x11 512 bit key, 1 sec</actionname>
+	<actiontype>RSAVerifyVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>AA36ABCE88ACFDFF55523C7FC4523F90EFA00DF3774A259F2E62B4C5D99CB5ADB300A0285E5301930E0C70FB6876939CE616CE624A11E0086D341EBCACA0A1F5</modulus>
+		<publicExponent>11</publicExponent>
+		<digestInfo>23</digestInfo>
+		<signature>242272B19E612D4E1B1702CBE2EE64945A4DC1F8EE3C84D1FDA317517DB723D84712A0FD13E898E578E979DFAEC3FCB7B3F0CEDC3B859E287AA2F3C22768B18D</signature>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 9 RSA: Verify, e = 0x11 512 bit key, 1 sec</actionname>
+	<actiontype>RSAVerifyVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>AA36ABCE88ACFDFF55523C7FC4523F90EFA00DF3774A259F2E62B4C5D99CB5ADB300A0285E5301930E0C70FB6876939CE616CE624A11E0086D341EBCACA0A1F5</modulus>
+		<publicExponent>11</publicExponent>
+		<digestInfo>6679F38482069906CDF1DF3FDDB537744676BA0DB8D682B6826F31B1D8230CCA4E392877053FAC5A13FF3A39352EAFB185E4D060F4</digestInfo>
+		<signature>07AE66D658801E68EF06A8F448DE504F5492457B2891F491AAB3C1DAFBE61F5ADB478E77A06F42F7985E2854A83980A70FA394AA955AF279D00215D778482997</signature>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 10 RSA: Verify, e = 0x10001 512 bit key, 1 sec</actionname>
+	<actiontype>RSAVerifyVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>A3504534C29C59CA9A34CBB95A18D435FE66FBC7DECD572B91C80F72EE0786D4DD92F8B8416D54BDE12DF2E83F8DC9B1642980BD31852650A5A8F6D6D8C6A9BE965B34FE7659AC5DD372AB91277B2C9CEB797C4B4B5888E33C0D2CFBE9AAD53E158475ED88884D5DCC663AF5AAA62030E3799FAA1FA47AB2665208597F358497</modulus>
+		<publicExponent>010001</publicExponent>
+		<digestInfo>23</digestInfo>
+		<signature>1938080C595F1C2278818BB3B6D9D400FBF6DD7FD6B1E5A1E568DAF69A1A538158F74866916C1A19386D09284F2478BAB8D6C932F2F5756596449FB55E72B103AB68D17592A3928AE46D2350673C8E9BD69F36E96090D30A02AB72E7F4C35D815D2DEE660B2C4098367815B5E10B9008FA701AFF9E1D2B756564064455FCE4A1</signature>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 11 RSA: Verify, e = 0x10001 512 bit key, 1 sec</actionname>
+	<actiontype>RSAVerifyVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>A3504534C29C59CA9A34CBB95A18D435FE66FBC7DECD572B91C80F72EE0786D4DD92F8B8416D54BDE12DF2E83F8DC9B1642980BD31852650A5A8F6D6D8C6A9BE965B34FE7659AC5DD372AB91277B2C9CEB797C4B4B5888E33C0D2CFBE9AAD53E158475ED88884D5DCC663AF5AAA62030E3799FAA1FA47AB2665208597F358497</modulus>
+		<publicExponent>010001</publicExponent>
+		<digestInfo>0E2561AF55EB9C10904FD427FD0D1DF438BD9ED0C71C480B50A1D3F1B4DBBA2D0081596E61433550F95F7020B247487F32F7E82E50C180454B5CF8456AA00F33F1EC9AB179F5CC921C3012B0557B490693A8305A68798A219AD76870F8A1F10A528575F92D26D31B37DCDC608777CB9757004FF181</digestInfo>
+		<signature>363E0A0A5672F9BAB4B4A8EE3F236C12B439D63B6B1893BC025E225AA1DF42C9A09951CFAC8B6AA8098502A347A2C5D8B9FE0D47F34E0848539D24D0B32B79669276597FE082AC24BE8DA961FA184739EF04915ACFDAA172197EED5EB7EB2999FA8B327AF4A9419E64D9D314D67770A006C99C97E90715540880661F9187860A</signature>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 12 RSA: Verify, e = 0x10001 512 bit key, 1 sec</actionname>
+	<actiontype>RSAVerifyVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>A3504534C29C59CA9A34CBB95A18D435FE66FBC7DECD572B91C80F72EE0786D4DD92F8B8416D54BDE12DF2E83F8DC9B1642980BD31852650A5A8F6D6D8C6A9BE965B34FE7659AC5DD372AB91277B2C9CEB797C4B4B5888E33C0D2CFBE9AAD53E158475ED88884D5DCC663AF5AAA62030E3799FAA1FA47AB2665208597F358497</modulus>
+		<publicExponent>010001</publicExponent>
+		<digestInfo>0B0A7CEB6C1745531DA724AD438BF74689C39F095E883ED88E04363849C00F41</digestInfo>
+		<signature>4F2A49D3F53D380CF3812A21F4CA61CA39920C4F5E7D16757C8BBC9C3EB9FCF3146EF9FCCF3E674B9792B764CC7486342760D42DC08C94BC9126B7601C7287BE98CAE6D1FFB9B2CBA28536C87D84B12B6F8913F6A373399CA7BA3AE507DCA8054575030D192DBC52CC28F54AFCCE7A0370C577548088709634B2B332EF429C10</signature>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 13 RSA: Verify, e = 0x10001 512 bit key, 1 sec</actionname>
+	<actiontype>RSAVerifyVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>A3504534C29C59CA9A34CBB95A18D435FE66FBC7DECD572B91C80F72EE0786D4DD92F8B8416D54BDE12DF2E83F8DC9B1642980BD31852650A5A8F6D6D8C6A9BE965B34FE7659AC5DD372AB91277B2C9CEB797C4B4B5888E33C0D2CFBE9AAD53E158475ED88884D5DCC663AF5AAA62030E3799FAA1FA47AB2665208597F358497</modulus>
+		<publicExponent>010001</publicExponent>
+		<digestInfo>47AB927609FD75A7E20885EB7E4CFF0A</digestInfo>
+		<signature>6B68F9744C7F6535B4AE3A09133FB573C73DECB13ABACB0D3E31CDECC206F5023A91F7634F46350EF06D840420CAEB8029DAC5DCFF1C1A0C7EB33D60E348FC079A4CF478DAB02BEFCA8242FE5CBF52BE39CAB47B16D61C77A1B36B52D371C846BA330A4B21B73C0E1D7D6732EFBA08B06AB4B4FB07E19D89A5B9398A8D093A40</signature>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+<action>
+	<actionname>Vector Test 14 RSA: Verify, e = 0x10001 512 bit key, 1 sec</actionname>
+	<actiontype>RSAVerifyVector</actiontype>
+	<actionbody>
+		<iterations>1</iterations>
+		<keybits>512</keybits>
+		<modulus>A3504534C29C59CA9A34CBB95A18D435FE66FBC7DECD572B91C80F72EE0786D4DD92F8B8416D54BDE12DF2E83F8DC9B1642980BD31852650A5A8F6D6D8C6A9BE965B34FE7659AC5DD372AB91277B2C9CEB797C4B4B5888E33C0D2CFBE9AAD53E158475ED88884D5DCC663AF5AAA62030E3799FAA1FA47AB2665208597F358497</modulus>
+		<publicExponent>010001</publicExponent>
+		<digestInfo>54859B342C49EA2A</digestInfo>
+		<signature>A2B1465F0B5271A8C700D60A0717C38A48ECB67CE2592ADAFC5C672F6AA21319477CFB3A407587F7A2BF004BB709273051F1D81DC3B5E7409DFEB0E2B8DEE9780FBD0045E999A2D9C8313887BF16E380533E8E505DB231C22DCC72A5AF4B92E5D7EB1F3F37E6763C2C650A9F641992ABD858AB40AAADDAB598F9A81C4C99E68D</signature>
+	</actionbody>
+	<actionresult>
+		<result>ETrue</result>
+	</actionresult>
+</action>
+

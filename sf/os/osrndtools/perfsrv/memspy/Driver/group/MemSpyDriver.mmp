@@ -1,0 +1,92 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+*
+*/
+
+#include <data_caging_paths.hrh>
+#include <platform_paths.hrh>
+#include "../../symbian_version.hrh"
+
+TARGET          memspydriver.ldd
+TARGETTYPE      ldd
+UID           	0x100000af  0x2002129B
+VENDORID        VID_DEFAULT
+SMPSAFE
+
+CAPABILITY      all
+
+SOURCEPATH      ../Kernel/Source
+
+SOURCE          MemSpyDriverEntryPoint.cpp
+SOURCE          MemSpyDriverDevice.cpp
+SOURCE          MemSpyDriverLogicalChannel.cpp
+
+SOURCE          MemSpyDriverSuspensionManager.cpp
+SOURCE          MemSpyDriverUserEventMonitor.cpp
+SOURCE          MemSpyDriverHeap.cpp
+SOURCE          MemSpyDriverHeapWalker.cpp
+SOURCE          MemSpyDriverUtils.cpp
+SOURCE          MemSpyDriverInspectedProcess.cpp
+SOURCE          MemSpyDriverInspectedProcessManager.cpp
+SOURCE          MemSpyDriverEventMonitor.cpp
+SOURCE          MemSpyDriverObjectIx.cpp
+SOURCE          MemSpyDriverStreamWriter.cpp
+SOURCE          MemSpyDriverXferBuffer.cpp
+source          MemSpyDriverOSAdaption.cpp
+
+SOURCEPATH      ../Kernel/Source/SubChannels
+SOURCE          MemSpyDriverLogChanBase.cpp
+SOURCE          MemSpyDriverLogChanChunks.cpp
+SOURCE          MemSpyDriverLogChanClientServer.cpp
+SOURCE          MemSpyDriverLogChanCodeSegs.cpp
+SOURCE          MemSpyDriverLogChanContainers.cpp
+SOURCE          MemSpyDriverLogChanContainerBase.cpp
+SOURCE          MemSpyDriverLogChanHeapBase.cpp
+SOURCE          MemSpyDriverLogChanHeapDataBase.cpp
+SOURCE          MemSpyDriverLogChanHeapDataUser.cpp
+SOURCE          MemSpyDriverLogChanHeapDataKernel.cpp 
+SOURCE          MemSpyDriverLogChanHeapWalkUser.cpp 
+SOURCE          MemSpyDriverLogChanMisc.cpp
+SOURCE          MemSpyDriverLogChanProcessInspection.cpp
+SOURCE          MemSpyDriverLogChanStack.cpp
+SOURCE          MemSpyDriverLogChanRawMemory.cpp
+SOURCE          MemSpyDriverLogChanUserEventMonitor.cpp
+SOURCE          MemSpyDriverLogChanThreadAndProcess.cpp
+
+
+USERINCLUDE     ../Shared
+USERINCLUDE     ../Kernel/Include
+USERINCLUDE     ../Kernel/Include/SubChannels
+
+// New Allocator support
+MACRO			STANDALONE_ALLOCHELPER
+SOURCEPATH      ../Shared
+SOURCE          heaputils.cpp
+
+OS_LAYER_KERNEL_SYSTEMINCLUDE
+
+START WINS
+            	win32_headers
+END
+
+MACRO           MCL_FIND_HANDLES
+
+#if (SYMBIAN_VERSION_SUPPORT >= SYMBIAN_3) || defined(BSW_FLEXIBLE_MEMORY_MODEL)
+MACRO       MCL_ROBJECTIX_DUPLICATION
+#else
+MACRO       MCL_DOBJECTIX_DUPLICATION
+#endif
+
+#include <kernel/kern_ext.mmh>

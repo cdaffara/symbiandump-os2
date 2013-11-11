@@ -1,0 +1,88 @@
+// Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// t_usb tests. 
+// Test Steps available
+// "StartUsb"				- Initiate Start of USB services
+// "WaitForUsb"				- Wait for the bus to re-enumerate
+// "StartCSY"				- Ask C32 to load the ACM CSY
+// "OpenDTE"				- Open the ACM comm port as a DTE
+// "OpenDCE"				- Open the ACM comm port as a DCE
+// "Read"				- Post a Read to the comm port
+// "Write"				- Post a Write to the comm port
+// "CancelRead"				- Cancel a pending Read
+// "CancelWrite" 			- Cancel a pending Write
+// "WaitForRead"			- Wait for a Read operation to complete
+// "WaitForWrite"			- Wait for a Write operation to complete
+// "ReadOneOrMore"			- Post a ReadOneOrMore to the comm port
+// "ClosePort"				- Close the ACM port
+// "CloseCommServer"			- Close the handle to C32
+// "CloseUsb"				- Close the handle to the USB server
+// "CloseAll"				- Close all handles (port, C32 and USB server)
+// "StopUsb"				- Stop USB services
+// "NotifySignalChange"			- Post a notify request for when signals change
+// "WaitForSignalChange"		- Wait for the signals to change
+// "WaitForReadCancel"			- Wait for a read operation to be cancelled completely
+// "ReadThenCancel"			- Post a read and then cancel it immediately
+// "NotifyConfigChange"			- Post a notify request for when the config changes
+// "NotifyBreak"			- Post a notify request for when a break occurs
+// "WaitForBreak"			- Wait for a break to occur 
+// "SetSignalsToMarkC"			- Set the signals to mark (Requires a configuration file)
+// "SetSignalsToSpaceC"			- Set the signals to space (Requires a configuration file) 
+// "CheckSignalsC"			- Check the signals match (Requires a configuration file)
+// "WaitForReadFailureC"		- Wait for read failure (Requires a configuration file)
+// "WaitForWriteFailureC"		- Wait for write failure (Requires a configuration file)
+// "OpenPortC"				- Open the ACM port configurable for role, mode and return value
+// "WaitForConfigChangeC"		- Wait for the configuration to change
+// 
+//
+
+LOAD_SUITE t_usb.dll
+
+////////////////////////////////////////
+// Test 3 - Check read fails gracefully
+// when the cable is unplugged
+////////////////////////////////////////
+
+PRINT Please remove USB cable
+PAUSE
+
+// Request the USB services are started
+RUN_TEST_STEP -1, t_usb, StartUsb
+
+PRINT Please insert USB cable
+
+// Wait for the bus to re-enumerate
+RUN_TEST_STEP -1, t_usb, WaitForUsb
+
+// Open the ACM comm port as DTE
+RUN_TEST_STEP -1, t_usb, OpenDTE
+
+// Post a read
+RUN_TEST_STEP -1, t_usb, Read
+
+PRINT Please remove USB cable
+
+// Check the read fails gracefully
+RUN_TEST_STEP -1, t_usb, WaitForReadFailureC, e:\t_usb3.ini
+
+// Close the port
+RUN_TEST_STEP -1, t_usb, ClosePort
+
+// Close the rest of the handles
+RUN_TEST_STEP -1, t_usb, CloseAll
+
+TEST_COMPLETE 3
+
+UNLOAD
+

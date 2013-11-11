@@ -1,0 +1,60 @@
+
+<!--
+* ==============================================================================
+*  Name        : libcrypto_topenssltreq_blr_winsspd_component.xml
+*  Part of     : topenssl
+*
+*  Description : xml for winsspd
+*  Version:   0.5
+*
+*  Copyright (C) 2006 Nokia Corporation.
+*  This material, including documentation and any related 
+*  computer programs, is protected by copyright controlled by 
+*  Nokia Corporation. All rights are reserved. Copying, 
+*  including reproducing, storing,  adapting or translating, any 
+*  or all of this material requires the prior written consent of 
+*  Nokia Corporation. This material also contains confidential 
+*  information which may not be disclosed to others without the 
+*  prior written consent of Nokia Corporation.
+*
+* ============================================================================
+-->
+<component>
+		<name>libcrypto_topenssltreq_blr_winsspd_component</name>
+		
+		<testset>
+				<id>libcrypto_topenssltreq_blr</id>
+				<priority>High</priority>
+		
+		<install type="binary">
+				<src>openssl.exe</src>
+				<dst>z:\sys\bin\openssl.exe</dst>
+		</install>
+		<install type="data">
+                		<src>testreq.pem</src>
+                		<dst>c:\testreq.pem </dst>
+    </install>
+    
+	
+   <install type="data">
+                		<src>treq.txt</src>
+                		<dst>c:\treq.txt</dst>
+    </install>
+    
+   <install type="data">
+                		<src>openssl.cnf</src>
+                		<dst>c:\openssl.cnf</dst>
+    </install>
+    		
+		<execute>
+				<file>Z:\sys\bin\openssl.exe</file>
+				<parameters>c:/treq.txt</parameters>
+        <result type="common">
+            <file>c:\spd_logs\xml\treq(3_50_2_6737).xml</file>
+        </result>
+        <timeout>600</timeout>
+		</execute>
+		
+		</testset>
+		
+</component>

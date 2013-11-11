@@ -1,0 +1,391 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+#ifndef __TPKCS12INTEGRATIONSERVER_IBY__
+#define __TPKCS12INTEGRATIONSERVER_IBY__
+
+#include <testexecute.iby>
+// conditionally included to avoid to be included in vasco image creation but needed in h4/h6 image creation
+#ifdef _SERIAL_DOWNLOAD
+#include <pkcs12.iby>
+#else
+// depends upon x509 certificate chains
+#include <certman.iby>
+// DEF139848 fix - Forward Propogation from Symtb9.1 - Illegal dependency from OCSP to HTTP.
+#include <ocsp.iby>
+file=ABI_DIR\BUILD_DIR\pkcs12.dll	System\Libs\pkcs12.dll
+#endif
+// Programs
+file=ABI_DIR\BUILD_DIR\tpkcs12libtest.exe			System\Libs\tpkcs12libtest.exe
+
+// Scripts
+//T_PKCS12_INTEGRATION_BEGIN	
+data=\epoc32\winscw\c\tpkcs12intg\data\tpkcs12lib.script  \tpkcs12intg\data\tpkcs12lib.script
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\im001.ini  \tpkcs12intg\data\ini\im001.ini
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\im002.ini  \tpkcs12intg\data\ini\im002.ini
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\pm001.ini  \tpkcs12intg\data\ini\pm001.ini
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\pm002.ini  \tpkcs12intg\data\ini\pm002.ini
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\pm003.ini  \tpkcs12intg\data\ini\pm003.ini 
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\pm004.ini   \tpkcs12intg\data\ini\pm004.ini
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\pm005.ini   \tpkcs12intg\data\ini\pm005.ini
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\pm006.ini   \tpkcs12intg\data\ini\pm006.ini 
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\pm007.ini   \tpkcs12intg\data\ini\pm007.ini 
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\pm008.ini   \tpkcs12intg\data\ini\pm008.ini 
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\pm009.ini   \tpkcs12intg\data\ini\pm009.ini 
+
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\pm010.ini  \tpkcs12intg\data\ini\pm010.ini
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\ci001.ini    \tpkcs12intg\data\ini\ci001.ini 
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\ci002.ini   \tpkcs12intg\data\ini\ci002.ini
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\sb001.ini   \tpkcs12intg\data\ini\sb001.ini
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\sb002.ini   \tpkcs12intg\data\ini\sb002.ini 
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\sb003.ini   \tpkcs12intg\data\ini\sb003.ini
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\cb001.ini   \tpkcs12intg\data\ini\cb001.ini 
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\cb002.ini   \tpkcs12intg\data\ini\cb002.ini 
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\cb003.ini	 \tpkcs12intg\data\ini\cb003.ini 
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\cb004.ini   \tpkcs12intg\data\ini\cb004.ini
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\cb005.ini   \tpkcs12intg\data\ini\cb005.ini 
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\cb006.ini   \tpkcs12intg\data\ini\cb006.ini
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\ct001.ini   \tpkcs12intg\data\ini\ct001.ini
+
+
+
+// Negative Tests
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\iv001.ini   \tpkcs12intg\data\ini\iv001.ini
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\changetag.ini				\tpkcs12intg\data\ini\changetag.ini		
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\attributevaluechanged.ini	\tpkcs12intg\data\ini\attributevaluechanged.ini	
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\corruptbagalgid.ini		\tpkcs12intg\data\ini\corruptbagalgid.ini	
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\corruptdigestalg_case1.ini	\tpkcs12intg\data\ini\corruptdigestalg_case1.ini	
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\corruptdigestalg_case2.ini \tpkcs12intg\data\ini\corruptdigestalg_case2.ini
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\corruptedalgid.ini			\tpkcs12intg\data\ini\corruptedalgid.ini		
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\corruptedshroudedval.ini	\tpkcs12intg\data\ini\corruptedshroudedval.ini	
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\corruptedversion.ini		\tpkcs12intg\data\ini\corruptedversion.ini	
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\digestcorrupted.ini		\tpkcs12intg\data\ini\digestcorrupted.ini	
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\emptycontentinfo.ini		\tpkcs12intg\data\ini\emptycontentinfo.ini	
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\emptydigest.ini			\tpkcs12intg\data\ini\emptydigest.ini		
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\encryptedcontentabsent.ini	\tpkcs12intg\data\ini\encryptedcontentabsent.ini	
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\encrypteddataabsent.ini	\tpkcs12intg\data\ini\encrypteddataabsent.ini	
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\contentinfotypeunsupported.ini				\tpkcs12intg\data\ini\contentinfotypeunsupported.ini	
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\corruptedencryptedconiteration_case1.ini	\tpkcs12intg\data\ini\corruptedencryptedconiteration_case1.ini	
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\corruptedencryptedconiteration_case2.ini	\tpkcs12intg\data\ini\corruptedencryptedconiteration_case2.ini	
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\corruptedencryptedcontent.ini				\tpkcs12intg\data\ini\corruptedencryptedcontent.ini	
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\corruptedencryptedconversion.ini			\tpkcs12intg\data\ini\corruptedencryptedconversion.ini	
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\corruptedshroudediteration_case1.ini		\tpkcs12intg\data\ini\corruptedshroudediteration_case1.ini	
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\corruptedshroudediteration_case2.ini		\tpkcs12intg\data\ini\corruptedshroudediteration_case2.ini	
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\encrypteddatasaltcorrupted.ini				\tpkcs12intg\data\ini\encrypteddatasaltcorrupted.ini	
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\encryptedusingdifferentalg.ini				\tpkcs12intg\data\ini\encryptedusingdifferentalg.ini	
+
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\authsafe_contentnotoctetstring.ini	\tpkcs12intg\data\ini\authsafe_contentnotoctetstring.ini	
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\authsafe_contentnotsequence.ini	\tpkcs12intg\data\ini\authsafe_contentnotsequence.ini	
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\authsafe_notasequence.ini			\tpkcs12intg\data\ini\authsafe_notasequence.ini			
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\authsafe_oidnotoctetstring.ini		\tpkcs12intg\data\ini\authsafe_oidnotoctetstring.ini		
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\digestalgorithmnotasequence.ini	\tpkcs12intg\data\ini\digestalgorithmnotasequence.ini	
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\macdata_iterationnotinteger.ini	\tpkcs12intg\data\ini\macdata_iterationnotinteger.ini	
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\macdata_negiteration.ini			\tpkcs12intg\data\ini\macdata_negiteration.ini			
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\macdata_nosalt_noiteration.ini		\tpkcs12intg\data\ini\macdata_nosalt_noiteration.ini		
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\macdatanotasequence.ini			\tpkcs12intg\data\ini\macdatanotasequence.ini			
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\macdataverifyintegritydigestalgnotsha1.ini	\tpkcs12intg\data\ini\macdataverifyintegritydigestalgnotsha1.ini	
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\macsaltnotasequence.ini					\tpkcs12intg\data\ini\macsaltnotasequence.ini			
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\pfx_missingcontents1.ini			\tpkcs12intg\data\ini\pfx_missingcontents1.ini			
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\pfx_notasequence.ini				\tpkcs12intg\data\ini\pfx_notasequence.ini				
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\version_notinteger.ini				\tpkcs12intg\data\ini\version_notinteger.ini				
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\digestinfonotasequence.ini			\tpkcs12intg\data\ini\digestinfonotasequence.ini			
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\unsupported_contenttype.ini		\tpkcs12intg\data\ini\unsupported_contenttype.ini		
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\certbag_notasequence.ini			\tpkcs12intg\data\ini\certbag_notasequence.ini			
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\certbag_oidnotoctetstring.ini		\tpkcs12intg\data\ini\certbag_oidnotoctetstring.ini		
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\certbag_explicittagchanged.ini		\tpkcs12intg\data\ini\certbag_explicittagchanged.ini		
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\certbag_notoctetstring.ini			\tpkcs12intg\data\ini\certbag_notoctetstring.ini			
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\bagattributenotaseq.ini			\tpkcs12intg\data\ini\bagattributenotaseq.ini			
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\bagattributeoid_notoctet.ini			\tpkcs12intg\data\ini\bagattributeoid_notoctet.ini			
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\bagattributeval_notset.ini			\tpkcs12intg\data\ini\bagattributeval_notset.ini			
+//OOMTest
+data=\epoc32\winscw\c\tpkcs12intg\data\ini\oomtest.ini	\tpkcs12intg\data\ini\oomtest.ini		
+
+//T_PKCS12_INTEGRATION_TESTDATA_BEGIN
+
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_im001.p12  \tpkcs12intg\data\pkcs12_im001.p12
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_im002.p12  \tpkcs12intg\data\pkcs12_im002.p12
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_pm001.p12  \tpkcs12intg\data\pkcs12_pm001.p12
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_pm002.p12     \tpkcs12intg\data\pkcs12_pm002.p12  
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_pm003.p12   \tpkcs12intg\data\pkcs12_pm003.p12 
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_pm004.p12   \tpkcs12intg\data\pkcs12_pm004.p12
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_pm005.p12    \tpkcs12intg\data\pkcs12_pm005.p12 
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_pm006.p12   \tpkcs12intg\data\pkcs12_pm006.p12
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_pm007.p12   \tpkcs12intg\data\pkcs12_pm007.p12
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_pm008.p12   \tpkcs12intg\data\pkcs12_pm008.p12
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_pm009.p12   \tpkcs12intg\data\pkcs12_pm009.p12
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_pm010.p12   \tpkcs12intg\data\pkcs12_pm010.p12
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_ci001.p12   \tpkcs12intg\data\pkcs12_ci001.p12
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_ci002.p12    \tpkcs12intg\data\pkcs12_ci002.p12 
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_sb001.p12   \tpkcs12intg\data\pkcs12_sb001.p12
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_sb002.p12    \tpkcs12intg\data\pkcs12_sb002.p12 
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_sb003.p12     \tpkcs12intg\data\pkcs12_sb003.p12  
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_cb001.p12   \tpkcs12intg\data\pkcs12_cb001.p12
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_cb002.p12    \tpkcs12intg\data\pkcs12_cb002.p12 
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_cb003.p12    \tpkcs12intg\data\pkcs12_cb003.p12 
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_cb004.p12   \tpkcs12intg\data\pkcs12_cb004.p12
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_cb005.p12     \tpkcs12intg\data\pkcs12_cb005.p12 
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_cb006.p12   \tpkcs12intg\data\pkcs12_cb006.p12
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_junk.p12   \tpkcs12intg\data\pkcs12_junk.p12
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_ct001.p12   \tpkcs12intg\data\pkcs12_ct001.p12
+
+
+// Negative Test
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_changetag.p12				\tpkcs12intg\data\pkcs12_changetag.p12		
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_contenttype.p12			\tpkcs12intg\data\pkcs12_contenttype.p12  		
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_corruptedattrval.p12		\tpkcs12intg\data\pkcs12_corruptedattrval.p12  	
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_corruptedSalt.p12			\tpkcs12intg\data\pkcs12_corruptedSalt.p12  	
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_corruptedshroudedval.p12	\tpkcs12intg\data\pkcs12_corruptedshroudedval.p12  
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_corruptedversion.p12		\tpkcs12intg\data\pkcs12_corruptedversion.p12  	
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_digestalg1.p12			\tpkcs12intg\data\pkcs12_digestalg1.p12  		
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_digestalg2.p12			\tpkcs12intg\data\pkcs12_digestalg2.p12  		
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_digestcorrupted.p12		\tpkcs12intg\data\pkcs12_digestcorrupted.p12  	
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_emptycontentinfo.p12		\tpkcs12intg\data\pkcs12_emptycontentinfo.p12  	
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_emptydigest.p12			\tpkcs12intg\data\pkcs12_emptydigest.p12  		
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_encrypteddataabsent.p12	\tpkcs12intg\data\pkcs12_encrypteddataabsent.p12	
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_unsupportedbag.p12		\tpkcs12intg\data\pkcs12_unsupportedbag.p12  	
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_unsupportedcontentinfo.p12		\tpkcs12intg\data\pkcs12_unsupportedcontentinfo.p12	
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_encryptedcontentabsent.p12		\tpkcs12intg\data\pkcs12_encryptedcontentabsent.p12	
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_attributevaluecorrupted.p12		\tpkcs12intg\data\pkcs12_attributevaluecorrupted.p12	
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_corruptedencryptedcontent.p12		\tpkcs12intg\data\pkcs12_corruptedencryptedcontent.p12  
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_corruptedshroudediteration1.p12	\tpkcs12intg\data\pkcs12_corruptedshroudediteration1.p12  
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_corruptedshroudediteration2.p12	\tpkcs12intg\data\pkcs12_corruptedshroudediteration2.p12  
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_encryptedcontentiteration1.p12	\tpkcs12intg\data\pkcs12_encryptedcontentiteration1.p12  
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_encryptedcontentiteration2.p12	\tpkcs12intg\data\pkcs12_encryptedcontentiteration2.p12  
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_encryptedcontentversion.p12		\tpkcs12intg\data\pkcs12_encryptedcontentversion.p12  
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_encryptedusingdifferentAlg.p12	\tpkcs12intg\data\pkcs12_encryptedusingdifferentAlg.p12  
+
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_authsafe_contentnotoctetstring.p12	\tpkcs12intg\data\pkcs12_authsafe_contentnotoctetstring.p12  	
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_authsafe_contentnotsequence.p12		\tpkcs12intg\data\pkcs12_authsafe_contentnotsequence.p12  	
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_authsafe_notasequence.p12				\tpkcs12intg\data\pkcs12_authsafe_notasequence.p12  	
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_authsafe_oidnotoctetstring.p12		\tpkcs12intg\data\pkcs12_authsafe_oidnotoctetstring.p12  	
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_certbag_explicittagchanged.p12		\tpkcs12intg\data\pkcs12_certbag_explicittagchanged.p12  	
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_certbag_notasequence.p12				\tpkcs12intg\data\pkcs12_certbag_notasequence.p12  	
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_certbag_notoctetstring.p12			\tpkcs12intg\data\pkcs12_certbag_notoctetstring.p12  	
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_certbag_oidnotoctetstring.p12			\tpkcs12intg\data\pkcs12_certbag_oidnotoctetstring.p12  	
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_digestalgnotsha1.p12					\tpkcs12intg\data\pkcs12_digestalgnotsha1.p12  	
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_digestalgorithmnotasequence.p12		\tpkcs12intg\data\pkcs12_digestalgorithmnotasequence.p12  	
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_digestinfonotasequence.p12			\tpkcs12intg\data\pkcs12_digestinfonotasequence.p12  	
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_macdata_iterationnotinteger.p12		\tpkcs12intg\data\pkcs12_macdata_iterationnotinteger.p12  	
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_macdata_negiteration.p12				\tpkcs12intg\data\pkcs12_macdata_negiteration.p12  	
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_macdata_nosalt_noiteration.p12		\tpkcs12intg\data\pkcs12_macdata_nosalt_noiteration.p12  	
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_macdatanotasequence.p12				\tpkcs12intg\data\pkcs12_macdatanotasequence.p12  	
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_macsaltnotoctetstring.p12				\tpkcs12intg\data\pkcs12_macsaltnotoctetstring.p12  	
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_pfx_missingcontents1.p12				\tpkcs12intg\data\pkcs12_pfx_missingcontents1.p12  	
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_pfx_notasequence.p12					\tpkcs12intg\data\pkcs12_pfx_notasequence.p12  	
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_unsupported_contenttype.p12			\tpkcs12intg\data\pkcs12_unsupported_contenttype.p12  	
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_version_notinteger.p12				\tpkcs12intg\data\pkcs12_version_notinteger.p12  	
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_bagattributenotaseq.p12				\tpkcs12intg\data\pkcs12_bagattributenotaseq.p12
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_bagattributeoid_notoctet.p12			\tpkcs12intg\data\pkcs12_bagattributeoid_notoctet.p12  	
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_bagattributeval_notset.p12			\tpkcs12intg\data\pkcs12_bagattributeval_notset.p12  	
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_digestalgnotsha1_mac.der				\tpkcs12intg\data\pkcs12_digestalgnotsha1_mac.der  	
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_digestalgnotsha1_salt.der				\tpkcs12intg\data\pkcs12_digestalgnotsha1_salt.der  	
+//OOM Test
+data=\epoc32\winscw\c\tpkcs12intg\data\oommacdata.der			\tpkcs12intg\data\oommacdata.der
+data=\epoc32\winscw\c\tpkcs12intg\data\oomauthsafedata.der	\tpkcs12intg\data\oomauthsafedata.der		
+data=\epoc32\winscw\c\tpkcs12intg\data\oomattributes.der		\tpkcs12intg\data\oomattributes.der		
+data=\epoc32\winscw\c\tpkcs12intg\data\oomshroudedkeybag.der	\tpkcs12intg\data\oomshroudedkeybag.der		
+data=\epoc32\winscw\c\tpkcs12intg\data\oomcertbag.der			\tpkcs12intg\data\oomcertbag.der
+data=\epoc32\winscw\c\tpkcs12intg\data\oomkeybag.der			\tpkcs12intg\data\oomkeybag.der		
+data=\epoc32\winscw\c\tpkcs12intg\data\oomsafecontentsbag.der	\tpkcs12intg\data\oomsafecontentsbag.der		
+data=\epoc32\winscw\c\tpkcs12intg\data\oomsafebag.der			\tpkcs12intg\data\oomsafebag.der			
+data=\epoc32\winscw\c\tpkcs12intg\data\oomcrlbag.der			\tpkcs12intg\data\oomcrlbag.der		
+data=\epoc32\winscw\c\tpkcs12intg\data\oomsecretbag.der		\tpkcs12intg\data\oomsecretbag.der		
+data=\epoc32\winscw\c\tpkcs12intg\data\pkcs12_oomsafecontentencrypteddata.p12	\tpkcs12intg\data\pkcs12_oomsafecontentencrypteddata.p12	
+//T_PKCS12_INTEGRATION_TESTDATA_END
+
+//T_PKCS12_CERT and KEYS
+
+data=\epoc32\winscw\c\tpkcs12intg\data\root5ca.der  \tpkcs12intg\data\root5ca.der
+data=\epoc32\winscw\c\tpkcs12intg\data\root5ca.pem  \tpkcs12intg\data\root5ca.pem
+
+data=\epoc32\winscw\c\tpkcs12intg\data\root5_ee.der  \tpkcs12intg\data\root5_ee.der
+data=\epoc32\winscw\c\tpkcs12intg\data\root5ca_key.der  \tpkcs12intg\data\root5ca_key.der
+data=\epoc32\winscw\c\tpkcs12intg\data\pm009_shrouded  \tpkcs12intg\data\pm009_shrouded
+
+
+data=\epoc32\winscw\c\tpkcs12intg\data\root5ca_key.pem  \tpkcs12intg\data\root5ca_key.pem
+data=\epoc32\winscw\c\tpkcs12intg\data\root5ca_key.pk8  \tpkcs12intg\data\root5ca_key.pk8 
+data=\epoc32\winscw\c\tpkcs12intg\data\symbiantestrootcadsa_key.pk8  \tpkcs12intg\data\symbiantestrootcadsa_key.pk8
+data=\epoc32\winscw\c\tpkcs12intg\data\ee_key.pk8  \tpkcs12intg\data\ee_key.pk8
+data=\epoc32\winscw\c\tpkcs12intg\data\safebag_shrouded_1.der  \tpkcs12intg\data\safebag_shrouded_1.der
+data=\epoc32\winscw\c\tpkcs12intg\data\safebag_shrouded_2.der  \tpkcs12intg\data\safebag_shrouded_2.der 
+data=\epoc32\winscw\c\tpkcs12intg\data\safebag_shrouded_3.der  \tpkcs12intg\data\safebag_shrouded_3.der 
+data=\epoc32\winscw\c\tpkcs12intg\data\safebag_shrouded_4.der  \tpkcs12intg\data\safebag_shrouded_4.der 
+data=\epoc32\winscw\c\tpkcs12intg\data\safebag_shrouded_5.der  \tpkcs12intg\data\safebag_shrouded_5.der 
+data=\epoc32\winscw\c\tpkcs12intg\data\safebag_shrouded_6.der  \tpkcs12intg\data\safebag_shrouded_6.der 
+data=\epoc32\winscw\c\tpkcs12intg\data\safebag_shrouded_7.der  \tpkcs12intg\data\safebag_shrouded_7.der 
+data=\epoc32\winscw\c\tpkcs12intg\data\safebag_shrouded_8.der  \tpkcs12intg\data\safebag_shrouded_8.der 
+data=\epoc32\winscw\c\tpkcs12intg\data\safebag_shrouded_10.der  \tpkcs12intg\data\safebag_shrouded_10.der 
+data=\epoc32\winscw\c\tpkcs12intg\data\safebag_shrouded_cb001.der  \tpkcs12intg\data\safebag_shrouded_cb001.der
+data=\epoc32\winscw\c\tpkcs12intg\data\safebag_shrouded_cb006_1.der  \tpkcs12intg\data\safebag_shrouded_cb006_1.der
+
+data=\epoc32\winscw\c\tpkcs12intg\data\localkeyid.der  \tpkcs12intg\data\localkeyid.der
+
+
+
+data=\epoc32\winscw\c\tpkcs12intg\data\friendlyname_ct001.der  \tpkcs12intg\data\friendlyname_ct001.der
+data=\epoc32\winscw\c\tpkcs12intg\data\localkeyid_ct001.der  \tpkcs12intg\data\localkeyid_ct001.der
+data=\epoc32\winscw\c\tpkcs12intg\data\sdsicert.der  \tpkcs12intg\data\sdsicert.der
+
+
+data=\epoc32\winscw\c\tpkcs12intg\data\friendlyname.der  \tpkcs12intg\data\friendlyname.der
+data=\epoc32\winscw\c\tpkcs12intg\data\localkeyid_cert.der   \tpkcs12intg\data\localkeyid_cert.der
+data=\epoc32\winscw\c\tpkcs12intg\data\localkeyid_im002.der   \tpkcs12intg\data\localkeyid_im002.der
+data=\epoc32\winscw\c\tpkcs12intg\data\friendlyname_im002.der  \tpkcs12intg\data\friendlyname_im002.der
+data=\epoc32\winscw\c\tpkcs12intg\data\localkeyid_shrouded.der    \tpkcs12intg\data\localkeyid_shrouded.der
+data=\epoc32\winscw\c\tpkcs12intg\data\safebag_shrouded_cb002_1.der \tpkcs12intg\data\safebag_shrouded_cb002_1.der
+data=\epoc32\winscw\c\tpkcs12intg\data\safebag_shrouded_cb002_2.der   \tpkcs12intg\data\safebag_shrouded_cb002_2.der
+data=\epoc32\winscw\c\tpkcs12intg\data\safebag_shrouded_cb003_1.der   \tpkcs12intg\data\safebag_shrouded_cb003_1.der
+
+data=\epoc32\winscw\c\tpkcs12intg\data\cb004_localkeyid_firstkey.der   \tpkcs12intg\data\cb004_localkeyid_firstkey.der
+data=\epoc32\winscw\c\tpkcs12intg\data\cb004_friendlyname_firstkey.der  \tpkcs12intg\data\cb004_friendlyname_firstkey.der
+data=\epoc32\winscw\c\tpkcs12intg\data\cb004_localkeyid_firstcert.der   \tpkcs12intg\data\cb004_localkeyid_firstcert.der
+data=\epoc32\winscw\c\tpkcs12intg\data\cb004_friendlyname_firstcert.der  \tpkcs12intg\data\cb004_friendlyname_firstcert.der
+data=\epoc32\winscw\c\tpkcs12intg\data\safebag_shrouded_cb004_1.der       \tpkcs12intg\data\safebag_shrouded_cb004_1.der
+data=\epoc32\winscw\c\tpkcs12intg\data\cb004_localkeyid_firstshrouded.der  \tpkcs12intg\data\cb004_localkeyid_firstshrouded.der
+data=\epoc32\winscw\c\tpkcs12intg\data\cb004_friendlyname_firstshrouded.der  \tpkcs12intg\data\cb004_friendlyname_firstshrouded.der
+
+data=\epoc32\winscw\c\tpkcs12intg\data\cb004_localkeyid_secondkey.der   \tpkcs12intg\data\cb004_localkeyid_secondkey.der
+data=\epoc32\winscw\c\tpkcs12intg\data\cb004_friendlyname_secondkey.der  \tpkcs12intg\data\cb004_friendlyname_secondkey.der
+data=\epoc32\winscw\c\tpkcs12intg\data\cb004_localkeyid_secondcert.der   \tpkcs12intg\data\cb004_localkeyid_secondcert.der
+data=\epoc32\winscw\c\tpkcs12intg\data\cb004_friendlyname_secondcert.der  \tpkcs12intg\data\cb004_friendlyname_secondcert.der
+data=\epoc32\winscw\c\tpkcs12intg\data\safebag_shrouded_cb004_2.der       \tpkcs12intg\data\safebag_shrouded_cb004_2.der
+data=\epoc32\winscw\c\tpkcs12intg\data\cb004_localkeyid_secondshrouded.der  \tpkcs12intg\data\cb004_localkeyid_secondshrouded.der
+data=\epoc32\winscw\c\tpkcs12intg\data\cb004_friendlyname_secondshrouded.der  \tpkcs12intg\data\cb004_friendlyname_secondshrouded.der
+
+data=\epoc32\winscw\c\tpkcs12intg\data\cb005_localkeyid_firstkey.der   \tpkcs12intg\data\cb005_localkeyid_firstkey.der
+data=\epoc32\winscw\c\tpkcs12intg\data\cb005_friendlyname_firstkey.der  \tpkcs12intg\data\cb005_friendlyname_firstkey.der
+data=\epoc32\winscw\c\tpkcs12intg\data\cb005_localkeyid_firstcertbag.der   \tpkcs12intg\data\cb005_localkeyid_firstcertbag.der
+data=\epoc32\winscw\c\tpkcs12intg\data\cb005_friendlyname_firstcertbag.der  \tpkcs12intg\data\cb005_friendlyname_firstcertbag.der
+data=\epoc32\winscw\c\tpkcs12intg\data\safebag_shrouded_cb005_1.der       \tpkcs12intg\data\safebag_shrouded_cb005_1.der
+data=\epoc32\winscw\c\tpkcs12intg\data\cb005_localkeyid_firstshrouded.der  \tpkcs12intg\data\cb005_localkeyid_firstshrouded.der
+data=\epoc32\winscw\c\tpkcs12intg\data\cb005_friendlyname_firstshrouded.der  \tpkcs12intg\data\cb005_friendlyname_firstshrouded.der
+
+data=\epoc32\winscw\c\tpkcs12intg\data\cb005_localkeyid_secondkey.der   \tpkcs12intg\data\cb005_localkeyid_secondkey.der
+data=\epoc32\winscw\c\tpkcs12intg\data\cb005_friendlyname_secondkey.der  \tpkcs12intg\data\cb005_friendlyname_secondkey.der
+data=\epoc32\winscw\c\tpkcs12intg\data\cb005_localkeyid_secondcert.der   \tpkcs12intg\data\cb005_localkeyid_secondcert.der
+data=\epoc32\winscw\c\tpkcs12intg\data\cb005_friendlyname_secondcert.der  \tpkcs12intg\data\cb005_friendlyname_secondcert.der
+data=\epoc32\winscw\c\tpkcs12intg\data\safebag_shrouded_cb005_2.der       \tpkcs12intg\data\safebag_shrouded_cb005_2.der
+data=\epoc32\winscw\c\tpkcs12intg\data\cb005_localkeyid_secondshrouded.der  \tpkcs12intg\data\cb005_localkeyid_secondshrouded.der
+data=\epoc32\winscw\c\tpkcs12intg\data\cb005_friendlyname_secondshrouded.der  \tpkcs12intg\data\cb005_friendlyname_secondshrouded.der
+
+
+data=\epoc32\winscw\c\tpkcs12intg\data\cb006_localkeyid_firstkey.der   \tpkcs12intg\data\cb006_localkeyid_firstkey.der
+data=\epoc32\winscw\c\tpkcs12intg\data\cb006_friendlyname_firstkey.der  \tpkcs12intg\data\cb006_friendlyname_firstkey.der
+data=\epoc32\winscw\c\tpkcs12intg\data\cb006_localkeyid_firstcert.der   \tpkcs12intg\data\cb006_localkeyid_firstcert.der
+data=\epoc32\winscw\c\tpkcs12intg\data\cb006_friendlyname_firstcert.der  \tpkcs12intg\data\cb006_friendlyname_firstcert.der
+data=\epoc32\winscw\c\tpkcs12intg\data\cb006_localkeyid_firstshrouded.der  \tpkcs12intg\data\cb006_localkeyid_firstshrouded.der
+data=\epoc32\winscw\c\tpkcs12intg\data\cb006_friendlyname_firstshrouded.der  \tpkcs12intg\data\cb006_friendlyname_firstshrouded.der
+
+
+
+
+
+data= \epoc32\winscw\c\tpkcs12intg\data\safebag_shrouded_pm001.der    \tpkcs12intg\data\safebag_shrouded_pm001.der
+data= \epoc32\winscw\c\tpkcs12intg\data\safebag_shrouded_pm002.der    \tpkcs12intg\data\safebag_shrouded_pm002.der
+data= \epoc32\winscw\c\tpkcs12intg\data\safebag_shrouded_pm003.der    \tpkcs12intg\data\safebag_shrouded_pm003.der
+data= \epoc32\winscw\c\tpkcs12intg\data\safebag_shrouded_pm004.der    \tpkcs12intg\data\safebag_shrouded_pm004.der
+data= \epoc32\winscw\c\tpkcs12intg\data\safebag_shrouded_pm005.der    \tpkcs12intg\data\safebag_shrouded_pm005.der
+data= \epoc32\winscw\c\tpkcs12intg\data\safebag_shrouded_pm006.der    \tpkcs12intg\data\safebag_shrouded_pm006.der
+data= \epoc32\winscw\c\tpkcs12intg\data\safebag_shrouded_pm007.der    \tpkcs12intg\data\safebag_shrouded_pm007.der
+data= \epoc32\winscw\c\tpkcs12intg\data\safebag_shrouded_pm008.der    \tpkcs12intg\data\safebag_shrouded_pm008.der
+
+data= \epoc32\winscw\c\tpkcs12intg\data\safebag_shrouded_pm010.der    \tpkcs12intg\data\safebag_shrouded_pm010.der
+
+data= \epoc32\winscw\c\tpkcs12intg\data\safebag.der    \tpkcs12intg\data\safebag.der
+
+// Negative Test
+data=\epoc32\winscw\c\tpkcs12intg\data\attrvalchangedfriendlyname	\tpkcs12intg\data\attrvalchangedfriendlyname	
+data=\epoc32\winscw\c\tpkcs12intg\data\attrvalchangedlocalkeyid	\tpkcs12intg\data\attrvalchangedlocalkeyid	
+data=\epoc32\winscw\c\tpkcs12intg\data\digestchangedmac.der		\tpkcs12intg\data\digestchangedmac.der		
+data=\epoc32\winscw\c\tpkcs12intg\data\digestchangedmacsalt.der 	\tpkcs12intg\data\digestchangedmacsalt.der	
+
+
+data=\epoc32\winscw\c\tpkcs12intg\data\cb001_mac   \tpkcs12intg\data\cb001_mac
+data= \epoc32\winscw\c\tpkcs12intg\data\cb001_macsalt  \tpkcs12intg\data\cb001_macsalt
+
+data=\epoc32\winscw\c\tpkcs12intg\data\cb002_mac   \tpkcs12intg\data\cb002_mac
+data= \epoc32\winscw\c\tpkcs12intg\data\cb002_macsalt  \tpkcs12intg\data\cb002_macsalt
+
+data=\epoc32\winscw\c\tpkcs12intg\data\cb003_mac   \tpkcs12intg\data\cb003_mac
+data= \epoc32\winscw\c\tpkcs12intg\data\cb003_macsalt  \tpkcs12intg\data\cb003_macsalt
+
+data=\epoc32\winscw\c\tpkcs12intg\data\cb004_mac   \tpkcs12intg\data\cb004_mac
+data= \epoc32\winscw\c\tpkcs12intg\data\cb004_macsalt  \tpkcs12intg\data\cb004_macsalt
+
+data=\epoc32\winscw\c\tpkcs12intg\data\cb005_mac   \tpkcs12intg\data\cb005_mac
+data= \epoc32\winscw\c\tpkcs12intg\data\cb005_macsalt  \tpkcs12intg\data\cb005_macsalt
+
+data=\epoc32\winscw\c\tpkcs12intg\data\cb006_mac   \tpkcs12intg\data\cb006_mac
+data= \epoc32\winscw\c\tpkcs12intg\data\cb006_macsalt  \tpkcs12intg\data\cb006_macsalt
+
+data=\epoc32\winscw\c\tpkcs12intg\data\im001_mac   \tpkcs12intg\data\im001_mac
+data= \epoc32\winscw\c\tpkcs12intg\data\im001_macsalt  \tpkcs12intg\data\im001_macsalt
+
+data=\epoc32\winscw\c\tpkcs12intg\data\im002_mac   \tpkcs12intg\data\im002_mac
+data= \epoc32\winscw\c\tpkcs12intg\data\im002_macsalt  \tpkcs12intg\data\im002_macsalt
+
+data=\epoc32\winscw\c\tpkcs12intg\data\pm001_mac   \tpkcs12intg\data\pm001_mac
+data= \epoc32\winscw\c\tpkcs12intg\data\pm001_macsalt  \tpkcs12intg\data\pm001_macsalt
+
+data=\epoc32\winscw\c\tpkcs12intg\data\pm003_mac   \tpkcs12intg\data\pm003_mac
+data= \epoc32\winscw\c\tpkcs12intg\data\pm003_macsalt  \tpkcs12intg\data\pm003_macsalt
+
+data=\epoc32\winscw\c\tpkcs12intg\data\pm002_mac   \tpkcs12intg\data\pm002_mac
+data= \epoc32\winscw\c\tpkcs12intg\data\pm002_macsalt  \tpkcs12intg\data\pm002_macsalt
+
+data=\epoc32\winscw\c\tpkcs12intg\data\pm004_mac   \tpkcs12intg\data\pm004_mac
+data= \epoc32\winscw\c\tpkcs12intg\data\pm004_macsalt  \tpkcs12intg\data\pm004_macsalt
+
+data=\epoc32\winscw\c\tpkcs12intg\data\pm005_mac   \tpkcs12intg\data\pm005_mac
+data= \epoc32\winscw\c\tpkcs12intg\data\pm005_macsalt  \tpkcs12intg\data\pm005_macsalt
+
+data=\epoc32\winscw\c\tpkcs12intg\data\pm006_mac   \tpkcs12intg\data\pm006_mac
+data= \epoc32\winscw\c\tpkcs12intg\data\pm006_macsalt  \tpkcs12intg\data\pm006_macsalt
+
+data=\epoc32\winscw\c\tpkcs12intg\data\pm007_mac   \tpkcs12intg\data\pm007_mac
+data= \epoc32\winscw\c\tpkcs12intg\data\pm007_macsalt  \tpkcs12intg\data\pm007_macsalt
+
+data=\epoc32\winscw\c\tpkcs12intg\data\pm008_mac   \tpkcs12intg\data\pm008_mac
+data= \epoc32\winscw\c\tpkcs12intg\data\pm008_macsalt  \tpkcs12intg\data\pm008_macsalt
+
+data=\epoc32\winscw\c\tpkcs12intg\data\pm010_mac   \tpkcs12intg\data\pm010_mac
+data= \epoc32\winscw\c\tpkcs12intg\data\pm010_macsalt  \tpkcs12intg\data\pm010_macsalt
+
+data=\epoc32\winscw\c\tpkcs12intg\data\sb001_mac   \tpkcs12intg\data\sb001_mac
+data= \epoc32\winscw\c\tpkcs12intg\data\sb001_macsalt  \tpkcs12intg\data\sb001_macsalt
+
+data=\epoc32\winscw\c\tpkcs12intg\data\sb002_mac   \tpkcs12intg\data\sb002_mac
+data= \epoc32\winscw\c\tpkcs12intg\data\sb002_macsalt  \tpkcs12intg\data\sb002_macsalt
+
+data=\epoc32\winscw\c\tpkcs12intg\data\sb003_mac   \tpkcs12intg\data\sb003_mac
+data= \epoc32\winscw\c\tpkcs12intg\data\sb003_macsalt  \tpkcs12intg\data\sb003_macsalt
+
+data=\epoc32\winscw\c\tpkcs12intg\data\ci001_mac   \tpkcs12intg\data\ci001_mac
+data= \epoc32\winscw\c\tpkcs12intg\data\ci001_macsalt  \tpkcs12intg\data\ci001_macsalt
+
+data=\epoc32\winscw\c\tpkcs12intg\data\ci002_mac   \tpkcs12intg\data\ci002_mac
+data= \epoc32\winscw\c\tpkcs12intg\data\ci002_macsalt  \tpkcs12intg\data\ci002_macsalt
+
+data=\epoc32\winscw\c\tpkcs12intg\data\ct001_mac   \tpkcs12intg\data\ct001_mac
+data= \epoc32\winscw\c\tpkcs12intg\data\ct001_macsalt  \tpkcs12intg\data\ct001_macsalt
+
+
+
+//T_PKCS12_INTEGRATION_END
+
+#endif

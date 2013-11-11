@@ -1,0 +1,131 @@
+/*
+* Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* Te_CryptoSpi.mmp
+*
+*/
+
+
+TARGET      te_cryptospi.exe
+TARGETTYPE  exe
+UID         0x1000007A 0x101F7784
+
+//Please add any change under here
+SOURCEPATH      ../test/tcryptospi/src
+SOURCE          te_cryptospiserver.cpp
+SOURCE          te_cryptospistepbase.cpp
+SOURCE          te_cryptospiconversion.cpp
+SOURCE          filereader.cpp
+SOURCE          filewriter.cpp
+SOURCE          filecompare.cpp
+SOURCE			plugincharschecker.cpp
+
+SOURCE			symmetriccipherstepbase.cpp
+SOURCE          symmetriccipherpositiveobjectloadstep.cpp
+SOURCE          symmetriccipherincrementalencryptdecryptstep.cpp
+SOURCE          symmetriccipherencryptdecryptstep.cpp
+SOURCE          symmetriccipherencrypteddatacheckstep.cpp
+SOURCE          symmetriccipherobjectreusestep.cpp
+SOURCE			symmetriccipherprocessbeforeivsetstep.cpp
+SOURCE			symmetriccipherbadivlengthstep.cpp
+SOURCE			symmetriccipherctrmodeoutoforderstep.cpp
+
+SOURCE          asymmetriccipherpositiveobjectloadstep.cpp
+SOURCE          asymmetriccipherencrypteddatacheckstep.cpp
+SOURCE          asymmetriccipherencryptdecryptstep.cpp
+
+SOURCE          hashpositiveobjectloadstep.cpp
+SOURCE          hashbasichashofdatastep.cpp
+SOURCE          hashincrementalhashstep.cpp
+SOURCE          hashincrementalhashwithcopystep.cpp
+SOURCE          hashincrementalhashwithreplicatestep.cpp
+SOURCE          hashincrementalhashwithresetstep.cpp
+
+SOURCE          hmacpositiveobjectloadstep.cpp
+SOURCE          hmacbasichashofdatastep.cpp
+SOURCE          hmacincrementalhmacstep.cpp
+SOURCE          hmacincrementalhmacwithcopystep.cpp
+SOURCE          hmacincrementalhmacwithreplicatestep.cpp
+SOURCE          hmacincrementalhmacwithresetstep.cpp
+SOURCE          hmacsetkeycheckingstep.cpp
+SOURCE          hmacsetoperationmodecheckingstep.cpp
+
+SOURCE          randomnumbergeneratorgeneralusagestep.cpp
+
+SOURCE          KeyExchangeSyncStep.cpp
+SOURCE          keypairgeneratorpositiveobjectloadstep.cpp
+SOURCE          signerpositiveobjectloadstep.cpp
+SOURCE          verifierpositiveobjectloadstep.cpp
+SOURCE          signerverifierstep.cpp
+
+SOURCE			pluginloadstep.cpp
+
+SOURCE          plugincharscommonstep.cpp
+SOURCE          plugincharssymmetriccipherstep.cpp
+SOURCE          plugincharsasymmetriccipherstep.cpp
+SOURCE			plugincharshashstep.cpp
+SOURCE			plugincharsrandomstep.cpp
+SOURCE			plugincharsasymsignstep.cpp
+SOURCE			plugincharskeyagreestep.cpp
+SOURCE			plugincharsasymkeypairstep.cpp
+SOURCE			plugincharsextendedstep.cpp
+SOURCE 			ruleselectcommonstep.cpp
+
+#ifdef SYMBIAN_SDP_IPSEC_VOIP_SUPPORT
+SOURCE			mac_incremental_reset_step.cpp 
+SOURCE			mac_incremental_step.cpp 
+SOURCE			mac_positive_object_load_step.cpp 
+SOURCE			mac_basic_data_step.cpp 
+SOURCE			plugincharsmacstep.cpp 
+SOURCE			symmetric_mac_basic_data_step.cpp 
+SOURCE			symmetric_mac_incremental_reset_step.cpp 
+SOURCE			symmetric_mac_incremental_step.cpp 
+SOURCE			symmetric_mac_incremental_re_init_step.cpp 
+SOURCE			hash_basic_data_step.cpp 
+SOURCE			hash_incremental_step.cpp 
+SOURCE			hash_incremental_with_copy_step.cpp 
+SOURCE			hash_incremental_with_replicate_step.cpp 
+SOURCE			hash_incremental_with_reset_step.cpp 
+SOURCE			hash_positive_object_load_step.cpp 
+SOURCE			plugin_chars_new_hash_step.cpp 
+SOURCE			mac_incremental_with_copy_step.cpp 
+SOURCE			mac_incremental_with_replicate_step.cpp 
+SOURCE			symmetric_mac_incremental_with_replicate_step.cpp 
+SOURCE			symmetric_mac_incremental_with_copy_step.cpp
+#endif
+
+#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
+SOURCE			dummyecccipherloadstep.cpp
+SOURCE			dummyeccsignerloadstep.cpp
+#endif
+
+USERINCLUDE     ..
+USERINCLUDE     ../test/tcryptospi/src
+USERINCLUDE ../../../cryptomgmtlibs/securityutils/inc
+
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+// Please add your system include under here
+
+LIBRARY         euser.lib
+LIBRARY         testexecuteutils.lib
+LIBRARY         testexecutelogclient.lib
+
+// Please add your libraries under here
+LIBRARY         estlib.lib
+LIBRARY         cryptospi.lib
+LIBRARY         cryptography.lib
+LIBRARY         efsrv.lib
+SMPSAFE

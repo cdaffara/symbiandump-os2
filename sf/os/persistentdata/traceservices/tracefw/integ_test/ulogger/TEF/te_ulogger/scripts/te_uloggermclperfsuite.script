@@ -1,0 +1,69 @@
+// Copyright (c) 2008-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+
+//! @file
+//! @SYMTestSuiteName               	utfv1-api-uloggerv1-performance-test-suite.script
+//! @SYMScriptTestEnvironment       	TEF
+
+
+
+LOAD_SUITE te_uloggermclsuite
+
+PRINT API_Performance_Tests
+
+START_TESTCASE			DT-DEBUG-TRACE-UTFv1-ULoggerMCLUserPerf-0001
+//! @SYMTestCaseID		DT-DEBUG-TRACE-UTFv1-ULoggerMCLUserPerf-0001
+//! @SYMTestCaseDesc     Run performance test for UTFv1 API+ULoggerv1, with user-side trace 
+//! @SYMTestPriority     Critical
+//! @SYMTestActions    Calculate the cached  and non-cached times taken for user side trace APIs, outputting to file and serial plugins.
+//! @SYMTestExpectedResults     Verify that there has not been any significant change in the performance figures from previous runs.
+//! @SYMTestType         CT
+//! @SYMTestStatus   Implemented
+//! @SYMPREQ                 PREQ1635
+//! @SYMREQ  
+RUN_TEST_STEP 1000000 te_uloggermclsuite ULoggerMCLUserPerfStep 
+END_TESTCASE			DT-DEBUG-TRACE-UTFv1-ULoggerMCLUserPerf-0001
+
+
+PREFIX RUN_UTILS
+CopyFile c:\light_log.txt c:\logs\User_light_log.txt
+DeleteFile c:\light_log.txt
+CopyFile e:\light_log.txt e:\logs\User_light_log.txt
+DeleteFile e:\light_log.txt
+REMOVE_PREFIX
+
+
+START_TESTCASE			DT-DEBUG-TRACE-UTFv1-ULoggerMCLKernelPerf-0001
+//! @SYMTestCaseID		DT-DEBUG-TRACE-UTFv1-ULoggerMCLKernelPerf-0001
+//! @SYMTestCaseDesc     Run performance test for UTFv1 API+ULoggerv1, with kernel-side trace 
+//! @SYMTestPriority     Critical
+//! @SYMTestActions    Calculate the cached  and non-cached times taken for kernel side trace APIs, outputting to file and serial plugins.
+//! @SYMTestExpectedResults     Verify that there has not been any significant change in the performance figures from previous runs.
+//! @SYMTestType         CT
+//! @SYMTestStatus   Implemented
+//! @SYMPREQ                 PREQ1635
+//! @SYMREQ  
+RUN_TEST_STEP 1000000 te_uloggermclsuite ULoggerMCLKernelPerfStep
+END_TESTCASE			DT-DEBUG-TRACE-UTFv1-ULoggerMCLKernelPerf-0001
+
+PREFIX RUN_UTILS
+CopyFile c:\light_log.txt c:\logs\Kernel_light_log.txt
+DeleteFile c:\light_log.txt
+CopyFile e:\light_log.txt e:\logs\Kernel_light_log.txt
+DeleteFile e:\light_log.txt
+REMOVE_PREFIX
+
+PRINT Complete_API_Performance_Tests

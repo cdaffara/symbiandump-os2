@@ -1,0 +1,77 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). All rights reserved.
+
+* Redistribution and use in source and binary forms, with or without 
+* modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this 
+* list of conditions and the following disclaimer.
+* Redistributions in binary form must reproduce the above copyright notice, 
+* this list of conditions and the following disclaimer in the documentation 
+* and/or other materials provided with the distribution.
+* Neither the name of Nokia Corporation nor the names of its contributors 
+* may be used to endorse or promote products derived from this software 
+* without specific prior written permission.
+
+* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+* AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+* IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+* DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE 
+* FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+* DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
+* SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+* CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, 
+* OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
+* OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*
+* Description:  
+*
+*/
+
+
+
+PRJ_PLATFORMS
+// specify the platforms your component needs to be built for here
+// defaults to WINS MARM so you can ignore this if you just build these
+DEFAULT
+
+PRJ_TESTEXPORTS
+// NOTE: If using ARS requirements all export operations should be done under this.
+// 'abld test export'
+
+PRJ_EXPORTS
+// Specify the source file followed by its destination here
+// copy will be used to copy the source file to its destination
+// If there's no destination then the source file will be copied
+// to the same name in /epoc32/include
+// Example: 
+/*
+/agnmodel/inc/AGMCOMON.H
+*/
+
+../data/ca_cert.der	/epoc32/winscw/c/ca_cert.der
+../data/ca_cert.pem	/epoc32/winscw/c/ca_cert.pem
+../data/server.pem	/epoc32/winscw/c/server.pem
+../data/server2.pem	/epoc32/winscw/c/server2.pem
+
+PRJ_TESTMMPFILES
+// NOTE: If using ARS requirements .mmp file operation should be done under this.
+// 'abld test build'
+
+PRJ_MMPFILES
+// Specify the .mmp files required for building the important component
+// releasables.
+//
+// Specify "tidy" if the component you need to build doesn't need to be
+// released. Specify "ignore" if the MMP file exists but should be
+// ignored.
+// Example:
+/*
+/agnmodel/group/agnmodel.mmp
+#if defined(MARM)
+/agnmodel/group/agsvexe.mmp
+#endif
+*/
+ssl_test.mmp
+
+//  End of File

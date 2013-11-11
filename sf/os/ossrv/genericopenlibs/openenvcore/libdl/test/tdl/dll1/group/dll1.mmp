@@ -1,0 +1,55 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// Name        : DLL1.mmp
+// Part of     : DLL1 library
+// MMP for the test dll
+// Version	   : 1.0
+// This material, including documentation and any related 
+// computer programs, is protected by copyright controlled by 
+// Nokia Corporation. All rights are reserved. Copying, 
+// including reproducing, storing,  adapting or translating, any 
+// or all of this material requires the prior written consent of 
+// Nokia Corporation. This material also contains confidential 
+// information which may not be disclosed to others without the 
+// prior written consent of Nokia Corporation.
+//
+
+
+
+TARGET        dll1.dll
+TARGETTYPE    dll
+UID           0x1000008d 0x068C3924
+
+CAPABILITY	  AllFiles
+VENDORID      0x70000001
+
+#ifndef WINSCW
+EPOCALLOWDLLDATA
+#endif
+
+DEFFILE			dll1.def
+
+SOURCEPATH    ..\src
+SOURCE        dll1.cpp
+
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_LIBC_SYSTEMINCLUDE
+
+LIBRARY       euser.lib libdl.lib
+
+nostrictdef
+
+
+SMPSAFE

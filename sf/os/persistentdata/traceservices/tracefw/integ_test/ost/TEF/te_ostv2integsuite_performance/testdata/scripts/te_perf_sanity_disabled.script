@@ -1,0 +1,39 @@
+// Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+//! @file
+//! @SYMTestSuiteName           te_perf_sanity_disabled.script
+//! @SYMScriptTestEnvironment   TEF
+
+
+PRINT UPT_Tests_disabled
+
+LOAD_SUITE te_ostv2integsuite_disabled
+
+START_TESTCASE                  DT-UTF-TraceControlUPTPerfDisabled-0002
+//! @SYMTestCaseID              DT-UTF-TraceControlUPTPerfDisabled-0002
+    START_TEST_BLOCK    10000   te_ostv2integsuite_disabled             \testdata\configs\te_perf_default.ini
+        CREATE_OBJECT           TCMPerformance                          TCMPerformance
+        COMMAND                 TCMPerformance                          doTest                                            TESTONE
+    END_TEST_BLOCK 
+END_TESTCASE                    DT-UTF-TraceControlUPTPerfDisabled-0002
+
+
+PREFIX RUN_UTILS
+CopyFile c:\light_log.txt c:\logs\disabled_light_log.txt
+DeleteFile c:\light_log.txt
+CopyFile e:\light_log.txt e:\logs\disabled_light_log.txt
+DeleteFile e:\light_log.txt
+REMOVE_PREFIX

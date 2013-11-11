@@ -1,0 +1,91 @@
+/*
+* Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+	TARGETPATH		/sys/bin
+		TARGET			word.exe
+		TARGETTYPE 		exe
+		EPOCSTACKSIZE 	0x5000
+
+UID 0x100039CE 0x10003A64
+VENDORID 0x70000001
+
+SOURCEPATH	../SRC
+SOURCE  WPAPFILE.CPP WPAPPTBR.CPP WPAPPUI.CPP WPAPPUT.CPP WPDIALGS.CPP WPDOC.CPP WPLBOX.CPP WPMAIN.CPP 
+SOURCE  WPSTYLE.CPP WPTEXTED.CPP WPOUTLNE.CPP wpresources.cpp 
+SOURCE  WNGDOOR.CPP WNGMAIN.CPP WNGMODEL.CPP 
+SOURCE WPTEST.CPP
+SOURCE WPTESTPICTURE.CPP
+
+SOURCEPATH	.
+
+
+	START RESOURCE          word.rss
+DEPENDS eikfile.rsg
+DEPENDS eikprint.rsg
+	HEADER
+	TARGETPATH              /resource/apps
+	LANG                    SC
+	END
+
+	START RESOURCE			Word_reg.rss
+	TARGETPATH				/private/10003a3f/apps
+	END
+
+    START BITMAP word.mbm
+    HEADER
+    SOURCEPATH ../cdata
+	TARGETPATH /resource/apps
+    SOURCE c8 BORDERF.BMP
+    SOURCE 2 BORDERFM.BMP
+    SOURCE c8 BORDERN.BMP
+    SOURCE 2 BORDERNM.BMP
+    SOURCE c8 FULLSBRD.BMP TOPSBRD.BMP BTMSBRD.BMP HORIZSBD.BMP FULLDBRD.BMP TOPDBRD.BMP BTMDBRD.BMP NULLBRD.BMP OPENFDR.BMP CLSDFDR.BMP
+    END
+
+    START BITMAP wordicon.mbm
+    HEADER
+    SOURCEPATH	../caif
+	TARGETPATH /resource/apps
+    SOURCE c8 WORD12.BMP 
+    SOURCE c8 WORD1M.BMP 
+    SOURCE c8 WORD24.BMP 
+    SOURCE c8 WORD2M.BMP 
+    SOURCE c8 WORD32.BMP 
+    SOURCE c8 WORD3M.BMP 
+    SOURCE c8 WORD48.BMP 
+    SOURCE c8 WORD4M.BMP 
+    SOURCE c8 WORD9.BMP 
+    SOURCE c8 WORD9M.BMP
+    END
+
+
+USERINCLUDE ../group
+USERINCLUDE ../SRC
+USERINCLUDE ../../textformatting/inc
+APP_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+LIBRARY euser.lib ws32.lib gdi.lib fbscli.lib estor.lib bafl.lib cone.lib etext.lib
+LIBRARY print.lib form.lib apparc.lib efsrv.lib
+LIBRARY eikcdlg.lib eikcoctl.lib eikcore.lib eikctl.lib	eikdlg.lib eikfile.lib
+LIBRARY eikprint.lib egul.lib
+LIBRARY tagma.lib form_and_etext_editor.lib undo.lib
+LIBRARY conarc.lib
+
+capability		SwEvent WriteDeviceData
+
+SMPSAFE

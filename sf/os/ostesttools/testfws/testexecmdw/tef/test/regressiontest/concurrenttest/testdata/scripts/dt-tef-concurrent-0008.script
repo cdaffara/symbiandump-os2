@@ -1,0 +1,57 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SUITE	Te_RegConcurrentTestSuite1
+LOAD_SUITE	Te_RegConcurrentTestSuite2
+LOAD_SUITE	Te_RegConcurrentTestSuite3 -SharedData
+PRINT
+
+START_TESTCASE DT-TEF-Concurrent-0008
+//! @SYMTestCaseID          DT-TEF-Concurrent-0008
+//! @SYMCreationDate        03-09-2008
+//! @SYMAuthor              extjasonzhou
+//! @SYMTestType            CT
+//! @SYMTestPriority        Medium
+//! @SYMTestCaseDesc        Test Concurrent functionalities of TEF steps with 3 servers which two of them not shared data and the other one shared data.
+//! @SYMTestExpectedResults Test cases should all passed with the expected behavior.
+//!                         The steps inside concurrent block should be executed simultaneously while others are not.
+//! @SYMTestActions         1. Load 3 servers which two of them shared data and the other not shared data.
+//!                         2. Run some steps in a test case.
+//!                         3. Call CONCURRENT in the same test case.
+//!                         4. Run some more steps in the same test case (of the non-shared data servers).
+//!                         5. Call CONSECUTIVE in the same test case.
+	RUN_TEST_STEP 100 Te_RegConcurrentTestSuite1 Te_RegWaitStep ${SYSDRIVE}\testdata\configs\te_regconcurrenttestsuite.ini WaitStep0
+	RUN_TEST_STEP 100 Te_RegConcurrentTestSuite1 Te_RegLoopStep ${SYSDRIVE}\testdata\configs\te_regconcurrenttestsuite.ini LoopStep0
+	RUN_TEST_STEP 100 Te_RegConcurrentTestSuite1 Te_RegAccessStaticVarStep ${SYSDRIVE}\testdata\configs\te_regconcurrenttestsuite.ini AccessStaticVarStep0
+	RUN_TEST_STEP 100 Te_RegConcurrentTestSuite3 Te_RegDummyStep ${SYSDRIVE}\testdata\configs\te_regconcurrenttestsuite.ini DummyStep0
+	RUN_TEST_STEP 100 Te_RegConcurrentTestSuite2 Te_RegWaitStep ${SYSDRIVE}\testdata\configs\te_regconcurrenttestsuite.ini WaitStep0
+	RUN_TEST_STEP 100 Te_RegConcurrentTestSuite2 Te_RegLoopStep ${SYSDRIVE}\testdata\configs\te_regconcurrenttestsuite.ini LoopStep0
+	RUN_TEST_STEP 100 Te_RegConcurrentTestSuite3 Te_RegAccessStaticVarStep ${SYSDRIVE}\testdata\configs\te_regconcurrenttestsuite.ini AccessStaticVarStep0
+	RUN_TEST_STEP 100 Te_RegConcurrentTestSuite2 Te_RegDummyStep ${SYSDRIVE}\testdata\configs\te_regconcurrenttestsuite.ini DummyStep0
+	CONCURRENT
+	RUN_TEST_STEP 100 Te_RegConcurrentTestSuite1 Te_RegWaitStep ${SYSDRIVE}\testdata\configs\te_regconcurrenttestsuite.ini WaitStep2
+	RUN_TEST_STEP 100 Te_RegConcurrentTestSuite1 Te_RegLoopStep ${SYSDRIVE}\testdata\configs\te_regconcurrenttestsuite.ini LoopStep2
+	RUN_TEST_STEP 100 Te_RegConcurrentTestSuite1 Te_RegAccessStaticVarStep ${SYSDRIVE}\testdata\configs\te_regconcurrenttestsuite.ini AccessStaticVarStep2
+	RUN_TEST_STEP 100 Te_RegConcurrentTestSuite3 Te_RegDummyStep ${SYSDRIVE}\testdata\configs\te_regconcurrenttestsuite.ini DummyStep2
+	RUN_TEST_STEP 100 Te_RegConcurrentTestSuite2 Te_RegWaitStep ${SYSDRIVE}\testdata\configs\te_regconcurrenttestsuite.ini WaitStep2
+	RUN_TEST_STEP 100 Te_RegConcurrentTestSuite2 Te_RegLoopStep ${SYSDRIVE}\testdata\configs\te_regconcurrenttestsuite.ini LoopStep2
+	RUN_TEST_STEP 100 Te_RegConcurrentTestSuite3 Te_RegAccessStaticVarStep ${SYSDRIVE}\testdata\configs\te_regconcurrenttestsuite.ini AccessStaticVarStep2
+	RUN_TEST_STEP 100 Te_RegConcurrentTestSuite2 Te_RegDummyStep ${SYSDRIVE}\testdata\configs\te_regconcurrenttestsuite.ini DummyStep2
+	CONSECUTIVE
+	RUN_TEST_STEP 100 Te_RegConcurrentTestSuite1 Te_RegCheckTestResultStep ${SYSDRIVE}\testdata\configs\te_regconcurrenttestsuite.ini 20
+	RUN_TEST_STEP 100 Te_RegConcurrentTestSuite2 Te_RegCheckTestResultStep ${SYSDRIVE}\testdata\configs\te_regconcurrenttestsuite.ini 0
+	RUN_TEST_STEP 100 Te_RegConcurrentTestSuite3 Te_RegCheckTestResultStep ${SYSDRIVE}\testdata\configs\te_regconcurrenttestsuite.ini 20
+END_TESTCASE DT-TEF-Concurrent-0008

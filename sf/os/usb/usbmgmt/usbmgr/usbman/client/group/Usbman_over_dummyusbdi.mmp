@@ -1,0 +1,48 @@
+/*
+* Copyright (c) 1997-2010 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+* usbman.mmp
+* usbman.dll USB Client side RUsb Class
+*
+*/
+
+/**
+ @file
+*/
+
+MACRO	__OVER_DUMMYUSBDI__
+
+target			usbman_over_dummyusbdi.dll
+CAPABILITY All -Tcb
+targettype		dll
+
+//
+// We have a laggard, ill-defined UID3 which must be kept
+// for old platforms for BC.  For newer platforms, we use
+// KUidUsbmanClient = 0x101FE1DA
+//
+uid			0x1000008d 0x101fe1da
+
+sourcepath		../SRC
+source			RUsb.cpp
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+userinclude		../../server/public 
+userinclude		../traces
+
+library			euser.lib
+
+VENDORID 0x70000001
+
+UNPAGED

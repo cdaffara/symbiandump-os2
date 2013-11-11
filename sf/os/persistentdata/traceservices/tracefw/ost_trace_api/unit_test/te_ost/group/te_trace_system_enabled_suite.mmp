@@ -1,0 +1,68 @@
+// Copyright (c) 2008-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+TARGET      		te_utrace_system_enabled.exe
+TARGETTYPE  		exe
+UID             	0x1000007A 0x101F6784
+
+#undef 				SYMBIAN_TRACE_SYSTEM_INCLUDE
+#define 			SYMBIAN_TRACE_EXECUTABLE_INCLUDE
+#include    		<platform/opensystemtrace.mmh>
+
+//MACRO 			TE_SYSTEM_SHOULD_BE_ENABLED
+MACRO 				TE_EXECUTABLE_SHOULD_BE_ENABLED
+MACRO				TE_SYSTEM_TRACE_ENABLED
+MACRO 				EXECUTABLE_DEFAULT_MODULEUID=6666
+MACRO	 			TE_MODULE_UID=0x101F6784
+MACRO				EXECUTABLE_DEFAULT_HAS_THREAD_IDENTIFICATION=ENoThreadIdentification
+
+OS_LAYER_SYSTEMINCLUDE
+
+USERINCLUDE			..\inc
+USERINCLUDE 		../../devicedriver/inc/
+USERINCLUDE 		../../lauterbach_perf_tester/inc/
+
+SOURCEPATH  		..\src
+SOURCE				te_suite_server.cpp te_suite_step_base.cpp
+SOURCE				te_check_build_variability_step.cpp 
+SOURCE				te_check_record_content_step.cpp 
+SOURCE				te_check_performance_step.cpp //not used
+SOURCE				te_logger.cpp 
+SOURCE				te_parser.cpp 
+SOURCE				te_tracer.cpp 
+SOURCE				te_tracerecord.cpp 
+SOURCE				te_timer.cpp 
+SOURCE				te_apicaller.cpp
+SOURCE				te_macrostest.cpp
+SOURCE				te_macrostest_disabled.cpp
+#ifndef WINSCW 
+SOURCE				te_pc.s
+#endif
+SOURCE				te_usertimer.cpp
+
+LIBRARY		euser.lib
+LIBRARY		testexecuteutils.lib 
+LIBRARY		testexecutelogclient.lib 
+LIBRARY		efsrv.lib 
+LIBRARY		hal.lib 
+LIBRARY		btracec.lib
+LIBRARY		uloggerclient.lib
+LIBRARY		te_lauterbach.lib
+LIBRARY		te_ost_lauterbach.lib
+
+always_build_as_arm
+OPTION ARMCC --interleave
+
+SMPSAFE

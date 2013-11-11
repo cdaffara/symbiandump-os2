@@ -1,0 +1,53 @@
+<!--
+* ==============================================================================
+*  Name        : libcrypto_topenssltx5092_blr_hw_component.xml
+*  Part of     : topenssl
+*
+*  Description : xml for hw
+*  Version:   0.5
+*
+*  Copyright (C) 2006 Nokia Corporation.
+*  This material, including documentation and any related 
+*  computer programs, is protected by copyright controlled by 
+*  Nokia Corporation. All rights are reserved. Copying, 
+*  including reproducing, storing,  adapting or translating, any 
+*  or all of this material requires the prior written consent of 
+*  Nokia Corporation. This material also contains confidential 
+*  information which may not be disclosed to others without the 
+*  prior written consent of Nokia Corporation.
+*
+* ============================================================================
+-->
+<component>
+		<name>libcrypto_topenssltx5092_blr_hw_component</name>
+		
+		<testset>
+				<id>libcrypto_topenssltx5092_blr</id>
+				<priority>High</priority>
+		
+		<install type="binary">
+				<src>openssl.exe</src>
+				<dst>c:\sys\bin\openssl.exe</dst>
+		</install>
+		<install type="data">
+                		<src>v3-cert2.pem</src>
+                		<dst>c:\v3-cert2.pem</dst>
+    </install>
+    
+   <install type="data">
+                		<src>tx5092.txt</src>
+                		<dst>c:\tx5092.txt</dst>
+    </install>
+    		
+		<execute>
+				<file>c:\sys\bin\openssl.exe</file>
+				<parameters>c:/tx5092.txt</parameters>
+        <result type="common">
+            <file>c:\spd_logs\xml\tx509_2(3_50_2_6743).xml</file>
+        </result>
+        <timeout>600</timeout>
+		</execute>
+		
+		</testset>
+		
+</component>

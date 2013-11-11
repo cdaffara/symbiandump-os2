@@ -1,0 +1,54 @@
+// Copyright (c) 2003-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// si1_0stringdict00.dll Wbxml test string dictionary code page 0 (service indication 1.0)
+// 
+//
+
+/**
+ @file
+*/
+
+TARGET			si1_0stringdict00.dll
+CAPABILITY		All -Tcb
+TARGETTYPE		plugin
+
+// ECom Plugin Dll UID followed by the unique UID for this dll
+// Assigned to UID2 and UID3 respectively
+UID 			0x10009D8D 0x101FE2A6
+VENDORID		0x70000001
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+USERINCLUDE 	../../xmlfw/inc
+
+SOURCEPATH		../src/sd_serviceindication
+SOURCE			si1_0stringdict00.cpp
+
+START			STRINGTABLE si1_0stringdict00tagtable.st
+END
+
+START			STRINGTABLE si1_0stringdict00attributetable.st
+END
+
+START			STRINGTABLE si1_0stringdict00attributevaluetable.st
+END
+
+START RESOURCE	101FE2A6.rss
+TARGET			si1_0stringdict00.rsc
+END
+
+LIBRARY		bafl.lib 		// for RStringPool
+LIBRARY 	euser.lib
+LIBRARY		xmlframework.lib
+
+SMPSAFE

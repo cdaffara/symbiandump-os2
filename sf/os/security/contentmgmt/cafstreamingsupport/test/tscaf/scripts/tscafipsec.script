@@ -1,0 +1,218 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+// Streaming CAF IpSec Unit Tests
+
+PRINT Run PREQ782 Streaming CAF IpSec Unit Tests
+
+// Load Suite
+LOAD_SUITE tscaf
+
+//! @SYMTestCaseID 		SEC-SCAF-E001
+//! @SYMTestCaseDesc 		Smoke testing for IPSec plugin
+//! 				(ipsec_positiveconstruct)
+//! @SYMPREQ 			PREQ782
+//! @SYMREQ 			REQ7779
+//! @SYMTestPriority 		Critical
+//! @SYMTestStatus   		Implemented
+//! @SYMTestActions 		
+//!				•	Generate a IPSec protected key stream description.
+//!				•	Create a key stream sink from the protected key stream description.
+//!				•	Create an IPSec key association.
+//!				•	Supply the key association to the IPSec key stream sink.
+//!
+//! @SYMTestExpectedResults 	• Interfaces are invoked without leaves and panics.
+//! @SYMTestType 		CIT
+
+START_TESTCASE SEC-SCAF-E001
+RUN_TEST_STEP 100 tscaf SCAFIpSec z:\tcaf\tscaf\tscaf.ini ipsec_positiveconstruct
+END_TESTCASE SEC-SCAF-E001
+
+//! @SYMTestCaseID 		SEC-SCAF-E002
+//! @SYMTestCaseDesc 		Testing SADB integration
+//! 				(ipsec_verify_sadb)
+//! @SYMPREQ 			PREQ782
+//! @SYMREQ 			REQ7779
+//! @SYMTestPriority 		Critical
+//! @SYMTestStatus   		Implemented
+//! @SYMTestActions 		
+//!				•	Same as with SEC-SCAF-E001. Take care to create a key association with a known SPI - SPI x.
+//!				•	Query the SADB with SADB_GET message on SPI x.
+//!				•	Submit another key association through IPSec with SPI y.
+//!				•	Query the SADB to verify that the SPI was submitted correctly.
+
+//! @SYMTestExpectedResults 	• Expected SA entries match when queried from SADB.
+//! @SYMTestType 		CIT
+
+START_TESTCASE SEC-SCAF-E002
+RUN_TEST_STEP 100 tscaf SCAFIpSecSadbVerification z:\tcaf\tscaf\tscaf.ini ipsec_verify_sadb
+END_TESTCASE SEC-SCAF-E002
+
+//! @SYMTestCaseID 		SEC-SCAF-E003
+//! @SYMTestCaseDesc 		Testing SADB integration under concurrency
+//! 				(ipsec_verify_sadb_concurrency)
+//! @SYMPREQ 			PREQ782
+//! @SYMREQ 			REQ7779
+//! @SYMTestPriority 		High
+//! @SYMTestStatus   		Implemented
+//! @SYMTestActions 		
+//!				•	Same as with SEC-SCAF-E002, but using multiple threads - each hosting a different key stream sink. Different SPI values must be used in each key stream sink to avoid collisions in the SADB.
+//! @SYMTestExpectedResults 	• Expected SA entries match when queried from SADB.
+//! @SYMTestType 		CIT
+
+START_TESTCASE SEC-SCAF-E003
+RUN_TEST_STEP 200 tscaf SCAFIpSecSadbVerificationConcurrency z:\tcaf\tscaf\tscaf.ini ipsec_verify_sadb_concurrency
+END_TESTCASE SEC-SCAF-E003
+
+//! @SYMTestCaseID 		SEC-SCAF-E007
+//! @SYMTestCaseDesc 		Negative testing for IPSec components
+//! 				(ipsec_negative)
+//! @SYMPREQ 			PREQ782
+//! @SYMREQ 			REQ7779
+//! @SYMTestPriority 		High
+//! @SYMTestStatus   		Implemented
+//! @SYMTestActions 	
+//!				•	Create an IPSec key stream sink as detailed in SEC-SCAF-A001.
+//!				•	Create an IPSec key association with incorrect keys.
+//!				•	Submit it to key stream sink - step A.
+//!				•	Create a non-IPSec key association.
+//!				•	Submit it to key stream sink - step B.
+//!				•	Delete the key stream sink.
+//!				•	Try adding twice the same valid key association again - step C. The second key association addition should fail.	
+//! @SYMTestExpectedResults 	• 	Proper errors are returned in all steps.
+//! @SYMTestType 		CIT
+
+START_TESTCASE SEC-SCAF-E007
+RUN_TEST_STEP 100 tscaf SCAFIpSecNegative z:\tcaf\tscaf\tscaf.ini ipsec_negative
+END_TESTCASE SEC-SCAF-E007
+
+//! @SYMTestCaseID 		SEC-SCAF-E009
+//! @SYMTestCaseDesc 		SA Removal
+//! 				(ipsec_sa_removal)
+//! @SYMPREQ 			PREQ782
+//! @SYMREQ 			REQ7779
+//! @SYMTestPriority 		High
+//! @SYMTestStatus   		Implemented
+//! @SYMTestActions 	
+//!				•	Create an IPSec key stream sink as detailed in SEC-SCAF-A001.
+//!				•	Submit 10 different key associations - all with different SPI-s.
+//!				•	Query the SADB.
+//! @SYMTestExpectedResults 	• 	Only the last 3 SA-s should be present in the SADB. The first 7 must not be present. The number 3 is a source constant - KDefaulMaxSpiNumber.
+//! @SYMTestType 		CIT
+
+START_TESTCASE SEC-SCAF-E009
+RUN_TEST_STEP 100 tscaf SCAFIpSecSARemoval z:\tcaf\tscaf\tscaf.ini ipsec_sa_removal
+END_TESTCASE SEC-SCAF-E009
+
+//! @SYMTestCaseID 		SEC-SCAF-E010
+//! @SYMTestCaseDesc 		Change of algorithms
+//! 				(ipsec_algorithm_change)
+//! @SYMPREQ 			PREQ782
+//! @SYMREQ 			REQ7779
+//! @SYMTestPriority 		Medium
+//! @SYMTestStatus   		Implemented
+//! @SYMTestActions 	
+//!				•	Create an IPSec key stream sink as detailed in SEC-SCAF-A001.
+//!				•	Submit an IPSec key association with arbitrary parameters.
+//!				•	Try changing the encryption algorithm.
+//!				•	Repeat the previous steps, while trying to change the authentication algorithm.
+//! @SYMTestExpectedResults 	• 	KErrNotSupported should be returned each time.
+//! @SYMTestType 		CIT
+
+START_TESTCASE SEC-SCAF-E010
+RUN_TEST_STEP 100 tscaf SCAFIpSecAlgorithmChange z:\tcaf\tscaf\tscaf.ini ipsec_algorithm_change
+END_TESTCASE SEC-SCAF-E010
+
+//! @SYMTestCaseID 		SEC-SCAF-E011
+//! @SYMTestCaseDesc 		IPSec - no authentication
+//! 				(ipsec_no_authentication)
+//! @SYMPREQ 			PREQ782
+//! @SYMREQ 			REQ7779
+//! @SYMTestPriority 		High
+//! @SYMTestStatus   		Implemented
+//! @SYMTestActions 	
+//!				•	Create an IPSec key stream sink as detailed in SEC-SCAF-A001.
+//!				•	Do not use authentication.
+//!				•	Submit a key association.
+//!				•	Query the SADB on the key association.
+
+//! @SYMTestExpectedResults 	• 	The key association should be in SADB.
+//! @SYMTestType 		CIT
+
+START_TESTCASE SEC-SCAF-E011
+RUN_TEST_STEP 100 tscaf SCAFIpSecSadbVerification z:\tcaf\tscaf\tscaf.ini ipsec_no_authentication
+END_TESTCASE SEC-SCAF-E011
+
+
+//! @SYMTestCaseID 		SEC-SCAF-E013
+//! @SYMTestCaseDesc 		IPSec - unsupported algorithms
+//! 				(ipsec_unsupported_algorithms)
+//! @SYMPREQ 			PREQ782
+//! @SYMREQ 			REQ7779
+//! @SYMTestPriority 		High
+//! @SYMTestStatus   		Implemented
+//! @SYMTestActions 	
+//!				•	Create an IPSec key stream sink as detailed in SEC-SCAF-A001.
+//!				•	Try setting any encryption algorithm which is not AES-CBC.
+//!				•	Try setting any authentication algorithm which is not NULL or HMAC-SHA1.
+//! @SYMTestExpectedResults 	• 	KErrNotSupported should be returned each time.
+//! @SYMTestType 		CIT
+
+START_TESTCASE SEC-SCAF-E013
+RUN_TEST_STEP !Result=-5 100 tscaf SCAFIpSec z:\tcaf\tscaf\tscaf.ini ipsec_wrong_enc_algorithm1
+RUN_TEST_STEP !Result=-5 100 tscaf SCAFIpSec z:\tcaf\tscaf\tscaf.ini ipsec_wrong_enc_algorithm2
+RUN_TEST_STEP !Result=-5 100 tscaf SCAFIpSec z:\tcaf\tscaf\tscaf.ini ipsec_wrong_enc_algorithm3
+RUN_TEST_STEP !Result=-5 100 tscaf SCAFIpSec z:\tcaf\tscaf\tscaf.ini ipsec_wrong_auth_algorithm
+END_TESTCASE SEC-SCAF-E013
+
+
+//! @SYMTestCaseID 		SEC-SCAF-E014
+//! @SYMTestCaseDesc 		Multiple IPSec key stream sinks
+//! 				(ipsec_multiple_sinks)
+//! @SYMPREQ 			PREQ782
+//! @SYMREQ 			REQ7779
+//! @SYMTestPriority 		High
+//! @SYMTestStatus   		Implemented
+//! @SYMTestActions 	
+//!				•	Same as with SEC-SCAF-E002, but using a separate key stream sink for each association.
+
+//! @SYMTestExpectedResults 	• 	Expected SA entries match when queried from SADB.
+//! @SYMTestType 		CIT
+
+START_TESTCASE SEC-SCAF-E014
+RUN_TEST_STEP 200 tscaf SCAFIpSecMultipleSinks z:\tcaf\tscaf\tscaf.ini ipsec_multiple_sinks
+END_TESTCASE SEC-SCAF-E014
+
+//! @SYMTestCaseID 		SEC-SCAF-E015
+//! @SYMTestCaseDesc 		Testing IPSec integration with key stream decoder - automatic
+//! 				(ipsec_integration_decoder_automatic)
+//! @SYMPREQ 			PREQ782
+//! @SYMREQ 			REQ7779
+//! @SYMTestPriority 		High
+//! @SYMTestStatus   		Implemented
+//! @SYMTestActions 		
+//!				•	Create manually a test agent key stream decoder using SDP information
+//!				•	Take care to supply an IPSec key stream sink as detailed in SEC-SCAF-E001.
+//!				•	Send the key association for the test agent. The key association is as defined in step SEC-SCAF-E004.
+//!				•	Verify with SADB_GET that associations was added 
+//!
+//! @SYMTestExpectedResults 	• Associations was added 
+//! @SYMTestType 		CIT
+
+START_TESTCASE SEC-SCAF-E015
+RUN_TEST_STEP tscaf SCAFSetupRightsObjects z:\tcaf\tscaf\tscaf.ini Rights_Program
+// The time limit is disabled since this test is manual
+RUN_TEST_STEP -1 tscaf SCAFIpSecDecoderIntegration z:\tcaf\tscaf\tscaf.ini ipsec_integration_decoder_automatic
+END_TESTCASE SEC-SCAF-E015

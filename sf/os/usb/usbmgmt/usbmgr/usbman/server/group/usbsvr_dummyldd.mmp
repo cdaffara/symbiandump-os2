@@ -1,0 +1,69 @@
+/*
+* Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+* usbsvr_dummyldd.mmp
+* usbsvr_over_dummyldd.exe USB server with USB Host and OTG support
+*
+*/
+
+/**
+ @file
+*/
+
+
+
+MACRO	__DUMMY_LDD__
+CAPABILITY CommDD NetworkControl NetworkServices LocalServices ProtServ
+target usbsvr_over_dummyldd.exe
+targettype exe
+
+UID 0 0x101fe1db
+
+sourcepath		../SRC
+source			UsbSvr.cpp
+source			CUsbServer.cpp
+source			CUsbSession.cpp
+source			CUsbScheduler.cpp
+source			CUsbDevice.cpp
+source			CUsbDeviceStateWatcher.cpp
+source			UsbUtils.cpp
+source			CPersonality.cpp
+source          	usbmancenrepmanager.cpp
+
+#ifdef SYMBIAN_USB_BATTERYCHARGING_V1_1
+source			cusbchargingporttypewatcher.cpp
+#endif
+
+userinclude		../INC
+userinclude		../public
+userinclude		../../../host/fdf/production/client/public 
+userinclude		../traces
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+library			euser.lib
+library			usbclasscontroller.lib
+library			ecom.lib
+library			efsrv.lib
+library			bafl.lib
+library			usbmanextensionplugindummy.lib
+library			sysutil.lib
+library         centralrepository.lib 
+
+#ifdef SYMBIAN_FEATURE_MANAGER
+library         featdiscovery.lib
+#endif
+library 		dummyusblddapi.lib
+library			usbman_over_dummyldd.lib
+
+UNPAGED

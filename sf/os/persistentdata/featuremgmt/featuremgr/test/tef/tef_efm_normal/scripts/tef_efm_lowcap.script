@@ -1,0 +1,350 @@
+// Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// set low capabilities to the EFM test server
+// 
+// @file
+//
+
+//! @SYMTestSuiteName SYSLIB-TEF-EFM-NORMAL
+//! @SYMScriptTestEnvironment TEF
+//! @internalComponent
+//! @test
+
+LOAD_SUITE TEFPlatSec
+
+
+START_TESTCASE PDS-EFM-CT-4050
+//! @SYMTestCaseID 		PDS-EFM-CT-4050 
+//! @SYMTestCaseDesc  		Set the required capabilities in preparation for
+//!                         latter steps.
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		Set capabilities as required by latter steps.
+//! @SYMTestExpectedResults 	No error should be reported.
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ             REQ8196
+    RUN_TEST_STEP 100 TEFPlatSec SetCapabilities z:\test\efm\scripts\tef_efm_normal.ini Missing_WDD
+END_TESTCASE PDS-EFM-CT-4050
+
+//load EFM server with decreased capabilities
+LOAD_SUITE efm_normal_testserver_lowcap
+
+//feature discovery test steps
+
+START_TESTCASE SYSLIB-EFM-CT-3644
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3644 
+//! @SYMTestCaseDesc  		Test case for CFeatureDiscovery static way of requesting single feature in the low capabilities environment
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		Test step for a static way of feature request which requests supported feature and unsupported feature.
+//! @SYMTestExpectedResults 	KFeatureSupported is the return value for supported feature and KFeatureUnsupported is return value for not supported feature.
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ             REQ8196
+
+RUN_TEST_STEP 100 efm_normal_testserver_lowcap FeatureDiscoverySingleFeatureStaticRequest
+END_TESTCASE SYSLIB-EFM-CT-3644
+
+START_TESTCASE SYSLIB-EFM-CT-3645 
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3645 
+//! @SYMTestCaseDesc  		Test case for CFeatureDiscovery dynamic way of requesting single feature in the low capabilities environment
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		Test step for a dynamic way of feature request which requests supported feature and unsupported feature
+//! @SYMTestExpectedResults 	KFeatureSupported is the return value for supported feature and KFeatureUnsupported is return value for not supported feature.
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ             REQ8196
+
+RUN_TEST_STEP 100 efm_normal_testserver_lowcap FeatureDiscoverySingleFeatureDynamicRequest
+END_TESTCASE SYSLIB-EFM-CT-3645 
+
+START_TESTCASE SYSLIB-EFM-CT-3646 
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3646 
+//! @SYMTestCaseDesc  	Test case for CFeatureDiscovery static way of requesting multiple features in the low capabilities environment
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		Requesting for the multiple features in static way.
+//! @SYMTestExpectedResults 	KFeatureSupported is the return value for supported feature and KFeatureUnsupported is return value for not supported feature.
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ             REQ8196
+
+RUN_TEST_STEP 100 efm_normal_testserver_lowcap FeatureDiscoveryMultipleFeatureStaticRequest
+END_TESTCASE SYSLIB-EFM-CT-3646 
+
+START_TESTCASE SYSLIB-EFM-CT-3647
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3647 
+//! @SYMTestCaseDesc  	Test case for CFeatureDiscovery dynamic way of requesting multiple features	in the low capabilities environment
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		Requesting for the multiple features in dynamic way.
+//! @SYMTestExpectedResults 	KFeatureSupported is the return value for supported feature and KFeatureUnsupported is return value for not supported feature.
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ             REQ8196
+ 
+RUN_TEST_STEP 100 efm_normal_testserver_lowcap FeatureDiscoveryMultipleFeatureDynamicRequest
+END_TESTCASE SYSLIB-EFM-CT-3647 
+
+
+//feature manager test steps
+START_TESTCASE SYSLIB-EFM-CT-3653
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3653
+//! @SYMTestCaseDesc 		To test FeatureManager InitializeLibL() API and UnInitializeLibL() API in the low capabilities environment
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		Test case initialises FeatureManager twice and then calls UnInitializeLibL()
+//! @SYMTestExpectedResults  	Test is Passed if  it is feature manager is successfully initialised and uninitialised, i.e. none of the functions leave
+//! @SYMPREQ 			PREQ1645
+//! @SYMREQ             REQ8196
+
+RUN_TEST_STEP 100 efm_normal_testserver_lowcap FeatureManager_InitializeLibL
+END_TESTCASE SYSLIB-EFM-CT-3653
+
+START_TESTCASE SYSLIB-EFM-CT-3654 
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3654 
+//! @SYMTestCaseDesc  	To test FeatureManager FeatureSupported() API in the low capabilities environment 
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		Test requests support for a supported, unsupported and unknown features checking returned results
+//! @SYMTestExpectedResults 	All features should be reported as expected
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ             REQ8196
+
+RUN_TEST_STEP 100 efm_normal_testserver_lowcap FeatureManager_Supproted
+END_TESTCASE SYSLIB-EFM-CT-3654 
+
+START_TESTCASE SYSLIB-EFM-CT-3677
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3677
+//! @SYMTestCaseDesc  		To test FeatureManager FeatureSupported() API when the FeatureManager is not initialized in the low capabilities environment .
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		Try to call FeatureSupported() API Before the FeatureManager is initialized
+//! @SYMTestExpectedResults 	Test should panic with panic category FeatMgr and panic code ELibNotInitialized
+//! @SYMPREQ  			PREQ1645
+
+RUN_TEST_STEP !PanicString=FeatMgr !PanicCode=0 100 efm_normal_testserver_lowcap FeatureManager_InvalidUseTest
+END_TESTCASE SYSLIB-EFM-CT-3677
+
+
+//feature control test steps
+START_TESTCASE SYSLIB-EFM-CT-3648
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3648
+//! @SYMTestCaseDesc  		RFeatureControl Connect and disconnect test in the low capabilities environment 
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		Test tries to make connection to the server and tries to close the connection with the server.
+//! @SYMTestExpectedResults 	Does not have impact of the lowcap and KErrNone is expected result
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ             REQ8196
+
+RUN_TEST_STEP 100 efm_normal_testserver_lowcap FeatureControlConnetction
+END_TESTCASE SYSLIB-EFM-CT-3648
+
+START_TESTCASE SYSLIB-EFM-CT-3649
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3649
+//! @SYMTestCaseDesc  		Test for RFeatureControl single feature request functionality
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		Test tries to make connection to the server and tries to close the connection with the server.
+//! @SYMTestExpectedResults 	Does not have impact of the lowcap and KFeatureSupported is expected for supported feature, KFeatureUnsupported is expected for not supported feature and KErrNotReady is expected for uninitialised feature.
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ             REQ8196
+
+RUN_TEST_STEP 100 efm_normal_testserver_lowcap FeatureControlSingleFeatureRequest
+END_TESTCASE SYSLIB-EFM-CT-3649
+
+START_TESTCASE SYSLIB-EFM-CT-3650
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3650
+//! @SYMTestCaseDesc  		Test for RFeatureControl multiple feature request functionality
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		
+//! @SYMTestExpectedResults 	Does not have impact of the lowcap and all the supported features info is displayed 
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ             REQ8196
+
+RUN_TEST_STEP 100 efm_normal_testserver_lowcap FeatureControlMultipleFeatureRequest
+END_TESTCASE SYSLIB-EFM-CT-3650
+
+START_TESTCASE SYSLIB-EFM-CT-3652
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3652	
+//! @SYMTestCaseDesc  		Test for RFeatureControl single feature status and data request functionality	
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		Request the data from the feature file which is expected to be supported and data field for the feature is also checked, modify the feature data and varify the same, Try to modify feature which is not modifiable.
+//! @SYMTestExpectedResults 	KErrPermissioneDenied is the expected return value. and default value  of the data and status will be given.
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ             REQ8196
+
+RUN_TEST_STEP 100 efm_normal_testserver_lowcap FeatureControlDataAndStatusRequest z:\test\efm\scripts\tef_efm_normal.ini Capability_Low
+END_TESTCASE SYSLIB-EFM-CT-3652
+
+START_TESTCASE SYSLIB-EFM-CT-3651
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3651	
+//! @SYMTestCaseDesc  		Test case for RFeatureControl listing of supported features
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		Test case requests for the supported features and checks  the with the list of features from feature files.
+//! @SYMTestExpectedResults 	Does not have impact of the lowcap and will list all supported features
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ             REQ8196
+
+RUN_TEST_STEP 100 efm_normal_testserver_lowcap FeatureControlListSupportedFeatures
+END_TESTCASE SYSLIB-EFM-CT-3651
+
+START_TESTCASE SYSLIB-EFM-CT-3655
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3655	
+//! @SYMTestCaseDesc  		Test case for RFeatureControl feature enabling.
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		Try to enable modifiable feature, non modifialbe feature,non existent feature,  and default supported feature.	
+//! @SYMTestExpectedResults 	KErrPermissioneDenied is the expected return value.
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ             REQ8196
+
+RUN_TEST_STEP 100 efm_normal_testserver_lowcap FeatureControlFeatureEnabling z:\test\efm\scripts\tef_efm_normal.ini Capability_Low
+END_TESTCASE SYSLIB-EFM-CT-3655
+
+START_TESTCASE SYSLIB-EFM-CT-3656 
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3656 
+//! @SYMTestCaseDesc  		Test case for RFeatureControl feature disabling.
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		Try to disable modifiable feature, non modifialbe feature,non existent feature,  and default supported 
+//! @SYMTestExpectedResults 	KErrPermissioneDenied is the expected return value.
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ             REQ8196
+
+RUN_TEST_STEP 100 efm_normal_testserver_lowcap FeatureControlFeatureDisabling z:\test\efm\scripts\tef_efm_normal.ini Capability_Low
+END_TESTCASE SYSLIB-EFM-CT-3656 
+
+START_TESTCASE SYSLIB-EFM-CT-3658
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3658 
+//! @SYMTestCaseDesc  	Test case for RFeatureControl feature data  setting	
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		Try to set the data for the feature which is marked as supported and modifiable, which is defined as not modifiable and non existant feature.
+//! @SYMTestExpectedResults 	KErrPermissioneDenied is the expected return value.
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ             REQ8196
+
+RUN_TEST_STEP 100 efm_normal_testserver_lowcap FeatureControlFeatureDataSetting z:\test\efm\scripts\tef_efm_normal.ini Capability_Low
+END_TESTCASE SYSLIB-EFM-CT-3658
+
+START_TESTCASE SYSLIB-EFM-CT-3657
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3657
+//! @SYMTestCaseDesc  		Test case for RFeatureControl feature data and status setting
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		Tries to change the state of the modifiable feature,not modifiable feature,non existent feature	.
+//! @SYMTestExpectedResults 	KErrPermissioneDenied is the expected return value when we try to chane the feature data and varifies that the new value has not been stored.
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ             REQ8196
+
+RUN_TEST_STEP 100 efm_normal_testserver_lowcap FeatureControlFeatureDataAndStatusSetting z:\test\efm\scripts\tef_efm_normal.ini Capability_Low
+END_TESTCASE SYSLIB-EFM-CT-3657
+
+START_TESTCASE SYSLIB-EFM-CT-3659 
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3659 
+//! @SYMTestCaseDesc		 Test case for RFeatureControl feature adding.
+//! @SYMTestPriority 		High	
+//! @SYMTestActions 		Tries to add new feature, and add new feature which is already exists
+//! @SYMTestExpectedResults 	KErrPermissioneDenied is the expected return value whne we try to add a feature.
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ             REQ8196
+
+RUN_TEST_STEP 100 efm_normal_testserver_lowcap FeatureControlFeatureAdding z:\test\efm\scripts\tef_efm_normal.ini Capability_Low
+END_TESTCASE SYSLIB-EFM-CT-3659 
+
+//feature notifier test steps
+
+START_TESTCASE SYSLIB-EFM-CT-3660
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3660
+//! @SYMTestCaseDesc 		To test FeatureNotifier NewL() API 
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		Since this function is a leaving function and we are trapping this function if the trap return value is  KErrNone then the test is passed.	
+//! @SYMTestExpectedResults 	Does not require capability
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ             REQ8196
+
+RUN_TEST_STEP 100 efm_normal_testserver_lowcap FeatureNotifier_NewL z:\test\efm\scripts\tef_efm_normal.ini Capability_Low
+END_TESTCASE SYSLIB-EFM-CT-3660
+
+START_TESTCASE SYSLIB-EFM-CT-3661
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3661
+//! @SYMTestCaseDesc 		Test for FeatureNotifier NotifyRequest(Tuid) 
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		An instance of notifier is created , feature is passed to the API for which the notification is required.
+//! @SYMTestExpectedResults KErrPermissionDenied is the expected result	
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ             REQ8196
+
+RUN_TEST_STEP 100 efm_normal_testserver_lowcap FeatureNotifier_NotifyRequestL z:\test\efm\scripts\tef_efm_normal.ini Capability_Low
+END_TESTCASE SYSLIB-EFM-CT-3661
+
+START_TESTCASE SYSLIB-EFM-CT-3662
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3662 
+//! @SYMTestCaseDesc  		Test case to test the feature notifier NotifyRequest(RFeatureArray&).
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		Request for the notification is made for an array of supported feature,  Then try to change the features.
+//! @SYMTestExpectedResults 	KErrPermissionDenied is the expected result	
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ             REQ8196
+ 
+RUN_TEST_STEP 100 efm_normal_testserver_lowcap FeatureNotifier_NotifyRequestArrayL z:\test\efm\scripts\tef_efm_normal.ini Capability_Low
+END_TESTCASE SYSLIB-EFM-CT-3662 
+
+START_TESTCASE SYSLIB-EFM-CT-3663
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3663 
+//! @SYMTestCaseDesc  		Test case to test the feature notifier NotifyCancel().
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		Request to the supported notification is made, Try to cancel requested notification.
+//! @SYMTestExpectedResults 	KErrPermissionDenied is the expected result	
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ             REQ8196
+ 
+RUN_TEST_STEP 100 efm_normal_testserver_lowcap FeatureNotifier_NotifyCancelL z:\test\efm\scripts\tef_efm_normal.ini Capability_Low
+END_TESTCASE SYSLIB-EFM-CT-3663 
+
+START_TESTCASE SYSLIB-EFM-CT-3664
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3664 
+//! @SYMTestCaseDesc  		Test case to test the feature notifier NotifyCancelAll().
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		Request to the supported notification is made, Try to cancelAll the request notifications.
+//! @SYMTestExpectedResults 	KErrPermissionDenied is the expected result	
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ             REQ8196
+
+RUN_TEST_STEP 100 efm_normal_testserver_lowcap FeatureNotifier_NotifyMultipleCancelL z:\test\efm\scripts\tef_efm_normal.ini Capability_Low
+END_TESTCASE SYSLIB-EFM-CT-3664
+
+START_TESTCASE SYSLIB-EFM-CT-3665 
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3665 	
+//! @SYMTestCaseDesc  		To test FeatureNotifier Module API when a UID is passed which is not changed at all.
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		A notification request is made to for the feature which is not changed at all.
+//! @SYMTestExpectedResults KErrPermissionDenied is the expected result	 	
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ             REQ8196
+
+RUN_TEST_STEP 100 efm_normal_testserver_lowcap FeatureNotifier_UnchangedFeatureTest z:\test\efm\scripts\tef_efm_normal.ini Capability_Low
+END_TESTCASE SYSLIB-EFM-CT-3665 
+
+START_TESTCASE SYSLIB-EFM-CT-3666
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3666
+//! @SYMTestCaseDesc  		To test Feature Manager Module NotifyCancel() if the feature is not there or is cancelled already.
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		Two times cancellation is requested on the same feature .
+//! @SYMTestExpectedResults 	KErrPermissionDenied is the expected result.
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ             REQ8196
+
+RUN_TEST_STEP 100 efm_normal_testserver_lowcap FeatureNotifier_CancelFeatureTwiceTest z:\test\efm\scripts\tef_efm_normal.ini Capability_Low
+END_TESTCASE SYSLIB-EFM-CT-3666
+
+//cleanup the executable without capabilities
+
+START_TESTCASE PDS-EFM-CT-4051
+//! @SYMTestCaseID 		PDS-EFM-CT-4051 
+//! @SYMTestCaseDesc  		Reset the required capabilities following previous
+//!                         steps.
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		Reset capabilities.
+//! @SYMTestExpectedResults 	No error should be reported.
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ             REQ8196
+    RUN_TEST_STEP 100 TEFPlatSec Cleanup z:\test\efm\scripts\tef_efm_normal.ini Missing_WDD
+END_TESTCASE PDS-EFM-CT-4051
+

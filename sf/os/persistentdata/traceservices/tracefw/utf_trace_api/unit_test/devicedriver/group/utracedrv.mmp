@@ -1,0 +1,44 @@
+// Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// e32\drivers\trace\tracek.mmp
+// 
+//
+
+#define NO_EKERN_LIB
+#include "kernel/kern_ext.mmh"
+
+target			utrace.ldd
+targettype		ldd
+UID             0x100000af
+VENDORID        0x70000001
+capability      all
+
+deffile utrace.def
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+userinclude		../inc/
+
+sourcepath		../src/
+source			utracedrv.cpp
+
+library	ekern.lib
+
+start wins
+win32_headers
+end
+
+MACRO SYMBIAN_TRACE_ENABLE
+
+SMPSAFE

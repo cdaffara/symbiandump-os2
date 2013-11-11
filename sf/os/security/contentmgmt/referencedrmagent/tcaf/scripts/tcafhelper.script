@@ -1,0 +1,73 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+
+LOAD_SUITE tcaf
+
+RUN_UTILS MkDir c:\tcaf\
+RUN_UTILS MkDir c:\tcaf\testdata\
+RUN_UTILS MkDir c:\tcaf\testdata\TestAgentPrivateDir\
+
+RUN_UTILS CopyFile z:\rta\testdata\*.* c:\rta\testdata\*.*
+RUN_UTILS CopyFile z:\tcaf\testdata\*.* c:\tcaf\testdata\*.*
+RUN_UTILS CopyFile z:\tcaf\testdata\TestAgentPrivateDir\*.* c:\tcaf\testdata\TestAgentPrivateDir\*.*
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAFHELPER-0001
+//! @SYMTestCaseDesc 		CafHelper API Test 1 
+//! @SYMPREQ			PREQ2086
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Medium
+//! @SYMTestActions		Constructs CCafHelper and tests if the reference cafhelper.dll gets loaded properly and 
+//!				calls the HandleCAFErrorL API overload which takes in the filename as input parameter.
+//! @SYMTestExpectedResults	Reference cafhelper.dll must be loaded successfully and the result of the HandleCAFErrorL
+//!				API must match the expected.
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAFHELPER-0001
+RUN_TEST_STEP 100 tcaf CAFHelperStep c:\tcaf\tcafhelper.ini CafHelperFilename
+END_TESTCASE SEC-CAFHELPER-0001
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAFHELPER-0002
+//! @SYMTestCaseDesc 		CafHelper API Test 2 
+//! @SYMPREQ			PREQ2086
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Medium
+//! @SYMTestActions		Constructs CCafHelper and tests if the reference cafhelper.dll gets loaded properly and 
+//!				calls the HandleCAFErrorL API overload which takes in the filehandle as input parameter.
+//! @SYMTestExpectedResults	Reference cafhelper.dll must be loaded successfully and the result of the HandleCAFErrorL
+//!				API must match the expected.
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-UTILS-0002
+RUN_TEST_STEP 100 tcaf CAFHelperStep c:\tcaf\tcafhelper.ini CafHelperFileHandle
+END_TESTCASE SEC-CAF-UTILS-0002
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAFHELPER-0003
+//! @SYMTestCaseDesc 		CafHelper API Test 3 
+//! @SYMPREQ			PREQ2086
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Medium
+//! @SYMTestActions		Constructs CCafHelper and tests if the reference cafhelper.dll gets loaded properly and 
+//!				calls the HandleCAFErrorL API overload which takes in the fileheader as input parameter.
+//! @SYMTestExpectedResults	Reference cafhelper.dll must be loaded successfully and the result of the HandleCAFErrorL
+//!				API must match the expected.
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAFHELPER-0003
+RUN_TEST_STEP 100 tcaf CAFHelperStep c:\tcaf\tcafhelper.ini CafHelperFileHeader
+END_TESTCASE SEC-CAFHELPER-0003
+
+

@@ -1,0 +1,74 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* Policy file 0, used by integration test
+*
+*/
+
+
+#include <ups/policies.rh>
+
+UID2 KUidUpsPolicyResourceFile
+UID3 0x101F7F1F
+
+// Test policy file for SMS messages
+RESOURCE POLICIES testpolicies
+	{
+	header = POLICY_HEADER
+		{
+		// use default client config 
+		policyevaluator = 0xE1111E11;
+		dialogcreator = 0xBAD00333;
+		};
+	policies = 
+		{
+		POLICY
+			{
+			// Prompts dialog
+			sid_list = {0x80002222,0x101F7784};
+			destination = "where is my dialog creator?";
+			options = KAlways|KNever;
+			flags = 1;
+			},
+		POLICY
+			{
+			// Silently approval  
+			sid_list = {0x1234abcd,0x80002222,0x80001234};
+			destination = "elbow";
+			options = KAlways;
+			flags = 2;
+			},
+		POLICY
+			{
+			// Silently denial  
+			sid_list = {0x1234abcd,0x80002222,0x80001234};
+			destination = "paris";
+			options = KNever;
+			policyevaluator = 0xE1111E10;
+			dialogcreator = 0xE1111D20;
+			flags = 3;
+			},				
+		POLICY
+			{
+			// yes or no
+			sid_classes = KUnprotectedSids;
+			destination = "*";
+			options = KYes|KNo;
+			policyevaluator = 0xE1111E10;
+			dialogcreator = 0xE1111D20;
+			flags = 4;
+			}
+		};
+	}
+

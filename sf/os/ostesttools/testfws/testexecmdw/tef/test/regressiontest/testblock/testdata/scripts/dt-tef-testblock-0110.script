@@ -1,0 +1,34 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SERVER te_RegBlockTestSuite 
+
+START_TESTCASE DT-TEF-TestBlock-0110
+//! @SYMTestCaseID          DT-TEF-TestBlock-0110
+//! @SYMCreationDate        29-07-2008
+//! @SYMAuthor              extjasonzhou
+//! @SYMTestType            CT
+//! @SYMTestPriority        Medium
+//! @SYMTestCaseDesc        Test read/write shared data.
+//! @SYMTestExpectedResults The data can be write and read successfully.
+//! @SYMTestActions         1. Write some shared data.
+//!                         2. Read the data and check if it is expected.
+	START_TEST_BLOCK	100 te_RegBlockTestSuite ${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini
+		CREATE_OBJECT	te_RegBlockTestWrapper	TC0110_obj_name
+		COMMAND		TC0110_obj_name		WriteSharedData
+		COMMAND		TC0110_obj_name		ReadSharedData
+	END_TEST_BLOCK
+END_TESTCASE DT-TEF-TestBlock-0110

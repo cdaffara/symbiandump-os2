@@ -1,0 +1,34 @@
+/*
+* Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+* DLL containing API presented by FDF to USBMAN.
+*
+*/
+
+/**
+ @file
+ @internalComponent
+*/
+
+#include "usbhoststack_base.mmp"
+
+// These are the caps of the only process (USBSVR) we ever validly run in.
+// Because component test asks an extra capability TrustedUI, so moved these 
+// capabilities out from usbhoststack_base.mmp to here.
+CAPABILITY		CommDD NetworkControl NetworkServices LocalServices ProtServ
+
+TARGET			usbhoststack.dll
+// UID2 = 0x1000008d for static interface DLLs.
+// UID3 = unique for FDF system
+UID 			0x1000008d 0x10282B48

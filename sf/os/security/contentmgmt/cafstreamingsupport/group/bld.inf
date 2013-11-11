@@ -1,0 +1,97 @@
+// Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// Stream Access Framework for DRM agents and consumers
+// 
+//
+
+/**
+ @file
+*/
+
+
+PRJ_PLATFORMS
+DEFAULT
+
+PRJ_EXPORTS
+
+// Streaming CAF includes
+../inc/keyassociation.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/streaming/keyassociation.h)
+../inc/keystreamdecoder.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/streaming/keystreamdecoder.h)
+../inc/keystreamsink.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/streaming/keystreamsink.h)
+../inc/protectedstreamdesc.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/streaming/protectedstreamdesc.h)
+../inc/streamagentfactory.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/streaming/streamagentfactory.h)
+../inc/streamagentinterface.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/streaming/streamagentinterface.h)
+../inc/streamcaftypes.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/streaming/streamcaftypes.h)
+
+// ROMKIT includes
+../inc/streamingcaf.iby 			/epoc32/rom/include/streamingcaf.iby
+
+PRJ_MMPFILES
+
+#ifndef TOOLS
+#ifndef TOOLS2
+streamingcaf.mmp
+#endif // TOOLS2
+#endif // TOOLS
+
+PRJ_TESTMMPFILES
+
+#ifndef TOOLS
+#ifndef TOOLS2
+
+// Common test stream agent implementation projects 
+stashared.mmp
+staclient.mmp		
+staserver.mmp
+
+// Test stream agent ECOM plugins
+tscaf_streamagent01.mmp
+tscaf_streamagent02.mmp	
+
+// Test "Single Process" Stream agent ECOM Plugins
+tscaf_singleprocess_streamagent.mmp
+	
+// Integration Test Harness
+tscaf.mmp
+#endif // TOOLS2
+#endif // TOOLS
+
+PRJ_TESTEXPORTS
+
+../test/tscaf/scripts/tscaf.ini				z:/tcaf/tscaf/tscaf.ini
+../test/tscaf/scripts/tscaf.script				z:/tcaf/tscaf/tscaf.script
+../test/tscaf/scripts/tscaf_oom.script			z:/tcaf/tscaf/tscaf_oom.script
+../test/tscaf/scripts/tscafipsec.script			z:/tcaf/tscaf/tscafipsec.script
+../test/tscaf/scripts/tscafipsec_oom.script			z:/tcaf/tscaf/tscafipsec_oom.script
+../test/tscaf/scripts/tscafipsecmanual.script			z:/tcaf/tscaf/tscafipsecmanual.script
+
+../test/tscaf/scripts/data/rosimple.dr     			z:/tcaf/tscaf/data/rosimple.dr
+../test/tscaf/scripts/data/roexpired.dr           		z:/tcaf/tscaf/data/roexpired.dr
+../test/tscaf/scripts/data/roprogramprotected.dr  		z:/tcaf/tscaf/data/roprogramprotected.dr
+../test/tscaf/scripts/data/roserviceprotected.dr  		z:/tcaf/tscaf/data/roserviceprotected.dr
+../test/tscaf/scripts/data/rorecordable.dr  			z:/tcaf/tscaf/data/rorecordable.dr
+../test/tscaf/scripts/data/ropostacquisition.dr  		z:/tcaf/tscaf/data/postacquisitiontest.dr
+
+../test/tscaf/scripts/data/tscaf_rights_programprotect01.dr   z:/tcaf/tscaf/data/tscaf_rights_programprotect01.dr
+../test/tscaf/scripts/data/tscaf_rights_programprotect02.dr   z:/tcaf/tscaf/data/tscaf_rights_programprotect02.dr
+../test/tscaf/scripts/data/tscaf_rights_programprotect03.dr  	z:/tcaf/tscaf/data/tscaf_rights_programprotect03.dr
+../test/tscaf/scripts/data/tscaf_rights_serviceprotect01.dr  	z:/tcaf/tscaf/data/tscaf_rights_serviceprotect01.dr
+../test/tscaf/scripts/data/tscaf_rights_serviceprotect02.dr  	z:/tcaf/tscaf/data/tscaf_rights_serviceprotect02.dr
+../test/tscaf/scripts/data/tscaf_rights_serviceprotect03.dr  	z:/tcaf/tscaf/data/tscaf_rights_serviceprotect03.dr
+../test/tscaf/scripts/data/tscaf_rights_expired01.dr  	z:/tcaf/tscaf/data/tscaf_rights_expired01.dr
+
+// ROM streaming caf test iby
+../inc/tscaf.iby 						/epoc32/rom/include/tscaf.iby
+
+

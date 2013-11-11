@@ -1,0 +1,56 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+// Temporary iby file which contains crypto dependencies for the tests in the
+// MCS ROM. Without these, a few tests fail (DEF109635)
+
+#include "crypto.iby"
+#include "pbetests.iby"
+#include "pkcs5kdftests.iby"
+#include "paddingtests.iby"
+#ifdef SYMBIAN_CRYPTOSPI
+#include "tcryptospi.iby"
+
+// conditionally included to avoid to be included in vasco image creation but needed in h4/h6 image creation
+#ifdef _SERIAL_DOWNLOAD
+#include "cryptospi_testplugins.iby"
+	
+// Proof of concept KMS (Key Management Server)
+// Add them to the Core image (core.img) only. As rofs1.img does not support the device, and extension.
+
+ROM_IMAGE[0] {
+extension[VARID]=KERNEL_DIR\BUILD_DIR\kmskext.dll \sys\bin\kmskext.dll
+device[VARID]=ABI_DIR\BUILD_DIR\kmslddk.ldd \sys\bin\kmslddk.ldd
+device[VARID]=ABI_DIR\BUILD_DIR\kmsextrlddk.ldd \sys\bin\kmsextrlddk.ldd
+}
+
+file=ABI_DIR\BUILD_DIR\kmsldd.dll		sys\bin\kmsldd.dll
+
+file=ABI_DIR\BUILD_DIR\kmsextrldd.dll		sys\bin\kmsextrldd.dll
+file=ABI_DIR\BUILD_DIR\kmslddtest.exe		sys\bin\kmslddtest.exe
+data=ABI_DIR\BUILD_DIR\kmslddclient.exe	sys\bin\kmslddclient.exe
+
+file=ABI_DIR\BUILD_DIR\kmsserver.exe		sys\bin\kmsserver.exe
+file=ABI_DIR\BUILD_DIR\kmsclient.dll		sys\bin\kmsclient.dll
+
+file=ABI_DIR\BUILD_DIR\kmstest.exe			sys\bin\kmstest.exe
+#endif
+file=ABI_DIR\BUILD_DIR\tsymmetric.exe	System\Programs\tsymmetric.exe
+file=ABI_DIR\BUILD_DIR\tasymmetric.exe	System\Programs\tasymmetric.exe
+file=ABI_DIR\BUILD_DIR\tbigint.exe	System\Programs\tbigint.exe
+#endif
+

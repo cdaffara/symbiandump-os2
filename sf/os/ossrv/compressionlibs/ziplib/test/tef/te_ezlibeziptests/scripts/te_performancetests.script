@@ -1,0 +1,146 @@
+// Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+PRINT Run all Performance Tests
+LOAD_SUITE Te_EZlibEZip
+
+RUN_UTILS MkDir c:\test\
+RUN_UTILS MkDir c:\test\ezlibeziptest_data\
+
+RUN_UTILS CopyFile z:\test\ezlibeziptest_data\SmallSize.txt 			c:\test\ezlibeziptest_data\SmallSize.txt
+RUN_UTILS MakeReadWrite c:\test\ezlibeziptest_data\SmallSize.txt 
+RUN_UTILS CopyFile z:\test\ezlibeziptest_data\BigSize.txt 				c:\test\ezlibeziptest_data\BigSize.txt
+RUN_UTILS MakeReadWrite c:\test\ezlibeziptest_data\BigSize.txt 
+
+RUN_UTILS CopyFile z:\test\ezlibeziptest_data\SmallSize.doc 			c:\test\ezlibeziptest_data\SmallSize.doc
+RUN_UTILS MakeReadWrite c:\test\ezlibeziptest_data\SmallSize.doc
+
+RUN_UTILS CopyFile z:\test\ezlibeziptest_data\SmallSizeTxt.zip 			c:\test\ezlibeziptest_data\SmallSizeTxt.zip
+RUN_UTILS MakeReadWrite c:\test\ezlibeziptest_data\SmallSizeTxt.zip
+
+RUN_UTILS CopyFile z:\test\ezlibeziptest_data\SmallSizeTxt.gz 			c:\test\ezlibeziptest_data\SmallSizeTxt.gz
+RUN_UTILS MakeReadWrite c:\test\ezlibeziptest_data\SmallSizeTxt.gz
+
+RUN_UTILS CopyFile z:\test\ezlibeziptest_data\SmallSizeDoc.zip 			c:\test\ezlibeziptest_data\SmallSizeDoc.zip
+RUN_UTILS MakeReadWrite c:\test\ezlibeziptest_data\SmallSizeDoc.zip
+
+RUN_UTILS CopyFile z:\test\ezlibeziptest_data\SmallSizeDoc.gz 			c:\test\ezlibeziptest_data\SmallSizeDoc.gz
+RUN_UTILS MakeReadWrite c:\test\ezlibeziptest_data\SmallSizeDoc.gz
+
+RUN_UTILS CopyFile z:\test\ezlibeziptest_data\JpegImage.jpg 			c:\test\ezlibeziptest_data\JpegImage.jpg
+RUN_UTILS MakeReadWrite c:\test\ezlibeziptest_data\JpegImage.jpg
+RUN_UTILS CopyFile z:\test\ezlibeziptest_data\GifImage.gif 				c:\test\ezlibeziptest_data\GifImage.gif
+RUN_UTILS MakeReadWrite c:\test\ezlibeziptest_data\GifImage.gif
+RUN_UTILS CopyFile z:\test\ezlibeziptest_data\BitmapImage.bmp 			c:\test\ezlibeziptest_data\BitmapImage.bmp
+RUN_UTILS MakeReadWrite c:\test\ezlibeziptest_data\BitmapImage.bmp
+RUN_UTILS CopyFile z:\test\ezlibeziptest_data\PngImage.png 				c:\test\ezlibeziptest_data\PngImage.png
+RUN_UTILS MakeReadWrite c:\test\ezlibeziptest_data\PngImage.png
+RUN_UTILS CopyFile z:\test\ezlibeziptest_data\ExifHeadFile.png 			c:\test\ezlibeziptest_data\ExifHeadFile.png
+RUN_UTILS MakeReadWrite c:\test\ezlibeziptest_data\ExifHeadFile.png
+RUN_UTILS CopyFile z:\test\ezlibeziptest_data\png8bpp_g0_b.png 			c:\test\ezlibeziptest_data\png8bpp_g0_b.png
+RUN_UTILS MakeReadWrite c:\test\ezlibeziptest_data\png8bpp_g0_b.png
+RUN_UTILS CopyFile z:\test\ezlibeziptest_data\screenbackground.png 		c:\test\ezlibeziptest_data\screenbackground.png
+RUN_UTILS MakeReadWrite c:\test\ezlibeziptest_data\screenbackground.png
+
+RUN_UTILS CopyFile z:\test\ezlibeziptest_data\HolyMoley.jar 			c:\test\ezlibeziptest_data\HolyMoley.jar
+RUN_UTILS MakeReadWrite c:\test\ezlibeziptest_data\HolyMoley.jar
+
+RUN_UTILS CopyFile z:\test\ezlibeziptest_data\ZipArchive1.zip			c:\test\ezlibeziptest_data\ZipArchive1.zip
+RUN_UTILS MakeReadWrite c:\test\ezlibeziptest_data\ZipArchive1.zip
+RUN_UTILS CopyFile z:\test\ezlibeziptest_data\ZipArchive2.zip			c:\test\ezlibeziptest_data\ZipArchive2.zip
+RUN_UTILS MakeReadWrite c:\test\ezlibeziptest_data\ZipArchive2.zip
+
+
+START_TESTCASE SYSLIB-EZLIB2-CT-4303
+//!@SYMTestCaseID 			SYSLIB-EZLIB2-CT-4303
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestDeflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestDeflatePerformanceL_02
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestDeflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestDeflatePerformanceL_01
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestDeflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestDeflatePerformanceL_03
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestDeflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestDeflatePerformanceL_04
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestDeflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestDeflatePerformanceL_05
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestDeflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestDeflatePerformanceL_06
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestDeflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestDeflatePerformanceL_07
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestDeflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestDeflatePerformanceL_08
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestDeflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestDeflatePerformanceL_09
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestDeflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestDeflatePerformanceL_10
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestDeflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestDeflatePerformanceL_11
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestDeflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestDeflatePerformanceL_12
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestDeflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestDeflatePerformanceL_13
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestDeflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestDeflatePerformanceL_14
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestDeflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestDeflatePerformanceL_15
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestDeflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestDeflatePerformanceL_16
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestDeflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestDeflatePerformanceL_17
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestDeflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestDeflatePerformanceL_18
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestDeflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestDeflatePerformanceL_19
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestDeflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestDeflatePerformanceL_20
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestDeflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestDeflatePerformanceL_21
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestDeflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestDeflatePerformanceL_22
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestDeflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestDeflatePerformanceL_23
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestDeflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestDeflatePerformanceL_24
+END_TESTCASE SYSLIB-EZLIB2-CT-4303
+
+START_TESTCASE SYSLIB-EZLIB2-CT-4304
+//!@SYMTestCaseID 			SYSLIB-EZLIB2-CT-4304
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestInflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestInflatePerformanceL_01
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestInflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestInflatePerformanceL_02
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestInflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestInflatePerformanceL_03
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestInflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestInflatePerformanceL_04
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestInflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestInflatePerformanceL_05
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestInflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestInflatePerformanceL_06
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestInflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestInflatePerformanceL_07
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestInflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestInflatePerformanceL_08
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestInflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestInflatePerformanceL_09
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestInflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestInflatePerformanceL_10
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestInflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestInflatePerformanceL_11
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestInflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestInflatePerformanceL_12
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestInflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestInflatePerformanceL_13
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestInflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestInflatePerformanceL_14
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestInflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestInflatePerformanceL_15
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestInflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestInflatePerformanceL_16
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestInflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestInflatePerformanceL_17
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestInflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestInflatePerformanceL_18
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestInflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestInflatePerformanceL_19
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestInflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestInflatePerformanceL_20
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestInflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestInflatePerformanceL_21
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestInflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestInflatePerformanceL_22
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestInflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestInflatePerformanceL_23
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestInflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestInflatePerformanceL_24
+END_TESTCASE SYSLIB-EZLIB2-CT-4304
+
+START_TESTCASE SYSLIB-EZLIB2-CT-4305
+//!@SYMTestCaseID 			SYSLIB-EZLIB2-CT-4305
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestGZipDeflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestGZipDeflatePerformanceL_01
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestGZipDeflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestGZipDeflatePerformanceL_02
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestGZipDeflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestGZipDeflatePerformanceL_03
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestGZipDeflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestGZipDeflatePerformanceL_04
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestGZipDeflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestGZipDeflatePerformanceL_05
+END_TESTCASE SYSLIB-EZLIB2-CT-4305
+
+START_TESTCASE SYSLIB-EZLIB2-CT-4306
+//!@SYMTestCaseID 			SYSLIB-EZLIB2-CT-4306
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestGZipInflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestGZipInflatePerformanceL_01
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestGZipInflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestGZipInflatePerformanceL_02
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestGZipInflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestGZipInflatePerformanceL_03
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestGZipInflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestGZipInflatePerformanceL_04
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestGZipInflatePerformanceL \tef_ezlib2\te_performancetests.ini Section_TestGZipInflatePerformanceL_05
+END_TESTCASE SYSLIB-EZLIB2-CT-4306
+
+START_TESTCASE SYSLIB-EZLIB2-CT-4307
+//!@SYMTestCaseID 			SYSLIB-EZLIB2-CT-4307
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestZipArchiveDecompressPerformanceL \tef_ezlib2\te_performancetests.ini Section_TestZipArchiveDecompressPerformanceL_01
+	RUN_TEST_STEP !Result=Pass 100 Te_EZlibEZip TestZipArchiveDecompressPerformanceL \tef_ezlib2\te_performancetests.ini Section_TestZipArchiveDecompressPerformanceL_02
+END_TESTCASE SYSLIB-EZLIB2-CT-4307
+
+RUN_UTILS DeleteDirectory C:\test\ezlibeziptest_data

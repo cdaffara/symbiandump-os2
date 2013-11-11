@@ -1,0 +1,208 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+#include <ups/policies.rh>
+
+UID2 KUidUpsPolicyResourceFile
+UID3 0x01100104
+
+// Test policy file for network access
+RESOURCE POLICIES testpolicies
+	{
+	header = POLICY_HEADER
+		{		
+		dialogcreator = 0x10283694;
+		policyevaluator = 0x10283698;
+		authorisationpolicy = ECheckIfFailed;
+		majorversion = 1;
+		minorversion = 3;
+		};
+	policies = 
+		{
+		POLICY
+			{
+			// Just use default values
+			}, 
+		POLICY
+			{
+			// Same as default values
+
+			sid_classes = KAllSids;
+			sid_list = {};
+			systemserversecurity = ESystemServerSecurityPassedOrFailed;
+			destination = "*";
+			options = KYes | KNo;
+			policyevaluator = 0x10283698;
+			dialogcreator = 0x10283694;
+			flags = 0x00;
+			reservedWord = 0x00;
+			reservedLink = 0x00;
+			},
+		POLICY
+			{
+			// Test Values 1
+
+			sid_classes = KUnprotectedSids;
+			sid_list = {0x00000001};
+			systemserversecurity = ESystemServerSecurityPassed;
+			destination = "*1";
+			options = KYes;
+			policyevaluator = 0x10000001;
+			dialogcreator = 0x20000001;
+			flags = 0x01;
+			reservedWord = 0x21;
+			reservedLink = 0x31;
+			},
+		POLICY
+			{
+			// Test Values 2
+
+			sid_classes = KProtectedSids;
+			sid_list = {0x00000001, 0x00000002};
+			systemserversecurity = ESystemServerSecurityFailed;
+			destination = "*2*";
+			options = KNo;
+			policyevaluator = 0x10000002;
+			dialogcreator = 0x20000002;
+			flags = 0x02;
+			reservedWord = 0x22;
+			reservedLink = 0x32;
+			},
+		POLICY
+			{
+			// Test Values 3
+
+			sid_classes = KSidClass0;
+			sid_list = {0x00000001, 0x00000002, 0x00000003};
+			systemserversecurity = ESystemServerSecurityFailed;
+			destination = "?3?";
+			options = KSession;
+			policyevaluator = 0x10000003;
+			dialogcreator = 0x20000003;
+			flags = 0x03;
+			reservedWord = 0x23;
+			reservedLink = 0x33;
+			},
+		POLICY
+			{
+			// Test Values 4
+
+			sid_classes = KSidClass1;
+			sid_list = {0x00000001, 0x00000002, 0x00000003,  0x00000004};
+			systemserversecurity = ESystemServerSecurityFailed;
+			destination = "?4*";
+			options = KAlways;
+			policyevaluator = 0x10000004;
+			dialogcreator = 0x20000004;
+			flags = 0x04;
+			reservedWord = 0x24;
+			reservedLink = 0x34;
+			},
+		POLICY
+			{
+			// Test Values 5
+
+			sid_classes = KSidClass2;
+			sid_list = {0x00000001, 0x00000002, 0x00000003, 0x00000004, 0x00000005};
+			systemserversecurity = ESystemServerSecurityFailed;
+			destination = "";
+			options = KNever;
+			policyevaluator = 0x10000005;
+			dialogcreator = 0x20000005;
+			flags = 0x05;
+			reservedWord = 0x25;
+			reservedLink = 0x35;
+			},
+		POLICY
+			{
+			// Test Values 6
+
+			sid_classes = KSidClass3;
+			sid_list = {0x00000001, 0x00000002, 0x00000003, 0x00000004, 0x00000005, 0x00000006};
+			systemserversecurity = ESystemServerSecurityFailed;
+			destination = "\"";
+			options = KYes;
+			policyevaluator = 0x10000006;
+			dialogcreator = 0x20000006;
+			flags = 0x06;
+			reservedWord = 0x26;
+			reservedLink = 0x36;
+			},
+		POLICY
+			{
+			// Test Values 7
+
+			sid_classes = KSidClass4;
+			sid_list = {0x80000001, 0x00000002, 0x00000003, 0x00000004, 0x00000005, 0x00000006};
+			systemserversecurity = ESystemServerSecurityFailed;
+			destination = "!\"|$%^&*()-=";
+			options = KYes|KNo;
+			policyevaluator = 0x81000007;
+			dialogcreator = 0x82000007;
+			flags = 0x7;
+			reservedWord = 0x27;
+			reservedLink = 0x37;
+			},
+		POLICY
+			{
+			// Test Values 8
+
+			sid_classes = KSidClass5;
+			sid_list = {0x80000001, 0x80000002, 0x00000003, 0x00000004, 0x00000005, 0x00000006};
+			systemserversecurity = ESystemServerSecurityFailed;
+			destination = "\'";
+			options = KYes|KNo|KSession;
+			policyevaluator = 0x81000008;
+			dialogcreator = 0x82000008;
+			flags = 0x08;
+			reservedWord = 0x28;
+			reservedLink = 0x38;
+			},
+		POLICY
+			{
+			// Test Values 9
+
+			sid_classes = KSidClass6;
+			sid_list = {0x80000001, 0x80000002, 0x80000003, 0x00000004, 0x00000005, 0x00000006};
+			systemserversecurity = ESystemServerSecurityFailed;
+			destination = "[]{};'#:@~,./<>?";
+			options = KYes|KNo|KSession|KNever;
+			policyevaluator = 0x81000009;
+			dialogcreator = 0x82000009;
+			flags = 0x09;
+			reservedWord = 0x29;
+			reservedLink = 0x39;
+			},
+		POLICY
+			{
+			// Test Values 10
+
+			sid_classes = KSidClass7;
+			sid_list = {0x80000001, 0x80000002, 0x80000003, 0x80000004, 0x00000005, 0x00000006};
+			systemserversecurity = ESystemServerSecurityFailed;
+			destination = "0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789";
+			options = KYes|KNo|KSession|KNever|KAlways;
+			policyevaluator = 0x8100000A;
+			dialogcreator = 0x8200000A;
+			flags = 0xA;
+			reservedWord = 0x2A;
+			reservedLink = 0x3A;
+			}
+		};
+	}
+

@@ -1,0 +1,152 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+
+LOAD_SUITE tcaf
+
+
+START_TESTCASE 			SEC-CAF-RIGHTS-0001
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RIGHTS-0001
+//! @SYMTestCaseDesc 		Create an agent rights manager object
+//!				(RightsManager_Create)
+//! @SYMREQ			REQ3679
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Create a CManager, use the CManager to create a CRightsManager
+//! @SYMTestExpectedResults	returns expected error code
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFRightsManagerStep c:\tcaf\rightsmanagerstep.ini CreateRightsManager
+END_TESTCASE 			SEC-CAF-RIGHTS-0001
+
+START_TESTCASE 			SEC-CAF-RIGHTS-0002
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RIGHTS-0002
+//! @SYMTestCaseDesc 		List all rights managed by an agent
+//!				(RightsManager_ListAll)
+//! @SYMREQ			REQ3679
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Create a CManager, list all rights
+//! @SYMTestExpectedResults	returns expected error code
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFRightsManagerListStep c:\tcaf\rightsmanagerstep.ini ListRights1
+END_TESTCASE 			SEC-CAF-RIGHTS-0002
+
+START_TESTCASE 			SEC-CAF-RIGHTS-0003
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RIGHTS-0003
+//! @SYMTestCaseDesc 		List all rights associated with a particular file
+//!				(RightsManager_ListRights_for_file)
+//! @SYMREQ			REQ3679
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Create a CManager, List all rights associated with the file
+//! @SYMTestExpectedResults	returns expected error code
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFRightsManagerListStep c:\tcaf\rightsmanagerstep.ini ListRights2
+END_TESTCASE 			SEC-CAF-RIGHTS-0003
+
+START_TESTCASE 			SEC-CAF-RIGHTS-0004
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RIGHTS-0004
+//! @SYMTestCaseDesc 		List all rights associated with a particular content object
+//!				(RightsManager_ListRights_for_Content_object)
+//! @SYMREQ			REQ3679
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Create a CManager, list all rights associated with a particular content object
+//! @SYMTestExpectedResults	returns expected error code
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFRightsManagerListStep c:\tcaf\rightsmanagerstep.ini ListRights3
+END_TESTCASE 			SEC-CAF-RIGHTS-0004
+
+START_TESTCASE 			SEC-CAF-RIGHTS-0005
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RIGHTS-0005
+//! @SYMTestCaseDesc 		List all content associated with a given rights object
+//!				(RightsManager_List_Content_for_rights_object)
+//! @SYMREQ			REQ3679
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Create a CManager, List all content associated with a specified rights object
+//! @SYMTestExpectedResults	returns expected error code
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFRightsManagerListStep c:\tcaf\rightsmanagerstep.ini ListContent
+END_TESTCASE 			SEC-CAF-RIGHTS-0005
+
+START_TESTCASE 			SEC-CAF-RIGHTS-0006
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RIGHTS-0006
+//! @SYMTestCaseDesc 		Get pointer to agent defined rights object
+//!				(RightsManager_Agent_Rights_Base)
+//! @SYMREQ			REQ3679
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Create a CManager, get a pointer to an MAgentRightsBase derived object corresponding to the CRightsInfo object 
+//! @SYMTestExpectedResults	returns expected error code
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFRightsManagerListStep c:\tcaf\rightsmanagerstep.ini RightsBasePointer
+END_TESTCASE 			SEC-CAF-RIGHTS-0006
+
+START_TESTCASE 			SEC-CAF-RIGHTS-0007
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RIGHTS-0007
+//! @SYMTestCaseDesc 		Delete a particular rights object
+//!				(RightsManager_DeleteRights)
+//! @SYMREQ			REQ3679
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Create a CManager, ask the agent to delete the specified rights object
+//! @SYMTestExpectedResults	returns expected error code
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFRightsManagerListStep c:\tcaf\rightsmanagerstep.ini DeleteRights
+END_TESTCASE 			SEC-CAF-RIGHTS-0007
+
+START_TESTCASE 			SEC-CAF-RIGHTS-0008
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RIGHTS-0008
+//! @SYMTestCaseDesc 		Delete all rights associated with a specified content object
+//!				(RightsManager_DeleteAllRights)
+//! @SYMREQ			REQ3679
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Create a CManager, ask the agent to delete all rights objects associated with a particular content object
+//! @SYMTestExpectedResults	returns expected error code
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFRightsManagerListStep c:\tcaf\rightsmanagerstep.ini DeleteAllRights
+END_TESTCASE 			SEC-CAF-RIGHTS-0008
+
+
+//-----------------------------------------------------------------------------------------------------------------------
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RIGHTS-0009
+//! @SYMTestCaseDesc 	     	Listing and deleting all rights object associated with a content object using a file handle.
+//!				(RightsManager-FileHandle-DRM-Content)
+//! @SYMREQ			REQ8757
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority	       	Normal
+//! @SYMTestActions		1. List all rights associated with a particular content object using a file handle.
+//!                        	2. Delete all rights associated with a specified content object using a file handle
+//! @SYMTestExpectedResults 	1.Returns expected error code, KErrCANotSupported.
+//!                        	2.Returns expected error code, KErrCANotSupported. 
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-RIGHTS-0009
+        RUN_TEST_STEP 100 tcaf CAFRightsManagerListStep c:\tcaf\rightsmanagerstep.ini ListRightsByFileHandle_DRM_Content
+        RUN_TEST_STEP 100 tcaf CAFRightsManagerListStep c:\tcaf\rightsmanagerstep.ini DeleteAllRightsByFileHandle_DRM_Content
+END_TESTCASE SEC-CAF-RIGHTS-0009
+//-----------------------------------------------------------------------------------------------------------------------
+

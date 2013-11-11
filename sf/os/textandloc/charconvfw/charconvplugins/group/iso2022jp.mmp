@@ -1,0 +1,58 @@
+/*
+* Copyright (c) 2000-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* iso2022jp.cpl ISO-2022-JP converter wrapper
+*
+*/
+
+
+/**
+ @file
+*/
+
+TARGET			iso2022jp.dll
+TARGETTYPE		PLUGIN
+
+CAPABILITY		All -Tcb
+
+UID				0x10009D8D 0x102044F5
+VENDORID		0x70000001
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+USERINCLUDE		../src/inc
+USERINCLUDE		../inc
+
+SOURCEPATH		../src/plugins
+SOURCE			iso2022jp.cpp
+
+SOURCEPATH		../resource
+START RESOURCE	iso2022jp.rss
+TARGETPATH		/resource/charconv
+LANG			sc
+END
+
+START RESOURCE	102044f5.rss
+TARGET			iso2022jp.rsc
+END
+
+LIBRARY			euser.lib
+LIBRARY			charconv.lib
+LIBRARY			convutils.lib
+LIBRARY			ecom.lib
+LIBRARY			jisbase_shared.lib 
+LIBRARY			jisx0201.lib
+LIBRARY			jisx0208.lib 
+
+SMPSAFE

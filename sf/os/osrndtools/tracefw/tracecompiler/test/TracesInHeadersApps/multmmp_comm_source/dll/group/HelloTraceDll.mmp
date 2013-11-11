@@ -1,0 +1,40 @@
+/*
+* Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+
+TARGET		  HelloTraceDll.dll
+TARGETTYPE	  dll
+UID			  0x1000008d 0xE43DF43E
+CAPABILITY    ReadUserData
+
+OS_LAYER_SYSTEMINCLUDE
+USERINCLUDE  ../inc ../incDup
+USERINCLUDE  ../traces
+
+SOURCEPATH	 ../src
+SOURCE       HelloTraceExample.cpp 
+SOURCE       HelloTraceTypes.cpp
+SOURCE       HelloTraceInterface.cpp 
+SOURCE       HelloTraceFn.cpp 
+SOURCE       HelloTracePanic.cpp 
+
+LIBRARY		 euser.lib
+
+#ifdef ENABLE_ABIV2_MODE
+DEBUGGABLE_UDEBONLY
+#endif

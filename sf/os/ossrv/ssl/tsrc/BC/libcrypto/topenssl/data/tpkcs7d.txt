@@ -1,0 +1,14 @@
+openssl tpkcs7d(3_50_2_6736) test_log testing pkcs7 conversions (2) p -> d
+openssl tpkcs7d(3_50_2_6736) pkcs7 -in c:/pkcs7-1.pem -inform p -outform d -out c:/f.d
+openssl tpkcs7d(3_50_2_6736) test_log p -> p
+openssl tpkcs7d(3_50_2_6736) pkcs7 -in c:/pkcs7-1.pem -inform p -outform p -out c:/f.p
+openssl tpkcs7d(3_50_2_6736) test_log d -> d
+openssl tpkcs7d(3_50_2_6736) pkcs7 -in c:/f.d -inform d -outform d -out c:/ff.d1
+openssl tpkcs7d(3_50_2_6736) test_log p -> d
+openssl tpkcs7d(3_50_2_6736) pkcs7 -in c:/f.p -inform p -outform d -out c:/ff.d3
+openssl tpkcs7d(3_50_2_6736) test_log d -> p
+openssl tpkcs7d(3_50_2_6736) pkcs7 -in c:/f.d -inform d -outform p -out c:/ff.p1
+openssl tpkcs7d(3_50_2_6736) test_log p -> p
+openssl tpkcs7d(3_50_2_6736) pkcs7 -in c:/f.p -inform p -outform p -out c:/ff.p3
+openssl tpkcs7d(3_50_2_6736) compare C:/f.p C:/ff.p1
+openssl tpkcs7d(3_50_2_6736) compare C:/f.p C:/ff.p3

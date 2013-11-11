@@ -1,0 +1,123 @@
+STRUCT TBUF
+	{
+	BUF buf;
+	}
+
+STRUCT LBUF
+	{
+	LTEXT txt;
+	}
+
+STRUCT STRUCT_ARRAY
+	{
+	STRUCT array[];
+	}
+
+STRUCT BYTE_ARRAY
+	{
+	BYTE array[];
+	}
+
+STRUCT LTEXT_ARRAY
+	{
+	LTEXT array[];
+	}
+
+STRUCT POINT
+	{
+	LONG x;
+	LONG y;
+	}
+
+STRUCT RSS_SIGNATURE
+	{
+	LONG signature=4;
+	SRLINK self;
+	}
+
+STRUCT SINGLES
+	{
+	STRUCT struct;
+	LONG long;
+	}
+
+STRUCT TWO_BYTE_ALIGNED_TEXT_SANDWICH
+	{
+	BYTE outer1;
+	LTEXT text;
+	BYTE outer2;
+	}
+
+STRUCT NON_TWO_BYTE_ALIGNED_TEXT_SANDWICH
+	{
+	WORD outer1;
+	LTEXT text;
+	BYTE outer2;
+	}
+
+NAME JCSF
+
+RESOURCE TBUF t_compressed_unicode_1_resource_1 {buf="Gruezi miteinander";}
+
+RESOURCE STRUCT_ARRAY t_compressed_unicode_1_resource_2
+	{
+	array=
+		{
+		LBUF {txt="Bonjour";},
+		LBUF {txt="Ni3 hao3";},
+		LBUF {txt="Konnichiwa";},
+		LBUF {txt="Zdravstvuit'e";}
+		};
+	}
+
+RESOURCE LTEXT_ARRAY t_compressed_unicode_1_resource_3
+	{
+	array=
+		{
+		"Gamarjoba",
+		"Gasou",
+		"Ola"
+		};
+	}
+
+RESOURCE BYTE_ARRAY t_compressed_unicode_1_resource_4
+	{
+	array=
+		{
+		0xbd,
+		0x5e,
+		0xf1
+		};
+	}
+
+RESOURCE RSS_SIGNATURE t_compressed_unicode_1_resource_5 {}
+
+RESOURCE TBUF t_compressed_unicode_1_resource_6 {buf="_";}
+
+RESOURCE TWO_BYTE_ALIGNED_TEXT_SANDWICH t_compressed_unicode_1_resource_7
+	{
+	outer1=9;
+	text="To";
+	outer2=97;
+	}
+
+RESOURCE NON_TWO_BYTE_ALIGNED_TEXT_SANDWICH t_compressed_unicode_1_resource_8
+	{
+	outer1=999;
+	text="To";
+	outer2=79;
+	}
+
+RESOURCE NON_TWO_BYTE_ALIGNED_TEXT_SANDWICH t_compressed_unicode_1_resource_9
+	{
+	outer1=53132;
+	text="T";
+	outer2=62;
+	}
+
+RESOURCE SINGLES t_compressed_unicode_1_resource_10
+	{
+	struct=POINT{x=1253869; y=-986324;};
+	long=0x600ddea1;
+	}
+

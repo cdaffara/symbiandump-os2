@@ -1,0 +1,109 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+PRINT Run all te_plugincharstestcases Suite Tests
+
+//
+LOAD_SUITE Te_CryptoSpi
+//
+
+RUN_PROGRAM cryptospisetup.exe 2
+
+//! @SYMTestCaseID          SEC-CRYPTOSPI-PLUGINCHAR-0002
+//! @SYMTestCaseDesc        PluginCharacteristics
+
+START_TESTCASE SEC-CRYPTOSPI-PLUGINCHAR-0002
+
+RUN_TEST_STEP 100 Te_CryptoSpi PluginCharsCommonStep c:\testdata\tcryptospi\configs\plugincharscommon.ini Main
+
+RUN_TEST_STEP 100 Te_CryptoSpi PluginCharsSymmetricCipherStep c:\testdata\tcryptospi\configs\plugincharssymmetriccipher.ini Main
+
+RUN_TEST_STEP 100 Te_CryptoSpi PluginCharsAsymmetricCipherStep c:\testdata\tcryptospi\configs\plugincharsasymmetriccipher.ini Main
+
+RUN_TEST_STEP 100 Te_CryptoSpi PluginCharsHashStep c:\testdata\tcryptospi\configs\plugincharshash.ini Main
+
+RUN_TEST_STEP 100 Te_CryptoSpi PluginCharsNewHashStep c:\testdata\tcryptospi\configs\plugin_chars_new_hash.ini Main
+
+RUN_TEST_STEP 100 Te_CryptoSpi PluginCharsRandomStep c:\testdata\tcryptospi\configs\plugincharsrandom.ini Main
+
+RUN_TEST_STEP 100 Te_CryptoSpi PluginCharsAsymSignStep c:\testdata\tcryptospi\configs\plugincharsasymsign.ini Main
+
+RUN_TEST_STEP 100 Te_CryptoSpi PluginCharsKeyAgreeStep c:\testdata\tcryptospi\configs\plugincharskeyagree.ini Main
+
+RUN_TEST_STEP 100 Te_CryptoSpi PluginCharsAsymKeyPairStep c:\testdata\tcryptospi\configs\plugincharsasymkeypair.ini Main
+
+RUN_TEST_STEP 100 Te_CryptoSpi PluginCharsExtendedStep c:\testdata\tcryptospi\configs\plugincharsextended.ini Main
+
+END_TESTCASE SEC-CRYPTOSPI-PLUGINCHAR-0002
+
+
+//! @SYMTestCaseID          SEC-CRYP003-CHAR-MAC-0001
+//! @SYMTestCaseDesc        Tests that all KAlgorithmCipherAesXcbcMac96 command and non-common
+//!                         characteristics can be retrieved from an implementation object 
+//!                         produced by the framework and that they successfully match the 
+//!                         corresponding expected values.
+//! @SYMREQ                 REQ10616, REQ10618
+//! @SYMTestPriority        High
+//! @SYMTestType            CIT
+//! @SYMTestStatus          Implemented
+//! @SYMTestExpectedResults  The call to the factory method should return KErrNone, successfully create
+//!                          the implementation object, the Algorithm ID characteristic should equal 
+//!                          KAlgorithmCipherAesXcbcMac96, and the value of characteristics
+//!                          match against their expected value. 
+
+START_TESTCASE SEC-CRYP003-CHAR-MAC-0001
+RUN_TEST_STEP 100 Te_CryptoSpi PluginCharsMacStep c:\testdata\tcryptospi\configs\plugincharsmac.ini MAC96
+END_TESTCASE SEC-CRYP003-CHAR-MAC-0001
+
+//! @SYMTestCaseID          SEC-CRYP003-CHAR-MAC-0003
+//! @SYMTestCaseDesc        Tests that all KAlgorithmCipherAesXcbcPrf128 command and non-common
+//!                         characteristics can be retrieved from an implementation object 
+//!                         produced by the framework and that they successfully match the 
+//!                         corresponding expected values.
+//! @SYMREQ                 REQ10620, REQ10621
+//! @SYMTestPriority        High
+//! @SYMTestType            CIT
+//! @SYMTestStatus          Implemented
+//! @SYMTestExpectedResults  The call to the factory method should return KErrNone, successfully create
+//!                          the implementation object, the Algorithm ID characteristic should equal 
+//!                          KAlgorithmCipherAesXcbcPrf128, and the value of characteristics
+//!                          match against their expected value. 
+
+START_TESTCASE SEC-CRYP003-CHAR-MAC-0003
+RUN_TEST_STEP 100 Te_CryptoSpi PluginCharsMacStep c:\testdata\tcryptospi\configs\plugincharsmac.ini PRF128
+END_TESTCASE SEC-CRYP003-CHAR-MAC-0003
+
+// Set up to pick up tplugin01.dll only, which does not contain KAlgorithmCipherAesXcbcPrf128 implementation
+RUN_PROGRAM cryptospisetup.exe 1
+
+//! @SYMTestCaseID          SEC-CRYP002-PLUGIN-MAC-0003
+//! @SYMTestCaseDesc        Tests that the selected software plug-in (tplugin01.dll) is loads when it is 
+//!                         specified exclusively in the plug-in configuration file, but when the missing
+//!                         implementation is called, the framework would return an error.
+//!                         (PluginFailTest)
+//! @SYMREQ                 REQ10616, REQ10618, REQ10620, REQ10621
+//! @SYMTestPriority        High
+//! @SYMTestType            CIT
+//! @SYMTestStatus          Implemented
+//! @SYMTestExpectedResults  The call to the factory method should return KErrNotFound, as the algorithm
+//!                          wasn't implemented.
+START_TESTCASE SEC-CRYP002-PLUGIN-MAC-0003
+RUN_TEST_STEP !Result=-5 100 Te_CryptoSpi PluginCharsMacStep c:\testdata\tcryptospi\configs\plugincharsmac.ini PRF128
+END_TESTCASE SEC-CRYP002-PLUGIN-MAC-0003
+
+RUN_PROGRAM cryptospisetup.exe
+
+PRINT Complete te_plugincharstestcases 

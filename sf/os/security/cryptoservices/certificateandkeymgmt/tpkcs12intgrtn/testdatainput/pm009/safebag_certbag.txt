@@ -1,0 +1,42 @@
+// SafeBag: CertBag
+// PARAM1: The name of the certificate file
+// PARAM2: The 'friendly' name of the certificate
+SEQUENCE
+	OID=PKCS12_BAGTYPES_CERTBAG
+	EXPLICIT
+		// CertBag
+		SEQUENCE
+			OID=PKCS9_CERTTYPES_PKCS12_SDSI
+			EXPLICIT
+				OCTETSTRING
+					INCLUDE_BINARY_FILE=$1
+				END
+			END
+		END
+	END
+	// Attributes
+	SET
+		SEQUENCE
+			OID=PKCS9_LOCAL_KEYID
+			SET
+				OUTPUT_BINARY_FILE=localkeyid_pm009.der,1				
+					OCTETSTRING
+						HASH=sha1
+							INCLUDE_BINARY_FILE=$1
+						END
+					END
+				END
+			END
+		END 
+		SEQUENCE
+			OID=PKCS9_FRIENDLY_NAME
+			SET
+				OUTPUT_BINARY_FILE=friendlyname_pm009.der,1
+					BMPSTRING=symbian
+				END
+			END
+		END	
+	END
+END
+
+

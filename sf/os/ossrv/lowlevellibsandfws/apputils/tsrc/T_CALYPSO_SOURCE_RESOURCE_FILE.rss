@@ -1,0 +1,154 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// T_CALYPSO_SOURCE_FILE.rss
+// This is the source resource file used as input to the tools
+// rcomp.exe ver6 and reszip tool to produce the calypso .RSC file.
+// The target .rsc file produced outside the build has also been
+// added to soruce tree.
+// 
+//
+
+STRUCT TBUF
+	{
+	BUF buf;
+	}
+
+STRUCT LBUF
+	{
+	LTEXT txt;
+	}
+
+STRUCT STRUCT_ARRAY
+	{
+	STRUCT array[];
+	}
+
+STRUCT BYTE_ARRAY
+	{
+	BYTE array[];
+	}
+
+STRUCT LTEXT_ARRAY
+	{
+	LTEXT array[];
+	}
+
+STRUCT POINT
+	{
+	LONG x;
+	LONG y;
+	}
+
+STRUCT RSS_SIGNATURE
+	{
+	LONG signature=4;
+	SRLINK self;
+	}
+
+STRUCT SINGLES
+	{
+	STRUCT struct;
+	LONG long;
+	}
+
+STRUCT TWO_BYTE_ALIGNED_TEXT_SANDWICH
+	{
+	BYTE outer1;
+	LTEXT text;
+	BYTE outer2;
+	}
+
+STRUCT NON_TWO_BYTE_ALIGNED_TEXT_SANDWICH
+	{
+	WORD outer1;
+	LTEXT text;
+	BYTE outer2;
+	}
+
+NAME JCSF
+
+RESOURCE TBUF t_compressed_unicode_1_resource_1 {buf="Gruezi miteinander";}
+
+RESOURCE STRUCT_ARRAY t_compressed_unicode_1_resource_2
+	{
+	array=
+		{
+		LBUF {txt="Bonjour";},
+		LBUF {txt="Ni3 hao3";},
+		LBUF {txt="Konnichiwa";},
+		LBUF {txt="Zdravstvuit'e";}
+		};
+	}
+
+RESOURCE LTEXT_ARRAY t_compressed_unicode_1_resource_3
+	{
+	array=
+		{
+		"Gamarjoba",
+		"Gasou",
+		"Ola"
+		};
+	}
+
+RESOURCE BYTE_ARRAY t_compressed_unicode_1_resource_4
+	{
+	array=
+		{
+		0xbd,
+		0x5e,
+		0xf1
+		};
+	}
+
+RESOURCE RSS_SIGNATURE t_compressed_unicode_1_resource_5 {}
+
+RESOURCE TBUF t_compressed_unicode_1_resource_6 {buf="_";}
+
+RESOURCE TWO_BYTE_ALIGNED_TEXT_SANDWICH t_compressed_unicode_1_resource_7
+	{
+	outer1=9;
+	text="To";
+	outer2=97;
+	}
+
+RESOURCE NON_TWO_BYTE_ALIGNED_TEXT_SANDWICH t_compressed_unicode_1_resource_8
+	{
+	outer1=999;
+	text="To";
+	outer2=79;
+	}
+
+RESOURCE NON_TWO_BYTE_ALIGNED_TEXT_SANDWICH t_compressed_unicode_1_resource_9
+	{
+	outer1=53132;
+	text="T";
+	outer2=62;
+	}
+
+RESOURCE SINGLES t_compressed_unicode_1_resource_10
+	{
+	struct=POINT{x=1253869; y=-986324;};
+	long=0x600ddea1;
+	}
+
+RESOURCE LTEXT_ARRAY t_compressed_unicode_1_resource_11
+	{
+	array=
+		{
+		"Much of the information that defines the appearance, behaviour and functionality of a Symbian OS application is stored in a resource file external to the main body of the program. This is unlike some other programming environments, in which a single executable contains all the code and information used by the application. Resource files can have the advantages that information is loaded only when needed, which can reduce RAM requirements, that they can be compressed, and that they can be localised without recompiling the main program.",
+		"Resource files are developed as text files written in a Symbian OS-specific resource language. These source files are then compiled into a binary file format that can be loaded and read by programs. The source files can be compiled on their own using the command-line resource builder tool (epocrc), or as part of the standard project building process either from the command-line or from within an IDE.",
+		"Much of the information that defines the appearance, behaviour and functionality of a Symbian OS application is stored in a resource file external to the main body of the program. This is unlike some other programming environments, in which a single executable contains all the code and information used by the application. Resource files can have the advantages that information is loaded only when needed, which can reduce RAM requirements, that they can be compressed, and that they can be localised without recompiling the main program.",
+		"Resource files are developed as text files written in a Symbian OS-specific resource language. These source files are then compiled into a binary file format that can be loaded and read by programs. The source files can be compiled on their own using the command-line resource builder tool (epocrc), or as part of the standard project building process either from the command-line or from within an IDE."
+		};
+	}

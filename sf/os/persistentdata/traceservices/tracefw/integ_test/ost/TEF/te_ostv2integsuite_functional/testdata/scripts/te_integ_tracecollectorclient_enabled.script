@@ -1,0 +1,265 @@
+// Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+
+//! @file
+//! @SYMTestSuiteName           te-integ-tracecollectorclient_enabled.script
+//! @SYMScriptTestEnvironment   TEF
+
+
+LOAD_SUITE te_ostv2integsuite_enabled
+
+
+PRINT API_Functionality_Tests for utrace compiled in
+
+START_TESTCASE                  DT-DEBUG-TRACE-OSTv2-TraceControlAPIGroupIDEnabled-0001
+//! @SYMTestCaseID              DT-DEBUG-TRACE-OSTv2-TraceControlAPIGroupIDEnabled-0001
+//! @SYMTestCaseDesc            Run test for group ID filter settings in TraceControl server for trace compiled in
+//! @SYMTestPriority            Critical
+//! @SYMTestActions             Run a combination of single and multiple group ID filter set() methods and check the contents of the get() methods on server return the filters as expected
+//! @SYMTestExpectedResults     Verify that the values returned by get methods match those expected from settings (test step returns a test pass if so)
+//! @SYMTestType                CT
+//! @SYMTestStatus              Implemented
+//! @SYMPREQ                    PREQ2390
+//! @SYMREQ                     12128 12974 12975
+    START_TEST_BLOCK    1000    te_ostv2integsuite_enabled              \testdata\configs\te_integ_tracecollectorclient.ini
+        CREATE_OBJECT           TCMGroupIDFiltering                     TCMGroupIDFiltering
+        COMMAND                 TCMGroupIDFiltering                     doTest
+    END_TEST_BLOCK 
+END_TESTCASE                    DT-DEBUG-TRACE-OSTv2-TraceControlAPIGroupIDEnabled-0001
+
+
+START_TESTCASE                  DT-DEBUG-TRACE-OSTv2-TraceControlAPICompIDEnabled-0001
+//! @SYMTestCaseID              DT-DEBUG-TRACE-OSTv2-TraceControlAPICompIDEnabled-0001
+//! @SYMTestCaseDesc            Run test for component ID filter settings in TraceControl server for trace compiled in
+//! @SYMTestPriority            Critical
+//! @SYMTestActions             Run a combination of single and multiple component ID filter set() methods and check the contents of the get() methods on server return the filters as expected
+//! @SYMTestExpectedResults     Verify that the values returned by get methods match those expected from settings (test step returns a test pass if so)
+//! @SYMTestType                CT
+//! @SYMTestStatus              Implemented
+//! @SYMPREQ                    PREQ2390
+//! @SYMREQ                     12128 12974 12975
+    START_TEST_BLOCK    20000   te_ostv2integsuite_enabled              \testdata\configs\te_integ_tracecollectorclient.ini
+        CREATE_OBJECT           TCMComponentIDFiltering                 TCMComponentIDFiltering
+        COMMAND                 TCMComponentIDFiltering                 doTest
+    END_TEST_BLOCK 
+END_TESTCASE                    DT-DEBUG-TRACE-OSTv2-TraceControlAPICompIDEnabled-0001
+
+
+START_TESTCASE                  DT-DEBUG-TRACE-OSTv2-TraceControlAPILoggingEnabled-0001
+//! @SYMTestCaseID              DT-DEBUG-TRACE-OSTv2-TraceControlAPILoggingEnabled-0001
+//! @SYMTestCaseDesc            Run test for logging in TraceControl server for trace compiled in on user side
+//! @SYMTestPriority            Critical
+//! @SYMTestActions             Run a combination of single and multiple filter and filtering set() methods instrument user-side trace points accordingly for positive, negative and multiple setting tests
+//! @SYMTestExpectedResults     Verify that the returned trace data and the output trace log files match the settings in the TraceControl accordingly
+//! @SYMTestType                CT
+//! @SYMTestStatus              Implemented
+//! @SYMPREQ                    PREQ2390
+//! @SYMREQ                     12128 12974 12975 12823 12824 12825 12128 12974 12975
+    START_TEST_BLOCK    20000   te_ostv2integsuite_enabled              \testdata\configs\te_integ_tracecollectorclient.ini
+        CREATE_OBJECT           TCMLogging                              TCMLogging
+        COMMAND                 TCMLogging                              doTest
+    END_TEST_BLOCK 
+END_TESTCASE                    DT-DEBUG-TRACE-OSTv2-TraceControlAPILoggingEnabled-0001
+
+
+START_TESTCASE                  DT-DEBUG-TRACE-OSTv2-TraceControlADPAPIGroupIDEnabled-0001
+//! @SYMTestCaseID              DT-DEBUG-TRACE-OSTv2-TraceControlADPAPIGroupIDEnabled-0001
+//! @SYMTestCaseDesc            Run test for group ID filter and filtering settings in TraceControl server for trace compiled in
+//! @SYMTestPriority            Critical
+//! @SYMTestActions             Run a combination of single and multiple group ID filter and filtering set() methods and check the contents of the get() methods on server return the filters as expected
+//! @SYMTestExpectedResults     Verify that the values returned by get methods match those expected from settings (test step returns a test pass if so)
+//! @SYMTestType                CT
+//! @SYMTestStatus              Implemented
+//! @SYMPREQ                    PREQ2390
+//! @SYMREQ                     12128 12974 12975
+    START_TEST_BLOCK    1000    te_ostv2integsuite_enabled              \testdata\configs\te_integ_tracecollectorclient.ini
+        CREATE_OBJECT           TCMAdvancedGroupIDFiltering             TCMAdvancedGroupIDFiltering
+        COMMAND                 TCMAdvancedGroupIDFiltering             doTest
+    END_TEST_BLOCK 
+END_TESTCASE                    DT-DEBUG-TRACE-OSTv2-TraceControlADPAPIGroupIDEnabled-0001
+
+
+PREFIX RUN_UTILS
+CopyFile C:\logs\ULoggerStartFileTestLog.utf c:\logs\uloggeradpapiprimteststep_enabled.utf
+DeleteFile C:\logs\ULoggerStartFileTestLog.utf
+REMOVE_PREFIX
+
+
+START_TESTCASE                  DT-DEBUG-TRACE-OSTv2-TraceControlADPAPICompIDEnabled-0001
+//! @SYMTestCaseID              DT-DEBUG-TRACE-OSTv2-TraceControlADPAPICompIDEnabled-0001
+//! @SYMTestCaseDesc            Run test for component ID filter and filtering settings in TraceControl server for trace compiled in
+//! @SYMTestPriority            Critical
+//! @SYMTestActions             Run a combination of single and multiple component ID filter and filtering set() methods and check the contents of the get() methods on server return the filters as expected
+//! @SYMTestExpectedResults     Verify that the values returned by get methods match those expected from settings (test step returns a test pass if so)
+//! @SYMTestType                CT
+//! @SYMTestStatus              Implemented
+//! @SYMPREQ                    PREQ2390
+//! @SYMREQ                     12128 12974 12975
+    START_TEST_BLOCK    1000    te_ostv2integsuite_enabled              \testdata\configs\te_integ_tracecollectorclient.ini
+        CREATE_OBJECT           TCMAdvancedComponentIDFiltering         TCMAdvancedComponentIDFiltering
+        COMMAND                 TCMAdvancedComponentIDFiltering         doTest
+    END_TEST_BLOCK 
+END_TESTCASE                    DT-DEBUG-TRACE-OSTv2-TraceControlADPAPICompIDEnabled-0001
+
+
+PREFIX RUN_UTILS
+CopyFile C:\logs\ULoggerStartFileTestLog.utf c:\logs\uloggeradpapisecondteststep_enabled.utf
+DeleteFile C:\logs\ULoggerStartFileTestLog.utf
+REMOVE_PREFIX 
+
+
+START_TESTCASE                  DT-DEBUG-TRACE-OSTv2-TraceControlBufferSizingEnabled-0001
+//! @SYMTestCaseID              DT-DEBUG-TRACE-OSTv2-TraceControlBufferSizingEnabled-0001
+//! @SYMTestCaseDesc            Run test for buffersizing settings in TraceControl server for trace compiled in
+//! @SYMTestPriority            Critical
+//! @SYMTestActions             Run a combination of buffer resizing methods and run over various stress testing trace instrumentations. check the contents of the output file is as expected
+//! @SYMTestExpectedResults     Verify that output file contains #traces as expected
+//! @SYMTestType                CT
+//! @SYMTestStatus              Implemented
+//! @SYMPREQ                    PREQ2390
+//! @SYMREQ                     12152 
+    START_TEST_BLOCK    1000    te_ostv2integsuite_enabled              \testdata\configs\te_integ_tracecollectorclient.ini
+        CREATE_OBJECT           TCMBufferSizing                         TCMBufferSizing
+        COMMAND                 TCMBufferSizing                         doTest
+    END_TEST_BLOCK 
+END_TESTCASE                    DT-DEBUG-TRACE-OSTv2-TraceControlBufferSizingEnabled-0001
+
+
+START_TESTCASE                  DT-DEBUG-TRACE-OSTv2-TraceControlBufferModeEnabled-0001
+//! @SYMTestCaseID              DT-DEBUG-TRACE-OSTv2-TraceControlBufferModeEnabled-0001
+//! @SYMTestCaseDesc            Run test for buffer mode settings in TraceControl server for trace compiled in
+//! @SYMTestPriority            Critical
+//! @SYMTestActions             Run a combination of buffer mode change methods and run over various stress testing trace instrumentations. check the contents of the output file is as expected
+//! @SYMTestExpectedResults     Verify that output file contains a trace pattern as expected from buffer mode type
+//! @SYMTestType                CT
+//! @SYMTestStatus              Implemented
+//! @SYMPREQ                    PREQ2390
+//! @SYMREQ                     12152 
+    START_TEST_BLOCK    1000    te_ostv2integsuite_enabled              \testdata\configs\te_integ_tracecollectorclient.ini
+        CREATE_OBJECT           TCMBufferMode                           TCMBufferMode
+        COMMAND                 TCMBufferMode                           doTest
+    END_TEST_BLOCK 
+END_TESTCASE                    DT-DEBUG-TRACE-OSTv2-TraceControlBufferModeEnabled-0001
+
+
+//uncomment test case when kernel side API reimplemented/graceful kernel side behaviour tested
+//START_TESTCASE                DT-DEBUG-TRACE-OSTv2-TraceControlAPIKernelEnabled-0001
+//! @SYMTestCaseID              DT-DEBUG-TRACE-OSTv2-TraceControlAPIKernelEnabled-0001
+//! @SYMTestCaseDesc            Run test for logging in TraceControl server for trace points compiled in on kernel side
+//! @SYMTestPriority            Critical
+//! @SYMTestActions             Run a combination of single and multiple filter and filtering set() methods instrument kernel-side trace points accordingly for positive, negative and multiple setting tests
+//! @SYMTestExpectedResults     Verify that the returned trace data and the output trace log files match the settings in the TraceControl accordingly
+//! @SYMTestType                CT
+//! @SYMTestStatus              Implemented
+//! @SYMPREQ                    PREQ2390
+//! @SYMREQ                     12128 12974 12975 12823 12824 12825 12128 12974 12975
+//  START_TEST_BLOCK    1000    te_ostv2integsuite_enabled              \testdata\configs\te_integ_tracecollectorclient.ini
+//      CREATE_OBJECT           TCMKernelLogging                        TCMKernelLogging
+//      COMMAND                 TCMKernelLogging                        doTest
+//  END_TEST_BLOCK 
+//END_TESTCASE                  DT-DEBUG-TRACE-OSTv2-TraceControlAPIKernelEnabled-0001
+
+
+START_TESTCASE                  DT-DEBUG-TRACE-OSTv2-TraceControlAPIPrintfEnabled-0001
+//! @SYMTestCaseID              DT-DEBUG-TRACE-OSTv2-TraceControlAPIPrintfEnabled-0001
+//! @SYMTestCaseDesc            Run test for logging in TraceControl server for trace printf-style points compiled in on user side
+//! @SYMTestPriority            Critical
+//! @SYMTestActions             Run a combination of single and multiple filter and filtering set() methods instrument user-side trace printf-style points accordingly for positive, negative and multiple setting tests
+//! @SYMTestExpectedResults     Verify that the returned trace data and the output trace log files match the settings in the TraceControl accordingly
+//! @SYMTestType                CT
+//! @SYMTestStatus              Implemented
+//! @SYMPREQ                    PREQ2390
+//! @SYMREQ                     12128 12974 12975 12823 12824 12825 12128 12974 12975
+    START_TEST_BLOCK    1000    te_ostv2integsuite_enabled              \testdata\configs\te_integ_tracecollectorclient.ini
+        CREATE_OBJECT           TCMPrintfLogging                        TCMPrintfLogging
+        COMMAND                 TCMPrintfLogging                        doTest
+    END_TEST_BLOCK 
+END_TESTCASE                    DT-DEBUG-TRACE-OSTv2-TraceControlAPIPrintfEnabled-0001
+
+
+//uncomment test case when kernel side API reimplemented/graceful kernel side behaviour tested
+//START_TESTCASE                DT-DEBUG-TRACE-OSTv2-TraceControlAPIKernelPrintfEnabled-0001
+//! @SYMTestCaseID              DT-DEBUG-TRACE-OSTv2-TraceControlAPIKernelPrintfEnabled-0001
+//! @SYMTestCaseDesc            Run test for logging in TraceControl server for trace printf-style points compiled in on kernel side
+//! @SYMTestPriority            Critical
+//! @SYMTestActions             Run a combination of single and multiple filter and filtering set() methods instrument kernel-side trace printf-style points accordingly for positive, negative and multiple setting tests
+//! @SYMTestExpectedResults     Verify that the returned trace data and the output trace log files match the settings in the TraceControl accordingly
+//! @SYMTestType                CT
+//! @SYMTestStatus              Implemented
+//! @SYMPREQ                    PREQ2390
+//! @SYMREQ                     12128 12974 12975 12823 12824 12825 12128 12974 12975
+//  START_TEST_BLOCK    1000    te_ostv2integsuite_enabled              \testdata\configs\te_integ_tracecollectorclient.ini
+//      CREATE_OBJECT           TCMKernelPrintfLogging                  TCMKernelPrintfLogging
+//      COMMAND                 TCMKernelPrintfLogging                  doTest
+//  END_TEST_BLOCK 
+//END_TESTCASE                  DT-DEBUG-TRACE-OSTv2-TraceControlAPIKernelPrintfEnabled-0001 
+
+
+PRINT Plugin_Tests
+
+
+START_TESTCASE                  DT-DEBUG-TRACE-OSTv2-TraceControlFilePluginEnabled-0001
+//! @SYMTestCaseID              DT-DEBUG-TRACE-OSTv2-TraceControlFilePluginEnabled-0001
+//! @SYMTestCaseDesc            Run test for logging to the file plugin for trace compiled in
+//! @SYMTestPriority            Critical
+//! @SYMTestActions             Run a combination of plugin configuration methods for the file plugin and log over trace instrumentation
+//! @SYMTestExpectedResults     Verify that the trace data is output as expected to the file plugin
+//! @SYMTestType                CT
+//! @SYMTestStatus              Implemented
+//! @SYMPREQ                    PREQ2390
+//! @SYMREQ                     12129 12153
+    START_TEST_BLOCK    1000    te_ostv2integsuite_enabled              \testdata\configs\te_integ_tracecollectorclient.ini
+        CREATE_OBJECT           TCMFilePlugin                           TCMFilePlugin
+        COMMAND                 TCMFilePlugin                           doTest
+    END_TEST_BLOCK 
+END_TESTCASE                    DT-DEBUG-TRACE-OSTv2-TraceControlFilePluginEnabled-0001 
+
+
+START_TESTCASE                  DT-DEBUG-TRACE-OSTv2-TraceControlSerialPluginEnabled-0001
+//! @SYMTestCaseID              DT-DEBUG-TRACE-OSTv2-TraceControlSerialPluginEnabled-0001
+//! @SYMTestCaseDesc            Run test for logging to the serial plugin for trace compiled in
+//! @SYMTestPriority            Critical
+//! @SYMTestActions             Run a combination of plugin configuration methods for the serial plugin and log over trace instrumentation
+//! @SYMTestExpectedResults     Verify that the trace data is output as expected to the serial plugin
+//! @SYMTestType                CT
+//! @SYMTestStatus              Implemented
+//! @SYMPREQ                    PREQ2390
+//! @SYMREQ                     12129 12153 12147
+    START_TEST_BLOCK    1000    te_ostv2integsuite_enabled              \testdata\configs\te_integ_tracecollectorclient.ini
+        CREATE_OBJECT           TCMSerialPlugin                         TCMSerialPlugin
+        COMMAND                 TCMSerialPlugin                         doTest
+    END_TEST_BLOCK 
+END_TESTCASE                    DT-DEBUG-TRACE-OSTv2-TraceControlSerialPluginEnabled-0001
+
+
+START_TESTCASE                  DT-DEBUG-TRACE-OSTv2-TraceControlFilePluginStepErrEnabled-0001
+//! @SYMTestCaseID              DT-DEBUG-TRACE-OSTv2-TraceControlFilePluginStepErrEnabled-0001
+//! @SYMTestCaseDesc            Run test for error returns from plugin methods for trace compiled in
+//! @SYMTestPriority            Critical
+//! @SYMTestActions             Run a combination of plugin configuration methods for the file plugin and test on the return errors
+//! @SYMTestExpectedResults     Verify that the errors returned are as expected
+//! @SYMTestType                CT
+//! @SYMTestStatus              Implemented
+//! @SYMPREQ                    PREQ2390
+//! @SYMREQ                     12129 12153 12147
+    START_TEST_BLOCK    1000    te_ostv2integsuite_enabled              \testdata\configs\te_integ_tracecollectorclient.ini
+        CREATE_OBJECT           TCMFilePluginErr                        TCMFilePluginErr
+        COMMAND                 TCMFilePluginErr                        doTest
+    END_TEST_BLOCK 
+END_TESTCASE                    DT-DEBUG-TRACE-OSTv2-TraceControlFilePluginStepErrEnabled-0001
+
+
+PRINT Complete_te_TraceControl_Tests for utrace compiled in

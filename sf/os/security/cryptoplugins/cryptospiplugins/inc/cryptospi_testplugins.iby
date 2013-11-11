@@ -1,0 +1,52 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+REM H4 Hardware Device Driver
+
+#ifndef __SECURITY_NOTH4__
+#ifdef __SECURITY_MANDATORY_SWICERTSTORE__
+// Proof of concept H4 driver (NOT supported)
+#ifdef __SECURITY_TEST_ROM__
+ROM_IMAGE[0] {
+#endif
+file=ABI_DIR\BUILD_DIR\cryptodriver.dll 	"sys\bin\cryptodriver.dll"
+#ifdef __SECURITY_TEST_ROM__
+}
+#endif
+
+// Add them to the Core image (core.img) only. As rofs1.img does not support the device, and extension.
+ROM_IMAGE[0] {
+device[VARID]=ABI_DIR\BUILD_DIR\cryptoldd.ldd 	"sys\bin\cryptoldd.ldd"
+device[VARID]=ABI_DIR\BUILD_DIR\crypto.h4.pdd 	"sys\bin\crypto.h4.pdd"
+device[VARID]=ABI_DIR\BUILD_DIR\cryptojobs.dll 	"sys\bin\cryptojobs.dll"
+}
+
+// preq57 plugin for H4 driver
+#ifdef __SECURITY_TEST_ROM__
+ROM_IMAGE[0] {
+#endif
+file=ABI_DIR\BUILD_DIR\crypto_h4_plugin.dll 	"sys\bin\crypto_h4_plugin.dll"
+#ifdef __SECURITY_TEST_ROM__
+}
+#endif
+
+// Test code for H4 driver and plugin
+file=ABI_DIR\BUILD_DIR\tcrypto.exe 	"sys\bin\tcrypto.exe"
+file=ABI_DIR\BUILD_DIR\temb.exe 	"sys\bin\temb.exe"
+file=ABI_DIR\BUILD_DIR\tasync.exe 	"sys\bin\tasync.exe"
+#endif
+#endif

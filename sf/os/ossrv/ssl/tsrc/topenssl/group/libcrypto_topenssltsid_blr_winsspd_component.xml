@@ -1,0 +1,54 @@
+<!--
+* ==============================================================================
+*  Name        : libcrypto_topenssltsid_blr_winsspd_component.xml
+*  Part of     : topenssl
+*
+*  Description : xml for winsspd
+*  Version:   0.5
+*
+*  Copyright (C) 2006 Nokia Corporation.
+*  This material, including documentation and any related 
+*  computer programs, is protected by copyright controlled by 
+*  Nokia Corporation. All rights are reserved. Copying, 
+*  including reproducing, storing,  adapting or translating, any 
+*  or all of this material requires the prior written consent of 
+*  Nokia Corporation. This material also contains confidential 
+*  information which may not be disclosed to others without the 
+*  prior written consent of Nokia Corporation.
+*
+* ============================================================================
+-->
+<component>
+		<name>libcrypto_topenssltsid_blr_winsspd_component</name>
+		
+		<testset>
+				<id>libcrypto_topenssltsid_blr</id>
+				<priority>High</priority>
+		
+		<install type="binary">
+				<src>openssl.exe</src>
+				<dst>z:\sys\bin\openssl.exe</dst>
+		</install>
+		<install type="data">
+                		<src>testsid.pem</src>
+                		<dst>c:\testsid.pem</dst>
+    </install>
+    
+
+   <install type="data">
+                		<src>tsid.txt</src>
+                		<dst>c:\tsid.txt</dst>
+    </install>
+    		
+		<execute>
+				<file>Z:\sys\bin\openssl.exe</file>
+				<parameters>c:/tsid.txt</parameters>
+        <result type="common">
+            <file>c:\spd_logs\xml\tsid(3_50_2_6740).xml</file>
+        </result>
+        <timeout>600</timeout>
+		</execute>
+		
+		</testset>
+		
+</component>

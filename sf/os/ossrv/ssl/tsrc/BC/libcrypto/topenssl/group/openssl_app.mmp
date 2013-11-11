@@ -1,0 +1,149 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). All rights reserved.
+
+* Redistribution and use in source and binary forms, with or without 
+* modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this 
+* list of conditions and the following disclaimer.
+* Redistributions in binary form must reproduce the above copyright notice, 
+* this list of conditions and the following disclaimer in the documentation 
+* and/or other materials provided with the distribution.
+* Neither the name of Nokia Corporation nor the names of its contributors 
+* may be used to endorse or promote products derived from this software 
+* without specific prior written permission.
+
+* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+* AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+* IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+* DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE 
+* FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+* DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
+* SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+* CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, 
+* OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
+* OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*
+* Description:  
+*
+*/
+
+
+TARGET          openssl.exe
+TARGETTYPE      exe
+UID           0x1000008D 0xE10FF012
+
+#if defined(EKA2)
+CAPABILITY      ALL -TCB
+/* Remove comments and replace 0x00000000 with correct vendor id */
+// VENDORID     0x00000000
+/* Remove comments and replace 0x00000000 with correct secure id */
+// SECUREID     0x00000000
+#endif
+
+EPOCHEAPSIZE  0x1000 0x150000
+
+//TARGETPATH      ?target_path
+
+MACRO SYMBIAN
+MACRO OPENSSL_NO_SPEED
+MACRO MONOLITH
+
+USERINCLUDE     ../inc 
+USERINCLUDE     ../../../include
+
+SYSTEMINCLUDE   /epoc32/include 
+SYSTEMINCLUDE   /epoc32/include/internal
+//SYSTEMINCLUDE   /epoc32/include/osextensions/stdapis
+//SYSTEMINCLUDE   /epoc32/include/osextensions/stdapis/sys
+
+SYSTEMINCLUDE   /epoc32/include/stdapis
+SYSTEMINCLUDE   /epoc32/include/stdapis/openssl
+
+
+
+
+
+SOURCEPATH      ..
+
+
+SOURCE		  src/openssl.c 
+SOURCE		  src/verify.c 
+SOURCE		  src/asn1pars.c 
+SOURCE		  src/req.c 
+SOURCE		  src/dgst.c 
+SOURCE		  src/dh.c
+SOURCE		  src/dhparam.c
+SOURCE		  src/enc.c 
+SOURCE		  src/passwd.c 
+SOURCE		  src/gendh.c 
+SOURCE		  src/errstr.c 
+SOURCE		  src/ca.c
+SOURCE		  src/pkcs7.c 
+SOURCE		  src/crl2p7.c
+SOURCE		  src/crl.c
+SOURCE		  src/rsa.c 
+SOURCE		  src/rsautl.c 
+SOURCE		  src/dsa.c 
+SOURCE		  src/dsaparam.c 
+SOURCE		  src/x509.c 
+SOURCE		  src/genrsa.c 
+SOURCE		  src/gendsa.c 
+SOURCE		  src/s_server.c 
+SOURCE		  src/s_client.c 
+SOURCE		  src/s_time.c 
+SOURCE		  src/apps.c
+SOURCE		  src/s_cb.c 
+SOURCE		  src/s_socket.c 
+SOURCE		  src/app_rand.c 
+SOURCE		  src/version.c 
+SOURCE		  src/sess_id.c
+SOURCE		  src/ciphers.c
+SOURCE		  src/nseq.c 
+SOURCE		  src/pkcs12.c 
+SOURCE		  src/pkcs8.c 
+SOURCE		  src/spkac.c 
+SOURCE		  src/smime.c 
+SOURCE		  src/rand.c 
+SOURCE		  src/engine.c
+SOURCE		  src/ocsp.c 
+SOURCE		  src/prime.c
+
+
+
+//RESOURCE        resource_file
+//RESOURCE        resource_file2
+
+
+LIBRARY         libcrypto.lib
+LIBRARY         libssl.lib
+LIBRARY         libc.lib
+LIBRARY         euser.lib
+STATICLIBRARY libcrt0.lib
+LANG            SC
+EPOCSTACKSIZE 0x5000
+/*
+START WINS      
+?wins_specific_information
+END
+
+START MARM
+?marm_specific_information
+END
+*/
+// Other possible keywords:
+ 
+// DOCUMENT     ?file, that is not compiled, but added to MSVC project workspace (i.e. release notes)
+/*
+START BITMAP ?target
+TARGETPATH   ?emulated_path_on_target_machine
+HEADER
+SOURCE       ?color_depth ?source_bitmap
+END
+*/
+// DEFFILE ?filename
+// AIF ?filename
+
+// End of File
+
+SMPSAFE

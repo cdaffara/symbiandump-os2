@@ -1,0 +1,97 @@
+// Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+//helper test components
+#include "../helper/configured_efm/group/bld.inf"
+#include "../helper/test_plugins/group/bld.inf"
+#include "../helper/pluginhelper/group/bld.inf"
+#include "../helper/dummyswi/group/bld.inf"
+#include "../helper/helping_exe/group/bld.inf" 
+
+PRJ_TESTMMPFILES
+//Rtest project files
+// These backup and restore tests are techview tests, therefore need to be marked as manual for ONB purpose.  
+../rtest/group/t_fmgrbackupresponse.mmp manual
+../rtest/group/t_fmgrrestoreresponse.mmp manual
+
+// RTest for Textshell
+../rtest/group/t_fmgrapi.mmp
+../rtest/group/t_fmgroom.mmp
+../rtest/group/t_fmgrstartup.mmp
+../rtest/group/t_fmgrpanic.mmp
+../rtest/group/t_fmgrbadclient.mmp
+../rtest/group/t_fmgrsecurity1.mmp
+../rtest/group/t_fmgrnotify.mmp
+../rtest/group/t_fmgrperformance.mmp
+../rtest/group/t_fmgrswi.mmp
+../rtest/group/t_fmgrunitrefcount.mmp
+
+//TEF project files
+../tef/tef_feature_generator/group/tef_feature_generator.mmp manual
+../tef/tef_efm_normal/group/efm_normal_testserver.mmp manual
+../tef/tef_efm_configured/group/efm_configured_testserver.mmp manual
+../tef/tef_efm_unit/group/efm_unit_testserver.mmp manual
+../tef/tef_efm_bursuite/group/tef_efm_bursuite.mmp manual
+
+PRJ_TESTEXPORTS
+//TEF script files
+../tef/group/tef_featmgr.script 							z:/test/efm/scripts/tef_featmgr.script
+../tef/tef_efm_normal/scripts/tef_efm_normal.script 		z:/test/efm/scripts/tef_efm_normal.script
+../tef/tef_efm_normal/scripts/tef_efm_normal.ini			z:/test/efm/scripts/tef_efm_normal.ini
+../tef/tef_efm_normal/scripts/tef_efm_normal_hardware.ini	z:/test/efm/scripts/tef_efm_normal_hardware.ini
+../tef/tef_efm_normal/scripts/tef_efm_fullcap.script	 	z:/test/efm/scripts/tef_efm_fullcap.script
+../tef/tef_efm_normal/scripts/tef_efm_lowcap.script 		z:/test/efm/scripts/tef_efm_lowcap.script
+../tef/tef_efm_configured/scripts/tef_efm_configured.script z:/test/efm/scripts/tef_efm_configured.script
+../tef/tef_efm_configured/scripts/tef_efm_performance.script z:/test/efm/scripts/tef_efm_performance.script
+../tef/tef_efm_unit/scripts/tef_efm_unit.script 			z:/test/efm/scripts/tef_efm_unit.script
+../tef/tef_efm_unit/scripts/tef_efm_unit.ini				z:/test/efm/scripts/tef_efm_unit.ini
+../tef/tef_efm_bursuite/scripts/tef_efm_bursuite.script		z:/test/efm/scripts/tef_efm_bursuite.script
+
+// .ini file for characterisation testing.
+../tef/tef_efm_configured/scripts/characterise.ini 		z:/test/efm/scripts/characterise.ini
+
+//feature definition files for TEF feature generator
+../tef/tef_feature_generator/config/reconciliation_features.ini	z:/test/efm/scripts/reconciliation_features.ini
+../tef/tef_feature_generator/config/persistence_features.ini  	z:/test/efm/scripts/persistence_features.ini
+../tef/tef_feature_generator/config/dsr_features.ini			z:/test/efm/scripts/dsr_features.ini
+../tef/tef_feature_generator/config/plugin_features.ini			z:/test/efm/scripts/plugin_features.ini
+../tef/tef_feature_generator/config/unit_features.ini			z:/test/efm/scripts/unit_features.ini
+../tef/tef_feature_generator/config/unit_runtime_features.ini	z:/test/efm/scripts/unit_runtime_features.ini
+../tef/tef_feature_generator/config/corruptdat.ini				z:/test/efm/scripts/corruptdat.ini
+
+// TestExecute additional files (urel & udeb)
+../tef/tef_efm_bursuite/scripts/tef_efm_bursuite.ini	z:/test/efm/scripts/tef_efm_bursuite.ini
+
+// 1200 feature data file for characterisation testing.
+../tef/tef_efm_configured/data/fs_1200.dat 		z:/test/efm/scripts/fs_1200.dat
+
+//corrupt features file
+../tef/tef_efm_configured/data/noheader.dat	z:/test/efm/scripts/noheader.dat
+../tef/tef_efm_configured/data/partial.dat	z:/test/efm/scripts/partial.dat
+
+//iby files for the test components
+featmgr_techview_test.iby                                       /epoc32/rom/include/featmgr_techview_test.iby
+featmgr_techview_rtest.iby                                      /epoc32/rom/include/featmgr_techview_rtest.iby
+featmgr_textshell_test.iby                                      /epoc32/rom/include/featmgr_textshell_test.iby
+../tef/tef_efm_configured/group/efm_configured_testserver.iby   /epoc32/rom/include/efm_configured_testserver.iby
+../tef/tef_efm_normal/group/efm_normal_testserver.iby 			/epoc32/rom/include/efm_normal_testserver.iby
+../tef/tef_efm_unit/group/efm_unit_testserver.iby 				/epoc32/rom/include/efm_unit_testserver.iby
+../tef/tef_feature_generator/group/tef_feature_generator.iby	/epoc32/rom/include/tef_feature_generator.iby
+../tef/tef_efm_bursuite/group/tef_efm_bursuite.iby           	/epoc32/rom/include/tef_efm_bursuite.iby
+
+//iby file for manual patchable data test
+patch_featmgr_timeout_constant.iby 		/epoc32/rom/include/patch_featmgr_timeout_constant.iby
+
+

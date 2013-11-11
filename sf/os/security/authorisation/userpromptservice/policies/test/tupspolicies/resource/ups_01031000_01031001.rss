@@ -1,0 +1,134 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+#include <ups/policies.rh>
+
+UID2 KUidUpsPolicyResourceFile
+UID3 0x01100001
+
+// Test policy matching rules
+RESOURCE POLICIES testpolicies
+	{
+	header = POLICY_HEADER
+		{
+		// use default authorisation policy
+		dialogcreator = 0x10283694;
+		policyevaluator = 0x10283698;
+		};
+	policies = 
+		{
+		POLICY
+			{ // Match SID in SID list with one element
+			sid_classes = KAllSids;
+			sid_list = {0x01000030};
+			destination = "*";
+			systemserversecurity = ESystemServerSecurityPassedOrFailed;
+			options = KYes;
+			flags = 0x00;
+			},
+		POLICY
+			{ // Match SID in SID list with two elements
+			sid_classes = KAllSids;
+			sid_list = {0x01000030, 0x01000031};
+			destination = "*";
+			systemserversecurity = ESystemServerSecurityPassedOrFailed;
+			options = KAlways;
+			flags = 0x01;
+			},			
+		POLICY
+			{ // Match a specific destination
+			sid_classes = KAllSids;
+			sid_list = {0x01000032};
+			destination = "policy2";
+			systemserversecurity = ESystemServerSecurityPassedOrFailed;
+			options = KYes | KSession | KAlways;
+			flags = 0x02;
+			},
+		POLICY
+			{ // Case-insensitive matching rules
+			sid_classes = KAllSids;
+			sid_list = {0x01000032};
+			destination = "POLICY3";
+			systemserversecurity = ESystemServerSecurityPassedOrFailed;
+			options = KNo;
+			flags = 0x03;
+			},
+		POLICY
+			{ // Match a specific with a ? wildcard
+			sid_classes = KAllSids;
+			sid_list = {0x01000032};
+			destination = "policy?";
+			systemserversecurity = ESystemServerSecurityPassedOrFailed;
+			options = KNo | KNever;
+			flags = 0x04;
+			},
+		POLICY
+			{ // Case-insensitive matching rules with wild cards 
+			sid_classes = KAllSids;
+			sid_list = {0x01000033};
+			destination = "PO*CY5";
+			systemserversecurity = ESystemServerSecurityPassedOrFailed;
+			options = KNever;
+			flags = 0x05;
+			},
+		POLICY
+			{ // Match all unprotected SIDs
+			sid_classes = KUnprotectedSids;
+			destination = "policy6";
+			systemserversecurity = ESystemServerSecurityPassedOrFailed;
+			options = KYes | KNo;
+			flags = 0x06;
+			},
+		POLICY
+			{ // Match all protected sids, with specific destination
+			sid_classes = KProtectedSids;
+			destination = "policy7";
+			systemserversecurity = ESystemServerSecurityPassedOrFailed;
+			options = KYes | KAlways | KNever | KNo;
+			flags = 0x07;
+			},
+		POLICY
+			{ // Match clients that passed system server security check
+			sid_classes = KAllSids;
+			sid_list = {0x81000038};
+			destination = "*";
+			systemserversecurity = ESystemServerSecurityPassed;
+			options = KSession | KNo;
+			flags = 0x08;
+			},
+		POLICY
+			{ // Match clients that failed system server security check
+			sid_classes = KAllSids;
+			sid_list = {0x81000038};
+			destination = "*";
+			systemserversecurity = ESystemServerSecurityFailed;
+			options = KAlways | KNever;
+			flags = 0x09;
+			},
+		POLICY
+			{ // Match clients that failed system server security check
+			sid_classes = KAllSids;
+			sid_list = {0x8100003A};
+			destination = "*";
+			systemserversecurity = ESystemServerSecurityFailed;
+			options = KAlways | KNever;
+			flags = 0x0A;
+			}			
+		};
+	}
+

@@ -1,0 +1,65 @@
+// Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// 
+//
+
+TARGET		TTextBaseServer.exe
+TARGETTYPE		exe
+UID           	0x1000007A 0x10273367
+VENDORID 0x70000001
+
+//capability all -tcb
+CAPABILITY       All -Tcb 
+
+userinclude	../../../../graphics/graphicstest/graphicstestharness/inc
+userinclude ../tgdi ../inc ../sgdi
+SYSTEMINCLUDE	/epoc32/include/test
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+SOURCEPATH  ../tgdi
+SOURCE		TGdiServer.cpp
+SOURCE		TTFSTORE.CPP
+SOURCE		TTYPES.CPP
+SOURCE 		TBiDi.cpp 
+SOURCE 		TGraphicsContext.cpp 
+SOURCE 		TBiDiDefect.cpp
+SOURCE 		TLineBreak.cpp
+SOURCE 		TGlyphSel.cpp
+
+
+
+LIBRARY         euser.lib
+LIBRARY         gdi.lib	
+LIBRARY         palette.lib
+LIBRARY		efsrv.lib
+LIBRARY		estor.lib
+LIBRARY 	linebreak.lib
+LIBRARY	    	testexecuteutils.lib tgraphicsharness.lib
+LIBRARY	    	testexecutelogclient.lib
+
+LIBRARY 	ecom.lib
+LIBRARY		fntstr.lib 
+LIBRARY  	bitgdi.lib
+LIBRARY		fbscli.lib
+
+#if !defined(WINS)
+LIBRARY  viewsrv.lib
+#endif
+
+STATICLIBRARY textbase.lib
+
+// We're quite heavy on the stack... 4k in WinS isn't enough...
+EPOCSTACKSIZE	0x10000
+
+SMPSAFE

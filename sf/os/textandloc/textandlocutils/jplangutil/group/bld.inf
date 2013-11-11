@@ -1,0 +1,51 @@
+/*
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*     Build information file for JPLangUtil
+*
+*
+*/
+
+
+#include <platform_paths.hrh>
+
+PRJ_EXPORTS
+// specify the source file followed by its destination here
+// copy will be used to copy the source file to its destination
+// If there's no destination then the source file will be copied
+// to the same name in /epoc32/include
+../inc/jplangutil.h     OS_LAYER_PLATFORM_EXPORT_PATH(jplangutil.h)
+
+// IBY-files
+JPLangUtil.iby CORE_MW_LAYER_IBY_EXPORT_PATH(jplangutil.iby)
+
+
+PRJ_MMPFILES
+// specify the .mmp files required for building the important component releasables
+// note that you should specify any .mmp files for test programs further down the file.
+//
+// It's best if the .MMP files are specified in the order in which the components are
+// built, but that eventually shouldn't matter
+//
+#ifndef TOOLS
+../group/jplangutil.mmp
+#endif
+
+
+PRJ_TESTEXPORTS
+../test/group/tJPLangUtil.iby		CORE_MW_LAYER_IBY_EXPORT_PATH(tjplangutil.iby)
+
+PRJ_TESTMMPFILES
+../test/group/tJPLangUtil.mmp
+	

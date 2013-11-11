@@ -1,0 +1,39 @@
+// Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+
+TARGET			te_ost_lauterbach.dll //user side enabled
+TARGETTYPE		dll
+UID				0x1000008d 0x10287236 
+CAPABILITY      All
+
+OS_LAYER_SYSTEMINCLUDE
+
+USERINCLUDE		../inc/
+
+SOURCEPATH		../src/ 
+SOURCE			te_trace_for_lauterbach.cpp
+
+LIBRARY			euser.lib
+
+#if defined (WINS)
+  DEFFILE ../bwins/te_lauterbach.def
+#else 
+  DEFFILE ../eabi/te_lauterbach.def
+#endif
+
+OPTION ARMCC --interleave
+
+SMPSAFE

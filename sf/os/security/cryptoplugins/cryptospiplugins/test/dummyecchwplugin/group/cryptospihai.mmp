@@ -1,0 +1,52 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* cryptospihai.dll provides a reference implementation for cryptospi 
+* hardware abstraction interface (HAI). This is used by a cryptospi  
+* plugin, in the case where actual keys are stored in hardware. This 
+* plugin does the following:-
+* a) extracts the key from Crypto Token HAI
+* b) performs the operations (signing and decryption)
+* c) returns the results to the spi plugin. 
+* Licensees can use this plug-in as a reference for implementing a 
+* similar plug-in.
+*
+*/
+
+
+TARGET 		cryptospihai.dll
+TARGETTYPE	dll
+
+CAPABILITY 	All -Tcb
+
+UID 		0xA000D693 0xA000D694
+VENDORID	0x70000001
+
+DEFFILE cryptospihai.def
+
+USERINCLUDE		.
+OS_LAYER_SYSTEMINCLUDE
+USERINCLUDE	../../../../../crypto/weakcryptospi/inc/spi
+USERINCLUDE	../../../../../cryptoservices/filebasedcertificateandkeystores/test/tcryptotokenhai
+
+SOURCEPaTH ../src
+SOURCE		cryptospihai.cpp
+
+LIBRARY		euser.lib
+LIBRARY		cryptospi.lib
+LIBRARY		tcryptotokenhai.lib
+LIBRARY     cryptography.lib
+
+SMPSAFE
+

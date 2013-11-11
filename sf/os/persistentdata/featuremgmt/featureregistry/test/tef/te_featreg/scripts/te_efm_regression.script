@@ -1,0 +1,184 @@
+// Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+// @file
+
+//! @SYMTestSuiteName SYSLIB-TEF-EFM-REGRESSION
+//! @SYMScriptTestEnvironment TEF
+//! @internalComponent
+//! @test
+
+//create folders for the emulated data cages
+RUN_UTILS MkDir C:\Private\
+RUN_UTILS MkDir C:\Private\102836E5\
+RUN_UTILS MkDir C:\Private\102836E5\runtime\
+RUN_UTILS DeleteFile C:\private\102836E5\features.dat
+RUN_UTILS DeleteFile C:\private\102836E5\runtime\features.dat
+
+LOAD_SUITE te_featreg
+LOAD_SUITE tef_feature_generator
+
+PRINT Run all Feature Registry TEF tests over FeatureManager wrapper
+PRINT
+
+START_TESTCASE SYSLIB-EFM-CIT-3678
+//! @SYMTestCaseID SYSLIB-EFM-CIT-3678
+//! @SYMTestCaseDesc Test API response for valid config files, including out-of-memory tests
+//! @SYMTestPriority High
+//! @SYMTestActions Run setup executable sourcing config files from C-data cage and convert it to Feature Manager format. Confirm correct API response.
+//! @SYMTestExpectedResults The test must not fail
+//! @SYMPREQ PREQ1086
+
+	RUN_PROGRAM 100 featreg_maketestconfig.exe valid_small
+	RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\testdata\featreg\te_efm_regression.ini CreateEFMFile
+	RUN_TEST_STEP 100 te_featreg QueryFeaturesValidSmall
+	RUN_TEST_STEP !OOM 100 te_featreg QueryFeaturesValidSmall
+	DELAY 1000
+
+	RUN_PROGRAM 100 featreg_maketestconfig.exe valid_nofeatures
+	RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\testdata\featreg\te_efm_regression.ini CreateEFMFile
+	RUN_TEST_STEP 100 te_featreg QueryFeaturesNotSupported
+	RUN_TEST_STEP !OOM 100 te_featreg QueryFeaturesNotSupported
+	DELAY 1000
+
+	RUN_PROGRAM 100 featreg_maketestconfig.exe valid_large
+	RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\testdata\featreg\te_efm_regression.ini CreateEFMFile
+	RUN_TEST_STEP 100 te_featreg QueryFeaturesValidLarge
+	RUN_TEST_STEP !OOM 150 te_featreg QueryFeaturesValidLarge	
+	RUN_UTILS DeleteFile C:\private\10205054\features.dat
+	DELAY 1000
+END_TESTCASE SYSLIB-EFM-CIT-3678
+
+START_TESTCASE SYSLIB-EFM-CIT-3679
+//! @SYMTestCaseID SYSLIB-EFM-CIT-3679
+//! @SYMTestCaseDesc Test invalid-use panics that are part of the API
+//! @SYMTestPriority High
+//! @SYMTestActions Call Open() twice, check for panic; make non-static feature query without Open(), check for panic. 
+//! @SYMTestExpectedResults The test must not fail - both test steps expect to panic
+//! @SYMPREQ PREQ1086
+
+	RUN_PROGRAM 100 featreg_maketestconfig.exe valid_small
+	RUN_TEST_STEP 100 tef_feature_generator CEFMTest z:\testdata\featreg\te_efm_regression.ini CreateEFMFile
+	RUN_TEST_STEP !PanicString=FeatReg !PanicCode=2 100 te_featreg InvalidUseQueryNotOpen
+	RUN_UTILS DeleteFile C:\private\10205054\features.dat
+	DELAY 1000
+END_TESTCASE SYSLIB-EFM-CIT-3679
+
+START_TESTCASE SYSLIB-EFM-CIT-3680
+//! @SYMTestCaseID SYSLIB-EFM-CIT-3680
+//! @SYMTestCaseDesc Ensure an executable with All -Tcb capabilities can link with featreg.dll.
+//! @SYMTestPriority High
+//! @SYMTestActions Run featreg_maxcapability.exe, which has All -Tcb caps. It also queries the registry, which must not return an error.
+//! @SYMTestExpectedResults The test must not fail
+//! @SYMPREQ PREQ1086
+
+	RUN_PROGRAM 100 featreg_maketestconfig.exe valid_nofeatures
+	RUN_TEST_STEP 100 tef_feature_generator CEFMTest z:\testdata\featreg\te_efm_regression.ini CreateEFMFile
+	RUN_PROGRAM 100 featreg_maxcapability.exe
+	DELAY 1000
+END_TESTCASE SYSLIB-EFM-CIT-3680
+
+START_TESTCASE SYSLIB-EFM-CIT-3681
+//! @SYMTestCaseID SYSLIB-EFM-CIT-3681
+//! @SYMTestCaseDesc Measure performance of Feature Registry query API
+//! @SYMTestPriority High
+//! @SYMTestActions Measure elapsed time for various query and setup operations; timings can be read from output file
+//! @SYMTestExpectedResults The test must not fail
+//! @SYMPREQ PREQ1086
+
+	RUN_PROGRAM 100 featreg_maketestconfig.exe valid_perf_100
+	RUN_TEST_STEP 100 tef_feature_generator CEFMTest z:\testdata\featreg\te_efm_regression.ini CreateEFMFile
+	RUN_TEST_STEP 100 te_featreg FeatRegMeasPerformance z:\testdata\featreg\dummy.ini 100 
+	DELAY 1000
+
+	RUN_PROGRAM 100 featreg_maketestconfig.exe valid_perf_200
+	RUN_TEST_STEP 100 tef_feature_generator CEFMTest z:\testdata\featreg\te_efm_regression.ini CreateEFMFile
+	RUN_TEST_STEP 100 te_featreg FeatRegMeasPerformance z:\testdata\featreg\dummy.ini 200
+	DELAY 1000
+
+	RUN_PROGRAM 100 featreg_maketestconfig.exe valid_perf_400
+	RUN_TEST_STEP 100 tef_feature_generator CEFMTest z:\testdata\featreg\te_efm_regression.ini CreateEFMFile
+	RUN_TEST_STEP 100 te_featreg FeatRegMeasPerformance z:\testdata\featreg\dummy.ini 400
+	DELAY 1000
+
+	RUN_PROGRAM 100 featreg_maketestconfig.exe valid_perf_800
+	RUN_TEST_STEP 100 tef_feature_generator CEFMTest z:\testdata\featreg\te_efm_regression.ini CreateEFMFile
+	RUN_TEST_STEP 100 te_featreg FeatRegMeasPerformance z:\testdata\featreg\dummy.ini 800
+	DELAY 1000
+
+	RUN_PROGRAM 100 featreg_maketestconfig.exe valid_perf_1000
+	RUN_TEST_STEP 100 tef_feature_generator CEFMTest z:\testdata\featreg\te_efm_regression.ini CreateEFMFile
+	RUN_TEST_STEP 100 te_featreg FeatRegMeasPerformance z:\testdata\featreg\dummy.ini 1000
+	DELAY 1000
+
+	RUN_PROGRAM 100 featreg_maketestconfig.exe valid_perf_1600
+	RUN_TEST_STEP 100 tef_feature_generator CEFMTest z:\testdata\featreg\te_efm_regression.ini CreateEFMFile
+	RUN_TEST_STEP 100 te_featreg FeatRegMeasPerformance z:\testdata\featreg\dummy.ini 1600
+	DELAY 1000
+
+	RUN_PROGRAM 100 featreg_maketestconfig.exe valid_perf_2000
+	RUN_TEST_STEP 100 tef_feature_generator CEFMTest z:\testdata\featreg\te_efm_regression.ini CreateEFMFile
+	RUN_TEST_STEP 100 te_featreg FeatRegMeasPerformance z:\testdata\featreg\dummy.ini 2000
+	DELAY 1000
+
+	RUN_PROGRAM 100 featreg_maketestconfig.exe valid_perf_3000
+	RUN_TEST_STEP 100 tef_feature_generator CEFMTest z:\testdata\featreg\te_efm_regression.ini CreateEFMFile
+	RUN_TEST_STEP 100 te_featreg FeatRegMeasPerformance z:\testdata\featreg\dummy.ini 3000
+	DELAY 1000
+
+	RUN_PROGRAM 100 featreg_maketestconfig.exe valid_perf_4000
+	RUN_TEST_STEP 100 tef_feature_generator CEFMTest z:\testdata\featreg\te_efm_regression.ini CreateEFMFile
+	RUN_TEST_STEP 100 te_featreg FeatRegMeasPerformance z:\testdata\featreg\dummy.ini 4000 
+	DELAY 1000
+
+	RUN_PROGRAM 100 featreg_maketestconfig.exe valid_perf_5000
+	RUN_TEST_STEP 100 tef_feature_generator CEFMTest z:\testdata\featreg\te_efm_regression.ini CreateEFMFile
+	RUN_TEST_STEP 100 te_featreg FeatRegMeasPerformance z:\testdata\featreg\dummy.ini 5000
+	DELAY 1000
+
+	RUN_PROGRAM 100 featreg_maketestconfig.exe valid_perf_6000
+	RUN_TEST_STEP 100 tef_feature_generator CEFMTest z:\testdata\featreg\te_efm_regression.ini CreateEFMFile
+	RUN_TEST_STEP 100 te_featreg FeatRegMeasPerformance z:\testdata\featreg\dummy.ini 6000
+	DELAY 1000
+
+	RUN_PROGRAM 100 featreg_maketestconfig.exe valid_perf_7000
+	RUN_TEST_STEP 100 tef_feature_generator CEFMTest z:\testdata\featreg\te_efm_regression.ini CreateEFMFile
+	RUN_TEST_STEP 100 te_featreg FeatRegMeasPerformance z:\testdata\featreg\dummy.ini 7000
+	DELAY 1000
+
+	RUN_PROGRAM 100 featreg_maketestconfig.exe valid_perf_8000
+	RUN_TEST_STEP 100 tef_feature_generator CEFMTest z:\testdata\featreg\te_efm_regression.ini CreateEFMFile
+	RUN_TEST_STEP 100 te_featreg FeatRegMeasPerformance z:\testdata\featreg\dummy.ini 8000
+	DELAY 1000
+
+	RUN_PROGRAM 100 featreg_maketestconfig.exe valid_nofeatures
+	RUN_TEST_STEP 100 tef_feature_generator CEFMTest z:\testdata\featreg\te_efm_regression.ini CreateEFMFile
+	RUN_TEST_STEP 100 te_featreg FeatRegMeasPerformance z:\testdata\featreg\dummy.ini 0
+	DELAY 1000
+
+	RUN_PROGRAM 100 featreg_maketestconfig.exe valid_small
+	RUN_TEST_STEP 100 tef_feature_generator CEFMTest z:\testdata\featreg\te_efm_regression.ini CreateEFMFile
+	RUN_TEST_STEP 100 te_featreg FeatRegMeasPerformance z:\testdata\featreg\dummy.ini 2
+	DELAY 1000
+
+	RUN_PROGRAM 100 featreg_maketestconfig.exe valid_large
+	RUN_TEST_STEP 100 tef_feature_generator CEFMTest z:\testdata\featreg\te_efm_regression.ini CreateEFMFile
+	RUN_TEST_STEP 100 te_featreg FeatRegMeasPerformance z:\testdata\featreg\dummy.ini 256
+	DELAY 1000
+END_TESTCASE SYSLIB-EFM-CIT-3681
+
+PRINT
+PRINT All Feature Registry TEF tests complete
+
+

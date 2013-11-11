@@ -1,0 +1,75 @@
+// Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// @file
+// This is the project specification file for the streaming CAF test harness
+// @test
+// 
+//
+
+TARGETTYPE EXE
+TARGET tscaf.exe
+
+UID 0 0x1028588C
+
+// NetworkServices and NetworkControl are used for IpSec testing
+CAPABILITY AllFiles DRM NetworkServices NetworkControl
+
+SOURCEPATH 	../test/tscaf/source
+
+SOURCE tscafserver.cpp 
+SOURCE tscafstep.cpp 
+SOURCE tstaunittest.cpp
+SOURCE tkeystreamsink.cpp
+SOURCE tkeystreamdecoderconstruct.cpp
+SOURCE tkeystreamdecoderattributes.cpp
+SOURCE tmultikeystreamdecoders.cpp
+SOURCE tpostacquisition.cpp
+SOURCE tipsec.cpp
+SOURCE treferenceagent.cpp
+SOURCE startupcommsstep.cpp
+
+// Utility Steps
+SOURCE tsetuprightsobjects.cpp
+
+USERINCLUDE 	../test/tscaf/inc
+USERINCLUDE	../test/streamingtestagent/inc
+USERINCLUDE	../test/streamingtestagent_singleprocess/inc
+USERINCLUDE	../../referencedrmagent/RefTestAgent/streamingrefagent/inc
+USERINCLUDE 	../../referencedrmagent/RefTestAgent/localsdp/inc
+USERINCLUDE 	../../referencedrmagent/RefTestAgent/localsdp/api
+
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+LIBRARY euser.lib 
+LIBRARY estlib.lib
+LIBRARY efsrv.lib 
+LIBRARY estor.lib
+LIBRARY staclient.lib 
+LIBRARY testexecuteutils.lib
+LIBRARY testexecutelogclient.lib
+LIBRARY rfileloggerclient.lib
+LIBRARY cafutils.lib
+LIBRARY localsdpcodec.lib
+LIBRARY bafl.lib
+LIBRARY streamingcaf.lib
+LIBRARY stashared.lib
+LIBRARY srautils.lib
+
+// Networking libraries for IpSec tests
+LIBRARY	esock.lib
+LIBRARY	insock.lib 
+LIBRARY lib_pfkey.lib caf.lib rtaarchive.lib 
+LIBRARY	c32.lib
+SMPSAFE

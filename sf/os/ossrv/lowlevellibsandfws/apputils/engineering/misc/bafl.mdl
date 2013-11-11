@@ -1,0 +1,4505 @@
+
+(object Petal
+    version    	43
+    _written   	"Rose 6.5.9232.10"
+    charSet    	0)
+
+(object Design "Logical View"
+    is_unit    	TRUE
+    is_loaded  	TRUE
+    quid       	"3F71A8BF03A7"
+    defaults   	(object defaults
+	rightMargin 	0.250000
+	leftMargin 	0.500000
+	topMargin  	0.250000
+	bottomMargin 	0.250000
+	pageOverlap 	1.000000
+	clipIconLabels 	TRUE
+	autoResize 	TRUE
+	snapToGrid 	TRUE
+	gridX      	16
+	gridY      	16
+	defaultFont 	(object Font
+	    size       	10
+	    face       	"Arial"
+	    bold       	FALSE
+	    italics    	FALSE
+	    underline  	FALSE
+	    strike     	FALSE
+	    color      	0
+	    default_color 	TRUE)
+	showMessageNum 	1
+	showClassOfObject 	TRUE
+	notation   	"Unified")
+    root_usecase_package 	(object Class_Category "Use Case View"
+	quid       	"3F71A8BF03E5"
+	exportControl 	"Public"
+	global     	TRUE
+	logical_models 	(list unit_reference_list)
+	logical_presentations 	(list unit_reference_list
+	    (object UseCaseDiagram "Main"
+		quid       	"3F71A8CE0146"
+		title      	"Main"
+		zoom       	100
+		max_height 	28350
+		max_width  	21600
+		origin_x   	0
+		origin_y   	0
+		items      	(list diagram_item_list))))
+    root_category 	(object Class_Category "Logical View"
+	quid       	"3F71A8BF03A8"
+	exportControl 	"Public"
+	global     	TRUE
+	subsystem  	"Component View"
+	quidu      	"3F71A8C0000D"
+	logical_models 	(list unit_reference_list
+	    (object Class "CBaBackupSessionWrapper"
+		quid       	"3F71A8E403E5"
+		operations 	(list Operations
+		    (object Operation "RegisterFileL"
+			quid       	"3F72B7FB03A7"
+			parameters 	(list Parameters
+			    (object Parameter "aFileName"
+				type       	"TDesC&"))
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "DeregisterFile"
+			quid       	"3F72B8320368"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "CloseAll"
+			quid       	"3F72B84A01F1"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "RestartAll"
+			quid       	"3F72B84F0145"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "CloseFileL"
+			quid       	"3F72B85B01A3"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "RestartFile"
+			quid       	"3F72B863030A"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "RegisterBackupOperationObserverL"
+			quid       	"3F72B87300B9"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "DeregisterBackupOperationObserverL"
+			quid       	"3F72B89D03B6"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "IsBackupOperationRunning"
+			quid       	"3F72B89603C6"
+			result     	"TBool"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "NotifyBackupOperationL"
+			quid       	"3F72B8740220"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "CloseServer"
+			quid       	"3F72B9060397"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "CBaBackupSessionWrapper"
+			quid       	"3F72B9120184"
+			concurrency 	"Sequential"
+			opExportControl 	"Private"
+			uid        	0)
+		    (object Operation "ConstructL"
+			quid       	"3F72B9280358"
+			concurrency 	"Sequential"
+			opExportControl 	"Private"
+			uid        	0))
+		class_attributes 	(list class_attribute_list
+		    (object ClassAttribute "iBackupSession"
+			quid       	"3F72B94401B3"
+			type       	"RBaBackupSession*")
+		    (object ClassAttribute "iLockChangeNotifier"
+			quid       	"3F72B97D0339"
+			type       	"CBaLockChangeNotifier*")
+		    (object ClassAttribute "iDeregisterNotifier"
+			quid       	"3F72B99A02EB"
+			type       	"CBaDeregisterNotifier*")
+		    (object ClassAttribute "iBackupOperationNotifier"
+			quid       	"3F72B9BD0184"
+			type       	"CBaBackupOperationNotifier*")))
+	    (object Class "CAgnDocument"
+		quid       	"3F71A93700E7"
+		operations 	(list Operations
+		    (object Operation "OpenFileL"
+			quid       	"3F71A95201B3"
+			result     	"TBool"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0))
+		class_attributes 	(list class_attribute_list
+		    (object ClassAttribute "iBackupSessionWrapper"
+			quid       	"3F72C60503B6"
+			type       	"CBaBackupSessionWrapper*")
+		    (object ClassAttribute "iDocumentName"
+			quid       	"3F72C63C00F7"
+			type       	"TFileName")
+		    (object ClassAttribute "iPreviousFilenNme"
+			quid       	"3F72C6500107"
+			type       	"TFileName")))
+	    (object Class "CActive"
+		quid       	"3F71A99201C2"
+		operations 	(list Operations
+		    (object Operation "Cancel"
+			quid       	"3F71AB3A03A7"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "Deque"
+			quid       	"3F71AB3F0116"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "IsActive"
+			quid       	"3F71AB490145"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "IsAdded"
+			quid       	"3F71AB4E00D8"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "Priority"
+			quid       	"3F71AB6C00E7"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "SetPriority"
+			quid       	"3F71AB720210"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "SetActive"
+			quid       	"3F72ADC50164"
+			concurrency 	"Sequential"
+			opExportControl 	"Protected"
+			uid        	0)
+		    (object Operation "DoCancel"
+			quid       	"3F72ADD401F1"
+			concurrency 	"Sequential"
+			opExportControl 	"Protected"
+			uid        	0)
+		    (object Operation "RunL"
+			quid       	"3F72AE1103C6"
+			concurrency 	"Sequential"
+			opExportControl 	"Protected"
+			uid        	0)
+		    (object Operation "RunError"
+			quid       	"3F72AE21025E"
+			result     	"TInt"
+			concurrency 	"Sequential"
+			opExportControl 	"Protected"
+			uid        	0))
+		class_attributes 	(list class_attribute_list
+		    (object ClassAttribute "iActive"
+			quid       	"3F71AB13029D"
+			type       	"TBool")
+		    (object ClassAttribute "iLink"
+			quid       	"3F71AB1B0339"
+			type       	"TPriQueLink")
+		    (object ClassAttribute "iStatus"
+			quid       	"3F71AB570210"
+			exportControl 	"Public"))
+		nestedClasses 	(list nestedClasses
+		    (object Class "RBaBackupSession"
+			quid       	"3F71A9BE023F"
+			superclasses 	(list inheritance_relationship_list
+			    (object Inheritance_Relationship
+				quid       	"3F71A9E402FB"
+				supplier   	"Logical View::RSessionBase"
+				quidu      	"3F71A9D801C2"))
+			operations 	(list Operations
+			    (object Operation "Connect"
+				quid       	"3F72BDCE02EB"
+				concurrency 	"Sequential"
+				opExportControl 	"Public"
+				uid        	0)
+			    (object Operation "RegisterForNotifications"
+				quid       	"3F72BDD5008A"
+				concurrency 	"Sequential"
+				opExportControl 	"Public"
+				uid        	0)
+			    (object Operation "GetEvent"
+				quid       	"3F72BDDC02EB"
+				concurrency 	"Sequential"
+				opExportControl 	"Public"
+				uid        	0)
+			    (object Operation "CloseAllFiles"
+				quid       	"3F72BDE3029D"
+				concurrency 	"Sequential"
+				opExportControl 	"Public"
+				uid        	0)
+			    (object Operation "RestartApps"
+				quid       	"3F72BDED0145"
+				concurrency 	"Sequential"
+				opExportControl 	"Public"
+				uid        	0)
+			    (object Operation "CloseFile"
+				quid       	"3F72BDFC03C6"
+				result     	"TInt"
+				concurrency 	"Sequential"
+				opExportControl 	"Public"
+				uid        	0)
+			    (object Operation "RestartFile"
+				quid       	"3F72BE15032A"
+				concurrency 	"Sequential"
+				opExportControl 	"Public"
+				uid        	0)
+			    (object Operation "DeregisterForNotifications"
+				quid       	"3F86ADB7028F"
+				concurrency 	"Sequential"
+				opExportControl 	"Public"
+				uid        	0)
+			    (object Operation "NotifyChangeFileLock"
+				quid       	"3F72BE2301C2"
+				result     	"TInt"
+				concurrency 	"Sequential"
+				opExportControl 	"Public"
+				uid        	0)
+			    (object Operation "NotifyChangeFileLockCancel"
+				quid       	"3F72BE37007A"
+				concurrency 	"Sequential"
+				opExportControl 	"Public"
+				uid        	0)
+			    (object Operation "CloseServer"
+				quid       	"3F72BE4C023F"
+				concurrency 	"Sequential"
+				opExportControl 	"Public"
+				uid        	0)
+			    (object Operation "NotifyBackupOperation"
+				quid       	"3F72BE550184"
+				concurrency 	"Sequential"
+				opExportControl 	"Public"
+				uid        	0)
+			    (object Operation "IsBackupOperationRunning"
+				quid       	"3F72BE660174"
+				result     	"TBool"
+				concurrency 	"Sequential"
+				opExportControl 	"Public"
+				uid        	0)
+			    (object Operation "BackupOperationEventReady"
+				quid       	"3F72BE830339"
+				concurrency 	"Sequential"
+				opExportControl 	"Public"
+				uid        	0)
+			    (object Operation "CancelOutstandingEventForBackupOperation"
+				quid       	"3F72BE9A0126"
+				concurrency 	"Sequential"
+				opExportControl 	"Public"
+				uid        	0)
+			    (object Operation "GetBackupOperationEvent"
+				quid       	"3F72BEC00193"
+				concurrency 	"Sequential"
+				opExportControl 	"Public"
+				uid        	0)
+			    (object Operation "SetBackupOperationObserverIsPresent"
+				quid       	"3F72BF400220"
+				concurrency 	"Sequential"
+				opExportControl 	"Public"
+				uid        	0)
+			    (object Operation "StartServerL"
+				quid       	"3F72BF5B01F1"
+				concurrency 	"Sequential"
+				opExportControl 	"Private"
+				uid        	0)))))
+	    (object Class "RSessionBase"
+		quid       	"3F71A9D801C2"
+		operations 	(list Operations
+		    (object Operation "SendReceive"
+			quid       	"3F72D9F70116"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)))
+	    (object Class "CBaLockChangeNotifier"
+		quid       	"3F71AA76025E"
+		superclasses 	(list inheritance_relationship_list
+		    (object Inheritance_Relationship
+			quid       	"3F71AA99027E"
+			supplier   	"Logical View::CActive"
+			quidu      	"3F71A99201C2"))
+		operations 	(list Operations
+		    (object Operation "AddL"
+			quid       	"3F72AEDD00D8"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "Remove"
+			quid       	"3F72AEED0174"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "DoCancel"
+			quid       	"3F72AEF400F7"
+			concurrency 	"Sequential"
+			opExportControl 	"Private"
+			uid        	0)
+		    (object Operation "RunL"
+			quid       	"3F72AF000368"
+			concurrency 	"Sequential"
+			opExportControl 	"Private"
+			uid        	0)
+		    (object Operation "NewL"
+			quid       	"3F72AF17031A"
+			parameters 	(list Parameters
+			    (object Parameter "aBackupSession"
+				type       	"RBaBackupSession&"))
+			result     	"CBaLockChangeNotifier*"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "Queue"
+			quid       	"3F72AFC20387"
+			concurrency 	"Sequential"
+			opExportControl 	"Private"
+			uid        	0)
+		    (object Operation "DoRunL"
+			quid       	"3F72AFD000F7"
+			concurrency 	"Sequential"
+			opExportControl 	"Private"
+			uid        	0)
+		    (object Operation "StartNotifications"
+			quid       	"3F86AD57032B"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "StopNotifications"
+			quid       	"3F86AD620260"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0))
+		class_attributes 	(list class_attribute_list
+		    (object ClassAttribute "iFileItems"
+			quid       	"3F72B113028D"
+			type       	"RArray<TFileItem>")
+		    (object ClassAttribute "iBackupSession"
+			quid       	"3F72B27301F1"
+			type       	"RBaBackupSession&"))
+		nestedClasses 	(list nestedClasses
+		    (object Class "TFileItem"
+			quid       	"3F72AFF40358"
+			exportControl 	"Private")))
+	    (object Class "TFileName"
+		quid       	"3F72B53902DB")
+	    (object Class "CActiveScheduler"
+		quid       	"3F72BB7F025E"
+		used_nodes 	(list uses_relationship_list
+		    (object Uses_Relationship
+			quid       	"3F72E96E0387"
+			supplier   	"Logical View::CBaLockChangeNotifier"
+			quidu      	"3F71AA76025E"
+			friend     	TRUE)
+		    (object Uses_Relationship
+			quid       	"3F72E99D0349"
+			supplier   	"Logical View::CBaBackupOperationNotifier"
+			quidu      	"3F71AAD1029D"
+			friend     	TRUE))
+		operations 	(list Operations
+		    (object Operation "Install"
+			quid       	"3F72BBC10358"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "Current"
+			quid       	"3F72BBF9001C"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "Add"
+			quid       	"3F72BC01006A"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "Start"
+			quid       	"3F72BC2700D8"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "Stop"
+			quid       	"3F72BC2A0201"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "RunIfReady"
+			quid       	"3F72BC300397"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "Replace"
+			quid       	"3F72BC3A0220"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "WaitForAnyRequest"
+			quid       	"3F72BC410193"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "Error"
+			quid       	"3F72BC5000B9"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "DoStart"
+			quid       	"3F72BC5801F1"
+			concurrency 	"Sequential"
+			opExportControl 	"Private"
+			uid        	0)
+		    (object Operation "OwnedStartLoop"
+			quid       	"3F72BC640116"
+			concurrency 	"Sequential"
+			opExportControl 	"Private"
+			uid        	0)
+		    (object Operation "OnStarting"
+			quid       	"3F72BC7A01C2"
+			concurrency 	"Sequential"
+			opExportControl 	"Private"
+			uid        	0)
+		    (object Operation "OnStopping"
+			quid       	"3F72BC940099"
+			concurrency 	"Sequential"
+			opExportControl 	"Private"
+			uid        	0)
+		    (object Operation "Level"
+			quid       	"3F72BCE2004B"
+			concurrency 	"Sequential"
+			opExportControl 	"Protected"
+			uid        	0)
+		    (object Operation "DoStart"
+			quid       	"3F72E6FF0368"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0))
+		class_attributes 	(list class_attribute_list
+		    (object ClassAttribute "iLevel"
+			quid       	"3F72BCF00145"
+			type       	"TInt")
+		    (object ClassAttribute "iActiveQ"
+			quid       	"3F72BD130174"
+			type       	"TPriQue<CActive>")))
+	    (object Class "CBaBackupServer"
+		quid       	"3F72CBDC0136"
+		superclasses 	(list inheritance_relationship_list
+		    (object Inheritance_Relationship
+			quid       	"3F72CC46006A"
+			supplier   	"Logical View::CServer"
+			quidu      	"3F72CC3E008A"))
+		operations 	(list Operations
+		    (object Operation "CloseFileL"
+			quid       	"3F72CC2203D5"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "IsOtherClientBusy"
+			quid       	"3F72DBF60164"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "SetBusy"
+			quid       	"3F72DC1500C8"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "SignalReleaseFileLockL"
+			quid       	"3F8E8F59001D"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)))
+	    (object Class "CServer"
+		quid       	"3F72CC3E008A")
+	    (object Class "CBaServBackupSession"
+		quid       	"3F72D7890145"
+		operations 	(list Operations
+		    (object Operation "SignalReleaseFileLock"
+			quid       	"3F72D7A400D8"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "DoServiceL"
+			quid       	"3F72DAD302EB"
+			concurrency 	"Sequential"
+			opExportControl 	"Private"
+			uid        	0)
+		    (object Operation "ServiceL"
+			quid       	"3F72DB490174"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "CloseFileL"
+			quid       	"3F72DBB4025E"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "HandleEventReady"
+			quid       	"3F8E8A19033A"
+			concurrency 	"Sequential"
+			opExportControl 	"Private"
+			uid        	0)
+		    (object Operation "NotifyLockChangeL"
+			quid       	"3F8E8AC201D2"
+			concurrency 	"Sequential"
+			opExportControl 	"Private"
+			uid        	0)
+		    (object Operation "NotifyLockChangeCancel"
+			quid       	"3F8E92BA026F"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "StopNotifications"
+			quid       	"3F8E991201A4"
+			concurrency 	"Sequential"
+			opExportControl 	"Private"
+			uid        	0)))
+	    (object Class "CBaBackupOperationNotifier"
+		quid       	"3F71AAD1029D"
+		superclasses 	(list inheritance_relationship_list
+		    (object Inheritance_Relationship
+			quid       	"3F71AB0300C8"
+			supplier   	"Logical View::CActive"
+			quidu      	"3F71A99201C2")))
+	    (object Mechanism @1
+		logical_models 	(list unit_reference_list
+		    (object Object "$UNNAMED$0"
+			quid       	"3F72C3120136"
+			collaborators 	(list link_list
+			    (object Link
+				quid       	"3F72CAB301A3"
+				supplier   	"$UNNAMED$1"
+				quidu      	"3F72CA930397"
+				messages   	(list Messages
+				    (object Message "CloseFileL( )"
+					quid       	"3F72CAB301B3"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"2"
+					ordinal    	1
+					quidu      	"3F72B85B01A3")
+				    (object Message ""
+					quid       	"3F72DF1600F7"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"ToClientFromSupplier"
+					sequence   	"5"
+					ordinal    	11)
+				    (object Message "DeregisterFile( )"
+					quid       	"3F72DF8502EB"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"6"
+					ordinal    	12
+					quidu      	"3F72B8320368")
+				    (object Message ""
+					quid       	"3F72E0F10116"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"ToClientFromSupplier"
+					sequence   	"6.1"
+					ordinal    	13)
+				    (object Message "RegisterFileL(TDesC&)"
+					quid       	"3F72E0FD030A"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"7"
+					ordinal    	14
+					quidu      	"3F72B7FB03A7")
+				    (object Message ""
+					quid       	"3F72E106000D"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"ToClientFromSupplier"
+					sequence   	"7.1"
+					ordinal    	15)))
+			    (object Link
+				quid       	"3F72DF2D0116"
+				supplier   	"$UNNAMED$0"
+				quidu      	"3F72C3120136"
+				messages   	(list Messages
+				    (object Message "OpenFileL( )"
+					quid       	"3F72DF2D0117"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"1"
+					ordinal    	0
+					quidu      	"3F71A95201B3"))))
+			class      	"Logical View::CAgnDocument"
+			quidu      	"3F71A93700E7"
+			persistence 	"Transient"
+			multi      	FALSE)
+		    (object Object "$UNNAMED$1"
+			quid       	"3F72CA930397"
+			collaborators 	(list link_list
+			    (object Link
+				quid       	"3F72CB0900D8"
+				supplier   	"$UNNAMED$2"
+				quidu      	"3F72CAED0155"
+				messages   	(list Messages
+				    (object Message "CloseFile( )"
+					quid       	"3F72CB0900D9"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"2.1"
+					ordinal    	2
+					quidu      	"3F72BDFC03C6")
+				    (object Message ""
+					quid       	"3F7995E3001D"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"ToClientFromSupplier"
+					sequence   	"4"
+					ordinal    	10))))
+			class      	"Logical View::CBaBackupSessionWrapper"
+			quidu      	"3F71A8E403E5"
+			persistence 	"Transient"
+			multi      	FALSE)
+		    (object Object "$UNNAMED$2"
+			quid       	"3F72CAED0155"
+			collaborators 	(list link_list
+			    (object Link
+				quid       	"3F72D9D003B6"
+				supplier   	"$UNNAMED$2"
+				quidu      	"3F72CAED0155"
+				messages   	(list Messages
+				    (object Message "SendReceive(EBakOpCodeCloseFile )"
+					quid       	"3F7994B6009A"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"2.1.1"
+					ordinal    	3
+					Operation  	"SendReceive( )"
+					quidu      	"3F72D9F70116"))))
+			class      	"Logical View::CActive::RBaBackupSession"
+			quidu      	"3F71A9BE023F"
+			persistence 	"Transient"
+			multi      	FALSE)
+		    (object Object "$UNNAMED$3"
+			quid       	"3F72DB2A0378"
+			collaborators 	(list link_list
+			    (object Link
+				quid       	"3F72DB9F006A"
+				supplier   	"$UNNAMED$3"
+				quidu      	"3F72DB2A0378"
+				messages   	(list Messages
+				    (object Message "CloseFileL( )"
+					quid       	"3F7994EE02AD"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"3.1"
+					ordinal    	5
+					quidu      	"3F72DBB4025E")))
+			    (object Link
+				quid       	"3F72DC0301B3"
+				supplier   	"$UNNAMED$4"
+				quidu      	"3F72DB840220"
+				messages   	(list Messages
+				    (object Message "CloseFileL( )"
+					quid       	"3F8E8EFD027E"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"3.2"
+					ordinal    	6
+					quidu      	"3F72CC2203D5")
+				    (object Message ""
+					quid       	"3F8E90530369"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"ToClientFromSupplier"
+					sequence   	"3.2.2"
+					ordinal    	8))))
+			class      	"Logical View::CBaServBackupSession"
+			quidu      	"3F72D7890145"
+			persistence 	"Transient"
+			multi      	FALSE)
+		    (object Object "$UNNAMED$4"
+			quid       	"3F72DB840220"
+			collaborators 	(list link_list
+			    (object Link
+				quid       	"3F8E8F2F03B7"
+				supplier   	"$UNNAMED$4"
+				quidu      	"3F72DB840220"
+				messages   	(list Messages
+				    (object Message "SignalReleaseFileLockL( )"
+					quid       	"3F8E8F2F03B8"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"3.2.1"
+					ordinal    	7
+					quidu      	"3F8E8F59001D"))))
+			class      	"Logical View::CBaBackupServer"
+			quidu      	"3F72CBDC0136"
+			persistence 	"Transient"
+			multi      	FALSE)
+		    (object Object "$UNNAMED$5"
+			quid       	"3F783A0C0240"
+			class      	"Logical View::CBaLockChangeNotifier"
+			quidu      	"3F71AA76025E"
+			persistence 	"Transient"
+			multi      	FALSE)
+		    (object Object "$UNNAMED$6"
+			quid       	"3F799464006B"
+			collaborators 	(list link_list
+			    (object Link
+				quid       	"3F79947E03C6"
+				supplier   	"$UNNAMED$3"
+				quidu      	"3F72DB2A0378"
+				messages   	(list Messages
+				    (object Message "ServiceL( EBakOpCodeCloseFile)"
+					quid       	"3F79947E03C7"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"3"
+					ordinal    	4
+					Operation  	"ServiceL( )"
+					quidu      	"3F72DB490174")
+				    (object Message ""
+					quid       	"3F8E905C001D"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"ToClientFromSupplier"
+					sequence   	"3.3"
+					ordinal    	9))))
+			class      	"Logical View::CActiveScheduler"
+			quidu      	"3F72BB7F025E"
+			persistence 	"Transient"
+			multi      	FALSE)))
+	    (object Mechanism @2
+		logical_models 	(list unit_reference_list
+		    (object Object "$UNNAMED$7"
+			quid       	"3F72F69F0155"
+			collaborators 	(list link_list
+			    (object Link
+				quid       	"3F72F6A600E7"
+				supplier   	"$UNNAMED$7"
+				quidu      	"3F72F69F0155"
+				messages   	(list Messages
+				    (object Message "OpenFileL( )"
+					quid       	"3F72F6A600E8"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"1"
+					ordinal    	0
+					quidu      	"3F71A95201B3")))
+			    (object Link
+				quid       	"3F72F7BD031A"
+				supplier   	"$UNNAMED$8"
+				quidu      	"3F72F6C0005B"
+				messages   	(list Messages
+				    (object Message "RegisterFileL(TDesC&)"
+					quid       	"3F72F7BD031B"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"2"
+					ordinal    	1
+					quidu      	"3F72B7FB03A7")
+				    (object Message ""
+					quid       	"3F79910A024F"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"ToClientFromSupplier"
+					sequence   	"2.2"
+					ordinal    	18))))
+			class      	"Logical View::CAgnDocument"
+			quidu      	"3F71A93700E7"
+			persistence 	"Transient"
+			multi      	FALSE)
+		    (object Object "$UNNAMED$8"
+			quid       	"3F72F6C0005B"
+			collaborators 	(list link_list
+			    (object Link
+				quid       	"3F72F7E203A7"
+				supplier   	"$UNNAMED$9"
+				quidu      	"3F72F7D200A9"
+				messages   	(list Messages
+				    (object Message "AddL( )"
+					quid       	"3F79A9480230"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"2.1"
+					ordinal    	2
+					quidu      	"3F72AEDD00D8")
+				    (object Message ""
+					quid       	"3F79A9D50107"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"ToClientFromSupplier"
+					sequence   	"3.2.1"
+					ordinal    	17))))
+			class      	"Logical View::CBaBackupSessionWrapper"
+			quidu      	"3F71A8E403E5"
+			persistence 	"Transient"
+			multi      	FALSE)
+		    (object Object "$UNNAMED$9"
+			quid       	"3F72F7D200A9"
+			collaborators 	(list link_list
+			    (object Link
+				quid       	"3F72F80C00A9"
+				supplier   	"$UNNAMED$10"
+				quidu      	"3F72F80202DB")
+			    (object Link
+				quid       	"3F72F84D03A7"
+				supplier   	"$UNNAMED$9"
+				quidu      	"3F72F7D200A9"
+				messages   	(list Messages
+				    (object Message "StartNotifications( )"
+					quid       	"3F8E86800155"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"2.1.1"
+					ordinal    	3
+					quidu      	"3F86AD57032B")
+				    (object Message "SetActive( )"
+					quid       	"3F8E86DC01F2"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"2.1.3"
+					ordinal    	7
+					quidu      	"3F72ADC50164")))
+			    (object Link
+				quid       	"3F72F8F9026E"
+				supplier   	"$UNNAMED$11"
+				quidu      	"3F72F8DA03B6"
+				messages   	(list Messages
+				    (object Message "NotifyChangeFileLock( )"
+					quid       	"3F72FA9A00F7"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"3"
+					ordinal    	8
+					quidu      	"3F72BE2301C2")
+				    (object Message ""
+					quid       	"3F79909A002D"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"ToClientFromSupplier"
+					sequence   	"3.2"
+					ordinal    	16)
+				    (object Message "RegisterForNotifications( )"
+					quid       	"3F8E86A003C6"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"2.1.2"
+					ordinal    	4
+					quidu      	"3F72BDD5008A")
+				    (object Message ""
+					quid       	"3F8E86C5026F"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"ToClientFromSupplier"
+					sequence   	"2.1.2.2"
+					ordinal    	6))))
+			class      	"Logical View::CBaLockChangeNotifier"
+			quidu      	"3F71AA76025E"
+			persistence 	"Transient"
+			multi      	FALSE)
+		    (object Object "$UNNAMED$10"
+			quid       	"3F72F80202DB"
+			collaborators 	(list link_list
+			    (object Link
+				quid       	"3F7987A4002D"
+				supplier   	"$UNNAMED$12"
+				quidu      	"3F74153300BD"
+				messages   	(list Messages
+				    (object Message "ServiceL( EBakOpCodeEventReady)"
+					quid       	"3F7987A4004C"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"4"
+					ordinal    	10
+					Operation  	"ServiceL( )"
+					quidu      	"3F72DB490174")
+				    (object Message ""
+					quid       	"3F7987CB029E"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"ToClientFromSupplier"
+					sequence   	"4.2"
+					ordinal    	12)
+				    (object Message "ServiceL( EBakOpCodeNotifyLockChange)"
+					quid       	"3F8E88F7033A"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"5"
+					ordinal    	13
+					Operation  	"ServiceL( )"
+					quidu      	"3F72DB490174")
+				    (object Message ""
+					quid       	"3F8E893A00B9"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"ToClientFromSupplier"
+					sequence   	"5.1.1"
+					ordinal    	15))))
+			class      	"Logical View::CActiveScheduler"
+			quidu      	"3F72BB7F025E"
+			persistence 	"Transient"
+			multi      	FALSE)
+		    (object Object "$UNNAMED$11"
+			quid       	"3F72F8DA03B6"
+			collaborators 	(list link_list
+			    (object Link
+				quid       	"3F74154C01A7"
+				supplier   	"$UNNAMED$12"
+				quidu      	"3F74153300BD")
+			    (object Link
+				quid       	"3F79883D00B9"
+				supplier   	"$UNNAMED$11"
+				quidu      	"3F72F8DA03B6"
+				messages   	(list Messages
+				    (object Message "SendReceive( EBakOpCodeNotifyLockChange)"
+					quid       	"3F7989210194"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"3.1"
+					ordinal    	9
+					Operation  	"SendReceive( )"
+					quidu      	"3F72D9F70116")
+				    (object Message "SendReceive( EBakOpCodeEventReady )"
+					quid       	"3F8E86B70240"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"2.1.2.1"
+					ordinal    	5
+					Operation  	"SendReceive( )"
+					quidu      	"3F72D9F70116"))))
+			class      	"Logical View::CActive::RBaBackupSession"
+			quidu      	"3F71A9BE023F"
+			persistence 	"Transient"
+			multi      	FALSE)
+		    (object Object "$UNNAMED$12"
+			quid       	"3F74153300BD"
+			collaborators 	(list link_list
+			    (object Link
+				quid       	"3F74156800FB"
+				supplier   	"$UNNAMED$12"
+				quidu      	"3F74153300BD"
+				messages   	(list Messages
+				    (object Message "HandleEventReady( )"
+					quid       	"3F7987B3000D"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"4.1"
+					ordinal    	11
+					quidu      	"3F8E8A19033A")
+				    (object Message "NotifyLockChangeL( )"
+					quid       	"3F8E893300F8"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"5.1"
+					ordinal    	14
+					quidu      	"3F8E8AC201D2"))))
+			class      	"Logical View::CBaServBackupSession"
+			quidu      	"3F72D7890145"
+			persistence 	"Transient"
+			multi      	FALSE)))
+	    (object Mechanism @3
+		logical_models 	(list unit_reference_list
+		    (object Object "$UNNAMED$13"
+			quid       	"3F780730000D"
+			collaborators 	(list link_list
+			    (object Link
+				quid       	"3F780730000E"
+				supplier   	"$UNNAMED$14"
+				quidu      	"3F7807300040"
+				messages   	(list Messages
+				    (object Message "NotifyChangeFileLockCancel( )"
+					quid       	"3F7809F902BD"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"3.1.1"
+					ordinal    	5
+					quidu      	"3F72BE37007A")
+				    (object Message ""
+					quid       	"3F780A400127"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"ToClientFromSupplier"
+					sequence   	"3.1.1.1.2"
+					ordinal    	10)
+				    (object Message "NotifyChangeFileLockCancel( )"
+					quid       	"3F8E963F03E6"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"3.1.4"
+					ordinal    	13
+					quidu      	"3F72BE37007A")
+				    (object Message ""
+					quid       	"3F8E968F030B"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"ToClientFromSupplier"
+					sequence   	"3.1.4.3"
+					ordinal    	18)
+				    (object Message "DeregisterForNotifications( )"
+					quid       	"3F8E96E6031B"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"3.1.5"
+					ordinal    	19
+					quidu      	"3F86ADB7028F")
+				    (object Message ""
+					quid       	"3F8E997B0117"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"ToClientFromSupplier"
+					sequence   	"3.1.5.2.2.1"
+					ordinal    	24)))
+			    (object Link
+				quid       	"3F7807300014"
+				supplier   	"$UNNAMED$13"
+				quidu      	"3F780730000D"
+				messages   	(list Messages
+				    (object Message "StopNotifications( )"
+					quid       	"3F8E938503E6"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"3.1.2"
+					ordinal    	11
+					quidu      	"3F86AD620260")
+				    (object Message "DoCancel( )"
+					quid       	"3F8E93A50194"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"3.1.3"
+					ordinal    	12
+					quidu      	"3F72AEF400F7")))
+			    (object Link
+				quid       	"3F8E9585033A"
+				supplier   	"$UNNAMED$15"
+				quidu      	"3F8E92550194"))
+			class      	"Logical View::CBaLockChangeNotifier"
+			quidu      	"3F71AA76025E"
+			persistence 	"Transient"
+			multi      	FALSE)
+		    (object Object "$UNNAMED$16"
+			quid       	"3F7807300026"
+			collaborators 	(list link_list
+			    (object Link
+				quid       	"3F7807300027"
+				supplier   	"$UNNAMED$16"
+				quidu      	"3F7807300026"
+				messages   	(list Messages
+				    (object Message "OpenFileL( )"
+					quid       	"3F7807300028"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"1"
+					ordinal    	0
+					quidu      	"3F71A95201B3")))
+			    (object Link
+				quid       	"3F7807300025"
+				supplier   	"$UNNAMED$17"
+				quidu      	"3F7807300019"
+				messages   	(list Messages
+				    (object Message "CloseFileL( )"
+					quid       	"3F7807300024"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"2"
+					ordinal    	1
+					quidu      	"3F72B85B01A3")
+				    (object Message ""
+					quid       	"3F7807300029"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"ToClientFromSupplier"
+					sequence   	"2.1"
+					ordinal    	2)
+				    (object Message "DeregisterFile( )"
+					quid       	"3F780730002A"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"3"
+					ordinal    	3
+					quidu      	"3F72B8320368")
+				    (object Message "RegisterFileL(TDesC&)"
+					quid       	"3F780A4D031B"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"4"
+					ordinal    	27
+					quidu      	"3F72B7FB03A7")
+				    (object Message ""
+					quid       	"3F780B0502BD"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"ToClientFromSupplier"
+					sequence   	"4.1"
+					ordinal    	28)
+				    (object Message ""
+					quid       	"3F8E9A0B02FB"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"ToClientFromSupplier"
+					sequence   	"3.2"
+					ordinal    	26))))
+			class      	"Logical View::CAgnDocument"
+			quidu      	"3F71A93700E7"
+			persistence 	"Transient"
+			multi      	FALSE)
+		    (object Object "$UNNAMED$17"
+			quid       	"3F7807300019"
+			collaborators 	(list link_list
+			    (object Link
+				quid       	"3F7807300018"
+				supplier   	"$UNNAMED$13"
+				quidu      	"3F780730000D"
+				messages   	(list Messages
+				    (object Message "Remove( )"
+					quid       	"3F7809C100AA"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"3.1"
+					ordinal    	4
+					quidu      	"3F72AEED0174")
+				    (object Message ""
+					quid       	"3F780A450107"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"ToClientFromSupplier"
+					sequence   	"3.1.6"
+					ordinal    	25))))
+			class      	"Logical View::CBaBackupSessionWrapper"
+			quidu      	"3F71A8E403E5"
+			persistence 	"Transient"
+			multi      	FALSE)
+		    (object Object "$UNNAMED$14"
+			quid       	"3F7807300040"
+			collaborators 	(list link_list
+			    (object Link
+				quid       	"3F780730003F"
+				supplier   	"$UNNAMED$14"
+				quidu      	"3F7807300040"
+				messages   	(list Messages
+				    (object Message "SendReceive(EBakOpCodeNotifyFileLockCancel )"
+					quid       	"3F86B2B703C8"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"3.1.1.1"
+					ordinal    	6
+					Operation  	"SendReceive( )"
+					quidu      	"3F72D9F70116")
+				    (object Message "SendReceive( EBakOpCodeNotifyFileLockCancel)"
+					quid       	"3F8E96530349"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"3.1.4.1"
+					ordinal    	14
+					Operation  	"SendReceive( )"
+					quidu      	"3F72D9F70116")
+				    (object Message "SendReceive(EBakOpCodeStopNotifications )"
+					quid       	"3F8E970002AD"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"3.1.5.1"
+					ordinal    	20
+					Operation  	"SendReceive( )"
+					quidu      	"3F72D9F70116")))
+			    (object Link
+				quid       	"3F8E92750117"
+				supplier   	"$UNNAMED$15"
+				quidu      	"3F8E92550194"
+				messages   	(list Messages
+				    (object Message "ServiceL( EBakOpCodeNotifyFileLockCancel)"
+					quid       	"3F8E92750118"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"3.1.1.1.1"
+					ordinal    	7
+					Operation  	"ServiceL( )"
+					quidu      	"3F72DB490174")
+				    (object Message ""
+					quid       	"3F8E92E4028E"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"ToClientFromSupplier"
+					sequence   	"3.1.1.1.1.2"
+					ordinal    	9)
+				    (object Message "ServiceL( EBakOpCodeNotifyFileLockCancel)"
+					quid       	"3F8E9671004C"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"3.1.4.2"
+					ordinal    	15
+					Operation  	"ServiceL( )"
+					quidu      	"3F72DB490174")
+				    (object Message ""
+					quid       	"3F8E967C032A"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"ToClientFromSupplier"
+					sequence   	"3.1.4.2.2"
+					ordinal    	17)
+				    (object Message "ServiceL(EBakCodeStopNotifications )"
+					quid       	"3F8E975A003C"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"3.1.5.2"
+					ordinal    	21
+					Operation  	"ServiceL( )"
+					quidu      	"3F72DB490174")
+				    (object Message ""
+					quid       	"3F8E99670107"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"ToClientFromSupplier"
+					sequence   	"3.1.5.2.2"
+					ordinal    	23))))
+			class      	"Logical View::CActive::RBaBackupSession"
+			quidu      	"3F71A9BE023F"
+			persistence 	"Transient"
+			multi      	FALSE)
+		    (object Object "$UNNAMED$15"
+			quid       	"3F8E92550194"
+			collaborators 	(list link_list
+			    (object Link
+				quid       	"3F8E97C4027E"
+				supplier   	"$UNNAMED$15"
+				quidu      	"3F8E92550194"
+				messages   	(list Messages
+				    (object Message "NotifyLockChangeCancel( )"
+					quid       	"3F8E97C4027F"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"3.1.1.1.1.1"
+					ordinal    	8
+					quidu      	"3F8E92BA026F")
+				    (object Message "NotifyLockChangeCancel( )"
+					quid       	"3F8E97E6001D"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"3.1.4.2.1"
+					ordinal    	16
+					quidu      	"3F8E92BA026F")
+				    (object Message "StopNotifications( )"
+					quid       	"3F8E993A02CC"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"3.1.5.2.1"
+					ordinal    	22
+					quidu      	"3F8E991201A4"))))
+			class      	"Logical View::CBaServBackupSession"
+			quidu      	"3F72D7890145"
+			persistence 	"Transient"
+			multi      	FALSE))))
+	logical_presentations 	(list unit_reference_list
+	    (object ClassDiagram "Main"
+		quid       	"3F71A8CE026E"
+		title      	"Main"
+		zoom       	100
+		max_height 	28350
+		max_width  	21600
+		origin_x   	0
+		origin_y   	1844
+		items      	(list diagram_item_list
+		    (object ClassView "Class" "Logical View::CBaBackupSessionWrapper" @4
+			ShowCompartmentStereotypes 	TRUE
+			IncludeAttribute 	TRUE
+			IncludeOperation 	TRUE
+			location   	(592, 768)
+			label      	(object ItemLabel
+			    Parent_View 	@4
+			    location   	(58, 287)
+			    fill_color 	13434879
+			    nlines     	1
+			    max_width  	1068
+			    justify    	0
+			    label      	"CBaBackupSessionWrapper")
+			icon_style 	"Icon"
+			line_color 	3342489
+			fill_color 	13434879
+			quidu      	"3F71A8E403E5"
+			compartment 	(object Compartment
+			    Parent_View 	@4
+			    location   	(58, 348)
+			    icon_style 	"Icon"
+			    fill_color 	13434879
+			    anchor     	2
+			    nlines     	18
+			    max_width  	1075)
+			width      	1086
+			height     	986
+			annotation 	8
+			autoResize 	TRUE)
+		    (object ClassView "Class" "Logical View::CAgnDocument" @5
+			ShowCompartmentStereotypes 	TRUE
+			IncludeAttribute 	TRUE
+			IncludeOperation 	TRUE
+			location   	(672, 3568)
+			label      	(object ItemLabel
+			    Parent_View 	@5
+			    location   	(138, 3412)
+			    fill_color 	13434879
+			    nlines     	1
+			    max_width  	1068
+			    justify    	0
+			    label      	"CAgnDocument")
+			icon_style 	"Icon"
+			line_color 	3342489
+			fill_color 	13434879
+			quidu      	"3F71A93700E7"
+			compartment 	(object Compartment
+			    Parent_View 	@5
+			    location   	(138, 3473)
+			    icon_style 	"Icon"
+			    fill_color 	13434879
+			    anchor     	2
+			    nlines     	5
+			    max_width  	1075)
+			width      	1086
+			height     	336
+			annotation 	8
+			autoResize 	TRUE)
+		    (object ClassView "Class" "Logical View::CActive" @6
+			ShowCompartmentStereotypes 	TRUE
+			IncludeAttribute 	TRUE
+			IncludeOperation 	TRUE
+			location   	(1120, 1776)
+			label      	(object ItemLabel
+			    Parent_View 	@6
+			    location   	(922, 1395)
+			    fill_color 	13434879
+			    nlines     	1
+			    max_width  	396
+			    justify    	0
+			    label      	"CActive")
+			icon_style 	"Icon"
+			line_color 	3342489
+			fill_color 	13434879
+			quidu      	"3F71A99201C2"
+			compartment 	(object Compartment
+			    Parent_View 	@6
+			    location   	(922, 1453)
+			    icon_style 	"Icon"
+			    fill_color 	16777215
+			    anchor     	2
+			    nlines     	14
+			    max_width  	403)
+			width      	414
+			height     	786
+			annotation 	8
+			autoResize 	TRUE)
+		    (object ClassView "Class" "Logical View::CActive::RBaBackupSession" @7
+			ShowCompartmentStereotypes 	TRUE
+			IncludeAttribute 	TRUE
+			IncludeOperation 	TRUE
+			location   	(1712, 816)
+			label      	(object ItemLabel
+			    Parent_View 	@7
+			    location   	(1265, 287)
+			    fill_color 	13434879
+			    nlines     	1
+			    max_width  	894
+			    justify    	0
+			    label      	"RBaBackupSession")
+			icon_style 	"Icon"
+			line_color 	3342489
+			fill_color 	13434879
+			quidu      	"3F71A9BE023F"
+			compartment 	(object Compartment
+			    Parent_View 	@7
+			    location   	(1265, 392)
+			    icon_style 	"Icon"
+			    fill_color 	16777215
+			    anchor     	2
+			    nlines     	19
+			    max_width  	900)
+			width      	912
+			height     	1082
+			annotation 	8
+			autoResize 	TRUE)
+		    (object ClassView "Class" "Logical View::RSessionBase" @8
+			ShowCompartmentStereotypes 	TRUE
+			IncludeAttribute 	TRUE
+			IncludeOperation 	TRUE
+			location   	(1696, 112)
+			label      	(object ItemLabel
+			    Parent_View 	@8
+			    location   	(1543, 15)
+			    fill_color 	13434879
+			    nlines     	1
+			    max_width  	307
+			    justify    	0
+			    label      	"RSessionBase")
+			icon_style 	"Icon"
+			line_color 	3342489
+			fill_color 	13434879
+			quidu      	"3F71A9D801C2"
+			compartment 	(object Compartment
+			    Parent_View 	@8
+			    location   	(1543, 73)
+			    icon_style 	"Icon"
+			    fill_color 	16777215
+			    anchor     	2
+			    nlines     	2
+			    max_width  	318)
+			width      	325
+			height     	219
+			annotation 	8
+			autoResize 	TRUE)
+		    (object InheritView "" @9
+			stereotype 	TRUE
+			line_color 	3342489
+			quidu      	"3F71A9E402FB"
+			client     	@7
+			supplier   	@8
+			line_style 	0)
+		    (object ClassView "Class" "Logical View::CBaLockChangeNotifier" @10
+			ShowCompartmentStereotypes 	TRUE
+			IncludeAttribute 	TRUE
+			IncludeOperation 	TRUE
+			location   	(1120, 2832)
+			label      	(object ItemLabel
+			    Parent_View 	@10
+			    location   	(733, 2501)
+			    fill_color 	13434879
+			    nlines     	1
+			    max_width  	774
+			    justify    	0
+			    label      	"CBaLockChangeNotifier")
+			icon_style 	"Icon"
+			line_color 	3342489
+			fill_color 	13434879
+			quidu      	"3F71AA76025E"
+			compartment 	(object Compartment
+			    Parent_View 	@10
+			    location   	(733, 2562)
+			    icon_style 	"Icon"
+			    fill_color 	13434879
+			    anchor     	2
+			    nlines     	12
+			    max_width  	781)
+			width      	792
+			height     	686
+			annotation 	8
+			autoResize 	TRUE)
+		    (object InheritView "" @11
+			stereotype 	TRUE
+			line_color 	3342489
+			quidu      	"3F71AA99027E"
+			client     	@10
+			supplier   	@6
+			line_style 	0)
+		    (object ClassView "Class" "Logical View::CBaBackupOperationNotifier" @12
+			ShowCompartmentStereotypes 	TRUE
+			IncludeAttribute 	TRUE
+			IncludeOperation 	TRUE
+			location   	(1840, 2320)
+			label      	(object ItemLabel
+			    Parent_View 	@12
+			    location   	(1569, 2268)
+			    fill_color 	13434879
+			    nlines     	1
+			    max_width  	542
+			    justify    	0
+			    label      	"CBaBackupOperationNotifier")
+			icon_style 	"Icon"
+			line_color 	3342489
+			fill_color 	13434879
+			quidu      	"3F71AAD1029D"
+			width      	560
+			height     	128
+			annotation 	8
+			autoResize 	TRUE)
+		    (object InheritView "" @13
+			stereotype 	TRUE
+			line_color 	3342489
+			quidu      	"3F71AB0300C8"
+			client     	@12
+			supplier   	@6
+			line_style 	0)
+		    (object ClassView "Class" "Logical View::CBaLockChangeNotifier::TFileItem" @14
+			ShowCompartmentStereotypes 	TRUE
+			IncludeAttribute 	TRUE
+			IncludeOperation 	TRUE
+			location   	(496, 1440)
+			label      	(object ItemLabel
+			    Parent_View 	@14
+			    location   	(273, 1365)
+			    fill_color 	13434879
+			    nlines     	1
+			    max_width  	446
+			    justify    	0
+			    label      	"TFileItem")
+			icon_style 	"Icon"
+			line_color 	3342489
+			fill_color 	13434879
+			quidu      	"3F72AFF40358"
+			width      	464
+			height     	174
+			annotation 	8
+			autoResize 	TRUE)
+		    (object ClassView "Class" "Logical View::TFileName" @15
+			ShowCompartmentStereotypes 	TRUE
+			IncludeAttribute 	TRUE
+			IncludeOperation 	TRUE
+			location   	(288, 1744)
+			label      	(object ItemLabel
+			    Parent_View 	@15
+			    location   	(177, 1693)
+			    fill_color 	13434879
+			    nlines     	1
+			    max_width  	222
+			    justify    	0
+			    label      	"TFileName")
+			icon_style 	"Icon"
+			line_color 	3342489
+			fill_color 	13434879
+			quidu      	"3F72B53902DB"
+			width      	240
+			height     	126
+			annotation 	8
+			autoResize 	TRUE)
+		    (object ClassView "Class" "Logical View::CActiveScheduler" @16
+			ShowCompartmentStereotypes 	TRUE
+			IncludeAttribute 	TRUE
+			IncludeOperation 	TRUE
+			ShowOperationSignature 	TRUE
+			location   	(2576, 2944)
+			label      	(object ItemLabel
+			    Parent_View 	@16
+			    location   	(2289, 2463)
+			    fill_color 	13434879
+			    nlines     	1
+			    max_width  	574
+			    justify    	0
+			    label      	"CActiveScheduler")
+			icon_style 	"Icon"
+			line_color 	3342489
+			fill_color 	13434879
+			quidu      	"3F72BB7F025E"
+			compartment 	(object Compartment
+			    Parent_View 	@16
+			    location   	(2289, 2521)
+			    icon_style 	"Icon"
+			    fill_color 	13434879
+			    anchor     	2
+			    nlines     	18
+			    max_width  	581)
+			width      	592
+			height     	986
+			annotation 	8
+			autoResize 	TRUE)
+		    (object ClassView "Class" "Logical View::CBaBackupServer" @17
+			ShowCompartmentStereotypes 	TRUE
+			IncludeAttribute 	TRUE
+			IncludeOperation 	TRUE
+			location   	(1520, 3680)
+			label      	(object ItemLabel
+			    Parent_View 	@17
+			    location   	(1264, 3524)
+			    fill_color 	13434879
+			    nlines     	1
+			    max_width  	512
+			    justify    	0
+			    label      	"CBaBackupServer")
+			icon_style 	"Icon"
+			line_color 	3342489
+			fill_color 	13434879
+			quidu      	"3F72CBDC0136"
+			compartment 	(object Compartment
+			    Parent_View 	@17
+			    location   	(1264, 3585)
+			    icon_style 	"Icon"
+			    fill_color 	13434879
+			    anchor     	2
+			    nlines     	5
+			    max_width  	509)
+			width      	530
+			height     	336
+			annotation 	8
+			autoResize 	TRUE)
+		    (object ClassView "Class" "Logical View::CServer" @18
+			ShowCompartmentStereotypes 	TRUE
+			IncludeAttribute 	TRUE
+			IncludeOperation 	TRUE
+			location   	(2032, 3696)
+			label      	(object ItemLabel
+			    Parent_View 	@18
+			    location   	(1943, 3645)
+			    fill_color 	13434879
+			    nlines     	1
+			    max_width  	178
+			    justify    	0
+			    label      	"CServer")
+			icon_style 	"Icon"
+			line_color 	3342489
+			fill_color 	13434879
+			quidu      	"3F72CC3E008A"
+			width      	196
+			height     	126
+			annotation 	8
+			autoResize 	TRUE)
+		    (object InheritView "" @19
+			stereotype 	TRUE
+			line_color 	3342489
+			quidu      	"3F72CC46006A"
+			client     	@17
+			supplier   	@18
+			line_style 	0)
+		    (object ClassView "Class" "Logical View::CBaServBackupSession" @20
+			ShowCompartmentStereotypes 	TRUE
+			IncludeAttribute 	TRUE
+			IncludeOperation 	TRUE
+			location   	(336, 2912)
+			label      	(object ItemLabel
+			    Parent_View 	@20
+			    location   	(71, 2656)
+			    fill_color 	13434879
+			    nlines     	1
+			    max_width  	530
+			    justify    	0
+			    label      	"CBaServBackupSession")
+			icon_style 	"Icon"
+			line_color 	3342489
+			fill_color 	13434879
+			quidu      	"3F72D7890145"
+			compartment 	(object Compartment
+			    Parent_View 	@20
+			    location   	(71, 2717)
+			    icon_style 	"Icon"
+			    fill_color 	13434879
+			    anchor     	2
+			    nlines     	9
+			    max_width  	528)
+			width      	548
+			height     	536
+			annotation 	8
+			autoResize 	TRUE)
+		    (object UsesView "" @21
+			stereotype 	TRUE
+			line_color 	3342489
+			quidu      	"3F72E96E0387"
+			client     	@16
+			supplier   	@10
+			line_style 	0)
+		    (object UsesView "" @22
+			stereotype 	TRUE
+			line_color 	3342489
+			quidu      	"3F72E99D0349"
+			client     	@16
+			supplier   	@12
+			line_style 	0)))
+	    (object InteractionDiagram "OpenFile 2 - CloseFileL"
+		mechanism_ref 	@1
+		quid       	"3F72C30C024F"
+		title      	"OpenFile 2 - CloseFileL"
+		zoom       	100
+		max_height 	28350
+		max_width  	21600
+		origin_x   	625
+		origin_y   	0
+		items      	(list diagram_item_list
+		    (object InterObjView "$UNNAMED$0" @23
+			location   	(192, 224)
+			font       	(object Font
+			    underline  	TRUE)
+			label      	(object ItemLabel
+			    Parent_View 	@23
+			    location   	(192, 224)
+			    fill_color 	13434879
+			    anchor_loc 	1
+			    nlines     	2
+			    max_width  	298
+			    justify    	0
+			    label      	"")
+			icon_style 	"Icon"
+			line_color 	3342489
+			fill_color 	13434879
+			quidu      	"3F72C3120136"
+			width      	316
+			height     	3149
+			icon_height 	0
+			icon_width 	0
+			icon_y_offset 	0
+			annotation 	1
+			Focus_Of_Control 	(object Focus_Of_Control "" @24
+			    location   	(192, 528)
+			    line_color 	3342489
+			    InterObjView 	@23
+			    height     	2756
+			    y_coord    	2696
+			    Nested     	FALSE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @25
+			    location   	(192, 592)
+			    line_color 	3342489
+			    InterObjView 	@23
+			    height     	60
+			    y_coord    	0
+			    Nested     	TRUE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @26
+			    location   	(192, 1904)
+			    line_color 	3342489
+			    InterObjView 	@23
+			    height     	60
+			    y_coord    	0
+			    Nested     	TRUE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @27
+			    location   	(192, 2192)
+			    line_color 	3342489
+			    InterObjView 	@23
+			    height     	60
+			    y_coord    	0
+			    Nested     	TRUE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @28
+			    location   	(192, 2416)
+			    line_color 	3342489
+			    InterObjView 	@23
+			    height     	60
+			    y_coord    	0
+			    Nested     	TRUE))
+		    (object InterObjView "$UNNAMED$1" @29
+			location   	(656, 224)
+			font       	(object Font
+			    underline  	TRUE)
+			label      	(object ItemLabel
+			    Parent_View 	@29
+			    location   	(656, 224)
+			    fill_color 	13434879
+			    anchor_loc 	1
+			    nlines     	2
+			    max_width  	528
+			    justify    	0
+			    label      	"")
+			icon_style 	"Icon"
+			line_color 	3342489
+			fill_color 	13434879
+			quidu      	"3F72CA930397"
+			width      	546
+			height     	3149
+			icon_height 	0
+			icon_width 	0
+			icon_y_offset 	0
+			annotation 	1
+			Focus_Of_Control 	(object Focus_Of_Control "" @30
+			    location   	(656, 736)
+			    line_color 	3342489
+			    InterObjView 	@29
+			    height     	244
+			    y_coord    	184
+			    Nested     	FALSE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @31
+			    location   	(656, 1872)
+			    line_color 	3342489
+			    InterObjView 	@29
+			    height     	152
+			    y_coord    	92
+			    Nested     	FALSE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @32
+			    location   	(656, 2144)
+			    line_color 	3342489
+			    InterObjView 	@29
+			    height     	168
+			    y_coord    	108
+			    Nested     	FALSE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @33
+			    location   	(656, 2384)
+			    line_color 	3342489
+			    InterObjView 	@29
+			    height     	152
+			    y_coord    	92
+			    Nested     	FALSE))
+		    (object InterObjView "$UNNAMED$2" @34
+			location   	(1616, 224)
+			font       	(object Font
+			    underline  	TRUE)
+			label      	(object ItemLabel
+			    Parent_View 	@34
+			    location   	(1616, 224)
+			    fill_color 	13434879
+			    anchor_loc 	1
+			    nlines     	2
+			    max_width  	390
+			    justify    	0
+			    label      	"")
+			icon_style 	"Icon"
+			line_color 	3342489
+			fill_color 	13434879
+			quidu      	"3F72CAED0155"
+			width      	408
+			height     	3149
+			icon_height 	0
+			icon_width 	0
+			icon_y_offset 	0
+			annotation 	1
+			Focus_Of_Control 	(object Focus_Of_Control "" @35
+			    location   	(1616, 768)
+			    line_color 	3342489
+			    InterObjView 	@34
+			    height     	152
+			    y_coord    	92
+			    Nested     	FALSE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @36
+			    location   	(1616, 800)
+			    line_color 	3342489
+			    InterObjView 	@34
+			    height     	60
+			    y_coord    	0
+			    Nested     	TRUE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @37
+			    location   	(1616, 1872)
+			    line_color 	3342489
+			    InterObjView 	@34
+			    height     	212
+			    y_coord    	152
+			    Nested     	FALSE))
+		    (object InterObjView "$UNNAMED$3" @38
+			location   	(2448, 224)
+			font       	(object Font
+			    underline  	TRUE)
+			label      	(object ItemLabel
+			    Parent_View 	@38
+			    location   	(2448, 224)
+			    fill_color 	13434879
+			    anchor_loc 	1
+			    nlines     	2
+			    max_width  	454
+			    justify    	0
+			    label      	"")
+			icon_style 	"Icon"
+			line_color 	16711680
+			fill_color 	13434879
+			quidu      	"3F72DB2A0378"
+			width      	472
+			height     	3149
+			icon_height 	0
+			icon_width 	0
+			icon_y_offset 	0
+			annotation 	1
+			Focus_Of_Control 	(object Focus_Of_Control "" @39
+			    location   	(2448, 1168)
+			    line_color 	3342489
+			    InterObjView 	@38
+			    height     	600
+			    y_coord    	540
+			    Nested     	FALSE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @40
+			    location   	(2448, 1264)
+			    line_color 	3342489
+			    InterObjView 	@38
+			    height     	60
+			    y_coord    	0
+			    Nested     	TRUE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @41
+			    location   	(2448, 1568)
+			    line_color 	3342489
+			    InterObjView 	@38
+			    height     	60
+			    y_coord    	0
+			    Nested     	TRUE))
+		    (object InterObjView "$UNNAMED$4" @42
+			location   	(2880, 224)
+			font       	(object Font
+			    underline  	TRUE)
+			label      	(object ItemLabel
+			    Parent_View 	@42
+			    location   	(2880, 224)
+			    fill_color 	13434879
+			    anchor_loc 	1
+			    nlines     	2
+			    max_width  	346
+			    justify    	0
+			    label      	"")
+			icon_style 	"Icon"
+			line_color 	16711680
+			fill_color 	13434879
+			quidu      	"3F72DB840220"
+			width      	364
+			height     	3149
+			icon_height 	0
+			icon_width 	0
+			icon_y_offset 	0
+			annotation 	1
+			Focus_Of_Control 	(object Focus_Of_Control "" @43
+			    location   	(2880, 1360)
+			    line_color 	3342489
+			    InterObjView 	@42
+			    height     	328
+			    y_coord    	268
+			    Nested     	FALSE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @44
+			    location   	(2880, 1408)
+			    line_color 	3342489
+			    InterObjView 	@42
+			    height     	60
+			    y_coord    	0
+			    Nested     	TRUE))
+		    (object InterObjView "$UNNAMED$6" @45
+			location   	(2016, 224)
+			font       	(object Font
+			    underline  	TRUE)
+			label      	(object ItemLabel
+			    Parent_View 	@45
+			    location   	(2016, 224)
+			    fill_color 	13434879
+			    anchor_loc 	1
+			    nlines     	2
+			    max_width  	336
+			    justify    	0
+			    label      	"")
+			icon_style 	"Icon"
+			line_color 	3342489
+			fill_color 	13434879
+			quidu      	"3F799464006B"
+			width      	354
+			height     	3149
+			icon_height 	0
+			icon_width 	0
+			icon_y_offset 	0
+			annotation 	1
+			Focus_Of_Control 	(object Focus_Of_Control "" @46
+			    location   	(2016, 1120)
+			    line_color 	3342489
+			    InterObjView 	@45
+			    height     	708
+			    y_coord    	648
+			    Nested     	FALSE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @47
+			    location   	(2016, 1648)
+			    line_color 	3342489
+			    InterObjView 	@45
+			    height     	60
+			    y_coord    	0
+			    Nested     	TRUE))
+		    (object InterObjView "$UNNAMED$5" @48
+			location   	(1168, 224)
+			font       	(object Font
+			    underline  	TRUE)
+			label      	(object ItemLabel
+			    Parent_View 	@48
+			    location   	(1168, 224)
+			    fill_color 	13434879
+			    anchor_loc 	1
+			    nlines     	2
+			    max_width  	426
+			    justify    	0
+			    label      	"")
+			icon_style 	"Icon"
+			line_color 	3342489
+			fill_color 	13434879
+			quidu      	"3F783A0C0240"
+			width      	444
+			height     	3149
+			icon_height 	0
+			icon_width 	0
+			icon_y_offset 	0
+			annotation 	1)
+		    (object InterMessView "" @49
+			location   	(16, 736)
+			label      	(object SegLabel @50
+			    Parent_View 	@49
+			    location   	(423, 692)
+			    quidu      	"3F72CAB301B3"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	239
+			    justify    	0
+			    label      	"CloseFileL( )"
+			    pctDist    	0.500000
+			    height     	45
+			    orientation 	0)
+			line_color 	3342489
+			client     	@23
+			supplier   	@29
+			Focus_Src  	@24
+			Focus_Entry 	@30
+			origin     	(207, 736)
+			terminus   	(640, 736)
+			ordinal    	1)
+		    (object InterMessView "" @51
+			location   	(16, 768)
+			label      	(object SegLabel @52
+			    Parent_View 	@51
+			    location   	(940, 727)
+			    quidu      	"3F72CB0900D9"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	216
+			    justify    	0
+			    label      	"CloseFile( )"
+			    pctDist    	0.290635
+			    height     	42
+			    orientation 	0)
+			line_color 	3342489
+			client     	@29
+			supplier   	@34
+			Focus_Src  	@30
+			Focus_Entry 	@35
+			origin     	(671, 768)
+			terminus   	(1600, 768)
+			ordinal    	2)
+		    (object NoteView @53
+			location   	(2128, 1440)
+			label      	(object ItemLabel
+			    Parent_View 	@53
+			    location   	(1837, 1334)
+			    fill_color 	13434879
+			    nlines     	4
+			    max_width  	546
+			    label      	"Iterate through open sessions calling SignalReleaseFileLock on those which are observing this file.")
+			line_color 	16711680
+			fill_color 	13434879
+			width      	606
+			height     	225)
+		    (object InterMessView "" @54
+			location   	(16, 1904)
+			label      	(object SegLabel @55
+			    Parent_View 	@54
+			    location   	(424, 1860)
+			    quidu      	"3F72DF1600F7"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	0
+			    justify    	0
+			    label      	""
+			    pctDist    	0.500000
+			    height     	45
+			    orientation 	1)
+			line_color 	3342489
+			client     	@29
+			supplier   	@23
+			Focus_Src  	@31
+			Focus_Entry 	@26
+			origin     	(640, 1904)
+			terminus   	(208, 1904)
+			ordinal    	11)
+		    (object SelfMessView "" @56
+			location   	(16, 592)
+			label      	(object SegLabel @57
+			    Parent_View 	@56
+			    location   	(332, 545)
+			    quidu      	"3F72DF2D0117"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	234
+			    justify    	0
+			    label      	"OpenFileL( )"
+			    pctDist    	0.826667
+			    height     	48
+			    orientation 	0)
+			line_color 	3342489
+			client     	@23
+			supplier   	@23
+			Focus_Src  	@24
+			Focus_Entry 	@25
+			origin     	(208, 592)
+			terminus   	(358, 592)
+			ordinal    	0)
+		    (object InterMessView "" @58
+			location   	(16, 2144)
+			label      	(object SegLabel @59
+			    Parent_View 	@58
+			    location   	(423, 2100)
+			    quidu      	"3F72DF8502EB"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	302
+			    justify    	0
+			    label      	"DeregisterFile( )"
+			    pctDist    	0.500000
+			    height     	45
+			    orientation 	0)
+			line_color 	3342489
+			client     	@23
+			supplier   	@29
+			Focus_Src  	@24
+			Focus_Entry 	@32
+			origin     	(207, 2144)
+			terminus   	(640, 2144)
+			ordinal    	12)
+		    (object InterMessView "" @60
+			location   	(16, 2192)
+			label      	(object SegLabel @61
+			    Parent_View 	@60
+			    location   	(424, 2148)
+			    quidu      	"3F72E0F10116"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	0
+			    justify    	0
+			    label      	""
+			    pctDist    	0.500000
+			    height     	45
+			    orientation 	1)
+			line_color 	3342489
+			client     	@29
+			supplier   	@23
+			Focus_Src  	@32
+			Focus_Entry 	@27
+			origin     	(640, 2192)
+			terminus   	(208, 2192)
+			ordinal    	13)
+		    (object InterMessView "" @62
+			location   	(16, 2384)
+			label      	(object SegLabel @63
+			    Parent_View 	@62
+			    location   	(423, 2340)
+			    quidu      	"3F72E0FD030A"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	436
+			    justify    	0
+			    label      	"RegisterFileL(TDesC&)"
+			    pctDist    	0.500000
+			    height     	45
+			    orientation 	0)
+			line_color 	3342489
+			client     	@23
+			supplier   	@29
+			Focus_Src  	@24
+			Focus_Entry 	@33
+			origin     	(207, 2384)
+			terminus   	(640, 2384)
+			ordinal    	14)
+		    (object InterMessView "" @64
+			location   	(16, 2416)
+			label      	(object SegLabel @65
+			    Parent_View 	@64
+			    location   	(424, 2372)
+			    quidu      	"3F72E106000D"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	0
+			    justify    	0
+			    label      	""
+			    pctDist    	0.500000
+			    height     	45
+			    orientation 	1)
+			line_color 	3342489
+			client     	@29
+			supplier   	@23
+			Focus_Src  	@33
+			Focus_Entry 	@28
+			origin     	(640, 2416)
+			terminus   	(208, 2416)
+			ordinal    	15)
+		    (object NoteView @66
+			location   	(1168, 528)
+			font       	(object Font
+			    bold       	TRUE)
+			label      	(object ItemLabel
+			    Parent_View 	@66
+			    location   	(893, 469)
+			    fill_color 	13434879
+			    nlines     	2
+			    max_width  	515
+			    label      	
+|iStatus=KRequestPending
+|iActive=ETrue
+			    )
+			line_color 	3342489
+			fill_color 	13434879
+			width      	575
+			height     	131)
+		    (object NoteView @67
+			location   	(2000, 992)
+			label      	(object ItemLabel
+			    Parent_View 	@67
+			    location   	(1794, 930)
+			    fill_color 	13434879
+			    nlines     	2
+			    max_width  	377
+			    label      	"Thread change here")
+			line_color 	16711680
+			fill_color 	13434879
+			width      	437
+			height     	137)
+		    (object NoteView @68
+			location   	(1968, 1920)
+			label      	(object ItemLabel
+			    Parent_View 	@68
+			    location   	(1762, 1858)
+			    fill_color 	13434879
+			    nlines     	2
+			    max_width  	377
+			    label      	"Thread change here")
+			line_color 	16711680
+			fill_color 	13434879
+			width      	437
+			height     	137)
+		    (object NoteView @69
+			location   	(1168, 1728)
+			font       	(object Font
+			    bold       	TRUE)
+			label      	(object ItemLabel
+			    Parent_View 	@69
+			    location   	(971, 1668)
+			    fill_color 	13434879
+			    nlines     	2
+			    max_width  	359
+			    label      	
+|iStatus=KErrNone
+|iActive=ETrue
+			    )
+			line_color 	3342489
+			fill_color 	13434879
+			width      	419
+			height     	132)
+		    (object InterMessView "" @70
+			location   	(16, 1168)
+			label      	(object SegLabel @71
+			    Parent_View 	@70
+			    location   	(2375, 1109)
+			    quidu      	"3F79947E03C7"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	648
+			    justify    	0
+			    label      	"ServiceL( EBakOpCodeCloseFile)"
+			    pctDist    	0.860349
+			    height     	60
+			    orientation 	0)
+			line_color 	3342489
+			client     	@45
+			supplier   	@38
+			Focus_Src  	@46
+			Focus_Entry 	@39
+			origin     	(2031, 1168)
+			terminus   	(2432, 1168)
+			ordinal    	4)
+		    (object SelfMessView "" @72
+			location   	(16, 800)
+			label      	(object SegLabel @73
+			    Parent_View 	@72
+			    location   	(1979, 743)
+			    quidu      	"3F7994B6009A"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	663
+			    justify    	0
+			    label      	"SendReceive(EBakOpCodeCloseFile )"
+			    pctDist    	2.320000
+			    height     	58
+			    orientation 	0)
+			line_color 	3342489
+			client     	@34
+			supplier   	@34
+			Focus_Src  	@35
+			Focus_Entry 	@36
+			origin     	(1632, 800)
+			terminus   	(1782, 800)
+			ordinal    	3)
+		    (object SelfMessView "" @74
+			location   	(16, 1264)
+			label      	(object SegLabel @75
+			    Parent_View 	@74
+			    location   	(2588, 1221)
+			    quidu      	"3F7994EE02AD"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	222
+			    justify    	0
+			    label      	"CloseFileL( )"
+			    pctDist    	0.833333
+			    height     	44
+			    orientation 	0)
+			line_color 	3342489
+			client     	@38
+			supplier   	@38
+			Focus_Src  	@39
+			Focus_Entry 	@40
+			origin     	(2464, 1264)
+			terminus   	(2614, 1264)
+			ordinal    	5)
+		    (object InterMessView "" @76
+			location   	(16, 1872)
+			label      	(object SegLabel @77
+			    Parent_View 	@76
+			    location   	(1136, 1828)
+			    quidu      	"3F7995E3001D"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	0
+			    justify    	0
+			    label      	""
+			    pctDist    	0.500000
+			    height     	45
+			    orientation 	1)
+			line_color 	3342489
+			client     	@34
+			supplier   	@29
+			Focus_Src  	@37
+			Focus_Entry 	@31
+			origin     	(1600, 1872)
+			terminus   	(672, 1872)
+			ordinal    	10)
+		    (object InterMessView "" @78
+			location   	(16, 1360)
+			label      	(object SegLabel @79
+			    Parent_View 	@78
+			    location   	(2809, 1317)
+			    quidu      	"3F8E8EFD027E"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	228
+			    justify    	0
+			    label      	"CloseFileL( )"
+			    pctDist    	0.862843
+			    height     	44
+			    orientation 	0)
+			line_color 	3342489
+			client     	@38
+			supplier   	@42
+			Focus_Src  	@39
+			Focus_Entry 	@43
+			origin     	(2463, 1360)
+			terminus   	(2864, 1360)
+			ordinal    	6)
+		    (object SelfMessView "" @80
+			location   	(16, 1408)
+			label      	(object SegLabel @81
+			    Parent_View 	@80
+			    location   	(3179, 1364)
+			    quidu      	"3F8E8F2F03B8"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	456
+			    justify    	0
+			    label      	"SignalReleaseFileLockL( )"
+			    pctDist    	1.886667
+			    height     	44
+			    orientation 	0)
+			line_color 	3342489
+			client     	@42
+			supplier   	@42
+			Focus_Src  	@43
+			Focus_Entry 	@44
+			origin     	(2896, 1408)
+			terminus   	(3046, 1408)
+			ordinal    	7)
+		    (object Label @82
+			location   	(2912, 1472)
+			font       	(object Font
+			    bold       	TRUE)
+			nlines     	3
+			max_width  	581
+			label      	
+|ASYNC COMPLETE
+|(if iNotificationPullMsg != NULL)
+			)
+		    (object InterMessView "" @83
+			location   	(16, 1568)
+			label      	(object SegLabel @84
+			    Parent_View 	@83
+			    location   	(2664, 1524)
+			    quidu      	"3F8E90530369"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	0
+			    justify    	0
+			    label      	""
+			    pctDist    	0.500000
+			    height     	45
+			    orientation 	1)
+			line_color 	3342489
+			client     	@42
+			supplier   	@38
+			Focus_Src  	@43
+			Focus_Entry 	@41
+			origin     	(2864, 1568)
+			terminus   	(2464, 1568)
+			ordinal    	8)
+		    (object InterMessView "" @85
+			location   	(16, 1648)
+			label      	(object SegLabel @86
+			    Parent_View 	@85
+			    location   	(2232, 1604)
+			    quidu      	"3F8E905C001D"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	0
+			    justify    	0
+			    label      	""
+			    pctDist    	0.500000
+			    height     	45
+			    orientation 	1)
+			line_color 	3342489
+			client     	@38
+			supplier   	@45
+			Focus_Src  	@39
+			Focus_Entry 	@47
+			origin     	(2432, 1648)
+			terminus   	(2032, 1648)
+			ordinal    	9)))
+	    (object InteractionDiagram "OpenFile 1 - RegisterFile"
+		mechanism_ref 	@2
+		quid       	"3F72F6750174"
+		title      	"OpenFile 1 - RegisterFile"
+		zoom       	100
+		max_height 	28350
+		max_width  	21600
+		origin_x   	275
+		origin_y   	0
+		items      	(list diagram_item_list
+		    (object InterObjView "$UNNAMED$7" @87
+			location   	(272, 224)
+			font       	(object Font
+			    underline  	TRUE)
+			label      	(object ItemLabel
+			    Parent_View 	@87
+			    location   	(272, 224)
+			    fill_color 	13434879
+			    anchor_loc 	1
+			    nlines     	2
+			    max_width  	298
+			    justify    	0
+			    label      	"")
+			icon_style 	"Icon"
+			line_color 	3342489
+			fill_color 	13434879
+			quidu      	"3F72F69F0155"
+			width      	316
+			height     	4509
+			icon_height 	0
+			icon_width 	0
+			icon_y_offset 	0
+			annotation 	1
+			Focus_Of_Control 	(object Focus_Of_Control "" @88
+			    location   	(272, 400)
+			    line_color 	3342489
+			    InterObjView 	@87
+			    height     	4244
+			    y_coord    	4184
+			    Nested     	FALSE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @89
+			    location   	(272, 400)
+			    line_color 	3342489
+			    InterObjView 	@87
+			    height     	60
+			    y_coord    	0
+			    Nested     	TRUE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @90
+			    location   	(272, 2352)
+			    line_color 	3342489
+			    InterObjView 	@87
+			    height     	60
+			    y_coord    	0
+			    Nested     	TRUE))
+		    (object SelfMessView "" @91
+			location   	(0, 400)
+			label      	(object SegLabel @92
+			    Parent_View 	@91
+			    location   	(460, 357)
+			    quidu      	"3F72F6A600E8"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	222
+			    justify    	0
+			    label      	"OpenFileL( )"
+			    pctDist    	1.146667
+			    height     	44
+			    orientation 	0)
+			line_color 	3342489
+			client     	@87
+			supplier   	@87
+			Focus_Src  	@88
+			Focus_Entry 	@89
+			origin     	(288, 400)
+			terminus   	(438, 400)
+			ordinal    	0)
+		    (object InterObjView "$UNNAMED$8" @93
+			location   	(736, 224)
+			font       	(object Font
+			    underline  	TRUE)
+			label      	(object ItemLabel
+			    Parent_View 	@93
+			    location   	(736, 224)
+			    fill_color 	13434879
+			    anchor_loc 	1
+			    nlines     	2
+			    max_width  	528
+			    justify    	0
+			    label      	"")
+			icon_style 	"Icon"
+			line_color 	3342489
+			fill_color 	13434879
+			quidu      	"3F72F6C0005B"
+			width      	546
+			height     	4509
+			icon_height 	0
+			icon_width 	0
+			icon_y_offset 	0
+			annotation 	1
+			Focus_Of_Control 	(object Focus_Of_Control "" @94
+			    location   	(736, 544)
+			    line_color 	3342489
+			    InterObjView 	@93
+			    height     	4040
+			    y_coord    	3980
+			    Nested     	FALSE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @95
+			    location   	(736, 2288)
+			    line_color 	3342489
+			    InterObjView 	@93
+			    height     	60
+			    y_coord    	0
+			    Nested     	TRUE))
+		    (object InterObjView "$UNNAMED$9" @96
+			location   	(1296, 224)
+			font       	(object Font
+			    underline  	TRUE)
+			label      	(object ItemLabel
+			    Parent_View 	@96
+			    location   	(1296, 224)
+			    fill_color 	13434879
+			    anchor_loc 	1
+			    nlines     	2
+			    max_width  	446
+			    justify    	0
+			    label      	"")
+			icon_style 	"Icon"
+			line_color 	3342489
+			fill_color 	13434879
+			quidu      	"3F72F7D200A9"
+			width      	464
+			height     	4509
+			icon_height 	0
+			icon_width 	0
+			icon_y_offset 	0
+			annotation 	1
+			Focus_Of_Control 	(object Focus_Of_Control "" @97
+			    location   	(1280, 608)
+			    line_color 	3342489
+			    InterObjView 	@96
+			    height     	2544
+			    y_coord    	2484
+			    Nested     	FALSE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @98
+			    location   	(1280, 688)
+			    line_color 	3342489
+			    InterObjView 	@96
+			    height     	60
+			    y_coord    	0
+			    Nested     	TRUE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @99
+			    location   	(1280, 976)
+			    line_color 	3342489
+			    InterObjView 	@96
+			    height     	60
+			    y_coord    	0
+			    Nested     	TRUE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @100
+			    location   	(1280, 1120)
+			    line_color 	3342489
+			    InterObjView 	@96
+			    height     	60
+			    y_coord    	0
+			    Nested     	TRUE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @101
+			    location   	(1280, 2256)
+			    line_color 	3342489
+			    InterObjView 	@96
+			    height     	152
+			    y_coord    	92
+			    Nested     	TRUE))
+		    (object InterObjView "$UNNAMED$10" @102
+			location   	(2176, 224)
+			font       	(object Font
+			    underline  	TRUE)
+			label      	(object ItemLabel
+			    Parent_View 	@102
+			    location   	(2176, 224)
+			    fill_color 	13434879
+			    anchor_loc 	1
+			    nlines     	2
+			    max_width  	336
+			    justify    	0
+			    label      	"")
+			icon_style 	"Icon"
+			line_color 	3342489
+			fill_color 	13434879
+			quidu      	"3F72F80202DB"
+			width      	354
+			height     	4509
+			icon_height 	0
+			icon_width 	0
+			icon_y_offset 	0
+			annotation 	1
+			Focus_Of_Control 	(object Focus_Of_Control "" @103
+			    location   	(2176, 1648)
+			    line_color 	3342489
+			    InterObjView 	@102
+			    height     	568
+			    y_coord    	508
+			    Nested     	FALSE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @104
+			    location   	(2224, 1872)
+			    line_color 	3342489
+			    InterObjView 	@102
+			    height     	60
+			    y_coord    	0
+			    Nested     	TRUE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @105
+			    location   	(2224, 1888)
+			    line_color 	3342489
+			    InterObjView 	@102
+			    height     	544
+			    y_coord    	484
+			    Nested     	TRUE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @106
+			    location   	(2176, 2192)
+			    line_color 	3342489
+			    InterObjView 	@102
+			    height     	60
+			    y_coord    	0
+			    Nested     	TRUE))
+		    (object InterObjView "$UNNAMED$11" @107
+			location   	(1744, 224)
+			font       	(object Font
+			    underline  	TRUE)
+			label      	(object ItemLabel
+			    Parent_View 	@107
+			    location   	(1744, 224)
+			    fill_color 	13434879
+			    anchor_loc 	1
+			    nlines     	2
+			    max_width  	390
+			    justify    	0
+			    label      	"")
+			icon_style 	"Icon"
+			line_color 	3342489
+			fill_color 	13434879
+			quidu      	"3F72F8DA03B6"
+			width      	408
+			height     	4509
+			icon_height 	0
+			icon_width 	0
+			icon_y_offset 	0
+			annotation 	1
+			Focus_Of_Control 	(object Focus_Of_Control "" @108
+			    location   	(1824, 832)
+			    line_color 	3342489
+			    InterObjView 	@107
+			    height     	264
+			    y_coord    	204
+			    Nested     	FALSE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @109
+			    location   	(1824, 880)
+			    line_color 	3342489
+			    InterObjView 	@107
+			    height     	60
+			    y_coord    	0
+			    Nested     	TRUE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @110
+			    location   	(1824, 1440)
+			    line_color 	3342489
+			    InterObjView 	@107
+			    height     	1028
+			    y_coord    	968
+			    Nested     	FALSE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @111
+			    location   	(1824, 1568)
+			    line_color 	3342489
+			    InterObjView 	@107
+			    height     	60
+			    y_coord    	0
+			    Nested     	TRUE))
+		    (object InterObjView "$UNNAMED$12" @112
+			location   	(2624, 224)
+			font       	(object Font
+			    underline  	TRUE)
+			label      	(object ItemLabel
+			    Parent_View 	@112
+			    location   	(2624, 224)
+			    fill_color 	13434879
+			    anchor_loc 	1
+			    nlines     	2
+			    max_width  	454
+			    justify    	0
+			    label      	"")
+			icon_style 	"Icon"
+			line_color 	3342489
+			fill_color 	13434879
+			quidu      	"3F74153300BD"
+			width      	472
+			height     	4509
+			icon_height 	0
+			icon_width 	0
+			icon_y_offset 	0
+			annotation 	1
+			Focus_Of_Control 	(object Focus_Of_Control "" @113
+			    location   	(2704, 1696)
+			    line_color 	3342489
+			    InterObjView 	@112
+			    height     	296
+			    y_coord    	236
+			    Nested     	FALSE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @114
+			    location   	(2704, 1808)
+			    line_color 	3342489
+			    InterObjView 	@112
+			    height     	60
+			    y_coord    	0
+			    Nested     	TRUE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @115
+			    location   	(2608, 2080)
+			    line_color 	3342489
+			    InterObjView 	@112
+			    height     	292
+			    y_coord    	232
+			    Nested     	FALSE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @116
+			    location   	(2608, 2128)
+			    line_color 	3342489
+			    InterObjView 	@112
+			    height     	184
+			    y_coord    	124
+			    Nested     	TRUE))
+		    (object InterMessView "" @117
+			location   	(16, 544)
+			label      	(object SegLabel @118
+			    Parent_View 	@117
+			    location   	(503, 500)
+			    quidu      	"3F72F7BD031B"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	413
+			    justify    	0
+			    label      	"RegisterFileL(TDesC&)"
+			    pctDist    	0.500000
+			    height     	45
+			    orientation 	0)
+			line_color 	3342489
+			client     	@87
+			supplier   	@93
+			Focus_Src  	@88
+			Focus_Entry 	@94
+			origin     	(287, 544)
+			terminus   	(720, 544)
+			ordinal    	1)
+		    (object NoteView @119
+			location   	(1344, 496)
+			font       	(object Font
+			    bold       	TRUE)
+			label      	(object ItemLabel
+			    Parent_View 	@119
+			    location   	(1106, 427)
+			    fill_color 	13434879
+			    nlines     	2
+			    max_width  	440
+			    label      	
+|iStatus=KErrNone
+|iActive=EFalse
+			    )
+			line_color 	3342489
+			fill_color 	13434879
+			width      	500
+			height     	150)
+		    (object NoteView @120
+			location   	(1328, 1280)
+			font       	(object Font
+			    bold       	TRUE)
+			label      	(object ItemLabel
+			    Parent_View 	@120
+			    location   	(1037, 1211)
+			    fill_color 	13434879
+			    nlines     	2
+			    max_width  	546
+			    label      	
+|iStatus=KRequestPending
+|iActive=ETrue
+			    )
+			line_color 	3342489
+			fill_color 	13434879
+			width      	606
+			height     	150)
+		    (object InterMessView "" @121
+			location   	(16, 1440)
+			label      	(object SegLabel @122
+			    Parent_View 	@121
+			    location   	(1568, 1398)
+			    quidu      	"3F72FA9A00F7"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	547
+			    justify    	0
+			    label      	"NotifyChangeFileLock( )"
+			    pctDist    	0.618705
+			    height     	43
+			    orientation 	0)
+			line_color 	3342489
+			client     	@96
+			supplier   	@107
+			Focus_Src  	@97
+			Focus_Entry 	@110
+			origin     	(1311, 1440)
+			terminus   	(1728, 1440)
+			ordinal    	8)
+		    (object Label @123
+			location   	(288, 64)
+			nlines     	1
+			max_width  	2031
+			label      	"This diagram shows the sequence of events when Agenda is started and the initial file is opened")
+		    (object NoteView @124
+			location   	(1264, 2448)
+			font       	(object Font
+			    bold       	TRUE)
+			label      	(object ItemLabel
+			    Parent_View 	@124
+			    location   	(970, 2373)
+			    fill_color 	13434879
+			    nlines     	3
+			    max_width  	553
+			    label      	
+|iStatus=KRequestPending
+|iActive=ETrue
+			    )
+			line_color 	3342489
+			fill_color 	13434879
+			width      	613
+			height     	163)
+		    (object InterMessView "" @125
+			location   	(16, 1696)
+			label      	(object SegLabel @126
+			    Parent_View 	@125
+			    location   	(2575, 1627)
+			    quidu      	"3F7987A4004C"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	666
+			    justify    	0
+			    label      	"ServiceL( EBakOpCodeEventReady)"
+			    pctDist    	0.922049
+			    height     	70
+			    orientation 	0)
+			line_color 	16711680
+			client     	@102
+			supplier   	@112
+			Focus_Src  	@103
+			Focus_Entry 	@113
+			origin     	(2191, 1696)
+			terminus   	(2608, 1696)
+			ordinal    	10)
+		    (object SelfMessView "" @127
+			location   	(16, 1808)
+			label      	(object SegLabel @128
+			    Parent_View 	@127
+			    location   	(2872, 1768)
+			    quidu      	"3F7987B3000D"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	402
+			    justify    	0
+			    label      	"HandleEventReady( )"
+			    pctDist    	1.553333
+			    height     	41
+			    orientation 	0)
+			line_color 	16711680
+			client     	@112
+			supplier   	@112
+			Focus_Src  	@113
+			Focus_Entry 	@114
+			origin     	(2640, 1808)
+			terminus   	(2790, 1808)
+			ordinal    	11)
+		    (object InterMessView "" @129
+			location   	(16, 1872)
+			label      	(object SegLabel @130
+			    Parent_View 	@129
+			    location   	(2400, 1828)
+			    quidu      	"3F7987CB029E"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	0
+			    justify    	0
+			    label      	""
+			    pctDist    	0.500000
+			    height     	45
+			    orientation 	1)
+			line_color 	16711680
+			client     	@112
+			supplier   	@102
+			Focus_Src  	@113
+			Focus_Entry 	@104
+			origin     	(2608, 1872)
+			terminus   	(2192, 1872)
+			ordinal    	12)
+		    (object NoteView @131
+			location   	(1952, 1904)
+			label      	(object ItemLabel
+			    Parent_View 	@131
+			    location   	(1789, 1838)
+			    fill_color 	13434879
+			    nlines     	2
+			    max_width  	290
+			    label      	"Thread Change")
+			line_color 	3342489
+			fill_color 	13434879
+			width      	350
+			height     	144)
+		    (object SelfMessView "" @132
+			location   	(16, 1568)
+			label      	(object SegLabel @133
+			    Parent_View 	@132
+			    location   	(2188, 1518)
+			    quidu      	"3F7989210194"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	889
+			    justify    	0
+			    label      	"SendReceive( EBakOpCodeNotifyLockChange)"
+			    pctDist    	2.860000
+			    height     	51
+			    orientation 	0)
+			line_color 	3342489
+			client     	@107
+			supplier   	@107
+			Focus_Src  	@110
+			Focus_Entry 	@111
+			origin     	(1760, 1568)
+			terminus   	(1910, 1568)
+			ordinal    	9)
+		    (object InterMessView "" @134
+			location   	(16, 2256)
+			label      	(object SegLabel @135
+			    Parent_View 	@134
+			    location   	(1520, 2212)
+			    quidu      	"3F79909A002D"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	0
+			    justify    	0
+			    label      	""
+			    pctDist    	0.500000
+			    height     	45
+			    orientation 	1)
+			line_color 	3342489
+			client     	@107
+			supplier   	@96
+			Focus_Src  	@110
+			Focus_Entry 	@101
+			origin     	(1728, 2256)
+			terminus   	(1312, 2256)
+			ordinal    	16)
+		    (object InterMessView "" @136
+			location   	(16, 2352)
+			label      	(object SegLabel @137
+			    Parent_View 	@136
+			    location   	(504, 2308)
+			    quidu      	"3F79910A024F"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	0
+			    justify    	0
+			    label      	""
+			    pctDist    	0.500000
+			    height     	45
+			    orientation 	1)
+			line_color 	3342489
+			client     	@93
+			supplier   	@87
+			Focus_Src  	@94
+			Focus_Entry 	@90
+			origin     	(720, 2352)
+			terminus   	(288, 2352)
+			ordinal    	18)
+		    (object InterMessView "" @138
+			location   	(16, 608)
+			label      	(object SegLabel @139
+			    Parent_View 	@138
+			    location   	(1015, 564)
+			    quidu      	"3F79A9480230"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	135
+			    justify    	0
+			    label      	"AddL( )"
+			    pctDist    	0.500000
+			    height     	45
+			    orientation 	0)
+			line_color 	3342489
+			client     	@93
+			supplier   	@96
+			Focus_Src  	@94
+			Focus_Entry 	@97
+			origin     	(751, 608)
+			terminus   	(1280, 608)
+			ordinal    	2)
+		    (object InterMessView "" @140
+			location   	(16, 2288)
+			label      	(object SegLabel @141
+			    Parent_View 	@140
+			    location   	(1016, 2244)
+			    quidu      	"3F79A9D50107"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	0
+			    justify    	0
+			    label      	""
+			    pctDist    	0.500000
+			    height     	45
+			    orientation 	1)
+			line_color 	3342489
+			client     	@96
+			supplier   	@93
+			Focus_Src  	@101
+			Focus_Entry 	@95
+			origin     	(1280, 2288)
+			terminus   	(752, 2288)
+			ordinal    	17)
+		    (object SelfMessView "" @142
+			location   	(16, 688)
+			label      	(object SegLabel @143
+			    Parent_View 	@142
+			    location   	(1530, 645)
+			    quidu      	"3F8E86800155"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	325
+			    justify    	0
+			    label      	"StartNotifications( )"
+			    pctDist    	1.453333
+			    height     	44
+			    orientation 	0)
+			line_color 	3342489
+			client     	@96
+			supplier   	@96
+			Focus_Src  	@97
+			Focus_Entry 	@98
+			origin     	(1312, 688)
+			terminus   	(1462, 688)
+			ordinal    	3)
+		    (object InterMessView "" @144
+			location   	(16, 832)
+			label      	(object SegLabel @145
+			    Parent_View 	@144
+			    location   	(1579, 791)
+			    quidu      	"3F8E86A003C6"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	469
+			    justify    	0
+			    label      	"RegisterForNotifications( )"
+			    pctDist    	0.645084
+			    height     	42
+			    orientation 	0)
+			line_color 	3342489
+			client     	@96
+			supplier   	@107
+			Focus_Src  	@97
+			Focus_Entry 	@108
+			origin     	(1311, 832)
+			terminus   	(1728, 832)
+			ordinal    	4)
+		    (object SelfMessView "" @146
+			location   	(16, 880)
+			label      	(object SegLabel @147
+			    Parent_View 	@146
+			    location   	(2219, 854)
+			    quidu      	"3F8E86B70240"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	856
+			    justify    	0
+			    label      	"SendReceive( EBakOpCodeEventReady )"
+			    pctDist    	3.066667
+			    height     	27
+			    orientation 	0)
+			line_color 	3342489
+			client     	@107
+			supplier   	@107
+			Focus_Src  	@108
+			Focus_Entry 	@109
+			origin     	(1760, 880)
+			terminus   	(1910, 880)
+			ordinal    	5)
+		    (object InterMessView "" @148
+			location   	(16, 976)
+			label      	(object SegLabel @149
+			    Parent_View 	@148
+			    location   	(1520, 932)
+			    quidu      	"3F8E86C5026F"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	0
+			    justify    	0
+			    label      	""
+			    pctDist    	0.500000
+			    height     	45
+			    orientation 	1)
+			line_color 	3342489
+			client     	@107
+			supplier   	@96
+			Focus_Src  	@108
+			Focus_Entry 	@99
+			origin     	(1728, 976)
+			terminus   	(1312, 976)
+			ordinal    	6)
+		    (object SelfMessView "" @150
+			location   	(16, 1120)
+			label      	(object SegLabel @151
+			    Parent_View 	@150
+			    location   	(1466, 1077)
+			    quidu      	"3F8E86DC01F2"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	188
+			    justify    	0
+			    label      	"SetActive( )"
+			    pctDist    	1.033333
+			    height     	44
+			    orientation 	0)
+			line_color 	3342489
+			client     	@96
+			supplier   	@96
+			Focus_Src  	@97
+			Focus_Entry 	@100
+			origin     	(1312, 1120)
+			terminus   	(1462, 1120)
+			ordinal    	7)
+		    (object NoteView @152
+			location   	(1056, 912)
+			label      	(object ItemLabel
+			    Parent_View 	@152
+			    location   	(887, 853)
+			    fill_color 	13434879
+			    nlines     	2
+			    max_width  	302
+			    label      	"if filecount == 0")
+			line_color 	3342489
+			fill_color 	13434879
+			width      	362
+			height     	131)
+		    (object InterMessView "" @153
+			location   	(16, 2080)
+			label      	(object SegLabel @154
+			    Parent_View 	@153
+			    location   	(2617, 2037)
+			    quidu      	"3F8E88F7033A"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	887
+			    justify    	0
+			    label      	"ServiceL( EBakOpCodeNotifyLockChange)"
+			    pctDist    	1.021583
+			    height     	43
+			    orientation 	0)
+			line_color 	16711680
+			client     	@102
+			supplier   	@112
+			Focus_Src  	@105
+			Focus_Entry 	@115
+			origin     	(2191, 2080)
+			terminus   	(2608, 2080)
+			ordinal    	13)
+		    (object SelfMessView "" @155
+			location   	(16, 2128)
+			label      	(object SegLabel @156
+			    Parent_View 	@155
+			    location   	(2877, 2102)
+			    quidu      	"3F8E893300F8"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	369
+			    justify    	0
+			    label      	"NotifyLockChangeL( )"
+			    pctDist    	1.580000
+			    height     	27
+			    orientation 	0)
+			line_color 	16711680
+			client     	@112
+			supplier   	@112
+			Focus_Src  	@115
+			Focus_Entry 	@116
+			origin     	(2640, 2128)
+			terminus   	(2790, 2128)
+			ordinal    	14)
+		    (object InterMessView "" @157
+			location   	(16, 2192)
+			label      	(object SegLabel @158
+			    Parent_View 	@157
+			    location   	(2400, 2148)
+			    quidu      	"3F8E893A00B9"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	0
+			    justify    	0
+			    label      	""
+			    pctDist    	0.500000
+			    height     	45
+			    orientation 	1)
+			line_color 	16711680
+			client     	@112
+			supplier   	@102
+			Focus_Src  	@116
+			Focus_Entry 	@106
+			origin     	(2608, 2192)
+			terminus   	(2192, 2192)
+			ordinal    	15)
+		    (object Label @159
+			location   	(2816, 1792)
+			font       	(object Font
+			    bold       	TRUE)
+			nlines     	1
+			max_width  	157
+			label      	"ASYNC")
+		    (object Label @160
+			location   	(2832, 2128)
+			font       	(object Font
+			    bold       	TRUE)
+			nlines     	1
+			max_width  	156
+			label      	"SYNC")))
+	    (object InteractionDiagram "OpenFile 3 - DeregisterFile"
+		mechanism_ref 	@3
+		quid       	"3F7806B302AD"
+		title      	"OpenFile 3 - DeregisterFile"
+		zoom       	100
+		max_height 	28350
+		max_width  	21600
+		origin_x   	0
+		origin_y   	3250
+		items      	(list diagram_item_list
+		    (object InterObjView "$UNNAMED$13" @161
+			location   	(1328, 224)
+			font       	(object Font
+			    underline  	TRUE)
+			label      	(object ItemLabel
+			    Parent_View 	@161
+			    location   	(1328, 224)
+			    fill_color 	13434879
+			    anchor_loc 	1
+			    nlines     	2
+			    max_width  	446
+			    justify    	0
+			    label      	"")
+			icon_style 	"Icon"
+			line_color 	3342489
+			fill_color 	13434879
+			quidu      	"3F780730000D"
+			width      	464
+			height     	4221
+			icon_height 	0
+			icon_width 	0
+			icon_y_offset 	0
+			annotation 	1
+			Focus_Of_Control 	(object Focus_Of_Control "" @162
+			    location   	(1328, 960)
+			    line_color 	3342489
+			    InterObjView 	@161
+			    height     	3016
+			    y_coord    	2956
+			    Nested     	FALSE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @163
+			    location   	(1328, 1728)
+			    line_color 	3342489
+			    InterObjView 	@161
+			    height     	60
+			    y_coord    	0
+			    Nested     	TRUE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @164
+			    location   	(1328, 2160)
+			    line_color 	3342489
+			    InterObjView 	@161
+			    height     	60
+			    y_coord    	0
+			    Nested     	TRUE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @165
+			    location   	(1328, 2320)
+			    line_color 	3342489
+			    InterObjView 	@161
+			    height     	60
+			    y_coord    	0
+			    Nested     	TRUE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @166
+			    location   	(1328, 2896)
+			    line_color 	3342489
+			    InterObjView 	@161
+			    height     	60
+			    y_coord    	0
+			    Nested     	TRUE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @167
+			    location   	(1328, 3600)
+			    line_color 	3342489
+			    InterObjView 	@161
+			    height     	60
+			    y_coord    	0
+			    Nested     	TRUE))
+		    (object InterObjView "$UNNAMED$16" @168
+			location   	(272, 224)
+			font       	(object Font
+			    underline  	TRUE)
+			label      	(object ItemLabel
+			    Parent_View 	@168
+			    location   	(272, 224)
+			    fill_color 	13434879
+			    anchor_loc 	1
+			    nlines     	2
+			    max_width  	298
+			    justify    	0
+			    label      	"")
+			icon_style 	"Icon"
+			line_color 	3342489
+			fill_color 	13434879
+			quidu      	"3F7807300026"
+			width      	316
+			height     	4221
+			icon_height 	0
+			icon_width 	0
+			icon_y_offset 	0
+			annotation 	1
+			Focus_Of_Control 	(object Focus_Of_Control "" @169
+			    location   	(272, 416)
+			    line_color 	3342489
+			    InterObjView 	@168
+			    height     	3940
+			    y_coord    	3880
+			    Nested     	FALSE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @170
+			    location   	(272, 448)
+			    line_color 	3342489
+			    InterObjView 	@168
+			    height     	60
+			    y_coord    	0
+			    Nested     	TRUE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @171
+			    location   	(272, 640)
+			    line_color 	3342489
+			    InterObjView 	@168
+			    height     	60
+			    y_coord    	0
+			    Nested     	TRUE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @172
+			    location   	(272, 3920)
+			    line_color 	3342489
+			    InterObjView 	@168
+			    height     	60
+			    y_coord    	0
+			    Nested     	TRUE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @173
+			    location   	(272, 4176)
+			    line_color 	3342489
+			    InterObjView 	@168
+			    height     	60
+			    y_coord    	0
+			    Nested     	TRUE))
+		    (object InterObjView "$UNNAMED$17" @174
+			location   	(768, 224)
+			font       	(object Font
+			    underline  	TRUE)
+			label      	(object ItemLabel
+			    Parent_View 	@174
+			    location   	(768, 224)
+			    fill_color 	13434879
+			    anchor_loc 	1
+			    nlines     	2
+			    max_width  	528
+			    justify    	0
+			    label      	"")
+			icon_style 	"Icon"
+			line_color 	3342489
+			fill_color 	13434879
+			quidu      	"3F7807300019"
+			width      	546
+			height     	4221
+			icon_height 	0
+			icon_width 	0
+			icon_y_offset 	0
+			annotation 	1
+			Focus_Of_Control 	(object Focus_Of_Control "" @175
+			    location   	(768, 592)
+			    line_color 	3342489
+			    InterObjView 	@174
+			    height     	168
+			    y_coord    	108
+			    Nested     	FALSE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @176
+			    location   	(768, 816)
+			    line_color 	3342489
+			    InterObjView 	@174
+			    height     	3224
+			    y_coord    	3164
+			    Nested     	FALSE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @177
+			    location   	(768, 3856)
+			    line_color 	3342489
+			    InterObjView 	@174
+			    height     	60
+			    y_coord    	0
+			    Nested     	TRUE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @178
+			    location   	(768, 4144)
+			    line_color 	3342489
+			    InterObjView 	@174
+			    height     	152
+			    y_coord    	92
+			    Nested     	FALSE))
+		    (object InterObjView "$UNNAMED$14" @179
+			location   	(1776, 224)
+			font       	(object Font
+			    underline  	TRUE)
+			label      	(object ItemLabel
+			    Parent_View 	@179
+			    location   	(1776, 224)
+			    fill_color 	13434879
+			    anchor_loc 	1
+			    nlines     	2
+			    max_width  	390
+			    justify    	0
+			    label      	"")
+			icon_style 	"Icon"
+			line_color 	3342489
+			fill_color 	13434879
+			quidu      	"3F7807300040"
+			width      	408
+			height     	4221
+			icon_height 	0
+			icon_width 	0
+			icon_y_offset 	0
+			annotation 	1
+			Focus_Of_Control 	(object Focus_Of_Control "" @180
+			    location   	(1776, 1072)
+			    line_color 	3342489
+			    InterObjView 	@179
+			    height     	836
+			    y_coord    	776
+			    Nested     	FALSE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @181
+			    location   	(1776, 1184)
+			    line_color 	3342489
+			    InterObjView 	@179
+			    height     	664
+			    y_coord    	604
+			    Nested     	TRUE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @182
+			    location   	(1776, 1488)
+			    line_color 	3342489
+			    InterObjView 	@179
+			    height     	60
+			    y_coord    	0
+			    Nested     	TRUE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @183
+			    location   	(1776, 2448)
+			    line_color 	3342489
+			    InterObjView 	@179
+			    height     	568
+			    y_coord    	508
+			    Nested     	FALSE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @184
+			    location   	(1776, 2528)
+			    line_color 	3342489
+			    InterObjView 	@179
+			    height     	60
+			    y_coord    	0
+			    Nested     	TRUE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @185
+			    location   	(1776, 2832)
+			    line_color 	3342489
+			    InterObjView 	@179
+			    height     	60
+			    y_coord    	0
+			    Nested     	TRUE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @186
+			    location   	(1776, 3136)
+			    line_color 	3342489
+			    InterObjView 	@179
+			    height     	704
+			    y_coord    	644
+			    Nested     	FALSE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @187
+			    location   	(1776, 3248)
+			    line_color 	3342489
+			    InterObjView 	@179
+			    height     	60
+			    y_coord    	0
+			    Nested     	TRUE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @188
+			    location   	(1776, 3552)
+			    line_color 	3342489
+			    InterObjView 	@179
+			    height     	168
+			    y_coord    	108
+			    Nested     	TRUE))
+		    (object InterObjView "$UNNAMED$15" @189
+			location   	(2256, 224)
+			font       	(object Font
+			    underline  	TRUE)
+			label      	(object ItemLabel
+			    Parent_View 	@189
+			    location   	(2256, 224)
+			    fill_color 	13434879
+			    anchor_loc 	1
+			    nlines     	2
+			    max_width  	454
+			    justify    	0
+			    label      	"")
+			icon_style 	"Icon"
+			line_color 	3342489
+			fill_color 	13434879
+			quidu      	"3F8E92550194"
+			width      	472
+			height     	4221
+			icon_height 	0
+			icon_width 	0
+			icon_y_offset 	0
+			annotation 	1
+			Focus_Of_Control 	(object Focus_Of_Control "" @190
+			    location   	(2256, 1344)
+			    line_color 	3342489
+			    InterObjView 	@189
+			    height     	264
+			    y_coord    	204
+			    Nested     	FALSE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @191
+			    location   	(2256, 1424)
+			    line_color 	3342489
+			    InterObjView 	@189
+			    height     	60
+			    y_coord    	0
+			    Nested     	TRUE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @192
+			    location   	(2256, 2656)
+			    line_color 	3342489
+			    InterObjView 	@189
+			    height     	296
+			    y_coord    	236
+			    Nested     	FALSE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @193
+			    location   	(2256, 2752)
+			    line_color 	3342489
+			    InterObjView 	@189
+			    height     	60
+			    y_coord    	0
+			    Nested     	TRUE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @194
+			    location   	(2256, 3376)
+			    line_color 	3342489
+			    InterObjView 	@189
+			    height     	404
+			    y_coord    	344
+			    Nested     	FALSE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @195
+			    location   	(2256, 3472)
+			    line_color 	3342489
+			    InterObjView 	@189
+			    height     	60
+			    y_coord    	0
+			    Nested     	TRUE))
+		    (object SelfMessView "" @196
+			location   	(16, 448)
+			label      	(object SegLabel @197
+			    Parent_View 	@196
+			    location   	(460, 405)
+			    quidu      	"3F7807300028"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	234
+			    justify    	0
+			    label      	"OpenFileL( )"
+			    pctDist    	1.146667
+			    height     	44
+			    orientation 	0)
+			line_color 	3342489
+			client     	@168
+			supplier   	@168
+			Focus_Src  	@169
+			Focus_Entry 	@170
+			origin     	(288, 448)
+			terminus   	(438, 448)
+			ordinal    	0)
+		    (object InterMessView "" @198
+			location   	(16, 592)
+			label      	(object SegLabel @199
+			    Parent_View 	@198
+			    location   	(519, 548)
+			    quidu      	"3F7807300024"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	241
+			    justify    	0
+			    label      	"CloseFileL( )"
+			    pctDist    	0.500000
+			    height     	45
+			    orientation 	0)
+			line_color 	3342489
+			client     	@168
+			supplier   	@174
+			Focus_Src  	@169
+			Focus_Entry 	@175
+			origin     	(287, 592)
+			terminus   	(752, 592)
+			ordinal    	1)
+		    (object InterMessView "" @200
+			location   	(16, 640)
+			label      	(object SegLabel @201
+			    Parent_View 	@200
+			    location   	(520, 596)
+			    quidu      	"3F7807300029"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	12
+			    justify    	0
+			    label      	""
+			    pctDist    	0.500000
+			    height     	45
+			    orientation 	1)
+			line_color 	3342489
+			client     	@174
+			supplier   	@168
+			Focus_Src  	@175
+			Focus_Entry 	@171
+			origin     	(752, 640)
+			terminus   	(288, 640)
+			ordinal    	2)
+		    (object InterMessView "" @202
+			location   	(16, 816)
+			label      	(object SegLabel @203
+			    Parent_View 	@202
+			    location   	(519, 772)
+			    quidu      	"3F780730002A"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	412
+			    justify    	0
+			    label      	"DeregisterFile( )"
+			    pctDist    	0.500000
+			    height     	45
+			    orientation 	0)
+			line_color 	3342489
+			client     	@168
+			supplier   	@174
+			Focus_Src  	@169
+			Focus_Entry 	@176
+			origin     	(287, 816)
+			terminus   	(752, 816)
+			ordinal    	3)
+		    (object InterMessView "" @204
+			location   	(16, 960)
+			label      	(object SegLabel @205
+			    Parent_View 	@204
+			    location   	(1047, 916)
+			    quidu      	"3F7809C100AA"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	198
+			    justify    	0
+			    label      	"Remove( )"
+			    pctDist    	0.500000
+			    height     	45
+			    orientation 	0)
+			line_color 	3342489
+			client     	@174
+			supplier   	@161
+			Focus_Src  	@176
+			Focus_Entry 	@162
+			origin     	(783, 960)
+			terminus   	(1312, 960)
+			ordinal    	4)
+		    (object InterMessView "" @206
+			location   	(16, 1072)
+			label      	(object SegLabel @207
+			    Parent_View 	@206
+			    location   	(1646, 1031)
+			    quidu      	"3F7809F902BD"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	584
+			    justify    	0
+			    label      	"NotifyChangeFileLockCancel( )"
+			    pctDist    	0.729017
+			    height     	42
+			    orientation 	0)
+			line_color 	3342489
+			client     	@161
+			supplier   	@179
+			Focus_Src  	@162
+			Focus_Entry 	@180
+			origin     	(1343, 1072)
+			terminus   	(1760, 1072)
+			ordinal    	5)
+		    (object InterMessView "" @208
+			location   	(16, 1728)
+			label      	(object SegLabel @209
+			    Parent_View 	@208
+			    location   	(1552, 1684)
+			    quidu      	"3F780A400127"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	0
+			    justify    	0
+			    label      	""
+			    pctDist    	0.500000
+			    height     	45
+			    orientation 	1)
+			line_color 	3342489
+			client     	@179
+			supplier   	@161
+			Focus_Src  	@181
+			Focus_Entry 	@163
+			origin     	(1760, 1728)
+			terminus   	(1344, 1728)
+			ordinal    	10)
+		    (object InterMessView "" @210
+			location   	(16, 3856)
+			label      	(object SegLabel @211
+			    Parent_View 	@210
+			    location   	(1048, 3812)
+			    quidu      	"3F780A450107"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	0
+			    justify    	0
+			    label      	""
+			    pctDist    	0.500000
+			    height     	45
+			    orientation 	1)
+			line_color 	3342489
+			client     	@161
+			supplier   	@174
+			Focus_Src  	@162
+			Focus_Entry 	@177
+			origin     	(1312, 3856)
+			terminus   	(784, 3856)
+			ordinal    	25)
+		    (object InterMessView "" @212
+			location   	(16, 4144)
+			label      	(object SegLabel @213
+			    Parent_View 	@212
+			    location   	(519, 4100)
+			    quidu      	"3F780A4D031B"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	436
+			    justify    	0
+			    label      	"RegisterFileL(TDesC&)"
+			    pctDist    	0.500000
+			    height     	45
+			    orientation 	0)
+			line_color 	3342489
+			client     	@168
+			supplier   	@174
+			Focus_Src  	@169
+			Focus_Entry 	@178
+			origin     	(287, 4144)
+			terminus   	(752, 4144)
+			ordinal    	27)
+		    (object InterMessView "" @214
+			location   	(16, 4176)
+			label      	(object SegLabel @215
+			    Parent_View 	@214
+			    location   	(520, 4132)
+			    quidu      	"3F780B0502BD"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	0
+			    justify    	0
+			    label      	""
+			    pctDist    	0.500000
+			    height     	45
+			    orientation 	1)
+			line_color 	3342489
+			client     	@174
+			supplier   	@168
+			Focus_Src  	@178
+			Focus_Entry 	@173
+			origin     	(752, 4176)
+			terminus   	(288, 4176)
+			ordinal    	28)
+		    (object NoteView @216
+			location   	(1328, 1584)
+			label      	(object ItemLabel
+			    Parent_View 	@216
+			    location   	(1093, 1522)
+			    fill_color 	13434879
+			    nlines     	2
+			    max_width  	434
+			    label      	
+|iStatus=KRequestNone
+|iActive=ETrue
+			    )
+			line_color 	3342489
+			fill_color 	13434879
+			width      	494
+			height     	137)
+		    (object NoteView @217
+			location   	(1296, 800)
+			label      	(object ItemLabel
+			    Parent_View 	@217
+			    location   	(1068, 737)
+			    fill_color 	13434879
+			    nlines     	2
+			    max_width  	421
+			    label      	
+|iStatus=KRequestNone
+|iActive=ETrue
+			    )
+			line_color 	3342489
+			fill_color 	13434879
+			width      	481
+			height     	138)
+		    (object SelfMessView "" @218
+			location   	(16, 1184)
+			label      	(object SegLabel @219
+			    Parent_View 	@218
+			    location   	(2265, 1126)
+			    quidu      	"3F86B2B703C8"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	910
+			    justify    	0
+			    label      	"SendReceive(EBakOpCodeNotifyFileLockCancel )"
+			    pctDist    	3.153333
+			    height     	58
+			    orientation 	0)
+			line_color 	3342489
+			client     	@179
+			supplier   	@179
+			Focus_Src  	@180
+			Focus_Entry 	@181
+			origin     	(1792, 1184)
+			terminus   	(1942, 1184)
+			ordinal    	6)
+		    (object NoteView @220
+			location   	(1280, 3728)
+			label      	(object ItemLabel
+			    Parent_View 	@220
+			    location   	(1049, 3656)
+			    fill_color 	13434879
+			    nlines     	2
+			    max_width  	427
+			    label      	
+|iStatus=KErrNone
+|iActive=EFalse
+			    )
+			line_color 	3342489
+			fill_color 	13434879
+			width      	487
+			height     	156)
+		    (object InterMessView "" @221
+			location   	(16, 1344)
+			label      	(object SegLabel @222
+			    Parent_View 	@221
+			    location   	(2256, 1287)
+			    quidu      	"3F8E92750118"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	903
+			    justify    	0
+			    label      	"ServiceL( EBakOpCodeNotifyFileLockCancel)"
+			    pctDist    	1.035635
+			    height     	58
+			    orientation 	0)
+			line_color 	3342489
+			client     	@179
+			supplier   	@189
+			Focus_Src  	@181
+			Focus_Entry 	@190
+			origin     	(1791, 1344)
+			terminus   	(2240, 1344)
+			ordinal    	7)
+		    (object InterMessView "" @223
+			location   	(16, 1488)
+			label      	(object SegLabel @224
+			    Parent_View 	@223
+			    location   	(2016, 1444)
+			    quidu      	"3F8E92E4028E"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	0
+			    justify    	0
+			    label      	""
+			    pctDist    	0.500000
+			    height     	45
+			    orientation 	1)
+			line_color 	3342489
+			client     	@189
+			supplier   	@179
+			Focus_Src  	@190
+			Focus_Entry 	@182
+			origin     	(2240, 1488)
+			terminus   	(1792, 1488)
+			ordinal    	9)
+		    (object Label @225
+			location   	(2464, 1424)
+			font       	(object Font
+			    bold       	TRUE)
+			nlines     	1
+			max_width  	150
+			label      	"SYNC")
+		    (object SelfMessView "" @226
+			location   	(16, 2160)
+			label      	(object SegLabel @227
+			    Parent_View 	@226
+			    location   	(1532, 2117)
+			    quidu      	"3F8E938503E6"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	325
+			    justify    	0
+			    label      	"StopNotifications( )"
+			    pctDist    	1.260000
+			    height     	44
+			    orientation 	0)
+			line_color 	3342489
+			client     	@161
+			supplier   	@161
+			Focus_Src  	@162
+			Focus_Entry 	@164
+			origin     	(1344, 2160)
+			terminus   	(1494, 2160)
+			ordinal    	11)
+		    (object SelfMessView "" @228
+			location   	(16, 2320)
+			label      	(object SegLabel @229
+			    Parent_View 	@228
+			    location   	(1468, 2264)
+			    quidu      	"3F8E93A50194"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	206
+			    justify    	0
+			    label      	"DoCancel( )"
+			    pctDist    	0.833333
+			    height     	57
+			    orientation 	0)
+			line_color 	3342489
+			client     	@161
+			supplier   	@161
+			Focus_Src  	@162
+			Focus_Entry 	@165
+			origin     	(1344, 2320)
+			terminus   	(1494, 2320)
+			ordinal    	12)
+		    (object NoteView @230
+			location   	(1072, 2384)
+			label      	(object ItemLabel
+			    Parent_View 	@230
+			    location   	(869, 2212)
+			    fill_color 	13434879
+			    nlines     	6
+			    max_width  	371
+			    label      	"Call Cancel only if file count is zero")
+			line_color 	3342489
+			fill_color 	13434879
+			width      	431
+			height     	357)
+		    (object Label @231
+			location   	(2448, 2752)
+			font       	(object Font
+			    bold       	TRUE)
+			nlines     	1
+			max_width  	150
+			label      	"SYNC")
+		    (object InterMessView "" @232
+			location   	(16, 2448)
+			label      	(object SegLabel @233
+			    Parent_View 	@232
+			    location   	(1647, 2421)
+			    quidu      	"3F8E963F03E6"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	531
+			    justify    	0
+			    label      	"NotifyChangeFileLockCancel( )"
+			    pctDist    	0.731415
+			    height     	28
+			    orientation 	0)
+			line_color 	3342489
+			client     	@161
+			supplier   	@179
+			Focus_Src  	@162
+			Focus_Entry 	@183
+			origin     	(1343, 2448)
+			terminus   	(1760, 2448)
+			ordinal    	13)
+		    (object SelfMessView "" @234
+			location   	(16, 2528)
+			label      	(object SegLabel @235
+			    Parent_View 	@234
+			    location   	(2282, 2501)
+			    quidu      	"3F8E96530349"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	908
+			    justify    	0
+			    label      	"SendReceive( EBakOpCodeNotifyFileLockCancel)"
+			    pctDist    	3.273333
+			    height     	28
+			    orientation 	0)
+			line_color 	3342489
+			client     	@179
+			supplier   	@179
+			Focus_Src  	@183
+			Focus_Entry 	@184
+			origin     	(1792, 2528)
+			terminus   	(1942, 2528)
+			ordinal    	14)
+		    (object InterMessView "" @236
+			location   	(16, 2656)
+			label      	(object SegLabel @237
+			    Parent_View 	@236
+			    location   	(2219, 2615)
+			    quidu      	"3F8E9671004C"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	775
+			    justify    	0
+			    label      	"ServiceL( EBakOpCodeNotifyFileLockCancel)"
+			    pctDist    	0.955457
+			    height     	42
+			    orientation 	0)
+			line_color 	3342489
+			client     	@179
+			supplier   	@189
+			Focus_Src  	@183
+			Focus_Entry 	@192
+			origin     	(1791, 2656)
+			terminus   	(2240, 2656)
+			ordinal    	15)
+		    (object InterMessView "" @238
+			location   	(16, 2832)
+			label      	(object SegLabel @239
+			    Parent_View 	@238
+			    location   	(2016, 2788)
+			    quidu      	"3F8E967C032A"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	0
+			    justify    	0
+			    label      	""
+			    pctDist    	0.500000
+			    height     	45
+			    orientation 	1)
+			line_color 	3342489
+			client     	@189
+			supplier   	@179
+			Focus_Src  	@192
+			Focus_Entry 	@185
+			origin     	(2240, 2832)
+			terminus   	(1792, 2832)
+			ordinal    	17)
+		    (object InterMessView "" @240
+			location   	(16, 2896)
+			label      	(object SegLabel @241
+			    Parent_View 	@240
+			    location   	(1552, 2852)
+			    quidu      	"3F8E968F030B"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	0
+			    justify    	0
+			    label      	""
+			    pctDist    	0.500000
+			    height     	45
+			    orientation 	1)
+			line_color 	3342489
+			client     	@179
+			supplier   	@161
+			Focus_Src  	@183
+			Focus_Entry 	@166
+			origin     	(1760, 2896)
+			terminus   	(1344, 2896)
+			ordinal    	18)
+		    (object InterMessView "" @242
+			location   	(16, 3136)
+			label      	(object SegLabel @243
+			    Parent_View 	@242
+			    location   	(1633, 3088)
+			    quidu      	"3F8E96E6031B"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	484
+			    justify    	0
+			    label      	"DeregisterForNotifications( )"
+			    pctDist    	0.697842
+			    height     	49
+			    orientation 	0)
+			line_color 	3342489
+			client     	@161
+			supplier   	@179
+			Focus_Src  	@162
+			Focus_Entry 	@186
+			origin     	(1343, 3136)
+			terminus   	(1760, 3136)
+			ordinal    	19)
+		    (object SelfMessView "" @244
+			location   	(16, 3248)
+			label      	(object SegLabel @245
+			    Parent_View 	@244
+			    location   	(2219, 3205)
+			    quidu      	"3F8E970002AD"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	834
+			    justify    	0
+			    label      	"SendReceive(EBakOpCodeStopNotifications )"
+			    pctDist    	2.853333
+			    height     	44
+			    orientation 	0)
+			line_color 	3342489
+			client     	@179
+			supplier   	@179
+			Focus_Src  	@186
+			Focus_Entry 	@187
+			origin     	(1792, 3248)
+			terminus   	(1942, 3248)
+			ordinal    	20)
+		    (object InterMessView "" @246
+			location   	(16, 3376)
+			label      	(object SegLabel @247
+			    Parent_View 	@246
+			    location   	(2192, 3334)
+			    quidu      	"3F8E975A003C"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	700
+			    justify    	0
+			    label      	"ServiceL(EBakCodeStopNotifications )"
+			    pctDist    	0.893096
+			    height     	43
+			    orientation 	0)
+			line_color 	3342489
+			client     	@179
+			supplier   	@189
+			Focus_Src  	@186
+			Focus_Entry 	@194
+			origin     	(1791, 3376)
+			terminus   	(2240, 3376)
+			ordinal    	21)
+		    (object SelfMessView "" @248
+			location   	(16, 1424)
+			label      	(object SegLabel @249
+			    Parent_View 	@248
+			    location   	(2527, 1380)
+			    quidu      	"3F8E97C4027F"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	469
+			    justify    	0
+			    label      	"NotifyLockChangeCancel( )"
+			    pctDist    	1.700000
+			    height     	45
+			    orientation 	0)
+			line_color 	3342489
+			client     	@189
+			supplier   	@189
+			Focus_Src  	@190
+			Focus_Entry 	@191
+			origin     	(2272, 1424)
+			terminus   	(2422, 1424)
+			ordinal    	8)
+		    (object SelfMessView "" @250
+			location   	(16, 2752)
+			label      	(object SegLabel @251
+			    Parent_View 	@250
+			    location   	(2541, 2712)
+			    quidu      	"3F8E97E6001D"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	469
+			    justify    	0
+			    label      	"NotifyLockChangeCancel( )"
+			    pctDist    	1.800000
+			    height     	41
+			    orientation 	0)
+			line_color 	3342489
+			client     	@189
+			supplier   	@189
+			Focus_Src  	@192
+			Focus_Entry 	@193
+			origin     	(2272, 2752)
+			terminus   	(2422, 2752)
+			ordinal    	16)
+		    (object SelfMessView "" @252
+			location   	(16, 3472)
+			label      	(object SegLabel @253
+			    Parent_View 	@252
+			    location   	(2477, 3428)
+			    quidu      	"3F8E993A02CC"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	325
+			    justify    	0
+			    label      	"StopNotifications( )"
+			    pctDist    	1.366667
+			    height     	45
+			    orientation 	0)
+			line_color 	3342489
+			client     	@189
+			supplier   	@189
+			Focus_Src  	@194
+			Focus_Entry 	@195
+			origin     	(2272, 3472)
+			terminus   	(2422, 3472)
+			ordinal    	22)
+		    (object Label @254
+			location   	(2448, 3552)
+			font       	(object Font
+			    bold       	TRUE)
+			nlines     	1
+			max_width  	156
+			label      	"SYNC")
+		    (object InterMessView "" @255
+			location   	(16, 3552)
+			label      	(object SegLabel @256
+			    Parent_View 	@255
+			    location   	(2016, 3508)
+			    quidu      	"3F8E99670107"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	0
+			    justify    	0
+			    label      	""
+			    pctDist    	0.500000
+			    height     	45
+			    orientation 	1)
+			line_color 	3342489
+			client     	@189
+			supplier   	@179
+			Focus_Src  	@194
+			Focus_Entry 	@188
+			origin     	(2240, 3552)
+			terminus   	(1792, 3552)
+			ordinal    	23)
+		    (object InterMessView "" @257
+			location   	(16, 3600)
+			label      	(object SegLabel @258
+			    Parent_View 	@257
+			    location   	(1552, 3556)
+			    quidu      	"3F8E997B0117"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	0
+			    justify    	0
+			    label      	""
+			    pctDist    	0.500000
+			    height     	45
+			    orientation 	1)
+			line_color 	3342489
+			client     	@179
+			supplier   	@161
+			Focus_Src  	@188
+			Focus_Entry 	@167
+			origin     	(1760, 3600)
+			terminus   	(1344, 3600)
+			ordinal    	24)
+		    (object InterMessView "" @259
+			location   	(16, 3920)
+			label      	(object SegLabel @260
+			    Parent_View 	@259
+			    location   	(520, 3876)
+			    quidu      	"3F8E9A0B02FB"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	0
+			    justify    	0
+			    label      	""
+			    pctDist    	0.500000
+			    height     	45
+			    orientation 	1)
+			line_color 	3342489
+			client     	@174
+			supplier   	@168
+			Focus_Src  	@176
+			Focus_Entry 	@172
+			origin     	(752, 3920)
+			terminus   	(288, 3920)
+			ordinal    	26)))))
+    root_subsystem 	(object SubSystem "Component View"
+	quid       	"3F71A8C0000D"
+	physical_models 	(list unit_reference_list)
+	physical_presentations 	(list unit_reference_list
+	    (object Module_Diagram "Main"
+		quid       	"3F71A8CE0145"
+		title      	"Main"
+		zoom       	100
+		max_height 	28350
+		max_width  	21600
+		origin_x   	0
+		origin_y   	0
+		items      	(list diagram_item_list))))
+    process_structure 	(object Processes
+	quid       	"3F71A8C0000E"
+	ProcsNDevs 	(list
+	    (object Process_Diagram "Deployment View"
+		quid       	"3F71A8C0007A"
+		title      	"Deployment View"
+		zoom       	100
+		max_height 	28350
+		max_width  	21600
+		origin_x   	0
+		origin_y   	0
+		items      	(list diagram_item_list))))
+    properties 	(object Properties
+	attributes 	(list Attribute_Set
+	    (object Attribute
+		tool       	"DDL"
+		name       	"propertyId"
+		value      	"809135966")
+	    (object Attribute
+		tool       	"DDL"
+		name       	"default__Project"
+		value      	(list Attribute_Set
+		    (object Attribute
+			tool       	"DDL"
+			name       	"Directory"
+			value      	"AUTO GENERATE")
+		    (object Attribute
+			tool       	"DDL"
+			name       	"DataBase"
+			value      	("DataBaseSet" 800))
+		    (object Attribute
+			tool       	"DDL"
+			name       	"DataBaseSet"
+			value      	(list Attribute_Set
+			    (object Attribute
+				tool       	"DDL"
+				name       	"ANSI"
+				value      	800)
+			    (object Attribute
+				tool       	"DDL"
+				name       	"Oracle"
+				value      	801)
+			    (object Attribute
+				tool       	"DDL"
+				name       	"SQLServer"
+				value      	802)
+			    (object Attribute
+				tool       	"DDL"
+				name       	"Sybase"
+				value      	803)
+			    (object Attribute
+				tool       	"DDL"
+				name       	"Watcom"
+				value      	804)))
+		    (object Attribute
+			tool       	"DDL"
+			name       	"PrimaryKeyColumnName"
+			value      	"Id")
+		    (object Attribute
+			tool       	"DDL"
+			name       	"PrimaryKeyColumnType"
+			value      	"NUMBER(5)")
+		    (object Attribute
+			tool       	"DDL"
+			name       	"ViewName"
+			value      	"V_")
+		    (object Attribute
+			tool       	"DDL"
+			name       	"TableName"
+			value      	"T_")
+		    (object Attribute
+			tool       	"DDL"
+			name       	"InheritSuffix"
+			value      	"_V")
+		    (object Attribute
+			tool       	"DDL"
+			name       	"DropClause"
+			value      	FALSE)
+		    (object Attribute
+			tool       	"DDL"
+			name       	"BaseViews"
+			value      	FALSE)
+		    (object Attribute
+			tool       	"DDL"
+			name       	"DDLScriptFilename"
+			value      	"DDL1.SQL")))
+	    (object Attribute
+		tool       	"DDL"
+		name       	"default__Attribute"
+		value      	(list Attribute_Set
+		    (object Attribute
+			tool       	"DDL"
+			name       	"ColumnType"
+			value      	"VARCHAR")
+		    (object Attribute
+			tool       	"DDL"
+			name       	"Length"
+			value      	"")
+		    (object Attribute
+			tool       	"DDL"
+			name       	"NullsOK"
+			value      	TRUE)
+		    (object Attribute
+			tool       	"DDL"
+			name       	"PrimaryKey"
+			value      	FALSE)
+		    (object Attribute
+			tool       	"DDL"
+			name       	"Unique"
+			value      	FALSE)
+		    (object Attribute
+			tool       	"DDL"
+			name       	"CompositeUnique"
+			value      	FALSE)
+		    (object Attribute
+			tool       	"DDL"
+			name       	"CheckConstraint"
+			value      	"")))
+	    (object Attribute
+		tool       	"DDL"
+		name       	"HiddenTool"
+		value      	FALSE)
+	    (object Attribute
+		tool       	"Rose Model Integrator"
+		name       	"HiddenTool"
+		value      	FALSE)
+	    (object Attribute
+		tool       	"Version Control"
+		name       	"HiddenTool"
+		value      	FALSE)
+	    (object Attribute
+		tool       	"Rose Web Publisher"
+		name       	"HiddenTool"
+		value      	FALSE))
+	quid       	"3F71A8C0000F"))

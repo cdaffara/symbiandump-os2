@@ -1,0 +1,142 @@
+; Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
+; All rights reserved.
+; This component and the accompanying materials are made available
+; under the terms of "Eclipse Public License v1.0"
+; which accompanies this distribution, and is available
+; at the URL "http://www.eclipse.org/legal/epl-v10.html".
+;
+; Initial Contributors:
+; Nokia Corporation - initial contribution.
+;
+; Contributors:
+;
+; Description:
+; Symbian USB Phone Setup File
+; 
+;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; LICENSEES - SEE END OF FILE FOR CONFIGURATION SECTION ;;
+;; =========   THE REST OF THIS FILE SHOULD NOT REQUIRE  ;;
+;;             MODIFICATION FOR STANDARD DISTRIBUTIONS   ;;
+;;                                                       ;;
+;; Comments with licensee instructions are preceeded by  ;;
+;; >>> so that they can be easily found and removed.     ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+[Version]
+LayoutFile=layout.inf
+Signature=$WINDOWS NT$
+Class=Modem
+Provider=Symbian
+CLASSGUID={4D36E96D-E325-11CE-BFC1-08002BE10318}
+DriverVer =07/01/2001,5.1.2535.0
+
+[Manufacturer]
+Symbian=Models
+
+[ControlFlags]
+ExcludeFromSelect= *
+
+[DestinationDirs]
+FakeModemCopyFileSection=12
+DefaultDestDir=12
+
+[Models]
+%MODEL_NAME% = SymbianUSB, %MODEL_HARDWARE_ID%
+;>>> Note: we recommend that each .INF file supports just one model and that multiple models
+;>>>       are handled by multiple .INF files
+
+[SymbianUSB.NT]
+CopyFiles=FakeModemCopyFileSection
+AddReg = All, MfgAddReg, Modem1.AddReg, EXTERNAL
+
+[SymbianUSB.NT.Services]
+AddService=usbser, 0x00000000, LowerFilter_Service_Inst
+
+[SymbianUSB.NT.HW]
+AddReg=LowerFilterAddReg
+
+[LowerFilterAddReg]
+HKR,,"LowerFilters",0x00010000,"usbser"
+
+[LowerFilter_Service_Inst]
+DisplayName = %MODEL_NAME%
+ServiceType = 1
+StartType = 3
+ErrorControl = 0
+ServiceBinary = %12%\usbser.sys
+
+[FakeModemCopyFileSection]
+usbser.sys,,,0x20
+
+[All]
+HKR,,FriendlyDriver,,unimodem.vxd
+HKR,,DevLoader,,*vcomm
+
+HKR,,ConfigDialog,0,modemui.dll
+HKR,,EnumPropPages,0,modemui.dll,EnumPropPages
+HKR,,PortSubClass,1,02
+HKR, Init,      1,, "AT<cr>"
+HKR, Responses, "<cr><lf>OK<cr><lf>", 1, 00, 00, 00,00,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>ERROR<cr><lf>", 1, 03, 00, 00,00,00,00, 00,00,00,00
+
+[Modem1.AddReg]
+HKR,, DeviceType, 1, 01      ; External
+HKR,, DCB, 1, 1C,00,00,00, 00,c2,01,00, 15,20,00,00, 00,00, 0a,00, 0a,00, 08, 00, 00, 11, 13, 00, 00, 00
+HKR,, Properties, 1, 00,00,00,00, 32,00,00,00, ff,00,00,00, 00,00,00,00, 00,00,00,00, 30,00,00,00, 00,c2,01,00, 00,F4,01,00
+HKR, Init,      4,, "ATG1=2G11=2<cr>"
+
+[EXTERNAL]
+HKR,, DeviceType, 1, 01
+
+[MfgAddReg]
+HKR,, InactivityScale, 1, 3c,00,00,00
+HKR, Init,      2,, "AT&FX1E0&D2&C1<cr>"
+HKR, Init,      3,, "ATV1S0=0G44=0<cr>"
+HKR, Monitor, 	1,, "ATS0=0<cr>"
+HKR, Monitor, 	2,, "None"
+
+HKR, Hangup,    1,, "ATH<cr>"
+HKR, Answer,    1,, "ATA<cr>"
+HKR,, Reset,, "ATZ<cr>"
+HKR, Settings, Prefix,, "AT"
+HKR, Settings, Terminator,, "<cr>"
+HKR, Settings, DialPrefix,, "D"
+HKR, Settings, DialSuffix,, ""
+HKR, Settings, FlowControl_Off,, "\Q0"
+HKR, Settings, FlowControl_Hard,, "\Q3"
+HKR, Settings, FlowControl_Soft,, "\Q1"
+HKR, Settings, CallSetupFailTimer,, "S7=<#>"
+HKR, Settings, InactivityTimeout,, "C26=<#>"
+
+HKR, Responses, "<cr><lf>NO CARRIER<cr><lf>"     , 1, 04, 00, 00,00,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>NO DIALTONE<cr><lf>"   , 1, 05, 00, 00,00,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>BUSY<cr><lf>"          , 1, 06, 00, 00,00,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>NO ANSWER<cr><lf>"     , 1, 07, 00, 00,00,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>RING<cr><lf>"          , 1, 08, 00, 00,00,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>DELAYED<cr><lf>"       , 1, 1d, 00, 00,00,00,00, 00,00,00,00
+
+HKR, Responses, "<cr><lf>CONNECT<cr><lf>"       , 1, 02, 00, 00,00,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT 9600<cr><lf>"  , 1, 02, 00, 80,25,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT 19200<cr><lf>" , 1, 02, 00, 00,4b,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT 38400<cr><lf>" , 1, 02, 00, 00,96,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT 64000<cr><lf>" , 1, 02, 00, 00,fa,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT 128000<cr><lf>", 1, 02, 00, 00,f4,01,00, 00,00,00,00
+HKR, Responses, "<cr><lf>ACON<cr><lf>"          , 1, 02, 00, 00,00,00,00, 00,00,00,00
+
+HKR, Responses, "0<cr>"  , 1, 00, 00, 00,00,00,00, 00,00,00,00 ; OK
+HKR, Responses, "2<cr>"  , 1, 08, 00, 00,00,00,00, 00,00,00,00 ; RING
+HKR, Responses, "3<cr>"  , 1, 04, 00, 00,00,00,00, 00,00,00,00 ; NO CARRIER
+HKR, Responses, "4<cr>"  , 1, 03, 00, 00,00,00,00, 00,00,00,00 ; ERROR
+HKR, Responses, "6<cr>"  , 1, 05, 00, 00,00,00,00, 00,00,00,00 ; for WHQL dummy
+HKR, Responses, "7<cr>"  , 1, 06, 00, 00,00,00,00, 00,00,00,00 ; NO ANSWER
+HKR, Responses, "8<cr>"  , 1, 07, 00, 00,00,00,00, 00,00,00,00 ; for WHQL dummy
+
+;>>>;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;>>> Licensee Configuration Section ;;;
+;>>>;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[Strings]
+;>>> Name of one-and-only supported hardware model, and hardware signature of that model
+MODEL_NAME = "Lubbock"
+MODEL_HARDWARE_ID = "USB\VID_0E22&PID_000B"  ;; USB Vendor ID 0x0E22, Product ID 0x000B

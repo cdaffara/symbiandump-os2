@@ -1,0 +1,42 @@
+// Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+//! @file
+//! @SYMTestSuiteName           te_perf_sanity.script
+//! @SYMScriptTestEnvironment   TEF
+
+
+LOAD_SUITE te_ostv2integsuite_enabled
+
+PRINT API_Performance_Code_Sanity_Tests
+
+START_TESTCASE                  DT-DEBUG-TRACE-OSTv2-TraceControlPerformanceSanity-0001
+//! @SYMTestCaseID              DT-DEBUG-TRACE-OSTv2-TraceControlPerformanceSanity-0001
+//! @SYMTestCaseDesc            Run before a default run of performance tests to flag any changes to expected timer resolution >10%
+//! @SYMTestPriority            High
+//! @SYMTestActions             Compares lauterbach measured time for foo() with that generated in the returns a fail it is>10% from that expected. 
+//! @SYMTestExpectedResults     Verify that there has not been any significant change in the timer resolution figures from hardware measurement.
+//! @SYMTestType                UT
+//! @SYMTestStatus              Implemented
+//! @SYMPREQ                    PREQ2390
+//! @SYMREQ                     12115 12122 12761
+    START_TEST_BLOCK    100     te_ostv2integsuite_enabled              \testdata\configs\te_perf_sanity.ini
+        CREATE_OBJECT           PerformanceSanityTest                   PerformanceSanityTest
+        COMMAND                 PerformanceSanityTest                   doTest
+    END_TEST_BLOCK 
+END_TESTCASE                    DT-DEBUG-TRACE-OSTv2-TraceControlPerformanceSanity-0001
+
+
+PRINT Complete_API_Performance_Code_Sanity_Tests

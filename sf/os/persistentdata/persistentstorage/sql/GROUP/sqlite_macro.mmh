@@ -1,0 +1,100 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// SQLite.lib Database management - SQLite library. Common
+// sqlite macro definitions.
+// 
+//
+
+/**
+ @file
+*/
+
+//Symbian OS port
+MACRO SQLITE_OS_OTHER=1
+MACRO SQLITE_OS_SYMBIAN=1
+
+//The SQLite initialization will be made explicitly inside the sqlite3SymbianLibInit() function implementation
+MACRO SQLITE_OMIT_AUTOINIT=1
+
+//Symbian - memory allocation functions
+MACRO malloc=sqlite3SymbianMalloc
+MACRO free=sqlite3SymbianFree
+MACRO realloc=sqlite3SymbianRealloc
+
+//Disable the built-in test code
+MACRO SQLITE_OMIT_BUILTIN_TEST
+
+//The default SQLITE_MAX_COLUMN value is 2000. It causes regression test failures.
+MACRO SQLITE_MAX_COLUMN=4096
+
+//The default SQLITE_MAX_LENGTH value is 1000000000. It causes an artificial limit on the size of a BLOB object
+MACRO SQLITE_MAX_LENGTH=2147483647
+
+//The default SQLITE_MAX_EXPR_DEPTH value is 1000. It causes regression test failures.
+MACRO SQLITE_MAX_EXPR_DEPTH=250
+
+//The default SQLITE_DEFAULT_JOURNAL_SIZE_LIMIT value is -1 - no journal size limit.
+MACRO SQLITE_DEFAULT_JOURNAL_SIZE_LIMIT=65536
+
+//Set the locking mode to be EXCLUSIVE by default
+MACRO SQLITE_DEFAULT_LOCKING_MODE=1
+
+//No mutexes. SQLITE_MUTEX_NOOP should not be used here. Its value will be defined automatically by SQLite.
+MACRO SQLITE_THREADSAFE=0
+
+//Enable memory management
+MACRO SQLITE_ENABLE_MEMORY_MANAGEMENT=1
+
+//Vacuum mode = incremental
+MACRO SQLITE_DEFAULT_AUTOVACUUM=2
+
+//Default cache page size in bytes
+MACRO SQLITE_DEFAULT_PAGE_SIZE=1024
+
+//Max cache page size in bytes
+MACRO SQLITE_MAX_PAGE_SIZE=32768
+
+//Default page cache size in pages, each of SQLITE_DEFAULT_PAGE_SIZE size
+MACRO SQLITE_DEFAULT_CACHE_SIZE=1024
+
+//Default temporary page cache size in pages, each of SQLITE_DEFAULT_PAGE_SIZE size
+MACRO SQLITE_DEFAULT_TEMP_CACHE_SIZE=32
+
+//Temporary files - in memory only
+MACRO SQLITE_TEMP_STORE=3
+
+//Omit the capability to issue "progress" callbacks during long-running SQL statements
+MACRO SQLITE_OMIT_PROGRESS_CALLBACK=1
+
+//No virtual tables
+MACRO SQLITE_OMIT_VIRTUALTABLE=1
+
+//No SQLITE extensions
+MACRO SQLITE_OMIT_LOAD_EXTENSION=1
+
+//The maximum value of a host parameter number (the default value is 999)
+MACRO SQLITE_MAX_VARIABLE_NUMBER=32767 
+
+//Disables SQL statements tracing. Causes a linker error if enabled - ARM4, UREL build.
+//(Vdbeapi.c, "undefined reference to `__fixunsdfdi'",
+// the line is: "elapseTime = (rNow - (int)rNow)*3600.0*24.0*1000000000.0 - p->startTime;"
+// there is no convertion function for "double -> uinsigned long long" cast)
+MACRO SQLITE_OMIT_TRACE=1
+
+#if defined WINS || defined WINSCW
+
+//Enable sqlite debugging
+MACRO SQLITE_DEBUG
+
+#endif //end of "#if defined WINS || defined WINSCW"

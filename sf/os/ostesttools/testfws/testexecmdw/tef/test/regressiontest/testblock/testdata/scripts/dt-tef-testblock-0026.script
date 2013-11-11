@@ -1,0 +1,33 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SERVER te_RegBlockTestSuite 
+
+START_TESTCASE DT-TEF-TestBlock-0026
+//! @SYMTestCaseID          DT-TEF-TestBlock-0026
+//! @SYMCreationDate        03-07-2008
+//! @SYMAuthor              DavidZhang
+//! @SYMTestType            CT
+//! @SYMTestPriority        Medium
+//! @SYMTestCaseDesc        START_TEST_BLOCK gets a not existent ini-file as argument.
+//! @SYMTestExpectedResults The test case result must be FAIL.
+//! @SYMTestActions         The START_TEST_BLOCK gets \TheFileDoesntExist.ini ini-file path as argument. The file doesn't exist.
+	PRINT This test case will be failed.
+	START_TEST_BLOCK	te_RegBlockTestSuite 100 \TheFileDoesntExist.ini
+		CREATE_OBJECT	te_RegBlockTestWrapper	DummyObj
+		COMMAND		DummyObj			DummyFunction
+	END_TEST_BLOCK
+END_TESTCASE DT-TEF-TestBlock-0026

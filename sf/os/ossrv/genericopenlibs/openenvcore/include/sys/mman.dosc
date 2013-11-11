@@ -1,0 +1,432 @@
+/** @file  ../include/sys/mman.h
+@internalComponent
+*/
+
+
+/** @fn  mmap(void *, size_t len, int prot, int flags, int fildes, off_t offset)
+@param # Represents the parameter addr
+@param len
+@param prot
+@param flags
+@param fildes
+@param offset
+@return   Upon successful completion, mmap returns a pointer to the mapped region.
+Otherwise, a value of MAP_FAILED is returned and errno is set to indicate the error.
+
+The  mmap system call causes the pages starting at  addr and continuing for at most  len bytes to be mapped from the object described by  fildes, starting at byte offset  offset. 
+If  len is not a multiple of the pagesize, the mapped region may extend past the specified range. Any such extension beyond the end of the mapped object will be zero-filled.
+
+If addr is non-zero, it is used as a hint to the system. (As a convenience to the system, the actual address of the region may differ from the address supplied).
+If addr is zero, an address will be selected by the system. The actual starting address of the region is returned. A successful mmap deletes any previous mapping in the allocated address range.
+
+The protections (region accessibility) are specified in the prot argument by or'ing the following values:
+
+@code
+PROT_READ 	Pages may be read.
+PROT_WRITE 	Pages may be written.
+PROT_EXEC 	Pages may be executed.
+PROT_NONE 	This protection mode is currently not supported.
+@endcode
+The flags argument specifies the type of the mapped object, mapping options and whether modifications made to the mapped copy of the page are private to the process or are to be shared with other references. 
+Sharing, mapping type and options are specified in the flags argument by or'ing the following values:
+
+@code
+MAP_PRIVATE 	Modifications are private.
+MAP_SHARED 	Modifications are shared.
+MAP_FIXED, MAP_FILE, MAP_ANON, MAP_HASSEMAPHORE, MAP_STACK, MAP_NOSYNC -- These flags are currently not supported.
+@endcode
+The close system call does not unmap pages, see munmap for further information.
+
+The current design does not allow a process to specify the location of swap space. 
+In the future we may define an additional mapping type, MAP_SWAP, in which the file descriptor argument specifies a file or device to which swapping should be done.
+
+Examples:
+@code
+/* Detailed description  : Example to create a mapped memory to a file region.
+ * Precondition : None              
+ * /
+#include <unistd.h>
+#include <stdio.h>
+#include <sys/mman.h>
+#include <fcntl.h>
+int main(void)
+{
+    int fd = -1;
+    char* mapaddr;
+    int len = getpagesize();
+    int prot = PROT_WRITE | PROT_READ;
+    if((fd = open("C:\Test.txt", O_RDWR | O_CREAT, 0666) ) < 0){
+        printf("File open failed");
+    }
+    mapaddr = (char*)mmap((void*)0, len, prot, MAP_SHARED, fd, 0);
+    if(mapaddr == MAP_FAILED){
+        printf("mmap on file failed");
+    }
+    printf("mmap on file succeeded");
+}
+
+@endcode
+@see mprotect()
+@see msync()
+@see munmap()
+@see getpagesize()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  mmap64(void *, size_t len, int prot, int flags, int fildes, off64_t offset)
+@param # Represents the parameter addr
+@param len
+@param prot
+@param flags
+@param fildes
+@param offset
+@return   Upon successful completion, mmap64 returns a pointer to the mapped region.
+Otherwise, a value of MAP_FAILED is returned and errno is set to indicate the error.
+
+For full documentation see: http://www.unix.org/version2/whatsnew/lfs20mar.html#3.0
+
+@see mmap()
+ 
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  mprotect(const void *addr, size_t len, int prot)
+@param addr
+@param len
+@param prot
+@return   Upon successful completion, mprotect returns the value 0 if successful; otherwise the
+value -1 is returned and the global variable errno is set to indicate the error.
+
+  The mprotect system call
+changes the specified pages to have protection prot. Not all implementations will guarantee protection on a page basis;
+the granularity of protection changes may be as large as an entire region.
+A region is the virtual address space defined by the start
+and end addresses of a struct vm_map_entry .
+
+ NOTE: This interface is not functionally supported in Symbian OS, 
+  only build supported.
+
+@see msync()
+@see munmap()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  msync(void *addr, size_t len, int flags)
+@param addr
+@param len
+@param flags
+@return   Upon successful completion msync() returns 0; otherwise, it returns -1 and 
+sets errno to indicate the error.
+
+@code
+ MS_ASYNC
+  This flag is currently not supported.
+ MS_SYNC
+  Perform synchronous writes
+ MS_INVALIDATE
+  Invalidate all cached data
+
+@endcode
+  The msync system call writes any modified pages back to the file system. 
+If len is non-zero only those pages containing addr and len-1 succeeding locations will be examined. The flags argument may be specified as follows:
+
+ MS_ASYNC  This flag is currently not supported. MS_SYNC  Perform synchronous writes MS_INVALIDATE  Invalidate all cached data
+
+Examples:
+@code
+/*
+* Detailed description: Example to sync changes on mapped memory to file.
+* Precondition: None
+*               
+*/
+#include <unistd.h>
+#include <stdio.h>
+#include <sys/mman.h>
+#include <fcntl.h>
+#include <string.h>
+int main(void)
+{
+    int fd = -1;
+    char* mapaddr;
+    int len = getpagesize();
+    int prot = PROT_WRITE | PROT_READ;
+    if((fd = open("C:\Test.txt", O_RDWR | O_CREAT, 0666) ) < 0)
+    {
+         printf("File open failed");
+    }
+    mapaddr = (char*)mmap((void*)0, len, prot, MAP_SHARED, fd, 0);
+    if(mapaddr == MAP_FAILED)
+    {
+         printf("mmap on file failed");
+    }
+    strcpy(mapaddr, "This is a write through mapped memory ");
+    if(-1 == msync(mapaddr, len, MS_SYNC))
+    {
+        printf("Sync on mapped memory to file failed");
+    }
+    printf("Sync on mapped memory to file succeeded");
+}
+
+@endcode
+@see mlock()
+@see mprotect()
+@see munmap()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @fn  munmap(void *addr, size_t len)
+@param addr
+@param len
+@return   Upon successful completion munmap() returns 0; otherwise, it returns -1 and 
+sets errno to indicate the error.
+
+  The munmap system call deletes the mappings for the specified address range 
+and causes further references to addresses within the range to generate invalid 
+memory references. The current implementation does not support partial deletion 
+of mapped memory, i.e if offset to offset+len section of memory was mapped using mmap the entire section of memory offset+len will be deleted.
+
+Examples:
+@code
+/*
+* Detailed description: Example to create a mapped memory to a file region.
+* Precondition: None
+*               
+*/
+#include <unistd.h>
+#include <stdio.h>
+#include <sys/mman.h>
+#include <fcntl.h>
+int main(void)
+{
+    int fd = -1;
+    char* mapaddr;
+    int len = getpagesize();
+    int prot = PROT_WRITE | PROT_READ;
+    if((fd = open("C:\Test.txt", O_RDWR | O_CREAT, 0666) ) < 0){
+        printf("File open failed");
+    }
+    mapaddr = (char*)mmap((void*)0, len, prot, MAP_SHARED, fd, 0);
+    if(mapaddr == MAP_FAILED){
+        printf("mmap on file failed");
+    }
+    printf("mmap on file succeeded");
+}
+
+@endcode
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @fn  shm_open(const char *name, int oflag, mode_t mode)
+@param name
+@param oflag
+@param mode
+
+For full documentation, see http://www.opengroup.org/onlinepubs/000095399/functions/shm_open.html 
+
+Notes:
+
+ 1) Mode values for group is ignored. 
+
+ 2) Execute bit is ignored.
+
+ 3) The name argument pointing to a shared memory object actually does not appear in the file system.
+
+ 4) Symbian implementation does not distinguish between a name begining with or without a slash character (\).
+
+Examples:
+@code
+/* Detailed description  : Example to create a shared memory object.
+ * Precondition : None              
+ * /
+#include <stdio.h>
+#include <sys/mman.h>
+#include <fcntl.h>
+int main(void)
+    {
+    int fd = -1;
+    if((fd = shm_open("page", O_RDWR|O_CREAT, 0666)) < 0)
+	{
+	printf("shared memory creation failed");
+	}
+    printf("shared memory creation succeeded");
+    return 0;
+    }
+
+@endcode
+@see shm_unlink()
+@see close()
+@see read()
+@see write()
+@see lseek()
+@see fstat()
+@see fcntl()
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @fn  shm_unlink(const char *name)
+@param name
+
+For full documentation, see http://www.opengroup.org/onlinepubs/009695399/functions/shm_unlink.html
+
+Examples:
+@code
+/* Detailed description  : Example to unlink a shared memory object.
+ * Precondition : None              
+ * /
+#include <stdio.h>
+#include <sys/mman.h>
+#include <fcntl.h>
+#include <errno.h>
+int main(void)
+    {
+    int fd = -1;
+    int ret = 0;
+    if((fd = shm_open("page", O_RDWR|O_CREAT, 0666)) < 0)
+	{
+	printf("shared memory creation failed with error %d\n", errno);
+	}
+    printf("shared memory creation succeeded\n");
+    if((ret = shm_unlink("page")) < 0)
+	{
+	printf("shared memory removal failed with error %d\n", errno);
+	}
+    printf("shared memory removal succeeded\n");
+    return 0;
+    }
+
+@endcode
+@see shm_open()
+@see close()
+@see read()
+@see write()
+@see lseek()
+@see fstat()
+@see fcntl()
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @def PROT_NONE
+
+Protections are chosen from these bits, or-ed together. no permissions.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def PROT_READ
+
+Protections are chosen from these bits, or-ed together. pages can be read.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def PROT_WRITE
+
+Protections are chosen from these bits, or-ed together. pages can be written.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def PROT_EXEC	
+
+Protections are chosen from these bits, or-ed together. pages can be executed.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def MAP_SHARED
+
+share changes
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def MAP_PRIVATE
+
+changes are private
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def MAP_FIXED
+
+map addr must be exactly as requested.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def MS_SYNC	
+
+msync() flags. msync synchronously.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def MS_ASYNC
+
+msync() flags. return immediately.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def MS_INVALIDATE
+
+msync() flags. invalidate all cached data.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+
+
+
+
+
+
+
+

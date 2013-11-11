@@ -1,0 +1,43 @@
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// EDBMS.MMH
+// edbms.mmh Database management - DBMS server, page and cluster cache sizes
+// This file is an example file that may be copied, modified and 
+// installed as \epoc32\include\edbms.mmh file to customise cache handling
+// in the DBMS component. Also, SYMBIAN_CUSTOM_DBMS_CACHE_SIZES macro must be 
+// defined in the related \epoc32\include\variant\Symbian_OS_v<N>.hrh file,
+// where <N> is the OS version number, like 9.1.
+// This example file is not expected to be directly modified.
+// NOTE: Changing the value of these macros will affect RAM usage in 
+// database processing system wide and should not be undertaken lightly.
+// Index cache size in pages - size of page pool.
+// The page cache is used to cache index information in a database.
+// It can't be less than 8 pages.
+// 
+//
+
+/**
+ @file
+ @publishedPartner
+*/
+MACRO PAGE_CACHE_SIZE=16
+
+/**
+Max cluster cache size - max number of clusters.
+The cluster cache is used to cache row data for tables in a database.
+It can't be less than 4 clusters.
+@publishedPartner
+*/
+MACRO MAX_CLUSTER_CACHE_SIZE=8
+

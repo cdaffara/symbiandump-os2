@@ -1,0 +1,87 @@
+/** @file  ../include/monetary.h
+@internalComponent
+*/
+
+
+/** @fn  strfmon(char *  s, size_t maxsize, const char *  format, ...)
+@param s
+@param maxsize
+@param format
+@param ...
+@return   If the total number of resulting bytes including the terminating NULL byte is not more than maxsize , strfmon returns the number of bytes placed into the array pointed to 
+by s , not including the terminating NULL byte. Otherwise -1 is returned, the contents of the array are indeterminate 
+and errno is set to indicate the error.
+
+@code
+ = f A ' = '
+ character followed by another character f which is used as the numeric fill character.
+ ^ Do not use grouping characters, regardless of the current locale default.
+ + Represent positive values by prefixing them with a positive sign,
+ and negative values by prefixing them with a negative sign.
+ This is the default.
+ ( Enclose negative values in parentheses.
+ ! Do not include a currency symbol in the output.
+ - Left justify the result.
+ Only valid when a field width is specified.
+
+@endcode
+@code
+ i The double
+ argument is formatted as an international monetary amount.
+ n The double
+ argument is formatted as a national monetary amount.
+ % A '%'
+ character is written.
+
+@endcode
+  The strfmon function places characters into the array pointed to by s as controlled by the string pointed to by format .
+No more than maxsize bytes are placed into the array.
+
+ The format string is composed of zero or more directives:
+ordinary characters (not \% ),
+which are copied unchanged to the output stream; and conversion
+specifications, each of which results in fetching zero or more subsequent
+arguments.
+Each conversion specification is introduced by the \% character.
+After the \% ,
+the following appear in sequence: Zero or more of the following flags: = f A ' = '
+character followed by another character f which is used as the numeric fill character. ^ Do not use grouping characters, regardless of the current locale default. + Represent positive values by prefixing them with a positive sign,
+and negative values by prefixing them with a negative sign.
+This is the default. ( Enclose negative values in parentheses. ! Do not include a currency symbol in the output. - Left justify the result.
+Only valid when a field width is specified. An optional minimum field width as a decimal number.
+By default, there is no minimum width. A ' \# '
+sign followed by a decimal number specifying the maximum
+expected number of digits after the radix character. A ' . '
+character followed by a decimal number specifying the number
+the number of digits after the radix character. One of the following conversion specifiers: i The double
+argument is formatted as an international monetary amount. n The double
+argument is formatted as a national monetary amount. \% A '\%'
+character is written.
+
+Examples:
+@code
+#include <string.h>
+#include <stdio.h>
+#include <monetary.h>
+int main()
+{
+    char buf[50];
+    strfmon(buf, sizeof(buf), "[%^=*#6n] [%=*#6i]",1234.567, 1234.567);
+    printf("%s
+",buf);
+}
+
+@endcode
+ Output
+@code
+[ **1234.57] [ **1234.57]
+
+@endcode
+@see localeconv()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/

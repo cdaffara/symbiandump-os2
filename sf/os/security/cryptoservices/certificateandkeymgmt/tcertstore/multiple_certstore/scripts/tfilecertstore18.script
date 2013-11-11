@@ -1,0 +1,150 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+// CASE18: No Duplicates (ND), Duplicates in Distinct certstore (DD), Duplicates in same certstore (SD), Empty certstore (E)
+
+// If all of the above are present, do basic operations like List, Add, Retrieve, Delete
+
+
+
+// TEST-CASE:         SEC-FILECERTSTORE-0018
+
+// FILES:             cacerts5.dat, cacerts3.dat, cacerts2.dat, cacerts1.dat, cacerts0.dat
+
+// LABELS:            Testing XXX Root, Testing XXX Root, Testing ACS Root, TOCSP-Signing5-RSA, Testing ACS Root, Identity ACS Root
+
+// EXPECTED RESULTS:  All the operations should succeed with KErrNone
+
+// VARIANT:           UDEB, UREL
+
+
+
+// TEST-CASE:         SEC-FILECERTAPPSTORE-0018
+
+// FILES:             certclients5.dat, certclients3.dat, certclients2.dat, certclients1.dat, certclients0.dat
+
+// UIDS:              270506793, 270506793, 270506792, 268478646, 270506792, 268452523
+
+// EXPECTED RESULTS:  All the operations should succeed with KErrNone
+
+// VARIANT:           UDEB, UREL
+
+
+
+START_TESTCASE                SEC-FILECERTSTORE-0018-0002
+
+//! @SYMTestCaseID            SEC-FILECERTSTORE-0018-0002
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Aggregating and opening a filecertstore
+
+//! @SYMREQ                   REQ9983, REQ9986, REQ10141
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) Aggregation and opening of filecertstore
+
+//!                           2) Get the list of CA certificates
+
+//!                           3) Add CAXXX cert
+
+//!                           4) Get the list of CA certificates
+
+//!                           5) Retrieve CAXXX cert
+
+//!                           6) Retrieve TOCSP-Signing5-RSA cert
+
+//!                           7) Deleting the certificate CAXXX
+
+//!                           8) Get the list of CA certificates
+
+//!                           9) Delete the writable certificate store manager
+
+RUN_TEST_STEP                 -1    CTestHandler        init                   tfilecertstore18.ini   SEC-FILECERTSTORE-0018-001
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               tfilecertstore18.ini   SEC-FILECERTSTORE-0018-002
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                tfilecertstore18.ini   SEC-FILECERTSTORE-0018-003
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               tfilecertstore18.ini   SEC-FILECERTSTORE-0018-004
+
+RUN_TEST_STEP                 -1    CTestHandler        retrieve               tfilecertstore18.ini   SEC-FILECERTSTORE-0018-005
+
+RUN_TEST_STEP                 -1    CTestHandler        retrieve               tfilecertstore18.ini   SEC-FILECERTSTORE-0018-006
+
+RUN_TEST_STEP                 -1    CTestHandler        deletecert             tfilecertstore18.ini   SEC-FILECERTSTORE-0018-007
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               tfilecertstore18.ini   SEC-FILECERTSTORE-0018-008
+
+RUN_TEST_STEP                 -1    CTestHandler        delete              
+
+END_TESTCASE                  SEC-FILECERTSTORE-0018-0002
+
+
+
+
+
+START_TESTCASE                SEC-FILECERTAPPSTORE-0018
+
+//! @SYMTestCaseID            SEC-FILECERTAPPSTORE-0018
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Aggregating and opening a filecertappstore
+
+//! @SYMREQ                   REQ9983, REQ9989
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) Creating a CertificateAppInfoManager
+
+//!                           2) Retrieving the clients
+
+//!                           3) Adding client XXX
+
+//!                           4) Retrieving the clients
+
+//!                           5) Deleting the client XXX
+
+//!                           6) Retrieving the clients
+
+//!                           7) Deleting the CertificateAppInfoManager
+
+RUN_TEST_STEP                 -1    CTestHandler        initappmanager      
+
+RUN_TEST_STEP                 -1    CTestHandler        getclients             tfilecertstore18.ini   SEC-FILECERTAPPSTORE-0018-002
+
+RUN_TEST_STEP                 -1    CTestHandler        addclient              tfilecertstore18.ini   SEC-FILECERTAPPSTORE-0018-003
+
+RUN_TEST_STEP                 -1    CTestHandler        getclients             tfilecertstore18.ini   SEC-FILECERTAPPSTORE-0018-004
+
+RUN_TEST_STEP                 -1    CTestHandler        removeclient           tfilecertstore18.ini   SEC-FILECERTAPPSTORE-0018-005
+
+RUN_TEST_STEP                 -1    CTestHandler        getclients             tfilecertstore18.ini   SEC-FILECERTAPPSTORE-0018-006
+
+RUN_TEST_STEP                 -1    CTestHandler        deleteappmanager    
+
+END_TESTCASE                  SEC-FILECERTAPPSTORE-0018
+
+
+
+
+

@@ -1,0 +1,36 @@
+// Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+target 		t_downgrade.exe		//RTEST
+targettype 		exe
+
+// Uses sid of EComserver process to allow access to private dir.
+UID 0x101FB5A8 0x10009D8F
+CAPABILITY WriteDeviceData  // for Publish Subscribe
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+userinclude 	../../Framework/frame
+userinclude		../SimpleTests
+
+sourcepath		../../Framework/frame
+source		DowngradePath.cpp 
+
+sourcepath		../../Framework/SimpleTests
+source		t_downgrade.cpp
+
+library 		euser.lib estor.lib efsrv.lib bafl.lib hal.lib ecomtestutils.lib 
+
+VENDORID 0x70000001
+
+SMPSAFE

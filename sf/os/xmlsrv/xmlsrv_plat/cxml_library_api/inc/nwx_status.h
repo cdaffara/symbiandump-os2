@@ -1,0 +1,414 @@
+/*
+* Copyright (c) 1999 - 2001 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+/***************************************************************************
+**   File: nwx_status.h
+**   Purpose: Contains definitions of status values common throughout 
+**            all of rainbow    
+**************************************************************************/
+#ifndef NWX_STATUS_H
+#define NWX_STATUS_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/*
+** Includes
+*/
+
+#define NW_STAT_IS_SUCCESS(a) ((a) == NW_STAT_SUCCESS)
+#define NW_STAT_IS_FAILURE(a) ((a) != NW_STAT_SUCCESS)
+
+/* Used by NW_HED_DocumentNode_HandleError to specify the error "class" */
+#define NW_STAT_CLASS_NONE 0
+#define NW_STAT_CLASS_GENERAL 1
+#define NW_STAT_CLASS_HTTP 2
+
+typedef enum {
+
+  /* General Rainbow status codes */
+  NW_STAT_FAILURE,
+  NW_STAT_SUCCESS,
+  NW_STAT_NODESTINATION,
+  NW_STAT_FILE_NOT_FOUND,
+  NW_STAT_FILE_NOT_OPEN,
+  NW_STAT_FILE_EOF,
+  NW_STAT_FILE_NOT_CREATED,
+  NW_STAT_FILE_READ_ERROR,
+  NW_STAT_FILE_WRITE_ERROR,
+  NW_STAT_FILE_DISK_FULL_ERROR,
+  NW_STAT_FILE_FOUND,
+  NW_STAT_OUT_OF_MEMORY,
+  NW_STAT_UNEXPECTED_ERROR,
+  NW_STAT_NOT_IMPLEMENTED,
+  NW_STAT_WAIT_TIMEOUT,
+  NW_STAT_BUFFER_TOO_SMALL,
+  NW_STAT_BAD_INPUT_PARAM,
+  NW_STAT_MISSING_INPUT_PARAM,
+  NW_STAT_MALFORMED_URL,
+  NW_STAT_MISSING_SCRIPT_REFERER,
+  NW_STAT_DUPLICATE,
+  NW_STAT_NOT_FOUND,
+  NW_STAT_BUFFER_END, 
+  NW_STAT_ITERATE_MORE,
+  NW_STAT_ITERATE_DONE,
+  NW_STAT_NOAUTHREDIRUI_AVAIL,
+
+  /* Status codes for Url and Http Loaders */
+  NW_STAT_UNKNOWN_SCHEME,
+  NW_STAT_BAD_REDIRECT,
+  NW_STAT_TOO_MANY_REDIRECTS,
+  NW_STAT_BAD_REDIRECT_URL,
+  NW_STAT_MISSING_LOCATION_HEADER,
+  NW_STAT_BAD_CONTENT_LOC_HEADER,
+  NW_STAT_BAD_HEADER,
+  NW_STAT_BAD_RFC1123_TIME,
+  NW_STAT_UNHANDLED_WSP_STATUS,
+  NW_STAT_WSP_STATUS,
+  NW_STAT_NOAUTH_DATA,
+  NW_STAT_MISSING_AUTH_HEADER,
+  NW_STAT_CANCELLED,
+  NW_STAT_NAVIGATION_CANCELLED,
+  NW_STAT_NOCONTENT,
+
+  /* Status codes for WPS (Protocol Stack) */
+  NW_STAT_WPS_ERROR,
+  NW_STAT_WPS_STARTUP_ERROR,
+  NW_STAT_WPS_GATEWAY_CONNECT_ERROR,
+  NW_STAT_WPS_GATEWAY_UNSET,
+  NW_STAT_WPS_DISCONNECTED,
+  NW_STAT_WPS_ABORTED,
+  NW_STAT_WPS_SECURITY_ERROR,
+  NW_STAT_WPS_SECURITY_ALERT,
+  NW_STAT_WPS_SECURITY_ESTABLISHED,
+  NW_STAT_WPS_IGNORE_UI,
+
+/*
+** Note: the following new Rainbow WPS codes have
+**        been added for Spectrum to support dialup
+**        (CSD) and packet switched (GPRS) connections.
+*/
+  NW_STAT_WPS_SERVICE_CONNECT_ERROR,
+  NW_STAT_WPS_BEARER_NOT_AVAILABLE,
+  NW_STAT_WPS_GPRS_CONNECTION_FAILED,
+  NW_STAT_WPS_CONNECTION_NOT_RESUMED,
+  NW_STAT_WPS_CONNECTION_SUSPENDED,
+  NW_STAT_WPS_DIALUP_CONNECT_ERROR,
+  NW_STAT_WPS_BUSY_CONNECT_ERROR,
+
+/*
+** Note: the following new Rainbow WPS codes have
+**        been added for Spectrum to support WDP,
+**        WSP, and WTP layer errors.
+*/
+  NW_STAT_WPS_NETWORK_CONNECT_ERROR,
+  NW_STAT_WPS_WDPSEND_FAILED,
+  NW_STAT_WPS_PACKET_TOO_LARGE,
+  NW_STAT_WPS_SESSION_CONNECT_ERROR,
+
+
+  /* Status codes for WPSA (WPS Adapter) */
+  NW_STAT_WPSA_MAX_REACHED,
+  NW_STAT_WPSA_NOT_FOUND,
+  NW_STAT_WPSA_DOS,
+  NW_STAT_WPSA_MAX_TRANSACTIONS_REACHED,
+  NW_STAT_WPSA_MAX_SESSIONS_REACHED,
+  NW_STAT_WPSA_NO_ACTIVE_TRANSACTIONS,
+  NW_STAT_WPSA_NO_TMS,                  /* We dont have total message size */
+  NW_STAT_WPSA_TRANSACTION_COMPLETE,
+
+/*
+** Note: the follow block of WIM status codes has
+**       been superseded by the new combined
+**       Spectrum values
+*/
+  /* Status codes for WIM / Security  */
+#if 0
+  NW_STAT_WIM_NO_MATCHING_CERTIFICATE,          /* New code: NW_STAT_WIMI_NOCERT */
+  NW_STAT_WIM_PIN_BLOCKED,                      /* New code: NW_STAT_WIMI_PINBLOCKED */
+  NW_STAT_INVALID_CERTIFICATE,                  /* New code: NW_STAT_WIMI_BADCERT */
+  NW_STAT_WIM_ERR,                              /* New code: NW_STAT_WIMI_WIM_ERR */
+  NW_STAT_SEC_HANDSHAKE_FAILED,                 /* New code: NW_STAT_WTLS_HANDSHAKEFAIL */
+  NW_STAT_WIM_SESSION_NOT_SET,                  /* New code: NW_STAT_WIMI_SESSION_NOT_SET */
+  NW_STAT_WIM_DECODE_ERR,                       /* New code: NW_STAT_WTLS_DECODE_FAIL */
+  NW_STAT_CERT_NOT_YET_VALID,                   /* New code: NW_STAT_WTLS_UC_NOT_YET_VALID */
+  NW_STAT_CERT_EXPIRED,                         /* New code: NW_STAT_WTLS_UC_EXPIRED */
+  NW_STAT_UNKNOWN_CA,                           /* New code: NW_STAT_WTLS_UNKNOW_CERT_AUTH */
+  NW_STAT_UNSUPPORTED_CERTIFICATE_TYPE,         /* New code: NW_STAT_WTLS_UNSUPCERT */
+  NW_STAT_WIM_NO_WIM,                           /* New code: NW_STAT_WIMI_NOCARD */
+  NW_STAT_WIM_INIT_FAILED,                      /* New code: NW_STAT_WIMI_NOINIT */
+  NW_STAT_WIM_ITEM_NOT_FOUND,                   /* New code: NW_STAT_WIMI_CERTNOTFOUND or NW_STAT_WIMI_KEYNOTFOUND */
+  NW_STAT_WIM_BAD_PIN,                          /* New code: NW_STAT_WIMI_INVALIDPIN */
+  NW_STAT_CERTIFICATE_REVOKED,                  /* New code: NW_STAT_WTLS_UC_REVOKED */
+  NW_STAT_CLIENT_AUTH_NOT_SUPPORTED,            /* New code: NW_STAT_WTLS_CLIENT_AUTH_NOT_SUPPORTED */
+  NW_STAT_WIM_KEY_NOT_FOUND,                    /* New code: NW_STAT_WIMI_KEYNOTFOUND */
+  NW_STAT_WIM_DUPLICATE_CERTIFICATE,            /* New code: NW_STAT_WIMI_DUPLICATECERT */
+
+#endif /* 0 */
+
+  /* End of deprecated status codes */
+
+
+/*
+** Note: the following block of new WIM status codes has
+**       superseded the old Rainbow status codes above
+*/
+  /* Status codes for WIM / Security  */
+  NW_STAT_WIMI_OK,
+  NW_STAT_WIMI_OKASYN,
+  NW_STAT_WIMI_INVALIDPIN,
+  NW_STAT_WIMI_PINBLOCKED,
+  NW_STAT_WIMI_WIMCLOSED,
+  NW_STAT_WIMI_NOCARD,
+  NW_STAT_WIMI_IOERROR,
+  NW_STAT_WIMI_INVALIDREF,
+  NW_STAT_WIMI_NOCERT,
+  NW_STAT_WIMI_NOTALLOWED,
+  NW_STAT_WIMI_NOROOM,
+  NW_STAT_WIMI_BADARGS,
+  NW_STAT_WIMI_NOMEM,
+  NW_STAT_WIMI_CERTEXISTS,
+  NW_STAT_WIMI_NOINIT,
+  NW_STAT_WIMI_BADCERT,
+  NW_STAT_WIMI_FAIL,
+  NW_STAT_WIMI_NOKES,
+  NW_STAT_WIMI_NOKEY,
+  NW_STAT_WIMI_WIM_ERR,
+  NW_STAT_WIMI_SESSION_NOT_SET,
+  NW_STAT_WIMI_CERTNOTFOUND,
+  NW_STAT_WIMI_KEYNOTFOUND,
+  NW_STAT_WIMI_DUPLICATECERT,
+
+/*
+** Note: the follow block of WTLS status codes has
+**       been superseded by the new combined
+**       Spectrum values
+*/
+  /*Status codes for WTLS*/
+#if 0
+  NW_STAT_WTLS_DECRYPTION_FAILED,               /* New code: NW_STAT_WTLS_DECRYPTERR */
+  NW_STAT_WTLS_DECOMPRESSION_FAILED,            /* New code: NW_STAT_WTLS_DECOMPESSERR */
+  NW_STAT_UNKNOWN_CERT,                         /* New code: NW_STAT_WTLS_UNSUPCERT */
+  NW_STAT_WTLS_ACCESS_DENIED,                   /* New code: NW_STAT_WTLS_NOACCESS */
+  NW_STAT_INSUFFIC_SECURITY,                    /* New code: NW_STAT_WTLS_INSUFFICIENT_SECURITY */
+  NW_STAT_WTLS_USER_CANCELLED,                  /* New code: NW_STAT_WTLS_USER_CANCELLED */
+#endif /* 0 */
+
+/* End of deprecated status codes */
+
+
+/*
+** Note: the following block of new WTLS status codes has
+**       superseded the old Rainbow status codes above
+*/
+
+  /*Status codes for WTLS*/
+  NW_STAT_WTLS_TIMEOUT,
+  NW_STAT_WTLS_ILLEGALPARAM,
+  NW_STAT_WTLS_SERVERCLOSED,
+  NW_STAT_WTLS_CONNCLOSED,
+  NW_STAT_WTLS_UNEXPMESS,
+  NW_STAT_WTLS_BADMAC,
+  NW_STAT_WTLS_DECOMPESSERR,
+  NW_STAT_WTLS_DECRYPTERR,
+  NW_STAT_WTLS_HANDSHAKEFAIL,
+  NW_STAT_WTLS_BADCERT,
+  NW_STAT_WTLS_PROTOCOL,
+  NW_STAT_WTLS_NOACCESS,
+  NW_STAT_WTLS_EXPORTRESTRICTION,
+  NW_STAT_WTLS_PMMSTORE,
+  NW_STAT_WTLS_BADHANDLE,
+  NW_STAT_WTLS_BEARERSUSP,
+  NW_STAT_WTLS_UNKNOW_CERT_AUTH,
+  NW_STAT_WTLS_UC_NOT_YET_VALID,
+  NW_STAT_WTLS_UC_EXPIRED,
+  NW_STAT_WTLS_UC_REVOKED,
+  NW_STAT_WTLS_UNSUPCERT,
+  NW_STAT_WTLS_BADUSERCERT,
+  NW_STAT_WTLS_DECODE_FAIL,
+  NW_STAT_WTLS_CLIENT_AUTH_NOT_SUPPORTED,
+  NW_STAT_WTLS_INSUFFICIENT_SECURITY,
+  NW_STAT_WTLS_USER_CANCELLED,
+
+  /* Status codes for Cache */
+  NW_STAT_CACHE_ITEM_NOT_FOUND,
+  NW_STAT_CACHE_ITEM_FOUND,
+  NW_STAT_CACHE_URL_FOUND,
+  NW_STAT_CACHE_ITEM_COPIED,
+  NW_STAT_CACHE_DISABLED,
+  NW_STAT_CACHE_ENABLE,
+  NW_STAT_CACHE_NOT_CONFIGURED,
+  NW_STAT_CACHE_ITEM_TOO_BIG,
+  NW_STAT_CACHE_SPACE_AVAILABLE,
+  NW_STAT_CACHE_SPACE_NOT_AVAILABLE,
+
+  /* Status Codes for Cookies */
+  NW_STAT_CJ_NOCOOKIE,
+
+  /* Status codes used by the Wml Script */
+  NW_STAT_SCRIPT_CARD_NOT_IN_DECK,
+  NW_STAT_SCRIPT_NO_ACCESS,
+  NW_STAT_SCRIPT_BAD_CONTENT,
+  NW_STAT_SCRIPT_ERROR_USER_EXIT,
+  NW_STAT_SCRIPT_ERROR_USER_ABORT,
+  NW_STAT_SCRIPT_ERROR_STACK_UNDERFLOW,
+  NW_STAT_SCRIPT_ERROR_STACK_OVERFLOW,
+  NW_STAT_SCRIPT_FATAL_LIB_FUNC_ERROR,
+  NW_STAT_SCRIPT_INVALID_FUNC_ARGS,
+  NW_STAT_SCRIPT_VERIFICATION_FAILED,
+  NW_STAT_SCRIPT_EXTERNAL_FUNCTION_NOT_FOUND,
+  NW_STAT_SCRIPT_UNABLE_TO_LOAD_COMPILATION_UNIT,
+  NW_STAT_SCRIPT_ACCESS_VIOLATION,
+
+  /* Status codes used by the WML Browser*/
+  NW_STAT_WMLBROWSER_CARD_NOT_IN_DECK,
+  NW_STAT_WMLBROWSER_NO_ACCESS,
+  NW_STAT_WMLBROWSER_BAD_CONTENT,
+  NW_STAT_WMLBROWSER_INVALID_URL_SCHEMA,
+  NW_STAT_WMLBROWSER_BAD_CONTENT_TYPE,
+  NW_STAT_WMLBROWSER_INPUT_NONCONFORMING_TO_MASK,
+  NW_STAT_WMLBROWSER_ONPICK_EX,
+
+  /* Status codes used by the XML(thus XHTML) parser*/
+  NW_STAT_XHTML_BAD_CONTENT,
+
+   /* Status codes used by the WML Script Crypto */
+  NW_STAT_CRYPTO_USERCANCEL,
+  NW_STAT_CRYPTO_NOCERT,
+
+  /* WML Interpreter content validation errors */
+  NW_STAT_WMLBROWSER_UNSUPPORTED_VERSION_NUMBER,
+  NW_STAT_WMLBROWSER_UNSUPPORTED_PUBLIC_ID,
+  NW_STAT_WMLBROWSER_UNSUPPORTED_CHARSET,
+  NW_STAT_WMLBROWSER_BAD_OPAQUE_DATA,
+  NW_STAT_WMLBROWSER_BAD_PI,
+  NW_STAT_WMLBROWSER_BAD_SWITCHPAGE_TOKEN,
+  NW_STAT_WMLBROWSER_BAD_TEXT,
+  NW_STAT_WMLBROWSER_BAD_ELEMENT,
+  NW_STAT_WMLBROWSER_MISSING_LITERALTAG,
+
+  /* Status codes for the script proxy */
+  NW_STAT_SCRPROXY_SCRABORT,
+  NW_STAT_SCRPROXY_SCRBUSY,
+  NW_STAT_SCRPROXY_SCRNOTRESPONDING,
+
+  /* status codes for the image loader */
+  NW_STAT_IMGLOADER_HTTP_ERROR,
+
+  /* Status codes for the wae browser */
+  NW_STAT_WAE_NAVIGATION_CANCELLED,
+
+  /* Status codes for SI */
+  NW_STAT_SI_DONE,
+
+  /* Connectivity failure status codes used by gateway navigation.
+     Refer to WAP End-to-End Security specification */
+  NW_STAT_CONN_SECINFO_EXPIRED,
+  NW_STAT_CONN_URL_NONSECURE,
+  NW_STAT_CONN_NAVDOC_INVALID,
+
+  /* Connectivity failure status codes used by
+     NW_Http_ConnNeeded() call prior to WPSA requests. */
+  NW_STAT_CONN_CANCELLED,
+  NW_STAT_CONN_FAILED,
+  
+  /* Status codes for WTAI loader */
+  NW_STAT_WTAI_UNSPECIFIED_ERROR,
+  NW_STAT_WTAI_INVALID_RESPONSE,
+  NW_STAT_WTAI_INVALID_URI,
+  NW_STAT_WTAI_INVALID_ARGUMENT,
+  NW_STAT_WTAI_UNSUPPORTED_FUNCTION,
+  NW_STAT_WTAI_UNSUPPORTED_LIBRARY,
+  NW_STAT_WTAI_INVOCATIONERROR,
+  NW_STAT_WTAI_NOCALLACTIVE,
+  NW_STAT_WTAI_NOANSWER,
+  NW_STAT_WTAI_NOSERVICE,
+  NW_STAT_WTAI_USERBUSY,
+  NW_STAT_WTAI_PHONEBOOKFULL,
+  NW_STAT_WTAI_PBWRITEERROR,
+  NW_STAT_WTAI_PBNUMBERTOOLONG,
+  NW_STAT_WTAI_PBNAMETOOLONG,
+
+  /* Status codes for the layout manager */
+  NW_STAT_LMGR_CONSTRAINT_TOO_SMALL,
+  NW_STAT_LMGR_NOT_CONSTRAINED,
+  NW_STAT_LMGR_FORMAT_OVERFLOW,
+  NW_STAT_LMGR_SPLIT_OK,
+  NW_STAT_LMGR_SPLIT_EOL,
+  NW_STAT_LMGR_NO_SPLIT,
+  NW_STAT_LMGR_DRAW_COMPLETE,
+  NW_STAT_LMGR_NOT_CLEAR,
+
+  /* Status codes used by cXML DOM module */
+  NW_STAT_DOM_HEIRARCHY_REQUEST_ERR,
+  NW_STAT_DOM_WRONG_DOC_ERR,
+  NW_STAT_DOM_NO_STRING_RETURNED,
+  NW_STAT_DOM_NODE_TYPE_ERR,
+  NW_STAT_DOM_NO_VALUE_PREFIX,
+
+/* Status codes used by the WBXML parser: */ 
+ NW_STAT_WBXML_ERROR_BYTECODE,         
+ NW_STAT_WBXML_ERROR_CHARSET_UNSUPPORTED,   
+ NW_STAT_WBXML_ITERATE_MORE,                          
+ NW_STAT_WBXML_ITERATE_DONE,              
+ NW_STAT_WBXML_DID_NOT_ITERATE,         
+ NW_STAT_WBXML_NO_NAME,          
+ NW_STAT_WBXML_HAS_ATTRIBUTES, 
+ NW_STAT_WBXML_HAS_CONTENT,
+ NW_STAT_WBXML_HAS_ATTR_CONTENT, /* HAS_CONTENT | HAS_ATTRIBUTES */
+
+/* Status codes for History Entries */
+  NW_STAT_HED_NO_CURRENT_HISTENTRY,
+  NW_STAT_HED_NO_PREVIOUS_HISTENTRY,
+  NW_STAT_HED_NO_NEXT_HISTENTRY,
+
+/* Status codes for Mailto loader */
+  NW_STAT_MAILTO_COMPLETE,
+
+/* Status code to indicate that contents have been dispatched to content dispatcher server */
+  NW_STAT_HED_CONTENT_DISPATCHED,
+
+/* Status codes for connection */
+  NW_STAT_CONN_NEW_CONNECTION,
+
+/* Status codes for HTTP stack */
+  NW_STAT_UNSUPPORTED_AUTH_TYPE,
+  NW_STAT_TCP_TIMEOUT,
+  NW_STAT_TCP_COMM_LINE_FAIL,
+  NW_STAT_TCP_NOT_READY,
+  NW_STAT_TCP_DNS_ERROR,
+  NW_STAT_TCP_HOST_UNREACHABLE,
+
+/* For string tables */
+ 
+  NW_STAT_STR_TBL_OVERFLOW,
+
+  NW_STAT_BAD_FORMAT,
+
+/* Base for WPS status codes. This insures that status codes are 32 bits wide */
+  NW_STAT_WPS_START = (signed long) 0x80000000
+
+
+} NW_Status_t;
+
+#ifdef __cplusplus
+} /* extern "C" */
+#endif
+
+#endif  /* NWX_STATUS_H */

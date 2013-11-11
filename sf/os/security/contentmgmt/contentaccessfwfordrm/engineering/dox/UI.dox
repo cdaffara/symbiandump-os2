@@ -1,0 +1,79 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// <hr>
+// It should be assumed that it is only possible for CAF agents to display 
+// dialogs on screen if the CAF function is called from a thread where
+// a static Uikon environment exists.
+// <hr>
+// CAF provides several APIs that allow a client application to request an agent to
+// display information on the screen. Some agents may not support these calls and leave 
+// with \c KErrCANotSupported.
+// Both the <code>ContentAccess::CContent::DisplayInfoL()</code> function and the 
+// <code>ContentAccess::CManager::DisplayInfoL()</code> function allow the application 
+// to display file information such as last modification date and/or DRM rights information
+// CManager *manager = CManager::NewL();
+// manager->DisplayInfoL(EFileProperties, avirtualPath);
+// Applications can also ask a particular agent to go into management mode, displaying configuration 
+// information on screen, allowing the user to view and set agent specific information.
+// // create manager
+// CManager *manager = CManager::NewL();
+// // Get a list of the agents
+// RPointerArray <CAgent> theAgents;
+// manager->ListAgentsL(theAgents);
+// // Display management info for the first agent
+// manager->DisplayManagementInfoL(*theAgents[0]);
+// <hr> 
+// The agents will display errors on screen when they occur. Once the error has been acknowledged by the user
+// the agent will return the error code to the client application.
+// If a client application does not want errors displayed on screen, it can request to disable the agent UI 
+// using the <code>SetProperty()</code> functions, e.g. <code>ContentAccess::CContent::SetProperty()</code>. 
+// The agent may ignore this request and still present dialogs on screen.
+// CContent *content = CContent::NewL(URI);
+// // Disable UI
+// content->SetProperty(EAgentPropertyAgentUI , 0);
+// // Open CData 
+// CData *data = content->OpenContentL(EPlay, uniqueId);
+// <hr> 
+// Some agents may present confirmation dialogs to the user before allowing them to perform certain operations. A 
+// good example would be when an application tries to delete a DRM protected file. The user may have been purchased the
+// content and may have inadvertently pressed delete. The agent can present a dialog asking "are you sure?"
+// The agent can then return the outcome of the delete to the application, i.e. \c KErrCancel, if the user presses cancel.
+// The application can use the same <code>SetProperty()</code> as above to disable these dialogs, but some agents may ignore that 
+// request and display the dialogs regardless.
+// <hr>
+// The default implementation of the <code>F32AgentUI.DLL</code> does not do anything. If licensees want the
+// \c F32Agent to display information on the screen they should replace the existing <code>F32AgentUI.DLL</code>
+// with one that does support display functions.
+// 
+//
+
+/**
+ @page CAFUI CAF and the User Interface
+ - @ref UikonEnv
+ - @ref AppDisplay
+ - @ref UIErr
+ - @ref UIConfirmation
+ - @ref F32AgentUi
+ @section UikonEnv Uikon Environment
+ @section AppDisplay Applications asking the agent to display information
+ @code
+ @endcode
+ @code
+ @endcode
+ @section UIErr Error Handling
+ @code
+ @endcode
+ @section UIConfirmation Confirmation Dialogs
+ @section F32AgentUi F32 Agent UI
+*/

@@ -1,0 +1,73 @@
+// Copyright (c) 2008-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+#ifndef __EZLIBTESTS_IBY__
+#define __EZLIBTESTS_IBY__
+
+REM ezlibtest
+#include <ezlib.iby>
+#include <openenv.iby>
+
+// bluetooth.iby is required because libc.dll links to backend.dll which links to bluetooth.dll
+#include <bluetooth.iby>
+
+// These two ibys are required to prevent dependency errors in the textshell RAM builds (related to bluetooth.dll)
+#include <coreproviders.iby>
+#include <simpleselectorbase.iby>
+
+// Include the CP850 charconv plug-in in the ROM as it is needed  by ziptest
+#include <charconv_codepage.iby>
+
+// batch file that runs all automatic ezlib tests
+data=ZSYSTEM\test\ezlibtests.bat		                                test\ezlibtests.bat
+
+file=ABI_DIR\BUILD_DIR\ziptest.exe		                                test\ziptest.exe
+file=ABI_DIR\BUILD_DIR\ezlibtest.exe	                                test\ezlibtest.exe
+file=ABI_DIR\BUILD_DIR\gzip.exe		                                    test\gzip.exe
+file=ABI_DIR\BUILD_DIR\example.exe		                                test\example.exe
+file=ABI_DIR\BUILD_DIR\ezfile.exe		                                test\ezfile.exe
+file=ABI_DIR\BUILD_DIR\ezdefect.exe		                                test\ezdefect.exe
+file=ABI_DIR\BUILD_DIR\ezexample.exe	                                test\ezexample.exe
+file=ABI_DIR\BUILD_DIR\gziptest.exe		                                test\gziptest.exe
+file=ABI_DIR\BUILD_DIR\inflateprimetest.exe	                            test\inflateprimetest.exe
+
+data=EPOCROOT##epoc32\wins\c\test\zip\holymoley.jar	                    test\zip\holymoley.jar
+data=EPOCROOT##epoc32\wins\c\test\zip\rfc2459.zip	                    test\zip\rfc2459.zip
+data=EPOCROOT##epoc32\wins\c\test\zip\compression_estored.zip           test\zip\compression_estored.zip
+data=EPOCROOT##epoc32\wins\c\test\zip\zip_archive1_with_comments.zip    test\zip\zip_archive1_with_comments.zip
+data=EPOCROOT##epoc32\wins\c\test\zip\zip_archive2_with_comments.zip    test\zip\zip_archive2_with_comments.zip
+data=EPOCROOT##epoc32\wins\c\test\png\00000720.png	                    test\png\00000720.png
+data=EPOCROOT##epoc32\wins\c\test\png\compressed_data1                  test\png\compressed_data1
+data=EPOCROOT##epoc32\wins\c\test\png\compressed_data2	                test\png\compressed_data2
+data=EPOCROOT##epoc32\wins\c\test\png\compressed_data3	                test\png\compressed_data3
+data=EPOCROOT##epoc32\wins\c\test\png\compressed_data4	                test\png\compressed_data4
+data=EPOCROOT##epoc32\wins\c\test\zip\cpmixwinxpmslong.zip	            test\zip\cpmixwinxpmslong.zip
+data=EPOCROOT##epoc32\wins\c\test\zip\cpmixwinxplong.zip	            test\zip\cpmixwinxplong.zip
+data=EPOCROOT##epoc32\wins\c\test\zip\cpmixwin2klong.zip	            test\zip\cpmixwin2klong.zip
+data=EPOCROOT##epoc32\wins\c\test\zip\cp850winxpshort.zip	            test\zip\cp850winxpshort.zip
+data=EPOCROOT##epoc32\wins\c\test\zip\cp850winxpmsshort.zip             test\zip\cp850winxpmsshort.zip
+data=EPOCROOT##epoc32\wins\c\test\zip\cp850win2kshort.zip	            test\zip\cp850win2kshort.zip
+data=EPOCROOT##epoc32\wins\c\test\zip\cp1252winxpshort.zip	            test\zip\cp1252winxpshort.zip
+data=EPOCROOT##epoc32\wins\c\test\zip\cp1252win2kshort.zip	            test\zip\cp1252win2kshort.zip
+data=EPOCROOT##epoc32\data\C\test\gzip\Hello.txt			            test\gzip\Hello.txt
+data=EPOCROOT##epoc32\data\C\test\gzip\Hello.gz				            test\gzip\Hello.gz
+data=EPOCROOT##epoc32\data\C\test\gzip\Hello_HeaderChanged.gz	        test\gzip\Hello_HeaderChanged.gz
+data=EPOCROOT##epoc32\data\C\test\gzip\Hello_HeaderIdChanged.gz	        test\gzip\Hello_HeaderIdChanged.gz
+data=EPOCROOT##epoc32\data\C\test\gzip\Hello_Read_Only.gz		        test\gzip\Hello_Read_Only.gz
+data=EPOCROOT##epoc32\data\C\test\gzip\Hello_Read_Only.txt		        test\gzip\Hello_Read_Only.txt
+data=EPOCROOT##epoc32\data\C\test\gzip\Hello_TrailerCrcChanged.gz       test\gzip\Hello_TrailerCrcChanged.gz
+data=EPOCROOT##epoc32\data\z\test\inflateprimetest\gzipped.gz	        test\inflateprimetest\gzipped.gz
+data=EPOCROOT##epoc32\data\z\test\inflateprimetest\zipped.zip	        test\inflateprimetest\zipped.zip
+#endif

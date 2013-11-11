@@ -1,0 +1,181 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// <hr>
+// The Content Access Framework is at released status in Symbian OS v9.1
+// <hr>
+// The Symbian OS Content Access Framework (CAF) provides services that
+// enable agents to publish content in a generic manner that is easy for 
+// applications to use. 
+// Applications will access content the same way regardless of whether the
+// content is plain text, located in a server's private directory, or
+// DRM protected.
+// Content can be, for example, media files or a level in a game; applications
+// would be, for example, a video/sound player or an internet browser; 
+// DRM stands for Digital Rights Management.
+// <hr>
+// The CAF defines an ECom plug-in interface, for third-party CAF Agents. The interface
+// allows new agents to be integrated at a later date, dynamically if required. 
+// The specification for this interface can be found in <code>ContentAccess::CAgentFactory</code>.
+// CAF Agents can be written to provide the following functions:
+// The CAF framework does not provide any capability enforcement so it is the responsiblity 
+// of the agent to police access to the APIs. The agent can choose to deny some operations 
+// in the CAF API based upon application's capabilities or the agent's own policy relating 
+// to the use of that API. 
+// <hr>
+// <code>ContentAccess::CAgentFactory</code>. This is the ECom interface for a CAF Agent.
+// The agent's factory will produce products derived from:
+// -# <code>ContentAccess::CAgentContent</code>
+// -# <code>ContentAccess::CAgentData</code>
+// -# <code>ContentAccess::CAgentImportFile</code>
+// -# <code>ContentAccess::CAgentManager</code>
+// -# <code>ContentAccess::CAgentRightsManager</code>
+// These products provide the services described in the introduction (above) on a per 
+// agent basis.
+// <hr>
+// Generally, these APIs fall into four areas:
+// <b>Supplier API</b> 
+// The Supplier API is used to handle the delivery and transformation of content.
+// It can be used to transform DRM protected files when they arrive on a device into 
+// a form that allows them to be stored securely on the device.
+// It can also be used intercept content and ensure it is stored in an agent's private 
+// directory.
+// See the classes <code>ContentAccess::CSupplier</code> and <code>ContentAccess::CImportFile</code>
+// <b>Consumer API</b> 
+// Allows applications to read the content as if it were stored as plain text regardless
+// of how it is actually stored on the device. For instance it might be encrypted.
+// The consumer API will be used by applications rendering content and/or multimedia 
+// plug-ins. By rendering we mean reading data from a file, transforming it, then playing 
+// or displaying it on the device.
+// See the classes <code>ContentAccess::CContent</code> and <code>ContentAccess::CData</code>.
+// <b>Manager API</b> 
+// The management of files and content access agents.
+// See <code>ContentAccess::CManager</code>
+// <b>Rights Manager API</b> 
+// A generic API used to manage DRM rights within a particular DRM agent
+// See <code>ContentAccess::CRightsManager</code>
+// <hr>
+// An archive file contains content objects and other containers within the file. Each
+// container within the file may contain more content objects or further containers.
+// Common examples of archive files are zip and tar files.
+// The Content Access Framework allows applications to open archive files and read 
+// content from inside them. The content objects and containers inside the 
+// file can be traversed using the <code>ContentAccess::CContent</code> class. 
+// This class allows applications to use the content within these container files 
+// without needing to understand any specifics of the compression or storage mechanism 
+// used by the archive.
+// <hr>
+// The Content Access Framework also provides an abstact way to access DRM protected 
+// content. An agent can be designed to implement a DRM scheme.
+// Applications use DRM protected files in the same way they would use any other file. 
+// The agent enforces the rights applied to the content. Also, it prevents access when rights
+// have expired or if the file is accessed by applications without DRM capability.
+// To enforce the protection of the content the agent must know what the client intends 
+// to do with the content once it has read the plain-text version of that content. Therefore, applications must 
+// Applications should \b always specify their intent, whether or not they will using DRM protected content. 
+// Non-DRM agents will just ignore the call, but it means the application does not need to treat DRM content 
+// as a special case.
+// One occasion where applications do need to treat DRM as a special case is where User Interface menu 
+// Applications can use the <code>GetAttribute()</code> functions to determine whether the operation is allowed on any 
+// given content object.
+// Finally any application or plug-in that reads DRM content must handle the unencrypted version of 
+// the content responsibly. Only applications proven to work this way will be given the DRM capability. 
+// <hr>
+// The evaluation of DRM rights hinges on the correct supply of 'DRM
+// Intent' from the trusted rendering application to the Content Access
+// Framework. The framework provides a number of options so that the
+// application can query and evaluate rights appropriately. 
+// Briefly, the CAF allows a renderer to:
+// - <b>Evalute intent</b> \n
+// e.g., ask the question "Could I play this now if I wanted to?". \n
+// Here, the ability is queried, but no stateful rights modifications are made.
+// - <b>Execute intent</b> \n
+// e.g., indicate "I have played this now". \n
+// In this example, the CAF would instruct the agent to evaluate and process
+// the rights, thus modifying any stateful rights 
+// (i.e., rights that have state, e.g. content that has an expiry date or content that can only be played three times, say).
+// Essentially, renders will begin by evaluating intent when the \c CData object
+// is created. When the content has been rendered successfully, they will execute 
+// the intent to ensure that stateful rights are then processed.
+// The recommended intent values (for renders and agents to support) are given in <code>ContentAccess::TIntent</code>:
+// - \c EPeek: Do not process or evaluate rights in any way
+// - \c EPlay: Play the target content (OMA)
+// - \c Eview: View the target content (OMA)
+// - \c EExecute: Execute the target content (OMA). Note: only supported in
+// a Java context
+// - \c EPrint: Print the target content (OMA)
+// - \c EPause: Pause content playback
+// - \c EContinue: Continue content playback
+// - \c EUnknown: Client has no idea what the content will be used for. DRM Agents can deny this intent allowing only unprotected content to be accessed this way.
+// <hr>
+// The F32 Agent provides access to unprotected files. It is really just a wrapper around <code>RFile</code>.
+// The Content Access Framework treats the F32 agent as a special case. If no other suitable 
+// agent is responsible for a file or directory the F32 Agent will be used. 
+// The F32 Agent runs in the same process and thread as the calling application so any 
+// file operations it performs will be limited to the file operations permitted for 
+// the calling application's process
+// <hr>
+// Some agents may provide access to files stored in their private directory. They
+// can advertise the files' existence to applications through their implementation 
+// of the <code>ContentAccess::CAgentManager::GetDir()</code> function.
+// In the file system the private directories have the format 
+// <code>\\private\\xxxxxxxx\\directory_1\\...directory_n\\filename.ext</code>
+// where <code>xxxxxxxx</code> is the UID of the agent.
+// CAF will translate that path so applications see the file as:
+// <code>\\private\\agent_name\\directory_1\\...directory_n\\filename.ext</code>
+// where <code>agent_name</code> is the name of the agent.
+// When an application opens a file stored in the private directory, CAF selects the 
+// agent which handles that content based upon the name in the path. If the file is not 
+// stored in a private directory, CAF asks each of the agents in turn whether they support 
+// the file. If no agent supports the file, it will be read as plaintext using the <code>F32Agent</code>.
+// <hr>
+// - <code>CAF.DLL</code>        - Content Access Framework (the application level APIs)
+// - <code>CAFUTILS.DLL</code>   - Utility classes used by agents, applications and CAF itself
+// - <code>F32AGENT.DLL</code>   - Agent for reading unprotected files
+// - <code>F32AGENTUI.DLL</code> - Agent for reading unprotected files
+// - <code>RECCAF.DLL</code>     - Data Recognizer for all agents within the Content Access Framework
+// <hr>
+// 
+//
+
+/**
+ @page CAFIntroduction Introduction
+ @section CAF_Contents Contents
+ - @ref CAF_Status
+ - @ref CAF_Intro
+ - @ref CAF_Agents
+ - @ref CAF_Agent_Interfaces
+ - @ref CAFAPIs
+ - @ref AboutArchives
+ - @ref AboutDRM
+ - @ref CAF_Intent
+ - @ref AboutF32Agent
+ - @ref AboutPrivDir
+ - @ref CAF_Delivery
+ @section CAF_Status Status
+ @section CAF_Intro Overview
+ @section CAF_Agents CAF Agents
+ @li Indirect access to a private server directory
+ @li Plain text access to protected content (even if the content is encrypted)
+ @section CAF_Agent_Interfaces Agent Interfaces
+ A CAF agent @e must implement a concrete factory derived from 
+ @section CAFAPIs Content Access Framework APIs
+ @section AboutArchives Access to content within archive files
+ @section AboutDRM Digital Rights Management (DRM)
+ specify their intent before using DRM protected content, see @ref CAF_Intent. 
+ items may need to be disabled. For example, @e save or <i>send via Bluetooth</i> may not be permitted. 
+ @section CAF_Intent DRM Intent
+ @section AboutF32Agent The F32 Agent
+ @section AboutPrivDir Sharing Content in a Private Directory
+ @section CAF_Delivery Delivery
+*/

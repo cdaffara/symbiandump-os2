@@ -1,0 +1,1618 @@
+/** @file  ../include/sys/socket.h
+@internalComponent
+*/
+
+/** @fn  accept(int s, struct sockaddr *  addr, socklen_t *  addrlen)
+@param s
+@param addr
+@param addrlen
+
+  The argument s is a socket that has been created with socket, bound to an address with bind and is listening for connections after a listen . The accept system call extracts the first connection request on the queue 
+of pending connections and creates a new socket which it allocates a new file 
+descriptor. The new socket inherits the state of the O_NONBLOCK property from the original socket s.
+
+ If no pending connections are present on the queue, and the original socket 
+  is not marked as non-blocking, accept blocks the caller until a connection is present. If the original 
+  socket is marked non-blocking and no pending connections are present on the 
+  queue, accept returns an error as described below.
+
+ The accepted socket may not be used to accept more connections. The original 
+  socket s remains open.
+
+ The argument addr is a result argument that is filled-in with the address of the 
+  connecting entity as it is known to the communications layer. The exact format 
+  of the addr argument is determined by the domain in which the communication 
+  is occurring. A null pointer may be specified for addr if the address information is not required. In this case addrlen is not used and should also be null. Otherwise, the addrlen argument is a value-result argument: It should initially contain 
+  the amount of space pointed to by addr and on return will contain the actual length (in bytes) of the 
+  address returned. This call is used with connection-based socket types, currently 
+  with SOCK_STREAM.
+
+ It is possible to select a socket for the purposes of doing an accept by selecting it for read.
+
+ For certain protocols, such as ISO or DATAKIT which require an explicit confirmation, accept can be thought of as merely dequeueing the next connection 
+  request and not implying confirmation. Confirmation can be implied by a normal 
+  read or write on the new file descriptor, and rejection can be implied by closing 
+  the new socket.
+
+Examples:
+@code
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <unistd.h>
+void GetSockName()
+{
+   int sock_fd;
+   int newsock_fd;
+   struct sockaddr_in addr;
+   struct sockaddr_in ss;
+   struct sockaddr_in new_socket;
+   unsigned int len;
+   unsigned int addr_len;
+   
+   sock_fd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+       
+   addr.sin_family = AF_INET;
+   addr.sin_addr.s_addr = htonl(INADDR_ANY);
+   addr.sin_port = htons(5000);
+   bind(sock_fd,(sockaddr*)&addr;,sizeof(addr));
+   listen(sock_fd,1);
+   newsock_fd = accept(sock_fd,(sockaddr*)&new;_socket,&addr;_len); // Code blocks here
+   if (newsock_fd <= 0)
+   {
+                perror("accept:");
+   }
+   close(newsock_fd);
+   close(sock_fd);
+}
+
+@endcode
+@return   The call returns -1 on error.
+If it succeeds, it returns a non-negative
+integer that is a descriptor for the accepted socket.
+
+@see bind()
+@see connect()
+@see getpeername()
+@see listen()
+@see select()
+@see socket()
+
+
+
+@capability Deferred @ref RSocket::Open(RSocketServ &,TUint,TUint,TUint)
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @fn  bind(int s, const struct sockaddr *addr, socklen_t addrlen)
+@param s
+@param addr
+@param addrlen
+
+  The bind system call
+assigns the local protocol address to a socket.
+When a socket is created
+with socket it exists in an address family space but has no protocol address assigned.
+The bind system call requests that addr be assigned to the socket.
+
+Examples:
+@code
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <unistd.h>
+TInt GetSockName()
+{
+   int sock_fd;
+   struct sockaddr_in addr,ss;
+   unsigned int len;   
+   
+   sock_fd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+       
+   addr.sin_family = AF_INET;
+   addr.sin_addr.s_addr = htonl(INADDR_ANY);
+   addr.sin_port = htons(5000);
+   bind(sock_fd,(struct sockaddr*)&addr;,sizeof(addr));
+   close(sock_fd);
+}
+
+@endcode
+
+Notes:
+
+ For maximum portability always initialise the socket address structure to 
+  zero before populating it and passing it to bind.
+  
+@return   The bind() function returns the value 0 if successful; otherwise the
+value -1 is returned and the global variable errno is set to indicate the
+error.
+
+@see connect()
+@see getsockname()
+@see listen()
+@see socket()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  connect(int s, const struct sockaddr *name, socklen_t namelen)
+@param s
+@param name
+@param namelen
+ 
+
+ The s argument is a socket. If it is of type SOCK_DGRAM name specifies the peer with which the socket is to be associated. It 
+  specifiies the address to which datagrams are to be sent and the only address 
+  from which datagrams are to be received.
+
+ If the socket is of type SOCK_STREAM, this call attempts to make a connection to another socket. 
+  The other socket is specified by name, which is an address in the communications space of the socket. 
+  Each communications space interprets the name argument in its own way.
+
+ Generally, stream sockets may successfully connect only once and datagram sockets may use connect multiple times to change their association. Datagram sockets 
+  may dissolve the association by connecting to an invalid address, such as a 
+  null address.
+
+Examples:
+@code
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <unistd.h>
+void Connect()
+{
+   struct sockaddr_in serv_addr;
+   int sock_fd;
+   serv_addr.sin_family = AF_INET;
+   serv_addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+   serv_addr.sin_port = htons(5000);
+   sock_fd = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP);
+   connect(sock_fd,(struct sockaddr*)&serv;_addr,sizeof(serv_addr));
+   
+   close(sock_fd);
+}
+
+@endcode
+@return   The connect() function returns the value 0 if successful; otherwise it returns 
+the value -1 and the sets global variable errno to indicate the error.
+
+@see accept()
+@see getpeername()
+@see getsockname()
+@see select()
+@see socket()
+
+
+
+@capability Deferred @ref RSocket::Open(RSocketServ &,TUint,TUint,TUint)
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @fn  getpeername(int s, struct sockaddr *  name, socklen_t *  namelen)
+@param s
+@param name
+@param namelen
+@return   The getpeername() function returns the value 0 if successful; otherwise
+the value -1 is returned and the global variable errno is set to indicate
+the error.
+
+  The getpeername system call
+returns the name of the peer connected to
+socket s. The namelen argument should be initialized to indicate
+the amount of space pointed to by name. On return it contains the actual size of the name
+returned (in bytes).
+The name is truncated if the buffer provided is too small.
+
+Examples:
+@code
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <unistd.h>
+void GetSockName()
+{
+   int sock_fd;
+   int newsock_fd;
+   struct sockaddr_in addr;
+   struct sockaddr_in ss;
+   struct sockaddr_in new_socket;
+   unsigned int len;
+   unsigned int addr_len;
+    
+   sock_fd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+       
+   addr.sin_family = AF_INET;
+   addr.sin_addr.s_addr = htonl(INADDR_ANY);
+   addr.sin_port = htons(5000);
+   bind(sock_fd,(struct sockaddr*)&addr;,sizeof(addr));
+   listen(sock_fd,1);
+   newsock_fd = accept(sock_fd,(struct sockaddr*)&new;_socket,&addr;_len); // Code blocks here
+  
+   // Assuming client has connected to the server. 
+   len = sizeof(ss);
+   getpeername(sock_fd,(struct sockaddr*)&ss;,&len;);
+   close(newsock_fd);
+   close(sock_fd);
+ }
+
+@endcode
+@see accept()
+@see bind()
+@see getsockname()
+@see socket()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @fn  getsockname(int s, struct sockaddr *  name, socklen_t *  namelen)
+@param s
+@param name
+@param namelen
+@return   The getsockname() function returns the value 0 if successful; otherwise
+the value -1 is returned and the global variable errno is set to indicate
+the error.
+
+  The getsockname system call
+returns the current name for the specified socket.
+The namelen argument should be initialized to indicate
+the amount of space pointed to by name. On return it contains the actual size of the name
+returned (in bytes).
+
+Examples:
+@code
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <unistd.h>
+TInt GetSockName()
+{
+   int sock_fd;
+   struct sockaddr_in addr,ss;
+   unsigned int len;   
+   
+   sock_fd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+       
+   addr.sin_family = AF_INET;
+   addr.sin_addr.s_addr = htonl(INADDR_ANY);
+   addr.sin_port = htons(5000);
+   bind(sock_fd,(struct sockaddr*)&addr;,sizeof(addr));
+ 
+  len=sizeof(ss);
+  getsockname(sock_fd,(struct sockaddr*)&ss;,&len;);
+  close(sock_fd);
+}
+
+@endcode
+@see bind()
+@see getpeername()
+@see socket()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  getsockopt(int s, int level, int optname, void *  optval, socklen_t *  optlen)
+@param s
+@param level
+@param optname
+@param optval
+@param optlen
+Note: This description also covers the following functions -
+ setsockopt() 
+
+@return   Upon successful completion, the value 0 is returned; otherwise the
+value -1 is returned and the global variable errno is set to indicate the
+error.
+
+The getsockopt and setsockopt system calls manipulate the options associated with a socket. Options may exist at multiple protocol levels; they are always present at the uppermost "socket" level. 
+When manipulating socket options the level at which the option resides and the name of the option must be specified. To manipulate options at the socket level, level is specified as SOL_SOCKET. To manipulate options at any other level the protocol number of the appropriate protocol controlling the option is supplied. For example, to indicate that an option is to be interpreted by the TCP protocol, level should be set to the protocol number of TCP; 
+
+The optval and optlen arguments are used to access option values for setsockopt. For getsockopt they identify a buffer in which the value for the requested option(s) are to be returned. For getsockopt, optlen is a value-result argument, initially containing the size of the buffer pointed to by optval, and modified on return to indicate the actual size of the value returned. If no option value is to be supplied or returned, optval may be NULL. 
+
+The optname argument and any specified options are passed uninterpreted to the appropriate protocol module for interpretation. The include file   \#include \<sys/socket.h\>contains definitions for socket level options, described below. Options at other protocol levels vary in format and name; consult the appropriate entries in section 4 of the manual. 
+Most socket-level options utilize an int argument for optval. For setsockopt, the argument should be non-zero to enable a boolean option, or zero if the option is to be disabled. SO_LINGER uses a struct linger argument, defined in 
+ @code
+  #include <sys/socket.h,> which specifies the desired state of the option and the linger interval (see below). SO_SNDTIMEO and SO_RCVTIMEO use a struct timeval argument, defined in  
+  #include <sys/time.h.> 
+The following options are recognized at the socket level. Except as noted, each may be examined with getsockopt and set with setsockopt. SO_DEBUG            enables recording of debugging information 
+SO_REUSEADDR       Allows a socket to be bound to an local address that is already in use. 
+SO_REUSEPORT       enables duplicate address and port bindings 
+SO_KEEPALIVE       enables keep connections alive 
+SO_DONTROUTE       enables routing bypass for outgoing messages 
+SO_BROADCAST       enables permission to transmit broadcast messages (enable only)
+SO_OOBINLINE       enables reception of out-of-band data in band 
+SO_SNDBUF          set buffer size for output 
+SO_RCVBUF          set buffer size for input 
+SO_SNDLOWAT        set minimum count for output 
+SO_RCVLOWAT        set minimum count for input 
+SO_SNDTIMEO        set timeout value for output 
+SO_RCVTIMEO        set timeout value for input 
+SO_ACCEPTFILTER            set accept filter on listening socket 
+SO_TYPE            get the type of the socket (get only) 
+SO_ERROR           get and clear error on the socket (get only)  
+   
+
+@endcode
+
+SO_DEBUG enables debugging in the underlying protocol modules. SO_REUSEADDR indicates that the rules used in validating addresses supplied in a bind system call should allow reuse of local addresses. SO_REUSEPORT allows completely duplicate bindings by multiple processes if they all set SO_REUSEPORT before binding the port. This option permits multiple instances of a program to each receive UDP/IP multicast or broadcast datagrams destined for the bound port. SO_KEEPALIVE enables the periodic transmission of messages on a connected socket. SO_DONTROUTE indicates that outgoing messages should bypass the standard routing facilities. Instead, messages are directed to the appropriate network interface according to the network portion of the destination address. 
+
+The option SO_BROADCAST requests permission to send broadcast datagrams on the socket. Broadcast was a privileged operation in earlier versions of the system. With protocols that support out-of-band data, the SO_OOBINLINE option requests that out-of-band data be placed in the normal data input queue as received; it will then be accessible with recv or read calls without the MSG_OOB flag. Some protocols always behave as if this option is set. SO_SNDBUF and SO_RCVBUF are options to adjust the normal buffer sizes allocated for output and input buffers, respectively. The buffer size may be increased for high-volume connections, or may be decreased to limit the possible backlog of incoming data. The system places an absolute maximum on these values, which is accessible through the sysctl MIB variable "kern.ipc.maxsockbuf." 
+
+SO_SNDLOWAT is an option to set the minimum count for output operations. Most output operations process all of the data supplied by the call, delivering data to the protocol for transmission and blocking as necessary for flow control. Nonblocking output operations will process as much data as permitted subject to flow control without blocking, but will process no data if flow control does not allow the smaller of the low water mark value or the entire request to be processed. A select operation testing the ability to write to a socket will return true only if the low water mark amount could be processed. The default value for SO_SNDLOWAT is set to a convenient size for network efficiency, often 1024. SO_RCVLOWAT is an option to set the minimum count for input operations. In general, receive calls will block until any (non-zero) amount of data is received, then return with the smaller of the amount available or the amount requested. The default value for SO_RCVLOWAT is 1. If SO_RCVLOWAT is set to a larger value, blocking receive calls normally wait until they have received the smaller of the low water mark value or the requested amount. 
+
+SO_SNDTIMEO is an option to set a timeout value for output operations. It accepts a struct timeval argument with the number of seconds and microseconds used to limit waits for output operations to complete. If a send operation has blocked for this much time, it returns with a partial count or with the error EWOULDBLOCK if no data were sent. In the current implementation, this timer is restarted each time additional data are delivered to the protocol, implying that the limit applies to output portions ranging in size from the low water mark to the high water mark for output. SO_RCVTIMEO is an option to set a timeout value for input operations. It accepts a struct timeval argument with the number of seconds and microseconds used to limit waits for input operations to complete. In the current implementation, this timer is restarted each time additional data are received by the protocol, and thus the limit is in effect an inactivity timer. If a receive operation has been blocked for this much time without receiving additional data, it returns with a short count or with the error EWOULDBLOCK if no data were received. 
+
+SO_ACCEPTFILTER places an accept_filter on the socket, which will filter incoming connections on a listening stream socket before being presented for accept. Once more, listen must be called on the socket before trying to install the filter on it, or else the setsockopt system call will fail. 
+
+SO_LINGER option is not supported by this api.
+
+@code
+struct  accept_filter_arg {
+        char    af_name[16];
+        char    af_arg[256-16];
+};
+@endcode
+
+
+
+The optval argument should point to a struct accept_filter_arg that will select and configure the accept_filter. The af_name argument should be filled with the name of the accept filter that the application wishes to place on the listening socket. The optional argument af_arg can be passed to the accept filter specified by af_name to provide additional configuration options at attach time. Passing in an optval of NULL will remove the filter. 
+
+Finally, SO_TYPE and SO_ERROR are options used only with getsockopt. SO_TYPE returns the type of the socket, such as SOCK_STREAM; it is useful for servers that inherit sockets on startup. SO_ERROR returns any pending error on the socket and clears the error status. It may be used to check for asynchronous errors on connected datagram sockets or for other asynchronous errors. 
+ 
+
+
+
+Examples:
+@code
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <unistd.h>
+void SocketOptions()
+{
+   int sock_fd;
+   int optval = 1;
+   unsigned int optlen = sizeof(optval);
+   int rdoptval;
+   sock_fd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+   setsockopt(sock_fd,SOL_SOCKET,SO_KEEPALIVE,&optval;,optlen);
+   getsockopt(sock_fd,SOL_SOCKET,SO_KEEPALIVE,(void*)&rdoptval;,&optlen;);
+close(sock_fd);
+}
+
+@endcode
+@see ioctl()
+@see socket()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  listen(int fd, int n)
+@param fd
+@param n
+@return   The listen() function returns the value 0 if successful; otherwise the
+value -1 is returned and the global variable errno is set to indicate the
+error.
+
+  To accept connections a socket is first created with socket . A willingness to accept incoming connections 
+and a queue limit for incoming connections are specified with listen and then the connections are accepted with accept . The listen system call applies only to sockets of type SOCK_STREAM or SOCK_SEQPACKET.
+
+ The n argument defines the maximum length the queue of pending connections 
+  may grow to. The real maximum queue length will be 1.5 times more than the value 
+  specified in the n argument. A subsequent listen system call on the listening socket allows the caller to change 
+  the maximum queue length using a new n argument. If a connection request arrives with the queue full 
+  the client may receive an error with an indication of ECONNREFUSED , or, in the case of TCP, the connection will be silently 
+  dropped.
+
+ Note that before BSD 4.5 and the introduction of the syncache the n argument also determined the length of the incomplete connection 
+  queue, which held TCP sockets in the process of completing TCP's 3-way 
+  handshake. These incomplete connections are now held entirely in the syncache, 
+  which is unaffected by queue lengths. Inflated n values to help handle denial of service attacks are no longer 
+  necessary.
+
+
+
+Examples:
+@code
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <unistd.h>
+void listen_example()
+{
+   int sock_fd;
+   int newsock_fd;
+   struct sockaddr_in addr;
+   struct sockaddr_in ss;
+   struct sockaddr_in new_socket;
+   unsigned int len;
+   unsigned int addr_len;
+   
+   sock_fd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+       
+   addr.sin_family = AF_INET;
+   addr.sin_addr.s_addr = htonl(INADDR_ANY);
+   addr.sin_port = htons(5000);
+   bind(sock_fd,(struct sockaddr*)&addr;,sizeof(addr));
+   listen(sock_fd,1);
+   close(sock_fd);
+}
+
+@endcode
+@see accept()
+@see connect()
+@see socket()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  recv(int fd, void *buf, size_t cnt, int flags)
+@param fd
+@param buf
+@param cnt
+@param flags
+
+Note: This description also covers the following functions -
+ recvfrom()  recvmsg() 
+
+@return   These calls return the number of bytes received, or -1
+if an error occurred.
+
+@code
+ MSG_OOB                process out-of-band data
+@endcode
+
+  The recvfrom and recvmsg system calls
+are used to receive messages from a socket,
+and may be used to receive data on a socket whether or not
+it is connection-oriented.
+
+ If from is not a null pointer
+and the socket is not connection-oriented,
+the source address of the message is filled in.
+The fromlen argument
+is a value-result argument, initialized to the size of
+the buffer associated with from, and modified on return to indicate the actual size of the
+address stored there.
+
+ The recv function is normally used only on a connected socket (see connect )
+and is identical to recvfrom with a
+null pointer passed as its from argument.
+As it is redundant, it may not be supported in future releases.
+
+ All three routines return the length of the message on successful
+completion.
+If a message is too long to fit in the supplied buffer,
+excess bytes may be discarded depending on the type of socket
+the message is received from (see socket )
+
+ If no messages are available at the socket, the
+receive call waits for a message to arrive, unless
+the socket is nonblocking (see fcntl )
+in which case the value
+-1 is returned and the external variable errno set to EAGAIN. The receive calls normally return any data available,
+up to the requested amount,
+rather than waiting for receipt of the full amount requested;
+this behavior is affected by the socket-level options SO_RCVLOWAT and SO_RCVTIMEO described in getsockopt .
+
+ The select system call may be used to determine when more data arrive.
+
+ The flags argument to a recv function is formed by or Ap ing one or more of the values: MSG_OOB                process out-of-band data MSG_PEEK                peek at incoming message MSG_WAITALL                wait for full request or error MSG_DONTWAIT                do not block 
+
+ The MSG_OOB flag requests receipt of out-of-band data
+that would not be received in the normal data stream.
+Some protocols place expedited data at the head of the normal
+data queue, and thus this flag cannot be used with such protocols.
+The MSG_PEEK flag causes the receive operation to return data
+from the beginning of the receive queue without removing that
+data from the queue.
+Thus, a subsequent receive call will return the same data.
+The MSG_WAITALL flag requests that the operation block until
+the full request is satisfied.
+The MSG_DONTWAIT flag requests the call to return when it would block otherwise.
+If no data is available, errno is set to EAGAIN.
+
+The flags MSG_OOB, MSG_PEEK, MSG_WAITALL and MSG_DONTWAIT are not supported for 
+local sockets(AF_LOCAL, AF_LINUX etc..).
+
+ The recvmsg system call uses a msghdr structure to minimize the number of directly supplied arguments.
+This structure has the following form, as defined in \#include \<sys/socket.h\>
+@code
+ struct msghdr {
+caddr_tmsg_name;/* optional address */
+u_intmsg_namelen;/* size of address */
+structiovec *msg_iov;/* scatter/gather array */
+u_intmsg_iovlen;/* # elements in msg_iov */
+caddr_tmsg_control;/* ancillary data, see below */
+u_intmsg_controllen; /* ancillary data buffer len */
+intmsg_flags;/* flags on received message */
+};
+@endcode
+
+ Here msg_name and msg_namelen specify the destination address if the socket is unconnected; msg_name may be given as a null pointer if no names are desired or required.
+The msg_iov and msg_iovlen arguments
+describe scatter gather locations, as discussed in read .
+The msg_control argument,
+which has length msg_controllen, points to a buffer for other protocol control related messages
+or other miscellaneous ancillary data.
+The messages are of the form: 
+@code
+struct cmsghdr {
+u_intcmsg_len;/* data byte count, including hdr */
+intcmsg_level;/* originating protocol */
+intcmsg_type;/* protocol-specific type */
+/* followed by
+u_charcmsg_data[]; */
+};
+@endcode
+
+ As an example, one could use this to learn of changes in the data-stream
+in XNS/SPP, or in ISO, to obtain user-connection-request data by requesting
+a recvmsg with no data buffer provided immediately after an accept system call.
+
+ Open file descriptors are now passed as ancillary data for AF_UNIX domain sockets, with cmsg_level set to SOL_SOCKET and cmsg_type set to SCM_RIGHTS.
+
+ Process credentials can also be passed as ancillary data for AF_UNIX domain sockets using a cmsg_type of SCM_CREDS. In this case, cmsg_data should be a structure of type cmsgcred, which is defined in \#include \<sys/socket.h\> as follows:
+@code
+ struct cmsgcred {
+pid_tcmcred_pid;/* PID of sending process */
+uid_tcmcred_uid;/* real UID of sending process */
+uid_tcmcred_euid;/* effective UID of sending process */
+gid_tcmcred_gid;/* real GID of sending process */
+shortcmcred_ngroups;/* number or groups */
+gid_tcmcred_groups[CMGROUP_MAX];/* groups */
+};
+@endcode
+
+ The kernel will fill in the credential information of the sending process
+and deliver it to the receiver.
+
+ The msg_flags field is set on return according to the message received. MSG_EOR indicates end-of-record; the data returned completed a record 
+  (generally used with sockets of type SOCK_SEQPACKET). MSG_TRUNC indicates that the trailing portion of a datagram was discarded 
+  because the datagram was larger than the buffer supplied. MSG_CTRUNC indicates that some control data were discarded due to 
+  lack of space in the buffer for ancillary data. MSG_OOB is returned to indicate that expedited or out-of-band data 
+  were received.
+
+Examples:
+@code
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <unistd.h>
+void Recv()
+{
+   struct sockaddr_in serv_addr;
+   int sock_fd;
+   char line[10];
+   int size = 10;
+   serv_addr.sin_family = AF_INET;
+   serv_addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+   serv_addr.sin_port = htons(5000);
+   sock_fd = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP);
+   connect(sock_fd,(struct sockaddr*)&serv;_addr,sizeof(serv_addr));
+   recv(sock_fd, line, size, 0);
+   close(sock_fd);
+}
+
+@endcode
+@code
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <unistd.h>
+void Sendto()
+{
+   struct sockaddr_in sender_addr;
+   int sock_fd;
+   char line[15] = "Hello World!";
+   unsigned int size = sizeof(sender_addr);
+   sock_fd = socket(AF_INET,SOCK_DGRAM,IPPROTO_UDP);
+   sender_addr.sin_family = AF_INET;
+   sender_addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+   sender_addr.sin_port = htons(5000);
+   recvfrom(sock_fd,line,13,0,(struct sockaddr*)&sender;_addr,&size;);
+   close(sock_fd);
+}
+
+@endcode
+@code
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <unistd.h>
+void SendMsgRecvMsg()
+{
+   int sock_fd;
+   unsigned int sender_len;
+   struct msghdr msg;
+   struct iovec iov;
+   struct sockaddr_in receiver_addr,sender_addr;
+   char line[10];
+   sock_fd = socket(AF_INET,SOCK_DGRAM,IPPROTO_UDP);
+   receiver_addr.sin_family = AF_INET;
+   receiver_addr.sin_addr.s_addr = htonl(INADDR_ANY);
+   receiver_addr.sin_port = htons(5000);
+   bind(sock_fd,(struct sockaddr*)&receiver;_addr,sizeof(receiver_addr));
+   sender_len = sizeof(sender_addr);
+   msg.msg_name = &sender;_addr;
+   msg.msg_namelen = sender_len;
+   msg.msg_iov = &iov;
+   msg.msg_iovlen = 1;
+   msg.msg_iov->iov_base = line;
+   msg.msg_iov->iov_len = 10;
+   msg.msg_control = 0;
+   msg.msg_controllen = 0;
+   msg.msg_flags = 0;
+   recvmsg(sock_fd,&msg;,0);
+   close(sock_fd);
+}
+
+@endcode
+@see fcntl()
+@see getsockopt()
+@see read()
+@see select()
+@see socket()
+
+
+
+@capability Deferred @ref RSocket::Open(RSocketServ &,TUint,TUint,TUint)
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @fn  recvfrom(int s, void *  buf, size_t len, int flags, struct sockaddr *  from, socklen_t *  fromlen)
+@param s
+@param buf
+@param len
+@param flags
+@param from
+@param fromlen
+
+Refer to recv() for the documentation
+
+@see fcntl()
+@see getsockopt()
+@see read()
+@see select()
+@see socket()
+
+
+
+@capability Deferred @ref RSocket::Open(RSocketServ &,TUint,TUint,TUint)
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @fn  recvmsg(int fd, struct msghdr *message, int flags)
+@param fd
+@param message
+@param flags
+
+Refer to recv() for the documentation
+
+@see fcntl()
+@see getsockopt()
+@see read()
+@see select()
+@see socket()
+
+
+
+@capability Deferred @ref RSocket::Open(RSocketServ &,TUint,TUint,TUint)
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  send(int fd, const void *buf, size_t cnt, int flags)
+@param fd
+@param buf
+@param cnt
+@param flags
+
+Note: This description also covers the following functions -
+ sendto()  sendmsg() 
+
+  The send function,
+and sendto and sendmsg system calls
+are used to transmit a message to another socket.
+The send function
+may be used only when the socket is in a connected state, while sendto and sendmsg may be used at any time.
+
+ The address of the target is given by to with tolen specifying its size.
+The length of the message is given by len. If the message is too long to pass atomically through the
+underlying protocol, the error EMSGSIZE is returned, and
+the message is not transmitted.
+
+ No indication of failure to deliver is implicit in a send. Locally detected errors are indicated by a return value of -1.
+
+ If no messages space is available at the socket to hold
+the message to be transmitted, then send normally blocks, unless the socket has been placed in
+non-blocking I/O mode.
+The select system call may be used to determine when it is possible to
+send more data.
+
+ The flags argument may include one or more of the following: 
+@code
+#defineMSG_OOB0x00001 //process out-of-band data 
+#defineMSG_PEEK0x00002 // peek at incoming message 
+#defineMSG_DONTROUTE0x00004 // bypass routing, use direct interface 
+#define MSG_EOR0x00008 // data completes record 
+#defineMSG_EOF0x00100 // data completes transaction
+@endcode
+
+ The flag MSG_OOB is used to send "out-of-band"
+data on sockets that support this notion (e.g. SOCK_STREAM); the underlying protocol must also support "out-of-band"
+data. MSG_EOR is used to indicate a record mark for protocols which support the
+concept. MSG_EOF requests that the sender side of a socket be shut down, and that an
+appropriate indication be sent at the end of the specified data;
+this flag is only implemented for SOCK_STREAM sockets in the PF_INET protocol family, and is used to implement Transaction TCP MSG_DONTROUTE is usually used only by diagnostic or routing programs.
+
+ See recv for a description of the msghdr structure.
+
+Examples:
+@code
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <unistd.h>
+void Recv()
+{
+   struct sockaddr_in serv_addr;
+   int sock_fd;
+   char line[15] = "Hello world!";
+   int size = 13;
+   serv_addr.sin_family = AF_INET;
+   serv_addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+   serv_addr.sin_port = htons(5000);
+   sock_fd = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP);
+   connect(sock_fd,(struct sockaddr*)&serv;_addr,sizeof(serv_addr));
+   send(sock_fd, line, size, 0);
+   close(sock_fd);
+}
+
+@endcode
+@code
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <unistd.h>
+void Sendto()
+{
+   sockaddr_in receiver_addr;
+   int sock_fd;
+   char line[15] = "Hello World!";
+   sock_fd = socket(AF_INET,SOCK_DGRAM,IPPROTO_UDP);
+   receiver_addr.sin_family = AF_INET;
+   receiver_addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+   receiver_addr.sin_port = htons(5000);
+   sendto(sock_fd, line, 13, 0,(struct sockaddr*)&receiver;_addr,sizeof(receiver_addr));
+   close(sock_fd);
+}
+
+@endcode
+@code
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <unistd.h>
+void sendmsg()
+{
+   struct sockaddr_in receiver_addr;
+   int sock_fd;
+   char line[15] = "Hello World!";
+   struct msghdr msg;
+   struct iovec iov;
+   sock_fd = socket(AF_INET,SOCK_DGRAM,IPPROTO_UDP);
+    
+   receiver_addr.sin_family = AF_INET;
+   receiver_addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+   receiver_addr.sin_port = htons(5000);
+   msg.msg_name = &receiver;_addr;
+   msg.msg_namelen = sizeof(receiver_addr);
+   msg.msg_iov = &iov;
+   msg.msg_iovlen = 1;
+   msg.msg_iov->iov_base = line;
+   msg.msg_iov->iov_len = 13;
+   msg.msg_control = 0;
+   msg.msg_controllen = 0;
+   msg.msg_flags = 0;
+   sendmsg(sock_fd,&msg;,0);
+   close(sock_fd);
+}
+
+@endcode
+@return   This function call returns the number of characters sent; otherwise the
+value -1 is returned and the global variable errno is set to indicate the
+error.
+
+@see fcntl()
+@see getsockopt()
+@see recv()
+@see select()
+@see socket()
+@see write()
+
+
+Bugs:
+
+ Because sendmsg does not necessarily block until the data has been transferred, it
+is possible to transfer an open file descriptor across an AF_UNIX domain socket
+(see recv then close it before it has actually been sent, the result being that the receiver
+gets a closed file descriptor.
+It is left to the application to
+implement an acknowledgment mechanism to prevent this from happening. 
+
+@capability Deferred @ref RSocket::Open(RSocketServ &,TUint,TUint,TUint)
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  sendto(int s, const void *msg, size_t len, int flags, const struct sockaddr *to, socklen_t tolen)
+@param s
+@param msg
+@param len
+@param flags
+@param to
+@param tolen
+
+Refer to  send() for the documentation
+
+@see fcntl()
+@see getsockopt()
+@see recv()
+@see select()
+@see socket()
+@see write()
+
+
+
+@capability Deferred @ref RSocket::Open(RSocketServ &,TUint,TUint,TUint)
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  sendmsg(int fd, const struct msghdr *message, int flags)
+@param fd
+@param message
+@param flags
+
+Refer to  send() for the documentation
+
+@see fcntl()
+@see getsockopt()
+@see recv()
+@see select()
+@see socket()
+@see write()
+
+
+
+@capability Deferred @ref RSocket::Open(RSocketServ &,TUint,TUint,TUint)
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @fn  setsockopt(int s, int level, int optname, const void *optval, socklen_t optlen)
+@param s
+@param level
+@param optname
+@param optval
+@param optlen
+
+Refer to  getsockopt() for the documentation
+
+@see ioctl()
+@see socket()
+
+
+Note:For multicast to work on Symbian OS the connection for the interface needs to be started first.
+On most of the desktop Operating Systems,the network interface is always running, so things like setsockopt() will always pass.
+But on Symbian, the interface is not always running (in order to save battery and/or data charges) so some options in setsockopt() will not work until the connection is started.
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @fn  shutdown(int fd, int how)
+@param fd
+@param how
+@return   The shutdown() function returns the value 0 if successful; otherwise the
+value -1 is returned and the global variable errno is set to indicate the
+error.
+
+@code
+ SHUT_RD further receives will be disallowed.
+ SHUT_WR further sends will be disallowed.
+ SHUT_RDWR
+  further sends and receives will be disallowed.
+
+@endcode
+  The shutdown system call causes all or part of a full-duplex connection on
+the socket associated with the file descriptor sockfd to be shut down.
+The how argument specifies the type of shutdown.
+Possible values are: SHUT_RD further receives will be disallowed. SHUT_WR further sends will be disallowed. SHUT_RDWR  further sends and receives will be disallowed.
+
+Examples:
+@code
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <unistd.h>
+TInt shutdown_example()
+{
+   int sock_fd;
+   sockaddr_in addr,ss;
+   unsigned int len;   
+   
+   sock_fd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+       
+   addr.sin_family = AF_INET;
+   addr.sin_addr.s_addr = htonl(INADDR_ANY);
+   addr.sin_port = htons(5000);
+   bind(sock_fd,(sockaddr*)&addr;,sizeof(addr));
+   shutdown(sock_fd, SHUT_RD)
+   close(sock_fd);
+}
+
+@endcode
+@see connect()
+@see socket()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  sockatmark(int s)
+@param s
+@return   Upon successful completion, the sockatmark function returns the value 1 if the read pointer is pointing at
+the OOB mark, 0 if it is not.Otherwise the value -1 is returned
+and the global variable errno is set to indicate the error.
+
+  To find out if the read pointer is currently pointing at
+the mark in the data stream, the sockatmark function is provided.
+If sockatmark returns 1, the next read will return data
+after the mark.
+Otherwise (assuming out of band data has arrived),
+the next read will provide data sent by the client prior
+to transmission of the out of band signal.
+The routine used
+in the remote login process to flush output on receipt of an
+interrupt or quit signal is shown below.
+It reads the normal data up to the mark (to discard it),
+then reads the out-of-band byte. 
+@code
+#include <sys/socket.h>
+oob()
+{
+int out = FWRITE, mark;
+char waste[BUFSIZ];
+/* flush local terminal output */
+ioctl(1, TIOCFLUSH, (char *)&out;);
+for (;;) {
+if ((mark = sockatmark(rem)) < 0) {
+perror("sockatmark");
+break;
+}
+if (mark)
+break;
+(void) read(rem, waste, sizeof (waste));
+}
+if (recv(rem, &mark;, 1, MSG_OOB) < 0) {
+perror("recv");
+...
+}
+...
+}
+@endcode
+
+Examples:
+@code
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <unistd.h>
+void SockAtMark()
+{
+   int sockfd;
+   sockaddr_in selfAddr;
+   sockfd = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP);
+       
+   selfAddr.sin_family = AF_INET;
+   selfAddr.sin_addr.s_addr = INADDR_ANY;
+   selfAddr.sin_port = htons(5000);
+   bind(sockfd,(struct sockaddr*)&selfAddr;, sizeof(selfAddr));
+   sockatmark(sockfd);
+   close(sockfd);
+}
+
+@endcode
+@see recv()
+@see send()
+@see ioctl()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @fn  socket(int family, int style, int protocol)
+@param family
+@param style
+@param protocol
+@return   The socket() function returns valid socket descriptor if successful; otherwise the
+value -1 is returned and the global variable errno is set to indicate the
+error.
+
+  The socket system call
+creates an endpoint for communication and returns a descriptor.
+
+ The family argument specifies a communications domain within which communication 
+  will take place; this selects the protocol family which should be used. These 
+  families are defined in the include file \#include \<sys/socket.h\> The currently understood formats 
+  are:
+
+ PF_LOCALHost-internal protocols, formerly called PF_UNIX,
+PF_INETInternet version 4 protocols,
+
+ The socket has the indicated style, which specifies the semantics of communication.
+Currently
+defined types are:
+
+@code
+
+SOCK_STREAMStream socket,
+SOCK_DGRAMDatagram socket,
+SOCK_SEQPACKETSequenced packet stream
+
+@endcode
+
+ A SOCK_STREAM type provides sequenced, reliable,
+two-way connection based byte streams.
+An out-of-band data transmission mechanism may be supported.
+A SOCK_DGRAM socket supports
+datagrams (connectionless, unreliable messages of
+a fixed (typically small) maximum length).
+A SOCK_SEQPACKET socket may provide a sequenced, reliable,
+two-way connection-based data transmission path for datagrams
+of fixed maximum length; a consumer may be required to read
+an entire packet with each read system call.
+This facility is protocol specific, and presently unimplemented.
+
+ The protocol argument
+specifies a particular protocol to be used with the socket.
+Normally only a single protocol exists to support a particular
+socket type within a given protocol family.
+However, it is possible
+that many protocols may exist, in which case a particular protocol
+must be specified in this manner.
+The protocol number to use is
+particular to the "communication domain"
+in which communication
+is to take place.
+
+ Sockets of type SOCK_STREAM are full-duplex byte streams, similar
+to pipes.
+A stream socket must be in a connected state before any data may be sent or received
+on it.
+A connection to another socket is created with a connect system call.
+Once connected, data may be transferred using read and write calls or some variant of the send and recv functions.
+(Some protocol families, such as the Internet family,
+support the notion of an "implied connect,"
+which permits data to be sent piggybacked onto a connect operation by
+using the sendto system call.)
+When a session has been completed a close may be performed.
+Out-of-band data may also be transmitted as described in send and received as described in recv
+
+ The communications protocols used to implement a SOCK_STREAM insure that data
+is not lost or duplicated.
+If a piece of data for which the
+peer protocol has buffer space cannot be successfully transmitted
+within a reasonable length of time, then
+the connection is considered broken and calls
+will indicate an error with
+-1 returns and with ETIMEDOUT as the specific code
+in the global variable errno. The protocols optionally keep sockets "warm"
+by forcing transmissions
+roughly every minute in the absence of other activity.
+An error is then indicated if no response can be
+elicited on an otherwise
+idle connection for an extended period (e.g. 5 minutes).
+
+ SOCK_SEQPACKET sockets employ the same system calls as SOCK_STREAM sockets. The only difference is that read calls will return only the amount of data 
+  requested and any remaining in the arriving packet will be discarded.
+
+ SOCK_DGRAM sockets allow sending of datagrams to correspondents named 
+  in send calls. Datagrams are generally received 
+  with recvfrom which returns the next datagram with 
+  its return address.
+
+Examples:
+@code
+#include <sys/socket.h>
+#include <unistd.h>
+#include <stdio.h>
+#inlcude <netinet/in.h>
+void SocketExample()
+{
+    int sock_fd;
+    sock_fd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+    close(sock_fd);
+}
+
+@endcode
+@see accept()
+@see bind()
+@see connect()
+@see getpeername()
+@see getsockname()
+@see getsockopt()
+@see ioctl()
+@see listen()
+@see read()
+@see recv()
+@see select()
+@see send()
+@see shutdown()
+@see write()
+
+
+
+@capability Deferred @ref RSocket::Open(RSocketServ &,TUint,TUint,TUint)
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @typedef typedef	__sa_family_t	sa_family_t
+
+Address family type
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @typedef typedef	__socklen_t	socklen_t
+
+Socket address length type.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @struct sockaddr
+
+Structure used by kernel to store most addresses.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @var sockaddr::sa_len
+total length 
+*/
+
+/** @var sockaddr::sa_family
+address family 
+*/
+
+/** @var sockaddr::sa_data
+actually longer; address value
+*/
+
+/** @struct cmsghdr
+
+Header for ancillary data objects in msg_control buffer.
+Used for additional information with/about a datagram not expressible by flags.  
+The format is a sequence of message elements headed by cmsghdr structures.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @var cmsghdr::cmsg_len
+data byte count, including hdr
+*/
+
+/** @var cmsghdr::cmsg_level
+originating protocol
+*/
+
+/** @var cmsghdr::cmsg_type
+protocol-specific type
+*/
+
+
+/** @struct msghdr
+
+Message header for recvmsg and sendmsg calls.
+Used value-result for recvmsg, value only for sendmsg.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @var msghdr::msg_name
+optional address
+*/
+
+/** @var msghdr::msg_namelen
+size of address 
+*/
+
+/** @var msghdr::msg_iov
+scatter or gather array
+*/
+
+/** @var msghdr::msg_iovlen
+x elements in msg_iov 
+*/
+
+/** @var msghdr::msg_control
+ancillary data, see below
+*/
+
+/** @var msghdr::msg_controllen
+ancillary data buffer len 
+*/
+
+/** @var msghdr::msg_flags
+flags on received message
+*/
+
+/** @def CMSG_DATA(cmsg)
+
+given pointer to struct cmsghdr, return pointer to data
+	
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def CMSG_NXTHDR(mhdr, cmsg)
+
+given pointer to struct cmsghdr, return pointer to next cmsghdr
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def CMSG_FIRSTHDR(mhdr)
+
+RFC 2292 requires to check msg_controllen, in case that the kernel returns an empty list for some reasons.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @struct linger
+
+Structure used for manipulating linger option.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @var linger::l_onoff
+option on or off
+*/
+
+/** @var linger::l_linger
+linger time 
+*/
+
+
+/** @def AF_UNIX
+
+local to host (pipes, portals) 
+
+@publishedAll
+@externallyDefinedApi
+*/
+	
+/** @def AF_INET	
+
+internetwork: UDP, TCP, etc.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def AF_UNSPEC
+
+Address family. Unspecified.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def SHUT_RD	
+
+shut down the reading side
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def SHUT_WR
+
+shut down the writing side 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def SHUT_RDWR
+
+shut down both sides
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def MSG_OOB	
+
+process out-of-band data
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def MSG_PEEK
+
+peek at incoming message
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def MSG_DONTROUTE
+
+send without using routing tables 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def MSG_EOR
+
+data completes record
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def MSG_TRUNC
+
+data discarded before delivery 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def MSG_CTRUNC
+
+control data lost before delivery 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def MSG_WAITALL
+
+wait for full request or error
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def SO_ACCEPTCONN	
+
+socket has had listen() 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def SO_BROADCAST
+
+permit sending of broadcast msgs
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def SO_DEBUG
+
+turn on debugging info recording KSODebug 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def SO_DONTROUTE
+
+just use interface addresses
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def SO_ERROR
+
+get error status and clear
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def SO_KEEPALIVE
+
+keep connections alive KSoTcpKeepAlive 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def SO_LINGER
+
+linger on close if data present
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def SO_OOBINLINE
+
+leave received OOB data in line KSoTcpOobInline
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def SO_RCVBUF
+
+receive buffer size KSORecvBuf 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def SO_RCVLOWAT
+
+receive low-water mark
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def SO_RCVTIMEO
+
+receive timeout
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def SO_REUSEADDR
+
+Allow a socket to be bound to an local address that is already in use. 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def SO_SNDBUF
+
+send buffer size KSOSendBuf 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def SO_SNDLOWAT
+
+send low-water mark
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def SO_SNDTIMEO
+
+send timeout
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def SO_TYPE	
+
+get socket type 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def SOCK_DGRAM
+
+datagram socket
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def SOCK_STREAM
+
+stream socket
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def SOCK_SEQPACKET
+
+sequenced packet stream 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def SOL_SOCKET
+
+options for socket level KSOLSocket
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def SOCK_RAW
+
+raw-protocol interface
+
+@publishedAll
+@released
+*/
+
+
+
+
+
+

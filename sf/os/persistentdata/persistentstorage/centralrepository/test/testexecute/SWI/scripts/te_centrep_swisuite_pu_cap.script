@@ -1,0 +1,124 @@
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// @file
+// 
+//
+
+//! @SYMTestSuiteName PDS-TEF-CENTREP-SWISUITE
+//! @SYMScriptTestEnvironment TEF
+//! @internalComponent
+//! @test
+
+PRINT Run PU (partial upgrade) installation te_centrep_SWI Suite Tests
+
+LOAD_SUITE te_centrep_SWISuite
+
+RUN_UTILS MkDir c:\private\
+
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551551.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551552.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551553.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551554.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551555.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\5155155F.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551551.txt
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551552.txt
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551553.txt
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551554.txt
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551555.txt
+RUN_UTILS DeleteFile c:\private\10202be9\persists\5155155F.txt
+
+
+START_TESTCASE SYSLIB-CENTRALREPOSITORY-SWI-CIT-CAP-0001
+//! @SYMTestCaseID    SYSLIB-CENTRALREPOSITORY-SWI-CIT-CAP-0001 
+//! @SYMTestCaseDesc  Verify that a non-ROM supplied keyspace, KP4, retains 
+//!                  platsec capabilities following installation of an updated
+//!                  keyspace.
+//! @SYMTestPriority  High
+//! @SYMTestActions   A package (containing the KP4 keyspace, 51551555) is
+//!                  installed. Certain user actions modify this (but some
+//!                  actions fail due to platsec). Then a Partial Upgrade is
+//!                  installed which contains different platsec information. 
+//!                  The user actions are repeated.
+//! @SYMTestExpectedResults
+//!                  The user actions following the second install have the
+//!                  same results (KErrNone, KErrPermissionDenied etc) as the
+//!                  first one demonstrating that platsec information for the
+//!                  keyspace has not changed. 
+//! @SYMDEF           INC068075
+
+	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryCheck z:\TEF_CentralRepository\SWI-PU-CAP-K4.ini BeforeWeStart
+	RUN_TEST_STEP 100 te_centrep_SWISuite InstallStep z:\TEF_CentralRepository\SWI-PU-CAP-K4.ini Install_KP4
+	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryCheck z:\TEF_CentralRepository\SWI-PU-CAP-K4.ini Check_KP4_KeySpace
+ 	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryFn z:\TEF_CentralRepository\SWI-PU-CAP-K4.ini UserModGivesKP4a
+	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryCheck z:\TEF_CentralRepository\SWI-PU-CAP-K4.ini Check_KP4a_KeySpace
+	RUN_TEST_STEP 100 te_centrep_SWISuite InstallStep z:\TEF_CentralRepository\SWI-PU-CAP-K4.ini Install_KP41
+ 	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryFn z:\TEF_CentralRepository\SWI-PU-CAP-K4.ini UserModGivesKP4a
+	RUN_TEST_STEP 100 te_centrep_SWISuite InstallStep z:\TEF_CentralRepository\SWI-PU-CAP-K4.ini Install_KPS4
+	RUN_TEST_STEP 100 te_centrep_SWISuite UninstallAugStep z:\TEF_CentralRepository\SWI-PU-CAP-K4.ini UnInstallKPS4
+	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryCheck z:\TEF_CentralRepository\SWI-PU-CAP-K4.ini BeforeWeStart
+END_TESTCASE SYSLIB-CENTRALREPOSITORY-SWI-CIT-CAP-0001
+
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551551.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551552.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551553.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551554.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551555.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\5155155F.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551551.txt
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551552.txt
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551553.txt
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551554.txt
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551555.txt
+RUN_UTILS DeleteFile c:\private\10202be9\persists\5155155F.txt
+
+START_TESTCASE SYSLIB-CENTRALREPOSITORY-SWI-CIT-CAP-0002
+//! @SYMTestCaseID    SYSLIB-CENTRALREPOSITORY-SWI-CIT-CAP-0002 
+//! @SYMTestCaseDesc  Verify that a ROM supplied keyspace, K5, retains platsec
+//!                  capabilities following installation of an updated keyspace.
+//! @SYMTestPriority  High
+//! @SYMTestActions   The ROM keyspace K5 (51551554) is modified in various
+//!                  ways by user actions. Some of these actions fail due to
+//!                  platsec information. A package upgrades the ROM keyspace
+//!                  and changes the platsec information. The user actions are
+//!                  repeated.
+//! @SYMTestExpectedResults
+//!                  The user actions following the install have the same
+//!                  results (KErrNone, KErrPermissionDenied etc) as the first
+//!                  one demonstrating that platsec information for the
+//!                  keyspace has not changed.
+//! @SYMDEF           INC068075
+
+	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryCheck z:\TEF_CentralRepository\SWI-CAP-K5.ini BeforeWeStart
+ 	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryFn z:\TEF_CentralRepository\SWI-CAP-K5.ini UserModGivesKP5a
+	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryCheck z:\TEF_CentralRepository\SWI-CAP-K5.ini Check_KP5a_KeySpace
+	RUN_TEST_STEP 100 te_centrep_SWISuite InstallStep z:\TEF_CentralRepository\SWI-CAP-K5.ini Install_KS51
+ 	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryFn z:\TEF_CentralRepository\SWI-CAP-K5.ini UserModGivesKP5a
+	RUN_TEST_STEP 100 te_centrep_SWISuite UninstallAugStep z:\TEF_CentralRepository\SWI-CAP-K5.ini UnInstallKS51
+	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryCheck z:\TEF_CentralRepository\SWI-CAP-K5.ini FinalCheckKS5
+END_TESTCASE SYSLIB-CENTRALREPOSITORY-SWI-CIT-CAP-0002
+
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551551.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551552.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551553.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551554.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551555.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\5155155F.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551551.txt
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551552.txt
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551553.txt
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551554.txt
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551555.txt
+RUN_UTILS DeleteFile c:\private\10202be9\persists\5155155F.txt
+

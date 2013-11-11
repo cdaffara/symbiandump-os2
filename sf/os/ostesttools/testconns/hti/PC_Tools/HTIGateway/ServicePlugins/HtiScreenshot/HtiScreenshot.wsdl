@@ -1,0 +1,536 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="HtiScreenshot"
+ targetNamespace="urn:hti"
+ xmlns:tns="urn:hti"
+ xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+ xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+ xmlns:ns1="urn:hti"
+ xmlns:SOAP="http://schemas.xmlsoap.org/wsdl/soap/"
+ xmlns:MIME="http://schemas.xmlsoap.org/wsdl/mime/"
+ xmlns:DIME="http://schemas.xmlsoap.org/ws/2002/04/dime/wsdl/"
+ xmlns:WSDL="http://schemas.xmlsoap.org/wsdl/"
+ xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+<types>
+
+ <schema targetNamespace="urn:hti"
+  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:ns1="urn:hti"
+  xmlns="http://www.w3.org/2001/XMLSchema"
+  elementFormDefault="unqualified"
+  attributeFormDefault="unqualified">
+  <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+  <simpleType name="screenOrientation">
+   <restriction base="xsd:string">
+    <enumeration value="Rotated0"/>
+    <enumeration value="Rotated90"/>
+    <enumeration value="Rotated180"/>
+    <enumeration value="Rotated270"/>
+   </restriction>
+  </simpleType>
+  <complexType name="HtiSoapAttachment">
+   <sequence>
+     <element name="href" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+     <element name="mimeType" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+   </sequence>
+  </complexType>
+  <complexType name="HtiFont">
+   <sequence>
+     <element name="fontName" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+     <element name="fontHeight" type="xsd:unsignedShort" minOccurs="1" maxOccurs="1"/>
+     <element name="isBold" type="xsd:boolean" minOccurs="1" maxOccurs="1"/>
+     <element name="isItalic" type="xsd:boolean" minOccurs="1" maxOccurs="1"/>
+     <element name="isNotAntialiased" type="xsd:boolean" minOccurs="1" maxOccurs="1"/>
+     <element name="position" type="xsd:unsignedByte" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="ArrayOfHtiFont">
+   <complexContent>
+    <restriction base="SOAP-ENC:Array">
+     <sequence>
+      <element name="HtiFont" type="ns1:HtiFont" minOccurs="0" maxOccurs="unbounded"/>
+     </sequence>
+     <attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="ns1:HtiFont[]"/>
+    </restriction>
+   </complexContent>
+  </complexType>
+  <complexType name="HtiRecognizeTextResult">
+   <sequence>
+     <element name="found" type="xsd:boolean" minOccurs="1" maxOccurs="1"/>
+     <element name="x" type="xsd:unsignedShort" minOccurs="1" maxOccurs="1"/>
+     <element name="y" type="xsd:unsignedShort" minOccurs="1" maxOccurs="1"/>
+     <element name="fontIndex" type="xsd:unsignedShort" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="HtiRect">
+   <sequence>
+     <element name="topLeftX" type="xsd:unsignedShort" minOccurs="1" maxOccurs="1"/>
+     <element name="topLeftY" type="xsd:unsignedShort" minOccurs="1" maxOccurs="1"/>
+     <element name="bottomRightX" type="xsd:unsignedShort" minOccurs="1" maxOccurs="1"/>
+     <element name="bottomRightY" type="xsd:unsignedShort" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="HtiRGB">
+   <sequence>
+     <element name="red" type="xsd:unsignedByte" minOccurs="1" maxOccurs="1"/>
+     <element name="green" type="xsd:unsignedByte" minOccurs="1" maxOccurs="1"/>
+     <element name="blue" type="xsd:unsignedByte" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="HtiDeltaCaptureAttachment">
+   <sequence>
+     <element name="href" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+     <element name="mimeType" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+     <element name="rect" type="ns1:HtiRect" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="HtiScreenModeResult">
+   <sequence>
+     <element name="screenNumber" type="xsd:unsignedByte" minOccurs="1" maxOccurs="1"/>
+     <element name="screenWidth" type="xsd:unsignedShort" minOccurs="1" maxOccurs="1"/>
+     <element name="screenHeight" type="xsd:unsignedShort" minOccurs="1" maxOccurs="1"/>
+     <element name="screenRotation" type="ns1:screenOrientation" minOccurs="1" maxOccurs="1"/>
+     <element name="displayMode" type="xsd:unsignedByte" minOccurs="1" maxOccurs="1"/>
+     <element name="focusScreenNumber" type="xsd:unsignedByte" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="ArrayOfstring">
+   <complexContent>
+    <restriction base="SOAP-ENC:Array">
+     <sequence>
+      <element name="item" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+     </sequence>
+     <attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="xsd:string[]"/>
+    </restriction>
+   </complexContent>
+  </complexType>
+  <!-- operation request element -->
+  <element name="colorDepth" type="xsd:unsignedByte"/>
+  <!-- operation request element -->
+  <element name="imageMimeType" type="xsd:string"/>
+  <!-- operation response element -->
+  <element name="returnAttachment" type="ns1:HtiSoapAttachment"/>
+  <!-- operation request element -->
+  <element name="rect" type="ns1:HtiRect"/>
+  <!-- operation request element -->
+  <element name="text" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="array" type="ns1:ArrayOfHtiFont"/>
+  <!-- operation response element -->
+  <element name="returnText" type="ns1:HtiRecognizeTextResult"/>
+  <!-- operation request element -->
+  <element name="font" type="ns1:HtiFont"/>
+  <!-- operation request element -->
+  <element name="fgColor" type="ns1:HtiRGB"/>
+  <!-- operation request element -->
+  <element name="bgColor" type="ns1:HtiRGB"/>
+  <!-- operation request element -->
+  <element name="duration" type="xsd:int"/>
+  <!-- operation request element -->
+  <element name="interval" type="xsd:int"/>
+  <!-- operation response element -->
+  <element name="files" type="ns1:ArrayOfstring"/>
+  <!-- operation response element -->
+  <element name="returnDeltaAttachment" type="ns1:HtiDeltaCaptureAttachment"/>
+  <!-- operation request element -->
+  <element name="screenNr" type="xsd:unsignedByte"/>
+  <!-- operation response element -->
+  <element name="returnScreenMode" type="ns1:HtiScreenModeResult"/>
+ </schema>
+
+</types>
+
+<message name="captureFullScreen">
+ <part name="colorDepth" element="ns1:colorDepth"/>
+ <part name="imageMimeType" element="ns1:imageMimeType"/>
+</message>
+
+<message name="captureScreenResponse">
+ <part name="returnAttachment" element="ns1:returnAttachment"/>
+</message>
+
+<message name="captureFullScreenZip">
+ <part name="colorDepth" element="ns1:colorDepth"/>
+ <part name="imageMimeType" element="ns1:imageMimeType"/>
+</message>
+
+<message name="captureRegion">
+ <part name="rect" element="ns1:rect"/>
+ <part name="colorDepth" element="ns1:colorDepth"/>
+ <part name="imageMimeType" element="ns1:imageMimeType"/>
+</message>
+
+<message name="captureRegionZip">
+ <part name="rect" element="ns1:rect"/>
+ <part name="colorDepth" element="ns1:colorDepth"/>
+ <part name="imageMimeType" element="ns1:imageMimeType"/>
+</message>
+
+<message name="recognizeText">
+ <part name="text" element="ns1:text"/>
+ <part name="array" element="ns1:array"/>
+</message>
+
+<message name="recognizeTextResponse">
+ <part name="returnText" element="ns1:returnText"/>
+</message>
+
+<message name="createTextImage">
+ <part name="colorDepth" element="ns1:colorDepth"/>
+ <part name="imageMimeType" element="ns1:imageMimeType"/>
+ <part name="text" element="ns1:text"/>
+ <part name="font" element="ns1:font"/>
+ <part name="fgColor" element="ns1:fgColor"/>
+ <part name="bgColor" element="ns1:bgColor"/>
+</message>
+
+<message name="captureFullScreenSeriesRequest">
+ <part name="duration" element="ns1:duration"/>
+ <part name="interval" element="ns1:interval"/>
+ <part name="colorDepth" element="ns1:colorDepth"/>
+ <part name="imageMimeType" element="ns1:imageMimeType"/>
+</message>
+
+<message name="captureFullScreenSeriesResponse">
+ <part name="files" element="ns1:files"/>
+</message>
+
+<message name="captureFullScreenZipSeriesRequest">
+ <part name="duration" element="ns1:duration"/>
+ <part name="interval" element="ns1:interval"/>
+ <part name="colorDepth" element="ns1:colorDepth"/>
+ <part name="imageMimeType" element="ns1:imageMimeType"/>
+</message>
+
+<message name="captureFullScreenZipSeriesResponse">
+ <part name="files" element="ns1:files"/>
+</message>
+
+<message name="captureRegionSeriesRequest">
+ <part name="duration" element="ns1:duration"/>
+ <part name="interval" element="ns1:interval"/>
+ <part name="colorDepth" element="ns1:colorDepth"/>
+ <part name="rect" element="ns1:rect"/>
+ <part name="imageMimeType" element="ns1:imageMimeType"/>
+</message>
+
+<message name="captureRegionSeriesResponse">
+ <part name="files" element="ns1:files"/>
+</message>
+
+<message name="captureRegionZipSeriesRequest">
+ <part name="duration" element="ns1:duration"/>
+ <part name="interval" element="ns1:interval"/>
+ <part name="colorDepth" element="ns1:colorDepth"/>
+ <part name="rect" element="ns1:rect"/>
+ <part name="imageMimeType" element="ns1:imageMimeType"/>
+</message>
+
+<message name="captureRegionZipSeriesResponse">
+ <part name="files" element="ns1:files"/>
+</message>
+
+<message name="captureDeltaFullScreen">
+ <part name="colorDepth" element="ns1:colorDepth"/>
+ <part name="imageMimeType" element="ns1:imageMimeType"/>
+</message>
+
+<message name="captureDeltaScreenResponse">
+ <part name="returnDeltaAttachment" element="ns1:returnDeltaAttachment"/>
+</message>
+
+<message name="captureDeltaFullScreenZip">
+ <part name="colorDepth" element="ns1:colorDepth"/>
+ <part name="imageMimeType" element="ns1:imageMimeType"/>
+</message>
+
+<message name="captureDeltaRegion">
+ <part name="rect" element="ns1:rect"/>
+ <part name="colorDepth" element="ns1:colorDepth"/>
+ <part name="imageMimeType" element="ns1:imageMimeType"/>
+</message>
+
+<message name="captureDeltaRegionZip">
+ <part name="rect" element="ns1:rect"/>
+ <part name="colorDepth" element="ns1:colorDepth"/>
+ <part name="imageMimeType" element="ns1:imageMimeType"/>
+</message>
+
+<message name="selectScreen">
+ <part name="screenNr" element="ns1:screenNr"/>
+</message>
+
+<message name="selectScreenResponse">
+</message>
+
+<message name="resetDeltaScreen">
+</message>
+
+<message name="resetDeltaScreenResponse">
+</message>
+
+<message name="screenMode">
+</message>
+
+<message name="screenModeResponse">
+ <part name="returnScreenMode" element="ns1:returnScreenMode"/>
+</message>
+
+<portType name="HtiScreenshotPortType">
+ <operation name="captureFullScreen">
+  <documentation>Service definition of function ns1__captureFullScreen</documentation>
+  <input message="tns:captureFullScreen"/>
+  <output message="tns:captureScreenResponse"/>
+ </operation>
+ <operation name="captureFullScreenZip">
+  <documentation>Service definition of function ns1__captureFullScreenZip</documentation>
+  <input message="tns:captureFullScreenZip"/>
+  <output message="tns:captureScreenResponse"/>
+ </operation>
+ <operation name="captureRegion">
+  <documentation>Service definition of function ns1__captureRegion</documentation>
+  <input message="tns:captureRegion"/>
+  <output message="tns:captureScreenResponse"/>
+ </operation>
+ <operation name="captureRegionZip">
+  <documentation>Service definition of function ns1__captureRegionZip</documentation>
+  <input message="tns:captureRegionZip"/>
+  <output message="tns:captureScreenResponse"/>
+ </operation>
+ <operation name="recognizeText">
+  <documentation>Service definition of function ns1__recognizeText</documentation>
+  <input message="tns:recognizeText"/>
+  <output message="tns:recognizeTextResponse"/>
+ </operation>
+ <operation name="createTextImage">
+  <documentation>Service definition of function ns1__createTextImage</documentation>
+  <input message="tns:createTextImage"/>
+  <output message="tns:captureScreenResponse"/>
+ </operation>
+ <operation name="captureFullScreenSeries">
+  <documentation>Service definition of function ns1__captureFullScreenSeries</documentation>
+  <input message="tns:captureFullScreenSeriesRequest"/>
+  <output message="tns:captureFullScreenSeriesResponse"/>
+ </operation>
+ <operation name="captureFullScreenZipSeries">
+  <documentation>Service definition of function ns1__captureFullScreenZipSeries</documentation>
+  <input message="tns:captureFullScreenZipSeriesRequest"/>
+  <output message="tns:captureFullScreenZipSeriesResponse"/>
+ </operation>
+ <operation name="captureRegionSeries">
+  <documentation>Service definition of function ns1__captureRegionSeries</documentation>
+  <input message="tns:captureRegionSeriesRequest"/>
+  <output message="tns:captureRegionSeriesResponse"/>
+ </operation>
+ <operation name="captureRegionZipSeries">
+  <documentation>Service definition of function ns1__captureRegionZipSeries</documentation>
+  <input message="tns:captureRegionZipSeriesRequest"/>
+  <output message="tns:captureRegionZipSeriesResponse"/>
+ </operation>
+ <operation name="captureDeltaFullScreen">
+  <documentation>Service definition of function ns1__captureDeltaFullScreen</documentation>
+  <input message="tns:captureDeltaFullScreen"/>
+  <output message="tns:captureDeltaScreenResponse"/>
+ </operation>
+ <operation name="captureDeltaFullScreenZip">
+  <documentation>Service definition of function ns1__captureDeltaFullScreenZip</documentation>
+  <input message="tns:captureDeltaFullScreenZip"/>
+  <output message="tns:captureDeltaScreenResponse"/>
+ </operation>
+ <operation name="captureDeltaRegion">
+  <documentation>Service definition of function ns1__captureDeltaRegion</documentation>
+  <input message="tns:captureDeltaRegion"/>
+  <output message="tns:captureDeltaScreenResponse"/>
+ </operation>
+ <operation name="captureDeltaRegionZip">
+  <documentation>Service definition of function ns1__captureDeltaRegionZip</documentation>
+  <input message="tns:captureDeltaRegionZip"/>
+  <output message="tns:captureDeltaScreenResponse"/>
+ </operation>
+ <operation name="selectScreen">
+  <documentation>Service definition of function ns1__selectScreen</documentation>
+  <input message="tns:selectScreen"/>
+  <output message="tns:selectScreenResponse"/>
+ </operation>
+ <operation name="resetDeltaScreen">
+  <documentation>Service definition of function ns1__resetDeltaScreen</documentation>
+  <input message="tns:resetDeltaScreen"/>
+  <output message="tns:resetDeltaScreenResponse"/>
+ </operation>
+ <operation name="screenMode">
+  <documentation>Service definition of function ns1__screenMode</documentation>
+  <input message="tns:screenMode"/>
+  <output message="tns:screenModeResponse"/>
+ </operation>
+</portType>
+
+<binding name="HtiScreenshot" type="tns:HtiScreenshotPortType">
+ <SOAP:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+ <operation name="captureFullScreen">
+  <SOAP:operation style="rpc" soapAction="HtiScreenshot"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="captureFullScreenZip">
+  <SOAP:operation style="rpc" soapAction="HtiScreenshot"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="captureRegion">
+  <SOAP:operation style="rpc" soapAction="HtiScreenshot"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="captureRegionZip">
+  <SOAP:operation style="rpc" soapAction="HtiScreenshot"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="recognizeText">
+  <SOAP:operation style="rpc" soapAction="HtiScreenshot"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="createTextImage">
+  <SOAP:operation style="rpc" soapAction="HtiScreenshot"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="captureFullScreenSeries">
+  <SOAP:operation style="rpc" soapAction="HtiScreenshot"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="captureFullScreenZipSeries">
+  <SOAP:operation style="rpc" soapAction="HtiScreenshot"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="captureRegionSeries">
+  <SOAP:operation style="rpc" soapAction="HtiScreenshot"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="captureRegionZipSeries">
+  <SOAP:operation style="rpc" soapAction="HtiScreenshot"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="captureDeltaFullScreen">
+  <SOAP:operation style="rpc" soapAction="HtiScreenshot"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="captureDeltaFullScreenZip">
+  <SOAP:operation style="rpc" soapAction="HtiScreenshot"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="captureDeltaRegion">
+  <SOAP:operation style="rpc" soapAction="HtiScreenshot"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="captureDeltaRegionZip">
+  <SOAP:operation style="rpc" soapAction="HtiScreenshot"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="selectScreen">
+  <SOAP:operation style="rpc" soapAction="HtiScreenshot"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="resetDeltaScreen">
+  <SOAP:operation style="rpc" soapAction="HtiScreenshot"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="screenMode">
+  <SOAP:operation style="rpc" soapAction="HtiScreenshot"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+</binding>
+
+<service name="HtiScreenshot">
+ <documentation>gSOAP 2.7.6b generated service definition</documentation>
+ <port name="HtiScreenshot" binding="tns:HtiScreenshot">
+  <SOAP:address location="http://localhost:2000"/>
+ </port>
+</service>
+
+</definitions>

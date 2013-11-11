@@ -1,0 +1,75 @@
+/*
+* Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:   Build file for OS DISTGeneric
+*
+*/
+
+
+TARGETTYPE              exe
+
+// no target path specified
+
+TARGET        		statapi.exe
+UID		0x1000007A 0x10210D4E
+VENDORID 0x70000001
+epocheapsize		4096	3000000
+
+USERINCLUDE			..\.\inc
+APP_LAYER_SYSTEMINCLUDE_SYMBIAN 		\epoc32\include
+
+CAPABILITY		AllFiles SwEvent NetworkServices LocalServices PowerMgmt ProtServ TrustedUI CommDD ReadDeviceData WriteDeviceData
+
+////////////////////////////////////////////////////////////////
+//
+// Resource Files
+//
+////////////////////////////////////////////////////////////////
+
+
+//START RESOURCE		statapi.rss
+//	HEADER
+//	TARGETPATH		\resource\apps
+//END
+
+START BITMAP		statapiicon.mbm
+	HEADER
+	SOURCEPATH		..\rsc
+	SOURCE			C8 statapiicon_24x24i.bmp statapiicon_24x24m.bmp statapiicon_32x32i.bmp statapiicon_32x32m.bmp
+	TARGETPATH		\resource\apps
+END
+
+START RESOURCE		..\rsc\statapi_loc.rss
+	TARGETPATH		\resource\apps
+END
+
+START RESOURCE		..\rsc\statapi_reg.rss
+	TARGETPATH		\private\10003a3f\apps
+END
+
+
+SOURCEPATH			..\.\src
+SOURCE				stat_main.cpp
+SOURCE				stat_console.cpp
+SOURCE				activeconsole.cpp
+
+LIBRARY			euser.lib apparc.lib esock.lib apgrfx.lib 
+LIBRARY			fbscli.lib hal.lib efsrv.lib estor.lib
+LIBRARY			c32.lib insock.lib iniparser.lib 
+LIBRARY			sdpdatabase.lib ws32.lib
+LIBRARY			bluetooth.lib 
+LIBRARY			sishelper.lib
+LIBRARY			commdb.lib 
+
+
+STATICLIBRARY			stat.lib

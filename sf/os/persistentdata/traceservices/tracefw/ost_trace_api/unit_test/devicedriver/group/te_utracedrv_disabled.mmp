@@ -1,0 +1,48 @@
+// Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+
+#include <kernel/kern_ext.mmh>
+#include    <platform/opensystemtrace.mmh>
+
+target			te_ostdd_disabled.ldd
+targettype		ldd
+UID				0x100000af 0x10287235
+VENDORID		0x70000001
+capability		all
+
+OS_LAYER_SYSTEMINCLUDE
+
+USERINCLUDE     ../inc/
+USERINCLUDE     ../../te_ost/inc/
+
+MACRO 			TE_MODULE_UID=0
+MACRO 			EXECUTABLE_DEFAULT_MODULEUID=6666
+
+SOURCEPATH		../src/
+SOURCE			te_utracedrv.cpp 
+
+SOURCEPATH		../../te_ost/src/
+SOURCE			te_tracerecord.cpp
+SOURCE			te_kerneltimer.cpp 
+
+LIBRARY 		te_ost_lauterbach_kernel.lib
+
+always_build_as_arm
+start wins
+win32_headers
+end
+
+SMPSAFE

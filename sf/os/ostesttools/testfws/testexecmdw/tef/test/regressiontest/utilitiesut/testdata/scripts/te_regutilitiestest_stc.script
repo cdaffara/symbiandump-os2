@@ -1,0 +1,40 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+PRINT Run test case(s) for suite TEF_Utilities
+
+PREFIX RUN_UTILS
+MkDir ${SYSDRIVE}\testdata\
+MkDir ${SYSDRIVE}\testdata\scripts\
+MkDir ${SYSDRIVE}\testdata\configs\
+
+CopyFile z:\testdata\scripts\dt-tef-utilities-*.script ${SYSDRIVE}\testdata\scripts\dt-tef-utilities-*.script
+
+CopyFile z:\testdata\configs\capabilitypolicing.ini ${SYSDRIVE}\testdata\configs\capabilitypolicing.ini
+CopyFile z:\testdata\configs\eventlogcontroler.ini ${SYSDRIVE}\testdata\configs\eventlogcontroler.ini
+CopyFile z:\testdata\configs\te_regutilitiesut.ini ${SYSDRIVE}\testdata\configs\te_regutilitiesut.ini
+MakeReadWrite ${SYSDRIVE}\testdata\configs\capabilitypolicing.ini
+MakeReadWrite ${SYSDRIVE}\testdata\configs\eventlogcontroler.ini
+MakeReadWrite ${SYSDRIVE}\testdata\configs\te_regutilitiesut.ini
+REMOVE_PREFIX
+
+PREFIX RUN_PROGRAM 50 testexecute
+${SYSDRIVE}\testdata\scripts\dt-tef-utilities-0001.script
+${SYSDRIVE}\testdata\scripts\dt-tef-utilities-0002.script
+${SYSDRIVE}\testdata\scripts\dt-tef-utilities-0003.script
+${SYSDRIVE}\testdata\scripts\dt-tef-utilities-0004.script
+${SYSDRIVE}\testdata\scripts\dt-tef-utilities-0005.script
+REMOVE_PREFIX

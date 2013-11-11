@@ -1,0 +1,42 @@
+/*
+* Copyright (c) 2001-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+target ttextview.exe
+targetpath /test/app-framework/form
+
+targettype	exe
+
+MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+userinclude ../../tagma
+userinclude ../../undo
+userinclude ../../inc
+
+sourcepath ../src
+source TTextView.cpp
+
+sourcepath ../../undo
+source UndoSystem.cpp EditorUndo.cpp EditorPlainTextUndo.cpp
+source UniqueInstanceImpl.cpp UniqueInstance.cpp UndoSystemImpl.cpp EditorCommands.cpp EditorPlainTextCommands.cpp
+
+library euser.lib form.lib gdi.lib ws32.lib etext.lib cone.lib tagma.lib fntstr.lib form_and_etext_editor.lib estor.lib
+
+exportunfrozen
+
+VENDORID 0x70000001
+
+SMPSAFE

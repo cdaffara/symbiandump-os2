@@ -1,0 +1,87 @@
+// Copyright (c) 2008-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+//! @file
+//! @SYMTestSuiteName               	uloggerv1-sysconfig-unit-test-suite.script
+//! @SYMScriptTestEnvironment       	TEF
+
+
+
+PRINT Legendary RUN_TEST_STEP steps for confirming backward compatibility
+//
+PRINT Run all Sample Tests
+// clears uloggerconfig.ini and then configures it before running the sys config tests 
+LOAD_SUITE te_createconfigsuite
+RUN_TEST_STEP 1000 te_createconfigsuite CreateConfigEmptyTestStep 
+//
+LOAD_SUITE Te_SysCfg
+//
+#
+
+
+START_TESTCASE			DT-DEBUG-TRACE-UTFv1-UloggerSysCfgSetGetChannelsPlugins-0001
+//! @SYMTestCaseID		DT-DEBUG-TRACE-UTFv1-UloggerSysCfgSetGetChannelsPlugins-0001
+//! @SYMTestCaseDesc     Test setting/getting configs for channels and plugins 
+//! @SYMTestPriority     Critical
+//! @SYMTestActions    Call Set/Get/Activate configuration methods for channels and plugins
+//! @SYMTestExpectedResults      error returns as expected
+//! @SYMTestType         UT
+//! @SYMTestStatus   Implemented
+//! @SYMPREQ                 PREQ1635
+//! @SYMREQ
+RUN_TEST_STEP 100 Te_SysCfg SysCfgTeststep1
+END_TESTCASE			DT-DEBUG-TRACE-UTFv1-UloggerSysCfgSetGetChannelsPlugins-0001
+
+START_TESTCASE			DT-DEBUG-TRACE-UTFv1-UloggerSysCfgGetSectionsRemovePlugins-0001
+//! @SYMTestCaseID		DT-DEBUG-TRACE-UTFv1-UloggerSysCfgGetSectionsRemovePlugins-0001
+//! @SYMTestCaseDesc     Test setting/getting sections and removing plugins in sysconfig
+//! @SYMTestPriority     Critical
+//! @SYMTestActions    Call Set/Get/Remove configuration methods for sections and plugins
+//! @SYMTestExpectedResults      error returns as expected
+//! @SYMTestType         UT
+//! @SYMTestStatus   Implemented
+//! @SYMPREQ                 PREQ1635
+//! @SYMREQ
+RUN_TEST_STEP 100 Te_SysCfg SysCfgTeststep2
+END_TESTCASE			DT-DEBUG-TRACE-UTFv1-UloggerSysCfgGetSectionsRemovePlugins-0001
+
+START_TESTCASE			DT-DEBUG-TRACE-UTFv1-UloggerSysCfgFiltersBuffer-0001
+//! @SYMTestCaseID		DT-DEBUG-TRACE-UTFv1-UloggerSysCfgFiltersBuffer-0001
+//! @SYMTestCaseDesc     Test setting/getting configs for primary and secondary filter and buffer settings
+//! @SYMTestPriority     Critical
+//! @SYMTestActions    Call Set/Get/Remove configuration methods for filters and buffer
+//! @SYMTestExpectedResults      error returns as expected
+//! @SYMTestType         UT
+//! @SYMTestStatus   Implemented
+//! @SYMPREQ                 PREQ1635
+//! @SYMREQ
+RUN_TEST_STEP 100 Te_SysCfg SysCfgTeststep3
+END_TESTCASE			DT-DEBUG-TRACE-UTFv1-UloggerSysCfgFiltersBuffer-0001
+
+START_TESTCASE			DT-DEBUG-TRACE-UTFv1-UloggerSysCfgErrorCases-0001
+//! @SYMTestCaseID		DT-DEBUG-TRACE-UTFv1-UloggerSysCfgErrorCases-0001
+//! @SYMTestCaseDesc     Test various error cases
+//! @SYMTestPriority     Critical
+//! @SYMTestActions    Call AddPlugin, RemoveChannel with various error cases
+//! @SYMTestExpectedResults      error returns as expected
+//! @SYMTestType         UT
+//! @SYMTestStatus   Implemented
+//! @SYMPREQ                 PREQ1635
+//! @SYMREQ
+RUN_TEST_STEP 100 Te_SysCfg SysCfgTeststep4
+START_TESTCASE			DT-DEBUG-TRACE-UTFv1-UloggerSysCfgErrorCases-0001
+
+
+

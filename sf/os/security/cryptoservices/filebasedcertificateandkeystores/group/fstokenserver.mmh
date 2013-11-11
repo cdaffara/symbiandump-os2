@@ -1,0 +1,90 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* File store token common section for servers
+*
+*/
+
+
+VENDORID 0x70000001
+
+DEFFILE fstokenserver.def
+
+#if defined(WINS)
+targettype EXE
+#else
+targettype EXEXP
+#endif
+
+USERINCLUDE ../Inc
+USERINCLUDE ../source/generic/common
+USERINCLUDE ../source/generic/server
+USERINCLUDE ../source/keystore/Server
+USERINCLUDE ../source/certstore/server
+USERINCLUDE ../source/certapps/server
+USERINCLUDE .
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+USERINCLUDE ../../../crypto/weakcrypto/inc
+userinclude  ../../certificateandkeymgmt/inc
+
+UID 0x101F72A6 0x101F72A6 
+
+//	generic server code
+sourcepath ../source/generic/server
+source fsserver.cpp
+source fstokenutil.cpp
+source FSResources.cpp
+source FSDialog.cpp
+source tokenserverdebug.cpp
+source FSRunPackage.cpp
+source certstorepatchdata.cpp
+
+//	generic common client/server code
+sourcepath ../source/generic/common
+source dllentry.cpp
+
+//	keystore specific server code
+sourcepath ../source/keystore/Server
+source 	Ckeystoreconduit.cpp
+source 	CKeyStoreSession.cpp
+source 	Cfskeystoreserver.cpp
+source 	CKeyDataManager.cpp
+source 	CCreateKey.cpp
+source 	OpenedKeys.cpp
+source 	keystorepassphrase.cpp
+source 	keystreamutils.cpp
+
+//	certstore specific server code
+sourcepath ../source/certstore/server
+source CCertStoreEntry.cpp 
+source CCertStoreEntryList.cpp 
+source CCertStoreSession.cpp
+source CCertStoreConduit.cpp
+source filecertstore.cpp
+
+// certapps server code
+sourcepath ../source/certapps/server
+source CCertAppsConduit.cpp
+source CCertAppsSession.cpp
+source CFSCertAppsServer.cpp
+
+
+LIBRARY euser.lib
+LIBRARY ctframework.lib cryptography.lib
+LIBRARY	efsrv.lib estor.lib bafl.lib 
+LIBRARY asnpkcs.lib x509.lib asn1.lib
+LIBRARY pbe.lib fstokenshared.lib
+LIBRARY charconv.lib
+LIBRARY sectcbutil.lib
+

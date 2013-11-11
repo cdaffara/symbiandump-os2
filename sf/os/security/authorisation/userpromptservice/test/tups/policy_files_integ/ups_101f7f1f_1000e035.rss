@@ -1,0 +1,68 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* Tests Accessing: SEC-UPS-E035 (Invocation of Default Symbian policy evaluator)
+* Service: 1000E035
+* Service: System Server 1 (0x101F7F1F)
+*
+*/
+
+
+#include <ups/policies.rh>
+
+UID2 KUidUpsPolicyResourceFile
+UID3 0x101F7F1F
+
+// Test policy file for SMS messages
+RESOURCE POLICIES testpolicies
+	{
+	header = POLICY_HEADER
+		{
+		//Policy Evaluator to be used not defined
+		dialogcreator = 0xe1111d11;
+		majorversion = 1;
+		minorversion = 1;
+		};
+	policies = 
+		{
+		POLICY
+			{
+			// Allows dialog display for client 0x101F7784 when accessing *.com address
+			sid_list = {0x101F7784, 0x80001234};
+			destination = "*.com";
+			options = KYes | KNo | KSession |KAlways | KNever;
+			flags = 0x01;
+			},
+		POLICY
+			{
+			// Allows dialog display for client 0x101F7784 when accessing *.co.uk address
+			sid_list = {0x101F7784, 0x80001234};
+			destination = "*.co.uk";
+			options = KYes | KNo | KAlways | KNever;
+			dialogcreator = 0xe1111d21;
+			flags = 0x02;
+			},				
+		POLICY
+			{
+			// Allows dialog display for client 0x101F7784 when accessing *.mob address
+			sid_list = {0x101F7784, 0x80001234};
+			destination = ".mob*";
+			options = KNo | KAlways | KNever;
+			dialogcreator = 0xe1111d31;
+			flags = 0x03;
+			}
+		
+		};
+	}
+

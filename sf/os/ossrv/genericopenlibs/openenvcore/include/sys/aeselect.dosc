@@ -1,0 +1,246 @@
+/** @file   ../include/sys/aeselect.h
+@internalComponent
+*/
+
+/** @fn int aselect(int nfds, fd_set *readfds, fd_set *writefds, fd_set *errorfds, struct timeval *timeout, TRequestStatus* aRequestStatus)
+@param nfds - The nfds argument specifies the range of file descriptors to be tested. The select() function tests file descriptors in the range of 0 to nfds-1.
+@param readfds - If the readfds argument is not a null pointer, it points to an object of type fd_set that on input specifies the file descriptors to be checked for being ready to read, and on output indicates which file descriptors are ready to read.
+@param writefds - If the writefds argument is not a null pointer, it points to an object of type fd_set that on input specifies the file descriptors to be checked for being ready to write, and on output indicates which file descriptors are ready to write.
+@param errorfds - If the errorfds argument is not a null pointer, it points to an object of type fd_set that on input specifies the file descriptors to be checked for error conditions pending, and on output indicates which file descriptors have error conditions pending.
+@param timeout - If the timeout argument is not a null pointer, it points to an object of type struct timeval that specifies a maximum interval to wait for the selection to complete. If the timeout argument points to an object of type struct timeval whose members are 0, select() does not block. If the timeout argument is a null pointer, select() blocks until an event causes one of the masks to be returned with a valid (non-zero) value. If the time limit expires before any event occurs that would cause one of the masks to be set to a non-zero value, select() completes successfully and returns 0. 
+@param aRequestStatus A TRequestStatus object that is used for the asynchronous request
+@return 0 on Success and -1 on Failure. After completion, TRequestStatus is set to the of total number of bits set in the bit masks on success and -errno on failure
+		
+The aselect() function is an asynchronous version of the select API, which allows select-based code to be used with other event schedulers
+e.g. an ActiveScheduler). It invokes select in a new thread and when that returns, it completes the TRequestStatus argument with
+the result of select or –errno.
+
+If aselect is unable to set up an asynchronous request, it fails with -1 and sets errno appropriately.
+Otherwise, it returns 0. Any error that occurs later is reflected in the completion value of the TRequestStatus variable.
+
+On success, the TRequestStatus variable is set to the return value of select (number of descriptors with ready events on them).
+On error, this is set to the negative value of errno (-errno)
+
+
+Examples:
+@code
+	#include <sys/aeselect.h>
+	#include <e32cmn.h>
+	int main()
+         	{
+         	timeval time;
+         	time.tv_sec = 5;
+         	time.tv_usec = 0;
+         	TRequestStatus status;
+         	// Issue aselect request which complete after 5 seconds
+         	aselect(0, NULL, NULL, NULL,&time ,&status);
+         	// Catch the request completion event
+         	User::WaitForRequest(status);
+         	// The status is completed with negative value on failure
+         	if( status.Int() < 0 )
+         		{
+         		// Failure
+         		return KErrGeneral;
+         		}
+         	else
+         		{
+         		// Success
+         		return KErrNone;
+         		}
+         	}
+@endcode
+
+@see select()
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn int cancelaselect(TRequestStatus*)
+@param TRequestStatus indicating the aselect request to be cancelled
+@return 0 on Success and -1 on Failure. errno is set to indicate the error.
+
+cancelaselect() function is used to cancel a pending aselect request. The aselect request to be cancelled is indicated by passing
+the TRequestStatus on which aselect was issued. 	
+	
+Upon successful cancellation, the request is completed with KErrCancel, and cancelaselect function returns 0.
+Upon error it returns -1 and errno is set to the error code.
+
+
+Examples:
+@code
+	#include <sys/aeselect.h>
+	#include <e32cmn.h>
+	int main()
+	{
+	timeval time;
+	time.tv_sec = 5;
+	time.tv_usec = 0;
+	TRequestStatus status[10];
+	for( int i=0; i<10;i++ )
+		{
+		aselect(0, NULL, NULL, NULL,&time ,&status[i]);
+		}
+	for( int j=0; j<10;j++ )
+		{
+		int p = cancelaselect(&status[j]);
+		if( p != 0)
+			{
+			return KErrGeneral; // Error in cancelaselect
+			}
+		// Consume the cancellation event
+		User::WaitForRequest(status[j]);
+		// Ensure that the cancel has set the status to KErrCancel
+		if( status[j] != KErrCancel ) 
+			{
+			return KErrGeneral;
+			}
+		}
+	return KErrNone;
+	}
+@endcode
+
+@see select(),aselect()
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn int eselect(int nfds, fd_set *readfds, fd_set *writefds, fd_set *errorfds, struct timeval *timeout, int numreqs, TRequestStatus* waitarray)
+@param nfds - The nfds argument specifies the range of file descriptors to be tested. The select() function tests file descriptors in the range of 0 to nfds-1.
+@param readfds - If the readfds argument is not a null pointer, it points to an object of type fd_set that on input specifies the file descriptors to be checked for being ready to read, and on output indicates which file descriptors are ready to read.
+@param writefds - If the writefds argument is not a null pointer, it points to an object of type fd_set that on input specifies the file descriptors to be checked for being ready to write, and on output indicates which file descriptors are ready to write.
+@param errorfds - If the errorfds argument is not a null pointer, it points to an object of type fd_set that on input specifies the file descriptors to be checked for error conditions pending, and on output indicates which file descriptors have error conditions pending.
+@param timeout - If the timeout argument is not a null pointer, it points to an object of type struct timeval that specifies a maximum interval to wait for the selection to complete. If the timeout argument points to an object of type struct timeval whose members are 0, select() does not block. If the timeout argument is a null pointer, select() blocks until an event causes one of the masks to be returned with a valid (non-zero) value. If the time limit expires before any event occurs that would cause one of the masks to be set to a non-zero value, select() completes successfully and returns 0. 
+@param numreqs The number of TRequestStatus elements in the waitarray
+@param waitarray An array of TRequestStatus elements to wait on
+@return Total number of bits set in the bit masks on success
+
+The eselect function is an extended variant of select. Alongside the fd_sets to watch for, eselect also accepts an array of 
+TRequestStatus variables – representing other pending events.
+It returns whenever there is an event on one of the fds or any of the TRequestStatus variables are complete.
+
+eselect thus takes 2 extra parameters:
+
+1.	An array of TRequestStatus objects.
+2.	The number of TRequestStatus objects in the array.
+
+The function is synchronous and returns, when an event is available on any of the fds or
+when any of the TRequestStatus objects in TRequestStatus array is ‘Complete’-d.
+
+Note that the return value of eselect is the same as select (the number of descriptors with ready events or 0, on success and -1 on failure).
+The number of TRequestStatus variables that are Complete do not show up in the result.
+
+It is the caller’s responsibility to check each of your input variables in a loop (after checking the fd_sets), to ascertain which ones are now Complete.
+It is the caller’s responsibility to cancel any outstanding requests and/or gather their completion status.
+
+IMPORTANT INFORMATION:
+Note on return value and callers responsibility:
+
+The return value of eselect is as follows
+
+	1. The total number of bits set in the bit masks on success.
+	2. 0 when there is a timeout due to timeval or when any of the TRequestStatus elements in the waitarray are signalled.
+	   In case of a timeout errno is set to ETIMEDOUT.
+	3. -1 in case of error and errno is set to reflect the error.
+	
+The caller will have to either wait for or cancel the following number of outstanding requests
+	
+      1. numreqs number of requests if return value is 0, and errno is ETIMEDOUT
+      2. (numreqs-1) number of requests if return value is 0 and errno is not ETIMEDOUT.
+
+
+Examples:
+@code
+	// Example to denote the usage of eselect
+	TRequestStatus status = KRequestPending;
+	fd_set readfds;
+	FD_ZERO(&readfds);
+	FD_SET(0, &readfds);
+	RTimer timer;
+	if (timer.CreateLocal() != KErrNone)
+		{
+		// die
+		return -1;
+		}
+	timer.After(status, 10000000);
+	int ret = eselect(1, &readfds, NULL, NULL, NULL, 1, status);
+	//Blocks
+	// Check if eselect is successful
+	if (ret >= 0)
+		{
+		if (FD_ISSET(0, &readfds))
+			{
+			// do something
+			}
+		if (status.Int() == KRequestPending)
+			{
+			// Cancel this request
+			timer.Cancel()
+			User::WaitForRequest(status);
+			}
+		}
+	else
+		{
+		// Failure in eselect
+		}
+@endcode
+
+@code
+	// Example to denote the return value and errno value upon a timeval timeout
+    TInt timesecs;
+    TInt timemicrosecs;  	
+    timemicrosecs = 0;
+    timesecs = 5;  	
+    struct timeval tv;
+    tv.tv_sec = timesecs;
+    tv.tv_usec = timemicrosecs;    
+    time_t time1,time2;
+	TRequestStatus waitarray[3];
+	for (TInt i = 0; i < 3; i++)
+		{
+		waitarray[i] = KRequestPending;
+		}
+	RTimer timer;
+	timer.CreateLocal();
+	timer.After(waitarray[2],TTimeIntervalMicroSeconds32(10000000));
+    int err = time(&time1);
+    // Upon time out from timeval eselect should return 0
+	if ( eselect(1, NULL, NULL, NULL, &tv,3,waitarray) == KErrNone )
+		{
+	    err = time(&time2);
+	    // errno should be set to ETIMEDOUT if eselect returns due to a timeval timeout
+	    if( errno == ETIMEDOUT )
+	    	{
+	    	if ( ((time2 - time1) >= timesecs) && (waitarray[2] == KRequestPending) )
+	    		{
+	    		timer.Cancel();
+	    		timer.Close();
+	    		return KErrNone;
+	    		}
+	    	else
+	    		{
+	    		timer.Cancel();
+	    		timer.Close();
+	    		return KErrGeneral;
+	    		}
+	    	}
+	    else
+	    	{
+	    	// errno not set to ETIMEDOUT, hence it is an error
+	    	return KErrGeneral;
+	    	}
+		}
+	else
+		{
+		timer.Cancel();
+		timer.Close();
+		return KErrGeneral;
+		}
+@endcode
+	
+@see select()
+
+@publishedAll
+@externallyDefinedApi
+*/

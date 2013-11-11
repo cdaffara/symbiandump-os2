@@ -1,0 +1,40 @@
+// Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+#include "ecom/registryinfov2.rh"
+RESOURCE REGISTRY_INFO theInfo
+	{
+	resource_format_version = RESOURCE_FORMAT_VERSION_2;
+
+	dll_uid = 0x2000862e;//should match name of this file i.e 2000862e.rss
+	interfaces = 
+		{
+		INTERFACE_INFO
+			{
+			interface_uid = 0x20008030;//match the ecom plugin uid const TUid  KUidEComLogCntInterface = {0x20008030};
+			implementations = 
+				{
+				IMPLEMENTATION_INFO
+					{
+					implementation_uid = 0x2000862a;//matching IMPLEMENTATION_PROXY_ENTRY() in cntmatchlog.cpp
+					version_no = 1;
+					display_name = "default contacts matching Implementation";
+					default_data = "default";
+					opaque_data = "";
+					}
+				};
+			}
+		};
+	}

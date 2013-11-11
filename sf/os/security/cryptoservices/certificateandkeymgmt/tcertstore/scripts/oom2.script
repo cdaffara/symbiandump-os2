@@ -1,0 +1,228 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+START_TESTCASE                SEC-CERTMAN-OOM2-CERTSTORE-0001
+
+//! @SYMTestCaseID            SEC-CERTMAN-OOM2-CERTSTORE-0001
+
+//! @SYMTestCaseDesc          
+
+//!                           OOM tests for unified cert store
+
+//!                           
+
+//!                           
+
+//!                           Setup ///////////////////////////////////////////////////////////////////////
+
+//! @SYMTestActions           1) No Test,Opening a CertificateAppInfoManager
+
+//!                           2) No Test,Adding client A1
+
+//!                           3) No Test,Adding client A2
+
+//!                           4) No Test,Adding client A3
+
+//!                           5) No Test,Adding client A4
+
+//!                           6) No Test,Deleting the CertificateAppInfoManager
+
+//!                           7) Opening a writable certificate store manager
+
+//!                           8) Deleting all certs
+
+//!                           9) Import a RSA key rsacertkey1
+
+//!                           10) Start OOM testing
+
+RUN_TEST_STEP                 -1    CTestHandler        initappmanager      
+
+RUN_TEST_STEP                 -1    CTestHandler        addclient              oom2.ini   SEC-CERTMAN-OOM2-0001-002
+
+RUN_TEST_STEP                 -1    CTestHandler        addclient              oom2.ini   SEC-CERTMAN-OOM2-0001-003
+
+RUN_TEST_STEP                 -1    CTestHandler        addclient              oom2.ini   SEC-CERTMAN-OOM2-0001-004
+
+RUN_TEST_STEP                 -1    CTestHandler        addclient              oom2.ini   SEC-CERTMAN-OOM2-0001-005
+
+RUN_TEST_STEP                 -1    CTestHandler        deleteappmanager    
+
+RUN_TEST_STEP                 -1    CTestHandler        init                   oom2.ini   SEC-CERTMAN-OOM2-0001-007
+
+RUN_TEST_STEP                 -1    CTestHandler        deletecert             oom2.ini   SEC-CERTMAN-OOM2-0001-008
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              oom2.ini   SEC-CERTMAN-OOM2-0001-009
+
+RUN_TEST_STEP                 -1    CTestHandler        startmemfailure     
+
+END_TESTCASE                  SEC-CERTMAN-OOM2-CERTSTORE-0001
+
+
+
+
+
+START_TESTCASE                SEC-CERTMAN-OOM2-0002
+
+//! @SYMTestCaseID            SEC-CERTMAN-OOM2-0002
+
+//! @SYMTestCaseDesc          Add certs ///////////////////////////////////////////////////////////////////
+
+//! @SYMTestActions           1) Add X509 CA certificate CAX1
+
+//!                           2) Add WTLS CA certificate CAW1
+
+//!                           3) Add X509 user certificate rsacert1
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                oom2.ini   SEC-CERTMAN-OOM2-0002-001
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                oom2.ini   SEC-CERTMAN-OOM2-0002-002
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                oom2.ini   SEC-CERTMAN-OOM2-0002-003
+
+END_TESTCASE                  SEC-CERTMAN-OOM2-0002
+
+
+
+
+
+START_TESTCASE                SEC-CERTMAN-OOM2-0003
+
+//! @SYMTestCaseID            SEC-CERTMAN-OOM2-0003
+
+//! @SYMTestCaseDesc          List certs //////////////////////////////////////////////////////////////////
+
+//! @SYMTestActions           1) List CA certificates
+
+//!                           2) List user certificates
+
+//!                           3) List user certificates filtered by key usage
+
+//!                           4) List user certificates filtered by key usage
+
+//!                           5) List certificates filtered by Issuer DN
+
+//!                           6) List certificates filtered by Issuer DN
+
+//!                           7) List certificates filtered by Issuer DN
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               oom2.ini   SEC-CERTMAN-OOM2-0003-001
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               oom2.ini   SEC-CERTMAN-OOM2-0003-002
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               oom2.ini   SEC-CERTMAN-OOM2-0003-003
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               oom2.ini   SEC-CERTMAN-OOM2-0003-004
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               oom2.ini   SEC-CERTMAN-OOM2-0003-005
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               oom2.ini   SEC-CERTMAN-OOM2-0003-006
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               oom2.ini   SEC-CERTMAN-OOM2-0003-007
+
+END_TESTCASE                  SEC-CERTMAN-OOM2-0003
+
+
+
+
+
+START_TESTCASE                SEC-CERTMAN-OOM2-0004
+
+//! @SYMTestCaseID            SEC-CERTMAN-OOM2-0004
+
+//! @SYMTestCaseDesc          Applications and trust //////////////////////////////////////////////////////
+
+//! @SYMTestActions           1) Set applications to the CAX1 certificate
+
+//!                           2) Get applications for CAX1
+
+//!                           3) Set the trust for CAX1
+
+//!                           4) Get the trust for CAX1
+
+RUN_TEST_STEP                 -1    CTestHandler        setapplications        oom2.ini   SEC-CERTMAN-OOM2-0004-001
+
+RUN_TEST_STEP                 -1    CTestHandler        getapplications        oom2.ini   SEC-CERTMAN-OOM2-0004-002
+
+RUN_TEST_STEP                 -1    CTestHandler        settrust               oom2.ini   SEC-CERTMAN-OOM2-0004-003
+
+RUN_TEST_STEP                 -1    CTestHandler        gettrusters            oom2.ini   SEC-CERTMAN-OOM2-0004-004
+
+END_TESTCASE                  SEC-CERTMAN-OOM2-0004
+
+
+
+
+
+START_TESTCASE                SEC-CERTMAN-OOM2-0005
+
+//! @SYMTestCaseID            SEC-CERTMAN-OOM2-0005
+
+//! @SYMTestCaseDesc          Delete certs ////////////////////////////////////////////////////////////////
+
+//! @SYMTestActions           1) Deleting all certs
+
+RUN_TEST_STEP                 -1    CTestHandler        deletecert             oom2.ini   SEC-CERTMAN-OOM2-0005-001
+
+END_TESTCASE                  SEC-CERTMAN-OOM2-0005
+
+
+
+
+
+START_TESTCASE                SEC-CERTMAN-OOM2-0006
+
+//! @SYMTestCaseID            SEC-CERTMAN-OOM2-0006
+
+//! @SYMTestCaseDesc          Cleanup /////////////////////////////////////////////////////////////////////
+
+//! @SYMTestActions           1) None
+
+//!                           2) Deleting the writable certificate store manager
+
+//!                           3) No Test,Opening a CertificateAppInfoManager
+
+//!                           4) No Test,Deleting the client A1
+
+//!                           5) No Test,Deleting the client A2
+
+//!                           6) No Test,Deleting the client A3
+
+//!                           7) No Test,Deleting the client A4
+
+//!                           8) No Test,Deleting the CertificateAppInfoManager
+
+RUN_TEST_STEP                 -1    CTestHandler        stopmemfailure      
+
+RUN_TEST_STEP                 -1    CTestHandler        delete              
+
+RUN_TEST_STEP                 -1    CTestHandler        initappmanager      
+
+RUN_TEST_STEP                 -1    CTestHandler        removeclient           oom2.ini   SEC-CERTMAN-OOM2-0006-004
+
+RUN_TEST_STEP                 -1    CTestHandler        removeclient           oom2.ini   SEC-CERTMAN-OOM2-0006-005
+
+RUN_TEST_STEP                 -1    CTestHandler        removeclient           oom2.ini   SEC-CERTMAN-OOM2-0006-006
+
+RUN_TEST_STEP                 -1    CTestHandler        removeclient           oom2.ini   SEC-CERTMAN-OOM2-0006-007
+
+RUN_TEST_STEP                 -1    CTestHandler        deleteappmanager    
+
+END_TESTCASE                  SEC-CERTMAN-OOM2-0006
+
+
+
+
+

@@ -1,0 +1,55 @@
+
+<!--
+* ==============================================================================
+*  Name        : libcrypto_topenssltpkcs7_blr_hw_component.xml
+*  Part of     : topenssl
+*
+*  Description : xml for h/w
+*  Version:   0.5
+*
+*  Copyright (C) 2006 Nokia Corporation.
+*  This material, including documentation and any related 
+*  computer programs, is protected by copyright controlled by 
+*  Nokia Corporation. All rights are reserved. Copying, 
+*  including reproducing, storing,  adapting or translating, any 
+*  or all of this material requires the prior written consent of 
+*  Nokia Corporation. This material also contains confidential 
+*  information which may not be disclosed to others without the 
+*  prior written consent of Nokia Corporation.
+*
+* ============================================================================
+-->
+
+<component>
+		<name>libcrypto_topenssltpkcs7_blr_hw_component</name>
+		
+		<testset>
+				<id>libcrypto_topenssltpkcs7_blr</id>
+				<priority>High</priority>
+		
+		<install type="binary">
+				<src>openssl.exe</src>
+				<dst>c:\sys\bin\openssl.exe</dst>
+		</install>
+		<install type="data">
+                		<src>testp7.pem</src>
+                		<dst>c:\testp7.pem</dst>
+    </install>
+    
+    <install type="data">
+                		<src>tpkcs7.txt</src>
+                		<dst>c:\tpkcs7.txt</dst>
+    </install>
+    		
+		<execute>
+				<file>c:\sys\bin\openssl.exe</file>
+				<parameters>c:/tpkcs7.txt</parameters>
+        <result type="common">
+            <file>c:\spd_logs\xml\tpkcs7(3_50_2_6734).xml</file>
+        </result>
+        <timeout>600</timeout>
+		</execute>
+		
+		</testset>
+		
+</component>

@@ -1,0 +1,81 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). All rights reserved.
+
+* Redistribution and use in source and binary forms, with or without 
+* modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this 
+* list of conditions and the following disclaimer.
+* Redistributions in binary form must reproduce the above copyright notice, 
+* this list of conditions and the following disclaimer in the documentation 
+* and/or other materials provided with the distribution.
+* Neither the name of Nokia Corporation nor the names of its contributors 
+* may be used to endorse or promote products derived from this software 
+* without specific prior written permission.
+
+* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+* AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+* IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+* DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE 
+* FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+* DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
+* SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+* CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, 
+* OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
+* OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*
+* Description:  
+*
+*/
+
+// using relative paths for sourcepath and user includes
+OPTION CW   -w off
+OPTION MSVC /W0
+OPTION GCC  -w
+
+#if defined(EKA2)
+CAPABILITY	ALL -TCB
+/* Remove comments and replace 0x00000000 with correct vendor id */
+// VENDORID 	0x00000000
+#endif
+EPOCSTACKSIZE 0x5000
+EPOCHEAPSIZE  0x1000 0x200000
+TARGET        ssltest.exe
+TARGETTYPE    exe
+UID           0x1000008D 0xE10FF002
+
+MACRO SYMBIAN
+MACRO OPENSSL_THREADS
+MACRO _REENTRANT
+
+SOURCEPATH    ../src
+SOURCE        ssltest.c
+
+USERINCLUDE   .
+USERINCLUDE   ../inc
+USERINCLUDE   /Epoc32/include/osextensions/stdapis/openssl
+USERINCLUDE   /Epoc32/include/stdapis/openssl
+USERINCLUDE     ../../../include
+
+SYSTEMINCLUDE /Epoc32/include
+SYSTEMINCLUDE /epoc32/include/internal
+//SYSTEMINCLUDE /Epoc32/include/osextensions/stdapis/openssl
+//SYSTEMINCLUDE   /epoc32/include/osextensions/stdapis
+//SYSTEMINCLUDE   /epoc32/include/osextensions/stdapis/sys
+
+SYSTEMINCLUDE /Epoc32/include/stdapis/openssl
+SYSTEMINCLUDE /Epoc32/include/stdapis
+
+LIBRARY       euser.lib libssl.lib libcrypto.lib libc.lib libdl.lib libpthread.lib
+STATICLIBRARY libcrt0.lib  
+
+
+// if launching keeps resulting in KErrNoMemory (-4) when trying to create console
+// you can use the registration file and launch the epoc.exe instead
+
+//SOURCEPATH justincase
+//START RESOURCE	helloworld_reg.rss
+//TARGETPATH	/private/10003a3f/apps
+//END
+
+SMPSAFE

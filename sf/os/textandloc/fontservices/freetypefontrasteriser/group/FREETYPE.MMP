@@ -1,0 +1,116 @@
+/*
+* Copyright (c) 1998-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* freetype.dll Freetype font rasterizer plug-in library
+*
+*/
+
+
+/**
+ @file
+*/
+
+
+target		freetype.dll
+CAPABILITY All -Tcb
+
+targettype	PLUGIN
+UID		0x10009D8D 0x100012A7
+VENDORID 0x70000001
+source ../src/FTRAST2.CPP
+
+
+SOURCEPATH	..
+// Switch off some warnings for the following files,
+// which are imported source code that needs to be
+// kept unchanged as far as possible to ease porting
+// of upgrades or fixes.
+// N.B. As a side effect this will also mask those
+// warnings in ftrast.cpp (our wrapper) so it should
+// be re-checked with the warnings back on if changes
+// are made to it.
+OPTION ARMCC --diag_suppress 68,550,1296,188
+
+//base
+source /freetype2/src/base/ftsystem.c
+source /freetype2/src/base/ftinit.c
+source /freetype2/src/base/ftutil.c
+source /freetype2/src/base/ftstream.c
+source /freetype2/src/base/ftcalc.c
+source /freetype2/src/base/fttrigon.c
+source /freetype2/src/base/ftoutln.c
+source /freetype2/src/base/ftgloadr.c
+source /freetype2/src/base/ftobjs.c
+source /freetype2/src/base/ftnames.c
+source /freetype2/src/base/ftglyph.c
+source /freetype2/src/base/ftbbox.c
+source /freetype2/src/base/ftmm.c
+source /freetype2/src/base/ftbitmap.c
+source /freetype2/src/base/ftrfork.c
+//truetype
+source /freetype2/src/truetype/ttdriver.c
+source /freetype2/src/truetype/ttpload.c
+source /freetype2/src/truetype/ttgload.c
+source /freetype2/src/truetype/ttobjs.c
+source /freetype2/src/truetype/ttinterp.c
+source /freetype2/src/truetype/ttgxvar.c
+//cff (for postscript-flavour OpenType fonts)
+source /freetype2/src/cff/cffcmap.c
+source /freetype2/src/cff/cffdrivr.c
+source /freetype2/src/cff/cffgload.c
+source /freetype2/src/cff/cffload.c
+source /freetype2/src/cff/cffobjs.c
+source /freetype2/src/cff/cffparse.c
+//pshinter (for hinting and scaling cff fonts)
+source /freetype2/src/pshinter/pshrec.c
+source /freetype2/src/pshinter/pshglob.c
+source /freetype2/src/pshinter/pshalgo.c
+source /freetype2/src/pshinter/pshmod.c
+
+//smooth
+source /freetype2/src/smooth/ftgrays.c
+source /freetype2/src/smooth/ftsmooth.c
+//sfnt
+source /freetype2/src/sfnt/ttload.c
+source /freetype2/src/sfnt/ttcmap.c
+source /freetype2/src/sfnt/sfobjs.c
+source /freetype2/src/sfnt/sfdriver.c
+source /freetype2/src/sfnt/ttsbit.c
+source /freetype2/src/sfnt/ttpost.c
+source /freetype2/src/sfnt/ttbdf.c
+source /freetype2/src/sfnt/ttkern.c
+source /freetype2/src/sfnt/ttmtx.c
+//raster
+source /freetype2/src/raster/ftraster.c
+source /freetype2/src/raster/ftrend1.c
+
+//autofit
+source /freetype2/src/autofit/autofit.c
+
+SYSTEMINCLUDE ../freetype2/include
+SYSTEMINCLUDE ../freetype2/src
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_ESTLIB_SYSTEMINCLUDE
+SYSTEMINCLUDE ../freetype2/include/freetype
+
+library euser.lib fntstr.lib efsrv.lib estlib.lib charconv.lib 
+library ecom.lib gdi.lib
+
+sourcepath		../src
+start resource		freetype.rss
+target			freetype.rsc
+end
+UNPAGED
+
+SMPSAFE

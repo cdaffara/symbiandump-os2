@@ -1,0 +1,70 @@
+/*
+* Copyright (c) 1997-2010 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+* This is the mmp file for a special build of USBSVR, including only three 
+* instances of the dummy class controller, and no other class controllers. It 
+* is used for GT171 automated tests.
+*
+*/
+target t_usbman_dummycc.exe
+CAPABILITY CommDD NetworkControl NetworkServices LocalServices ProtServ
+
+targettype exe
+
+uid 0x0 0x101fe1db
+VENDORID 0x70000001
+
+
+userinclude     ../INC
+userinclude		../public
+userinclude		../../../host/fdf/production/client/public 
+userinclude		../../../inifile/inc 
+userinclude     ../traces_t_Usbman_dummyCC 
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+sourcepath		../SRC
+source			UsbSvr.cpp
+source			CUsbServer.cpp
+source			CUsbSession.cpp
+source			CUsbScheduler.cpp
+source			CUsbDevice.cpp
+source			CUsbDeviceStateWatcher.cpp
+source			UsbUtils.cpp
+source			CPersonality.cpp
+source          usbmancenrepmanager.cpp
+source			CUsbDummyClassController.cpp
+#ifdef SYMBIAN_USB_BATTERYCHARGING_V1_1
+source			cusbchargingporttypewatcher.cpp
+#endif
+sourcepath		../../../inifile/src
+source			inifile.cpp
+
+library			euser.lib
+library			usbclasscontroller.lib
+library			ecom.lib
+library			efsrv.lib
+library			bafl.lib
+library			usbmanextensionplugin.lib
+library			sysutil.lib
+library         centralrepository.lib 
+
+#ifdef SYMBIAN_FEATURE_MANAGER
+library         featdiscovery.lib
+#endif
+
+// This is the crucial difference between this and usbsvr.mmp.
+MACRO USE_DUMMY_CLASS_CONTROLLER
+
+//
+// End of file

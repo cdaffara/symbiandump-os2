@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SystemDefinition schema="3.0.1">
+  <package id="openmaxil" name="Multimedia OpenMAX IL" levels="adaptation hw-if device-fw devices middleware app-if">
+
+
+    <collection id="openmaxil_plat" name="OpenMAX IL Platform Exports" level="hw-if">
+      <component id="khronos_api" name="OpenMAX IL API" introduced="^3" purpose="mandatory" class="api">
+        <unit version="1" bldFile="openmaxil_plat/khronos_api/group"/>
+      </component>
+      <component id="symbian_api" name="OpenMAX IL Symbian API" introduced="^3" purpose="mandatory" class="api">
+        <unit version="1" bldFile="openmaxil_plat/symbian_api/group"/>
+      </component>
+      <component id="test_api" name="OpenMAX IL test headers" introduced="^3" purpose="development" class="api">
+        <unit version="1" bldFile="openmaxil_plat/test_api/group"/>
+      </component>
+    </collection>
+
+    <collection id="omxil_generic" name="OpenMAX IL Implementation" level="device-fw">
+      <component id="omxilcomplib" name="OpenMAX IL Component Framework" introduced="^3" purpose="optional">
+        <unit version="1" bldFile="omxil_generic/omxilcomplib/group"/>
+      </component>
+      <component id="omxilcore" name="OpenMAX IL Core" introduced="^3" purpose="mandatory">
+        <unit version="1" bldFile="omxil_generic/omxilcore/group"/>
+      </component>
+      <component id="omxilloader" name="OpenMAX IL Loader" introduced="^3" purpose="mandatory">
+        <unit version="1" bldFile="omxil_generic/omxilloader/group"/>
+      </component>
+    </collection>
+
+    <collection id="tsrc" name="OpenMAX IL Test code" level="hw-if">
+      <component id="xmltestharness" name="OpenMAX IL XML Test Harness" introduced="^3" purpose="development">
+        <unit version="1" bldFile="tsrc/xmltestharness/group"/>
+      </component>
+    </collection>
+
+  </package>
+</SystemDefinition>

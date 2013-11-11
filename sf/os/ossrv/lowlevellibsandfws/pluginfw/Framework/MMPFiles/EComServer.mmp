@@ -1,0 +1,73 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// ecomserver.exe Plug-in server framework
+// When macro defined trace messages are compiled in and sent to RDebug
+// This line must always be commented before submitting to the MCL. See EComDebug.h
+// MACRO ECOM_TRACE
+// EPOCHEAPSIZE
+// Investigations were carried out for defect INC115057. It was found (using RDir rather
+// than CDir) that after a scan of around 1150 plug-ins the committed heap size increased 
+// from 3980 to 618380 bytes. After a re-scan the committed heap size was still 618380.
+// The max is set to 2MB to avoid overflows when the number of plug-ins a licensee has is larger.
+// The min is set to 192K. This is approximately 85% of the techview committed heap after bootup
+// so all devices will need at least this. (In techview environment with 317 plug-ins the committed
+// heap size after bootup was 233K)
+// 
+//
+
+/**
+ @file
+*/
+
+EPOCHEAPSIZE 0x00030000 0x00200000 
+
+TARGET		ecomserver.exe
+
+targettype	EXE
+
+// Dynamic Dll UID followed by the unique UID for this executable
+UID 0x1000008D 0x10009D8F
+VENDORID 0x70000001
+CAPABILITY ProtServ
+SOURCEPATH	../../Framework/frame
+
+// And keep this server side
+SOURCE		EComServerStart.cpp
+SOURCE		EComServer.cpp EComServerSession.cpp resolvercache.cpp
+SOURCE		Registrar.cpp RegistryData.cpp DefaultResolver.cpp 
+SOURCE		RegistryResolveTransaction.cpp
+SOURCE		ParseImplementationData.cpp
+SOURCE		Discoverer.cpp BackupNotifier.cpp
+SOURCE		DowngradePath.cpp
+
+SOURCE		ImplementationInformation.cpp RomOnlyResolver.cpp
+SOURCE		EComEntry.cpp
+SOURCE		clientrequest.cpp
+SOURCE		EComEntryBase.cpp
+SOURCE		ServerStartupManager.cpp
+SOURCE		DriveInfo.cpp
+SOURCE		FileUtils.cpp
+SOURCE		EComPerformance.cpp
+#ifdef __ECOM_SERVER_TESTABILITY__
+SOURCE		TestHarnessDomainMember.cpp
+#endif
+SOURCE		EComPatchDataConstantv2.cpp
+
+USERINCLUDE ../../Framework/inc ../../Test_Bed/inc
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+LIBRARY euser.lib efsrv.lib estor.lib bafl.lib domaincli.lib
+LIBRARY bsul.lib hal.lib
+
+SMPSAFE

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<relnotes name="Text Handling">
+  <purpose>
+    Text content and formatting model for native applications e.g. word-processing.
+  </purpose>
+
+   <defect number="DEF113360" title="Redundant code / access violation in CRichTextIndex::GetPicturePhrase." revision="011">
+    CRichTextIndex::GetPicturePhrase is not used and has been removed. 
+  </defect>
+
+   <defect number="INC110114" title="Rich text editor, wrong behavior when formatting text" revision="010">
+    CRichText::AppendCharFormatL now behaves the same as SetInsertCharFormatL when zero length txt selected
+  </defect>
+
+  <defect number="PDEF104748" title="CRichText::RemoveSpecificCharFormatL does not remove all formatting" revision="009">
+    CRichText::RemoveSpecificCharFormatL now includes capability of removing EOD char
+  </defect>
+
+  <defect number="PDEF103223" title="RichTextEditor: Using bullet styles other than EBulletStyle not implemented?" revision="008">
+    Documentation fixed to state that Bullet style other than ENullStyle and EBulletStlye are not currently supported.
+  </defect>
+
+  <minorchange revision="007">
+    Removing duplicate lines in test code.
+  </minorchange>
+
+  <deliverystep number="557" name="Filename policy changes" osproject="Oghma" revision="006">
+    <milestone project="GT0329" number="3.11"/>
+    <preq number="1182" title="GNU Make-based build system">
+    Updating the component source files to comply with the Symbian filename policy.
+  </preq>
+  </deliverystep>
+
+  <defect number="PDEF102494" title="EText: CRichText crashes when parsers is active" revision="005">
+    Fixed the defect where CRichText crashes when parsers is active
+  </defect>
+
+  <defect number="PDEF102489" title="CEikRichTextEditor control dont support anti-aliasing font" revision="004">
+    Fixed defect in handling of antialiased font formatting
+  </defect>
+
+  <minorchange revision="003">
+    Symbian OS v9.3 component branched from common codeline
+  </minorchange>
+
+  <defect number="PDEF102466" title="MTBC: Panics occurs when part of a richtext is deleted/removed." revision="002">
+    CTextFieldSet::NotifyDeletion checks deletion of hidden end-of-document character
+  </defect>
+
+  <defect number="PDEF099919" title="When font size is set as small, bottom of a text is clipped on wk38" revision="001">
+    Changed ApplyExtendedCharFormatL() function to include EOD character when applying format. Wrote new test case to check formatting is applied.
+  </defect>
+</relnotes>

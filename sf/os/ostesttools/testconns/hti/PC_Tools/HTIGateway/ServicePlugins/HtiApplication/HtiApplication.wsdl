@@ -1,0 +1,685 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="HtiApplication"
+ targetNamespace="urn:hti"
+ xmlns:tns="urn:hti"
+ xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+ xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+ xmlns:ns1="urn:hti"
+ xmlns:SOAP="http://schemas.xmlsoap.org/wsdl/soap/"
+ xmlns:MIME="http://schemas.xmlsoap.org/wsdl/mime/"
+ xmlns:DIME="http://schemas.xmlsoap.org/ws/2002/04/dime/wsdl/"
+ xmlns:WSDL="http://schemas.xmlsoap.org/wsdl/"
+ xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+<types>
+
+ <schema targetNamespace="urn:hti"
+  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:ns1="urn:hti"
+  xmlns="http://www.w3.org/2001/XMLSchema"
+  elementFormDefault="unqualified"
+  attributeFormDefault="unqualified">
+  <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+  <simpleType name="mimeType">
+   <restriction base="xsd:string">
+    <enumeration value="sisx"/>
+    <enumeration value="sis"/>
+    <enumeration value="pip"/>
+    <enumeration value="jad"/>
+    <enumeration value="jar"/>
+    <enumeration value="java"/>
+    <enumeration value="jarx"/>
+   </restriction>
+  </simpleType>
+  <complexType name="startProcessResult">
+   <sequence>
+     <element name="status" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+     <element name="pid" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="startAppByUidResult">
+   <sequence>
+     <element name="status" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+     <element name="threadId" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="startDocResult">
+   <sequence>
+     <element name="status" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+     <element name="threadId" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="startAppResult">
+   <sequence>
+     <element name="status" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+     <element name="threadId" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="getProcessExitCodeResult">
+   <sequence>
+     <element name="exitType" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+     <element name="exitReason" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="exitCategory" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+   </sequence>
+  </complexType>
+  <complexType name="HtiProcess">
+   <sequence>
+     <element name="processId" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="processName" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+     <element name="processStatus" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+   </sequence>
+  </complexType>
+  <complexType name="ArrayOfHtiProcess">
+   <complexContent>
+    <restriction base="SOAP-ENC:Array">
+     <sequence>
+      <element name="item" type="ns1:HtiProcess" minOccurs="0" maxOccurs="unbounded"/>
+     </sequence>
+     <attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="ns1:HtiProcess[]"/>
+    </restriction>
+   </complexContent>
+  </complexType>
+  <complexType name="HtiRunningApp">
+   <sequence>
+     <element name="uid" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="caption" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+     <element name="document" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+     <element name="hidden" type="xsd:boolean" minOccurs="1" maxOccurs="1"/>
+     <element name="system" type="xsd:boolean" minOccurs="1" maxOccurs="1"/>
+     <element name="ready" type="xsd:boolean" minOccurs="1" maxOccurs="1"/>
+     <element name="busy" type="xsd:boolean" minOccurs="1" maxOccurs="1"/>
+     <element name="closable" type="xsd:boolean" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="ArrayOfHtiRunningApp">
+   <complexContent>
+    <restriction base="SOAP-ENC:Array">
+     <sequence>
+      <element name="item" type="ns1:HtiRunningApp" minOccurs="0" maxOccurs="unbounded"/>
+     </sequence>
+     <attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="ns1:HtiRunningApp[]"/>
+    </restriction>
+   </complexContent>
+  </complexType>
+  <!-- operation request element -->
+  <element name="fileName" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="args" type="xsd:string"/>
+  <!-- operation response element -->
+  <element name="returnstartProcessResult" type="ns1:startProcessResult"/>
+  <!-- operation request element -->
+  <element name="matchPattern" type="xsd:string"/>
+  <!-- operation response element -->
+  <element name="result" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="pid" type="xsd:int"/>
+  <!-- operation response element -->
+  <element name="status" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="appName" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="docName" type="xsd:string"/>
+  <!-- operation response element -->
+  <element name="returnstartAppResult" type="ns1:startAppResult"/>
+  <!-- operation request element -->
+  <element name="uid" type="xsd:int"/>
+  <!-- operation response element -->
+  <element name="returnstartAppByUidResult" type="ns1:startAppByUidResult"/>
+  <!-- operation response element -->
+  <element name="returnstartDocResult" type="ns1:startDocResult"/>
+  <!-- operation response element -->
+  <element name="HtiProcesses" type="ns1:ArrayOfHtiProcess"/>
+  <!-- operation response element -->
+  <element name="returngetProcessExitCodeResult" type="ns1:getProcessExitCodeResult"/>
+  <!-- operation request element -->
+  <element name="installPackagePath" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="upgrade" type="xsd:boolean"/>
+  <!-- operation request element -->
+  <element name="optionalItems" type="xsd:boolean"/>
+  <!-- operation request element -->
+  <element name="ocsp" type="xsd:boolean"/>
+  <!-- operation request element -->
+  <element name="ignoreOCSPWarnings" type="xsd:boolean"/>
+  <!-- operation request element -->
+  <element name="installUntrusted" type="xsd:boolean"/>
+  <!-- operation request element -->
+  <element name="allowPackageInfo" type="xsd:boolean"/>
+  <!-- operation request element -->
+  <element name="grantUserCapabilities" type="xsd:boolean"/>
+  <!-- operation request element -->
+  <element name="killApp" type="xsd:boolean"/>
+  <!-- operation request element -->
+  <element name="overwrite" type="xsd:boolean"/>
+  <!-- operation request element -->
+  <element name="download" type="xsd:boolean"/>
+  <!-- operation request element -->
+  <element name="username" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="password" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="drive" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="language" type="xsd:unsignedByte"/>
+  <!-- operation request element -->
+  <element name="usePhoneLanguage" type="xsd:boolean"/>
+  <!-- operation request element -->
+  <element name="upgradeData" type="xsd:boolean"/>
+  <!-- operation request element -->
+  <element name="breakDependency" type="xsd:boolean"/>
+  <!-- operation request element -->
+  <element name="mimeType" type="ns1:mimeType"/>
+  <!-- operation request element -->
+  <element name="packageName" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="includeHidden" type="xsd:boolean"/>
+  <!-- operation request element -->
+  <element name="includeSystem" type="xsd:boolean"/>
+  <!-- operation response element -->
+  <element name="htiApps" type="ns1:ArrayOfHtiRunningApp"/>
+ </schema>
+
+</types>
+
+<message name="startProcess">
+ <part name="fileName" element="ns1:fileName"/>
+ <part name="args" element="ns1:args"/>
+</message>
+
+<message name="startProcessResponse">
+ <part name="returnstartProcessResult" element="ns1:returnstartProcessResult"/>
+</message>
+
+<message name="stopProcessRequest">
+ <part name="matchPattern" element="ns1:matchPattern"/>
+</message>
+
+<message name="stopProcessResponse">
+ <part name="result" element="ns1:result"/>
+</message>
+
+<message name="stopProcessByIdRequest">
+ <part name="pid" element="ns1:pid"/>
+</message>
+
+<message name="stopProcessByIdResponse">
+ <part name="result" element="ns1:result"/>
+</message>
+
+<message name="getProcessStatusRequest">
+ <part name="matchPattern" element="ns1:matchPattern"/>
+</message>
+
+<message name="getProcessStatusResponse">
+ <part name="status" element="ns1:status"/>
+</message>
+
+<message name="getProcessStatusByIdRequest">
+ <part name="pid" element="ns1:pid"/>
+</message>
+
+<message name="getProcessStatusByIdResponse">
+ <part name="status" element="ns1:status"/>
+</message>
+
+<message name="startApp">
+ <part name="appName" element="ns1:appName"/>
+ <part name="docName" element="ns1:docName"/>
+</message>
+
+<message name="startAppResponse">
+ <part name="returnstartAppResult" element="ns1:returnstartAppResult"/>
+</message>
+
+<message name="startAppByUid">
+ <part name="uid" element="ns1:uid"/>
+ <part name="docName" element="ns1:docName"/>
+</message>
+
+<message name="startAppByUidResponse">
+ <part name="returnstartAppByUidResult" element="ns1:returnstartAppByUidResult"/>
+</message>
+
+<message name="startDoc">
+ <part name="docName" element="ns1:docName"/>
+</message>
+
+<message name="startDocResponse">
+ <part name="returnstartDocResult" element="ns1:returnstartDocResult"/>
+</message>
+
+<message name="getAppStatusRequest">
+ <part name="appName" element="ns1:appName"/>
+</message>
+
+<message name="getAppStatusResponse">
+ <part name="status" element="ns1:status"/>
+</message>
+
+<message name="getAppStatusByUidRequest">
+ <part name="uid" element="ns1:uid"/>
+</message>
+
+<message name="getAppStatusByUidResponse">
+ <part name="status" element="ns1:status"/>
+</message>
+
+<message name="getAppStatusByDocRequest">
+ <part name="docName" element="ns1:docName"/>
+</message>
+
+<message name="getAppStatusByDocResponse">
+ <part name="status" element="ns1:status"/>
+</message>
+
+<message name="stopAppRequest">
+ <part name="appName" element="ns1:appName"/>
+</message>
+
+<message name="stopAppResponse">
+ <part name="result" element="ns1:result"/>
+</message>
+
+<message name="stopAppByUidRequest">
+ <part name="uid" element="ns1:uid"/>
+</message>
+
+<message name="stopAppByUidResponse">
+ <part name="result" element="ns1:result"/>
+</message>
+
+<message name="stopAppByDocRequest">
+ <part name="docName" element="ns1:docName"/>
+</message>
+
+<message name="stopAppByDocResponse">
+ <part name="result" element="ns1:result"/>
+</message>
+
+<message name="listProcessesRequest">
+ <part name="matchPattern" element="ns1:matchPattern"/>
+</message>
+
+<message name="listProcessesResponse">
+ <part name="HtiProcesses" element="ns1:HtiProcesses"/>
+</message>
+
+<message name="startProcessRetVal">
+ <part name="fileName" element="ns1:fileName"/>
+ <part name="args" element="ns1:args"/>
+</message>
+
+<message name="getProcessExitCode">
+ <part name="pid" element="ns1:pid"/>
+</message>
+
+<message name="getProcessExitCodeResponse">
+ <part name="returngetProcessExitCodeResult" element="ns1:returngetProcessExitCodeResult"/>
+</message>
+
+<message name="installSoftware">
+ <part name="installPackagePath" element="ns1:installPackagePath"/>
+ <part name="upgrade" element="ns1:upgrade"/>
+ <part name="optionalItems" element="ns1:optionalItems"/>
+ <part name="ocsp" element="ns1:ocsp"/>
+ <part name="ignoreOCSPWarnings" element="ns1:ignoreOCSPWarnings"/>
+ <part name="installUntrusted" element="ns1:installUntrusted"/>
+ <part name="allowPackageInfo" element="ns1:allowPackageInfo"/>
+ <part name="grantUserCapabilities" element="ns1:grantUserCapabilities"/>
+ <part name="killApp" element="ns1:killApp"/>
+ <part name="overwrite" element="ns1:overwrite"/>
+ <part name="download" element="ns1:download"/>
+ <part name="username" element="ns1:username"/>
+ <part name="password" element="ns1:password"/>
+ <part name="drive" element="ns1:drive"/>
+ <part name="language" element="ns1:language"/>
+ <part name="usePhoneLanguage" element="ns1:usePhoneLanguage"/>
+ <part name="upgradeData" element="ns1:upgradeData"/>
+</message>
+
+<message name="installSoftwareResponse">
+</message>
+
+<message name="uninstallSoftware">
+ <part name="uid" element="ns1:uid"/>
+ <part name="killApp" element="ns1:killApp"/>
+ <part name="breakDependency" element="ns1:breakDependency"/>
+ <part name="mimeType" element="ns1:mimeType"/>
+</message>
+
+<message name="uninstallSoftwareResponse">
+</message>
+
+<message name="uninstallSoftwareByName">
+ <part name="packageName" element="ns1:packageName"/>
+ <part name="killApp" element="ns1:killApp"/>
+ <part name="breakDependency" element="ns1:breakDependency"/>
+ <part name="mimeType" element="ns1:mimeType"/>
+</message>
+
+<message name="uninstallSoftwareByNameResponse">
+</message>
+
+<message name="listRunningAppsRequest">
+ <part name="includeHidden" element="ns1:includeHidden"/>
+ <part name="includeSystem" element="ns1:includeSystem"/>
+</message>
+
+<message name="listRunningAppsResponse">
+ <part name="htiApps" element="ns1:htiApps"/>
+</message>
+
+<portType name="HtiApplicationPortType">
+ <operation name="startProcess">
+  <documentation>Service definition of function ns1__startProcess</documentation>
+  <input message="tns:startProcess"/>
+  <output message="tns:startProcessResponse"/>
+ </operation>
+ <operation name="stopProcess">
+  <documentation>Service definition of function ns1__stopProcess</documentation>
+  <input message="tns:stopProcessRequest"/>
+  <output message="tns:stopProcessResponse"/>
+ </operation>
+ <operation name="stopProcessById">
+  <documentation>Service definition of function ns1__stopProcessById</documentation>
+  <input message="tns:stopProcessByIdRequest"/>
+  <output message="tns:stopProcessByIdResponse"/>
+ </operation>
+ <operation name="getProcessStatus">
+  <documentation>Service definition of function ns1__getProcessStatus</documentation>
+  <input message="tns:getProcessStatusRequest"/>
+  <output message="tns:getProcessStatusResponse"/>
+ </operation>
+ <operation name="getProcessStatusById">
+  <documentation>Service definition of function ns1__getProcessStatusById</documentation>
+  <input message="tns:getProcessStatusByIdRequest"/>
+  <output message="tns:getProcessStatusByIdResponse"/>
+ </operation>
+ <operation name="startApp">
+  <documentation>Service definition of function ns1__startApp</documentation>
+  <input message="tns:startApp"/>
+  <output message="tns:startAppResponse"/>
+ </operation>
+ <operation name="startAppByUid">
+  <documentation>Service definition of function ns1__startAppByUid</documentation>
+  <input message="tns:startAppByUid"/>
+  <output message="tns:startAppByUidResponse"/>
+ </operation>
+ <operation name="startDoc">
+  <documentation>Service definition of function ns1__startDoc</documentation>
+  <input message="tns:startDoc"/>
+  <output message="tns:startDocResponse"/>
+ </operation>
+ <operation name="getAppStatus">
+  <documentation>Service definition of function ns1__getAppStatus</documentation>
+  <input message="tns:getAppStatusRequest"/>
+  <output message="tns:getAppStatusResponse"/>
+ </operation>
+ <operation name="getAppStatusByUid">
+  <documentation>Service definition of function ns1__getAppStatusByUid</documentation>
+  <input message="tns:getAppStatusByUidRequest"/>
+  <output message="tns:getAppStatusByUidResponse"/>
+ </operation>
+ <operation name="getAppStatusByDoc">
+  <documentation>Service definition of function ns1__getAppStatusByDoc</documentation>
+  <input message="tns:getAppStatusByDocRequest"/>
+  <output message="tns:getAppStatusByDocResponse"/>
+ </operation>
+ <operation name="stopApp">
+  <documentation>Service definition of function ns1__stopApp</documentation>
+  <input message="tns:stopAppRequest"/>
+  <output message="tns:stopAppResponse"/>
+ </operation>
+ <operation name="stopAppByUid">
+  <documentation>Service definition of function ns1__stopAppByUid</documentation>
+  <input message="tns:stopAppByUidRequest"/>
+  <output message="tns:stopAppByUidResponse"/>
+ </operation>
+ <operation name="stopAppByDoc">
+  <documentation>Service definition of function ns1__stopAppByDoc</documentation>
+  <input message="tns:stopAppByDocRequest"/>
+  <output message="tns:stopAppByDocResponse"/>
+ </operation>
+ <operation name="listProcesses">
+  <documentation>Service definition of function ns1__listProcesses</documentation>
+  <input message="tns:listProcessesRequest"/>
+  <output message="tns:listProcessesResponse"/>
+ </operation>
+ <operation name="startProcessRetVal">
+  <documentation>Service definition of function ns1__startProcessRetVal</documentation>
+  <input message="tns:startProcessRetVal"/>
+  <output message="tns:startProcessResponse"/>
+ </operation>
+ <operation name="getProcessExitCode">
+  <documentation>Service definition of function ns1__getProcessExitCode</documentation>
+  <input message="tns:getProcessExitCode"/>
+  <output message="tns:getProcessExitCodeResponse"/>
+ </operation>
+ <operation name="installSoftware">
+  <documentation>Service definition of function ns1__installSoftware</documentation>
+  <input message="tns:installSoftware"/>
+  <output message="tns:installSoftwareResponse"/>
+ </operation>
+ <operation name="uninstallSoftware">
+  <documentation>Service definition of function ns1__uninstallSoftware</documentation>
+  <input message="tns:uninstallSoftware"/>
+  <output message="tns:uninstallSoftwareResponse"/>
+ </operation>
+ <operation name="uninstallSoftwareByName">
+  <documentation>Service definition of function ns1__uninstallSoftwareByName</documentation>
+  <input message="tns:uninstallSoftwareByName"/>
+  <output message="tns:uninstallSoftwareByNameResponse"/>
+ </operation>
+ <operation name="listRunningApps">
+  <documentation>Service definition of function ns1__listRunningApps</documentation>
+  <input message="tns:listRunningAppsRequest"/>
+  <output message="tns:listRunningAppsResponse"/>
+ </operation>
+</portType>
+
+<binding name="HtiApplication" type="tns:HtiApplicationPortType">
+ <SOAP:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+ <operation name="startProcess">
+  <SOAP:operation style="rpc" soapAction="HtiApplication"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="stopProcess">
+  <SOAP:operation style="rpc" soapAction="HtiApplication"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="stopProcessById">
+  <SOAP:operation style="rpc" soapAction="HtiApplication"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="getProcessStatus">
+  <SOAP:operation style="rpc" soapAction="HtiApplication"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="getProcessStatusById">
+  <SOAP:operation style="rpc" soapAction="HtiApplication"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="startApp">
+  <SOAP:operation style="rpc" soapAction="HtiApplication"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="startAppByUid">
+  <SOAP:operation style="rpc" soapAction="HtiApplication"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="startDoc">
+  <SOAP:operation style="rpc" soapAction="HtiApplication"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="getAppStatus">
+  <SOAP:operation style="rpc" soapAction="HtiApplication"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="getAppStatusByUid">
+  <SOAP:operation style="rpc" soapAction="HtiApplication"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="getAppStatusByDoc">
+  <SOAP:operation style="rpc" soapAction="HtiApplication"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="stopApp">
+  <SOAP:operation style="rpc" soapAction="HtiApplication"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="stopAppByUid">
+  <SOAP:operation style="rpc" soapAction="HtiApplication"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="stopAppByDoc">
+  <SOAP:operation style="rpc" soapAction="HtiApplication"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="listProcesses">
+  <SOAP:operation style="rpc" soapAction="HtiApplication"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="startProcessRetVal">
+  <SOAP:operation style="rpc" soapAction="HtiApplication"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="getProcessExitCode">
+  <SOAP:operation style="rpc" soapAction="HtiApplication"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="installSoftware">
+  <SOAP:operation style="rpc" soapAction="HtiApplication"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="uninstallSoftware">
+  <SOAP:operation style="rpc" soapAction="HtiApplication"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="uninstallSoftwareByName">
+  <SOAP:operation style="rpc" soapAction="HtiApplication"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="listRunningApps">
+  <SOAP:operation style="rpc" soapAction="HtiApplication"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+</binding>
+
+<service name="HtiApplication">
+ <documentation>gSOAP 2.7.6b generated service definition</documentation>
+ <port name="HtiApplication" binding="tns:HtiApplication">
+  <SOAP:address location="http://localhost:2000"/>
+ </port>
+</service>
+
+</definitions>

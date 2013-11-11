@@ -1,0 +1,43 @@
+/*
+* Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+target			trecogserver.exe
+targettype		exe
+UID             0x1000007A 0x1027553D
+CAPABILITY  	AllFiles WriteDeviceData PowerMgmt Protserv SwEvent
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+SOURCEPATH		.
+SOURCE			trecogserver.cpp trecogstep.cpp
+
+USERINCLUDE	 	.
+
+LIBRARY		cone.lib ws32.lib euser.lib ecom.lib
+LIBRARY		testexecuteutils.lib  testexecutelogclient.lib
+LIBRARY		apparc.lib efsrv.lib estor.lib gdi.lib 
+LIBRARY     apfile.lib apgrfx.lib  bafl.lib apmime.lib apserv.lib
+
+LIBRARY     charconv.lib 
+
+// We're quite heavy on the stack... 4k in WinS isn't enough...
+EPOCSTACKSIZE	0xf000
+
+VENDORID 0x70000001
+SMPSAFE

@@ -1,0 +1,41 @@
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+// UIDs for loading
+// RTest Dll recognition UID followed by the unique UID for this exe
+UID					0x101FB5A8 0x10009E30
+CAPABILITY DiskAdmin   // For RFs::SetSubst
+VENDORID			0x70000001
+
+TARGET				t_driveinfo.exe		//RTEST
+TARGETTYPE		exe
+
+USERINCLUDE		../../Framework/frame
+USERINCLUDE		../../Framework/inc
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+SOURCEPATH		../../Framework/DriveInfoTest
+SOURCE				t_driveinfo.cpp
+
+// To test private areas of this class have to explicitly build in the test class
+SOURCEPATH		../../Framework/frame
+SOURCE				DriveInfo.cpp
+SOURCE			EComPatchDataConstantv2.cpp
+
+LIBRARY			euser.lib
+LIBRARY			efsrv.lib
+LIBRARY 		bsul.lib
+
+SMPSAFE

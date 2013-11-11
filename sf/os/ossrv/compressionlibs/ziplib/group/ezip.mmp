@@ -1,0 +1,44 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// ezip.dll ZIP compression and decompression
+// 
+//
+
+/**
+ @file
+*/
+
+TARGET ezip.dll
+CAPABILITY All -Tcb
+TARGETTYPE dll
+
+// UID allocated as KUidZip
+UID 0x1000008d 0x1000AC5A
+VENDORID 0x70000001
+
+USERINCLUDE 	../inc
+USERINCLUDE		../src/zlib
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+SOURCEPATH	../src/ezip
+SOURCE 		zipfile.cpp zipfilememberinputstream.cpp
+SOURCE 		zipfilememberiterator.cpp zipfilemember.cpp
+
+deffile		ezip3.def
+
+LIBRARY 	euser.lib efsrv.lib charconv.lib libzcore.lib caf.lib
+
+
+ 
+SMPSAFE

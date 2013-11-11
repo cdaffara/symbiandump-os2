@@ -1,0 +1,56 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* Reference crypto token implementation
+*
+*/
+
+
+
+/**
+ @file
+*/
+
+// reference implementation for hardware adaptation interface
+
+target tcryptotokenhai.dll
+targettype dll
+
+// ECom Dll recognition UID followed by the unique UID for this dll
+UID 0x10009D8D 0x101Faaa1
+VENDORID 0x70000001
+CAPABILITY All -TCB
+
+DEFFILE tcryptotokenhai.def
+
+SOURCEPATH	.
+SOURCE tcryptotokenhai.cpp
+
+SOURCEPATH ../thwkeystore/common
+SOURCE tkeydetails.cpp
+
+OS_LAYER_SYSTEMINCLUDE
+
+USERINCLUDE .
+USERINCLUDE ../thwkeystore/common
+USERINCLUDE ../../../../crypto/weakcryptospi/inc/spi
+
+LIBRARY	euser.lib 
+LIBRARY cryptospi.lib
+LIBRARY ctframework.lib
+LIBRARY efsrv.lib
+LIBRARY estor.lib
+
+SMPSAFE
+

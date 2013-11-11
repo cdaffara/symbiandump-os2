@@ -1,0 +1,117 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// \n
+// Files are managed by the <code>ContentAccess::CManager</code> class in the content 
+// access framework. 
+// <hr>
+// Some agents may choose to store content files inside their server private directories. For example:
+// \private\<process SID>\protectedfile.ext
+// If an agent wishes to publish the existence of its private directory, it should fill in the name of 
+// the private directory (its SecureID of the process) in the \c opaque_data section of the agents ECOM resource file. 
+// CAF will map the path to one based on the agent name so that it's human-readable. For example:
+// \private\<agent_name>\protectedfile.ext
+// <hr>
+// The <code>ContentAccess::CManager::DeleteFileL()</code> allows a client to delete a specified file managed by a DRM agent. 
+// The agent responsible for the content can display a dialog to confirm that 
+// the user wants to delete the file. This is particularly important if the content still has valid rights.
+// The agent implementation must decide whether to delete the rights or only the content.
+// TFileName filename;
+// // create a manager object
+// CManager* manager = CManager::NewL();
+// // Use the manager to delete a file
+// // CAF will ask the agent who actually owns the file to delete it.
+// TInt result = manager->DeleteFile(filename);
+// <hr>
+// <code>ContentAccess::CManager::CopyFile()</code> allows a user to make a copy of the file. For example, the user may wish 
+// to make a copy of the file on removable media. When copying content managed by a DRM agent, the agent will only copy the 
+// content, it will not copy the rights.
+// TInt result = manager->CopyFile(source, destination);
+// <hr>
+// <code>ContentAccess::CManager::RenameFile()</code> allows a user to move or rename a file. 
+// For example, the user may wish to move the file to removable media. 
+// TInt result = manager->RenameFile(oldFilename, newFilename);
+// <hr>
+// <code>ContentAccess::CManager::MkDir()</code> allows a user to create a directory.
+// TInt result = manager->MkDir(fullpath);
+// <hr>
+// <code>ContentAccess::CManager::MkDirAll()</code> allows a user to create a directory. 
+// If one or more of the sub-directories do not exist they will be created too.
+// TInt result = manager->MkDirAll(fullpath);
+// <hr>
+// <code>ContentAccess::CManager::RmDir()</code> allows a user to remove a directory. 
+// TInt result = manager->RmDir(fullpath);
+// <hr>
+// There a three variations of the <code>ContentAccess::CManager::GetDir()</code> function. They each allow a client
+// to list the contents of an agent's private directory.
+// As mentioned earlier it is optional for agents to provide this information.
+// CDir *aDir;
+// TInt result = manager->GetDir(aName, aEntryAttMask, aEntrySortKey, aDir);
+// <hr>
+// The CAF Apparc recognizer provides a MIME type that is a combination of the file MIME type and
+// the content within the file. In some circumstances, such as forwarding DRM content to another 
+// device, it will be important to make sure the content is sent with the correct MIME type.
+// Using the <code>""</code> empty string <code>UniqueId</code> allows an application to determine the MIME type of the file.
+// TBuf <256> aMimeType;
+// TInt result = manager->GetStringAttribute(EMimeType, aMimeType, TVirtualPathPtr(aURI,KNullDesC16()));
+// <hr>
+// The <code>CManager</code> API allows applications to retrieve attributes or string attributes from a content object
+// <hr>
+// 
+//
+
+/**
+ @page CAFManageFiles Managing files with the Content Access Framework
+ - @ref CAFPrivateDirectories
+ - @ref Deleteing
+ - @ref Copying
+ - @ref Moving
+ - @ref MkDir
+ - @ref MkDirAll
+ - @ref RemoveDir
+ - @ref GetDir
+ - @ref GetRealMimeType
+ - @ref ManagerGetAttribute
+ @section CAFPrivateDirectories Agents using Private directories
+ @code
+ @endcode
+ See @ref CAA_Configuration.
+ @code
+ @endcode
+ @section Deleteing Deleting a File
+ @code
+ @endcode
+ @section Copying Copying a file
+ @code
+ @endcode
+ @section Moving Move or Rename a file
+ @code
+ @endcode
+ @section MkDir Creating a Directory
+ @code
+ @endcode
+ @section MkDirAll Creating all directories
+ @code
+ @endcode
+ @section RemoveDir Removing a Directory
+ @code
+ @endcode
+ @section GetDir List the contents of a directory
+ @code
+ @endcode
+ @section GetRealMimeType Find out the real MIME type of the file
+ @code
+ @endcode
+ @section ManagerGetAttribute Get the attributes of the Content object
+ as described in @ref ContentAttributes.
+*/

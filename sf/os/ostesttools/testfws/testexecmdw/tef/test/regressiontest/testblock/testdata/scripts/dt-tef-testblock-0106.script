@@ -1,0 +1,47 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SERVER te_RegBlockTestSuite 
+
+START_TESTCASE DT-TEF-TestBlock-0106
+//! @SYMTestCaseID          DT-TEF-TestBlock-0106
+//! @SYMCreationDate        03-07-2008
+//! @SYMAuthor              DavidZhang
+//! @SYMTestType            CT
+//! @SYMTestPriority        Medium
+//! @SYMTestCaseDesc        Runs test blocks concurrently in CONCURRENT mode.
+//! @SYMTestExpectedResults The test completes without errors.
+//! @SYMTestActions         1. Set CONCURRENT mode.
+//!                         2. In the first block calls a long delay and asks to remove a directory after that.
+//!                         3. In a second block creates the directory.
+//!                         4. Sets CONSECUTIVE mode back.
+//!                         5. Makes sure that the directory was removed.
+	CONCURRENT
+	START_TEST_BLOCK	100 te_RegBlockTestSuite ${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini
+		CREATE_OBJECT	te_RegBlockTestWrapper	DummyObj
+		DELAY		1000000
+		COMMAND		DummyObj	CallMeSecondRmDir		TestCase111_dir
+	END_TEST_BLOCK
+	START_TEST_BLOCK	100 te_RegBlockTestSuite ${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini
+		CREATE_OBJECT	te_RegBlockTestWrapper	DummyObj
+		COMMAND		DummyObj	CallMeFirstMkDir		TestCase111_dir
+	END_TEST_BLOCK
+	CONSECUTIVE
+	START_TEST_BLOCK	100 te_RegBlockTestSuite ${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini
+		CREATE_OBJECT	te_RegBlockTestWrapper	DummyObj
+		COMMAND		DummyObj	CallMeSecondRmDir		TestCase111_dir
+	END_TEST_BLOCK		!Result=Fail
+END_TESTCASE DT-TEF-TestBlock-0106

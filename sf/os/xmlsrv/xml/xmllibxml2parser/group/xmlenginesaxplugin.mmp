@@ -1,0 +1,47 @@
+// Copyright (c) 2008-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// Project specification file for XML Engine SAX Ecom Plugin.
+// 
+//
+
+TARGET          xmlenginesaxplugin.dll
+CAPABILITY All -Tcb
+TARGETTYPE      plugin
+UID	        0x10009D8D 0x101f9782
+VENDORID        0x70000001
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_LIBC_SYSTEMINCLUDE
+SYSTEMINCLUDE 	/epoc32/include/stdapis/libxml2
+
+USERINCLUDE   ../../libxml2libs/inc/libxml2_nonexport
+
+SOURCEPATH	../src
+SOURCE		xmlengsaxplugin.cpp
+SOURCE		xmlengsaxcallback.cpp
+
+SOURCEPATH	../src
+START RESOURCE  101f9782.rss
+TARGET          xmlenginesaxplugin.rsc
+END
+
+LIBRARY 	euser.lib
+LIBRARY		xmlframework.lib
+LIBRARY		xmlengine.lib
+LIBRARY		xmlengineutils.lib
+LIBRARY		bafl.lib 
+
+
+
+SMPSAFE

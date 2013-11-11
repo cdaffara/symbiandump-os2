@@ -1,0 +1,145 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+// Streaming CAF Integration Tests
+
+PRINT Run PREQ782 Streaming CAF Manual IPSec Integration Tests
+
+// Load Suite
+LOAD_SUITE tscaf
+
+//********************** SEC-SCAF-E004  **********************
+
+//! @SYMTestCaseID 		SEC-SCAF-E004
+//! @SYMTestCaseDesc 		Testing overall IPSec integration - manual
+//! 				(basic_ipsec_integration)
+//! @SYMPREQ 			PREQ782
+//! @SYMREQ 			REQ7779
+//! @SYMTestPriority 		Critical
+//! @SYMTestStatus   		Implemented
+//! @SYMTestActions 		
+//!				•	Execute steps in SEC-SCAF-E001.
+//!				•	Submit key association with pre-defined attributes using IPSec key stream sink.
+//!				•	Wait for a decrypted packet synchronously.
+//!				•	Use a Linux machine and set SADB and Policy DB settings there accordingly (see V:\Dev\TS\TS0013 Crypto Services\Technical\Testing)
+//!				•	Send a packet from the Linux machine.
+//!
+//! @SYMTestExpectedResults 	• Packet is decrypted correctly with expected content.
+//! @SYMTestType 		CIT
+
+START_TESTCASE SEC-SCAF-E004
+// The time limit is disabled since this test is manual
+RUN_TEST_STEP -1 tscaf SCAFIpSec z:\tcaf\tscaf\tscaf.ini basic_ipsec_integration
+END_TESTCASE SEC-SCAF-E004
+
+
+//********************** SEC-SCAF-E005  **********************
+
+//! @SYMTestCaseID 		SEC-SCAF-E005
+//! @SYMTestCaseDesc 		Testing overall IPSec integration: multiple key messages - manual
+//! 				(ipsec_integration_multiple_messages)
+//! @SYMPREQ 			PREQ782
+//! @SYMREQ 			REQ7779
+//! @SYMTestPriority 		Critical
+//! @SYMTestStatus   		Implemented
+//! @SYMTestActions 		
+//!				•	Execute steps in SEC-SCAF-E004.
+//!				•	Submit another SA through a new key association in key stream sink.
+//!				•	Change configuration on the Linux machine to use the new key association. (use rtest2.conf instead of rtest.conf)
+//!				•	Send another packet from the Linux machines 
+//!
+//! @SYMTestExpectedResults 	• Both packets are decrypted correctly with expected content.
+//! @SYMTestType 		CIT
+
+START_TESTCASE SEC-SCAF-E005
+// The time limit is disabled since this test is manual
+RUN_TEST_STEP -1 tscaf SCAFIpSec z:\tcaf\tscaf\tscaf.ini ipsec_integration_multiple_messages
+END_TESTCASE SEC-SCAF-E005
+
+//********************** SEC-SCAF-E006  **********************
+
+//! @SYMTestCaseID 		SEC-SCAF-E006
+//! @SYMTestCaseDesc 		Testing IPSec integration with key stream decoder - manual
+//! 				(ipsec_integration_decoder)
+//! @SYMPREQ 			PREQ782
+//! @SYMREQ 			REQ7779
+//! @SYMTestPriority 		Critical
+//! @SYMTestStatus   		Implemented
+//! @SYMTestActions 		
+//!				•	Create manually a test agent key stream decoder using SDP information
+//!				•	Take care to supply an IPSec key stream sink as detailed in SEC-SCAF-E001.
+//!				•	Send the key association for the test agent. The key association is as defined in step SEC-SCAF-E004.
+//!				•	Change configuration on the Linux machine to use the new key association. 
+//!				•	Send an encrypted packet
+//!
+//! @SYMTestExpectedResults 	• The packet decrypts correctly
+//! @SYMTestType 		CIT
+
+START_TESTCASE SEC-SCAF-E006
+// The time limit is disabled since this test is manual
+RUN_TEST_STEP tscaf SCAFSetupRightsObjects z:\tcaf\tscaf\tscaf.ini Rights_Program
+RUN_TEST_STEP -1 tscaf SCAFIpSecDecoderIntegration z:\tcaf\tscaf\tscaf.ini ipsec_integration_decoder
+END_TESTCASE SEC-SCAF-E006
+
+//********************** SEC-SCAF-E012  **********************
+
+//! @SYMTestCaseID 		SEC-SCAF-E012
+//! @SYMTestCaseDesc 		Testing overall IPSec integration: no authentication - manual
+//! 				(ipsec_integration_no_authentication)
+//! @SYMPREQ 			PREQ782
+//! @SYMREQ 			REQ7779
+//! @SYMTestPriority 		High
+//! @SYMTestStatus   		Implemented
+//! @SYMTestActions 		
+//!				•	Execute steps in SEC-SCAF-E004.
+//!				•	Reset the authentication algorithm.
+//!				•	Submit a key association.
+//!				•	Change configuration on the Linux machine to use the new key association. (use rtest_noAuth.conf instead of rtest.conf)
+//!				•	Send an encrypted packet
+//!
+//! @SYMTestExpectedResults 	• The packet decrypts correctly
+//! @SYMTestType 		CIT
+
+START_TESTCASE SEC-SCAF-E012
+// The time limit is disabled since this test is manual
+RUN_TEST_STEP -1 tscaf SCAFIpSec z:\tcaf\tscaf\tscaf.ini ipsec_integration_no_authentication
+END_TESTCASE SEC-SCAF-E012
+
+//********************** SEC-SCAF-E008  **********************
+
+//! @SYMTestCaseID 		SEC-SCAF-E008
+//! @SYMTestCaseDesc 		Negative testing for IPSec integration - unprotected port
+//! 				(ipsec_integration_negative_uprotected_port)
+//! @SYMPREQ 			PREQ782
+//! @SYMREQ 			REQ7779
+//! @SYMTestPriority 		High
+//! @SYMTestStatus   		Implemented
+//! @SYMTestActions 		
+//!				•	Create an IPSec testing environment as detailed in SEC-SCAF-E004.
+//!				•	Add a synchronous listening socket on the client side on a port not protected by the security policy on the server. Key stream decoder should add the relevant SA at this point. This checks that it is possible to communicate with the same server while the protected stream is being received.
+//!				•	Send a packet from the Linux machine to the same port - use rsend-differentPort.sh
+//!				•	Send data on the protected port, but encrypted with a different key than on the client - step B. This checks that SA added by key stream sink take effect. - use rtest-differentKey.conf followed by rsend.sh
+//!				•	Send data on the protected port, but encrypted with the same key than on the client - use rtest.conf with rsend.sh
+//!				•   Send data from the server using a different local port.
+//!
+//! @SYMTestExpectedResults 	
+//!				•	Data should not be received in step B, and should be received in step A.
+//! @SYMTestType 		CIT
+
+START_TESTCASE SEC-SCAF-E008
+// The time limit is disabled since this test is manual
+RUN_TEST_STEP -1 tscaf SCAFIpSec z:\tcaf\tscaf\tscaf.ini ipsec_integration_negative_uprotected_port
+RUN_TEST_STEP -1 tscaf SCAFIpSec z:\tcaf\tscaf\tscaf.ini basic_ipsec_integration
+END_TESTCASE SEC-SCAF-E008

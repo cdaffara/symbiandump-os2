@@ -1,0 +1,90 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+#include <setjmp.h>
+
+//Suppressing RVCT compiler warning:
+//    "Warning:  #830-D: function "RHeap::operator new" has no corresponding operator delete (to be called if an exception
+//      is thrown during initialization of an allocated object)
+//      __declspec(dllimport) TAny* operator new(TUint aSize, TAny* aBase) throw();"
+#pragma diag_suppress 830
+
+#if defined(__MARM_ARM4T__) || defined(__MARM_INTERWORK__)
+	#define __SUPPORT_THUMB_INTERWORKING
+#endif
+
+#ifdef __SUPPORT_THUMB_INTERWORKING
+#define __JUMP(cc,r) asm("bx"#cc " "#r )
+#else
+#define __JUMP(cc,r) asm("mov"#cc " pc, "#r )
+#endif
+
+#pragma diag_default 830
+
+extern "C" {
+
+EXPORT_C __NAKED__ int setjmp(jmp_buf __jmpb)
+	{
+#if defined( __MARM_THUMB__) && __GCC32__
+	asm("stmia r0!, {r4-r7}");
+	asm("mov r2, r8");
+	asm("mov r3, r9");
+	asm("mov r4, r10");
+	asm("mov r5, r11");
+	asm("mov r6, sp");
+	asm("mov r7, lr");
+	asm("stmia r0!, {r2-r7}");
+#else
+ // Save the context */
+	asm("stmia r0!, {r4-r11}");
+	asm("str sp, [r0], #4");
+	asm("str lr, [r0]");
+#endif
+	asm("mov  r0, #0");
+	__JUMP(,lr);
+	}
+
+EXPORT_C __NAKED__ void longjmp(jmp_buf __jmpb, int __retval)
+	{
+#if defined( __MARM_THUMB__) && __GCC32__
+	asm("mov	r3, r0"); // save the jmp_buf pointer
+	asm("add	r3, #16");		//add on 16 to get to high registers
+	asm("ldmia	r3!, {r4-r7}");  
+	asm("mov	r8,r4");
+	asm("mov	r9,r5");
+	asm("mov	r10,r6");
+	asm("mov	r11,r7");
+	asm("ldmia	r3!, {r4-r5}");	//get sp and lr
+	asm("mov	sp, r4");
+	asm("mov	lr, r5");
+	asm("mov	r3, r0");		//get the jmp_buf ptr again
+	asm("ldmia  r3!, {r4-r7}");	//and restore the lo regs
+	asm("mov	r0, r1"); // return(__retval)
+	asm("cmp    r0, #0");
+	asm("bne    1f");
+	asm("mov    r0, #1");
+	asm("1:");
+#else
+	 // Restore the context
+	asm("ldmia r0!, {r4-r11}");
+	asm("ldr sp, [r0], #4");
+	asm("ldr lr, [r0]");
+	asm("movs	r0, r1"); // return(__retval == 0 ? 1 : retval)
+	asm("moveq  r0, #1");
+	__JUMP(, lr);
+#endif
+	}
+
+} // extern "C"

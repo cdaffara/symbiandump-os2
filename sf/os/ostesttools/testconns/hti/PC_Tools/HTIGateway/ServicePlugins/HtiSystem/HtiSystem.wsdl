@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="HtiSystem"
+ targetNamespace="urn:hti"
+ xmlns:tns="urn:hti"
+ xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+ xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+ xmlns:ns1="urn:hti"
+ xmlns:SOAP="http://schemas.xmlsoap.org/wsdl/soap/"
+ xmlns:MIME="http://schemas.xmlsoap.org/wsdl/mime/"
+ xmlns:DIME="http://schemas.xmlsoap.org/ws/2002/04/dime/wsdl/"
+ xmlns:WSDL="http://schemas.xmlsoap.org/wsdl/"
+ xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+<types>
+
+ <schema targetNamespace="urn:hti"
+  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:ns1="urn:hti"
+  xmlns="http://www.w3.org/2001/XMLSchema"
+  elementFormDefault="unqualified"
+  attributeFormDefault="unqualified">
+  <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+  <simpleType name="restoreMode">
+   <restriction base="xsd:string">
+    <enumeration value="ModeNormal"/>
+    <enumeration value="ModeDeep"/>
+   </restriction>
+  </simpleType>
+  <complexType name="HtiService">
+   <sequence>
+     <element name="serviceName" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+     <element name="serviceUid" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="ArrayOfHtiService">
+   <complexContent>
+    <restriction base="SOAP-ENC:Array">
+     <sequence>
+      <element name="HtiService" type="ns1:HtiService" minOccurs="0" maxOccurs="unbounded"/>
+     </sequence>
+     <attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="ns1:HtiService[]"/>
+    </restriction>
+   </complexContent>
+  </complexType>
+  <!-- operation request element -->
+  <element name="securityToken" type="xsd:string"/>
+  <!-- operation response element -->
+  <element name="result" type="xsd:string"/>
+  <!-- operation response element -->
+  <element name="array" type="ns1:ArrayOfHtiService"/>
+  <!-- operation request element -->
+  <element name="mode" type="ns1:restoreMode"/>
+  <!-- operation response element -->
+  <element name="instanceID" type="xsd:unsignedInt"/>
+  <!-- operation request element -->
+  <element name="debugMessage" type="xsd:string"/>
+ </schema>
+
+</types>
+
+<message name="authenticationRequest">
+ <part name="securityToken" element="ns1:securityToken"/>
+</message>
+
+<message name="authenticationResponse">
+ <part name="result" element="ns1:result"/>
+</message>
+
+<message name="getVersionRequest">
+</message>
+
+<message name="getVersionResponse">
+ <part name="result" element="ns1:result"/>
+</message>
+
+<message name="stop">
+</message>
+
+<message name="stopResponse">
+</message>
+
+<message name="reset">
+</message>
+
+<message name="resetResponse">
+</message>
+
+<message name="reboot">
+</message>
+
+<message name="rebootResponse">
+</message>
+
+<message name="listServicesRequest">
+</message>
+
+<message name="listServicesResponse">
+ <part name="array" element="ns1:array"/>
+</message>
+
+<message name="restoreFactorySettings">
+ <part name="mode" element="ns1:mode"/>
+</message>
+
+<message name="restoreFactorySettingsResponse">
+</message>
+
+<message name="instanceIDRequest">
+</message>
+
+<message name="instanceIDResponse">
+ <part name="instanceID" element="ns1:instanceID"/>
+</message>
+
+<message name="showConsole">
+</message>
+
+<message name="showConsoleResponse">
+</message>
+
+<message name="hideConsole">
+</message>
+
+<message name="hideConsoleResponse">
+</message>
+
+<message name="debugPrint">
+ <part name="debugMessage" element="ns1:debugMessage"/>
+</message>
+
+<message name="debugPrintResponse">
+</message>
+
+<portType name="HtiSystemPortType">
+ <operation name="authentication">
+  <documentation>Service definition of function ns1__authentication</documentation>
+  <input message="tns:authenticationRequest"/>
+  <output message="tns:authenticationResponse"/>
+ </operation>
+ <operation name="getVersion">
+  <documentation>Service definition of function ns1__getVersion</documentation>
+  <input message="tns:getVersionRequest"/>
+  <output message="tns:getVersionResponse"/>
+ </operation>
+ <operation name="stop">
+  <documentation>Service definition of function ns1__stop</documentation>
+  <input message="tns:stop"/>
+  <output message="tns:stopResponse"/>
+ </operation>
+ <operation name="reset">
+  <documentation>Service definition of function ns1__reset</documentation>
+  <input message="tns:reset"/>
+  <output message="tns:resetResponse"/>
+ </operation>
+ <operation name="reboot">
+  <documentation>Service definition of function ns1__reboot</documentation>
+  <input message="tns:reboot"/>
+  <output message="tns:rebootResponse"/>
+ </operation>
+ <operation name="listServices">
+  <documentation>Service definition of function ns1__listServices</documentation>
+  <input message="tns:listServicesRequest"/>
+  <output message="tns:listServicesResponse"/>
+ </operation>
+ <operation name="restoreFactorySettings">
+  <documentation>Service definition of function ns1__restoreFactorySettings</documentation>
+  <input message="tns:restoreFactorySettings"/>
+  <output message="tns:restoreFactorySettingsResponse"/>
+ </operation>
+ <operation name="instanceID">
+  <documentation>Service definition of function ns1__instanceID</documentation>
+  <input message="tns:instanceIDRequest"/>
+  <output message="tns:instanceIDResponse"/>
+ </operation>
+ <operation name="showConsole">
+  <documentation>Service definition of function ns1__showConsole</documentation>
+  <input message="tns:showConsole"/>
+  <output message="tns:showConsoleResponse"/>
+ </operation>
+ <operation name="hideConsole">
+  <documentation>Service definition of function ns1__hideConsole</documentation>
+  <input message="tns:hideConsole"/>
+  <output message="tns:hideConsoleResponse"/>
+ </operation>
+ <operation name="debugPrint">
+  <documentation>Service definition of function ns1__debugPrint</documentation>
+  <input message="tns:debugPrint"/>
+  <output message="tns:debugPrintResponse"/>
+ </operation>
+</portType>
+
+<binding name="HtiSystem" type="tns:HtiSystemPortType">
+ <SOAP:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+ <operation name="authentication">
+  <SOAP:operation style="rpc" soapAction="HtiSystem"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="getVersion">
+  <SOAP:operation style="rpc" soapAction="HtiSystem"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="stop">
+  <SOAP:operation style="rpc" soapAction="HtiSystem"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="reset">
+  <SOAP:operation style="rpc" soapAction="HtiSystem"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="reboot">
+  <SOAP:operation style="rpc" soapAction="HtiSystem"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="listServices">
+  <SOAP:operation style="rpc" soapAction="HtiSystem"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="restoreFactorySettings">
+  <SOAP:operation style="rpc" soapAction="HtiSystem"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="instanceID">
+  <SOAP:operation style="rpc" soapAction="HtiSystem"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="showConsole">
+  <SOAP:operation style="rpc" soapAction="HtiSystem"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="hideConsole">
+  <SOAP:operation style="rpc" soapAction="HtiSystem"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="debugPrint">
+  <SOAP:operation style="rpc" soapAction="HtiSystem"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+</binding>
+
+<service name="HtiSystem">
+ <documentation>gSOAP 2.7.6b generated service definition</documentation>
+ <port name="HtiSystem" binding="tns:HtiSystem">
+  <SOAP:address location="http://localhost:2000"/>
+ </port>
+</service>
+
+</definitions>

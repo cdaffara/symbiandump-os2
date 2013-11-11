@@ -1,0 +1,46 @@
+PreTest
+==============================
+Build libstdcpp for Winscw, ARMV5
+
+Build PlumHall for winscw ARMV5
+
+
+
+
+
+WINSCW Tests
+==========================
+1. Copy ph_exe_list.bat to EPOCROOT\epoc32\release\winscw\udeb\z 
+2. If there is a file ph.log in EPOCROOT\epoc32\winscw\c, delete it
+3. Run epoc
+4. Open eshell
+5. Goto Z:  (type z: in eshell)
+6. Run all tests (type ph_exe_list.bat)
+   This runs all the EXEs and generates a report file ph.log in EPOCROOT\epoc32\winscw\c.
+
+7. To generate a summary, copy the script ph_log_analysis.pl to EPOCROOT\epoc32\winscw\c 
+and run it (From a windows command prompt, type "perl ph_log_analysis.pl")
+A summary file (PH_report.txt) is generated in the same directory.
+
+
+PS: The no of test cases are around 2500-2600.  
+If the summary is showing more, delete the ph.log file as mentioned above and run the tests again.
+
+ARM Tests
+==========================================
+1. Build libstdcpp and plumhall for ARMV5
+2. Create a new directory for building ROM.  (eg: /epoc32/ph_rom)
+3. copy ph_exe_list.bat to this directory    (eg: /epoc32/ph_rom)
+4. Open a command prompt, change to this new directory.
+
+5. Build ROM with this command
+   buildrom h4hrp textshell -D_FULL_DEBUG openenv.iby plumhalltests.iby
+
+6. You'll get a .IMG file.  Rename it to sys$rom.bin.  Copy it into the H4 board's memory card.
+7. Boot H4. 
+8. Open EShell.
+9. Run ph_exe_list.bat
+
+The test log is created in E:  (memory card)
+Once the tests are done, copy the test log from the memory card to PC.
+

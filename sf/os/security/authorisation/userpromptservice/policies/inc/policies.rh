@@ -1,0 +1,312 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* Resource header for User Prompt Service Policy files.
+*
+*/
+
+
+/**
+ @file policies.rh
+ @publishedPartner
+ @released
+*/
+
+#ifndef POLICIES_RH
+#define POLICIES_RH
+
+#include <ups/ups.hrh>
+
+/** 
+This resource header file defines the structures and constants required by User
+Prompt Service policy files.
+
+A policy file is specific to an single service provided by a specific system
+server and determines whether clients requesting that service from the system
+server should be silently accepted/denied or require the user to be prompted.
+
+A policy file consists of an arbitrary number of policies. The User Prompt
+Service searches through the file in order attempting to match.
+
+* The secure id of the client application.
+* The destination field  (e.g. a phone number) provided by the system server. 
+* If the policy only applies if the security check implemented by the system
+  server passed/failed.
+
+The first matching policy is the policy that is used so policies must be 
+ordered from most specific to least specific.
+
+The policies for a given service are defined by a single policy file and must
+be named as follows ups_SystemServerSid_ServiceUid.rsc
+
+Where the UID or SID is an 8 digit hexadecimal number.
+
+A policy file has the following structure
+
+UID2 KUidUpsPolicyResourceFile  // Identifies this as a UPS policy file
+UID3 0xXXXXXXXX                 // Uniquely defines this policy file.
+                                // The UID should be reserved using the
+                                // Symbian Signed protected UID allocator.
+
+RESOURCE POLICIES mypolicies
+    {
+    header = POLICY_HEADER 
+        {
+        // header definition
+        };
+policies = 
+    {
+    POLICY
+        {
+        // definition of policy 1
+        },
+    POLICY
+        {
+        // definition of policy 2
+        }
+    // etc
+    };
+}
+*/
+
+/**
+Defines whether a dialog should be displayed and if so, the
+set of options that should be presented in the dialog.
+
+If just KYes or just KNo is defined then a prompt won't be displayed
+and the request will be silently accepted/denied.
+*/
+
+#define KYes        0x0001
+#define KNo         0x0002
+#define KSession    0x0004 // Implicitly "yes", name kept for compatibility
+#define KSessionYes 0x0004 // New name, same value/meaning as old Session option
+#define KAlways     0x0008
+#define KNever      0x0010
+#define KSessionNo  0x0020
+
+/** Secure ID (SID) classes defined by Symbian Signed.  
+
+SID classes partition the UID range into 16 classes based on the most
+significant nybble of the UID number.  
+E.g. V9 protected UID allocates are always allocated from Class 2
+
+Typically, policies would be based on the protected range (classes 0 - 7)
+or the unprotected range (classes 8 - F). This is Software Install only
+allows the installation of executables with protected SIDs if the package
+is signed. Consequently, the identity of an application may only accurately
+be verified via the SIS registry if the application has a protected SID.
+
+See also - Symbian Signed UID FAQ
+*/
+#define KSidClass0  0x00000001
+#define KSidClass1  0x00000002
+#define KSidClass2  0x00000004
+#define KSidClass3  0x00000008
+#define KSidClass4  0x00000010
+#define KSidClass5  0x00000020
+#define KSidClass6  0x00000040
+#define KSidClass7  0x00000080
+#define KSidClass8  0x00000100
+#define KSidClass9  0x00000200
+#define KSidClassA  0x00000400
+#define KSidClassB  0x00000800
+#define KSidClassC  0x00001000
+#define KSidClassD  0x00002000
+#define KSidClassE  0x00004000
+#define KSidClassF  0x00008000
+
+// Commonly used SID class definitions
+#define KProtectedSids      KSidClass0|KSidClass1|KSidClass2|KSidClass3|KSidClass4|KSidClass5|KSidClass6|KSidClass7
+#define KUnprotectedSids    KSidClass8|KSidClass9|KSidClassA|KSidClassB|KSidClassC|KSidClassD|KSidClassE|KSidClassF
+#define KAllSids            0x0000FFFF
+
+
+/**
+Specifies whether authorisation from the User Prompt Service is required for 
+requests from clients that passed the system server's security check.
+
+Note that protected SID checks are based on the SID of the application excutable
+issuing the request, not the UID of the package owning that executable.
+
+If a policy file is not defined for a system server or service then a default
+value of ECheckNever will be used because this is compatible with the existing
+platform security behavior.
+*/
+ENUM TAuthorisationPolicy
+  {		
+	/**
+	Ignore the system server (platsec) checks, and always ask the UPS what to do.
+	*/
+	EAlwaysCheck = 0,	
+	
+	/**
+	For application executables with a protected SID,  launched from the
+	Z drive, where the system server checks have passed, allow the request.
+	Otherwise call the UPS which may still choose to  allow the request.
+	
+	For all other executables, ignore the system server (platsec) checks, and 
+	always ask the UPS what to do.
+	*/		 
+	ECheckPostManufacture = 1,
+	
+	/** 
+	For application executables with a protected SID (regardless of drive), where
+	the system server checks have passed, allow the request.
+	Otherwise call the UPS which may still choose to  allow the request.
+	
+	For all other executables, ignore the system server (platsec) checks, and 
+	always ask the UPS what to do.
+	*/
+	ECheckUnprotectedSids = 2,
+	
+	/** 
+	If the system server checks passed, allow the request.
+	If they failed, call the UPS which may still choose to  allow the request.
+	*/
+	ECheckIfFailed = 3,
+	
+	/** 
+	If the system server checks passed, allow the request.
+	If the system server checks failed, reject the request.
+		
+	Never query the UPS - just use existing security check result implemented
+	by system server.
+	*/
+	ENeverCheck = 4
+    }
+
+STRUCT POLICY_HEADER
+    {
+	// The major version number of THIS policy file.
+	// When policy files are upgraded or eclipsed the UPS deletes all decision
+	// records for the system server server SID and service ID where the major
+	// version in the decision record is not equal to the major version 
+	// number in the policy file.
+	WORD majorversion = 0;
+
+	// The minor version number of THIS policy file.
+	WORD minorversion = 0;
+
+	// Determines whether a system server must request authorisation from the
+	// User Prompt Service even if the client application passed the system
+	// server's security check.
+    BYTE authorisationpolicy = ECheckPostManufacture;
+    
+    // Defines the implementation UID of the default policy evaluator.
+    // This MUST be defined and non-zero.
+    LONG  policyevaluator = 0;
+
+    // Defines the implementation UID of the default dialog creator.
+    // This MUST be defined and non-zero.
+    LONG  dialogcreator = 0;    
+    }
+
+/**
+Allows policies to be matched according to whether the client process
+passed security check defined by the system server.
+Typically, this corresponds to whether the client has the correct capabilities
+for the requested service. However, system servers are free to use features
+other than capabilities in their security check.
+
+E.g. If the client has the correct capabilities for the requested service then
+the "Always" and "Never" options will be enabled in the policy; otherwise, a
+different policy will be matched where the prompt is limited to one-shot
+permissions ("Yes" and "No").
+
+*/
+ENUM TSystemServerSecurity
+   { 
+   /**
+   The policy applies regardless of whether the client process passed the
+   system server's security check.
+   */
+   ESystemServerSecurityPassedOrFailed = 0,
+   /**
+   The policy only applies if the client process failed the system server's
+   security check.
+   */
+   ESystemServerSecurityFailed = 1,
+   /**
+   The policy only applies if the client process passed the system server's
+   security check.
+   */
+   ESystemServerSecurityPassed = 2
+   }
+
+// Defines a single policy
+STRUCT POLICY
+    {
+    // A bitmask that defines the set of SID classes that this policy applies to.
+    // Typically, this field is used if a policy applies 
+	// All clients with a protected SID		- KProtectedSids
+    // All clients with an unprotected SID	- KUnprotectedSids
+	// All clients							- KAllSids
+    LONG    sid_classes = KAllSids;
+
+    // An array of LONGs that defines a set of specific client application SIDs 
+	// that this policy applies to.
+    // If this field is populated then the sid_classes field will be ignored.
+    LONG    sid_list[];
+
+	// By default policies apply regardless of whether the client process
+	// requesting the service passed or failed the system server's security
+	// check. i.e. whether the client process has the correct capabilities.
+    BYTE    systemserversecurity = ESystemServerSecurityPassedOrFailed;
+
+    // A wildcard string to match against destination supplied by system server
+	// Wildcard rules are defined by TDesC::MatchF
+    LTEXT   destination = "*";
+
+    // A bit field that controls which buttons may be displayed.
+    // KYes, KNo, KSessionYes, KSessionNo, KAlways, KNever
+    LONG    options = KYes|KNo;
+
+    // If non-zero, this field overrides the implementation UID
+    // of the default policy evaluator for this policy.
+    LONG    policyevaluator = 0;
+
+    // If non-zero, this field overrides the implementation UID
+    // of the default dialog creator.
+    LONG    dialogcreator = 0;
+
+    // Flags specific to the policy evaluator
+    WORD    flags = 0;
+
+    // Reserved for future use, do not use
+    WORD    reservedWord = 0;
+
+    // Reserved for future use, do not use
+    LLINK   reservedLink = 0;
+    }
+
+// Defines a set of policies and the implementations UIDs of the default
+// policy evaluator and dialog creator plug-ins.
+STRUCT POLICIES
+    {
+    // Version of the UPS policy format.
+	// Policy files MUST NOT change this value.
+    WORD version = 1;
+
+    // reserved for future use, do not use
+    LLINK reserved = 0;
+
+    // A POLICY_HEADER structure
+    STRUCT header;
+
+    // An array of POLICY structures
+    STRUCT policies[];
+    }
+
+#endif

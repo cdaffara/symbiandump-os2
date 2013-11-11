@@ -1,0 +1,53 @@
+// Copyright (c) 2008-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// Name        : stlport_test.mmp
+// Part of     : 
+// This is a top level mmp file to generate unit test suite.
+// Version     : 1.0
+//
+
+
+
+target			stlport_test.exe
+targettype		exe
+
+STDCPP
+
+#ifdef ARMCC_3_1
+OPTION ARMCC --diag_remark 3017
+#endif
+
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_LIBC_SYSTEMINCLUDE
+OS_LAYER_STLPORTV5_SYSTEMINCLUDE
+sourcepath		../eh
+source			test_algo.cpp test_algobase.cpp test_list.cpp 
+source			test_slist.cpp test_bit_vector.cpp test_vector.cpp
+source			test_deque.cpp test_set.cpp test_map.cpp
+source			test_hash_map.cpp test_hash_set.cpp test_rope.cpp
+source			test_string.cpp test_bitset.cpp test_valarray.cpp
+source			nc_alloc.cpp random_number.cpp
+source			main.cpp
+
+library			libstdcppv5.lib libc.lib euser.lib libpthread.lib
+staticlibrary	libcrt0.lib
+capability		all -tcb
+
+// TODO: temporarily adding.  A problem with SBSv2 in adding stdnew automatically?
+#ifndef WINSCW    
+LIBRARY           stdnew.lib
+#endif
+
+SMPSAFE

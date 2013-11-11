@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<relnotes name="C Standard Library">
+  <purpose>
+    SUBSET of the C programming language Standard Library, allowing ported C applications to interface to native services, orginally written to support porting of binary-only Java VM.
+  </purpose>
+<deliverystep number="1462" name="PREQ2475: Splitting Mixed Header files for Base Services API" osproject="SymTB9.2"   revision="001">
+    <milestone project="GT0494" number="3.9"/>
+    <preq number="2475" title="Splitting Mixed header">
+    Splitting Mixed Header files for Base Services API
+  </preq>
+  </deliverystep>
+  <defect number="DEF133527" title="[Coverity]-DEADCODE -syslibs/stdlib,syslibs/bafl" revision="020">
+  Removed deadcode from SetVBuf.c in Lstdio
+  </defect>
+   <defect number="PDEF132898" title="Loki Project: 3rd Party IP found in STRFTIME.c" revision="019"> 
+ Re-Written Strftime.c  to Remove 3rd Party IPR .
+  </defect>
+ <defect number=" DEF132532 " title="SWAP_Wordscan: Fix the profanity found in Base Services code" revision="018">
+     Fix the profanity found in Base Services code   
+  </defect>
+  <defect number="DEF130849" title="[Coverity]-SYMBIAN.CLEANUP STACK errors on stlib in syslibs" revision="017">
+
+    Cleanup implemented for three files CFileDescBase-CID 2338, CFileTable-CID 2337 and CLocalSystemInterface-CID 2327
+
+  </defect>
+
+  <defect number="DEF124477" title="[coverity] RESOURCE_LEAK - stdlib" revision="016">
+      Free allocated memory before the pointers go out of scope and the memory is orphaned.
+  </defect>	
+
+  <defect number="DEF123296" title="sprintf unexpectedly requires cleanup stack" revision="015">
+      Cleanup stack creation is added into the function that uses it.
+  </defect>	
+
+  <defect number="PDEF122338" title="tmisc3 of stdlib test fail in winscw urel" revision="014">
+      Add OPTION CW -opt nointrinsics in tmisc3.mmp to suppress inlining of math functions.
+  </defect>
+  
+  <defect number="DEF117451" title="Header files included by a source file is in incorrect case " revision="013">
+    Correct the case of the tchar.h header file in the include statement.
+  </defect>
+  
+  <defect number="DEF113884" title="STDLIB math.h functions do not map Symbian Math errors into 'errno'" revision="012">
+    Added mapping function to Math.h and LMath.cpp and applied to affected functions.  Updated automatic test script.
+  </defect>
+
+  <defect number="PDEF114447" title="7 failures on Cookie Port TC" revision="011">
+    add a flag to processing sign "+" or "-" in a string passed to strtoul().
+  </defect>
+
+  <defect number="DEF114383" title="STDLIB, CLocalSystemInterface::CLocalSystemInterface() panics in OOM" revision="010">
+    Apply 2-phase constructor to class CLocalSystemInterface.
+  </defect>
+  
+  <defect number="DEF110592" title="IMPORT_C/EXPORT_C: MEMCMP.C" revision="009">
+    Changed declaration of memcopare from extern to IMPORT_C.
+  </defect>
+
+  <defect number="DEF110614" title="Remove migration SWD macro __HIDE_IPC_V1__ from stdlib" revision="008">
+    Remove the macro and delete unused code.
+  </defect>
+
+  <minorchange revision="007">
+    Upgraded interface access and status tags for identifiers used by partners.
+  </minorchange>
+
+  <deliverystep number="557" name="Filename policy changes" osproject="Oghma" revision="006">
+    <milestone project="GT0329" number="3.11"/>
+    <preq number="1182" title="GNU Make-based build system">
+    Updating the component source files to comply with the Symbian filename policy.
+  </preq>
+  </deliverystep>
+
+  <minorchange revision="005">
+    Symbian OS v9.3 component branched from common codeline
+  </minorchange>
+
+  <defect number="DEF100212" title="GCCXML test build fails for STDLIB IEEEFP.h header file" revision="004">
+    Improved in-source documentation for setsockopt() parameters making clear which are and aren’t supported by Symbian OS.
+  </defect>
+
+  <defect number="DEF100212" title="GCCXML test build fails for STDLIB IEEEFP.h header file" revision="003">
+    
+    Fixed GCCXML platform compile error in the ieeefp.h header file.
+    
+  </defect>
+
+  <defect number="DEF098522" title="[System Build]: Compilation warnings for reent.h in Build M04078 vFuture" revision="002">
+    
+    Removed compiler warnings caused by new Windows platform compiler.
+    
+  </defect>
+
+  <defect number="INC096710" title="In libc/stdlib.h the #include &quot;_ansi.h&quot; should be replaced by #include &quot;libc/_an" revision="001">
+    
+    Fixed #include problem in the libc/stdlib.h header file.
+
+      
+  </defect>
+</relnotes>

@@ -1,0 +1,48 @@
+// PKCS#12 file that a certificate and matching key without any PBE privacy enabled.
+
+SEQUENCE
+	// Version
+	INTEGER=3
+
+	// authSafe - PFX
+	SEQUENCE
+		OID=PKCS7_DATA
+		EXPLICIT		
+			OCTETSTRING
+				OUTPUT_BINARY_FILE=authsafecontents.der,1					
+					// AuthenticatedSafe
+					SEQUENCE						
+												INCLUDE=contentinfo_ci002.txt,../safecontents.txt,safebag_keybag_ci002.txt,../root5ca_key.pk8,../root5ca.der,symbian
+					END
+				END
+			END
+		END
+	END
+
+	// macData
+	SEQUENCE
+		// DigestInfo
+		SEQUENCE
+			SEQUENCE
+				OID=SHA1
+				NULL
+			END
+			// DIGEST		
+			OCTETSTRING
+				OUTPUT_BINARY_FILE=ci002_mac,1
+					HMAC=SHA1,15846aede455bf914245a79718ac1addb0b86ca3
+						INCLUDE_BINARY_FILE=authsafecontents.der
+					END
+				END
+			END		
+		END		
+		// macSalt
+		OCTETSTRING
+			OUTPUT_BINARY_FILE=ci002_macsalt,1
+				RAW=95:5D:62:99:D3:31:50:57
+			END
+		END
+		// iterations
+		INTEGER=2048	
+	END
+END

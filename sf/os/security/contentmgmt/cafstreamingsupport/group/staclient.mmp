@@ -1,0 +1,43 @@
+// Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// @file
+// This is the project specification file for the streaming test agent client.
+// 
+//
+
+TARGETTYPE DLL
+TARGET staclient.dll
+
+UID 0 0x10285889
+
+CAPABILITY	All -Tcb
+
+USERINCLUDE 	../test/streamingtestagent/inc
+USERINCLUDE 	../../referencedrmagent/RefTestAgent/streamingrefagent/inc
+USERINCLUDE 	../../referencedrmagent/RefTestAgent/localsdp/inc
+USERINCLUDE 	../../referencedrmagent/RefTestAgent/localsdp/api
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+SOURCEPATH 	../test/streamingtestagent/source/client
+SOURCE 		staclient.cpp
+
+LIBRARY 	euser.lib 
+LIBRARY		scsclient.lib
+LIBRARY		estor.lib
+LIBRARY		cafutils.lib
+LIBRARY		localsdpcodec.lib
+LIBRARY		stashared.lib
+LIBRARY 	streamingcaf.lib efsrv.lib
+SMPSAFE

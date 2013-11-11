@@ -1,0 +1,57 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+
+
+TARGET  	CommonEngine.dll
+TARGETTYPE  	dll
+UID  		0x1000008D 0x100058FE 
+
+VENDORID	0x70000001
+CAPABILITY 	All -TCB
+
+userinclude	../inc
+USERINCLUDE ../src
+// OS_LAYER_SYSTEMINCLUDE_SYMBIAN  Upwards dependancy
+MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+
+deffile CommonEngineCR.DEF
+
+LANG     SC
+
+SOURCEPATH 	../src
+SOURCE	 	finditemengine.cpp
+SOURCE  	commonphoneparser.cpp
+SOURCE		textresolver.cpp
+SOURCE		commoncontentpolicy.cpp
+SOURCE		stringloader.cpp
+SOURCE		stringresourcereader.cpp
+SOURCE		coneresloader.cpp
+
+LIBRARY 	euser.lib
+LIBRARY 	efsrv.lib
+LIBRARY 	ecom.lib	
+LIBRARY 	cone.lib
+LIBRARY 	bafl.lib
+LIBRARY 	eikcore.lib
+LIBRARY 	apfile.lib
+LIBRARY 	gdi.lib
+LIBRARY 	etul.lib
+
+//Uncomment following lines depending on your tracing needs
+//macro _RD_COMMONENGINE_DETAILED_TRACE
+
+// Enf of File

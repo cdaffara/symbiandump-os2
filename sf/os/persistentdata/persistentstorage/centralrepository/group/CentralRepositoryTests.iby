@@ -1,0 +1,62 @@
+// Copyright (c) 2004-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+#ifndef __CENTRALREPOSITORYTESTS_IBY__
+#define __CENTRALREPOSITORYTESTS_IBY__
+
+REM Central Repository Tests
+#include <centralrepository.iby>
+// batch file that runs all automatic tests
+data=ZSYSTEM\test\centralrepositorytests.bat	test\centralrepositorytests.bat
+
+// centrep test dlls
+#include <centreptesthelper.iby>
+
+// centrep test supporting exe
+file=ABI_DIR\BUILD_DIR\t_processkillprocess.exe			test\t_processkillprocess.exe
+
+// cenrep test exes
+file=ABI_DIR\BUILD_DIR\t_cenrep.exe						test\t_cenrep.exe
+file=ABI_DIR\BUILD_DIR\t_cenrep_perf.exe				test\t_cenrep_perf.exe
+file=ABI_DIR\BUILD_DIR\t_cenrep_rfs.exe					test\t_cenrep_rfs.exe
+file=ABI_DIR\BUILD_DIR\t_cenreptrans.exe				test\t_cenreptrans.exe
+file=ABI_DIR\BUILD_DIR\t_cenrep_platsec.exe				test\t_cenrep_platsec.exe
+file=ABI_DIR\BUILD_DIR\t_cenrep_preq752.exe				test\t_cenrep_preq752.exe
+file=ABI_DIR\BUILD_DIR\t_cenrep_defects.exe				test\t_cenrep_defects.exe
+file=ABI_DIR\BUILD_DIR\t_cenrep_meta.exe				test\t_cenrep_meta.exe
+file=ABI_DIR\BUILD_DIR\t_cenrep_transactions.exe		test\t_cenrep_transactions.exe
+file=ABI_DIR\BUILD_DIR\t_oomcenrepsrv.exe				test\t_oomcenrepsrv.exe
+file=ABI_DIR\BUILD_DIR\t_cenrep_cache.exe				test\t_cenrep_cache.exe
+
+file=ABI_DIR\BUILD_DIR\t_cenrep_back_rest.exe			test\t_cenrep_back_rest.exe
+file=ABI_DIR\BUILD_DIR\t_cenrep_back_rest_delete.exe	test\t_cenrep_back_rest_delete.exe
+
+// centrep test data
+#include <centreptestdata.iby>
+
+//centrep multi rofs data
+#ifdef SYMBIAN_CENTREP_SUPPORT_MULTIROFS
+#include <centrep_multirofs.iby>
+	#ifdef PDS_TEST_MULTIROFS
+		#include <centreptestdata_multirofs.iby>
+	#endif
+#endif
+
+#ifdef SYMBIAN_CENREPNOTIFIERHANDLER
+//Test for Core OS extension
+#include <cenrepnotifyhandlertest.iby>
+#endif
+
+#endif //__CENTRALREPOSITORYTESTS_IBY__

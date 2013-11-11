@@ -1,0 +1,42 @@
+/*
+* Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* secutil.dll Common security utilities
+*
+*/
+
+
+/**
+ @file
+*/
+
+OPTION CW -w off
+
+TARGET        secutil.dll
+CAPABILITY 	All -Tcb
+TARGETTYPE    DLL
+
+// UID KUIDSecUtilDLL (270545384 - 0x102031E8)
+UID    0x1000008d 0x102031E8
+VENDORID 0x70000001
+
+USERINCLUDE ../inc
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+SOURCEPATH	../source/secutil
+SOURCE  e32dll.cpp
+SOURCE	callbacktimer.cpp
+
+LIBRARY euser.lib
+SMPSAFE

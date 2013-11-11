@@ -1,0 +1,77 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* To be used in conjuction of with "NonProtServAuthorisation" tests setp 
+* Service: 00000666
+*
+*/
+
+
+#include <ups/policies.rh>
+
+UID2 KUidUpsPolicyResourceFile
+UID3 0x101F7784
+
+
+RESOURCE POLICIES testpolicies
+	{
+	header = POLICY_HEADER
+		{
+		// use default client config 
+		policyevaluator = 0xe1111e11;
+		dialogcreator = 0xe1111d11;
+		majorversion = 1;
+		minorversion = 1;
+		};
+	policies = 
+		{
+		POLICY
+			{
+			// Allows dialog display protected clients to "client1.*" sites
+			sid_classes = KAllSids;
+			destination = "client1.*";
+			options = KYes | KNo | KAlways | KNever;
+			flags = 0x01;
+			},
+		POLICY
+			{
+			// Allows dialog display protected clients to "client2.*" sites
+			sid_classes = KAllSids;
+			destination = "client2.*";
+			policyevaluator = 0xe1111e21;
+			dialogcreator = 0xe1111d21;
+			options = KYes | KNo | KAlways | KNever;
+			flags = 0x02;
+			},
+		POLICY
+			{
+			// Allows dialog display protected clients to "client3.*" sites
+			sid_classes = KAllSids;
+			destination = "client3.*";
+			policyevaluator = 0xe1111e31;
+			dialogcreator = 0xe1111d31;
+			options = KYes | KNo | KAlways | KNever;
+			flags = 0x03;
+			},
+		POLICY
+			{
+			// Allows dialog display protected clients to ".com" sites
+			sid_classes = KAllSids;
+			destination = "*";
+			options = KYes | KNo | KAlways | KNever;
+			flags = 0x04;
+			} 
+		};
+	}
+

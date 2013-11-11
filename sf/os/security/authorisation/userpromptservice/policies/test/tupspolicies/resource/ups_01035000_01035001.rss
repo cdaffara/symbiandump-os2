@@ -1,0 +1,54 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+#include <ups/policies.rh>
+
+UID2 KUidUpsPolicyResourceFile
+UID3 0x01100007
+
+// Valid policy file on the Z drive
+RESOURCE POLICIES testpolicies
+	{
+	header = POLICY_HEADER
+		{		
+		dialogcreator = 0x10283694;
+		policyevaluator = 0x10283698;
+		majorversion = 1;
+		minorversion = 1;
+		};
+	policies = 
+		{
+		POLICY
+			{
+			// All options open to signed applications
+			sid_classes = KProtectedSids;
+			destination = "*";
+			options = KYes | KNo | KSession | KAlways | KNever;
+			flags = 0x01;
+			},			
+		POLICY
+			{
+			// "Alway" not allowed for unprotected SIDs
+			sid_classes = KAllSids;
+			destination = "*";
+			options = KYes | KNo | KSession | KNever;
+			flags = 0x02;
+			}			
+		};
+	}
+

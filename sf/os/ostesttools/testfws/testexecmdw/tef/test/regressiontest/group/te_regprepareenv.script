@@ -1,0 +1,50 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+PRINT Prepare the test environment for tef regression test...
+
+PREFIX RUN_UTILS
+MkDir ${SYSDRIVE}\testdata\
+MkDir ${SYSDRIVE}\testdata\scripts\
+MkDir ${SYSDRIVE}\testdata\configs\
+
+CopyFile z:\testdata\scripts\*.script ${SYSDRIVE}\testdata\scripts\*.script
+
+CopyFile z:\testdata\configs\*.ini ${SYSDRIVE}\testdata\configs\*.ini
+CopyFile z:\testdata\configs\file.txt ${SYSDRIVE}\testdata\configs\file.txt
+
+MakeReadWrite ${SYSDRIVE}\testdata\configs\writetoconfig.ini
+MakeReadWrite ${SYSDRIVE}\testdata\configs\error_codes.ini
+MakeReadWrite ${SYSDRIVE}\testdata\configs\readwriteconfig.ini
+MakeReadWrite ${SYSDRIVE}\testdata\configs\stepmacros.ini
+MakeReadWrite ${SYSDRIVE}\testdata\configs\oomtest.ini
+MakeReadWrite ${SYSDRIVE}\testdata\configs\stepshortfuns.ini
+MakeReadWrite ${SYSDRIVE}\testdata\configs\panictest.ini
+MakeReadWrite ${SYSDRIVE}\testdata\configs\leavenumber.ini
+MakeReadWrite ${SYSDRIVE}\testdata\configs\repeatparam.ini
+MakeReadWrite ${SYSDRIVE}\testdata\configs\shareddatatest.ini
+MakeReadWrite ${SYSDRIVE}\testdata\configs\te_regconcurrenttestsuite.ini
+MakeReadWrite ${SYSDRIVE}\testdata\configs\te_regperformancetest.ini
+MakeReadWrite ${SYSDRIVE}\testdata\configs\te_regblocktestsuite.ini
+
+MkDir ${SYSDRIVE}\system\
+MkDir ${SYSDRIVE}\system\data\
+CopyFile ${SYSDRIVE}\system\data\testexecute.ini ${SYSDRIVE}\system\data\testexecute.ini.bak
+CopyFile z:\system\data\testexecute_test.ini ${SYSDRIVE}\system\data\testexecute.ini
+CopyFile ${SYSDRIVE}\system\data\testexecute_test.ini ${SYSDRIVE}\system\data\testexecute.ini
+REMOVE_PREFIX
+
+PRINT Environment preparing complete, ready for testing.

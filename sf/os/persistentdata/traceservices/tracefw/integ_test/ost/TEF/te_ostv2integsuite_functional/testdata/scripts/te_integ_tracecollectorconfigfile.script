@@ -1,0 +1,114 @@
+
+// Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+//! @file
+//! @SYMTestSuiteName           te_integ_tracecollectorconfigfile.script
+//! @SYMScriptTestEnvironment   TEF
+
+
+LOAD_SUITE te_ostv2integsuite_enabled
+
+
+PRINT ConfigFile_Test
+
+
+PREFIX RUN_UTILS
+MkDir e:\ulogger\
+Copyfile z:\testdata\configs\configfiletracecontrolconfig.ini e:\ulogger\uloggerconfig.ini
+MakeReadWrite e:\ulogger\uloggerconfig.ini
+REMOVE_PREFIX
+
+
+START_TESTCASE                  DT-DEBUG-TRACE-OSTv2-TraceControlPublicConfigFile01-0001
+//! @SYMTestCaseID              DT-DEBUG-TRACE-OSTv2-TraceControlPublicConfigFile01-0001
+//! @SYMTestCaseDesc            Run test for publicconfig file path for TraceControl on armv5
+//! @SYMTestPriority            Critical
+//! @SYMTestActions             Compare the settings in the TraceControl server with that specified in the test config file in \testdata\configs\configfiletracecontrolconfig.ini
+//! @SYMTestExpectedResults     Verify that the returned settings match those expected (test step returns a test pass if so)
+//! @SYMTestType                CT
+//! @SYMTestStatus              Implemented
+//! @SYMPREQ                    PREQ2390
+//! @SYMREQ                     12128 12129
+    START_TEST_BLOCK    100     te_ostv2integsuite_enabled              \testdata\configs\te_integ_tracecollectorconfigfile.ini
+        CREATE_OBJECT           PublicConfigFile                        PublicConfigFile
+        COMMAND                 PublicConfigFile                        doTest
+    END_TEST_BLOCK
+END_TESTCASE                    DT-DEBUG-TRACE-OSTv2-TraceControlPublicConfigFile01-0001
+
+
+PREFIX RUN_UTILS
+Copyfile c:\logs\PublicConfigULogger.utf c:\logs\PublicConfigULogger1.utf
+DeleteFile c:\logs\PublicConfigULogger.utf 
+DeleteFile e:\ulogger\uloggerconfig.ini
+REMOVE_PREFIX
+
+
+START_TESTCASE                  DT-DEBUG-TRACE-OSTv2-TraceControlPrivateConfigFile-0001
+//! @SYMTestCaseID              DT-DEBUG-TRACE-OSTv2-TraceControlPrivateConfigFile-0001
+//! @SYMTestCaseDesc            Run test for privateconfig file path for TraceControl on armv5
+//! @SYMTestPriority            Critical
+//! @SYMTestActions             Having deleted c:\ulogger\uloggerconfig.ini in the public path, now compare the settings in the TraceControl server with that specified by default in the private path
+//! @SYMTestExpectedResults     Verify that the returned settings match those expected (test step returns a test pass if so)
+//! @SYMTestType                CT
+//! @SYMTestStatus              Implemented
+//! @SYMPREQ                    PREQ2390
+//! @SYMREQ                     12128 12129
+    START_TEST_BLOCK    100     te_ostv2integsuite_enabled              \testdata\configs\te_integ_tracecollectorconfigfile.ini
+        CREATE_OBJECT           PrivateConfigFile                       PrivateConfigFile
+        COMMAND                 PrivateConfigFile                       doTest
+    END_TEST_BLOCK
+END_TESTCASE                    DT-DEBUG-TRACE-OSTv2-TraceControlPrivateConfigFile-0001
+
+
+PREFIX RUN_UTILS
+Copyfile c:\logs\utracedata.utf c:\logs\PrivateConfigULogger.utf
+DeleteFile c:\logs\utracedata.utf
+Copyfile z:\testdata\configs\configfiletracecontrolconfig.ini e:\ulogger\uloggerconfig.ini
+MakeReadWrite e:\ulogger\uloggerconfig.ini
+REMOVE_PREFIX
+
+
+START_TESTCASE                  DT-DEBUG-TRACE-OSTv2-TraceControlPublicConfigFile02-0001
+//! @SYMTestCaseID              DT-DEBUG-TRACE-OSTv2-TraceControlPublicConfigFile02-0001
+//! @SYMTestCaseDesc            Run test for publicconfig file path for TraceControl on armv5
+//! @SYMTestPriority            Critical
+//! @SYMTestActions             Having reinstated a config file on the public path, now compare the settings in the TraceControl server with that specified in the public path
+//! @SYMTestExpectedResults     Verify that the returned settings match those expected (test step returns a test pass if so)
+//! @SYMTestType                CT
+//! @SYMTestStatus              Implemented
+//! @SYMPREQ                    PREQ2390
+//! @SYMREQ                     12128 12129
+    START_TEST_BLOCK    100     te_ostv2integsuite_enabled              \testdata\configs\te_integ_tracecollectorconfigfile.ini
+        CREATE_OBJECT           PublicConfigFile                        PublicConfigFile
+        COMMAND                 PublicConfigFile                        doTest
+    END_TEST_BLOCK
+END_TESTCASE                    DT-DEBUG-TRACE-OSTv2-TraceControlPublicConfigFile02-0001
+
+
+PREFIX RUN_UTILS
+Copyfile c:\logs\PublicConfigULogger.utf c:\logs\PublicConfigULogger2.utf
+DeleteFile c:\logs\PublicConfigULogger.utf 
+DeleteFile e:\ulogger\uloggerconfig.ini
+REMOVE_PREFIX
+
+
+START_TEST_BLOCK    20000       te_ostv2integsuite_enabled              \testdata\configs\te_integ_tracecollectorconfigfile.ini
+    CREATE_OBJECT               DefaultTraceControlConfig               DefaultTraceControlConfig
+    COMMAND                     DefaultTraceControlConfig               doTest
+END_TEST_BLOCK
+
+
+PRINT Complete_ConfigFile_Tests

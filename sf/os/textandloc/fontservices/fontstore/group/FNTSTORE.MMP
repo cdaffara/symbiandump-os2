@@ -1,0 +1,76 @@
+/*
+* Copyright (c) 1998-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* fntstr.dll Font store
+*
+*/
+
+
+/**
+ @file
+*/
+
+TARGET           fntstr.dll
+CAPABILITY All -Tcb
+TARGETTYPE       dll
+
+UID              0x1000008d 0x10003b1a
+VENDORID 0x70000001
+
+// This option turns off any warnings in the CW build
+// This is a temp workaround until a better solution is found
+// for 2 warnings that appear when building fntstore.cpp
+// Remove this option when making any changes to this component
+// to avoid overlooking any new warnings.
+// MAY BE NEEDED IN THE FUTURE
+// OPTION CW -w off
+
+USERINCLUDE      ../inc ../traces
+
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+SOURCEPATH       ../src
+
+SOURCE           FNTBODY.CPP
+SOURCE           FNTSTORE.CPP
+SOURCE           FNTUTIL.CPP
+SOURCE           OPENFONT.CPP
+SOURCE			 ShaperCache.CPP
+SOURCE			 linkedfonts.cpp	 
+SOURCE			 patchableconstants.cpp
+
+LIBRARY          euser.lib
+LIBRARY          efsrv.lib
+LIBRARY          estor.lib
+LIBRARY          gdi.lib
+LIBRARY		 	ecom.lib
+LIBRARY			fbscli.lib
+LIBRARY			hal.lib
+
+#ifdef WINSCW
+DEFFILE FNTSTR2.DEF
+#else
+DEFFILE fntstr2.def
+#endif
+
+START WINS
+BASEADDRESS      0x41700000
+END
+
+MACRO KMaxGlyphCacheMemory=32768
+UNPAGED
+
+
+SMPSAFE

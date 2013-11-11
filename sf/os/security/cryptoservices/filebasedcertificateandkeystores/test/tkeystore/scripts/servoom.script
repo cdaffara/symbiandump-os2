@@ -1,0 +1,462 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+START_TESTCASE                SEC-FILETOKENS-SERVOOM-0001
+
+//! @SYMTestCaseID            SEC-FILETOKENS-SERVOOM-0001
+
+//! @SYMTestCaseDesc          
+
+//!                           Keystore server OOM tests
+
+//!                           
+
+//!                           Testing key generatation has been diabled for the moment.
+
+//!                           
+
+//!                           
+
+//!                           /////////////////////////////////////////////////////////////////////////////
+
+//!                           Test case 1: Initialise the store
+
+//!                           /////////////////////////////////////////////////////////////////////////////
+
+//! @SYMTestActions           1) Delete keystore data file
+
+//!                           2) Start server OOM testing
+
+//!                           3) 1,Opening key store in manager mode
+
+//!                           4) 1.0.1 NOT A TEST Delete everything
+
+RUN_TEST_STEP                 -1    CTestHandler        deletekeystoredata  
+
+RUN_TEST_STEP                 -1    CTestHandler        startserveroom      
+
+RUN_TEST_STEP                 -1    CTestHandler        init                   servoom.ini   SEC-FILETOKENS-SERVOOM-0001-003
+
+RUN_TEST_STEP                 -1    CTestHandler        deletekeys          
+
+END_TESTCASE                  SEC-FILETOKENS-SERVOOM-0001
+
+
+
+
+
+START_TESTCASE                SEC-FILETOKENS-SERVOOM-0002
+
+//! @SYMTestCaseID            SEC-FILETOKENS-SERVOOM-0002
+
+//! @SYMTestCaseDesc          /////////////////////////////////////////////////////////////////////////////
+
+//!                           Test case 2: Add the "Banana" key
+
+//!                           /////////////////////////////////////////////////////////////////////////////
+
+//! @SYMTestActions           1) 2,Add a key
+
+//!                           2) 2.1,Set passphrase timeout to "don't cache"
+
+RUN_TEST_STEP                 -1    CTestHandler        addkey                 servoom.ini   SEC-FILETOKENS-SERVOOM-0002-001
+
+RUN_TEST_STEP                 -1    CTestHandler        settimeout             servoom.ini   SEC-FILETOKENS-SERVOOM-0002-002
+
+END_TESTCASE                  SEC-FILETOKENS-SERVOOM-0002
+
+
+
+
+
+START_TESTCASE                SEC-FILETOKENS-SERVOOM-0003
+
+//! @SYMTestCaseID            SEC-FILETOKENS-SERVOOM-0003
+
+//! @SYMTestCaseDesc          /////////////////////////////////////////////////////////////////////////////
+
+//!                           Test case 3: List the keys, should only find "Banana"
+
+//!                           /////////////////////////////////////////////////////////////////////////////
+
+//! @SYMTestActions           1) 3 List everything
+
+RUN_TEST_STEP                 -1    CTestHandler        listkeys               servoom.ini   SEC-FILETOKENS-SERVOOM-0003-001
+
+END_TESTCASE                  SEC-FILETOKENS-SERVOOM-0003
+
+
+
+
+
+START_TESTCASE                SEC-FILETOKENS-SERVOOM-0004
+
+//! @SYMTestCaseID            SEC-FILETOKENS-SERVOOM-0004
+
+//! @SYMTestCaseDesc          /////////////////////////////////////////////////////////////////////////////
+
+//!                           Test case 4: Delete "Banana" key
+
+//!                           /////////////////////////////////////////////////////////////////////////////
+
+//! @SYMTestActions           1) 4. Delete the key
+
+RUN_TEST_STEP                 -1    CTestHandler        deletekeys             servoom.ini   SEC-FILETOKENS-SERVOOM-0004-001
+
+END_TESTCASE                  SEC-FILETOKENS-SERVOOM-0004
+
+
+
+
+
+START_TESTCASE                SEC-FILETOKENS-SERVOOM-0005
+
+//! @SYMTestCaseID            SEC-FILETOKENS-SERVOOM-0005
+
+//! @SYMTestCaseDesc          /////////////////////////////////////////////////////////////////////////////
+
+//!                           Test case 5: List the keys, should find nothing
+
+//!                           /////////////////////////////////////////////////////////////////////////////
+
+//! @SYMTestActions           1) 3 List everything
+
+//!                           2) 2,Add a larger key
+
+//!                           3) 1.1.5.4,Add a key with a very long label
+
+//!                           4) 1.1.5.6,Add a DSA key
+
+//!                           5) 1.1.5.7,Add a DH key
+
+//!                           6) 1.1.5.7.1,Open it
+
+//!                           7) 1.1.5.7.2, Test derive
+
+//!                           8) 1.1.6,Add a key with illegal usage
+
+//!                           9) 1.1.7,Add a key with illegal usage
+
+//!                           10) 1.1.8,Add a key with illegal usage
+
+//!                           11) 1.2 List everything (including illegal usage keys)
+
+//!                           12) 1.3.1 List DSA keys (including illegal usage keys)
+
+//!                           13) 1.3.2 List Sign-usage keys (including illegal usage keys)
+
+//!                           14) 1.3.3 List 'All usages' keys (including illegal usage keys)
+
+//!                           15) 1.4.1, Delete RSA keys
+
+//!                           16) 1.4.2 List RSA keys
+
+//!                           17) 1.4.3 List everything (including illegal usage keys)
+
+//!                           18) 1.4.4,Add a key that was previously deleted
+
+//!                           19) 1.4.5 List RSA keys (including illegal usage keys)
+
+//!                           20) 1.4.6 List everything (including illegal usage keys)
+
+RUN_TEST_STEP                 -1    CTestHandler        listkeys               servoom.ini   SEC-FILETOKENS-SERVOOM-0005-001
+
+RUN_TEST_STEP                 -1    CTestHandler        addkey                 servoom.ini   SEC-FILETOKENS-SERVOOM-0005-002
+
+RUN_TEST_STEP                 -1    CTestHandler        addkey                 servoom.ini   SEC-FILETOKENS-SERVOOM-0005-003
+
+RUN_TEST_STEP                 -1    CTestHandler        addkey                 servoom.ini   SEC-FILETOKENS-SERVOOM-0005-004
+
+RUN_TEST_STEP                 -1    CTestHandler        addkey                 servoom.ini   SEC-FILETOKENS-SERVOOM-0005-005
+
+RUN_TEST_STEP                 -1    CTestHandler        open                   servoom.ini   SEC-FILETOKENS-SERVOOM-0005-006
+
+RUN_TEST_STEP                 -1    CTestHandler        derive                 servoom.ini   SEC-FILETOKENS-SERVOOM-0005-007
+
+RUN_TEST_STEP                 -1    CTestHandler        addkey                 servoom.ini   SEC-FILETOKENS-SERVOOM-0005-008
+
+RUN_TEST_STEP                 -1    CTestHandler        addkey                 servoom.ini   SEC-FILETOKENS-SERVOOM-0005-009
+
+RUN_TEST_STEP                 -1    CTestHandler        addkey                 servoom.ini   SEC-FILETOKENS-SERVOOM-0005-010
+
+RUN_TEST_STEP                 -1    CTestHandler        listkeys               servoom.ini   SEC-FILETOKENS-SERVOOM-0005-011
+
+RUN_TEST_STEP                 -1    CTestHandler        listkeys               servoom.ini   SEC-FILETOKENS-SERVOOM-0005-012
+
+RUN_TEST_STEP                 -1    CTestHandler        listkeys               servoom.ini   SEC-FILETOKENS-SERVOOM-0005-013
+
+RUN_TEST_STEP                 -1    CTestHandler        listkeys               servoom.ini   SEC-FILETOKENS-SERVOOM-0005-014
+
+RUN_TEST_STEP                 -1    CTestHandler        deletekeys             servoom.ini   SEC-FILETOKENS-SERVOOM-0005-015
+
+RUN_TEST_STEP                 -1    CTestHandler        listkeys               servoom.ini   SEC-FILETOKENS-SERVOOM-0005-016
+
+RUN_TEST_STEP                 -1    CTestHandler        listkeys               servoom.ini   SEC-FILETOKENS-SERVOOM-0005-017
+
+RUN_TEST_STEP                 -1    CTestHandler        addkey                 servoom.ini   SEC-FILETOKENS-SERVOOM-0005-018
+
+RUN_TEST_STEP                 -1    CTestHandler        listkeys               servoom.ini   SEC-FILETOKENS-SERVOOM-0005-019
+
+RUN_TEST_STEP                 -1    CTestHandler        listkeys               servoom.ini   SEC-FILETOKENS-SERVOOM-0005-020
+
+END_TESTCASE                  SEC-FILETOKENS-SERVOOM-0005
+
+
+
+
+
+START_TESTCASE                SEC-FILETOKENS-SERVOOM-0006
+
+//! @SYMTestCaseID            SEC-FILETOKENS-SERVOOM-0006
+
+//! @SYMTestCaseDesc          //////////////////////////////////////////////////////////////////////////////
+
+//!                           Test RSA signing
+
+//!                           //////////////////////////////////////////////////////////////////////////////
+
+//! @SYMTestActions           1) 1.0.0.2.1,Open it
+
+//!                           2) 1.0.0.2.2,Open a banana for decrypt
+
+//!                           3) Decrypt
+
+//!                           4) 1.0.0.2.2.1, Sign with a banana, 20 char text
+
+//!                           5) 1.0.0.2.2.2, Sign with a banana, 32 char text
+
+//!                           6) 1.0.0.2.2.2.1, Sign digest with a banana
+
+//!                           7) 1.4.5, Delete it again
+
+RUN_TEST_STEP                 -1    CTestHandler        open                   servoom.ini   SEC-FILETOKENS-SERVOOM-0006-001
+
+RUN_TEST_STEP                 -1    CTestHandler        open                   servoom.ini   SEC-FILETOKENS-SERVOOM-0006-002
+
+RUN_TEST_STEP                 -1    CTestHandler        decrypt                servoom.ini   SEC-FILETOKENS-SERVOOM-0006-003
+
+RUN_TEST_STEP                 -1    CTestHandler        sign                   servoom.ini   SEC-FILETOKENS-SERVOOM-0006-004
+
+RUN_TEST_STEP                 -1    CTestHandler        sign                   servoom.ini   SEC-FILETOKENS-SERVOOM-0006-005
+
+RUN_TEST_STEP                 -1    CTestHandler        sign                   servoom.ini   SEC-FILETOKENS-SERVOOM-0006-006
+
+RUN_TEST_STEP                 -1    CTestHandler        deletekeys             servoom.ini   SEC-FILETOKENS-SERVOOM-0006-007
+
+END_TESTCASE                  SEC-FILETOKENS-SERVOOM-0006
+
+
+
+
+
+START_TESTCASE                SEC-FILETOKENS-SERVOOM-0007
+
+//! @SYMTestCaseID            SEC-FILETOKENS-SERVOOM-0007
+
+//! @SYMTestCaseDesc          //////////////////////////////////////////////////////////////////////////////
+
+//!                           Test DSA signing
+
+//!                           //////////////////////////////////////////////////////////////////////////////
+
+//! @SYMTestActions           1) 1.0.0.10,Get carrot
+
+//!                           2) 1.0.0.10.1, Sign with a carrot, 20 char text
+
+//!                           3) 1.0.0.10.2, Sign with carrot, text too long (21 chars)
+
+//!                           4) 1.0.0.10.2, Sign digest with carrot
+
+//!                           5) 1.0.0.10.3, Sign digest with a carrot, fail hash
+
+//!                           6) 1.4.5, Delete it again
+
+//!                           7) 1.5.8.1 List everything (including illegal usage keys)
+
+//!                           8) 1.5.8.2, Delete everything
+
+//!                           9) 1.5.9 List everything
+
+RUN_TEST_STEP                 -1    CTestHandler        getkeyinfo             servoom.ini   SEC-FILETOKENS-SERVOOM-0007-001
+
+RUN_TEST_STEP                 -1    CTestHandler        sign                   servoom.ini   SEC-FILETOKENS-SERVOOM-0007-002
+
+RUN_TEST_STEP !Error=-9       -1    CTestHandler        sign                   servoom.ini   SEC-FILETOKENS-SERVOOM-0007-003
+
+RUN_TEST_STEP                 -1    CTestHandler        sign                   servoom.ini   SEC-FILETOKENS-SERVOOM-0007-004
+
+RUN_TEST_STEP !Error=-2       -1    CTestHandler        sign                   servoom.ini   SEC-FILETOKENS-SERVOOM-0007-005
+
+RUN_TEST_STEP                 -1    CTestHandler        deletekeys             servoom.ini   SEC-FILETOKENS-SERVOOM-0007-006
+
+RUN_TEST_STEP                 -1    CTestHandler        listkeys               servoom.ini   SEC-FILETOKENS-SERVOOM-0007-007
+
+RUN_TEST_STEP                 -1    CTestHandler        deletekeys             servoom.ini   SEC-FILETOKENS-SERVOOM-0007-008
+
+RUN_TEST_STEP                 -1    CTestHandler        listkeys               servoom.ini   SEC-FILETOKENS-SERVOOM-0007-009
+
+END_TESTCASE                  SEC-FILETOKENS-SERVOOM-0007
+
+
+
+
+
+START_TESTCASE                SEC-FILETOKENS-SERVOOM-0008
+
+//! @SYMTestCaseID            SEC-FILETOKENS-SERVOOM-0008
+
+//! @SYMTestCaseDesc          Test importing keys
+
+//! @SYMTestActions           1) 26, Import a PKCS5 encrypted DSA key
+
+//!                           2) 27, List DSA keys (TEST ID: GT0140-KEY001)
+
+//!                           3) 28, Delete everything
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              servoom.ini   SEC-FILETOKENS-SERVOOM-0008-001
+
+RUN_TEST_STEP                 -1    CTestHandler        listkeys               servoom.ini   SEC-FILETOKENS-SERVOOM-0008-002
+
+RUN_TEST_STEP                 -1    CTestHandler        deletekeys             servoom.ini   SEC-FILETOKENS-SERVOOM-0008-003
+
+END_TESTCASE                  SEC-FILETOKENS-SERVOOM-0008
+
+
+
+
+
+START_TESTCASE                SEC-FILETOKENS-SERVOOM-0009
+
+//! @SYMTestCaseID            SEC-FILETOKENS-SERVOOM-0009
+
+//! @SYMTestCaseDesc          Test exporting keys
+
+//! @SYMTestActions           1) 1.1.0 Import a RSA key
+
+//!                           2) 1.1.0.1, Set passphrase timeout to "don't cache"
+
+//!                           3) 1.1.5 Export a RSA key
+
+//!                           4) 1.4.1 Import a DSA key
+
+//!                           5) 1.4.6 Export a DSA key
+
+//!                           6) 1.7.6 Export a RSA key in encrypted format
+
+//!                           7) 1.9.6 Export a DSA key in encrypted format
+
+//!                           8) 1.10.0 NOT A TEST Delete everything 
+
+                    ** Basic sanity check for PKCS8 encrypted DSA key import/export **
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              servoom.ini   SEC-FILETOKENS-SERVOOM-0009-001
+
+RUN_TEST_STEP                 -1    CTestHandler        settimeout             servoom.ini   SEC-FILETOKENS-SERVOOM-0009-002
+
+RUN_TEST_STEP                 -1    CTestHandler        exportkey              servoom.ini   SEC-FILETOKENS-SERVOOM-0009-003
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              servoom.ini   SEC-FILETOKENS-SERVOOM-0009-004
+
+RUN_TEST_STEP                 -1    CTestHandler        exportkey              servoom.ini   SEC-FILETOKENS-SERVOOM-0009-005
+
+RUN_TEST_STEP                 -1    CTestHandler        exportkey              servoom.ini   SEC-FILETOKENS-SERVOOM-0009-006
+
+RUN_TEST_STEP                 -1    CTestHandler        exportkey              servoom.ini   SEC-FILETOKENS-SERVOOM-0009-007
+
+RUN_TEST_STEP                 -1    CTestHandler        deletekeys          
+
+END_TESTCASE                  SEC-FILETOKENS-SERVOOM-0009
+
+
+
+
+
+START_TESTCASE                SEC-FILETOKENS-SERVOOM-0010
+
+//! @SYMTestCaseID            SEC-FILETOKENS-SERVOOM-0010
+
+//! @SYMTestCaseDesc          Test authentication objects (snippets of authobjects.txt)
+
+//! @SYMTestActions           1) 2.1, Add a key
+
+//!                           2) 2.2, List protected objects
+
+//!                           3) 3.5, Change the passphrase
+
+//!                           4) 0.7.2, Set passphrase timeout to 15 seconds
+
+//!                           5) 1.1.2, Get timeout, expect 15 seconds
+
+//!                           6) 1.4.1.5, Open banana
+
+//!                           7) 1.3.1, Get time remaining, expect 15 seconds
+
+//!                           8) 1.4.2.2, Close object
+
+//!                           9) 3.8, Delete everything
+
+RUN_TEST_STEP                 -1    CTestHandler        addkey                 servoom.ini   SEC-FILETOKENS-SERVOOM-0010-001
+
+RUN_TEST_STEP                 -1    CTestHandler        listprotectedobjects   servoom.ini   SEC-FILETOKENS-SERVOOM-0010-002
+
+RUN_TEST_STEP                 -1    CTestHandler        changepassphrase       servoom.ini   SEC-FILETOKENS-SERVOOM-0010-003
+
+RUN_TEST_STEP                 -1    CTestHandler        settimeout             servoom.ini   SEC-FILETOKENS-SERVOOM-0010-004
+
+RUN_TEST_STEP                 -1    CTestHandler        gettimeout             servoom.ini   SEC-FILETOKENS-SERVOOM-0010-005
+
+RUN_TEST_STEP                 -1    CTestHandler        authopen               servoom.ini   SEC-FILETOKENS-SERVOOM-0010-006
+
+RUN_TEST_STEP                 -1    CTestHandler        timeremaining          servoom.ini   SEC-FILETOKENS-SERVOOM-0010-007
+
+RUN_TEST_STEP                 -1    CTestHandler        authclose              servoom.ini   SEC-FILETOKENS-SERVOOM-0010-008
+
+RUN_TEST_STEP                 -1    CTestHandler        deletekeys             servoom.ini   SEC-FILETOKENS-SERVOOM-0010-009
+
+END_TESTCASE                  SEC-FILETOKENS-SERVOOM-0010
+
+
+
+
+
+START_TESTCASE                SEC-FILETOKENS-SERVOOM-0011
+
+//! @SYMTestCaseID            SEC-FILETOKENS-SERVOOM-0011
+
+//! @SYMTestCaseDesc          End of testing
+
+//! @SYMTestActions           1) 999.1, Closing key store
+
+//!                           2) Stop server OOM testing
+
+//!                           3) 999.2, Sleep 5 seconds
+
+//!                           4) 999.3, Check for server heap error
+
+RUN_TEST_STEP                 -1    CTestHandler        delete              
+
+RUN_TEST_STEP                 -1    CTestHandler        stopserveroom       
+
+RUN_TEST_STEP                 -1    CTestHandler        sleep                  servoom.ini   SEC-FILETOKENS-SERVOOM-0011-003
+
+RUN_TEST_STEP                 -1    CTestHandler        checkserverheaperror
+
+END_TESTCASE                  SEC-FILETOKENS-SERVOOM-0011
+
+
+
+
+

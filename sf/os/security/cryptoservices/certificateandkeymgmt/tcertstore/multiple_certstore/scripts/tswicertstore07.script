@@ -1,0 +1,60 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+// CASE7: Duplicates in Distinct certstore (DD), with corrupt certstore (C) of highest order
+
+
+
+// TEST-CASE:         SEC-SWICERTSTORE-0007-0001
+
+// FILES:             corrupt.dat, swicertstore3.dat, swicertstore2.dat
+
+// LABELS:            SymbianTestRSACA, SymbianTestDSACA, SymbianTestRSACA
+
+// EXPECTED RESULTS:  SymbianTestRSACA, SymbianTestDSACA
+
+// VARIANT:           UDEB, UREL
+
+
+
+START_TESTCASE                SEC-SWICERTSTORE-0007-0001
+
+//! @SYMTestCaseID            SEC-SWICERTSTORE-0007-0001
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Open the SWI cert store
+
+//! @SYMREQ                   REQ9981, REQ9983, REQ10141
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) Open the SWI cert store
+
+//!                           2) Get the list of CA certificates
+
+RUN_TEST_STEP                 -1    CTestHandler        initswicertstore    
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               tswicertstore07.ini   SEC-SWICERTSTORE-0007-002
+
+END_TESTCASE                  SEC-SWICERTSTORE-0007-0001
+
+
+
+
+

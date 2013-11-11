@@ -1,0 +1,95 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* keytool.exe Keytool implementation
+*
+*/
+
+
+/**
+ @file
+*/
+//RTEST
+#ifdef SYMBIAN_AUTH_SERVER
+MACRO KEYTOOL=1
+#endif // SYMBIAN_AUTH_SERVER
+
+TARGET		keytool.exe
+TARGETTYPE	exe
+// KUidSecurityKeytool
+UID 0x10000079 0x10281c32
+VENDORID 0x70000001
+
+CAPABILITY ReadUserData WriteUserData WriteDeviceData
+
+SOURCEPATH	.
+
+SOURCE 		keytool.cpp keytool_utils.cpp
+SOURCE		keytool_controller.cpp
+SOURCE		keytool_engine.cpp
+SOURCE		keytool_view_imp.cpp
+SOURCE		keytool_command.cpp
+SOURCE 		keytool_list.cpp keytool_import.cpp
+SOURCE 		keytool_remove.cpp
+SOURCE 		keytool_params.cpp keytool_usage.cpp
+SOURCE 		controller.cpp
+SOURCE 		keytool_liststores.cpp
+SOURCE 		keytoolfileview.cpp  
+SOURCE 		keytool_setpolicy.cpp
+#ifdef SYMBIAN_AUTH_SERVER
+SOURCE		keytool_migratestore.cpp
+SOURCE		../../source/keystore/server/ckeydatamanager.cpp
+SOURCE		../../source/shared/ckeyinfo.cpp
+SOURCE		../../source/keystore/server/keystorecenrepconfig.cpp
+SOURCE		../../source/keystore/server/keystorepassphrase.cpp
+SOURCE		../../source/generic/server/fstokenutil.cpp
+SOURCE		../../source/keystore/server/keystreamutils.cpp
+SOURCE		../../source/generic/server/fsdialog.cpp
+SOURCE		../../source/generic/server/fsresources.cpp
+#endif // SYMBIAN_AUTH_SERVER
+
+START RESOURCE	keytool.rss
+HEADER
+TARGETPATH /resource/apps
+END
+
+USERINCLUDE	. 
+USERINCLUDE	../certtool
+#ifdef SYMBIAN_AUTH_SERVER
+USERINCLUDE	../../Inc
+USERINCLUDE	../../source/generic/common
+USERINCLUDE	../../source/generic/server
+USERINCLUDE	../../source/keystore/server
+#endif // SYMBIAN_AUTH_SERVER
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+#ifdef SYMBIAN_AUTH_SERVER
+SYSTEMINCLUDE OS_LAYER_PUBLIC_EXPORT_PATH(ct)
+#endif // SYMBIAN_AUTH_SERVER
+
+LIBRARY	euser.lib efsrv.lib 
+LIBRARY certstore.lib crypto.lib 
+LIBRARY ctframework.lib 
+LIBRARY bafl.lib charconv.lib
+LIBRARY estor.lib
+#ifdef SYMBIAN_AUTH_SERVER
+LIBRARY centralrepository.lib
+LIBRARY pbe.lib
+LIBRARY authclient.lib 
+LIBRARY	authcommon.lib
+LIBRARY fstokenshared.lib
+LIBRARY cryptography.lib
+#endif // SYMBIAN_AUTH_SERVER
+
+SMPSAFE

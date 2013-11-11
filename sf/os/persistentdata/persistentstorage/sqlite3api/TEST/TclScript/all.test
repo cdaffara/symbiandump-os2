@@ -1,0 +1,174 @@
+# 2001 September 15
+#
+# Portions Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiaries. All rights reserved.
+#
+# The author disclaims copyright to this source code.  In place of
+# a legal notice, here is a blessing:
+#
+#    May you do good and not evil.
+#    May you find forgiveness for yourself and forgive others.
+#    May you share freely, never taking more than you give.
+#
+#***********************************************************************
+# This file runs all tests.
+#
+# $Id: all.test,v 1.58 2008/09/09 18:28:07 danielk1977 Exp $
+
+set testdir [file dirname $argv0]
+source $testdir/tester.tcl
+rename finish_test really_finish_test
+proc finish_test {} {
+  # no-op
+}
+
+# Symbian: the ISQUICK value is set to 1. The number of the running tests is reduced.
+set ISQUICK 1
+
+# Symbian: the COUNT value (the number of test runs) changed from 3 to 1. 
+if {[file exists ./sqlite_test_count]} {
+  set COUNT [exec cat ./sqlite_test_count]
+} else {
+  set COUNT 1
+}
+
+if {[llength $argv]>0} {
+  foreach {name value} $argv {
+    switch -- $name {
+      -count {
+         set COUNT $value
+      }
+      -quick {
+         set ISQUICK $value
+      }
+      -soak {
+         set SOAKTEST $value
+      }
+      default {
+         puts stderr "Unknown option: $name"
+         exit
+      }
+    }
+  }
+}
+set argv {}
+
+# LeakList will hold a list of the number of unfreed mallocs after
+# each round of the test.  This number should be constant.  If it
+# grows, it may mean there is a memory leak in the library.
+#
+set LeakList {}
+
+set EXCLUDE {}
+lappend EXCLUDE all.test               ;# This file
+lappend EXCLUDE async.test
+lappend EXCLUDE crash.test             ;# Run seperately later.
+lappend EXCLUDE crash2.test            ;# Run seperately later.
+lappend EXCLUDE fuzz_malloc.test       ;# Symbian: the test crashes the test executable.
+lappend EXCLUDE quick.test             ;# Alternate test driver script
+lappend EXCLUDE veryquick.test         ;# Alternate test driver script
+lappend EXCLUDE malloc.test            ;# Run seperately later.
+lappend EXCLUDE misuse.test            ;# Run seperately later.
+lappend EXCLUDE memleak.test           ;# Alternate test driver script
+lappend EXCLUDE permutations.test      ;# Run seperately later.
+lappend EXCLUDE rtree.test             ;# Excluded, because the Symbian SQLite port does not use the R-Tree module.
+lappend EXCLUDE fuzz.test
+lappend EXCLUDE fuzz3.test
+lappend EXCLUDE soak.test              ;# Takes a very long time (default 1 hr)
+lappend EXCLUDE fts3.test              ;# Wrapper for muliple fts3*.tests
+lappend EXCLUDE mallocall.test         ;# Wrapper for running all malloc tests
+lappend EXCLUDE speed1.test			   ;# Symbian OS: Excluding all "speed" tests, the first one is crashing all.test.
+lappend EXCLUDE speed1p.test		   ;# Also, these "speed" tests are not that useful for Symbian OS.
+lappend EXCLUDE speed2.test
+lappend EXCLUDE speed3.test
+lappend EXCLUDE speed4.test
+lappend EXCLUDE speed4p.test
+
+# Files to include in the test.  If this list is empty then everything
+# that is not in the EXCLUDE list is run.
+#
+set INCLUDE {
+}
+
+for {set Counter 0} {$Counter<$COUNT && $nErr==0} {incr Counter} {
+  if {$Counter%2} {
+    set ::SETUP_SQL {PRAGMA default_synchronous=off;}
+  } else {
+    catch {unset ::SETUP_SQL}
+  }
+  foreach testfile [lsort -dictionary [glob $testdir/*.test]] {
+    #Symbian OS: tail is overwritten in misc5.test, so use a new var tname for it here.
+    set tname [file tail $testfile]
+    if {[lsearch -exact $EXCLUDE $tname]>=0} continue
+    if {[llength $INCLUDE]>0 && [lsearch -exact $INCLUDE $tname]<0} continue
+    print_text "" $tname
+    start_case $tname
+    reset_prng_state
+    source $testfile
+    catch {db close}
+    if {$sqlite_open_file_count>0} {
+      puts "$tname did not close all files: $sqlite_open_file_count"
+      # Symbian OS: Set and increase error count with do_fail procedure (definition in Tester.tcl)
+      do_fail $tname 
+      set sqlite_open_file_count 0
+    }
+    end_case $tname
+  }
+  if {[info exists Leak]} {
+    lappend LeakList $Leak
+  }
+}
+
+# Symbian OS: permutation tests disabled. The permutation tests are not that important, because the SQLite port is offered with hard-coded config settings.
+if {$::tcl_platform(platform)!="symbian"} {
+  set argv all
+  source $testdir/permutations.test
+  set argv ""
+}
+
+# Do one last test to look for a memory leak in the library.  This will
+# only work if SQLite is compiled with the -DSQLITE_DEBUG=1 flag.
+#
+if {$LeakList!=""} {
+  puts -nonewline memory-leak-test...
+  incr ::nTest
+  foreach x $LeakList {
+    if {$x!=[lindex $LeakList 0]} {
+       puts " failed!"
+       puts "Expected: all values to be the same"
+       puts "     Got: $LeakList"
+       # Symbian OS: Set and increase error count with do_fail procedure (definition in Tester.tcl)
+       do_fail memory-leak-test 
+       break
+    }
+  }
+  puts " Ok"
+}
+
+# Run the crashtest only on unix and only once. If the library does not
+# always create auto-vacuum databases, also run autovacuum_crash.test.
+#
+if {$::tcl_platform(platform)=="unix"} {
+  source $testdir/crash.test
+  source $testdir/crash2.test
+  ifcapable !default_autovacuum {
+    set argv autovacuum_crash
+    source $testdir/permutations.test
+    set argv ""
+  }
+}
+
+# Run the malloc tests and the misuse test after memory leak detection.
+# Both tests leak memory. Currently, misuse.test also leaks a handful of
+# file descriptors. This is not considered a problem, but can cause tests
+# in malloc.test to fail. So set the open-file count to zero before running
+# malloc.test to get around this.
+#
+# Symbian OS: misuse/malloc tests disabled
+if {$::tcl_platform(platform)!="symbian"} {
+  catch {source $testdir/misuse.test}
+  set sqlite_open_file_count 0
+  catch {source $testdir/malloc.test}
+}
+catch {db close}
+set sqlite_open_file_count 0
+really_finish_test

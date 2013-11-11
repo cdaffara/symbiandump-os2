@@ -1,0 +1,67 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:    
+*
+*/
+
+#include <SUTFlags.cfg>
+
+TARGET        symbianunittestfw.dll
+TARGETTYPE    dll
+UID           0x1000008d 0x20022E74
+
+// Framework
+SOURCEPATH    ../sutfwframework/src
+SOURCE        symbianunittest.cpp
+SOURCE        symbianunittestsuite.cpp
+SOURCE        symbianunittestfailure.cpp
+SOURCE        symbianunittestresult.cpp
+      
+
+// Output
+SOURCEPATH    ../sutfwoutput/src
+SOURCE        symbianunittestfileoutputwriter.cpp
+SOURCE        symbianunittestoutputformatter.cpp
+SOURCE        symbianunittestoutputashtml.cpp
+SOURCE        symbianunittestoutputastext.cpp
+SOURCE        symbianunittestoutputasxml.cpp
+SOURCE        symbianunittestoutputfactory.cpp
+
+// Test runner
+SOURCEPATH    ../sutfwtestrunner/src
+SOURCE        symbianunittestrunner.cpp
+
+// Kernel
+SOURCEPATH       ../sutfwkernel/src
+SOURCE        symbianunittestlddctl.cpp
+
+USERINCLUDE   ../sutfwframework/inc
+USERINCLUDE   ../sutfwoutput/inc
+USERINCLUDE   ../sutfwkernel/inc
+USERINCLUDE   ../../inc
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+LIBRARY       euser.lib
+LIBRARY       charconv.lib
+LIBRARY       efsrv.lib
+LIBRARY       bafl.lib
+
+#if defined(__ENABLE_LOGGING__)
+LIBRARY       flogger.lib
+#endif
+
+VENDORID 0x101FB657
+
+CAPABILITY    ALL -TCB

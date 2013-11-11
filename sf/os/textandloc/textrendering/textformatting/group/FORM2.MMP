@@ -1,0 +1,57 @@
+/*
+* Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* form.dll Formatted text display
+*
+*/
+
+
+/**
+ @file
+*/
+
+
+target          form.dll
+CAPABILITY All -Tcb
+targettype      DLL
+UID	0x1000008D 0x10003B27
+VENDORID 0x70000001
+
+sourcepath ../tbox
+userinclude ../tbox
+userinclude ../inc ../traces
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+source CARET.CPP
+source FRMDRAW.CPP
+source FRMFRAME.CPP
+source FRMPAGE.CPP FormLinePag.cpp
+source FRMPRINT.CPP
+source FRMSCRND.CPP
+source FRMTVIEW.CPP
+source FRMVIS.CPP
+source FRMPARAM.CPP
+source FORMUTIL.CPP
+source LAYEMU.CPP
+
+library euser.lib estor.lib gdi.lib fbscli.lib etext.lib ws32.lib tagma.lib bitgdi.lib fntstr.lib
+library linebreak.lib
+
+deffile FORM.DEF
+
+START WINS
+baseaddress	0x41800000
+END
+
+SMPSAFE

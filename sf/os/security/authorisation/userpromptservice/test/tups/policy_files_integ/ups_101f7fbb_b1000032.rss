@@ -1,0 +1,83 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* Tests Accessing: SEC-INTEG-UPS-B0010 (Concurrent Multiple Client Requests - ALWAYS Returned from Dialogs)
+* Service: B1000032
+* Service: System Server 3 (0x101F7FBB)
+*
+*/
+
+
+#include <ups/policies.rh>
+
+UID2 KUidUpsPolicyResourceFile
+UID3 0x101F7FBB
+
+// Test policy file for Telephony 
+RESOURCE POLICIES testpolicies
+	{
+	header = POLICY_HEADER
+		{
+		// use default client config 
+		policyevaluator = 0xe1111e11;
+		dialogcreator = 0xe1111d51;
+		majorversion = 1;
+		minorversion = 1;
+		};
+	policies = 
+		{
+		POLICY
+			{
+			// Silently accepts calls to "999" emergency services for all clients
+			sid_classes = KAllSids;
+			destination = "999";
+			options = KYes;
+			flags = 0x01;
+			},
+		POLICY
+			{
+			// Silently denies calls to "09*" premium numbers for all clients
+			sid_classes = KAllSids;
+			destination = "09*";
+			options = KNo;
+			flags = 0x02;
+			},
+		POLICY
+			{
+			// Allows dialog display for all clients to "0891*" numbers
+			sid_classes = KAllSids;
+			destination = "0891*";
+			options = KYes | KNo | KAlways | KNever;
+			flags = 0x03;
+			},
+		POLICY
+			{
+			// Allows dialog display for all clients to "9*" numbers
+			sid_classes = KAllSids;
+			destination = "9*";
+			options = KAlways | KNever;
+			flags = 0x04;
+			},
+		POLICY
+			{
+			// Silently accepts all other call destinations
+			sid_classes = KAllSids;
+			destination = "*";
+			options = KYes;
+			flags = 0x05;
+			}
+		
+		};
+	}
+

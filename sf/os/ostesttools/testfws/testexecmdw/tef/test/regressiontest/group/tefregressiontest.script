@@ -1,0 +1,37 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+PREFIX RUN_UTILS
+MkDir ${SYSDRIVE}\testdata\
+MkDir ${SYSDRIVE}\testdata\scripts\
+MkDir ${SYSDRIVE}\testdata\configs\
+
+CopyFile z:\testdata\scripts\te_regprepareenv.script ${SYSDRIVE}\testdata\scripts\te_regprepareenv.script
+REMOVE_PREFIX
+
+PREFIX RUN_PROGRAM 1000 testexecute
+${SYSDRIVE}\testdata\scripts\te_regprepareenv.script
+${SYSDRIVE}\testdata\scripts\te_regscriptcommandsuite_stc.script
+${SYSDRIVE}\testdata\scripts\te_regsteptestsuite_stc.script
+${SYSDRIVE}\testdata\scripts\te_regblocktestsuite_stc.script
+${SYSDRIVE}\testdata\scripts\te_regclienttest_stc.script
+${SYSDRIVE}\testdata\scripts\te_regtefunittestsuite_stc.script
+${SYSDRIVE}\testdata\scripts\te_regconcurrenttestsuite_stc.script
+${SYSDRIVE}\testdata\scripts\dt-tef-performance-0001.script
+${SYSDRIVE}\testdata\scripts\te_regutilitiestest_stc.script
+${SYSDRIVE}\testdata\scripts\te_regloggertestsuite_stc.script
+${SYSDRIVE}\testdata\scripts\te_regcleanenv.script
+REMOVE_PREFIX

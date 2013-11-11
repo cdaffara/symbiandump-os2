@@ -1,0 +1,3817 @@
+/** @file ../include/math.h
+@internalComponent
+*/
+
+/** @fn nanval(void )
+
+Not a number value.
+@publishedAll
+@released
+*/
+
+/** @fn  finite(double x)
+@param x
+
+  The finite finitef and finitel functions  return  a  non-zero value if value is neither
+infinite nor a "not-a-number" (NaN) value, and 0 otherwise.
+
+ - Examples
+ @code
+#include <math.h>
+int main( void )
+{
+   double x;
+   int y; 
+   x = 1.34565;
+   y = finite( x );
+   printf( "finite( %f ) =  %d
+", x, y );
+   y = finitef( x );
+   printf( "finitef( %f ) = %d
+",x, y );
+   y = finitel( x );
+   printf( "finitel( %f ) = %d
+",x, y );
+}
+
+@endcode
+ Output
+@code
+finite ( 1.34565 ) = 1
+finitef( 1.34565 ) = 1
+finitel( 1.34565 ) =
+@endcode
+ 
+
+@publishedAll
+@released
+*/
+
+/** @fn  finitef(float x)
+@param x
+
+
+ 
+
+@publishedAll
+@released
+*/
+
+/** @fn  acos(double x)
+@param x
+@return   The acos, acosf, and acosl functions return the arc cosine in the range [0, pi]
+radians.
+If: | x | \> 1 , acos (x); returns an NaN.
+
+- Detailed description
+ 
+
+ The acos, acosf, and acosl functions compute the principal value of the arc cosine of x .
+
+- Examples
+@code
+#include <math.h>
+int main( )
+{
+   double x = -1;
+   double y = acos( x );
+   printf( "acos(%f) = %f
+", x, y );
+   y = acosf( x );
+   printf( "acosf(%f) = %f
+", x, y );
+   y = acosl( x );
+   printf( "acosl(%f) = %f
+", x, y ); 
+}
+
+@endcode
+ Output
+@code
+acos( -1.000000 ) = 3.14159
+acosf(-1.000000 ) = 3.14159
+acosl(-1.000000 ) = 3.14159
+
+@endcode
+@see asin()
+@see atan()
+@see atan2()
+@see cos()
+@see cosh()
+@see math()
+@see sin()
+@see sinh()
+@see tan()
+@see tanh()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  asin(double x)
+@param x
+@return   The asin, asinf, and asinl functions return the arc sine in the range
+-words [-pi/2, +pi/2]
+radians.
+If: | x | \> 1 asin (x); returns an NaN.
+
+- Detailed description
+  The asin and asinf functions compute the principal value of the arc sine of x .
+The function asinl is an alias to the function asin. A domain error occurs for arguments not in the range [-1, +1].
+
+- Examples
+@code
+#include <math.h>
+int main( )
+{
+   double x = 0.5; 
+   double y = asin( x );
+   printf( "asin(%f) = %f
+", x, y );
+   y = asinf( x );
+   printf( "asinf(%f) = %f
+", x, y );
+   y = asinl( x );
+   printf( "asinl(%f) = %f
+", x, y ); 
+}
+
+@endcode
+ Output
+@code
+asin( 0.500000 ) = 0.523599
+asinf(0.500000 ) = 0.523599
+asinl(0.500000 ) = 0.523599
+
+@endcode
+@see acos()
+@see atan()
+@see atan2()
+@see cos()
+@see cosh()
+@see math()
+@see sin()
+@see sinh()
+@see tan()
+@see tanh()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  atan(double x)
+@param x
+@see acos()
+@see asin()
+@see atan2()
+@see cos()
+@see cosh()
+@see math()
+@see sin()
+@see sinh()
+@see tan()
+@see tanh()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  atan2(double y, double x)
+@param y
+@param x
+@see acos()
+@see asin()
+@see atan()
+@see cos()
+@see cosh()
+@see math()
+@see sin()
+@see sinh()
+@see tan()
+@see tanh()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  cos(double x)
+@param x
+@see acos()
+@see asin()
+@see atan()
+@see atan2()
+@see cosh()
+@see math()
+@see sin()
+@see sinh()
+@see tan()
+@see tanh()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  sin(double x)
+@param x
+@return   The sin and the sinf functions return the sine value.
+
+- Detailed description
+  The sin and the sinf functions compute the sine of x (measured in radians).
+A large magnitude argument may yield a result with little
+or no significance. sinl is just an alias to the function sin
+
+- Examples
+@code
+#include <math.h>
+int main( )
+{
+   double pi_by_6 = 0.52359877559829887307710723054658383 ;
+   double y;
+   y = sin( pi_by_6 );
+   printf( "sin( %f)  = %f
+", x1,  y );
+   y = sinf( pi_by_6);
+   printf( "sinf( %f) = %f
+", pi_by_6, y );
+   y = sinl( pi_by_6);
+   printf( "sinl( %f) = %f
+", pi_by_6, y );
+ }
+
+@endcode
+ Output
+@code
+sin ( 0.52359877559829887307710723054658383 ) = 0.500000
+sinf( 0.52359877559829887307710723054658383 ) = 0.500000
+sinl( 0.52359877559829887307710723054658383 ) = 0.500000
+
+@endcode
+@see acos()
+@see asin()
+@see atan()
+@see atan2()
+@see cos()
+@see cosh()
+@see math()
+@see sinh()
+@see tan()
+@see tanh()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  tan(double x)
+@param x
+@return   The tan function returns the tangent value.
+
+- Detailed description
+  The tan and tanf functions compute the tangent of x (measured in radians).
+A large magnitude argument may yield a result
+with little or no significance.
+The function tanl is an alias to the function tan
+
+- Examples
+@code
+#include <math.h>
+int main( )
+{
+   double pi_by_4 = 0.7853981633974483096156608458198757;
+   double y;
+   y = tan( pi_by_4 );
+   printf( "tan( %f)  = %f
+", pi_by_4,  y );
+   y = tanf( pi_by_4);
+   printf( "tanf( %f) = %f
+", pi_by_4, y );
+   y = tanl( pi_by_4);
+   printf( "tanl( %f) = %f
+
+", pi_by_4, y );
+}
+
+@endcode
+ Output
+@code
+tan ( 0.7853981633974483096156608458198757 ) = 1.000000
+tanf( 0.7853981633974483096156608458198757 ) = 1.000000
+tanl( 0.7853981633974483096156608458198757; ) =1.000000
+
+@endcode
+@see acos()
+@see asin()
+@see atan()
+@see atan2()
+@see cos()
+@see cosh()
+@see math()
+@see sin()
+@see sinh()
+@see tanh()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  cosh(double x)
+@param x
+@see acos()
+@see asin()
+@see atan()
+@see atan2()
+@see cos()
+@see math()
+@see sin()
+@see sinh()
+@see tan()
+@see tanh()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  sinh(double x)
+@param x
+- Detailed description
+  The sinh and the sinhf functions compute the hyperbolic sine of x .
+The function sinhl is an alias to the function sinh
+
+- Examples
+@code
+#include <math.h>
+int main( )
+{
+   double inp = 0.75;
+   double y;
+   y = sinh( inp );
+   printf( "sinh( %f)  = %f
+", inp,  y );
+   y = sinhf( inp);
+   printf( "sinhf( %f) = %f
+", inp, y );
+   y = sinhl( inp);
+   printf( "sinhl( %f) = %f
+", inp, y );
+}
+
+@endcode
+ Output
+@code
+sinh ( 0.75 ) = 0.8223167
+sinhf( 0.75 ) = 0.8223167
+sinhl( 0.75 ) = 0.8223167
+
+@endcode
+@see acos()
+@see asin()
+@see atan()
+@see atan2()
+@see cos()
+@see cosh()
+@see math()
+@see sin()
+@see tan()
+@see tanh()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  tanh(double x)
+@param x
+@return   The tanh, tanhf and tanhl functions return the hyperbolic tangent value.
+
+- Detailed description
+  The tanh and tanhf functions compute the hyperbolic tangent of x . tanhl is an alias to the function tanh.
+
+- Examples
+@code
+#include <math.h>
+int main( )
+{
+   double inp = 1.0;
+   double y; 
+   y = tanh( inp );
+   printf( "tanh( %f)  = %f
+", inp,  y );
+   y = tanhf( inp);
+   printf( "tanhf( %f) = %f
+", inp, y );
+   y = tanhl( inp);
+   printf( "tanhl( %f) = %f
+
+", inp, y );
+   inp = 2209.0;
+   y = sqrt( inp);
+   printf( "sqrt( %f)  = %d
+", inp,  y );
+   y = sqrtf( inp);
+   printf( "sqrtf( %f) = %d
+", inp, y );
+   y = sqrtl( inp);
+   printf( "sqrtl( %f) = %d
+", inp, y );
+}
+
+@endcode
+ Output
+@code
+tanh ( 1.000000 ) = 0.7615941
+tanhf( 1.000000 ) = 0.7615941
+tanhl( 1.000000 ) = 0.7615941
+
+@endcode
+@see acos()
+@see asin()
+@see atan()
+@see atan2()
+@see cos()
+@see cosh()
+@see math()
+@see sin()
+@see sinh()
+@see tan()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  exp(double x)
+@param x
+@return   These functions will return the appropriate computation unless an error
+occurs or an argument is out of range.
+The functions pow (x, y); and powf (x, y); return an NaN if x \< 0 and y is not an integer.
+An attempt to take the logarithm of Â±0 will return infinity.
+An attempt to take the logarithm of a negative number will
+return a NaN.
+
+- Detailed description
+  The exp and expf functions compute the base e exponential value of the given argument x .
+
+ The exp2 and exp2f functions compute the base 2 exponential of the given argument x .
+
+ The expm1 and expm1f functions compute the value exp(x)-1 accurately even for tiny argument x .
+
+ The log and logf functions compute the value of the natural logarithm of argument x .
+
+ The log10 and log10f functions compute the value of the logarithm of argument x to base 10.
+
+ The log1p and log1pf functions compute
+the value of log(1+x) accurately even for tiny argument x .
+
+ The pow and powf functions compute the value
+of x to the exponent y .
+
+ Here the long double version APIs are aliases to the double version APIs.
+All apis \<function\>l behaves similiar to that \<function\>.
+
+- Examples
+@code
+#include <math.h>
+int main( void )
+{
+   double x, y;
+   x = 1.0;
+   y = exp( x );
+   printf( "exp( %f ) = %f
+", x, y );
+   y = expf( x );
+   printf( "expf( %f ) = %f
+",x, y );
+   y = expl( x );
+   printf( "expl( %f ) = %f
+",x, y );
+   x = 0.0;
+   y = exp2( x );
+   printf( "exp2( %f ) = %f
+", x, y );
+   y = exp2f( x );
+   printf( "exp2f( %f ) = %f
+",x, y );
+   y = exp2l( x );
+   printf( "exp2l( %f ) = %f
+",x, y );
+   x = 1.0 ;
+   y = expm1( x );
+   printf( "expm1( %f ) = %f
+", x, y );
+   y = expm1f( x );
+   printf( "expm1f( %f ) = %f
+",x, y );
+   y = expm1l( x );
+   printf( "expm1l( %f ) = %f
+",x, y );
+}
+
+@endcode
+ Output
+@code
+exp   ( 1.0 ) = 2.718282
+expf  ( 1.0 ) = 2.718282
+expl  ( 1.0 ) = 2.718282
+exp2  ( 0.0 ) = 1.000000
+exp2f ( 0.0 ) = 1.000000
+exp2l ( 0.0 ) = 1.000000
+expm1 ( 1.0 ) = 1.718281        
+expm1f( 1.0 ) = 1.718281
+expm1l( 1.0 ) = 1.718281
+
+@endcode
+
+Notes:
+
+ The functions exp(x)-1 and log(1+x) are called
+expm1 and logp1 in BASIC on the Hewlett-Packard HP -71B and APPLE Macintosh, EXP1 and LN1 in Pascal, exp1 and log1 in C
+on APPLE Macintoshes, where they have been provided to make
+sure financial calculations of ((1+x)**n-1)/x, namely
+expm1(n*log1p(x))/x, will be accurate when x is tiny.
+They also provide accurate inverse hyperbolic functions. The function pow (x, 0); returns x**0 = 1 for all x including x = 0, oo, and NaN .
+Previous implementations of pow may
+have defined x**0 to be undefined in some or all of these
+cases.
+Here are reasons for returning x**0 = 1 always: Any program that already tests whether x is zero (or
+infinite or NaN) before computing x**0 cannot care
+whether 0**0 = 1 or not.
+Any program that depends
+upon 0**0 to be invalid is dubious anyway since that
+expression's meaning and, if invalid, its consequences
+vary from one computer system to another. Some Algebra texts (e.g. Sigler's) define x**0 = 1 for
+all x, including x = 0.
+This is compatible with the convention that accepts a[0]
+as the value of polynomial
+@code
+p(x) = a[0]*x**0 + a[1]*x**1 + a[2]*x**2 +...+ a[n]*x**n
+
+@endcode
+ at x = 0 rather than reject a[0]*0**0 as invalid. Analysts will accept 0**0 = 1 despite that x**y can
+approach anything or nothing as x and y approach 0
+independently.
+The reason for setting 0**0 = 1 anyway is this:
+@code
+If x(z) and y(z) are
+
+ any
+functions analytic (expandable
+in power series) in z around z = 0, and if there
+x(0) = y(0) = 0, then x(z)**y(z) -> 1 as z -> 0.
+
+@endcode
+ If 0**0 = 1, then
+oo**0 = 1/0**0 = 1 too; and
+then NaN**0 = 1 too because x**0 = 1 for all finite
+and infinite x, i.e., independently of x.
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  frexp(double x, int *eptr)
+@param x
+@param eptr
+@return   These functions return the value y ,
+such that y is a double with magnitude in the interval [1/2, 1]
+or zero, and x equals y times 2 raised to the power *eptr .
+If x is zero, both parts of the result are zero.
+
+- Detailed description
+  The frexp , frexpf, and frexpl functions break a floating-point number into a normalized
+fraction and an integral power of 2.
+They store the integer in the int object pointed to by eptr .
+As there is no long double is not supported by Symbian, frexpl (is, aliased, to, the); frexp
+
+
+
+- Examples
+@code
+void main( void )
+{
+   double x1 = 4.0 , y;
+   int res;
+   y = frexp( x1, &res; );
+   printf( "frexp(%f , &res;):: Int Part: %d and Fractional Part: %f 
+", x1, res, y );
+   y = frexpf( x1, &res; );
+   printf( "frexpf(%f , &res;):: Int Part: %d and Fractional Part: %f 
+", x1, res, y );
+   y = frexpl( x1, &res; );
+   printf( "frexpl(%f , &res;):: Int Part: %d and Fractional Part: %f 
+", x1, res, y );
+}
+
+@endcode
+ Output
+@code
+frexp ( 4.0 , &res; ) :: Int Part: 3 and Fractional Part: 0.5
+frexpf( 4.0,  &res; ) :: Int Part: 3 and Fractional Part: 0.5
+frexpl( 4.0,  &res; ) :: Int Part: 3 and Fractional Part: 0.5
+
+@endcode
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  ldexp(double x, int n)
+@param x
+@param n
+@return   These functions return the value of x times 2 raised to the power n .
+
+- Detailed description
+  The ldexp, ldexpf, and ldexpl functions multiply a floating-point number by an integral
+power of 2.
+
+- Examples
+@code
+#include <math.h>
+int main( void )
+{
+   double x1 = 0.8, x2 = 4, y;
+   y = ldexp( x1, x2 );
+   printf( "ldexp(%f , %f) = %f
+", x1, x2, y );
+   y = ldexpf( x1, x2 );
+   printf( "ldexpf(%f , %f) = %f
+", x1, x2, y );
+   y = ldexpl( x1, x2 );
+   printf( "ldexpl(%f , %f) = %f
+", x1, x2, y );
+}
+
+@endcode
+ Output
+@code
+ldexp ( 0.8, 4 ) = 12.8
+ldexpf( 0.8, 4 ) = 12.8
+ldexpl( 0.8, 4 ) = 12.8
+
+@endcode
+@see frexp()
+@see math()
+@see modf()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  log(double x)
+@param x
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  log10(double x)
+@param x
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  modf(double x, double *iptr)
+@param x
+@param iptr
+@return   The modf, modff and modfl functions return the signed fractional part of a value .
+
+- Detailed description
+  The modf function breaks the argument x into integral and fractional parts, each of which has the
+same sign as the argument.
+It stores the integral part as a double
+in the object pointed to by iptr .
+The function modff (is, the, float, version, of, modf().); The function modfl is an alias to the function modf.
+
+- Examples
+@code
+#include <math.h>
+#include <stdio.h>
+int main()
+{
+   double x1 = 123.456703 , y;
+   double  iptr;
+   float fptr;
+   y = modf( x1, &iptr; );
+   printf( "modf(%f , &iptr;):: Int Part: %f and Fractional Part: %f 0, x1, iptr, y );
+   y = modff( x1, &fptr; );
+   printf( "modff(%f , &iptr;):: Int Part: %f and Fractional Part: %f 0, x1, fptr, y );
+   y = modfl( x1, &iptr; );
+   printf( "modfl(%f , &iptr;):: Int Part: %f and Fractional Part: %f 0, x1, iptr, y );
+}
+
+@endcode
+ Output
+@code
+modf ( 123.456703 , &iptr; ) :: Int Part: 123 and Fractional Part: 0.456703
+modff( 123.456703,  &iptr; ) :: Int Part: 123 and Fractional Part: 0.456703
+modfl( 123.456703,  &iptr; ) :: Int Part: 123 and Fractional Part: 0.456703
+
+@endcode
+@see frexp()
+@see ldexp()
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  pow(double x, double y)
+@param x
+@param y
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  sqrt(double x)
+@param x
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  ceil(double x)
+@param x
+@return   x is integral or infinite, x itself is returned.
+
+
+The ceil , ceilf, and ceill functions return the smallest integral value
+greater than or equal to x ,
+expressed as a floating-point number.
+
+- Examples
+@code
+#include <math.h>
+int main( void )
+{
+   double y;
+   y = ceil( 2.8 );
+   printf( "The ceil of 2.8 is %f
+", y );
+   y = ceil( -2.8 );
+   printf( "The ceil of -2.8 is %f
+", y );
+   y = ceilf( 2.8 );
+   printf( "The ceilf of 2.8 is %f
+", y );
+   y = ceilf( -2.8 );
+   printf( "The ceilf of -2.8 is %f
+", y );
+   y = ceill( 2.8 );
+   printf( "The ceill of 2.8 is %f
+", y );
+   y = ceill( -2.8 );
+   printf( "The ceill of -2.8 is %f
+", y );
+}
+
+@endcode
+ Output
+@code
+The ceil of 2.8 is 3.000000
+The ceil of -2.8 is -2.000000
+The ceilf of 2.8 is 3.000000
+The ceilf of -2.8 is -2.000000
+The ceill of 2.8 is 3.000000
+The ceill of -2.8 is -2.000000
+
+@endcode
+@see abs()
+@see fabs()
+@see floor()
+@see ieee()
+@see math()
+@see rint()
+@see round()
+@see trunc()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  ceilf(float x)
+@param x
+@see abs()
+@see fabs()
+@see floor()
+@see ieee()
+@see math()
+@see rint()
+@see round()
+@see trunc()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fabs(double x)
+@param x
+@return   The fabs , fabsf and fabsl functions return the absolute value of x .
+
+The fabs , fabsf and fabsl functions compute the absolute value of a floating-point number x .
+
+Examples
+@code
+#include  <stdio.h>
+#include  <math.h>
+int main( void )
+{
+   double dx = -3.141593, dy;
+   dy = fabs( dx );
+   printf( "fabs( %f ) = %f
+", dx, dy );
+   dy = fabsf( dx );
+   printf( "fabsf( %f ) = %f
+", dx, dy );
+   dy = fabsl( dx );
+   printf( "fabsl( %f ) = %f
+", dx, dy );
+}
+
+@endcode
+ Output
+@code
+fabs( -3.141593  ) = 3.141593
+fabsf( -3.141593 ) = 3.141593
+fabsl( -3.141593 ) = 3.141593
+
+@endcode
+@see abs()
+@see ceil()
+@see floor()
+@see ieee()
+@see math()
+@see rint()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fabsf(float x)
+@param x
+@see abs()
+@see ceil()
+@see floor()
+@see ieee()
+@see math()
+@see rint()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fabsl(long double x)
+@param x
+@see abs()
+@see ceil()
+@see floor()
+@see ieee()
+@see math()
+@see rint()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  floor(double x)
+@param x
+@return   x is integral or infinite, x itself is returned.
+
+
+The floor , floorf, and floorl functions return the largest integral value
+less than or equal to x ,
+expressed as a floating-point number.
+
+- Examples
+@code
+#include <math.h>
+int main( void )
+{
+   double y;
+   y = floor( 2.8 );
+   printf( "The floor of 2.8 is %f
+", y );
+   y = floorf( 2.8 );
+   printf( "The floorf of 2.8 is %f
+", y );
+   y = floorl( 2.8 );
+   printf( "The floorl of 2.8 is %f
+", y );
+}
+
+@endcode
+ Output
+@code
+The floor  of 2.8 is 2.000000
+The floorf of 2.8 is 2.000000
+The floorl of 2.8 is 2.000000
+
+@endcode
+@see abs()
+@see ceil()
+@see fabs()
+@see ieee()
+@see math()
+@see rint()
+@see round()
+@see trunc()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  floorf(float x)
+@param x
+@see abs()
+@see ceil()
+@see fabs()
+@see ieee()
+@see math()
+@see rint()
+@see round()
+@see trunc()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fmod(double x, double y)
+@param x
+@param y
+@return   The fmod, fmodf, and fmodl functions return the value x - i * y , for some integer i such that, if y is non-zero, the result has the same sign as x and magnitude less than the magnitude of y .
+If y is zero, whether a domain error occurs or the fmod and fmodf function returns zero is implementation-defined.
+
+
+The fmod, fmodf, and fmodl functions compute the floating-point remainder of x / y . fmodl is an alias to the function fmod.
+
+Examples
+@code
+#include <math.h>
+int main()
+{
+   double x1 = 6.5, x2 = 2.25, y;
+   y = fmod( x1, x2 );
+   printf( "fmod(%f , %f) = %f
+", x1, x2, y );
+   y = fmodf( x1, x2 );
+   printf( "fmodf(%f , %f) = %f
+", x1, x2, y );
+   y = fmodl( x1, x2 );
+   printf( "fmodl(%f , %f) = %f
+", x1, x2, y );
+}
+
+@endcode
+ Output
+@code
+fmod ( 6.4, 2 ) = 2.0
+fmodf( 6.4, 2 ) = 2.0
+fmodl( 6.4, 2 ) = 2.0
+
+@endcode
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fmodf(float x, float y)
+@param x
+@param y
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  acosh(double x)
+@param x
+@return   The acosh , acoshf ,
+and acoshl functions
+return the inverse hyperbolic cosine of x .
+If the argument is less than 1, acosh returns an NaN.
+
+
+The acosh and acoshf functions compute the inverse hyperbolic cosine
+of the real
+argument x .
+The function acoshl is an alias to the function acosh .
+
+- Examples
+@code
+#include <math.h>
+int main( )
+{
+   double x = 1;
+   double y = acosh( x );
+   printf( "acosh(%f) = %f
+", x, y );
+   y = acoshf( x );
+   printf( "acoshf(%f) = %f
+", x, y );
+   y = acoshl( x );
+   printf( "acoshl(%f) = %f
+", x, y ); 
+}
+
+@endcode
+ Output
+@code
+acosh( 1.000000 ) = 0.0
+acoshf(1.000000 ) = 0.0
+acoshl(1.000000 ) = 0.0
+
+@endcode
+@see asinh()
+@see atanh()
+@see exp()
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  acoshf(float x)
+@param x
+@see asinh()
+@see atanh()
+@see exp()
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  asinh(double x)
+@param x
+@see acosh()
+@see atanh()
+@see exp()
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  asinhf(float x)
+@param x
+@see acosh()
+@see atanh()
+@see exp()
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  atanh(double x)
+@param x
+@see acosh()
+@see asinh()
+@see exp()
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  atanhf(float x)
+@param x
+@see acosh()
+@see asinh()
+@see exp()
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  cbrt(double x)
+@param x
+@return   The cbrt and cbrtf functions return the requested cube root.
+The sqrt and sqrtf functions return the requested square root
+unless an error occurs.
+An attempt to take the sqrt of negative x causes an NaN to be returned.
+
+
+The cbrt and cbrtf functions compute
+the cube root of x .
+The function cbrtl is an alias to the function cbrt.
+
+ The sqrt and sqrtf functions compute the
+non-negative square root of x.
+The function sqrtl is an alias to the function sqrt.
+
+- Examples
+@code
+#include <math.h>
+int main( )
+{
+   double inp = -0.001;
+   double y;
+   y = cbrt( inp );
+   printf( "cbrt( %f)  = %f
+", x1,  y );
+   y = cbrtf( inp);
+   printf( "cbrtf( %f) = %f
+", inp, y );
+   y = cbrtl( inp);
+   printf( "cbrtl( %f) = %f
+
+", inp, y );
+   inp = 2209.0;
+   y = sqrt( inp);
+   printf( "sqrt( %f)  = %d
+", inp,  y );
+   y = sqrtf( inp);
+   printf( "sqrtf( %f) = %d
+", inp, y );
+   y = sqrtl( inp);
+   printf( "sqrtl( %f) = %d
+", inp, y );
+}
+
+@endcode
+ Output
+@code
+cbrt ( -0.001 ) = -0.100000
+cbrtf( -0.001 ) = -0.100000
+cbrtl( -0.001 ) = -0.100000
+sqrt ( 2209.0 ) = 47.0
+sqrtf( 2209.0 ) = 47.0
+sqrtl( 2209.0 ) = 47.0
+
+@endcode
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  erf(double x)
+@param x
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  erfc(double x)
+@param x
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  erff(float x)
+@param x
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  erfcf(float x)
+@param x
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  exp2(double x)
+@param x
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  exp2f(float x)
+@param x
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn expm1(double)
+
+The expm1 and expm1f functions compute the value exp(x)-1 accurately even for tiny argument x .
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  expm1f(float x)
+
+The expm1 and expm1f functions compute the value exp(x)-1 accurately even for tiny argument x .
+
+@param x
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fma(double x, double y, double z)
+@param x
+@param y
+@param z
+
+@code
+
+The fma, fmaf, and fmal functions return (x * y) + z, computed with only one rounding error. Using the ordinary multiplication and addition operators, by contrast, results in two roundings: one for the intermediate product and one for the final result. 
+For instance, the expression 1.2e100 * 2.0e208 - 1.4e308 produces oo due to overflow in the intermediate product, whereas fma(1.2e100, 2.0e208, -1.4e308) returns approximately 1.0e308. 
+
+The fused multiply-add operation is often used to improve the accuracy of calculations such as dot products. It may also be used to improve performance on machines that implement it natively. The macros FP_FAST_FMA, FP_FAST_FMAF and FP_FAST_FMAL may be defined in   #include \<math.h\>to indicate that fma, fmaf, and fmal (respectively) have comparable or faster speed than a multiply operation followed by an add operation.  
+@endcode
+
+
+
+- Examples
+@code
+#include <math.h>
+int main()
+{
+   double x1 = 1, x2 = 2, x3 =3, y;
+   y = fma( x1, x2, x3 );
+   printf( "fma(%f , %f , %f) = %f
+", x1, x2, x3, y );
+   y = fmaf( x1, x2, x3 );
+   printf( "fmaf(%f , %f , %f) = %f
+", x1, x2, x3, y );
+   y = fmal( x1, x2, x3 );
+   printf( "fmal(%f , %f , %f) = %f
+", x1, x2, x3, y );
+}
+
+@endcode
+ Output
+@code
+fma ( 1, 2, 3 ) = 5
+fmaf( 1, 2, 3 ) = 5
+fmal( 1, 2, 3 ) = 5
+
+@endcode
+  Implementation notes In general, these routines will behave as one would expect if x * y + z
+were computed with unbounded precision and range,
+then rounded to the precision of the return type.
+However, on some platforms,
+
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fmaf(float x, float y, float z)
+@param x
+@param y
+@param z
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fmax(double x, double y)
+@param x
+@param y
+
+The fmax, fmaxf, and fmaxl functions return the larger of x and y ,
+and likewise, the fmin, fminf, and fminl functions return the smaller of x and y .
+They treat +0.0
+as being larger than -0.0.
+If one argument is an NaN(Not a Number), then the other argument is returned.
+If both arguments are NaN(Not a Number)s, then the result is an NaN(Not a Number).
+
+- Examples
+@code
+#include <math.h>
+int main( void )
+{
+   double y;
+   y = fmax( 0, -9 );
+   printf( "fmax ( 0, -9) = %f
+", y );
+   y = fmaxf( 0, -9 );
+   printf( "fmaxf( 0, -9) = %f
+", y );
+   y = fmaxl( 0, -9 );
+   printf( "fmaxl( 0, -9) = %f
+", y );
+   y = fmin( 0, -9 );
+   printf( "fmin ( 0, -9) = %f
+", y );
+   y = fminf( 0, -9 );
+   printf( "fminf ( 0, -9) = %f
+", y );
+   y = fminl( 0, -9 );
+   printf( "fminl ( 0, -9) = %f
+", y );
+}
+
+@endcode
+ Output
+@code
+fmax( 0, -9 ) = 0
+fmaxf( 0, -9 ) = 0
+fmaxl( 0, -9 ) = 0
+fmin( 0, -9 ) = -9
+fminf( 0, -9 ) = -9
+fminl( 0, -9 ) = -9
+
+@endcode
+@see fabs()
+@see fdim()
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fmaxf(float x, float y)
+@param x
+@param y
+@see fabs()
+@see fdim()
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fmaxl(long double x, long double y)
+@param x
+@param y
+@see fabs()
+@see fdim()
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  hypot(double x, double y)
+@param x
+@param y
+
+@code
+  The hypot and hypotf functions
+compute the
+sqrt(x*x+y*y)
+in such a way that underflow will not happen, and overflow
+occurs only if the final result deserves it.
+@endcode
+
+Examples
+@code
+void main( void )
+{
+   double x1 = 3.0 , x2 = 4.0, y;
+   y = hypot( x1, x2 );
+   printf( "atan2(%f , %f) = %f
+", x1, x2, y );
+   y = hypotf( x1, x2 );
+   printf( "atan2f(%f , %f) = %f
+", x1, x2, y );
+   y = hypotl( x1, x2 );
+   printf( "hypotl(%f , %f) = %f
+", x1, x2, y );
+}
+
+@endcode
+ Output
+@code
+hypot ( 3.0, 4.0  ) = 5.000000
+hypotf( 3.0, 4.0 )  = 5.000000
+hypotl( 3.0, 4.0 )  = 5.000000
+
+@endcode
+
+Notes:
+
+As might be expected, hypot (v, NaN);
+and hypot (NaN, v);
+are NaN for all finite v. But programmers might be surprised at first to discover that hypot (±oo, NaN);
+= +oo. This is intentional; it happens because hypot (oo, v);
+= +oo for all v, finite or infinite. Hence hypot (oo, v);
+is independent of v. Unlike the reserved operand fault on a VAX, the IEEE NaN is designed to disappear when it turns out to be irrelevant, as it does in hypot (oo, NaN);
+hypot. 
+
+hypot (oo, v);
+= hypot (v, oo);
+= +oo for all v, including NaN. 
+
+@see math()
+@see sqrt()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  hypotf(float x, float y)
+@param x
+@param y
+@see math()
+@see sqrt()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  ilogb(double x)
+@param x
+
+The functions ilogb, ilogbf, and ilogbl return x ’s exponent, in integer format. ilogb (±oo);
+@code
+returns INT_MAX, ilogb (±NaN);
+returns FP_ILOGBNAN and ilogb (0);
+returns FP_ILOGB0. 
+@endcode
+
+Examples
+@code
+#include <math.h>
+int main( )
+{
+   double e = 1024;
+   /*iLogb(), ilogbf() and ilogbl() */
+   y = ilogb( e );
+   printf( "ilogb( %f) = %f
+", e, y );
+   y = ilogbf( e );
+   printf( "ilogbf( %f) = %f
+", e, y );
+   y = ilogbl( e );
+   printf( "ilogbl( %f) = %f
+
+", e, y );
+}
+
+@endcode
+ Output
+@code
+ilogb (1024) = 10.000000
+ilogbf(1024) = 10.000000
+ilogbl(1024) = 10.000000
+
+@endcode
+@see frexp()
+@see ieee()
+@see math()
+@see scalbn()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  ilogbf(float x)
+@param x
+@see frexp()
+@see ieee()
+@see math()
+@see scalbn()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  ilogbl(long double x)
+@param x
+@see frexp()
+@see ieee()
+@see math()
+@see scalbn()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  lgamma(double x)
+@param x
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  lgamma_r(double x, int *signgamp)
+@param x
+@param signgamp
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  lgammaf(float x)
+@param x
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  lgammaf_r(float x, int *signgamp)
+@param x
+@param signgamp
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  llrint(double x)
+@param x
+@return  
+
+- Detailed description
+  The lrint function returns the integer nearest to its argument x according to the current rounding mode.
+When the rounded result is representable as a long ,
+the expression
+
+ The llrint , llrintf and lrintf functions differ from lrint only in their input and output types. lrintf and llrintl is just an aliases to the functions lrint (and); llrint respectively
+
+- Examples
+@code
+#include <math.h>
+int main( void )
+{
+   double x1 = 1.4;
+   long long y;
+   int res ;
+   y = llrint( x1 );
+   printf( "llrint(%f) = %d
+", x1, y );
+   y = llrintf( x1 );
+   printf( "llrintf(%f) = %d
+", x1, y );
+   y = llrintl( x1 );
+   printf( "llrintl(%f) = %d
+", x1, y );
+   res = lrint( x1 );
+   printf( "lrint(%f) = %d
+", x1, res );
+   res = lrintf( x1 );
+   printf( "lrintf(%f) = %d
+", x1, res );
+   res = lrintl( x1 );
+   printf( "lrintl(%f) = %d
+", x1, res );
+}
+
+@endcode
+ Output
+@code
+llrint ( 1.4 ) = 1.000000
+llrintf( 1.4 ) = 1.000000
+llrintl( 1.4 ) = 1.000000
+lrint ( 1.4 ) = 1.000000
+lrintf( 1.4 ) = 1.000000
+lrintl( 0.0 ) = 1.000000
+
+@endcode
+@see lround()
+@see math()
+@see rint()
+@see round()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  llrintf(float x)
+@param x
+@see lround()
+@see math()
+@see rint()
+@see round()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  llround(double x)
+@param x
+
+
+The lround function returns the integer nearest to its argument x ,
+rounding away from zero in halfway cases.
+If the rounded result is too large to be represented as a long
+value, the return value is undefined.
+When the rounded result is representable as a long ,
+the expression lround (x); is equivalent to round (x);( long) (although the former may be more efficient).
+
+ The llround , llroundf , llroundl , lroundf and lroundl functions differ from lround only in their input and output types.
+
+Examples
+@code
+#include <math.h>
+int main( void )
+{
+   double x1 = 1.5;
+   long long y;
+   int res ;
+   y = llround( x1 );
+   printf( "llround(%f) = %d
+", x1, y );
+   y = llroundf( x1 );
+   printf( "llroundf(%f) = %d
+", x1, y );
+   y = llroundl( x1 );
+   printf( "llroundl(%f) = %d
+
+", x1, y );
+   res = lround( x1 );
+   printf( "lround(%f) = %d
+", x1, res );
+   res = lroundf( x1 );
+   printf( "lroundf(%f) = %d
+", x1, res );
+   res = lroundl( x1 );
+   printf( "lroundl(%f) = %d
+", x1, res );
+}
+
+@endcode
+ Output
+@code
+llround ( 1.5 ) = 2.000000
+llroundf( 1.5 ) = 2.000000
+llroundl( 1.5 ) = 2.000000
+lround ( 1.5 ) = 2.000000
+lroundf( 1.5 ) = 2.000000
+lroundl( 1.5 ) = 2.000000
+
+@endcode
+@see lrint()
+@see math()
+@see rint()
+@see round()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  llroundf(float x)
+@param x
+@see lrint()
+@see math()
+@see rint()
+@see round()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  log1p(double x)
+@param x
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  log1pf(float x)
+@param x
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  logb(double x)
+@param x
+- Detailed description
+
+  These functions allow users to test conformance to -ieee754 .
+Their use is not otherwise recommended.
+@code
+ logb (x); and logbf (x); return x 's exponent n ,
+a signed integer converted to double-precision floating-point. logb (±oo); = +oo; logb (0); = -oo
+
+ scalb (x, n); and scalbf (x, n); return x *(2** n )
+computed by exponent manipulation.
+
+ significand (x); and significandf (x); return sig ,
+where x = sig * 2** n with 1 <= sig <2. significand (x); and significandf (x); are not defined when x is 0, Â±oo, or NaN.
+Here , long double version function are just aliases to
+their corresponding double version apis.
+@endcode
+
+- Examples
+@code
+#include <math.h>
+int main( )
+{
+   double e = 2.718282;
+   /*Logb(), logbf() and logbl() */
+   y = logb( e );
+   printf( "logb( %f) = %f
+", e, y );
+   y = logbf( e );
+   printf( "logbf( %f) = %f
+", e, y );
+   y = logbl( e );
+   printf( "logbl( %f) = %f
+
+", e, y );
+   /*scalb(), scalbf() and scalbl()*/
+   double x1 = 0.8, x2 = 4.0 ;
+   y = scalb( x1, x2 );
+   printf( "scalb( %f, %f) = %f
+", x1, x2, y );
+   y = scalbf( x1, x2 );
+   printf( "scalbf( %f, %f) = %f
+", x1, x2, y );
+   y = scalbl( x1, x2 );
+   printf( "scalbl( %f, %f) = %f
+", x1, x2, y );
+   /*significand(), significandf() and significandl()*/
+   x2 = 4.0 ;
+   y = significand( x2 );
+   printf( "significand(%f)  = %f
+",  x2, y );
+   y = significandf( x2 );
+   printf( "significandf(%f) = %f
+",x2, y );
+   y = significandl( x2 );
+   printf( "significandl(%f) = %f
+",x2, y );
+}
+
+@endcode
+ Output
+@code
+logb( 2.718282) = 1.000000
+logbf( 2.718282) = 1.000000
+logbl( 2.718282) = 1.000000
+scalb( 0.8, 4.0 ) = 12.800000
+scalbf( 0.8, 4.0 ) = 12.800000
+scalbl( 0.8, 4.0 ) = 12.800000
+significand ( 4.0) = 1.000000
+significandf( 4.0) = 1.000000
+significandl( 4.0) = 1.000000
+
+@endcode
+@see ieee()
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  logbf(float x)
+@param x
+@see ieee()
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  lrint(double x)
+@param x
+@see lround()
+@see math()
+@see rint()
+@see round()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  lrintf(float x)
+@param x
+@see lround()
+@see math()
+@see rint()
+@see round()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  lround(double x)
+@param x
+@see lrint()
+@see math()
+@see rint()
+@see round()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  lroundf(float x)
+@param x
+@see lrint()
+@see math()
+@see rint()
+@see round()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  nextafter(double x, double y)
+@param x
+@param y
+- Detailed description
+  These functions
+return the next machine representable number from x in direction y .
+
+- Examples
+@code
+#include <math.h>
+int main( )
+{
+   double inp1 = 1.3;
+   double inp2 = 2;
+   double y;
+   y = nextafter( inp1, inp2 );
+   printf( "nextafter(%f , %f) = %f
+", inp1,  inp2,  y );
+   y = nextafterf( inp1, inp2 );
+   printf( "nextafterf(%f , %f) = %f
+", inp1, inp2, y );
+   y = nextafterl( inp1, inp2 );
+   printf( "nextafterl(%f , %f) = %f
+
+", inp1, inp2, y );
+   inp1 = 9;
+   inp2 = 9;
+   y = nexttoward( inp1, inp2 );
+   printf( "nexttoward(%f , %f) = %f
+", inp1,  inp2,  y );
+   y = nexttowardf( inp1, inp2 );
+   printf( "nexttowardf(%f , %f) = %f
+", inp1, inp2, y );
+   y = nexttowardl( inp1, inp2 );
+   printf( "nexttowardl(%f , %f) = %f
+", inp1, inp2, y );
+}
+
+@endcode
+ Output
+@code
+nextafter  ( 1.3, 2.0 ) = 1.3
+nextafterf ( 1.3, 2.0 ) = 1.3
+nextafterl ( 1.3, 2.0 ) = 1.3
+nexttoward  ( 9, 9 ) = 9
+nexttowardf ( 9, 9 ) = 9
+nexttowardl ( 9, 9 ) = 9
+
+@endcode
+@see ieee()
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  nextafterf(float x, float y)
+@param x
+@param y
+@see ieee()
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  remainder(double x, double p)
+@param x
+@param p
+@see fmod()
+@see ieee()
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  remainderf(float x, float p)
+@param x
+@param p
+@see fmod()
+@see ieee()
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  remquo(double x, double y, int *quo)
+@param x
+@param y
+@param quo
+@see fmod()
+@see ieee()
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  remquof(float x, float y, int *quo)
+@param x
+@param y
+@param quo
+@see fmod()
+@see ieee()
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  rint(double x)
+@param x
+@see abs()
+@see ceil()
+@see fabs()
+@see floor()
+@see ieee()
+@see lrint()
+@see lround()
+@see math()
+@see round()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  rintf(float x)
+@param x
+@see abs()
+@see ceil()
+@see fabs()
+@see floor()
+@see ieee()
+@see lrint()
+@see lround()
+@see math()
+@see round()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  j0(double x)
+@param x
+@return   If these functions are successful,
+the computed value is returned.
+
+- Detailed description
+  The functions j0 , j0f , j1 and j1f compute the Bessel function of the first kind of the order 0 and the order 1, respectively,
+for the
+real value x ;
+the functions jn and jnf compute the Bessel function of the first kind of the integer order n for the real value x .
+
+ The functions y0 , y0f , y1 ,
+and y1f compute the linearly independent Bessel function of the second kind of the order 0 and the order 1, respectively,
+for the
+positive real value x ;
+the functions yn and ynf compute the Bessel function of the second kind for the integer order n for the positive real value x .
+
+ Here the long double version APIs are aliases the double version APIs.
+All APIs \<Function\>l behaves similiar to that of \<Function\>.
+
+- Examples
+@code
+#include <math.h>
+int main( )
+{
+   double x = 1.0;
+   /*J0(), j0f() and j0l() */
+   double y = j0( x );
+   printf( "j0( %f) = %f
+", x, y );
+   y = j0f( x );
+   printf( "j0f( %f) = %f
+", x, y );
+   y = j0l( x );
+   printf( "j0l( %f) = %f
+
+", x, y );
+   /*J1(), j1f() and j1l() */
+   y = j1( x );
+   printf( "j1( %f) = %f
+", x, y );
+   y = j1f( x );
+   printf( "j1f( %f) = %f
+", x, y );
+   y = j1l( x );
+   printf( "j1l( %f) = %f
+
+", x, y );
+   /*jn(), jnf() and jnl() */
+   y = jn( 3, x );
+   printf( "jn( 2, %f) = %f
+", x, y );
+   y = jnf( 1, x );
+   printf( "jnf( 1, %f) = %f
+", x, y );
+   y = jnl( 10, 0.75 );
+   printf( "jnl(10, %f) = %f
+
+", 0.75, y );
+   /*y0(), y0f() and y0l() */
+   y = y0( x );
+   printf( "y0( %f) = %f
+", x, y );
+   y = y0f( x );
+   printf( "y0f( %f) = %f
+", x, y );
+   y = y0l( x );
+   printf( "y0l( %f) = %f
+
+", x, y );
+   /*y1(), y1f() and y1l() */
+   y = y1( x );
+   printf( "y1( %f) = %f
+", x, y );
+   y = y1f( x );
+   printf( "y1f( %f) = %f
+", x, y );
+   y = y1l( x );
+   printf( "y1l( %f) = %f
+
+", x, y );
+   /*yn(), ynf() and ynl() */
+   y = yn( 3, x );
+   printf( "yn( 2, %f) = %f
+", x, y );
+   y = ynf( 1, x );
+   printf( "ynf( 1, %f) = %f
+", x, y );
+   y = ynl( 10, 0.75 );
+   printf( "ynl(10, %f) = %f
+
+", 0.75, y );
+}
+
+@endcode
+ Output
+@code
+j0( 1.000) = 0.76519768
+j0f( 1.000) = 0.76519768
+j0l( 1.000) = 0.76519768
+j1 ( 1.000) = 0.4400505
+j1f( 1.000) = 0.4400505
+j1l( 1.000) = 0.4400505
+jn ( 3, 1.000) = 0.0195633
+jnf( 1, 1.000) = 0.4400505
+jnl( 10, 0.75) = 0.1496212
+y0 ( 1.000) = 0.0882569
+y0f( 1.000) = 0.0882569
+y0l( 1.000) = 0.0882569
+y1 ( 1.000) = -0.7812128
+y1f( 1.000) = -0.7812128
+y1l( 1.000) = -0.7812128
+yn ( 3, 1.000) = -5.8215176
+ynf( 1, 1.000) = -0.781212
+ynl( 10, 0.75) = -2133501638.9
+
+@endcode
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  j0f(float x)
+@param x
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  j1(double x)
+@param x
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  j1f(float x)
+@param x
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  jn(int n, double x)
+@param n
+@param x
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  jnf(int n, float x)
+@param n
+@param x
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  scalb(double x, double fn)
+@param x
+@param fn
+@see ieee()
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  scalbf(float x, float fn)
+@param x
+@param fn
+@see ieee()
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  scalbln(double x, long n)
+@param x
+@param n
+@return   x (*, FLT_RADIX**n); Â±HUGE_VAL, (Â±HUGE_VALF,, and, Â±HUGE_VALL); (according to the sign of x ) as appropriate for the return type of the function. x is NaN , a shall be returned. x is Â±0 or Â±Inf, x shall be returned. n is 0, x shall be returned.
+
+- Detailed description
+  These routines return x *(2** n )
+computed by exponent manipulation.
+
+- Examples
+@code
+#include <math.h>
+int main( )
+{  
+   /*scalbn(), scalbnf() and scalbnl()*/
+   double x1 = 0.8, x2 = 4.0 ;
+   y = scalbn( x1, x2 );
+   printf( "scalbn( %f, %f) = %f
+", x1, x2, y );
+   y = scalbnf( x1, x2 );
+   printf( "scalbnf( %f, %f) = %f
+", x1, x2, y );
+   y = scalbnl( x1, x2 );
+   printf( "scalbnl( %f, %f) = %f
+", x1, x2, y );
+  /*scalbln(), scalblnf() and scalblnl()*/
+   x1 = 0.8, x2 = 4.0 ;
+   y = scalbln( x1, x2 );
+   printf( "scalbln( %f, %f) = %f
+", x1, x2, y );
+   y = scalblnf( x1, x2 );
+   printf( "scalblnf( %f, %f) = %f
+", x1, x2, y );
+   y = scalblnl( x1, x2 );
+   printf( "scalblnl( %f, %f) = %f
+", x1, x2, y );
+}
+
+@endcode
+ Output
+@code
+scalbn ( 0.8, 4.0 ) = 12.800000
+scalbnf( 0.8, 4.0 ) = 12.800000
+scalbnl( 0.8, 4.0 ) = 12.800000
+scalbln ( 0.8, 4.0 ) = 12.800000
+scalblnf( 0.8, 4.0 ) = 12.800000
+scalblnl( 0.8, 4.0 ) = 12.800000
+
+@endcode
+@see ieee()
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  scalblnf(float x, long n)
+@param x
+@param n
+@see ieee()
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  scalblnl(long double x, long n)
+@param x
+@param n
+@see ieee()
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  scalbn(double x, int n)
+@param x
+@param n
+@see ieee()
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  scalbnf(float x, int n)
+@param x
+@param n
+@see ieee()
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  y0(double x)
+@param x
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  y0f(float x)
+@param x
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  y1(double x)
+@param x
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  y1f(float x)
+@param x
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  yn(int n, double x)
+@param n
+@param x
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  ynf(int n, float x)
+@param n
+@param x
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  gamma(double x)
+@param x
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  gammaf(float x)
+@param x
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  copysign(double x, double y)
+@param x
+@param y
+- Detailed description
+  The copysign , copysignf, and copysignl functions
+return x with its sign changed to y 's .
+
+- Examples
+@code
+#include <math.h>
+void main( void )
+{
+   double x1 = 0, x2 = -4, y;
+   y = copysign( x1, x2 );
+   printf( "copysign(%f , %f) = %f
+", x1, x2, y );
+   y = copysignf( x1, x2 );
+   printf( "copysignf(%f , %f) = %f
+", x1, x2, y );
+   y = copysignl( x1, x2 );
+   printf( "copysignl(%f , %f) = %f
+", x1, x2, y );
+}
+
+@endcode
+ Output
+@code
+copysign ( 0, -4 ) = -0.0
+copysignf( 0, -4 ) = -0.0
+copysignl( 0, -4 ) = -0.0
+
+@endcode
+@see fabs()
+@see fdim()
+@see ieee()
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  copysignf(float x, float y)
+@param x
+@param y
+@see fabs()
+@see fdim()
+@see ieee()
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  copysignl(long double x, long double y)
+@param x
+@param y
+@see fabs()
+@see fdim()
+@see ieee()
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fdim(double x, double y)
+@param x
+@param y
+- Detailed description
+  The fdim, fdimf, and fdiml functions return the positive difference between x and y .
+That is, if x- y is positive, then x- y is returned.
+If either x or y is an NaN, then an NaN is returned.
+Otherwise, the result is +0.0.
+
+- Examples
+@code
+#include <math.h>
+int main( void )
+{
+   double x1 = 0, x2 = -9, y;
+   y = fdim( x1, x2 );
+   printf( "fdim(%f , %f) = %f
+", x1, x2, y );
+   y = fdimf( x1, x2 );
+   printf( "fdimf(%f , %f) = %f
+", x1, x2, y );
+   y = fdiml( x1, x2 );
+   printf( "fdiml(%f , %f) = %f
+", x1, x2, y );
+}
+
+@endcode
+ Output
+@code
+fdim ( 0, -9 ) = 9
+fdimf( 0, -9 ) = 9
+fdiml( 0, -9 ) = 9
+
+@endcode
+@see fabs()
+@see fmax()
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fdimf(float x, float y)
+@param x
+@param y
+@see fabs()
+@see fmax()
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fdiml(long double x, long double y)
+@param x
+@param y
+@see fabs()
+@see fmax()
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fmin(double x, double y)
+@param x
+@param y
+@see fabs()
+@see fdim()
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fminf(float x, float y)
+@param x
+@param y
+@see fabs()
+@see fdim()
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  nearbyint(double x)
+@param x
+@return   x is integral or infinite, x itself is returned.
+
+- Detailed description
+  The rint and rintf functions return the integral value nearest to x according to the prevailing rounding mode.
+
+ The nearbyint and nearbyintf functions perform the same operation.
+The functions nearbyintl and rintl are aliases to the functions nearbyint and rint respectively.
+
+- Examples
+@code
+#include <math.h>
+int main( )
+{
+   double inp = 1.5;
+   double y;
+   y = nearbyint( inp );
+   printf( "nearbyint(%f ) = %f
+", inp,  y );
+   y = nearbyintf( inp );
+   printf( "nearbyintf(%f ) = %f
+", inp, y );
+   y = nearbyintl( inp );
+   printf( "nearbyintl(%f ) = %f
+
+", inp, y );
+   y = rint( inp );
+   printf( "rint(%f ) = %f
+", inp,  y );
+   y = rintf( inp );
+   printf( "rintf(%f ) = %f
+", inp, y );
+   y = rintl( inp );
+   printf( "rintl(%f ) = %f
+
+", inp, y ); 
+}
+
+@endcode
+ Output
+@code
+nearbyint  ( 1.5 ) = 2.000000
+nearbyintf ( 1.5 ) = 2.000000
+nearbyintl ( 1.5 ) = 2.000000
+rint ( 1.5 ) = 2.000000
+rintf( 1.5 ) = 2.000000
+rintl( 1.5 ) = 2.000000
+
+@endcode
+@see abs()
+@see ceil()
+@see fabs()
+@see floor()
+@see ieee()
+@see lrint()
+@see lround()
+@see math()
+@see round()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  nearbyintf(float x)
+@param x
+@see abs()
+@see ceil()
+@see fabs()
+@see floor()
+@see ieee()
+@see lrint()
+@see lround()
+@see math()
+@see round()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  round(double x)
+@param x
+@return   x is integral or infinite, x itself is returned.
+
+- Detailed description
+  The round , roundf ,
+and roundl functions return the nearest integral value to x ;
+if x lies halfway between two integral values, then these
+functions return the integral value with the larger
+absolute value (i.e., they round away from zero).
+
+- Examples
+@code
+#include <math.h>
+int main( )
+{
+   double inp = 0.5;
+   double y; 
+   y = round( inp );
+   printf( "round(%f ) = %f
+", inp,  y );
+   y = roundf( inp );
+   printf( "roundf(%f ) = %f
+", inp, y );
+   y = roundl( inp );
+   printf( "roundl(%f ) = %f
+
+", inp, y );
+}
+
+@endcode
+ Output
+@code
+round  ( 0.5 ) = 1.000000
+roundf ( 0.5 ) = 1.000000
+roundl ( 0.5 ) = 1.000000
+
+@endcode
+@see ceil()
+@see floor()
+@see ieee()
+@see lrint()
+@see lround()
+@see math()
+@see rint()
+@see trunc()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  roundf(float x)
+@param x
+@see ceil()
+@see floor()
+@see ieee()
+@see lrint()
+@see lround()
+@see math()
+@see rint()
+@see trunc()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  trunc(double x)
+@param x
+@return   x is integral, infinite or NaN , x itself is returned.
+
+- Detailed description
+  The trunc , truncf ,
+and truncl functions return the nearest integral value with magnitude less than
+or equal to | x | .
+They are equivalent to rint , rintf ,
+and rintl ,
+respectively, in the FE_TOWARDZERO rounding mode.
+
+- Examples
+@code
+#include <math.h>
+int main( )
+{
+   double inp = 1048580.625;
+   double y;
+   y = trunc( inp );
+   printf( "trunc( %f)  = %f
+", inp,  y );
+   y = truncf( inp);
+   printf( "truncf( %f) = %f
+", inp, y );
+   y = truncl( inp);
+   printf( "truncl( %f) = %f
+
+", inp, y );
+}
+
+@endcode
+ Output
+@code
+trunc ( 1048580.625 ) = 1048580.000000
+truncf( 1048580.625 ) = 1048580.000000
+truncl( 1048580.625 ) = 1048580.000000
+
+@endcode
+@see ceil()
+@see fegetround()
+@see floor()
+@see math()
+@see nextafter()
+@see rint()
+@see round()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  truncf(float x)
+@param x
+@see ceil()
+@see fegetround()
+@see floor()
+@see math()
+@see nextafter()
+@see rint()
+@see round()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  truncl(long double x)
+@param x
+@see ceil()
+@see fegetround()
+@see floor()
+@see math()
+@see nextafter()
+@see rint()
+@see round()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  drem(double x, double y)
+@param x
+@param y
+@return   The drem() function returns the remainder, unless y is zero.
+
+- Detailed description
+  The drem dremf and the dreml functions  compute  the remainder of dividing x by y.  The
+return value is x - n * y, where n is the quotient of x / y, rounded to
+the nearest integer.  If the quotient is 1/2, it is rounded to the even
+number.
+The function dreml an alias to the function drem.
+
+- Examples
+@code
+#include <math.h>
+void main()
+{
+   double x1 = 6.4, x2 = 2, y;
+   y = drem( x1, x2 );
+   printf( "drem(%f , %f) = %f
+", x1, x2, y );
+   y = dremf( x1, x2 );
+   printf( "dremf(%f , %f) = %f
+", x1, x2, y );
+   y = dreml( x1, x2 );
+   printf( "dreml(%f , %f) = %f
+", x1, x2, y );
+}
+
+@endcode
+ Output
+@code
+drem ( 6.4, 2 ) = 0.4
+dremf( 6.4, 2 ) = 0.4
+dreml( 6.4, 2 ) = 0.4
+
+@endcode
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn isnanf(float)
+
+test for infinity or not-a-number
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  significand(double x)
+@param x
+@see ieee()
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  significandf(float x)
+@param x
+@see ieee()
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  acosf(float x)
+@param x
+@see asin()
+@see atan()
+@see atan2()
+@see cos()
+@see cosh()
+@see math()
+@see sin()
+@see sinh()
+@see tan()
+@see tanh()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  asinf(float x)
+@param x
+@see acos()
+@see atan()
+@see atan2()
+@see cos()
+@see cosh()
+@see math()
+@see sin()
+@see sinh()
+@see tan()
+@see tanh()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  atanf(float x)
+@param x
+@see acos()
+@see asin()
+@see atan2()
+@see cos()
+@see cosh()
+@see math()
+@see sin()
+@see sinh()
+@see tan()
+@see tanh()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  atan2f(float y, float x)
+@param y
+@param x
+@see acos()
+@see asin()
+@see atan()
+@see cos()
+@see cosh()
+@see math()
+@see sin()
+@see sinh()
+@see tan()
+@see tanh()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  cosf(float x)
+@param x
+@see acos()
+@see asin()
+@see atan()
+@see atan2()
+@see cosh()
+@see math()
+@see sin()
+@see sinh()
+@see tan()
+@see tanh()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  sinf(float x)
+@param x
+@see acos()
+@see asin()
+@see atan()
+@see atan2()
+@see cos()
+@see cosh()
+@see math()
+@see sinh()
+@see tan()
+@see tanh()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  tanf(float x)
+@param x
+@see acos()
+@see asin()
+@see atan()
+@see atan2()
+@see cos()
+@see cosh()
+@see math()
+@see sin()
+@see sinh()
+@see tanh()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  coshf(float x)
+@param x
+@see acos()
+@see asin()
+@see atan()
+@see atan2()
+@see cos()
+@see math()
+@see sin()
+@see sinh()
+@see tan()
+@see tanh()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  sinhf(float x)
+@param x
+@see acos()
+@see asin()
+@see atan()
+@see atan2()
+@see cos()
+@see cosh()
+@see math()
+@see sin()
+@see tan()
+@see tanh()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  tanhf(float x)
+@param x
+@see acos()
+@see asin()
+@see atan()
+@see atan2()
+@see cos()
+@see cosh()
+@see math()
+@see sin()
+@see sinh()
+@see tan()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  expf(float x)
+@param x
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  frexpf(float x, int *eptr)
+@param x
+@param eptr
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  log10f(float x)
+@param x
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  logf(float x)
+@param x
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  modff(float x, float *iptr)
+@param x
+@param iptr
+@see frexp()
+@see ldexp()
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  powf(float x, float y)
+@param x
+@param y
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  sqrtf(float x)
+@param x
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  cbrtf(float x)
+@param x
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  nexttowardf(float x, long double y)
+@param x
+@param y
+@see ieee()
+@see math()
+
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def HUGE_VAL	
+
+A positive double expression, not necessarily representable as a float. 
+Used as an error value returned by the mathematics library. HUGE_VAL evaluates to positive infinity on systems supporting the ANSI/IEEE Std 754:1985 standard.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def FP_ILOGB0	
+
+The value of FP_ILOGB0 shall be either INT_MIN or - INT_MAX.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def FP_ILOGBNAN
+
+The  value of FP_ILOGBNAN shall be either INT_MAX or INT_MIN.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def HUGE_VALL	
+
+A  positive  long  double  constant expression. Used as an error value returned by the mathematics library.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def HUGE_VALF	
+
+A  positive  float  constant  expression. Used as an error value returned by the  mathematics  library. 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def INFINITY	
+
+A  constant  expression  of  type float representing positive or unsigned infinity, if available; 
+else  a  positive  constant  of type float that overflows at translation time.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def NAN		
+
+A  constant  expression  of type float representing a quiet NaN.
+This symbolic constant is only  defined  if  the  implementation supports quiet NaNs for the float type.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def MATH_ERRNO	
+
+macro  shall  expand to the integer constants 1
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def MATH_ERREXCEPT	
+
+macro  shall  expand to the integer constants 1
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def math_errhandling
+
+Macro shall expand to an expression that has type int and the  value  MATH_ERRNO,  MATH_ERREXCEPT, or the bitwise-inclusive OR of both
+	
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def FP_INFINITE	
+
+Macro shall be defined for number classification. They represent the mutually-exclusive kinds of floating-point  values.  
+They expand to integer constant expressions with distinct values. 
+Additional implementation-defined floating-point classifications, with macro definitions  beginning with FP_ and an uppercase letter, may also be specified by the implementation.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def FP_NAN		
+
+Macro shall be defined for number classification. They represent the mutually-exclusive kinds of floating-point  values.  
+They expand to integer constant expressions with distinct values. 
+Additional implementation-defined floating-point classifications, with macro definitions  beginning with FP_ and an uppercase letter, may also be specified by the implementation.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def FP_NORMAL	
+
+Macro shall be defined for number classification. They represent the mutually-exclusive kinds of floating-point  values.  
+They expand to integer constant expressions with distinct values. 
+Additional implementation-defined floating-point classifications, with macro definitions  beginning with FP_ and an uppercase letter, may also be specified by the implementation.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def FP_SUBNORMAL	
+
+Macro shall be defined for number classification. They represent the mutually-exclusive kinds of floating-point  values.  
+They expand to integer constant expressions with distinct values. 
+Additional implementation-defined floating-point classifications, with macro definitions  beginning with FP_ and an uppercase letter, may also be specified by the implementation.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def FP_ZERO	
+
+Macro shall be defined for number classification. They represent the mutually-exclusive kinds of floating-point  values.  
+They expand to integer constant expressions with distinct values. 
+Additional implementation-defined floating-point classifications, with macro definitions  beginning with FP_ and an uppercase letter, may also be specified by the implementation.
+	
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def fpclassify(x) 
+
+The math.h header  shall  define  the following macros, where real floating indicates that the argument shall be an  expression  of  real floating type
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def isfinite(x)	
+
+The math.h header  shall  define  the following macros, where real floating indicates that the argument shall be an  expression  of  real floating type
+		
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def isinf(x)	
+
+The math.h header  shall  define  the following macros, where real floating indicates that the argument shall be an  expression  of  real floating type
+		
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def isnan(x)
+
+The math.h header  shall  define  the following macros, where real floating indicates that the argument shall be an  expression  of  real floating type
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def isnormal(x)
+
+The math.h header  shall  define  the following macros, where real floating indicates that the argument shall be an  expression  of  real floating type
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def isgreater(x, y)
+
+The math.h header  shall  define  the following macros, where real floating indicates that the argument shall be an  expression  of  real floating type
+	
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def isless(x, y)
+
+The math.h header  shall  define  the following macros, where real floating indicates that the argument shall be an  expression  of  real floating type
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def islessequal(x, y)
+
+The math.h header  shall  define  the following macros, where real floating indicates that the argument shall be an  expression  of  real floating type
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def islessgreater(x, y)
+
+The math.h header  shall  define  the following macros, where real floating indicates that the argument shall be an  expression  of  real floating type
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def isunordered(x, y)
+
+The math.h header  shall  define  the following macros, where real floating indicates that the argument shall be an  expression  of  real floating type
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def isgreaterequal(x, y)
+
+The math.h header  shall  define  the following macros, where real floating indicates that the argument shall be an  expression  of  real floating type
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def signbit(x)		
+
+The math.h header  shall  define  the following macros, where real floating indicates that the argument shall be an  expression  of  real floating type
+	
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def M_E	
+
+Defines the Value of e
+	
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def M_LOG2E
+
+Defines the Value of log2e 
+		
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def M_LOG10E
+
+Defines the Value of log10e
+	
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def M_LN2
+
+Defines the Value of loge2 
+		
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def M_LN10		
+
+Defines the Value of loge10
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def M_PI	
+
+Defines the Value of pi
+	
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def M_PI_2		
+
+Defines the Value of pi/2
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def M_PI_4		
+
+Defines the Value of pi/4
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def M_1_PI		
+
+Defines the Value of 1/pi
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def M_2_PI		
+
+Defines the Value of 2/pi
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def M_2_SQRTPI	
+
+Defines the Value of 2/sqrt(pi)
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def M_SQRT2	
+
+Defines the Value of sqrt(2)
+	
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def M_SQRT1_2	
+
+Defines the Value of 1/sqrt(2)
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def MAXFLOAT
+
+Value of maximum non-infinite single-precision floating point number. 
+	
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def HUGE		
+
+Defines to (float)3.40282346638528860e+38
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @typedef  typedef	__double_t	double_t;
+
+Double 8 bytes
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @typedef  typedef	__float_t	float_t;
+
+Float 4 bytes
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

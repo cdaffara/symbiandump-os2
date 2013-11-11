@@ -1,0 +1,93 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SUITE tupspolicies
+PRINT ----------------------------------------------------------
+PRINT tupspolicies: 
+PRINT User Prompt Service policy library - parsing unit test
+PRINT ----------------------------------------------------------
+ 
+//! @SYMTestCaseID SEC-UPS-POLICIES-POLICYREADER-0001
+//! @SYMTestCaseDesc Parsing a large policy file.
+//! @SYMTestPriority High
+//! @SYMTestActions Parses a policy file with lots of different policies.
+//! @SYMTestExpectedResults Every policy should be parsed correctly.
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-POLICIES-POLICYREADER-0001
+RUN_TEST_STEP_RESULT 0 100 tupspolicies TEFUnit.CTestPolicyReader.TestPolicyReader z:\tups\tpolicies\scripts\policyreader_valid.ini
+END_TESTCASE SEC-UPS-POLICIES-POLICYREADER-0001
+
+//! @SYMTestCaseID SEC-UPS-POLICIES-POLICYREADER-0002
+//! @SYMTestCaseDesc A policy file with no policies.
+//! @SYMTestPriority Medium
+//! @SYMTestActions Read a policy file with no policies.
+//! @SYMTestExpectedResults Success, this is o.k. provided the header information is correct.
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-POLICIES-POLICYREADER-0002
+RUN_TEST_STEP_RESULT 0 100 tupspolicies TEFUnit.CTestPolicyReader.TestPolicyReader z:\tups\tpolicies\scripts\policyreader_empty.ini
+END_TESTCASE SEC-UPS-POLICIES-POLICYREADER-0002
+
+//! @SYMTestCaseID SEC-UPS-POLICIES-POLICYREADER-0003
+//! @SYMTestCaseDesc Invalid options field.
+//! @SYMTestPriority Medium
+//! @SYMTestActions Read a policy file that contains a policy with an invalid options field.
+//! @SYMTestExpectedResults Should be rejected with err -5706 KErrUpsBadPolicyFile
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-POLICIES-POLICYREADER-0003
+RUN_TEST_STEP_RESULT 0 100 tupspolicies TEFUnit.CTestPolicyReader.TestPolicyReader z:\tups\tpolicies\scripts\policyreader_invalidoptions.ini
+END_TESTCASE SEC-UPS-POLICIES-POLICYREADER-0003
+
+//! @SYMTestCaseID SEC-UPS-POLICIES-POLICYREADER-0004
+//! @SYMTestCaseDesc Invalid systemserversecurity field.
+//! @SYMTestPriority Medium
+//! @SYMTestActions Read a policy file that contains a policy with an invalid systemserversecurity field.
+//! @SYMTestExpectedResults Should be rejected with err -5706 KErrUpsBadPolicyFile
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-POLICIES-POLICYREADER-0004
+RUN_TEST_STEP_RESULT 0 100 tupspolicies TEFUnit.CTestPolicyReader.TestPolicyReader z:\tups\tpolicies\scripts\policyreader_invalidsystemserversecurity.ini
+END_TESTCASE SEC-UPS-POLICIES-POLICYREADER-0004
+
+//! @SYMTestCaseID SEC-UPS-POLICIES-POLICYREADER-0005
+//! @SYMTestCaseDesc Policy file doesn't exist
+//! @SYMTestPriority Medium
+//! @SYMTestActions Attempt to read a non-existent policy file
+//! @SYMTestExpectedResults 
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-POLICIES-POLICYREADER-0005
+RUN_TEST_STEP_RESULT 0 100 tupspolicies TEFUnit.CTestPolicyReader.TestPolicyReader z:\tups\tpolicies\scripts\policyreader_noexist.ini
+END_TESTCASE SEC-UPS-POLICIES-POLICYREADER-0005
+
+//! @SYMTestCaseID SEC-UPS-POLICIES-POLICYREADER-0006
+//! @SYMTestCaseDesc Default policy evaluator not specified in header.
+//! @SYMTestPriority Medium
+//! @SYMTestActions Attempts to parse policy file.
+//! @SYMTestExpectedResults Should not error. Default policy evaluator will be used.
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-POLICIES-POLICYREADER-0006
+RUN_TEST_STEP_RESULT 0 100 tupspolicies TEFUnit.CTestPolicyReader.TestPolicyReader z:\tups\tpolicies\scripts\policyreader_nodefaultpolicyevaluator.ini
+END_TESTCASE SEC-UPS-POLICIES-POLICYREADER-0006
+
+//! @SYMTestCaseID SEC-UPS-POLICIES-POLICYREADER-0007
+//! @SYMTestCaseDesc Default dialog creator not specified in header.
+//! @SYMTestPriority Medium
+//! @SYMTestActions Attempts to parse policy file.
+//! @SYMTestExpectedResults Should be rejected with err -5706 KErrUpsBadPolicyFile
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-POLICIES-POLICYREADER-0007
+RUN_TEST_STEP_RESULT 0 100 tupspolicies TEFUnit.CTestPolicyReader.TestPolicyReader z:\tups\tpolicies\scripts\policyreader_nodefaultdialogcreator.ini
+END_TESTCASE SEC-UPS-POLICIES-POLICYREADER-0007
+
+

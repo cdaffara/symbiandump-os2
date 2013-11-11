@@ -1,0 +1,101 @@
+// Copyright (c) 2001-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// inetprotutil.dll Utilities for Internet clients (URI component)
+// 
+//
+
+/**
+ @file
+*/
+
+
+TARGET			inetprotutil.dll
+TARGETTYPE		dll
+CAPABILITY ALL -TCB
+
+UID			0x1000008D 0x100041D1
+VENDORID 0x70000001
+
+SOURCEPATH		../InetProtUtil
+SOURCE			InetProtUtilMain.cpp
+
+SOURCEPATH		../UriParser
+SOURCE			TUriC.cpp
+SOURCE			TUriParser.cpp
+SOURCE			CUri.cpp
+SOURCE			TValidator.cpp
+SOURCE			TEquiv.cpp
+SOURCE          GenericUriParser.cpp
+SOURCE          SipUriParser.cpp
+ 
+
+
+SOURCEPATH		../Authentication
+SOURCE			cauthentication.cpp
+SOURCE			TConvBase64.cpp
+
+SOURCEPATH		../AuthorityParser
+SOURCE			TAuthorityC.cpp
+SOURCE			TAuthorityParser.cpp
+SOURCE			CAuthority.cpp
+
+SOURCEPATH		../DelimitedParser 
+SOURCE			DelimitedParser.cpp
+SOURCE			TDelimitedPathParser.cpp
+SOURCE			CDelimitedPath.cpp
+SOURCE			TDelimitedPathSegmentParser.cpp
+SOURCE			CDelimitedPathSegment.cpp
+SOURCE			TDelimitedQueryParser.cpp
+SOURCE			CDelimitedQuery.cpp
+
+SOURCEPATH		../EscapeUtils
+SOURCE			EscapeUtils.cpp
+
+SOURCEPATH		../UriUtils
+SOURCE			UriUtils.cpp
+
+SOURCEPATH		../inetprottextutils
+SOURCE			inetprottextutils.cpp
+
+SOURCEPATH		../wspcodec
+SOURCE			WSPDecoder.cpp
+SOURCE			WSPEncoder.cpp
+
+SOURCEPATH 		../internetdateutils			
+#include 		"../internetdateutils/internetdateutils.mmpi"
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+
+USERINCLUDE		../inc
+USERINCLUDE		../UriParser
+USERINCLUDE		../AuthorityParser
+USERINCLUDE		../DelimitedParser 
+USERINCLUDE		../EscapeUtils
+USERINCLUDE		../UriUtils
+USERINCLUDE		../inetprottextutils
+USERINCLUDE		../wspcodec
+USERINCLUDE		../internetdateutils
+
+LIBRARY			euser.lib charconv.lib bafl.lib efsrv.lib 
+
+#ifdef WINSCW
+DEFFILE			INETPROTUTIL.DEF
+#endif
+
+#ifdef ARMV5
+DEFFILE			InetProtUtil.Def
+#endif
+
+SMPSAFE

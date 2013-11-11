@@ -1,0 +1,46 @@
+// Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+// @file
+//
+
+//! @SYMTestSuiteName PDS-TEF-EFM-FEATREGVERIFICATION
+//! @SYMScriptTestEnvironment TEF
+//! @internalComponent
+//! @test
+
+LOAD_SUITE  efm_integration_testserver
+
+START_TESTCASE SYSLIB-EFM-CIT-4032
+//! @SYMTestCaseID 		SYSLIB-EFM-CIT-4032
+//! @SYMTestCaseDesc  		Feature data generator and ROM builder testing: check that rombuild still works with Feature Registry
+//! @SYMTestPriority 		High 
+
+//! @SYMTestActions 		This test must be performed on a ROM image built using the 'helpfiles\featregverification_test_rombuild.bat' batch file.
+//!				The featregverification_test_rombuild.bat batch file builds a rom image using the standard Symbian feature 
+//!				database xml file and a pre-created feature database xml in the feature registry format with a set of test features having a known state.
+//!				After loading the rom image into a hardware board the featue information is requested by the test 
+//!				code in this test case. The returned values are compared against the expected values.
+//!				Feature information in the rom image is as follows:
+//!				TestSupported (status - supported)
+//!				TestUnsupported (status - unsupported)
+//!				DSR with the range 0x10279806 - 0x10281805
+
+//! @SYMTestExpectedResults 	Test passes if the feature information returned corresponds to the expected results, i.e. all 
+//!				the feature requests in this test return correct information.
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ 			REQ8199
+
+RUN_TEST_STEP 1000 efm_integration_testserver FeatRegVerificationTest
+END_TESTCASE SYSLIB-EFM-CIT-4032

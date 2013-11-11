@@ -1,0 +1,592 @@
+Change 293264 on 2003/09/08 by Chris Cooper
+===========================================
+
+CR: MRED-5J7GWA Form should support custom formatting.
+Three methods of MTmSource:
+	SelectLabelMode()
+	CancelLabelMode()
+	GetLabelMetrics()
+have been deprecated AND WITHDRAWN with immediate effect. Their ordinals have been replaced by 3 new methods:
+	GetExtendedInterface()
+	MTmSource_Reserved_1()
+	MTmSource_Reserved_2()
+
+Using GetExtendedInterface(KFormLabelApiExtensionUid) we can now get access to a replacement label interface based around the new class MFormLabelApi.
+
+Using GetExtendedInterface(KInlineTextApiExtensionUid) we can also get access to a new inline text interface based around the new pure class MTmInlineTextSource or, more accurately, to classes derived fom this that implement various forms of inline text for custom formatting.
+
+
+Change 123056 on 2001/10/16 by PaulCor@lon-paulcor
+==================================================
+        Fix for defect: BAD-52VE28 - Zero-width no break space (U+FEFF) is not zero width.
+	Note: actual space fixed for is zero width space (U+200B), not (U+FEFF).
+
+Change 122643 on 2001/10/15 by PaulCor@lon-paulcor
+==================================================
+        Fix for BAD 52BDZ5 - public header file form/inc/frmtview.h has unnecessary inline
+	functions.
+
+Change 121468 on 2001/10/08 by TimBa@lon-timba
+==============================================
+	Form/inc/ from category A to E: CR NSAE-4ZTLMF
+
+Changes to 119717 on 2001/09/26 by TimBa@lon-timba
+==================================================
+	TLinePag changed so that it actually tests the real code
+	Integrated with mainline
+	Put Form2 back to old form only, Form3 now contains new form
+	Moved experimental form stuff to Form3.mmp
+	Experimental new Form model begun.
+	Have gone on a deleting spree. Classes gone: CLayoutData, CParaLayout, CLineLayout. Many test files (not needed in any builds) have gone.
+	Deprecated ParagraphTextFill functions because they don't do anything. They are still called from a few places, though.
+	Fixed TEdwin to exit cleanly and only produce 2 failed results (the failures are because a certain OOM condition is harder to generate than it used to be)
+	Updated some comments
+
+Changes to 116036 on 2001/08/28 by TimBa@lon-timba
+==================================================
+	Stopped spaces from being allowed to hang in custom wrap test code.
+	TCustomWrap now has two different forms of custom wrap and more complete functionality
+	Fix for BAD-4ZTGF7: Text view is not aligned correctly if SetSelectionL is called
+
+Changes to 114546 on 2001/08/15 by TimBa@lon-timba
+==================================================
+	Fix for BAD-4ZCFL6: Tagma looks like it can cause access violations under stress #2
+	Fix for BAD-4ZCFH7: Tagma looks like it can cause access violations under stress #1
+	TTagmaImp now stress-tests simple formatting
+
+Changes to 114216 on 2001/08/14 by TimBa@lon-timba
+==================================================
+	TTagmaImp now stress tests CTmCode.
+	Integrated all of David's Tagma ROM-saving code
+	Altered form benchmark code to output the results to RDebug::Print for easier capture
+
+Changes to 113069 on 2001/08/06 by TimBa@lon-timba
+==================================================
+	Fix for BAR-4Z8JLB: TAGMA.DLL loses an error code (changing it to KErrGeneral)
+	Fix for DOO-4Z8KT5: TTagma fails to run on the Emulator: The makefile to copy the test data across has flaws that prevented it from running correctly first time
+	Slight tidying up of TTextView
+
+Changes to 112635 on 2001/08/02 by TimBa@lon-timba
+==================================================
+	Removed dependencies on the window server test shell. Now all the
+	EXEDLL test programs are built to Z:\test\app-framework\form and
+	are run from the full OS with a simple double-tap on the DLL.
+
+Changes to 112097 on 2001/07/30 by TimBa@lon-timba
+==================================================
+	Rejected all mainline changes to turn CodeWarrior options off
+	Selections can now be highlighted in any colours by overriding MTmSource::SystemColor:
+	- Pictures now highlighted correctly (albeit with a bit of flicker). This uses a BC break!
+	- Old inverting behaviour restored when selection foreground is set to be the same as selection background
+	- Made highlighting work in the specified colours for text
+
+Changes to 110764 on 2001/07/19 by TimBa@lon-timba
+==================================================
+	Fix for BAD-4YSFCZ: TTagma does not run
+	Fix for BAD-4YREPQ: Image alignment not working
+	Removed causes of warnings: while (pred); changed to while (pred) {}
+
+Change 107274 on 2001/06/28 by TimBa@lon-timba
+==============================================
+	Fix for DAS-4XVEJ7: Word : TAGMA 10 panic after keeping space pressed till the end of line
+	Fix for BAD-4Y5GK6: Form Panic when clicking on a large line
+	Fix for BAD-4Y4KTK: Behaviour of FORM scrolling is bad when a line is more than one screen high
+	reserved export changed to Spare1. TagmaRegTest re-frozen.
+	Fix for RAY-4XVL6D: Form has an unnecessary dependency on cone
+	Removed ExcludingPartialLines functionality. Only API stubs remain. To be deleted for 8.0.
+
+Changes to 99244 on 2001/05/16 by TimBa@lon-timba
+=================================================
+        CCommandManager::MoveHistory becomes MoveHistoryL. It was a leaving function, only called from leaving functions, and no non-trivial change is required.
+        Fix for IQL-4WQGZD: Hyphenation error in edwins
+
+Change 98797 on 2001/05/15 by TimBa@lon-timba
+=============================================
+	Removed atrefacts of old build system
+
+Changes to 96003 on 2001/04/27 by TimBa@lon-timba
+=================================================
+        Fix for defect ASR-4UYHZX: ETEXT panic 12 (ECharPosBeyondDocument) when out of memory.
+        Added test code to test this fix- TTextView project.
+        Updated TUndo and TUnique to more standard testing proceedure. Added lines to oby file to copy test files into the ROM.. these need to be copied into C:\system\fonts and C:\form\input after EPOC boots
+        removed warnings from tedwin test code
+
+Changes to 90284 on 2001/03/27 by TimBa@lon-timba
+=================================================
+        Fix for REK-4USJ6L: IMPORT_C in TMLAYOUT.CPP
+        Fix for DAS-4UTG9U: Problems with undo (actually problem with TAGMA)
+        Also added some diagnostic code to the undo system.
+        Fix for DAS-4UTGU5: Pasting does not cause document to be saved on exit
+        Stopped horizontal scrolling in CTextView when screen mode fits into screen
+        Fix for DAS-4U8PPU: Mainline Smoke Test 00367 : Word -Undo can panic after a cut
+
+Changes to 81870 on 2001/02/15 by TimBa@lon-timba
+=================================================
+        added old page.txt to test files, existing one was empty
+        Added some comments to TEDWIN.MMP to tell users where to find TINS.LIB
+        Added TAGMA regression tests to aid optimization
+        Small restructuring of tagma files to make testing easier
+        Changing page down policy slightly, so that a line with its baseline and its top line visible counts as completely visible.
+        Tagma optimisation: Latin shortcut
+        GDI regression tests to ensure that FORM optimization does not cause errors in GDI
+
+Changes to 79366 on 2001/02/01 by TimBa@lon-timba
+=================================================
+        form_benchmark runs all 6.1 compatible tests
+        form speed improvements: 7.9% on reformatting latin
+        form benchmark: tests for 6.1 code now excluded by default
+        Trivial optimization to MTmCustom::Map
+	Fix for ARG-4TAJ5R: Form missing IPR file
+
+Changes to 74688 on 2001/01/11 by TimBa@lon-timba
+=================================================
+        Fix for BAD-4QMLZG: Word - window does not follow cursor around
+        Fix to BAD-4SSJKU: Page up can panic Word
+        Fix to BAD-4SPMM2
+        benchmarking is set in BLD.INF
+        Took some code out of TFormAndETextEditor to speed it up.
+
+Changes to 63479 on 2000/11/03 by DavidK@lon-davidk3
+====================================================
+        Fixed KNT-4QNQTA "Form Panic on low memory conditions"
+        Fixed defect PEI-4QHGRG "FORM panics when editing text in low memory conditions"
+
+Changes to 63197 on 2000/11/01 by DavidK@lon-davidk3
+====================================================
+        Fixed defect  EDNGASR-4PYJ56 "WidthOfWidestLine functions in TAGMA have
+unnecessary leading const"
+        Added TFormAndETextEditor::ChangeStyleL, but it has not been tested.
+        TUndo Undo unit tests fixed
+        TFormAndETextEditor no longer kills old formatting
+        access control labels outdented in Tagma.h (see EDNSCHM-4Q8LEX)
+
+Change 61930 on 2000/10/25 by TimBa@lon-timba
+=============================================
+FORM test files are now copied into place with a makefile executed in the test build's FINAL stage.
+
+Changes to 61611 on 2000/10/23 by TimBa@lon-timba
+=============================================
+	Paste with pictures now redoable.
+	Added picture manipulation to form_and_etext_editor.
+	Undo tests now include copy/paste testing.
+	Added tests for Undo clipboard operations.
+	Privatised privately-derived interfaces.
+	Added cut & paste functionality to plain text editor with undo.
+	added export .def file for Tagma.
+
+Changes to 60131 on 2000/10/12 by TimBa@lon-timba
+=================================================
+        Clipboard operations added to MTmEditor interface and undo system.
+        Word altered accordingly.
+        Tagma exports frozen.
+        frozen the exports of Form_And_Etext_Editor and Undo projects, so that the mainline can build.
+
+Release 158
+===========
+Tim Band, 17/04/2000
+
+Added 2 reserved virtual functions to MFormCustomDraw.
+
+Release 177
+===========
+Graham Asher, 14/10/99
+
+Changes to releasable:
+The exported .inl files (frmlaydt.inl, frmtlay.inl and frmtview.inl) have been abolished and the inline functions have been put into the header files. This has no effect on FORM users.
+
+Added support for custom background drawing to both FORM and TAGMA. This is not supported by FORM1. The new mixin class MFormCustomDraw and new exported functions are documented in FORM_API.RTF and TAGMA.RTF.
+
+Release 176
+===========
+Graham Asher, 6/10/99
+
+The TAGMA API has changed in an incompatible way: namely, MTmSource has acquired a new virtual function, GetLabelMetrics, and SelectLabelMode has lost its last argument. This change was necessary to fix 'scrolling a contact leaves relics behind at the bottom'. This sort of thing will happen quite often for a while, of course, as part of TAGMA's evolution, but eventually it will be frozen like everything else.
+
+Fixed the following defects:
+Entering an Arabic character can cause Word to hang
+FORM fails to justify when reformatting full-justified lines
+Scrolling a contact leaves relics behind at the bottom
+
+Release 175
+===========
+Graham Asher, 1/10/99
+
+This release is intended for Text 6.0.
+
+TAGMA is now a separate component with a public API. It is as yet unfrozen and for use only in evaluation. FORM depends on TAGMA and so TAGMA.DLL must be added to the list of ROM components. Unless the old FORM is used (FORM1.DLL), WRAP.DLL and its variants WRAPCHI and WRAPJAP are unneeded.
+
+Documentation is now released in form\group as RTF files. CTextLayout and the new TAGMA API have been documented so far.
+
+The TAGMA API and other definitions are in the new public header file tagma.h. The documentation is in tagma.rtf.
+
+Defects fixed:
+The new CTextLayout definition should go into frmtlay.h.
+
+Release 174
+===========
+Graham Asher, 27/9/99
+
+Changes To Releasable:
+The new version of FORM.DLL, based on TAGMA, is now released as standard. This means that FORM1.MMP creates FORM1.DLL and FORM2.MMP creates FORM.DLL.
+
+This release is intended for Text 6.0.
+
+There is a new public function, void CTextLayout::GetMinimumSizeL(TInt aWrapWidth,TSize& aSize), to return the minimum width and height of the bounding box of text formatted to the specified wrap width. This is useful for applications like the web browser that need to determine the minimum width for a piece of text; this can be done by passing 0 as the wrap width and examining the returned aSize.iWidth.
+The new function is supported by FORM2 (the new standard version of FORM, releasing FORM.DLL) only. Calling it in FORM1 results in a panic with the new code EFImplementedOnlyInForm2 (= 900).
+Arabic lam-alef ligatures that are split between different segments in the text content no longer cause a panic.
+
+Release 173
+===========
+Graham Asher, 2/9/99
+
+For Text 6.0, not ER5U; resides on the mainline source directory \\londata01\src_epoc
+FORM2 now supports system colours.
+Fixed this FORM defect:  (Text background is drawn too far to the left).
+Removed support for the back door used by Web to set the font height increase factor; this should now be done using CTextLayout::SetFontHeightIncreaseFactor. The 'friend CTestTextLayout' declaration that opened the back door has gone, forcing a recompilation of offending code.
+Fix ebld so that install and install2 no longer fail to copy the list1.txt, list2.txt, list3.txt files to z\form.
+
+Release 172
+===========
+Graham Asher, 27/8/99
+
+For Text 6.0, not ER5U; resides on the mainline source directory \\londata01\src_epoc
+Created a set of test scripts for FORM2, by running TEDWIN on all 3 groups of scripts and taking the output files. These have the same names as those for ordinary FORM, so I have put them in \form\tdata\script2.zip, and the old ones in script.zip. EBLD.BAT now has verbs install and install2 that copy the appropriate versions to \epoc32\release\wins\{udeb and urel}\z\form.
+How to run the test scripts using the new baseline build system - until it releases test DLLs - building all the bits from scratch to be on the safe side
+1. Get the ETEXT source and build TINS: 'abld test build wins udeb tins'
+2. Get the FORM source and build TEDWIN: 'abld test build wins udeb tedwin'
+3. Get the WSERV source and build TLIB and SHELL: 'abld test build wins udeb tlib'; 'abld test build wins udeb shell'
+4. Save copies of \epoc32\release\wins\{udeb and urel}\z\system\data\wsini.ini
+5. Do 'cont form group' and 'ebld install' or (for FORM2) 'ebld install2'.
+6. If testing FORM2, replace FORM.DLL with FORM2.DLL
+7. Run EPOC and select TEDWIN from the list displayed by SHELL.
+8. Select item A from the menu. When it has finished, press CTRL-Q and select item B, then when that has finished press CTRL-Q and select item C.
+If I have time I shall automate as much of this as possible.
+
+Release 171
+===========
+Graham Asher, 26/8/99
+
+For Text 6.0, not ER5U; resides on the mainline source directory \\londata01\src_epoc
+FORM2 and TAGMA development now takes place here, not on the ER5U releases.
+Binary compatible with release 170.
+FORM:
+Merged the following changes from release 157:
+Fixed the following defect: : Out of memory can leave TCursorPosition in an unhealthy state.
+Initialised some variables to remove MSVC6 warnings
+FORM2 and TAGMA
+Merged  background formatting from release 157, and made it work with bidirectional formatting by storing the bidirectional state, if non-default, in the bytecode at the start of a line.
+For the moment, the bidirectional control characters LRE, RLE, PDF, LRO and RLO have the visible forms <, >, ¤, «, and », which appear when non-break spaces are made visible. This system will be superseded by a more sensible way of displaying the various Unicode control characters.
+Added the function CTmBand::GetDisplayedText to get the text as it is displayed, after reordering and contextual glyph replacement. This is useful mainly for testing.
+Fixed the bug in bidirectional formatting causing runs of number separators to be treated as a single number separator.
+Added CTmLabel::Clear.
+TTAGMA:
+Added test code for bidirectional formatting.
+
+Release 170
+===========
+Graham Asher, 29/7/99
+
+For Text 6.0, not ER5U (hence the jump in version number - based on FORM 156);
+resides on the mainline source directory (\\londata01\src_epoc)
+Binary compatible with release 156.
+Added support for system colours (to FORM only, not yet to FORM2). For this to work you need ETEXT 141 or later.
+
+Release 157
+===========
+Graham Asher, 16/8/99
+
+Released source code only in accordance with the new build system.
+Minor changes only to FORM; most changes affect FORM2 only.
+FORM:
+fixed the following defect: : Out of memory can leave TCursorPosition in an unhealthy state.
+initialised some variables to remove MSVC6 warnings
+FORM2:
+implemented background formatting
+fixed a bug that caused the entire band to be reformatted every time a character was added at the end of the document
+
+Release 156
+===========
+Graham Asher, 26/7/99
+
+Rebuilt against latest ER5U versions of components. Changed EBLD.BAT and MNT.BAT to use zip and unzip where appropriate.
+
+Release 155
+===========
+Graham Asher, 26/7/99
+
+This updates FORM2 but there are no changes to ordinary FORM.
+
+The TAGMA test program TTAGMA now runs and makes use of an experimental label class CTmLabel (see tmlabel.h for the definition; comments welcome). It doesn't do very much yet, but it's a start.
+
+Clarified ebld.bat
+
+Corrected some more errors in the test program TEDWIN; it didn't always notify FORM or FORM2 properly of changes to the text.
+
+TEDWIN no longer crashes when using FORM2; this was caused by errors in both. In particular, FORM2 wasn't dealing properly with changes to ranges of text that were partially outside the formatted band (see ): CTextLayout::HandleCharEditL and CTextLayout::HandleBlockChangeL now reformat the whole band in these circumstances. More work possibly needed to correct the return values for amount to scroll, etc.
+
+Release 154
+===========
+Graham Asher, 15/7/99
+
+This updates FORM2 but there are no changes to ordinary FORM.
+
+Reduced the size of an CTmBand object by making the code buffer a pointed-to member rather than an actual member.
+Speeded up formatting by usually formatting only the part of the text affected by a change, not the entire paragraph or paragraphs.
+
+Fixed the following FORM2 bugs reported in ER5 defects:
+
+ FORM2: word is moved to the next line if a space is appended
+ FORM2: excess formatting is not pruned when formatting a band
+ FORM2: CParaFormat::iWrap is ignored
+ FORM2: non-printing characters cannot be displayed
+ FORM2: CTextLayout::ParagraphHeight should return partial height if paragraph is not fully formatted
+ FORM2: CTextLayout::ParagraphRectL should return a partial rectangle if the paragraph is partially formatted.
+ FORM2: CTextLayout::CalculateHorizontalExtremesL is partly unimplemented
+ FORM2: page breaks are not recognised
+ FORM2: display of page breaks cannot be turned off
+
+Release 153
+===========
+Graham Asher, 28/6/99
+
+This updates FORM2 but should not affect ordinary FORM.
+
+Fixed several TAGMA bugs and reworked the test code so that it uses public functions of CTextLayout only - there is no longer a class called CTestTextLayout that is a friend of CTextLayout and looks under the bonnet. This allows the test code to work with both FORM and FORM2. Changed some test scripts, after analysis of the reasons for failure, so that they work with the new version of TEDWIN.
+
+No change to FORM except for the addition of a new public function, CTextLayout::FirstFormattedPos, to return the document position of the first formatted character. This was prompted by the changes to the test code.
+
+Summary of TAGMA changes:
+
+CTextLayout has acquired a data member that allows the back door used by Web to set the font height increase factor to work. This will be removed when Web has been fixed to use the official public function, CTextLayout::SetFontHeightIncreaseFactor, but it allows FORM2 to be used with Web as a drop-in replacement for FORM, which is useful for testing.
+
+Fixed a bug in CTextLayout::SetWrapWidth: wrap widths less than 0 are always set to 1 now.
+
+CTextLayout::PosIsFormatted now behaves identically to the FORM version.
+
+CTextLayout::PictureRectangleL now returns FALSE, as it should do, if the position requested is outside the document bounds.
+
+CTextLayout::PageUpL and CTextLayout::PageDownL have been completely rewritten to stop them violating assertions made by code that calls them in CTextView.
+
+CTextLayout::AdjustVerticalAlignment has been implemented.
+
+Paragraph background colours are now drawn.
+
+Page breaks are now drawn.
+
+The range of characters owned by a line is now never empty; this means that a final empty line in a document has an end character one greater than the document length. This sounds illogical but cures many ills and makes determination of whether a character is in a line trivial. Previously many parts of TAGMA had to decide whether the end of the formatted text was the end of the document, and if so whether there was a final empty line.
+
+Bullets are now drawn.
+
+The current font is now maintained in a consistent way in both the bytecode interpreter classes and the formatting code, by a new class called TTmDeviceAndFont. This makes formatting and bytecode interpretation faster.
+
+Fixed the following FORM2 bugs reported in ER5 defects:
+
+EDNGASR-48RHS8: FORM2 draws bottom paragraph borders after the first line of the paragraph
+EDNGASR-48UEDX: cursor up fails in FORM2
+EDNGASR-48UHCF: labels not clipped correctly in FORM2
+EDNGASR-48VL7K: FORM2 fails in Web because CTextLayout::FormattedLength is wrong
+EDNGASR-48VLDC: No text is drawn in Web if FORM2 is used
+EDNGASR-48VLRF: CTextLayout::PosIsFormatted is wrong in FORM2
+EDNGASR-48VLVK: Assertion about cursor position is wrong in CTextLayout::HandleCharEditL in 
+FORM2
+EDNGASR-48WHK2: CTextLayout::SetViewL uses inner line rect but CTextLayout::GetLineRectL returns outer rect in FORM2
+EDNGASR-48WJ9M: CTextLayout::AdjustVerticalAlignment is unimplemented in FORM2
+EDNGASR-493GQV: FORM2 rounds negative indents the wrong way when converting to pixels
+EDNGASR-494GVL: FORM2 doesn't draw page breaks
+EDNGASR-494JA8: FORM2: TTmInterpreter::ParNumberToLine panics if aLineInPar > 0
+
+Release 152
+===========
+Graham Asher, 9/6/99
+
+Now creates FORM2.DLL as an extra releasable. This is a new version of FORM that uses TAGMA as its formatting engine and runs faster, is smaller and uses less memory; but is not yet perfect, so please report all defects and inconsistencies with FORM.
+
+FORM2.DLL can be used in place of FORM.DLL; it is a complete binary-compatible replacement. It does not require any wrapping DLL so WRAP.DLL, WRPCHI.DLL and WRPJAP.DLL are unnecessary if FORM2.DLL is used.
+
+The TAGMA source code lives in \form\tagma and the new mmp file is \group\form2.mmp.
+
+To make it easier to use some of the FORM code for building FORM2 I have moved all CTextLayout member functions from FRMDRAW.CPP into FRMTLAY.CPP. FORM2 has been implemented by re-coding CTextLayout; the replacement version lives in LAYEMU.CPP.
+
+Release 151
+===========
+Chris Cooper
+
+Baseline for ER5U.
+
+Release 150
+===========
+Graham Asher, 13/5/99
+
+Intended for ER5U; first version to reside on the ER5U source drive, hence the jump in version numbers. Rebuilt with the latest ETEXT, in which the control characters have changed to Unicode, forcing a recompilation of everything that depends on it.
+
+Added new CTextLayout functions to get and set font height increase factor and minimu line descent.
+
+Removed non-break tab code; non-break tabs no longer exist but must be done using an ordinary tab followed by a zero-width non-break space.
+
+Changed test code to handle INSERT_NBTAB by inserting a tab and a zero-width non-break space; and CODE_007 inserts a Unicode line break character (U+2028). CODE_010, which should insert a non-break tab, will be fixed when the new test fonts are available.
+
+Non-standard visible versions of control characters (found in the bitmap fonts in the range 0-31) are no longer used; now standard characters are used and referred to by their Unicode values.
+
+Test scripts all pass EXCEPT for the following, which depend on non-break tab being a single character, or visible versions of control characters having a certain identity: scrp19, tab1, tab2, tab3, tab4, tab5, tab6, bugs12, bugs16, bugs17. This will be fixed when new test fonts are available following work on the font tool chain.
+
+Release 133
+===========
+Graham Asher, 8/4/99
+
+Intended for ER5U. Rebuilt with latest versions of components, including the new binary-incompatible Open Font System components (FNTSTORE 059, FBSERV 087, and BITGDI 085). FREETYPE 010 or later is also required when using TrueType fonts.
+
+Removed all non-Unicode files and batch file commands.
+
+Release 132
+===========
+Graham Asher, 15/1/99
+
+Fixed the following defects reported in ER5 Defects:
+
+EDN138705: Parts of italic characters are clipped at boundaries between italics and non-italics
+
+EDN399329: Accents that are higher than the ascent of the line - a better fix
+
+Release 131
+===========
+Graham Asher, 29/12/98
+
+Fixed the following defect reported in ER5 Defects:
+
+EDN212294: Accents above the ascent of the character (as in Ã) are clipped away.
+
+Release 124
+===========
+Graham Asher, 26/6/98
+
+Reorganised the line wrapping system and wrote line wrapping rules
+for Japanese and Chinese. The releasables are now as follows:
+
+FORM.DLL is statically linked to WRPLAT.DLL (Latin-script line wrapping; was FRMWW.DLL)
+FRMJAP.DLL (Japanese FORM) is statically linked to WRPJAP.DLL (Japanese line wrapping)
+FRMCHI.DLL (Chinese FORM) is statically linked to WRPCHI.DLL (Japanese line wrapping)
+
+FRMJAP and FRMCHI are identical to FORM.DLL in every way except which line-wrapping DLLs
+they are linked to. For now we are using static linking; releasing separate DLLs is
+just a convenience for ROM building.
+
+Released all 8 builds of FORM : all permutations of WINS/MARM, DEB/REL and ASCII/UNICODE.
+
+All 4 WINS builds tested and both MARM REL builds test; these 6 builds pass all test scripts.
+
+FRMJAP and FRMCHI fail some test scripts (as they should, because their behaviour is
+different) but appear to work perfectly; these to be tested more thoroughly, and test scripts
+devised that they can pass, when the requirements of Japanese and Chinese locales become
+clearer.
+
+Release 123
+===========
+Douglas Feather, 29/5/98.
+Another) Final build for Lavender ROM.
+All 8 builds releases: WINS/MARM, DEB/REL, ASCII/UNICODE.
+All 4 MARM build validate on clean drive.
+All 4 WINS builds tested and both MARM REL builds tested.  These 6 builds passed all test scripts.
+(MARM Unicode Release not done yet)
+The other 2 builds will not boot on the RACK since there are built with components that are not
+binary compatible in this build.  This was done deliberately - since I wanted to build (and test)
+against components (as far as possible) that were going into the Lavender ROM.
+Fixed 2 bugs:
+SW1-63 and SW1-64.
+Added new test script that showed both bugs up before they were fixed.
+Taken next release of E32 and F32.
+
+Release 122
+===========
+Douglas Feather, 28/4/98
+Final build for Lavender ROM.
+All 8 builds releases: WINS/MARM, DEB/REL, ASCII/UNICODE.
+All 4 WINS builds tested and both MARM REL builds tested.  These 6 builds passed all test scripts.
+The other 2 builds did not boot on the RACK probably due to binary incompatibility in some of the components used.
+Fixed 2 bugs:
+1. SW1-419: Horizontal extremes calculated incorrectly.
+2. SW1-187: Negative right indents are now ignored.
+Other changes:
+1. Added new test scripts to test the above 2 fixes.
+2. Needs a SYSTEM.INI for \EPOC32\DATA else WINS test code doesn't run.
+3. ROM images build differently as explained in: .
+
+Release 121
+=======
+set _ve32tools=092
+set _ve32toolp=091
+set _vgdtran=031
+set _vgditools=044
+set _ve32utils=019
+rem ***eiktools required for new build system - functionality to be moved to E32TOOLS
+set _veiktools=124
+
+set _ve32=123
+set _vf32=092
+set _vs32=046
+set _vgdi=058
+set _vfntstore=046
+set _vfbserv=076
+set _vbitgdi=063
+set _vwserv=095
+set _vetext=093
+
+set _vfonts=077
+set _vbafl=077
+set _vcone=143
+
+Fixed 9 bugs from the S5 defects database.
+
+Release 120
+=======
+set _ve32tools=082
+set _vgdtran=027
+set _vgditools=042
+set _ve32utils=019
+rem ***eiktools required for new build system - functionality to be moved to E32TOOLS
+set _veiktools=123
+
+set _ve32=120
+set _vf32=090
+set _vs32=043
+set _vgdi=057
+set _vfntstore=046
+set _vfbserv=075
+set _vbitgdi=062
+set _vwserv=094
+set _vetext=092
+
+set _vfonts=077
+set _vbafl=075
+set _vcone=143
+
+Re-built against components compatible with Unicode GDI 057 - Unicode typeface name
+
+Release 119
+=======
+set _ve32tools=082
+set _vgdtran=027
+set _vgditools=042
+set _ve32utils=014
+***eiktools required for new build system - functionality to be moved to E32TOOLS
+set _veiktools=123
+set _ve32=119
+set _vf32=089
+set _vs32=043
+set _vgdi=053
+set _vfntstore=044
+set _vfbserv=066
+set _vbitgdi=058
+set _vwserv=090
+set _vetext=091
+
+set _vfonts=077
+set _vbafl=075
+set _vcone=142
+
+First attempt at Unicode release - taken new components to allow this and alse progressed 
+to using MAKMAKE and the MNT/EBLD system of component management.
+
+Significant changes to the test code to allow a Unicode build to be tested and to accomodate 
+the brave new world. 
+
+No changes to the main code.

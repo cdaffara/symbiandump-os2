@@ -1,0 +1,49 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SERVER te_RegBlockTestSuite 
+
+START_TESTCASE DT-TEF-TestBlock-0107
+//! @SYMTestCaseID          DT-TEF-TestBlock-0107
+//! @SYMCreationDate        03-07-2008
+//! @SYMAuthor              DavidZhang
+//! @SYMTestType            CT
+//! @SYMTestPriority        Medium
+//! @SYMTestCaseDesc        Use OUTSTANDING to let an active object wrapped within a certain wrapper object to finish it's work.
+//! @SYMTestExpectedResults The test case result must be PASS and the active object's work wasn't complete before OUTSTANDING call and it must be complete after the OUTSTANDING.
+//! @SYMTestActions         1. Create a wrapper that wraps an active object, create a wrapped active object and activate the active object.
+//!                         2. Create another wrapper that wraps an active object, create a wrapped active object and activate the active object.
+//!                         3. Make sure that both active objects haven't finished their work.
+//!                         4. Call OUTSTANDING 0 for the first wrapper.
+//!                         5. Check that the first active object has finished it's work but the second hasn't.
+//!                         6. Call OUTSTANDING 0 for the second wrapper.
+//!                         7. Check that both active objects have finished their work.
+	START_TEST_BLOCK	100 te_RegBlockTestSuite ${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini
+		CREATE_OBJECT	te_RegBlockTestWrapper	TestCase117_obj_1
+		COMMAND		TestCase117_obj_1		AddActiveObjectToScheduler
+		COMMAND		TestCase117_obj_1		ActivateActiveObject			TestCase117_obj_1
+		CREATE_OBJECT	te_RegBlockTestWrapper	TestCase117_obj_2
+		COMMAND		TestCase117_obj_2		AddActiveObjectToScheduler
+		COMMAND		TestCase117_obj_2		ActivateActiveObject			TestCase117_obj_2
+		COMMAND		TestCase117_obj_1		CheckActiveObjectWorkIsComplete		TestCase117_must_be_complete_false
+		COMMAND		TestCase117_obj_2		CheckActiveObjectWorkIsComplete		TestCase117_must_be_complete_false
+		OUTSTANDING	0				TestCase117_obj_1
+		COMMAND		TestCase117_obj_1		CheckActiveObjectWorkIsComplete		TestCase117_must_be_complete_true
+		COMMAND		TestCase117_obj_2		CheckActiveObjectWorkIsComplete		TestCase117_must_be_complete_false
+		OUTSTANDING	0				TestCase117_obj_2
+		COMMAND		TestCase117_obj_2		CheckActiveObjectWorkIsComplete		TestCase117_must_be_complete_true
+	END_TEST_BLOCK
+END_TESTCASE DT-TEF-TestBlock-0107

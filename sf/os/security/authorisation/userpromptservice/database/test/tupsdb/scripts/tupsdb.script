@@ -1,0 +1,433 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SUITE tupsdb
+
+//! @file
+//! @SYMTestCaseID SEC-UPS-DB-DECISIONRECORD-0001
+//! @SYMTestCaseDesc Creates a decision record
+//! @SYMTestPriority Medium
+//! @SYMTestActions Creates a decision record with provided values
+//! @SYMTestExpectedResults Creates a decision record sucessfully
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-DB-DECISIONRECORD-0001
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini createrecord
+END_TESTCASE SEC-UPS-DB-DECISIONRECORD-0001
+
+//! @file
+//! @SYMTestCaseID SEC-UPS-DB-DECISIONRECORD-0002
+//! @SYMTestCaseDesc Tries to create a decision record with a fingerprint which is longer than 32 bytes
+//! @SYMTestPriority Medium
+//! @SYMTestActions Creates a decision record with provided values
+//! @SYMTestExpectedResults Fails to create a decision record
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-DB-DECISIONRECORD-0002
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini createrecordwithlongfingerprint
+END_TESTCASE SEC-UPS-DB-DECISIONRECORD-0002
+
+//! @file
+//! @SYMTestCaseID SEC-UPS-DB-DECISIONRECORD-0003
+//! @SYMTestCaseDesc Tries to create a decision record without a fingerprint
+//! @SYMTestPriority Medium
+//! @SYMTestActions Creates a decision record with provided values
+//! @SYMTestExpectedResults Fails to create a decision record
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-DB-DECISIONRECORD-0003
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini createrecordwithoutfingerprint
+END_TESTCASE SEC-UPS-DB-DECISIONRECORD-0003
+
+//! @file
+//! @SYMTestCaseID SEC-UPS-DB-DECISIONRECORD-0004
+//! @SYMTestCaseDesc Tries to create a decision record with a client entity which is lonegr than 32 bytes
+//! @SYMTestPriority Medium
+//! @SYMTestActions Creates a decision record with provided values
+//! @SYMTestExpectedResults Fails to create a decision record
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-DB-DECISIONRECORD-0004
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini createrecordwithlongcliententity
+END_TESTCASE SEC-UPS-DB-DECISIONRECORD-0004
+
+//! @file
+//! @SYMTestCaseID SEC-UPS-DB-DECISIONRECORD-0005
+//! @SYMTestCaseDesc Tries to create a decision record without a client entity
+//! @SYMTestPriority Medium
+//! @SYMTestActions Creates a decision record with provided values
+//! @SYMTestExpectedResults Creates a decision record successfully
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-DB-DECISIONRECORD-0005
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini createrecordwithoutcliententity
+END_TESTCASE SEC-UPS-DB-DECISIONRECORD-0005
+
+//! @file
+//! @SYMTestCaseID SEC-UPS-DB-DECISIONRECORD-0006
+//! @SYMTestCaseDesc Tries to create a decision record without a description
+//! @SYMTestPriority Medium
+//! @SYMTestActions Creates a decision record with provided values
+//! @SYMTestExpectedResults Creates a decision record successfully 
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-DB-DECISIONRECORD-0006
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini createrecordwithoutdescription
+END_TESTCASE SEC-UPS-DB-DECISIONRECORD-0006
+
+
+//! @file
+//! @SYMTestCaseID SEC-UPS-DB-DECISIONFILTER-0001
+//! @SYMTestCaseDesc Creates a decision filter
+//! @SYMTestPriority Medium
+//! @SYMTestActions Creates a decision filter with provided values
+//! @SYMTestExpectedResults Creates a decision filter sucessfully
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-DB-DECISIONFILTER-0001
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini createfilter_1
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini createfilter_2
+END_TESTCASE SEC-UPS-DB-DECISIONFILTER-0001
+
+//! @file
+//! @SYMTestCaseID SEC-UPS-DB-DECISIONFILTER-0002
+//! @SYMTestCaseDesc Tries to create a decision filter with a fingerprint which is longer than 32 bytes
+//! @SYMTestPriority Medium
+//! @SYMTestActions Creates a decision filter with provided values
+//! @SYMTestExpectedResults Fails to create a decision filter
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-DB-DECISIONFILTER-0002
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini createfilterwithlongfingerprint_1
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini createfilterwithlongfingerprint_2
+END_TESTCASE SEC-UPS-DB-DECISIONFILTER-0002
+
+//! @file
+//! @SYMTestCaseID SEC-UPS-DB-DECISIONFILTER-0003
+//! @SYMTestCaseDesc Tries to create a decision filter without a fingerprint
+//! @SYMTestPriority Medium
+//! @SYMTestActions Creates a decision filter with provided values
+//! @SYMTestExpectedResults Fails to create a decision filter
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-DB-DECISIONFILTER-0003
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini createfilterwithoutfingerprint_1
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini createfilterwithoutfingerprint_2
+END_TESTCASE SEC-UPS-DB-DECISIONFILTER-0003
+
+//! @file
+//! @SYMTestCaseID SEC-UPS-DB-DECISIONFILTER-0004
+//! @SYMTestCaseDesc Tries to create a decision filter with a client entity which is longer than 32 bytes
+//! @SYMTestPriority Medium
+//! @SYMTestActions Creates a decision filter with provided values
+//! @SYMTestExpectedResults Fails to create a decision filter
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-DB-DECISIONFILTER-0004
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini createfilterwithlongcliententity_1
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini createfilterwithlongcliententity_2
+END_TESTCASE SEC-UPS-DB-DECISIONFILTER-0004
+
+//! @file
+//! @SYMTestCaseID SEC-UPS-DB-DECISIONFILTER-0005
+//! @SYMTestCaseDesc Tries to create a decision filter without a client entity
+//! @SYMTestPriority Medium
+//! @SYMTestActions Creates a decision filter with provided values
+//! @SYMTestExpectedResults Creates a decision filter successfully
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-DB-DECISIONFILTER-0005
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini createfilterwithoutcliententity
+END_TESTCASE SEC-UPS-DB-DECISIONFILTER-0005
+
+//! @file
+//! @SYMTestCaseID SEC-UPS-DB-DECISIONFILTER-0006
+//! @SYMTestCaseDesc Tries to create a decision filter with policy version and record id
+//! @SYMTestPriority Medium
+//! @SYMTestActions Creates a decision filter with provided values
+//! @SYMTestExpectedResults Creates a decision filter successfully
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-DB-DECISIONFILTER-0006
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini createfilterwitversionandrecordid
+END_TESTCASE SEC-UPS-DB-DECISIONFILTER-0006
+
+//! @file
+//! @SYMTestCaseID SEC-UPS-DB-DATABASEOPERATIONS-0001
+//! @SYMTestCaseDesc Creates a UPS decision database
+//! @SYMTestPriority Medium
+//! @SYMTestActions Creates a UPS decision database in the provided location, inserts a record,
+//                  retrieves the inserted record and finally verifies the retrieved record.
+//! @SYMTestExpectedResults Creates a UPS decision database successfully
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-DB-DATABASEOPERATIONS-0001
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini createdatabase
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini insertfullrecord
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini retrievefullrecordwithmissingfilter
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini retrievefullrecord
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini verifyfullrecord
+END_TESTCASE SEC-UPS-DB-DATABASEOPERATIONS-0001
+
+//! @file
+//! @SYMTestCaseID SEC-UPS-DB-DATABASEOPERATIONS-0002
+//! @SYMTestCaseDesc Tries to insert the same decision inserted in DatabaseOperations-I-0001
+//! @SYMTestPriority Medium
+//! @SYMTestActions Inserts a decision record
+//! @SYMTestExpectedResults Fails to insert the same decision record inserted in DatabaseOperations-I-0001
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-DB-DATABASEOPERATIONS-0002
+RUN_TEST_STEP_RESULT -11 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini insertsamerecord
+END_TESTCASE SEC-UPS-DB-DATABASEOPERATIONS-0002
+
+//! @file
+//! @SYMTestCaseID SEC-UPS-DB-DATABASEOPERATIONS-0003
+//! @SYMTestCaseDesc Inserts a decision record without client entity
+//! @SYMTestPriority Medium
+//! @SYMTestActions Inserts a decision record without client entity, retrieves the inserted record and then verifies it.
+//! @SYMTestExpectedResults Inserts a decision record without client entity successfully
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-DB-DATABASEOPERATIONS-0003
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini insertrecordwithoutcliententity
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini retrieverecordwithoutcliententity
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini verifyrecordwithoutcliententity
+END_TESTCASE SEC-UPS-DB-DATABASEOPERATIONS-0003
+
+//! @file
+//! @SYMTestCaseID SEC-UPS-DB-DATABASEOPERATIONS-0004
+//! @SYMTestCaseDesc Retrieves a record using Description,Result and EvaluatorInfo fields
+//! @SYMTestPriority Medium
+//! @SYMTestActions Retrieves a record by using Description,Result and EvaluatorInfo fields and then verifies it.
+//! @SYMTestExpectedResults Retrieves a record successfully
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-DB-DATABASEOPERATIONS-0004
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini retrieverecordwithdescription
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini verifyrecordwithoutcliententity
+END_TESTCASE SEC-UPS-DB-DATABASEOPERATIONS-0004
+
+//! @file
+//! @SYMTestCaseID SEC-UPS-DB-DATABASEOPERATIONS-0005
+//! @SYMTestCaseDesc Inserts a decision record without description
+//! @SYMTestPriority Medium
+//! @SYMTestActions Inserts a decision record without description, retrieves the inserted record and then verifies it.
+//! @SYMTestExpectedResults Inserts a decision record without description successfully
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-DB-DATABASEOPERATIONS-0005
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini insertrecordwithoutdescription
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini retrieverecordwithoutdescription
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini verifyrecordwithoutdescription
+END_TESTCASE SEC-UPS-DB-DATABASEOPERATIONS-0005
+
+//! @file
+//! @SYMTestCaseID SEC-UPS-DB-DATABASEOPERATIONS-0006
+//! @SYMTestCaseDesc Inserts a decision record whose ClientSid is NULL and retrieves all records whose ClientSid is NULL
+//! @SYMTestPriority Medium
+//! @SYMTestActions Inserts a decision record whose ClientSid is NULL and retrieves all records whose ClientSid is NULL
+//! @SYMTestExpectedResults Retrieves decision records with NULL ClientSid successfully
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-DB-DATABASEOPERATIONS-0006
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini insertrecordwithnullcliententity
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini retrieverecordwithnullcliententity
+END_TESTCASE SEC-UPS-DB-DATABASEOPERATIONS-0006
+
+//! @file
+//! @SYMTestCaseID SEC-UPS-DB-DATABASEOPERATIONS-0007
+//! @SYMTestCaseDesc Updates a full decision record from the decision table
+//! @SYMTestPriority Medium
+//! @SYMTestActions Retrieves the full record, finds it using this information and then updates it with the given data
+//! @SYMTestExpectedResults Updates a full decision record from successfully
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-DB-DATABASEOPERATIONS-0007
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini retrievefullrecord
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini updatefullrecord
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini retrieveupdatedfullrecord
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini verifyupdatedfullrecord
+END_TESTCASE SEC-UPS-DB-DATABASEOPERATIONS-0007
+
+//! @file
+//! @SYMTestCaseID SEC-UPS-DB-DATABASEOPERATIONS-0008
+//! @SYMTestCaseDesc Updates a decision record without client entity from the decision table
+//! @SYMTestPriority Medium
+//! @SYMTestActions Retrieves the record, finds it using this information and then updates it with the given data
+//! @SYMTestExpectedResults Updates a decision record without client from successfully
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-DB-DATABASEOPERATIONS-0008
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini retrieverecordwithoutcliententity
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini updaterecordwithoutcliententity
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini retrieveupdatedrecordwithoutcliententity
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini verifyupdatedrecordwithoutcliententity
+END_TESTCASE SEC-UPS-DB-DATABASEOPERATIONS-0008
+
+//! @file
+//! @SYMTestCaseID SEC-UPS-DB-DATABASEOPERATIONS-0009
+//! @SYMTestCaseDesc Deletes all records from UPS decision database
+//! @SYMTestPriority Medium
+//! @SYMTestActions Deletes decision database file
+//! @SYMTestExpectedResults Deletes all records from UPS decision database successfully
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-DB-DATABASEOPERATIONS-0009
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini deleteallrecords
+END_TESTCASE SEC-UPS-DB-DATABASEOPERATIONS-0009
+
+//! @file
+//! @SYMTestCaseID SEC-UPS-DB-DATABASEOPERATIONS-0010
+//! @SYMTestCaseDesc Inserts three decision records and retrieves the second one
+//! @SYMTestPriority Medium
+//! @SYMTestActions Inserts three decision records and retrieves the second one, and then verifies it.
+//! @SYMTestExpectedResults Inserts three decision records and retrieves the second one successfully
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-DB-DATABASEOPERATIONS-0010
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini insertfullrecord
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini insertrecordwithoutcliententity
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini insertrecordwithoutdescription
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini retrieverecordwithoutcliententity
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini verifyrecordwithoutcliententity
+END_TESTCASE SEC-UPS-DB-DATABASEOPERATIONS-0010
+
+//! @file
+//! @SYMTestCaseID SEC-UPS-DB-DATABASEOPERATIONS-0011
+//! @SYMTestCaseDesc Inserts 20 decision records and retrieves the records whose clientid is equal to 21
+//! @SYMTestPriority Medium
+//! @SYMTestActions Deletes all records, creates a new one, inserts 20 decision records and retrieves the records with clientid, and then verifies them.
+//! @SYMTestExpectedResults Inserts 20 decision records and retrieves the records with clientid successfully
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-DB-DATABASEOPERATIONS-0011
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini deleteallrecords
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini insert20records
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini retrieverecordswhereclientidlessthan
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini retrieverecordswhereclientidlessthanorequal
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini retrieverecordswhereclientidgreaterthan
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini retrieverecordswhereclientidgreaterthanorequal
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini retrieverecordswhereclientidnotequal
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini retrieveallrecords
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini retrieverecordswithfingerprint
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini verifyrecordswithfingerprint
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini retrieverecordswithcliententity
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini verifyrecordswithcliententity
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini retrieverecordswithclientid
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini verifyrecordswithclientid
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini retrieverecordswithrecordid
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini verifyrecordswithrecordid
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini retrieverecordswithrecordidandversion
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini verifyrecordswithrecordidandversion
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini deleterecordswithclientid
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini verifyrecordsdeletionwithclientid
+END_TESTCASE SEC-UPS-DB-DATABASEOPERATIONS-0011
+
+//! @file
+//! @SYMTestCaseID SEC-UPS-DB-DATABASEOPERATIONS-0012
+//! @SYMTestCaseDesc Retrieves the records whose evaluatorid is equal to 1000021
+//! @SYMTestPriority Medium
+//! @SYMTestActions Retrieves the records with evaluatorid, and then verifies them.
+//! @SYMTestExpectedResults Retrieves the records with evaluatorid successfully
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-DB-DATABASEOPERATIONS-0012
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini retrieverecordswithevaluatorid
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini verifyrecordswithevaluatorid
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini deleterecordswithevaluator
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini verifyrecordsdeletionwithevaluatorid
+END_TESTCASE SEC-UPS-DB-DATABASEOPERATIONS-0012
+
+//! @file
+//! @SYMTestCaseID SEC-UPS-DB-DATABASEOPERATIONS-0013
+//! @SYMTestCaseDesc Retrieves the records whose serviceid is equal to 10020
+//! @SYMTestPriority Medium
+//! @SYMTestActions Retrieves the records with serviceid, and then verifies them.
+//! @SYMTestExpectedResults Retrieves the records with serviceid successfully
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-DB-DATABASEOPERATIONS-0013
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini retrieverecordswithserviceid 
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini verifyrecordswithserviceid
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini deleterecordswithserviceid
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini verifyrecordsdeletionwithserviceid
+END_TESTCASE SEC-UPS-DB-DATABASEOPERATIONS-0013
+
+//! @file
+//! @SYMTestCaseID SEC-UPS-DB-DATABASEOPERATIONS-0014
+//! @SYMTestCaseDesc Compacts the decision databasedatabase
+//! @SYMTestPriority Medium
+//! @SYMTestActions Compacts the decision databasedatabase
+//! @SYMTestExpectedResults Compacts the decision databasedatabase successfully
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-DB-DATABASEOPERATIONS-0014
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini cancelcompactdatabase
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini compactdatabase
+END_TESTCASE SEC-UPS-DB-DATABASEOPERATIONS-0014
+
+
+//! @file
+//! @SYMTestCaseID SEC-UPS-DB-DATABASEOPERATIONS-0015
+//! @SYMTestCaseDesc Retrieves the records whose serverid is equal to 100020
+//! @SYMTestPriority Medium
+//! @SYMTestActions Retrieves the records with serverid, and then verifies them.
+//! @SYMTestExpectedResults Retrieves the records with serverid successfully
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-DB-DATABASEOPERATIONS-0015
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini retrieverecordswithserverid 
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini verifyrecordswithserverid
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini deleterecordswithserverid
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini verifyrecordsdeletionwithserverid
+END_TESTCASE SEC-UPS-DB-DATABASEOPERATIONS-0015
+
+//! @file
+//! @SYMTestCaseID SEC-UPS-DB-DATABASEOPERATIONS-0016
+//! @SYMTestCaseDesc Deletes a decision record
+//! @SYMTestPriority Medium
+//! @SYMTestActions Inserts a decision record, deletes it and then verifies deletion
+//! @SYMTestExpectedResults Deletes a decision record successfully
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-DB-DATABASEOPERATIONS-0016
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini insertfullrecord
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini deletefullrecord
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini verifyfullrecorddeletion
+RUN_TEST_STEP_RESULT -1 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini updatenonexistrecord
+END_TESTCASE SEC-UPS-DB-DATABASEOPERATIONS-0016
+
+//! @file
+//! @SYMTestCaseID SEC-UPS-DB-DATABASEOPERATIONS-0017
+//! @SYMTestCaseDesc Inserts 1000 decision records and retrieves the records whose clientid is equal to 1000
+//! @SYMTestPriority Medium
+//! @SYMTestActions Deletes all records, creates a new one, inserts 1000 decision records and retrieves the records with clientid, and then verifies them.
+//! @SYMTestExpectedResults Inserts 1000 decision records and retrieves the records with clientid successfully
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-DB-DATABASEOPERATIONS-0017
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini deleteallrecords
+RUN_TEST_STEP 200 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini insert1000records
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini retrieve1000recordswithclientid
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini verify1000recordswithclientid
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini cancelretrieve1000recordswithclientid
+END_TESTCASE SEC-UPS-DB-DATABASEOPERATIONS-0017
+
+//! @file
+//! @SYMTestCaseID SEC-UPS-DB-DATABASEOPERATIONS-0018
+//! @SYMTestCaseDesc Creates fingerprints from the values between 0-255 and tries to insert them
+//! @SYMTestPriority Medium
+//! @SYMTestActions Creates fingerprints from the values between 0-255 and tries to insert them. All values between 0-255 are used.
+//! @SYMTestExpectedResults Insert every possible fingerprint successfully
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-DB-DATABASEOPERATIONS-0018
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini deleteallrecords
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini allfingerprints
+END_TESTCASE SEC-UPS-DB-DATABASEOPERATIONS-0018
+
+//! @file
+//! @SYMTestCaseID SEC-UPS-DB-DATABASEOPERATIONS-0019
+//! @SYMTestCaseDesc Performs OOM tests
+//! @SYMTestPriority Medium
+//! @SYMTestActions Performs OOM tests
+//! @SYMTestExpectedResults OOM tests are finished successfully
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-DB-DATABASEOPERATIONS-0019
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini deleteallrecordsOOM
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini insertfullrecordOOM
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini retrievefullrecordOOM
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini verifyfullrecordOOM
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini retrievefullrecordOOM2
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini verifyfullrecordOOM
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini deleteallrecords
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini insertfullrecord
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini deletefullrecordOOM
+//Add some decision records for the next test: dumpupsdb
+RUN_TEST_STEP 100 tupsdb RunUpsDbUnitTest z:\tups\tupsdb\scripts\tupsdb.ini insert20records
+END_TESTCASE SEC-UPS-DB-DATABASEOPERATIONS-0019
+

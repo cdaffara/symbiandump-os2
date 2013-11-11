@@ -1,0 +1,74 @@
+/*
+* Copyright (c) 2003-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* cafutils.dll Provides Content Access Framework utility functionality
+*
+*/
+
+
+/**
+ @file
+*/
+
+TARGET		cafutils.dll
+CAPABILITY	All -Tcb
+TARGETTYPE	DLL
+
+UID			0x101FD9B8
+VENDORID	0x70000001
+
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+deffile		cafutils_v2.def
+#else
+deffile		cafutils.def
+#endif
+UNPAGED
+
+SOURCEPATH	../source/cafutils
+SOURCE		Cafutils.cpp
+SOURCE		attributeset.cpp
+SOURCE		stringattribute.cpp
+SOURCE		stringattributeset.cpp
+SOURCE		virtualpath.cpp
+SOURCE		Metadata.cpp
+SOURCE		Metadataarray.cpp
+SOURCE		embeddedobject.cpp
+SOURCE		rightsinfo.cpp
+SOURCE		Virtualpathptr.cpp
+SOURCE		dirstreamable.cpp
+
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+SOURCE		cafhelper.cpp
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+
+#ifndef REMOVE_CAF1
+// deprecated stuff from CAF 1.0
+SOURCE		bitset.cpp
+SOURCE		cafmimeheader.cpp
+SOURCE		mimefieldanddata.cpp
+#endif
+
+USERINCLUDE	../inc
+USERINCLUDE	../source/cafutils
+
+// OS_LAYER_SYSTEMINCLUDE_SYMBIAN -- should be this but has an upward dependency on apmstd.h in the MW layer.
+MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_ESTLIB_SYSTEMINCLUDE
+
+LIBRARY		euser.lib
+LIBRARY		estor.lib
+LIBRARY		charconv.lib
+LIBRARY		efsrv.lib
+LIBRARY		ecom.lib
+SMPSAFE

@@ -1,0 +1,56 @@
+/*
+* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* Using relative paths for sourcepath and user includes
+* tpkcs7server.exe Test harness for PKCS#7 server
+*
+*/
+
+
+/**
+ @file
+*/
+
+
+TARGET		tpkcs7server.exe
+TARGETTYPE	exe
+//			KExecutableImage	KTPkcs7DLL
+UID			0x1000007A			0x101FE228
+VENDORID 0x70000001
+
+SOURCEPATH		.
+SOURCE			tpkcs7server.cpp
+SOURCE			tpkcs7stepbase.cpp	
+SOURCE			tpkcs7step.cpp	
+SOURCE			validate.cpp
+SOURCE			tcmsstep.cpp
+
+USERINCLUDE		.
+USERINCLUDE		../inc
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+LIBRARY			euser.lib efsrv.lib
+LIBRARY			testexecuteutils.lib testexecutelogclient.lib
+LIBRARY			pkcs7.lib
+LIBRARY			pkixcert.lib
+LIBRARY			x509.lib
+LIBRARY			asnpkcs.lib
+LIBRARY			asn1.lib
+LIBRARY			hash.lib
+LIBRARY			cryptography.lib
+LIBRARY			crypto.lib
+LIBRARY			x500.lib
+LIBRARY                 pbe.lib
+
+SMPSAFE

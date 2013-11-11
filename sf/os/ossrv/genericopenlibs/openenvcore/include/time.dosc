@@ -1,0 +1,1153 @@
+/** @file  ../include/time.h
+@internalComponent
+*/
+
+/** @fn  asctime(const struct tm *tm)
+@param tm
+
+Refer to  ctime() for the documentation
+@see gettimeofday()
+@see getenv()
+@see time()
+@see tzset()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  clock(void)
+@return   clock is just for build support and hence returns 0.
+
+
+ 
+
+ The clock function
+determines the amount of processor time used since the invocation of the
+calling process, measured in CLOCKS_PER_SEC s of a second.
+
+ Note: the clock system call eventually calls Symbian OS call user::GetCpuTime(), 
+  which is not supported from version 8.0b, hence this api is included for build 
+  support only.
+ 
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  ctime(const time_t *clock)
+@param clock
+
+Note: This description also covers the following functions -
+ difftime()  asctime()  localtime()  gmtime()  mktime()  ctime_r()  localtime_r()  gmtime_r()  asctime_r() 
+
+@return   Each of these functions returns the value described, NULL, or -1 in the case of mktime if an error was detected.
+
+  The functions ctime, gmtime and localtime all take as an argument a time value representing the time 
+in seconds since the Epoch (00:00:00 UTC, January 1, 1970); see time
+
+ The function localtime converts the time value pointed at by clock and returns a pointer to a " struct tm " (described below) which contains the broken down time information 
+  for the value after adjusting for the current time zone (and any other factors 
+  such as Daylight Saving Time). Time zone adjustments are performed as specified 
+  by the TZ environment variable (see the tzset function). localtime uses tzset to initialize time conversion information 
+  if tzset has not already been called by the process.
+
+ After filling in the tm structure, localtime sets the tm_isdst's Nth element of tzname to a pointer to a ASCII string that is the time zone abbreviation to be
+used with localtime's (return, value.);
+
+ The function gmtime similarly converts the time value without any time zone adjustment 
+  and returns a pointer to a tm structure (described below).
+
+ The ctime function adjusts the time value for the current time zone, in 
+  the same manner as localtime, and returns a pointer to a 26-character string of the form: Thu Nov 24 18:22:48 1986
+\\0
+
+ All the fields have constant width.
+
+ The ctime_r function provides the same functionality as ctime except the caller must provide the output buffer buf to store the result, which must be at least 26 characters long.
+
+ The localtime_r and gmtime_r functions provide the same functionality as localtime and gmtime respectively, except the caller must provide the output buffer result.
+
+ The asctime function
+converts the broken down time in the structure tm pointed at by *tm to the form
+shown in the example above.
+
+ The asctime_r function provides the same functionality as asctime except the caller provides the output buffer buf to store the result, which must be at least 26 characters long.
+
+ The functions mktime converts the broken-down time in the structure pointed to by 
+  tm into a time value with the same encoding as that of the values returned by 
+  the time function (that is, seconds from the Epoch, UTC). The mktime function interprets the input structure according to the current 
+  timezone setting (see tzset ).
+
+ The original values of the tm_wday and tm_yday components of the structure are ignored, and the original values 
+  of the other components are not restricted to their normal ranges and will be 
+  normalized if needed. For example, October 40 is changed into November 9, a tm_hour of -1 means 1 hour before midnight, tm_mday of 0 means the day preceding the current month, and tm_mon of -2 means 2 months before January of tm_year.
+
+ A positive or zero value for tm_isdst causes mktime to presume initially that summer time (for example, Daylight 
+  Saving Time) is or is not in effect for the specified time.. A negative value 
+  for tm_isdst causes the mktime function to attempt to define whether summer time is in effect 
+  for the specified time. The tm_isdst and tm_gmtoff members are forced to zero by timegm.
+
+ On successful completion, the values of the tm_wday and tm_yday components of the structure are set appropriately and the other 
+  components are set to represent the specified calendar time, but with their 
+  values forced to their normal ranges: The final value of tm_mday is not set until tm_mon and tm_year are determined.
+
+ The mktime function returns the specified calendar time. If the calendar 
+  time cannot be represented, it returns -1.
+
+ The difftime function
+returns the difference between two calendar times, ( time1 - time0), expressed in seconds.
+
+ External declarations as well as the tm structure definition are in the 
+@code
+  #include <time.h> include file. The tm structure includes 
+@endcode
+  at least the following fields: 
+  
+@code
+
+int tm_sec;		// seconds (0 - 60)
+int tm_min;		// minutes (0 - 59)
+int tm_hour;	// hours (0 - 23) 
+int tm_mday;	// day of month (1 - 31) 
+int tm_mon;		// month of year (0 - 11)
+int tm_year;	// year - 1900 
+int tm_wday;	// day of week (Sunday = 0)
+int tm_yday;	// day of year (0 - 365) 
+int tm_isdst;	// is summer time in effect? 
+char *tm_zone;	// abbreviation of timezone name 
+long tm_gmtoff;	// offset from UTC in seconds 
+
+@endcode
+
+ The
+field tm_isdst is non-zero if summer time is in effect.
+
+ The field tm_gmtoff is the offset (in seconds) of the time represented from UTC, with positive
+values indicating east of the Prime Meridian.
+
+Examples:
+@code
+//Example usage of asctime,localtime and gmtime:
+#include <time.h>
+#include <stdio.h>
+int main(){
+        time_t t;
+        struct tm *timeptr;
+        char* asc_time;
+        t = time (NULL); //Get current time in seconds from Epoc
+        //Fill tm struct w.r.t localtime using localtime
+        timeptr = localtime (&t;);
+        //Use this to convert it to a string indicating time w.r.t localtime
+        asc_time = asctime (timeptr);
+        printf ("Time from asctime w.r.t localtime : %s", asc_time);
+        //Fill tm struct w.r.t GMT using gmtime
+        timeptr = gmtime (&t;);
+        //Use this to convert it to a string indicating time w.r.t GMT
+        asc_time = asctime (timeptr);
+        printf ("Time from asctime w.r.t gmtime : %s", asc_time);
+        return 0;
+}
+
+@endcode
+ Output
+@code
+Time from asctime w.r.t localtime : Thu Jun 22 10:42:27 2006
+Time from asctime w.r.t gmtime : Thu Jun 22 05:12:27 2006
+
+@endcode
+@code
+//Example usage of ctime,mktime:
+#include <time.h>
+#include <stdio.h>
+int main(){
+        time_t t;
+        struct tm timeptr;
+        char* c_time;
+        //Fill the tm struct with values
+        timeptr.tm_year = 2001;
+        timeptr.tm_mon = 6;
+        timeptr.tm_mday = 4;
+        timeptr.tm_hour = 0;
+        timeptr.tm_min = 0;
+        timeptr.tm_sec = 1;
+        timeptr.tm_isdst = -1;
+        t = mktime (&timeptr;); //Call mktime to make time in seconds w.r.t epoc
+        //Convert this to a string indicating time using ctime
+        c_time = ctime (&t;);  
+        printf ("Time from ctime : %s", c_time);
+        return 0;
+}
+
+@endcode
+ Output
+@code
+Time from ctime : Thu Jan  1 05:29:59 1970
+
+@endcode
+@code
+//Example usage of difftime:
+#include <time.h>
+#include <unistd.h>
+#include <stdio.h>
+int main(){
+        time_t t0,t1,t2;
+        //Set initial and final values
+        t0 = 10;
+        t1 = 20;
+        t2 = difftime (t1, t0); //Find the time difference using difftime
+        printf ("Result of difftime = %d", t2);
+        return 0;
+}
+
+@endcode
+ Output
+@code
+Result of difftime = 10
+
+@endcode
+@see gettimeofday()
+@see getenv()
+@see time()
+@see tzset()
+
+
+Bugs:
+
+ Except for difftime, mktime, and the _r variants of the other functions,
+these functions leaves their result in an internal static object and return
+a pointer to that object.
+Subsequent calls to these
+function will modify the same object. 
+
+The C Standard provides no mechanism for a program to modify its current
+local timezone setting, and the POSIX -standard method is not reentrant.
+(However, thread-safe implementations are provided
+in the POSIX threaded environment.) 
+
+The tm_zone field of a returned tm
+structure points to a static array of characters,
+which will also be overwritten by any subsequent calls (as well as by
+subsequent call to tzset ) 
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  difftime(time_t time1, time_t time0)
+@param time1
+@param time0
+
+Refer to  ctime() for the documentation
+@see gettimeofday()
+@see getenv()
+@see time()
+@see tzset()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  gmtime(const time_t *clock)
+@param clock
+
+Refer to  ctime() for the documentation
+@see gettimeofday()
+@see getenv()
+@see time()
+@see tzset()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  localtime(const time_t *clock)
+@param clock
+
+Refer to  ctime() for the documentation
+@see gettimeofday()
+@see getenv()
+@see time()
+@see tzset()
+
+
+The localtime() is not guaranteed to be thread safe.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  mktime(struct tm *tm)
+@param tm
+
+Refer to  ctime() for the documentation
+@see gettimeofday()
+@see getenv()
+@see time()
+@see tzset()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  strftime(char *  s, size_t maxsize, const char *  format, const struct tm *  t)
+@param s
+@param maxsize
+@param format
+@param t
+
+The strftime function formats the information from t into the buffer s according to the string pointed to by format .
+The format string consists of zero or more conversion specifications and
+ordinary characters.
+All ordinary characters are copied directly into the buffer.
+A conversion specification consists of a percent sign "\%"
+and one other character.
+
+No more than maxsize characters will be placed into the array. If the total number of resulting characters, including the terminating NULL character, is not more 
+than maxsize , strftime returns the number of characters in the array, not counting 
+the terminating NULL. Otherwise, zero is returned and the buffer contents are 
+indeterminate.
+
+@code
+The conversion specifications are copied to the buffer after expansion as follows:- 
+%A  is replaced by national representation of the full weekday name.  
+%a  is replaced by national representation of the abbreviated weekday name.  
+%B  is replaced by national representation of the full month name.  
+%b  is replaced by national representation of the abbreviated month name.  
+%C  is replaced by (year / 100) as decimal number; single digits are preceded by a zero.  
+%c  is replaced by national representation of time and date.  
+%D  is equivalent to "%m/%d/%y".  
+%d  is replaced by the day of the month as a decimal number (01-31).  
+%E* %O*  
+  POSIX locale extensions. The sequences %Ec %EC %Ex %EX %Ey %EY %Od %Oe %OH %OI %Om %OM %OS %Ou %OU %OV %Ow %OW %Oy are supposed to provide alternate representations. 
+Additionally %OB implemented to represent alternative months names (used standalone, without day mentioned). 
+ 
+%e  is replaced by the day of month as a decimal number (1-31); single digits are preceded by a blank.  
+%F  is equivalent to "%Y-%m-%d".  
+%G  is replaced by a year as a decimal number with century. This year is the one that contains the greater part of the week (Monday as the first day of the week).  
+%g  is replaced by the same year as in "%G", but as a decimal number without century (00-99).  
+%H  is replaced by the hour (24-hour clock) as a decimal number (00-23).  
+%h  the same as %b.  
+%I  is replaced by the hour (12-hour clock) as a decimal number (01-12).  
+%j  is replaced by the day of the year as a decimal number (001-366).  
+%k  is replaced by the hour (24-hour clock) as a decimal number (0-23); single digits are preceded by a blank.  
+%l  is replaced by the hour (12-hour clock) as a decimal number (1-12); single digits are preceded by a blank.  
+%M  is replaced by the minute as a decimal number (00-59).  
+%m  is replaced by the month as a decimal number (01-12).  
+%n  is replaced by a newline.  
+%O*  the same as %E*.  
+%p  is replaced by national representation of either "ante meridiem" or "post meridiem" as appropriate.  
+%R  is equivalent to "%H:%M".  
+%r  is equivalent to "%I:%M:%S %p".  
+%S  is replaced by the second as a decimal number (00-60).  
+%s  is replaced by the number of seconds since the Epoch, UTC (see mktime).  
+%T  is equivalent to "%H:%M:%S".  
+%t  is replaced by a tab.  
+%U  is replaced by the week number of the year (Sunday as the first day of the week) as a decimal number (00-53).  
+%u  is replaced by the weekday (Monday as the first day of the week) as a decimal number (1-7).  
+%V  is replaced by the week number of the year (Monday as the first day of the week) as a decimal number (01-53). If the week containing January 1 has four or more days in the new year, then it is week 1; otherwise it is the last week of the previous year, and the next week is week 1.  
+%v  is equivalent to "%e-%b-%Y".  
+%W  is replaced by the week number of the year (Monday as the first day of the week) as a decimal number (00-53).  
+%w  is replaced by the weekday (Sunday as the first day of the week) as a decimal number (0-6).  
+%X  is replaced by national representation of the time.  
+%x  is replaced by national representation of the date.  
+%Y  is replaced by the year with century as a decimal number.  
+%y  is replaced by the year without century as a decimal number (00-99).  
+%Z  is replaced by the time zone name.  
+%z  is replaced by the time zone offset from UTC; a leading plus sign stands for east of UTC, a minus sign for west of UTC, hours and minutes follow with two digits each and no delimiter between them (common form for RFC 822 date headers).  
+%+  is replaced by national representation of the date and time (the format is similar to that produced by 'date( )' function ).  
+%-*  GNU libc extension. Do not do any padding when performing numerical outputs.  
+%_*  GNU libc extension. Explicitly specify space for padding.  
+%0*  GNU libc extension. Explicitly specify zero for padding. 
+%%  is replaced by ‘%’.  
+@endcode
+
+Examples:
+@code
+#include <string.h>
+#include <stdio.h>
+#include <time.h>
+#include <locale.h>
+int main()
+{
+   struct tm tm;
+   char buf[255];
+   char *locale;
+   locale = setlocale(LC_TIME,"en_GB.ISO-8859-1");
+   if( locale != NULL)
+   {
+       strptime("2001-11-12 18:31:01", "%Y-%m-%d %H:%M:%S", &tm;);
+       printf("sec = %d min = %d hours = %d 
+Year = %d Month = %d day = %d
+",\
+       tm.tm_sec,tm.tm_min,tm.tm_hour,tm.tm_year,tm.tm_mon,tm.tm_mday);
+       strftime(buf, sizeof(buf), "%d %B %Y %H:%M:%S", &tm;);
+       puts(buf);
+       strptime("Mon","%a", &tm;);
+       strftime(buf, sizeof(buf), "%a", &tm;);
+       puts(buf);
+    }
+    else
+       printf("Failed to set locale
+");
+}
+
+@endcode
+ Output
+@code
+sec = 1 min = 31 hours = 18
+Year = 101 Month = 10 day = 12
+12 November 2001 18:31:01
+Mon
+
+@endcode
+@see printf()
+@see ctime()
+@see strptime()
+@see wcsftime()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  time(time_t *p)
+@param p
+@return   On success the value of time in seconds since the Epoch is returned. On error 
+(time_t)(-1) is returned and errno is set appropriately.
+
+  The time function returns the value of time in seconds since 0 hours, 0 
+minutes, 0 seconds, January 1, 1970, Coordinated Universal Time. If an error occurs, time returns the value ( time_t)(-1) .
+
+ The return value is also stored in * p ,
+provided that p is non-null.
+
+Examples:
+@code
+/*
+ * Detailed description : sample usage of time system call
+ */
+#include <time.h>
+int main()
+{
+  time_t Time ;
+  if(time(&Time;) < 0 ) 
+  {
+    printf("Time system call failed 
+") ;
+    return -1 ;
+  }
+ printf("Time value is %u 
+" , Time) ;
+ return 0 ;
+}
+
+@endcode
+ Output
+@code 
+
+Time value is 1176916948
+
+@endcode
+@see gettimeofday()
+@see ctime()
+
+
+Bugs:
+
+ Neither -isoC-99 nor -p1003.1-2001 requires time to set errno on failure; thus, it is impossible for an application to distinguish
+the valid time value -1 (representing the last UTC second of 1969)
+from the error return value. 
+
+Systems conforming to earlier versions of the C and POSIX standards (including older versions of )
+did not set * p in the error case. 
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  tzset(void)
+
+  The tzset function
+initializes time conversion information used by the library routine localtime .
+The environment variable TZ specifies how this is done.
+
+ If TZ does not appear in the environment, the best available approximation 
+  to local wall clock time is used.
+
+ If TZ appears in the environment but its value is a null string, Coordinated
+Universal Time ( UTC )
+is used (without leap second correction).
+
+
+
+Examples:
+@code
+#include <time.h>
+#include <stdio.h>
+int main(){
+        time_t t;
+        char* c_time;
+        tzset(); //Call tzset
+        c_time = ctime (&t;); //Get time-string using ctime for Epoc time
+        printf ("Time from ctime after tzset: %s", c_time);
+        return 0;
+}
+
+@endcode
+ Output
+@code
+Time from ctime after tzset: Sun Apr  7 02:24:08 1974
+
+@endcode
+@see gettimeofday()
+@see ctime()
+@see getenv()
+@see time()
+
+
+@see gettimeofday()
+@see ctime()
+@see getenv()
+@see time()
+@see gettimeofday()
+@see ctime()
+@see getenv()
+@see time()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  clock_getres(clockid_t clock_id, struct timespec *res)
+@param clock_id
+@param res
+
+Refer to  clock_gettime() for the documentation
+@see adjtime()
+@see ctime()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  clock_gettime(clockid_t clock_id, struct timespec *tp)
+@param clock_id
+@param tp
+
+Note: This description also covers the following functions -
+ clock_settime()  clock_getres()  clock_getcpuclockid() 
+
+@return   All the above APIs return 0 on success and -1 on failure.
+
+@code
+  #include < sys/time.h > as:
+@endcode
+  The clock_gettime and clock_settime allow the calling process to retrieve or set the value used by a clock
+which is specified by clock_id.
+
+ The clock_id argument can be one of four values: CLOCK_REALTIME for time 
+  that increments as a wall clock should, CLOCK_MONOTONIC which increments in 
+  SI seconds, CLOCK_VIRTUAL for time that increments only when the CPU is running 
+  in user mode on behalf of the calling process, or CLOCK_PROF for time that increments 
+  when the CPU is running in user or kernel mode.
+
+ As Symbian OS exposes only 'wall clock time' at user level, only CLOCK_REALTIME 
+  is supported for all the clock-based APIs.
+
+ The structure pointed to by tp is defined in  
+@code
+  #include <sys/time.h> as:
+@endcode
+
+@code
+struct timespec {
+time_ttv_sec;/* seconds */
+longtv_nsec;/* and nanoseconds */
+};
+@endcode
+
+ The resolution (granularity) of a clock is returned by the clock_getres system call.
+This value is placed in a (non-NULL) *tp.
+
+ The clock_getcpuclockid system call returns ( in *clock_id ) the clock ID of the CPU-time clock of the process specified 
+  by pid. If pid is zero, the clock ID of the CPU-time clock of the process making 
+  the call is returned.
+
+Examples:
+@code
+#include <time.h>
+#include <stdio.h>
+int clock_user()
+{
+        struct timespec tp;
+        int retval;
+        clockid_t clockid;
+        clock_getres (CLOCK_REALTIME, &tp;); // Call clock_getres 
+        printf ("Real time-clock resolution is %d seconds and %d nanoseconds
+", tp.tv_sec, tp.tv_nsec);
+        clock_getcpuclockid (0 ,&clockid;); // Call clock_getcpuclockid with pid = 0
+        printf ("The clock id for the current process is %d
+", clockid);
+        tp.tv_sec = 0;
+        tp.tv_nsec = 100;
+        retval = clock_settime (CLOCK_REALTIME, &tp;); // Call clock_settime with 100ns
+        printf ("clock_settime returned %d
+", retval);
+        clock_gettime (CLOCK_REALTIME, &tp;); // Call clock_gettime to fill tp
+        printf ("Time from real time-clock is %d seconds and %d nanoseconds
+", tp.tv_sec, tp.tv_nsec);
+        return 0;
+}
+
+@endcode
+ Output
+@code
+Real time-clock resolution is 0 seconds and 1000000 nanoseconds
+The clock id for the current process is 0
+clock_settime returned 0
+Time from real time-clock is 0 seconds and 70663000 nanoseconds
+
+@endcode
+@see adjtime()
+@see ctime()
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  clock_settime(clockid_t clock_id, const struct timespec *tp)
+@param clock_id
+@param tp
+
+Refer to  clock_gettime() for the documentation
+
+@see adjtime()
+@see ctime()
+
+@capability Deferred @ref User::SetUTCTime(const TTime &aUTCTime) 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  nanosleep(const struct timespec *req, struct timespec *rem)
+@param req
+@param rem
+@return   If the nanosleep system call returns because the requested time has elapsed, the value
+returned will be zero. If rem is non- NULL, the timespec structure it references is updated to contain the
+unslept amount (the request time minus the time actually slept).
+
+  The nanosleep system call
+causes the process to sleep for the specified time.
+Currently only microsecond  sleep resolution can be obtained.
+
+
+
+Examples:
+@code
+/*
+ * Detailed description: Sample usage of nanosleep system call.
+ */
+#include <stdio.h>
+#include <time.h>
+int main()
+{
+ struct timespec tim, tim2;
+   tim.tv_sec = 1;
+   tim.tv_nsec = 500;
+   if(nanosleep(&tim; , &tim2;) < 0 )   {
+      printf("Nano sleep system call failed 
+");
+      return -1;
+   }
+   printf("Nano sleep successfull 
+");
+  return 0;
+}
+
+@endcode
+ Output
+@code
+Nano sleep successfull
+
+@endcode
+@see sleep()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  clock_getcpuclockid(pid_t pid, clockid_t* clock_id)
+@param pid
+@param clock_id
+
+Note: As Symbian OS exposes only 'wall clock time' at user level, only CLOCK_REALTIME 
+  is supported for all the clock-based APIs. Any value for pid except "0" is considered as invalid
+  and for "0" the supported 'clock_id' i.e, CLOCK_REALTIME is returned.
+  
+Refer to  clock_gettime() for the documentation
+@see adjtime()
+@see ctime()
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  clock_nanosleep (clockid_t clock_id, int flags,
+       const struct timespec *rqtp, struct timespec *rmtp)
+@param clock_id
+@param flags
+@param rqtp
+@param rmtp
+
+For full documentation, see http://www.opengroup.org/onlinepubs/009695399/functions/clock_nanosleep.html
+
+Note: As Symbian OS exposes only 'wall clock time' at user level, only CLOCK_REALTIME
+  is supported for all the clock-based APIs.
+  
+@publishedAll
+@externallyDefinedApi
+*/
+  
+/** @fn  asctime_r(const struct tm *tm, char *buf)
+@param tm
+@param buf
+
+Refer to  ctime() for the documentation
+@see gettimeofday()
+@see getenv()
+@see time()
+@see tzset()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  ctime_r(const time_t *clock, char *buf)
+@param clock
+@param buf
+
+Refer to  ctime() for the documentation
+@see gettimeofday()
+@see getenv()
+@see time()
+@see tzset()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  gmtime_r(const time_t *clock, struct tm *result)
+@param clock
+@param result
+
+Refer to  ctime() for the documentation
+@see gettimeofday()
+@see getenv()
+@see time()
+@see tzset()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @fn  localtime_r(const time_t *clock, struct tm *result)
+@param clock
+@param result
+
+Refer to  ctime() for the documentation
+@see gettimeofday()
+@see getenv()
+@see time()
+@see tzset()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @fn  strptime(const char * buf, const char * fmt, struct tm * tm)
+@param buf
+@param fmt
+@param tm
+@return   Upon successful completion, strptime returns the pointer to the first character in buf that has not been required to satisfy the specified conversions in fmt .
+It returns NULL if one of the conversions failed.
+
+  The strptime function parses the string in the buffer buf according to the string pointed to by fmt ,
+and fills in the elements of the structure pointed to by tm .
+The resulting values will be relative to the local time zone.
+Thus, it can be considered the reverse operation of strftime .
+
+ The fmt string consists of zero or more conversion specifications and
+ordinary characters.
+All ordinary characters are matched exactly with the buffer, where
+white space in the fmt string will match any amount of white space
+in the buffer.
+All conversion specifications are identical to those described in strftime .
+
+ Two-digit year values, including formats \%y and \%D ,
+are now interpreted as beginning at 1969 per POSIX requirements.
+Years 69-00 are interpreted in the 20th century (1969-2000), years
+01-68 in the 21st century (2001-2068).
+
+ If the fmt string does not contain enough conversion specifications to completely
+specify the resulting struct tm ,
+the unspecified members of tm are left untouched.
+For example, if format is "\%H:\%M:\%S",
+only tm_hour , tm_sec and tm_min will be modified.
+If time relative to today is desired, initialize the tm structure with today's date before passing it to strptime .
+
+Examples:
+@code
+#include <string.h>
+#include <stdio.h>
+#include <time.h>
+#include <locale.h>
+int main()
+{
+    struct tm tm;
+    char buf[255];
+    char *locale;
+    locale = setlocale(LC_TIME,"en_GB.ISO-8859-1");
+    if( locale != NULL)
+    {
+       strptime("2001-11-12 18:31:01", "%Y-%m-%d %H:%M:%S", &tm;);
+       printf("sec = %d min = %d hours = %d 
+Year = %d Month = %d day = %d
+",
+       tm.tm_sec,tm.tm_min,tm.tm_hour,tm.tm_year,tm.tm_mon,tm.tm_mday);
+       strftime(buf, sizeof(buf), "%d %B %Y %H:%M:%S", &tm;);
+       puts(buf);
+       strptime("Mon","%a", &tm;);
+       strftime(buf, sizeof(buf), "%a", &tm;);
+       puts(buf);
+    }
+    else
+    printf("Failed to set locale");
+}
+
+@endcode
+ Output
+@code
+sec = 1 min = 31 hours = 18
+Year = 101 Month = 10 day = 12
+12 November 2001 18:31:01
+Mon
+
+@endcode
+@see scanf()
+@see strftime()
+
+
+Bugs:
+
+ Both the \%e and \%l format specifiers may incorrectly scan one too many digits
+if the intended values comprise only a single digit
+and that digit is followed immediately by another digit.
+Both specifiers accept zero-padded values,
+even though they are both defined as taking unpadded values. 
+
+The \%p format specifier has no effect unless it is parsed after hour-related specifiers.
+Specifying \%l without \%p will produce undefined results.
+Note that 12AM
+(ante meridiem)
+is taken as midnight
+and 12PM
+(post meridiem)
+is taken as noon. 
+
+The \%U and \%W format specifiers accept any value within the range 00 to 53
+without validating against other values supplied (like month
+or day of the year, for example). 
+
+The \%Z format specifier only accepts time zone abbreviations of the local time zone,
+or the value "GMT".
+This limitation is because of ambiguity due to of the over loading of time
+zone abbreviations.
+One such example is EST which is both Eastern Standard Time and Eastern Australia Summer Time. 
+
+The strptime function does not correctly handle multibyte characters in the fmt argument. 
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  timer_create (clockid_t __clock_id,
+                         struct sigevent *__restrict __evp,
+                         timer_t *__restrict __timerid)                          
+@param __clock_id
+@param __evp
+@param __timerid
+
+For full documentation, see http://www.opengroup.org/onlinepubs/009695399/functions/timer_create.html
+
+Note:  As Symbian OS exposes only 'wall clock time' at user level, only CLOCK_REALTIME 
+  is supported for all the clock-based APIs.
+  
+@see timer_settime()
+@see timer_delete()
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  timer_delete (timer_t __timerid)                         
+@param __timerid
+
+For full documentation, see http://www.opengroup.org/onlinepubs/009695399/functions/timer_delete.html
+
+@see timer_create()
+@see timer_settime()
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  timer_settime(timer_t __timerid, int __flags,
+                          const struct itimerspec *__restrict __value,
+                          struct itimerspec *__restrict __ovalue)                          
+@param __timerid
+@param __flags
+@param __value
+@param __ovalue
+
+For full documentation, see http://www.opengroup.org/onlinepubs/009695399/functions/timer_settime.html 
+
+Note: This description also covers the timer_gettime() and timer_getoverrun() functions.
+
+Note:  As Symbian OS exposes only 'wall clock time' at user level, only CLOCK_REALTIME 
+  is supported for all the clock-based APIs. At the user level, Symbian OS supports upto a
+  maximum of 1 ms resolution timer (RTimer::HighRes ()) upon which the timer emulation solution is based.
+  As the re-registrations for a periodic timer happen in the user mode, the timer expirations
+  might show up a possible unspecified latency.
+  
+Examples:
+@code
+/*
+ * Detailed description: 
+ */
+#include <time.h>
+#include <stdio.h>
+#include <signal.h>
+#include <pthread.h>
+#include <unistd.h>
+
+void sighler (union sigval val)
+	{
+	printf("In the handler with val:%d\n", val.sival_int);
+	}
+
+int main()
+	{
+	timer_t timerid;
+	struct sigevent sig;
+
+	pthread_attr_t attr;
+	pthread_attr_init( &attr );
+	
+	sig.sigev_notify = SIGEV_THREAD;
+	sig.sigev_notify_function = sighler;
+	sig.sigev_value.sival_int =20;
+	sig.sigev_notify_attributes = &attr;
+
+	if(0 == timer_create(CLOCK_REALTIME, &sig, &timerid))
+		{
+		struct itimerspec in, out;
+
+		in.it_value.tv_sec = 1;
+		in.it_value.tv_nsec = 0;
+
+		in.it_interval.tv_sec = 0;
+		in.it_interval.tv_nsec = 0;
+
+		if(0 == timer_settime(timerid, 0, &in, &out))
+			{
+			sleep(3); //wait for the timer expirations...	
+			}
+		else
+			{
+			printf("timer_settime () failed with err:%d\n", errno);	
+			}	
+
+		timer_delete(timerid);
+		}
+	else
+		{
+		printf("timer_create () failed with err:%d\n", errno);	
+		}	
+
+	return 0;
+	}
+	
+@endcode
+ Output
+@code
+In the handler with val:20
+
+@endcode
+@see timer_create()
+@see timer_delete()
+@see clock_gettime()
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  timer_gettime (timer_t __timerid, struct itimerspec *__value)
+@param __timerid
+@param __value
+
+For documentation refer to timer_settime().
+
+@see timer_create()
+@see timer_delete()
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  timer_getoverrun (timer_t __timerid)
+@param __timerid
+
+For documentation refer to timer_settime().
+ 
+@see timer_create()
+@see timer_delete()
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def  CLOCK_REALTIME
+
+This clock represents the realtime clock for the system.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def  CLOCK_VIRTUAL
+
+This clock represents the amount of time (in seconds and nanoseconds) that the calling process has spent executing code in the user's context. It is a per-process clock. It cannot be set by the user.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def  TIMER_ABSTIME
+
+absolute timer 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @struct tm 
+
+Contains the following members,
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @var tm::tm_sec
+seconds after the minute 
+*/
+
+/** @var tm::tm_min
+minutes after the hour
+*/
+
+/** @var tm::tm_hour
+hours since midnight
+*/
+
+/** @var tm::tm_mday
+day of the month 
+*/
+
+/** @var tm::tm_mon
+months since January
+*/
+
+/** @var tm::tm_year
+years since 1900
+*/
+
+/** @var tm::tm_wday
+days since Sunday 
+*/
+
+/** @var tm::tm_yday
+days since January 1 
+*/
+
+/** @var tm::tm_isdst
+Daylight Savings Time flag
+*/
+
+/** @var tm::tm_gmtoff
+offset from UTC in seconds
+*/
+
+/** @var tm::tm_zone
+timezone abbreviation
+*/
+
+
+/** @fn time_t timegm(struct tm *tmp)
+
+@param tmp
+
+Description:
+This function is inverses for gmtime.
+Converts struct tm to time_t, assuming the data in tm is UTC rather than local timezone.
+
+@see gmtime()
+@see localtime()
+@see mktime()
+@see tzset()
+
+@publishedAll
+@externallyDefinedApi
+*/

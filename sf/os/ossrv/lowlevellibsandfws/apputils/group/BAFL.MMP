@@ -1,0 +1,53 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// bafl.dll System services & utilities
+// 
+//
+
+/**
+ @file
+*/
+
+target			bafl.dll
+CAPABILITY All -Tcb
+targettype		DLL
+UID		0x1000008D 0x10003A0F
+VENDORID 0x70000001
+
+SOURCEPATH	../src
+userinclude		../inc ../src/inc
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+source  babackup.cpp  BACELL.CPP   BACLINE.CPP  BACLIPB.CPP   BACNTF.CPP
+source  BADESCA.CPP   BAFINDF.CPP  BAMATCH.CPP  BARSREAD.CPP  BARSC.CPP   
+source  BASCHED.CPP   BASSND.CPP   BAUTILS.CPP  BANAMEDPLUGINS.CPP
+source  BADICTIONARYCOMPRESSION.CPP
+source  StringPoolAPI.cpp StringPoolImplementation.cpp stringlogger.cpp
+source  BaRscImpl.cpp BaAssert.cpp BaRsc2.cpp BaRsRead2.cpp
+source  BaRsReadImpl.cpp
+source  BaSPI.cpp BaArchiveImpl.cpp
+source  BaSsndStore.cpp
+
+library  euser.lib  hal.lib  efsrv.lib  estor.lib centralrepository.lib
+
+deffile BAFL.DEF
+
+START WINS
+	baseaddress     0x40100000
+END
+
+START MARM
+END
+
+SMPSAFE

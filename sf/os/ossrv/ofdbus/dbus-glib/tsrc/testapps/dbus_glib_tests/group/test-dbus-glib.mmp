@@ -1,0 +1,63 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+ 
+ #include <platform_paths.hrh>
+TARGET          test-dbus-glib.exe
+TARGETTYPE      exe
+CAPABILITY      NetworkServices
+UID             0x100039CE 0x09D57FE4
+
+EPOCHEAPSIZE 4 67108864   // min. 4B  max 64MB
+// Allow global writeable static data
+EPOCALLOWDLLDATA
+// Macros
+MACRO 			SYMBIAN
+MACRO 			HAVE_CONFIG_H
+MACRO			_DEBUG			//To enable debug and verbose mode
+
+SOURCEPATH      ../test/core
+
+
+//DBUS_GLIB_INTERNALS 
+SOURCE	test-dbus-glib.c	        
+
+// User include paths
+USERINCLUDE     ../dbus ..
+
+// System include paths
+
+
+
+OS_LAYER_SYSTEMINCLUDE
+OS_LAYER_LIBC_SYSTEMINCLUDE      
+OS_LAYER_GLIB_SYSTEMINCLUDE      
+OS_LAYER_DBUS_SYSTEMINCLUDE      
+
+
+// Library dependencies
+
+LIBRARY        libc.lib 
+LIBRARY        euser.lib  
+LIBRARY        libdbus.lib
+LIBRARY        libdbus-glib.lib
+
+
+
+
+SMPSAFE

@@ -1,0 +1,114 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// \n
+// There are some operations performed on agents that do not relate directly to a particular content file. The <code>ContentAccess::CManager</code>
+// interface includes some functions that allow an application to work with a particular agent.
+// <hr>
+// Before working with one particular agent, the client will need to find out which agents are installed on the device.
+// The <code>ContentAccess::CManager::ListAgentsL()</code> function provides this list of agents. The \c F32Agent is not included in
+// the list, since it does not support any management functions.
+// The <code>ContentAccess::CAgent</code> objects in the list can be used to refer to the particular agent in subsequent 
+// function calls.
+// // Create a CManager object
+// CManager* manager = CManager::NewL();
+// RPointerArray <CAgent> theAgents;
+// // Get the list of agents
+// manager->ListAgents(theAgents);
+// // Check there is at least one agent
+// if(theAgents.Count() > 0)
+// // Find the first agent
+// CAgent& agent = theAgents[0];
+// <hr>
+// The management API allows applications to request that an agent display management
+// information on the screen.
+// The agent could present configuration settings, status or DRM rights information.
+// Each agent will have unique settings so it is not possible to display one dialog to configure all agents.
+// // Create a CManager object
+// CManager* manager = CManager::NewL();
+// RPointerArray <CAgent> theAgents;
+// // Get the list of agents
+// manager->ListAgents(theAgents);
+// // Check there is at least one agent
+// if(theAgents.Count() > 0)
+// CAgent& agent = (*theAgents)[0];
+// // Display the management information for the first agent
+// manager->DisplayManagementInfoL(agent);
+// It is possible that some agents will not support this capability and will leave with <code>KErrCANotSupported</code>. 
+// Displaying DRM rights information is only relevant for agents implementing a DRM scheme. It is expected that an Agent 
+// implementing DRM will provide some or all of the following functionality in the dialog:
+// - Display all rights objects including state (pending, valid, expired, orphaned, etc.)
+// - Display detailed information on a particular rights object (play count, validity period, the related Content object(s))
+// - Allow unwanted, expired or orphaned rights to be deleted.
+// <hr>
+// The rights management object is only relevant for agents implementing a DRM scheme. Other agents will
+// leave with <code>KErrCANotSupported</code>.
+// An application can ask a particular DRM agent to create a <code>ContentAccess::CRightsManager</code> object that can be used
+// to provide generic access to DRM rights within that agent. Since it is a generic interface
+// used by all agents, it will not be able to present all the detailed information available.
+// CRightsManager* rightsmanager;
+// // Create a CManager object
+// CManager* manager = CManager::NewL();
+// // create the rights manager object for a particular agent
+// rightsManager = manager->CreateRightsManagerL(agent);
+// To manage the rights in a more comprehensive manner the application should use the 
+// <code>ContentAccess::CManager::DisplayManagementInfoL()</code> function, where the agent can present 
+// its own comprehensive information.
+// <hr>
+// This is an extension mechanism to allow a client to perform an agent-specific function. The application will need to
+// know the extended commands that the agent supports and the format of the input and output buffers used in the command. All
+// of this is specified by the CAF agent, not the Content Access Framework.
+// The buffers allow agent specific objects to be externalized by an application, passed through CAF and internalized by the
+// agent. The same principle applies for data returned from the agent to the application.
+// TInt FancyApplicationFunctionL(CManager& aManager, CAgent& aAgent, CFancyAgentInputObject& aInputObject, CFancyAgentOutputObject& aOutputObject);
+// // Dynamic buffer to serialize aInputObject 
+// CBufFlat* inputBuffer = CBufFlat::NewL(50);
+// CleanupStack::PushL(inputBuffer);
+// // write aInputObject to the dynamic buffer
+// RBufWriteStream streamIn(*inputBuffer);
+// CleanupClosePushL(streamIn);
+// aInputObject.ExternalizeL(streamIn);
+// CleanupStack::PopAndDestroy(&streamIn);
+// // Call the agent specific function #42
+// TBuf <1000> outputBuffer;
+// User::LeaveIfError(aManager.AgentSpecificCommand(aAgent, 42 ,inputBuffer->Ptr(0), outputBuffer));
+// // Don't need the input buffer any longer
+// CleanupStack::PopAndDestroy(inputBuffer);
+// // Create a stream object to read the output buffer
+// RDesReadStream streamOut(outputBuffer);
+// CleanupClosePushL(streamOut);
+// aOutputObject.InternalizeL(streamOut);
+// CleanupStack::PopAndDestroy(&streamOut);
+// <hr>
+// 
+//
+
+/**
+ @page CAFManageAgents Managing CAF Agents
+ - @ref ListingAgents
+ - @ref CAFManagementDialog
+ - @ref CreatingRightsManager
+ - @ref AgentSpecificCommand
+ @section ListingAgents Listing the CAF Agents
+ @code
+ @endcode
+ @section CAFManagementDialog Displaying the Agent Management Information
+ @code
+ @endcode
+ @section CreatingRightsManager Create a DRM rights management object
+ @code
+ @endcode
+ @section AgentSpecificCommand Agent Specific Commands
+ @code
+ @endcode
+*/

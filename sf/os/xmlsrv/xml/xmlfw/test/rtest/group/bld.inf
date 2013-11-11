@@ -1,0 +1,45 @@
+// Copyright (c) 2003-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// Framework build information
+// 
+//
+
+
+PRJ_TESTEXTENSIONS
+// Must be run before t_stringdictionary00.mmp
+start extension syslibs/test/xml_stringdictionary00tagtable
+end
+
+PRJ_TESTMMPFILES
+t_stringdictionary00.mmp				support
+t_parser.mmp							support
+t_parserucs4test.mmp
+t_processfilemancopyfile.mmp			support
+t_validator.mmp							support
+t_xmlcore.mmp
+t_xmlmisc.mmp
+tp_xmlframeworkperftests.mmp
+tu_xmlcmatchdataunittests.mmp
+tu_xmlramparserplugins.mmp				support
+tu_xmlromparserplugins.mmp				support
+
+PRJ_TESTEXTENSIONS
+// Must be run after plugins/tu_xmlramparserplugins.mmp
+start extension syslibs/test/xml_xmlcmatchdatapostbuild
+end
+
+PRJ_TESTEXPORTS
+xmlframeworktests.bat 		/epoc32/data/c/system/test/xmlframeworktests.bat
+xmlframeworktests.iby 		/epoc32/rom/include/xmlframeworktests.iby
+xmlcustomresolvertests.iby      /epoc32/rom/include/xmlcustomresolvertests.iby

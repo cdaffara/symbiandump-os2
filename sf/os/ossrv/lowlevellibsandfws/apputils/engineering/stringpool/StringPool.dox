@@ -1,0 +1,133 @@
+/** @mainpage
+
+	@section Header
+	<center>
+	<Table>
+	<tr><td>Owner:</td><td>Application Frameworks & Protocols</td></tr>
+	<tr><td>Author:</td><td>Leon Clarke</td></tr>
+	<tr><td>Last Revised:</td><td>20 March 2002.</td></tr>
+	<tr><td>Revision:</td><td>3.0</td></tr>
+	<tr><td>Status:</td><td>Released</td></tr>
+	<tr><td>Reviewers:</td><td></td></tr>
+	<tr><td>Approval:</td><td>(PM) Urmi Shah, (ESM) Akin Oyesola, (Architect) Andrew Baldwin</td></tr>
+	</Table>
+	</center>
+	<hr>
+
+	@section Revision History
+	<Table>
+	<tr><td>Date</td><td>Version</td><td>Status</td><td>Description</td></tr>
+	<tr><td>21-05-2001</td><td>1.0</td><td>Issued</td><td>Issued</td></tr>
+	<tr><td>05-07-2001</td><td>1.1</td><td>Added more detail, in particular about static tables.</td><td>Issued</td></tr>
+	<tr><td>05-07-2001</td><td>1.2</td><td>Minor editorial changes following T3 review comments.</td><td>Issued</td></tr>
+	<tr><td>23-07-2001</td><td>1.3</td><td>Added reference to example code.</td><td>Issued</td></tr>
+	<tr><td>09-11-2001</td><td>2.0</td><td>Added mutiple table support and case-sensitive strings</td><td>Issued</td></tr>
+	<tr><td>20-03-2002</td><td>3.0</td><td>Incorporated changes following defect fixing</td><td>Released</td></tr>
+	</Table>
+
+
+	@section Introduction
+
+   The string pool is a way of storing strings that makes comparison
+   almost instantaneous at the expense of string creation. It is
+   particularly efficient at handling string constants that are known
+   at compile time. It currently only supports 8 bit strings. The
+   basic algorithm is to ensure that the pool only contains one string
+   of any particular value, using reference counts to keep track of
+   it. Subsequent strings with the same value will actualy refer to
+   the same copy.
+
+   To use the string pool, you need an RStringPool object. Strings
+   from different string pools can't be compared, so there should only
+   be 1 string pool open per thread (unless one is in a component that
+   doesn't export its use of the string pool). Of course, you can have
+   multiple RStringPool objects, as long as they are all handles to
+   the same string pool.
+
+   Within this object, there are 2 distinct pools of strings, one
+   comprising strings that are 'case-sensitive' (represented using the
+   RString class) and another representing strings that are 'case-insensitive' (RStringF). Case-sensitive strings behave in a
+   straightforward way. Case-insensitive strings should be used in a
+   situation where case doesn't matter at all; if you create a new
+   RStringF that differs from an existing RStringF only in terms of
+   case, when you read back the value of the 'new' string, it will
+   have the same value as the 'existing' one. This can be very useful
+   in situations where strings are considered case-insensitive, but
+   there is a 'traditional case' that is normaly used. As long as the
+   first value to be added is in the 'traditional case', all
+   subsequent additions will be corrected to match this first entry.
+
+   Case-insensitivity assumes a character set of us-ascii (i.e.it only
+   considers A-Z to be equivalent to a-z)
+
+   If a string has a more complex or different case-sensitivity
+   requirement that this model doesn't match, then it may be necessary
+   to compare strings outside the pool, which may make the string pool
+   inapplicable.
+
+   Corresponding to RString and RStringF are the classes RStringToken
+   and RStringTokenF. These are smaller (4 bytes long rather than 8)
+   but need to be turned into String or StringF classes before you can
+   do anything useful with them. In particular, you can't directly
+   find the contents of a string token. They should be used when space
+   is absoluteley at a premium, for instance storing a lot of strings
+   in an array, or similar applications.
+
+   @section Static Tables
+
+   A very important aspect of the string pool is the concept of static string
+   table. This is best thought of as an array of common
+   strings. Integers can be transformed into the strings corresponding
+   to that index position in the array via the String and StringF
+   functions. In addition, a string can be cast back to an integer,
+   allowing a switch statement on strings (it returns -1 if the string
+   isn't one from any static table of the pool). Another advantage to using the
+   static table is that the function to create the string can't leave,
+   and the string doesn't need to be closed (although closing it is
+   harmless)
+
+   Multiple case-insensitive and case-sensitive string tables are supported. 
+
+   A static table is written as a .st file, and is processed by
+   stringtable.pl early in the build process to generate the actual
+   cpp and header files at compile time. The format of the .st file is
+   basicaly as follows. The first noncomment line consists of
+   fstringtable <TableName> for a case-insensitive table and stringtable <TableName>
+   for a case-sensitive table. Each subsequent non-comment line consists
+   of the name of an enum followed by the value of the string. Comment
+   lines start with # and can be added anywhere. You can also have
+   lines starting in !, which will be output into the header file if
+   you want additional comments in the header. e.g.
+
+   @code
+   # Example String Table
+   fstringtable ExampleStringTable
+   !// Some types of fruit
+   # This comment won't appear in the .h file, but the one above is.
+   EApple apple
+   EOrange orange
+   EBanana banana
+   # Some animals
+   ECat cat
+   EDog dog
+   @endcode
+
+   The string table name must be a valid C++ class name, and the
+   generated code includes a class that contains within it an enum
+   corresponding to the elements in the array, so entries in the above
+   example could be referred to as MyStringTable::ECat and so on.
+
+   The stringpool.pl script takes a .st file and creates .cpp and .h
+   files of the same name in the same directory. The easiest way to
+   use this is to export the .st file to /epoc32/generated/, create an
+   extension makefile that runs the script during the makefile phase
+   and then copies the generated .h file to epoc32, and then compile
+   the .cpp file as normal from an mmp files. Look at the example code
+   in //EPOC/main/generic/bafl/docs/stringtableexample/... for a
+   simple example of how to do this.
+
+   To be notified when the String Pool is closing you can derive from the mix-in class    MStringPoolCloseCallBack and implement the StringPoolClosing() function. The OpenL(const    TStringTable& aTable, MStringPoolCloseCallBack& aCallBack) overridden function must be    used to register the callback with the String Pool. Where aCallback is the pointer to the    callback. The StringPoolClosing() function will then get called when the String Pool is    closing. 
+
+
+
+ **/

@@ -1,0 +1,49 @@
+/*
+* Copyright (c) 2004-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* cryptography.dll Implements cryptography features
+*
+*/
+
+
+/**
+ @file
+*/
+
+
+TARGET 		cryptography.dll
+CAPABILITY	All
+TARGETTYPE 	dll
+NOEXPORTLIBRARY
+
+UID		0x1000008d 0x101FD20B
+VENDORID 0x70000001
+
+DEFFILE		cryptoswitch.def
+
+SOURCEPATH	../source/cryptoswitch
+SOURCE		cryptoswitch.cpp
+
+USERINCLUDE		../source/cryptoswitch
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+LIBRARY		euser.lib
+LIBRARY     emulator.lib
+
+START WINS
+WIN32_LIBRARY	kernel32.lib
+END
+
+SMPSAFE

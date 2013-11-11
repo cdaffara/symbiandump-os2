@@ -1,0 +1,87 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// @file
+// 
+//
+
+//! @SYMTestSuiteName PDS-TEF-SQL-SUITE
+//! @SYMScriptTestEnvironment TEF
+//! @internalComponent
+//! @test
+
+PRINT Run SQLite Tests, this lot largely negative tests.
+
+LOAD_SUITE te_SQL_Suite
+
+START_TESTCASE SYSLIB-SQL-CIT-1689
+//! @SYMTestCaseID    SYSLIB-SQL-CIT-1689
+//! @SYMTestCaseDesc  Performs some basic database operations intended to
+//!                  generate errors (but not PANICs). Some errors are already
+//!                  covered by other tests, so not all cases are covered by
+//!                  this test. Includes, e.g attempting to create the
+//!                  same table twice, checks that using the same parameter
+//!                  index twice (on bind) results in only one entry.
+//! @SYMTestPriority  High
+//! @SYMTestActions   See description and the config file.
+//! @SYMTestExpectedResults
+//!                  The test looks for specific error codes and content
+//!                  within the database. If these are not seen test errors
+//!                  will be generated.
+//!                  
+//! @SYMREQ           REQ5792
+
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\SomeExceptions.ini Top
+END_TESTCASE SYSLIB-SQL-CIT-1689
+
+
+START_TESTCASE SYSLIB-SQL-CIT-1693
+//! @SYMTestCaseID    SYSLIB-SQL-CIT-1693
+//! @SYMTestCaseDesc  Performs some basic database operations intended to
+//!                  generate errors (but not PANICs). Some errors are already
+//!                  covered by other tests, so not all cases are covered by
+//!                  this test. Includes, e.g attempting to modify a read-only
+//!                  database.
+//! @SYMTestPriority  High
+//! @SYMTestActions   See description and the config file.
+//! @SYMTestExpectedResults
+//!                  The test looks for specific error codes and content
+//!                  within the database. If these are not seen test errors
+//!                  will be generated.
+//!                  
+//! @SYMREQ           REQ5792
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\SomeExceptions.ini GenerateErrors
+END_TESTCASE SYSLIB-SQL-CIT-1693
+
+START_TESTCASE SYSLIB-SQL-CIT-1702
+//! @SYMTestCaseID    SYSLIB-SQL-CIT-1702
+//! @SYMTestCaseDesc  Generates a KSqlErrSchema error.
+//! @SYMTestPriority  High
+//! @SYMTestActions   See description and the config file.
+//! @SYMTestExpectedResults
+//! @SYMREQ           REQ5792
+
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\SomeExceptions.ini DoErrSchema
+END_TESTCASE SYSLIB-SQL-CIT-1702
+
+START_TESTCASE SYSLIB-SQL-CIT-1703
+//! @SYMTestCaseID    SYSLIB-SQL-CIT-1703
+//! @SYMTestCaseDesc  Generates a KSqlErrCorrupt error.
+//! @SYMTestPriority  High
+//! @SYMTestActions   See description and the config file.
+//! @SYMTestExpectedResults
+//! @SYMREQ           REQ5792
+
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\SomeExceptions.ini CorruptedDb
+END_TESTCASE SYSLIB-SQL-CIT-1703
+

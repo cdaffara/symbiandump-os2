@@ -1,0 +1,243 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+/**
+ @file
+ @publishedAll
+ @released
+*/
+
+#if !defined(__UIKON_RH__)
+#define __UIKON_RH__
+
+#if !defined(__BADEF_RH__)
+#include <badef.rh>
+#endif
+
+#if !defined(__UIKON_HRH__)
+#include <uikon.hrh>
+#endif
+
+#if !defined(__BAERRRSVR_RH__)
+#include <baerrrsvr.rh>
+#endif
+
+STRUCT RESOURCE_LINK
+	{
+	LLINK id;
+	}
+
+STRUCT HOTKEY
+    {
+    LONG command;
+    LONG key;
+    }
+
+STRUCT HOTKEYS
+    {
+    STRUCT plain[];
+    STRUCT control[];
+    STRUCT shift_control[];
+    }
+
+// Removed by Bill
+//#include <eikfont.rh> // for STRUCT FONT
+
+STRUCT NUMBER_INT8
+	{
+	BYTE value=0;
+	}
+
+STRUCT NUMBER_INT16
+	{
+	WORD value=0;
+	}
+
+STRUCT NUMBER_INT32
+	{
+	LONG value=0;
+	}
+
+
+// EIKCOLOR.RH
+//
+// Copyright (c) 1997-2007 Nokia Corporation and/or its subsidiary(-ies).
+//
+
+STRUCT COLOR
+	{
+	BYTE red;
+	BYTE green;
+	BYTE blue;
+	}
+
+STRUCT CTRL_COLOR
+	{
+	WORD logical_color;
+	STRUCT color; // COLOR
+	}
+
+STRUCT COLORLIST
+	{
+	LLINK array_id=0;
+	}
+
+STRUCT EIKCOLORLIST
+	{
+	LLINK array_id=0;
+	LLINK ext_id;
+	}
+
+#include <eikcolor.hrh>
+
+// EIKFONT.RH
+//
+// Copyright (c) 1997-2007 Nokia Corporation and/or its subsidiary(-ies).
+//
+
+//#include <eikfont.hrh>
+
+STRUCT FONT
+	{
+	LONG fontid; // a value from fontids.h
+	WORD flags=0; // a combination of EGulFontFlagXxxxs
+	}
+
+STRUCT NAMED_FONT
+	{
+	LTEXT name;
+	WORD height;	// in twips
+	WORD flags=0; // a combination of EGulFontFlagXxxxs
+	}
+
+// EIKPRIV.RH
+//
+// Copyright (c) 1997-2007 Nokia Corporation and/or its subsidiary(-ies).
+//
+
+STRUCT INT16
+	{
+	WORD value;
+	}
+
+
+// EIKPRTPV.RH
+//
+// Copyright (c) 1997-2007 Nokia Corporation and/or its subsidiary(-ies).
+//
+
+// EIKDEF.RH
+//
+// Copyright (c) 1997-2007 Nokia Corporation and/or its subsidiary(-ies).
+//
+
+STRUCT RSS_SIGNATURE
+    {
+    LONG signature=EEikResourceSignatureValue;
+    SRLINK self;
+    }
+
+STRUCT TBUF1	{ BUF<1> buf; }
+STRUCT TBUF2	{ BUF<2> buf; }
+STRUCT TBUF4	{ BUF<4> buf; }
+STRUCT TBUF8	{ BUF<8> buf; }
+STRUCT TBUF9	{ BUF<9> buf; }
+STRUCT TBUF16	{ BUF<16> buf; }
+STRUCT TBUF32	{ BUF<32> buf; }
+STRUCT TBUF40	{ BUF<40> buf; }
+STRUCT TBUF64	{ BUF<64> buf; }
+STRUCT TBUF80	{ BUF<80> buf; }
+STRUCT TBUF128	{ BUF<128> buf; }
+STRUCT TBUF256	{ BUF<256> buf; }
+
+STRUCT EIK_APP_INFO
+    {
+    LLINK hotkeys=0;
+    LLINK menubar=0;
+    LLINK toolbar=0;
+    LLINK toolband=0;
+    LLINK cba=0;	
+    LLINK status_pane=0;
+    LLINK custom_app_info_extension=0;	
+    }
+
+STRUCT PAGESIZE
+	{
+	LONG width=0;
+	LONG height=0;
+	}
+
+STRUCT VIEW_ID
+	{
+	LONG appuid;
+	LONG viewuid;
+	}
+
+// EIKSPANE.RH
+//
+// Copyright (c) 1997-2007 Nokia Corporation and/or its subsidiary(-ies).
+//
+
+
+STRUCT STATUS_PANE_SYSTEM_MODEL				// System wide status pane declaration
+	{
+	STRUCT panes[];							// entire set of valid SPANE_PANEs
+	LLINK default_layout;					// default STATUS_PANE_LAYOUT
+	LLINK layouts[];						// entire set of STATUS_PANE_LAYOUTs
+	}
+ 
+STRUCT SPANE_PANE
+	{
+	LONG id;
+	WORD flags=EEikStatusPaneServerOwned;
+	WORD type;
+	LLINK resource=0;
+	}
+
+STRUCT STATUS_PANE_LAYOUT
+	{
+	WORD position;
+	STRUCT pane_tree;						// SPANE_LAYOUT_TREE_NODE root of the layout tree
+	}
+
+STRUCT SPANE_LAYOUT_TREE_NODE
+	{
+	LONG id=0;
+	WORD flags;
+	WORD size;
+	STRUCT sub_panes[];						// SPANE_LAYOUT_TREE_NODE sub panes
+	}
+
+STRUCT STATUS_PANE_APP_MODEL				// Application specific status pane
+	{
+	LLINK layout=EEikStatusPaneUseDefaults;		// STATUS_PANE_LAYOUT to use for this app
+	STRUCT panes[];							// SPANE_PANE overrides to use for this app
+	}
+
+// Notifiers
+
+STRUCT NOTIFIER_LIST
+	{
+	LONG dll_uid;
+	
+	LEN WORD STRUCT notifier_list[]; // notifier data
+	}
+
+STRUCT NOTIFIER_DATA
+	{
+	LONG notifier_uid;
+	}
+
+#endif

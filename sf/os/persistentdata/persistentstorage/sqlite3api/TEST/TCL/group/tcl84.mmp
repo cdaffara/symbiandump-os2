@@ -1,0 +1,184 @@
+// Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+TARGET		tcl.lib
+TARGETTYPE	lib
+
+#ifndef WINSCW
+MACRO __CHAR_UNSIGNED__=1
+#endif
+
+SMPSAFE
+
+//Suppressed CW warnings
+OPTION CW -w nounused -w nounwanted
+
+//Suppressed RVCT warnings
+// #111-D: statement is unreachable
+// #175-D: subscript out of range
+// #177-D: variable <var> was declared but never referenced
+// #180-D: argument is incompatible with formal parameter
+// #550-D: variable <var> was set but never used
+// #1293-D: assignment in condition
+// #1294-D: Old-style function <func>
+// #1295-D: Deprecated declaration <decl> - give arg types
+OPTION ARMCC --diag_suppress 111,175,177,180,550,1293,1294,1295
+
+#ifdef _DEBUG
+MACRO TCL_COMPILE_DEBUG=1 
+#endif
+
+MACRO HAVE_LIMITS_H=1 
+MACRO HAVE_UNISTD_H=1 
+MACRO HAVE_SYS_PARAM_H=1 
+MACRO PEEK_XCLOSEIM=1 
+MACRO __LONG_LONG_SUPPORTED=1    // support for 64-bit wide integers (long long) 
+MACRO HAVE_GETCWD=1 
+MACRO HAVE_OPENDIR=1 
+MACRO HAVE_STRSTR=1 
+MACRO HAVE_STRTOL=1 
+MACRO HAVE_STRTOLL=1 
+MACRO HAVE_STRTOULL=1 
+MACRO HAVE_TMPNAM=1 
+MACRO HAVE_WAITPID=1 
+MACRO HAVE_SYS_TIME_H=1 
+MACRO TIME_WITH_SYS_TIME=1 
+MACRO HAVE_TM_ZONE=1 
+MACRO HAVE_GMTIME_R=1 
+MACRO HAVE_LOCALTIME_R=1 
+MACRO HAVE_TM_GMTOFF=1 
+MACRO HAVE_TIMEZONE_VAR=1 
+MACRO HAVE_ST_BLKSIZE=1 
+MACRO STDC_HEADERS=1 
+MACRO HAVE_SIGNED_CHAR=1 
+MACRO HAVE_LANGINFO=1 
+MACRO HAVE_SYS_IOCTL_H=1 
+MACRO NO_UNION_WAIT=1 //deal no "union wait"  definition 
+#ifdef _DEBUG
+MACRO TCL_MEM_DEBUG=1
+#endif
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_LIBC_SYSTEMINCLUDE
+
+//This SYSTEMINCLUDE is required by 3rd TCL source files that uses #include <xxx.h>,
+// therefore it must be a SYSTEMINCLUDE not USERINCLUDE
+SYSTEMINCLUDE ../tcldistribution/generic
+
+USERINCLUDE   ../tcldistribution/unix
+USERINCLUDE   ../src
+
+
+SOURCEPATH  ../src
+SOURCE  convertPathSlashes.c
+SOURCE  tclSymbianInit.cpp
+
+SOURCEPATH	../tcldistribution/generic
+// tcl generic objects:
+SOURCE  regcomp.c 
+SOURCE  regerror.c
+SOURCE	regexec.c 
+SOURCE	regfree.c 
+
+// functionality not supported by symbian TCL yet
+//SOURCE  regc_color.c
+//SOURCE  regc_cvec.c
+//SOURCE  regc_lex.c
+//SOURCE  regc_locale.c
+//SOURCE  regc_nfa.c
+//SOURCE  rege_dfa.c
+//SOURCE  regfronts.c
+
+SOURCE	tclAlloc.c 
+SOURCE	tclAsync.c 
+SOURCE	tclBasic.c 
+SOURCE	tclBinary.c 
+SOURCE	tclCkalloc.c 
+SOURCE	tclClock.c 
+SOURCE	tclCmdAH.c 
+SOURCE	tclCmdIL.c 
+SOURCE	tclCmdMZ.c 
+SOURCE	tclCompCmds.c 
+SOURCE	tclCompExpr.c 
+SOURCE	tclCompile.c 
+SOURCE	tclDate.c 
+SOURCE	tclEncoding.c 
+SOURCE	tclEnv.c 
+SOURCE	tclEvent.c 
+SOURCE	tclExecute.c 
+SOURCE	tclFCmd.c 
+SOURCE	tclFileName.c 
+SOURCE	tclGet.c 
+SOURCE	tclHash.c 
+SOURCE	tclHistory.c 
+SOURCE	tclIndexObj.c 
+SOURCE	tclInterp.c 
+SOURCE	tclIO.c 
+SOURCE	tclIOCmd.c 
+SOURCE	tclIOGT.c 
+SOURCE	tclIOSock.c 
+SOURCE	tclIOUtil.c 
+SOURCE	tclLink.c 
+SOURCE	tclListObj.c 
+SOURCE	tclLiteral.c 
+SOURCE	tclLoad.c 
+SOURCE	tclMain.c 
+SOURCE	tclNamesp.c 
+SOURCE	tclNotify.c 
+SOURCE	tclObj.c 
+SOURCE  tclPanic.c
+SOURCE  tclParse.c 
+SOURCE  tclParseExpr.c 
+SOURCE	tclPipe.c 
+SOURCE	tclPkg.c 
+SOURCE	tclPosixStr.c 
+SOURCE	tclPreserve.c 
+SOURCE	tclProc.c 
+SOURCE	tclRegexp.c 
+SOURCE	tclResolve.c 
+SOURCE	tclResult.c 
+SOURCE	tclScan.c 
+SOURCE	tclStubInit.c 
+SOURCE	tclStubLib.c  
+SOURCE	tclStringObj.c 
+SOURCE	tclThread.c 
+SOURCE	tclThreadAlloc.c 
+SOURCE	tclThreadJoin.c 
+SOURCE	tclTimer.c
+SOURCE  tclUtf.c 
+SOURCE  tclUniData.c
+SOURCE	tclUtil.c 
+SOURCE	tclVar.c
+SOURCE	tclTest.c  
+SOURCE	tclTestObj.c 
+SOURCE	tclTestProcBodyObj.c 
+
+SOURCEPATH	../tcldistribution/unix
+//common code:
+SOURCE	tclUnixChan.c 
+SOURCE	tclUnixEvent.c 
+SOURCE	tclUnixFCmd.c 
+SOURCE	tclUnixFile.c 
+SOURCE	tclUnixPipe.c 
+SOURCE	tclUnixSock.c 
+SOURCE	tclUnixTest.c 
+SOURCE	tclUnixThrd.c 
+SOURCE	tclUnixTime.c 
+SOURCE	tclUnixInit.c 
+SOURCE	tclUnixCompat.c
+// tcl Notify Objects
+SOURCE	tclUnixNotfy.c
+// tcl dynamic library objects
+SOURCE tclLoadDl.c

@@ -1,0 +1,96 @@
+/** @file  ../include/sys/utsname.h
+@internalComponent
+*/
+
+/** @fn  uname(struct utsname *buf)
+@param buf
+@return   Upon successful completion, a non-negative value is returned. Otherwise, 
+-1 is returned and errno is set to indicate the error.
+
+@code
+ sysname Name of the operating system implementation.
+ nodename Network name of this machine.
+ release Release level of the operating system.
+ version Version level of the operating system.
+ machine Machine hardware platform.
+
+@endcode
+  The uname function stores NULL -terminated strings of information identifying the current system 
+into the structure referenced by name .
+
+ The utsname structure is defined in the \#include \<sys/utsname.h\> header file, and contains 
+  the following members: sysname Name of the operating system implementation. nodename Network name of this machine. release Release level of the operating system. version Version level of the operating system. machine Machine hardware platform.
+
+Examples:
+@code
+#include <sys/utsname.h>
+#include<stdio.h>
+int test_uname()
+{
+    int retVal;
+    struct utsname name ;
+    retVal = uname( &name; );
+    if( !retVal )       
+    {
+      printf("Sysname: %s
+ Nodename:%s
+ Release:
+      %s
+Version: %s
+Machine:%s
+");
+      printf("uname passed");
+      return 0;
+    }
+    else
+    {
+      printf("failed");
+      return -1;
+    }
+}
+
+@endcode
+ Output
+@code
+Sysname: Symbian
+Nodename: localhost
+Release:
+Version: 2:0:1055
+Machine:
+uname passed
+
+@endcode
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @struct utsname
+
+Contains the following members,
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @var utsname::sysname
+Name of this OS.
+*/
+
+/** @var utsname::nodename
+Name of this network node.
+*/
+
+/** @var utsname::release
+Release level.
+*/
+
+/** @var utsname::version
+Version level.
+*/
+
+/** @var utsname::machine
+Hardware type.
+*/
+

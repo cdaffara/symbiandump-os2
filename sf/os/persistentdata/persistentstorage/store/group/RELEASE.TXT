@@ -1,0 +1,3217 @@
+Version 1.06.068
+================
+(Made by Mark Cawston, 13 March 2002)
+
+Fixed FER-56EJNS (Inconsistent dealing with zero length Base64 data.)
+
+UMEM\UM_BUF.CPP TMemBuf::Set(TUint8* aPtr,TUint8* anEnd,TInt aMode) changed to
+treat null data as seekable zero-length data.
+
+TMEM\T_MSTRM.CPP extended to cover test case.
+
+Version 1.06.067
+================
+(Made by Mark Cawston, 20 November 2001)
+
+Fixed BAR-4YRCST (Unnecessary stack usage,) by changing EnsurePathL() in UF_DICT.CPP.
+
+Version 1.06.066
+================
+(Made by Andrew Thoelke, 16 May 2001)
+
+Performance optimisations for PermanentFileStore.
+
+*	Enhanced write-buffering in RFileBuf to maintain the write buffer when overwriting data already in the buffer.
+*	PermanentFileStore now checks for a transactional file system (new API from F32) such as LFFS, reducing
+the number of overwrites to the file header when commiting and compacting the store.
+*	Improved the use of the TOC caches to maintain them whenever possible, rather than invalidating them.
+*	Improved the process of writing a new TOC to involve minimal file writes.
+*	Added a new compaction algorithm which is still very effective at recovering free space, but moves significantly
+less data when the file is more than half used. On large stores (1000's of streams, 100's of K) it can be over 8x
+faster when there is approx. 10% free space (this is ignoring the benefits of the LFFS optimisation)
+
+When combined these changes reduce the number of file write requests significantly, which is the predominant
+performance factor on slow media (such as flash memory).
+
+This also fixes GT 6.1 defect THE-4UVH4N, introduced by the addition of TOC-delta's to CPermanentFileStore.
+
+
+Version 1.06.065
+================
+(Made by Andrew Thoelke, 2 March 2001)
+
+Added TOC (table of contents) 'delta's to Permanent File Store. When 
+committed such a store will not always re-write the entire TOC, instead
+it will save only the updates since the last full TOC. This can reduce
+the average overhead of the TOC when committing the store by over 95%.
+
+This change is to provide a fix for 6.0 defect EDNAPIN-4T4KZD.
+
+The PFSDUMP tool has been updated to understand the new toc structure
+and report the store contents as before.
+
+
+Data compatibility warning:
+
+The new STORE will read and update existing PFS files, but the resulting
+files can no longer be read by previous versions of STORE.
+
+
+Version 1.05.065
+================
+(Made by Mark Cawston, 12 February 2001)
+
+Fixed EDNMMIR-4QHDUH (CDictionaryFileStore abuses the filing system on a CommitL).
+Previously fixed in 6.0 branch by providing 1k threshold for CDictionaryStore::CommitL()
+before it compacts.
+
+Version 1.05.064
+================
+(Made by William Roberts, 7th August 1999)
+
+Fixed the construction of TStreamMark variables, e.g.
+
+			TStreamMark mark=pos;
+becomes		TStreamMark mark(pos);
+
+This is necessary for the new GCC compiler because it correctly spots that
+
+STORE\INC\s32share.h: In method `TInt RFrame16Buf::ExtendL(class TStreamExchange &, TInt, TInt = 3)':
+STORE\INC\s32share.h:58: `TStreamMark::TStreamMark(const class TStreamMark &)' is private
+STORE\USTRM\Us_frame.cpp:59: within this context
+
+
+Version 1.05.063
+================
+(Made by Graham Asher, 6th August 1999)
+
+Fixed a defect caused by a GCC linking problem:
+GASR-4AGJQX Word panics on closing when Greek letters are entered.
+
+
+Version 1.05.062
+================
+(Made by Mark Dowman, 20th May 1999)
+
+EPOC Release 5u baseline component
+
+Build
+-----
+
+E32TOOLS 120
+E32TOOLP 107
+E32 release 185
+F32 release 145
+
+Testing
+-------
+
+No testing performed.
+
+Defects fixed
+-------------
+
+No defects fixed.
+
+Changes
+-------
+
+Narrow builds removed.
+
+
+Release 061 - Graham Asher - 24th January 1999
+==============================================
+
+Combines releases 051 and 060, thus joining together the two branches of development.
+
+Intended for ER5u (EPOC Release 5 Unicode).
+
+
+Version 1.05.051
+================
+(Made by AjThoelke, 8 December 1998)
+
+EPOC Release 5 candidate component
+
+Binary Compatibility
+--------------------
+
+Fully Binary compatible with 050
+
+Build
+-----
+E32TOOLS 095
+E32TOOLP 098
+E32 release 156
+F32 release 122
+
+ARM narrow release size is 69696 bytes (68.1K), as reported from ROMBUILD.
+
+Testing
+-------
+
+Test code changed to verify the fix for defect 430304.
+All test code passes on all platforms.
+
+Defects fixed
+-------------
+ER5 defect EDN 430304: Failure to compact a CDictionaryStore no longer masks a successful CommitL().
+Rebuilt with MSVC++ 5.0 Service Pack 3 to ensure good WINS release builds.
+Boiler-plated the source code using the SysDoc tool.
+
+Changes
+-------
+All literal descriptors now use _LIT(), saving a few hundred bytes
+All uses of __DECLARE_NAME() have been removed (deprecated)
+
+
+Release 060 - Graham Asher - 23rd November 1998
+===============================================
+
+ER6 only, hence the jump in release numbers.
+
+In the Unicode builds only, 16-bit descriptors are compressed on externalisation, and decompressed on internalisation, using the Standard Compression Scheme for Unicode. The compression and expansion functionality has been moved here from ETEXT, tidied up, and made public by way of exported functions of TUnicodeCompressor and TUnicodeExpander. Prospective clients so far are ETEXT and DBMS. The new header file for the compression and expansion is s32ucmp.h.
+
+
+Version 1.05.050
+================
+(Made by AjThoelke, 28 October 1998)
+
+Binary Compatibility
+--------------------
+
+Only WINS REL, MARM REL and MARM DEB releases are binary compatible with 049
+
+WINS DEB is now BC with WINS REL
+WINS UREL is BC with WINS UDEB
+MARM UREL is BC with MARM UDEB
+
+Build
+-----
+ER5 compatibility components:
+E32TOOLS 095
+E32TOOLP 096
+E32 release 156
+F32 release 122
+
+ARM narrow release size is 70056 bytes (68.4K), as reported from ROMBUILD.
+
+WINS releases built using MSVC++ 5.0, debug databases are now incompatible with
+earlier versions of the IDE.
+
+Changes
+-------
+1.	Implemented phase 3 of Epoc32 Proposal SW1-87. The CleanupXxxPushL()
+	template classes and functions in s32strm.h have been removed, as
+	they are included in e32base.h. STORE header files are no longer
+	required to provide this functionality.
+
+2.	A new UID has been allocated for the STORE unicode DLL: 0x10003B0D
+
+
+Version 1.02.049
+================
+(Made by AjThoelke, 11 June 1998)
+
+This release is primarily to provide MSVC 5.0 build compatibility
+
+Binary Compatibility
+--------------------
+All binary releasables are exactly the 048 releasables as the changes
+have no impact on the code generated. This fact was verified by
+validation of objects rebuilt with the new header files.
+
+Hence, fully BC with 048, and no test code has been run, as the binaries
+have already been tested for 048.
+
+Build
+-----
+E32 release 126, for debug/release compatibility and Security framework
+F32 release 095
+E32TOOLS 089
+
+ARM narrow release size is 70020 bytes (68.4K), as reported from ROMBUILD.
+
+The build commands no longer output to the console, but direct all output
+into a log file: \dbms\bmake\<platfrom>.<build>.log. If a build fails these
+will contain the compiler/linker errors, If the build succeeds these will
+contain any warnings.
+
+Fixed
+-----
+1.	SW1-66: s32btree.h and s32cont.h contained various template
+	specialisations which had not been treated for MSVC 5.0 changes.
+	TEMPLATE_SPECIALIZATION added to the affected classes.
+
+2.	Implemented phase 1 of Epoc32 Proposal SW1-87. The CleanupXxxPushL()
+	template classes and functions in s32strm.h are protected by an
+	include guard macro __EPOC_CLEANUP_SUPPORT__. A future release of E32
+	will place this functionality in a E32 header.
+
+
+Version 1.02.048
+================
+(Made by AjThoelke, 5 May 1998)
+
+Binary Compatibility
+--------------------
+
+All builds are forwards and backwards compatible with STORE 047
+
+All test code has been run against all compatible builds
+
+
+Build
+-----
+
+E32 release 126, for debug/release compatibility and Security framework
+F32 release 095
+E32TOOLS 089
+
+ARM narrow release size is 70020 bytes (68.4K), as reported from ROMBUILD.
+
+Fixed
+-----
+
+*	TStreamBuf::DoReadL() and DoWriteL() members had an over aggressive
+	debug assertion which checked the state of the other buffer. The
+	assertion also happens to fail for a read-only buffer which lives above
+	address 0x80000000, e.g. in a fixed process.
+
+	The assertion has been changed to correctly allow for read-only or
+	write-only stream buffer.
+
+*	Mis-ordering of two inline functions in an internal header resulted in
+	non-inlining. This results in a slightly smaller DLL.
+
+
+Version 1.02.047
+================
+(Made by AjThoelke, 19 February 1998)
+
+Binary Compatibility
+--------------------
+
+All WINS builds are backwards BC with STORE 046.
+MARM REL builds are backwards BC with STORE 046.
+
+MARM debug builds are NOT binary compatible with STORE 046, in order to
+introduce compatibility with the corresponding STORE 047 release component.
+If you are building a release/debug compatible MARM component you must use
+at least E32 125, F32 95 and STORE 047.
+
+New exports have been added to provide the RSecureStorePagePool class in
+s32crypt.h. If you require this class you must use STORE 047 (and thus
+E32 125 and F32 95).
+
+All test code has been run against all compatible builds
+
+
+Build
+-----
+
+E32 release 125, for debug/release compatibility and Security framework
+F32 release 095
+E32TOOLS 089
+
+ARM narrow release size is 70052 bytes (68.4K), as reported from ROMBUILD.
+
+MAKMAKE is now used throughout STORE. The new BMAKE directory contains the batch
+file (bld.bat), makefiles and mmp files to build STORE. BWINS and BMARM now just
+contain the export definitions files.
+
+STORE can still be built using the mnt verbs, or by invoking BLD in the BMAKE
+directory. Invoking BLD without parameters gives the basic syntax used.
+
+Test code is built either in each test code sub-project using bld.bat or the
+makefile, or using mnt.cmd from the group as before to build all test code.
+
+
+Fixed
+-----
+
+*	RFrame16Buf::ReadL() could corrupt the internal CPermanentFileStore
+	state if it was called after having already indicated that there was no
+	more data to read. Fixed by reseting the read position if the read
+	terminator has been read.
+
+	This is extremely unlikely to affect current code, as it only occurs for
+	streams in Permenent File Stores which end exactly on a 16K boundary and
+	which have ReadL() called many times after the end of stream is reached.
+	Fix #3 below was introduced as a result.
+
+*	TDesBuf::Consolidate() would fail with a descriptor overflow panic if
+	it was operating as read-only and the descriptor data address was in the
+	upper half of memory, i.e. address>=0x80000000.
+
+	This is unlikely to affect current code, as user data (until E32 121)
+	lived int he lower half of memory. There is a workaround, if required:
+	set the stream buffer to read/write mode.
+
+*	Encryption filters were very eager to read data from the source stream
+	when the request could be fulfilled from the filter's output buffer.
+	In these cases they now make no read request on the source. This
+	significantly improves performance of the decryption filter when the
+	end of a stream is reached.
+
+
+New stuff
+---------
+
+*	Class RSecureStorePagePool in s32crypt.h. This relies on a bounded
+	encryption algorithm and a new framework class from E32[124]. It has the
+	same behaviour as RStorePagePool, except that all pages are encrypted
+	using the supplied key.
+
+*	Debug and Release builds are compatible. The inline debug assertions
+	will still operate when a DEB client is run against a REL STORE.
+	This will not affect the runtime speed or size of a REL client.
+
+	One upshot of this is that the CPageCache statistics are not enabled for
+	either REL or DEB builds. A custom STORE would be required were these
+	required for cache-size research.
+
+
+Version 1.01.046
+================
+(Made by AjThoelke, 2 October 1997)
+
+Build
+
+E32 release 111, for the TEMPLATE _SPECIALIZATION macro used for VC++ 5.0 support
+F32 release 074 (Platform 001)
+E32TOOLS 077
+
+ARM narrow release size is 68892 bytes (67.3K), as reported from ROMBUILD.
+
+Fixed
+
+*	SW3-1555. MSVC++ 5.0 compatibility tweaks added to relevant headers.
+
+*	SW3-1707. CDictionaryFileStore has a new algorithm for dealing with
+	contention for the same file across multiple threads. It can now
+	typically handle 20 equal priority threads, previously only 4. In the
+	worst case, when the file is locked open, the code will return failure
+	in approx. 1 second.
+
+	Test code for contention has been added to T_DICFS.CPP.
+
+*	Some debug code in TStreamMark::IsTracking() and TStreamMark::Track()
+	was not working for data addresses above 0x80000000. This has not
+	affected any code so far as no platform used such data addresses...
+	until now. This is not a BC issue as this is not present in release
+	build.
+
+
+Version 1.00.045
+================
+(Made by AjThoelke, 4 July 1997)
+
+1.	Built using Platform 001 releases of E32 and F32; used E32TOOLS/074
+	ARM narrow release size is 68676 bytes (67.1K), as reported from ROMBUILD.
+
+2.	Fixed SW3-1579, by adjusting reclaimation state machine to return
+	more often when caclulating stream lengths.
+
+
+Version 1.00.044
+================
+(Made by AjThoelke, 28 May 1997)
+
+1.	Built using Platform 001 releases of E32 and F32; used E32TOOLS/067
+	ARM narrow release size is 68636 bytes (67K), as reported from ROMBUILD.
+
+2.	Fixed MNT VALID: needed -e32 in pediff command line.
+
+Version 1.00.043
+================
+(Made by AjThoelke, 16 May 1997)
+
+1.	Built using Platform releases of E32 and F32; used E32TOOLS/066
+	ARM narrow release size is 68636 bytes (67K), as reported from ROMBUILD.
+
+2.	Binary Compatibility
+
+	Backwards binary compatible with Platform release 042.
+
+	Three new exports in this release:
+
+	from s32share.h
+	
+	TInt TStreamMark::ReadL(TStreamExchange& aHost,TDes8& aDes,TRequestStatus& aStatus);
+	TInt TStreamMark::WriteL(TStreamExchange& aHost,const TDesC8& aDes,TRequestStatus& aStatus);
+
+	from s32stor.h
+	
+	TBool CDictionaryStore::IsNullL() const;
+
+	The first two were declared as IMPORT_C in the platform release, but
+	were not exported. The third is a new function in the header file.
+
+	If you require any of these exports you must build against this release
+	and state your dependency on STORE 043 explicitly in your release notes.
+
+	Currently there are no components which do so.
+
+3.	Removed Name builds from the BWINS project make file.
+
+4.	Added map files to MARM releaseables
+
+5.	Fixed SW3-134. Two functions in TStreamMark declared as IMPORT_C did not
+	exist. These have been correctly implemented and exported.
+
+6.	Fixed SW3-182. Added a new function
+
+	TBool IsNullL() const;
+
+	to CDictionaryStore to complement CStreamDictionary::IsNull(). This returns
+	true when the dictionary store is the null mapping:
+
+		<any uid> -> empty stream
+
+7.	Adjusted logo text in PFSDUMP "EPOC/32" -> "EPOC32", copyright date, and
+	full version number "1.00(build 043)"
+
+
+Version 0.06.042
+================
+(Made by AjThoelke, 16 April 1997)
+
+1).	Built using E32TOOLS/063, E32/098 and F32/068. ARM narrow release size
+	is 68532 bytes (67K), as reported from ROMBUILD.
+
+	Binary compatible with 041.
+	File compatible with 041.
+
+2.	MARM releasables conform to the new Uid scheme:
+		Dynamic Library : Shared Library : ESTOR
+
+	So MARM requires E32 098 for running anything other than narrow release
+	builds.
+
+3.	The suffix "Uid" has been added to the KDirectFileStoreLayout and
+	KPermanentFileStoreLayout TUid constants. Binary, but not source,
+	compatible.
+
+	const TInt KDirectFileStoreLayoutUidValue has also been added, similarly
+	for KPermanentFileStoreLayoutUidValue.
+
+4.	Added member TBool CStreamDictionary::IsNull() const
+	This returns whether a dictionary is the null mapping:
+	
+		<any uid> -> KNullStreamId
+
+	i.e. this is false if it contains a non-null mapping for at least one
+	Uid.
+
+5.	The system dictionary file store now has the politically correct name:
+	C:\System\System.ini
+
+
+Version 0.06.041
+================
+(Made by AjThoelke, 9 April 1997)
+
+1).	Built using E32TOOLS/059, E32/096 and F32/065. ARM narrow release size
+	is 68492 bytes (67K), as reported from ROMBUILD.
+
+	Binary compatible with 040.
+	File compatible with 040.
+
+2).	MARM releasables are now pre-PETRAN'd, so you can remove those UID
+	settings from your .oby and .iby files.
+
+3).	Two new static members have been added to CDictionaryFileStore:
+
+	CDictionaryFileStore* SystemL[C](RFs&)
+
+	This opens (creating if necessary) the system dictionary file (INI
+	file), and replaces the EIKON functions to do the same thing.
+
+
+Version 0.06.040
+================
+(Made by AjThoelke, 2 April 1997)
+
+1).	Built using E32TOOLS/056, E32/095 and F32/064. ARM narrow release size
+	is 68108 bytes (66.5K).
+
+	Binary compatible with 039.
+	File compatible with 039.
+
+2).	Destroying a file store resulted in a Panic if the file had previously
+	been detached, due to an attempted Flush() on an unopen file.
+
+	To fix this a kludge access to RSubSessionBase::SubSessionHandle() has
+	been made to determine if the call to flush should be made or not. This
+	now allows file stroes to be destroyed with out being attached to a
+	file.
+
+
+Version 0.06.039
+================
+(Made by AjThoelke, 27 March 1997)
+
+1).	Built using E32TOOLS/055, E32/095 and F32/063. ARM narrow release size
+	is 68096 bytes (66.5K).
+
+	Binary compatible with 038.
+	File compatible with 038.
+
+2).	Fixed bug SW-1713. CPermanentFileStore more readily discards in-memory
+	state during revert, ensuring correct re-synchronization with the file
+	later.
+
+
+Version 0.06.038
+================
+(Made by AjThoelke, 20 March 1997)
+
+1).	Built using E32TOOLS/054, E32/093 and F32/061. ARM narrow release size
+	is 68064 bytes (66.5K).
+
+	Binary compatible with 037.
+	File compatible with 037.
+
+2).	Fixed a bug where REncryptStream::AttachL[C]() and
+	RDecryptStream::AttachL[C]() were failing to release the host stream
+	if they left with an error.
+
+3).	Made the TSwizzleC<TAny>::TSwizzleC(TStreamRef) constructor public to
+	allow some clever adaptation of the TSwizzle/CStoreMap protocol for
+	ETEXT/FIELD.
+
+4).	RFileBuf::SetSizeL() only writes outstanding data which would be in
+	the file following any file truncation, rather than attempting to write
+	everything in the write buffer.
+
+
+Version 0.05.037
+================
+(Made by AjThoelke, 6 March 1997)
+
+1).	Built using E32TOOLS/051, E32/090 and F32/059. ARM narrow release size
+	is 68012 bytes (66.4K).
+
+	Binary compatible with 036.
+	Mostly file compatible with 036: streams ids in embedded stores have
+	changed.
+
+2).	Fixed a bug in embedded stores within direct-type store streams
+	(CDirectFileStore and CEmbeddedStore). Embedded stores being copied
+	directly (without restoration) where ending up corrupted.
+
+	The fix is to use beginning-relative offsets in direct store streams,
+	which affects the stream ids within these stores, so breaking any such
+	existing embedded stores.
+
+3).	CEmbeddedStore::Start() is a small additional service which returns the
+	stream position of the store within its host stream.
+
+
+Version 0.05.036
+================
+(Made by AjThoelke, 20 February 1997)
+
+1).	Built using E32TOOLS/051, E32/088 and F32/055. ARM narrow release size
+	is 68020 bytes (66.4K).
+
+	Binary compatible with 035. File compatible with 035.
+
+2).	Provided the ability to access an embedded store's underlying stream
+	buffer. This follows a similar protocol to extracting the file from
+	a file store.
+
+	CEmbeddedStore::Host() returns the stream buffer that is hosting the
+	embedded store. This can be used as desired, but the store should not be
+	used at the same time. The embedded store rerains "ownership" of the
+	stream buffer.
+
+	CEmbeddedStore::Detach() releases the store's ownership of the stream
+	buffer, the caller is then responsible for discarding the buffer.
+
+	CEmbeddedStore::Reattach(MStreamBuf*) attaches a stream buffer to the
+	store.
+
+	CEmbeddedStore::Position(TStreamId) is a static function which reports
+	the position in the host stream of a given stream id within the store.
+
+3).	This is all just convenience machinery. What really matters is the
+	following:
+
+	The layout of direct-style stores is now formally defined as:
+
+	|-header-|-root id/pos-|-stream 1-|-stream 2-|...|-stream n-|-root stream...
+
+	with stream ids having values equal to the stream's offset in the host.
+	The whole thing is open-ended; ie, nothing is known about what's after
+	the start of the root stream--except during creation, when it's assumed
+	that the end of the host is a good place to write new streams.
+
+	In the case of a direct file store, the header is a TCheckedUid::Des()
+	describing the file type. In the case of embedded stores, the header is
+	at the client's discretion--whatever is written to the stream before
+	the embedded store is constructed over it.
+
+	It follows that you can copy the whole thing by knowing the lengths
+	of header and root streams. You extract the root id/pos, go back to
+	the beginning, copy up to the start of the root and copy the root
+	stream by whatever means available to you.
+
+	A (not entirely transparent) example of this is in the TSTOR\T_EMBED
+	test program; see the testCopy() function.
+
+
+	(It also follows that direct-style stores can be put together quite
+	easily by foreign agents--probably a good thing.)
+
+
+
+Version 0.05.035
+================
+(Made by AjThoelke, 3 February 1997)
+
+1).	Built using E32TOOLS/051, E32/086 and F32/050. ARM narrow release size
+	is 67988 bytes (66.4K).
+
+	This is the B5 release. Binary compatible with 034
+
+2).	Fixed a bug of omission: build 033 claimed that the
+	CDictionaryFileStore would compact the store as part of committing it.
+	Somehow the code was lost in transit--this has been remedied.
+
+	This bug is known to crash LShell during initialisation in EIKON 156.
+	The general rule is:
+
+	*	Don't leave streams open when you commit a store, it is bad
+		programming practice.
+
+	*	Don't leave streams open when you compact a store, it will
+		refuse with KErrInUse.
+
+	The second one may cause your code to fail when working with INI
+	files because the dictionary stores now attempt to compact during
+	commit.
+
+3).	Fixed a StreamFilter bug which was claiming end-of-stream prematurely,
+	preventing the decryption filters from working correctly.
+
+	This fixes B4 problem SW-295.
+
+
+Version 0.05.034
+================
+(Made by AjThoelke, 21st January 1997)
+
+1).	Built using E32TOOLS/050, E32/085 and F32/049. ARM narrow release size
+	is 67904 bytes (66.3K).
+
+	File compatible as for 033
+	Exploring new realms of the Almost Binary Compatible(TM)
+	This release is 99% Binary-Incompatibility Free.
+
+	In particular, if your component does not depend on the header file
+	s32crypt.h it is guaranteed to be 100% binary compatible with this
+	release.
+
+	If it does depend on that header file (I'm talking to the 1% now), it
+	will be 100% binary compatible if the only class you use from that
+	header is CSecureStore. Otherwise, if your code explicitly uses any
+	of the classes TEncryptFilter, TDecryptFilter, REncryptStream and
+	RDecryptStream you will need to recompile.
+
+
+2).	Completed the encryption filters: they now use the security objects
+	to perform the data encryption and decryption. This cost a re-write of
+	the encryption filter API, and the not-quite-binary-compatiblility
+	disucssed above. All the functionality of S32crypt.h has now been
+	implemented.
+
+3). Errors which should be recoverable were causing File stores to shut
+	down completely if they came at an inoppurtune moment. This has been
+	fixed, now a failure during commit will allow the store to re-commence
+	operations following a call to Revert().
+
+
+Version 0.04.033
+================
+(Made by AjThoelke, 13th January 1997)
+
+1). Binary incompatible with 032
+	File compatible as for 031
+
+	Built using E32TOOLS/050, E32/085 and F32/049. ARM narrow release size
+	is 66968 bytes (65.4K).
+
+2).	Fixes:
+	CPermanentFileStore panic after an OOM when initialising compaction.
+
+3). Added public PushL() and Pop() members to RReadStream and RWriteStream
+	which invoke CleanupReleasePushL() on the object. This saves some code
+	in STORE.
+
+	Similarly added a public PushL() member to MStreamBuf
+
+4). From Ian Hutton.
+
+	CDictionaryFileStore now deals properly with access contentions when
+	acquiring the file and race conditions when creating and constructing
+	the file. It will retry several times to open the file if it discovers
+	that it is in use, waiting briefly between attempts.
+
+	Commiting the CDictionaryFileStore now has the effect of also
+	compacting it.
+
+5). Secure Store API changes.
+
+	Following on from the changes to the encryption API in E32;
+	CSecureStore now takes a const CSecurityBase& on construction, and
+	uses it to construct encryption and decryption objects as required for
+	the store.
+
+	The stand-alone REncryptStream and RDecryptStream API has changed:
+	The Open and Attach members can now leave, so the constructor version
+	has been dropped, and LC variants have also been supplied. The last
+	parameter of these is passed on to the CSecurityBase::NewEncryptL and
+	NewDecryptL members.
+
+	NOTE: The implementation of the encryption and decryption filters does
+	not yet use the security base components, but the API is complete.
+
+
+Version 0.04.032
+================
+(Made by AjThoelke, 10th December 1996)
+
+1).	Binary compatible with 031.
+	File compatibility as for 031.
+
+	Built using E32TOOLS/048, E32/078 and F32/044. ARM narrow release size
+	is 66932 bytes (65.4K).
+
+From Ian:
+
+2).	RDictionaryReadStream::OpenLC() and RDictionaryWriteStream::AssignLC()
+	were using the cleanup stack incorrectly. This has been fixed.
+
+
+Version 0.04.031
+================
+(Made by AjThoelke, 4 December 1996)
+
+1). Binary compatible with 030.
+	File compatibility as for 030.
+
+	Built using E32TOOLS/048, E32/075 and F32/042. ARM narrow release size
+	is 66892 bytes (65.3K).
+
+2).	Minor version number set to 4 (this is the B4 release)
+
+3).	By popular demand, the Debug build info-print on Leaving has been
+	disabled.
+
+4).	Fixed a data-losing read ahead bug in RFileBuf (spotted by DBMS).
+
+
+Version 0.01.030
+================
+(Made by Geert, 30 November 1996)
+
+1). Largely source compatible with 028-029. Binary incompatible.
+	File compatibility as for 029.
+
+	Built using E32TOOLS/048, E32/075 and F32/042. ARM narrow release size
+	is 66812 bytes (65.2K).
+
+2). CEmbeddedStore now takes ownership of the stream passed into it on
+	construction. Before, the client was responsible for closing the stream.
+
+	Ownership transfers on entry of CEmbeddedStore::FromL[C]() or NewL[C](),
+	and the incoming stream parameter is cleared.
+
+3). There is no longer any attempt to commit automatically in destructors.
+	For CEmbeddedStore, this makes no sense when the object is on the cleanup
+	stack, where cleanup would cause the partially written stream hosting the
+	embedded store to be committed, outside clients' control.
+
+	Also, while transaction-capable stores such as CPermanentFileStore rarely
+	exist on the cleanup stack for very long, a similar argument applies.
+	Transactions serve to take persistent data from one consistent state to
+	another, with no in-between states.
+	Clients mark their confidence in the integrity of the data by committing
+	at certain, carefully chosen points. Having the destruction of the store
+	object make up their minds for them as to the data's integrity is
+	courting disaster.
+
+	One knock-on effect is that a permanent file store will remain empty until
+	explicitly committed. Before you could get away with not committing in
+	non-production code since the destructor would have kicked in.
+	This is no longer the case.
+
+4). For efficiency reasons, cleanup stack-related services have changed. The
+	new services consist of static template classes CleanupDelete<T>,
+	CleanupClose<T> and CleanupRelease<T>, which have appropriate PushL()
+	members.
+	Template functions CleanupDeletePushL(), CleanupClosePushL() and
+	CleanupReleasePushL() choose the right class based on the type of their
+	argument.
+
+	You now write
+
+	RFile& aFile;
+	CleanupClosePushL(aFile);
+
+	where before you would have written
+
+	CleanupStack::PushL(CleanupClose(aFile));
+
+	This change works around GCC limitations to do with temporaries of
+	user-defined types, shaving nearly 0.5K off STORE.
+
+5). Andrew has implemented delimited read functionality for text which was
+	added to RReadStream as RReadStream::ReadL(TDes8&,TChar) and
+	ReadL(TDes16&,TChar). These read from the stream until either the
+	delimiting character is found or the descriptor is full.
+	The delimiter is copied into the target descriptor along with the rest of
+	the data. As ever, it's the client's responsibility to ensure that things
+	are delimited properly, and it is therefore a leaving offence (KErrEof)
+	to run out stream prematurely.
+
+6). Added support for .ini file like stores, courtesy of Ian. See Ian's notes
+	below for more info.
+
+7). New header <s32crypt.h> adds encryption and decryption facilities. Their
+	implementation is strictly a mock-up, since the CSecurityBase services
+	they rely on require some work. The APIs are liable to change somewhat as
+	a result.
+
+	The basic idea is that a hash derived from the user's password is stored
+	with the encrypted data. Setting a password is done using function
+	CSecurityBase::SetL(), after which the data to be stored can be extracted
+	using CSecurityBase::SecurityData(). This can later be used to restore a
+	security object to this state.
+
+	Encryption/decryption is enabled using function CSecurityBase::PrepareL(),
+	taking a password and validating it against the stored security data. Thus
+	primed, the object can be used with STORE encryption services.
+
+	RDecryptStream is a concrete read stream installing a decryption filter
+	over an established read stream. It can be set up to take ownership of the
+	source stream using RDecryptStream::Attach(RReadStream&,CSecurityBase&) or
+	the equivalent constructor, or just to use it using Open().
+	REncryptStream is the equivalent write stream.
+
+	Because of the slight data expansion due to padding in most strong
+	encryption algorithms, it does not normally make sense to use the host
+	stream any further after the filter is removed, as on read its stream
+	position would not have been moved past an unknown amount of padding.
+	In most cases you will want to pass ownership of the host stream to the
+	filtering stream.
+
+	CSecureStore is a concrete stream store constructed over a host store
+	and putting a decryption or encryption filter over its streams as they are
+	accessed through the secure store adaptor.
+
+	Store-aware components can be passed a CSecureStore and remain oblivious as
+	to the encryption of the streams they are accessing.
+	It implements only those services required by store-aware components written
+	to run against a common-denominator store.
+
+	CSecureStore never takes ownership of the host store.
+
+8). CXxxFileStore::NewL[C]() has changed to conform to Arwel's SDK
+	documentation. Before it required the incoming file to be empty, with all
+	sorts of niggling little problems. Now an incoming file is simply emptied.
+
+9). KErrDoesNotExist changed to KErrNotFound throughout.
+
+10).Debug mode STORE now sends diagnostic messages to the notifier via
+	User::InfoPrint(). The effect is dependent on the notifier server you're
+	running, but only 'hard' failures should cause these messages to be sent.
+
+	Please let us know if this gets in anybody's way.
+
+11).Direct file stores no longer mark the start of streams with "Stream" in
+	debug mode.
+	Use permanent file stores and the PFSDUMP utility to examine streams.
+	
+12).MStreamInChan and MStreamOutChan were renamed MStreamInput and
+	MStreamOutput, reasoning that they are after all just intelligent I/O
+	buffers, interacting with a stream in more interesting ways than a lifeless
+	piece of memory can. No need to use arcane O/S terminology.
+	
+13).Filter framework tweaked slightly. Data can now only ever be moved
+	through a filter forcibly when the filter is part of a write stream, by
+	using CommitL(). On read, if there isn't enough data left in the source
+	stream to move through the filter will stall, resulting in premature
+	end-of-stream.
+
+NOTES
+=====
+
+//// CDictionaryStore ////
+
+A dictionary store is similar to a stream store in that it contains streams,
+but the streams in a dictionary store are accessed by uid instead of by stream
+id. CDictionaryStore does not inherit from CStreamStore or any of it's
+children, though it does privately own a Persistent store.
+
+CDictionaryStore, defined in <s32stor.h>, is a base class that defines the
+api for all dictionary stores, but that is independent of the type of store
+actually used to implement it.
+
+class CDictionaryStore : public CBase
+	{
+public:
+	void Remove(TUid aUid);
+	void RemoveL(TUid aUid);
+	TBool IsPresentL(TUid aUid) const;
+	//
+	TInt Commit();
+	void CommitL();
+	void Revert();
+	void RevertL();
+	};
+
+Streams may be removed by uid using the Remove[L]() methods. If the stream
+exists it will be deleted, otherwise calling this method will have no effect.
+IsPresentL() will return true if a stream with a given uid exists in the store.
+
+Commit() and Revert() have the same effect as on any CStreamStore derived
+class. After making changes to the store (ie writing or removing one or more
+streams) Commit() must be called before closing the store to persist all the
+changes made. Failure to commit() may cause loss of data! Calling Revert() has
+the effect of returning the store to the state it was in after the last
+Commit() (or when it was opened, if no commit has been made).
+
+//// CDictionaryFileStore ////
+
+CDictionaryFileStore, defined in <s32file.h>, is a particular implementation
+of CDictionaryStore based around a permanent file store. This class is
+suitable for use as an ini file etc.
+
+class CDictionaryFileStore : public CDictionaryStore
+	{
+public:
+	static CDictionaryFileStore* OpenL(RFs& aFs,const TDesC& aName,TUid aUid3);
+	static CDictionaryFileStore* OpenLC(RFs& aFs,const TDesC& aName,TUid aUid3);
+	};
+
+OpenL[C]() should be called to open a dictionary file or to create a new one.
+"aName" is understood to be the full path of the file, and "aUid3" should be
+the third uid of the file (used for type checking). Passing in KNullUid is
+illegal and will result in a panic.
+
+OpenL[C]() will attempt to open aName if it exists. If no file matches that
+path then a new file aName is created and its third uid is set to aUid3.
+If aFile exists but the uid's do not match then OpenL[C]() leaves KErrCorrupt
+(awaiting a better error...).
+
+//// RDictionaryReadStream ////
+
+Instances of RDictionaryReadStream, defined in <s32stor.h>, are used to read
+data from the dictionary store. They act in a similar way to other RReadStreams.
+
+class RDictionaryReadStream : public RReadStream
+	{
+public:
+	void OpenL(const CDictionaryStore& aDictStore,TUid aUid);
+	void OpenLC(const CDictionaryStore& aDictStore,TUid aUid);
+	};
+
+OpenL[C]() should be called to ready a stream for reading, passing in an open
+dictionary store and the uid of the stream required. If this stream exists in
+the store it is opened, otherwise an empty stream is opened. Reading from an
+empty stream will result in an immediate leave KErrEof. All of RReadStream's
+reading methods are supported.
+
+//// RDictionaryWriteStream ////
+
+Instances of RDictionaryWriteStream, defined in <s32stor.h>, are used to write
+data to a dictionary store. They act in a similar way to other RWriteStreams.
+
+class RDictionaryWriteStream : public RWriteStream
+	{
+public:
+	void AssignL(CDictionaryStore& aDictStore,TUid aUid);
+	void AssignLC(CDictionaryStore& aDictStore,TUid aUid);
+	};
+
+AssignL[C]() should be called to ready a stream in a aDictStore for writing.
+If a stream matching aUid exists in the store then it is replaced, otherwise
+a new stream is created. After writing, a stream should always be Commit()'ed,
+otherwise all data will be lost. All of RWriteStream's write methods are
+supported.
+
+//// Usage of dictionary stores ////
+
+CDictionaryStore derived classes are designed to be temporary objects.
+A dictionary store should be opened, a read/write performed as required, and
+the store should then be closed and destroyed. Keeping a dictionary store open
+for longer than is necessary will stop other people being able to access it
+--this can be a problem if the store is eg. the system ini file.
+
+Version 0.01.029
+================
+(Made by Geert, 5 November 1996)
+
+1). Binary compatible with 028. Generally file compatible with 027 and 028.
+	(Reads 025 files or newer.) However, compaction--see below--may result in
+	files incompatible with any prior release.
+
+	Uses E32TOOLS/046, E32/072 and F32/038. ARM narrow release DLL 62972
+	bytes (61.5K), up 7.6% due to compaction.
+
+2). Permanent file store compaction is now functional--if not tested to the
+	usual high standard. ;-)
+
+	Running compaction unearthed a FAT file system defect which Jal claims
+	affects both internal drive and CF-card, but which we've only seen on the
+	RAM drive. The effect is STORE reporting random file corruption.
+	(Most likely KErrCorrupt, but might come out as KErrNotSupported or others
+	of that ilk.) Hopefully a fix will be available soon.
+
+	Background compaction should be operational but remains to be tested.
+	Compaction and normal store access interact in that changing and
+	committing the store will cause the current compaction pass to be
+	abandoned. (The compactor returns KErrNotReady thereafter.) Also,
+	compaction steps which physically move a stream fail to do so if any stream
+	is open at the time (KErrInUse). In the former case, the compactor can be
+	reset to start a new pass; in the latter, things pick up again when the
+	offending streams are closed.
+
+	Note that running the compaction process in itself does not cause the file
+	to shrink; you'll need to commit the store for that to happen. If the
+	store was undergoing changes whilst being compacted the file may not be
+	truncated even then. However, streams will have been moved down the file
+	and subsequent compactions will have less work to do.
+
+3). PFSDUMP can now be made to produce output for 'logical' comparison of two
+	stores; ie, without file offsets and the like. (-c switch)
+
+4). When ownership of a file handle passes into STORE, the incoming handle is
+	now cleared. This allows those handles to be on the cleanup stack as they
+	are passed in and is generally slightly safer. Of course this change
+	breaks code relying on the handle remaining valid after it was passed in.
+
+5). In a future release, CEmbeddedStore will be changed so that it takes
+	ownership of the stream passed in on instantiation. The incoming stream
+	will be cleared much like file handles are now.
+
+	The original spec of several embedded stores, one after the other, sharing
+	a stream would be abandoned. As far as I can tell, there's no real
+	requirement for this, and it results in more code, both within STORE and
+	for the client.
+
+	The change was originally earmarked for this release but backed out
+	because it would have compromised binary compatibility. If you can think
+	of a problem with this new, simplified spec, please let me know as soon
+	as possible.
+
+Version 0.01.028
+================
+(Made by Geert, 28 October 1996)
+
+1). Not binary compatible with any previous releases. Reads 025 files or
+	newer, writes files compatible with 027.
+
+	Uses E32TOOLS/045, E32/072 and F32/038. ARM narrow release DLL is 58508
+	bytes. (57.1K)
+
+2). Implemented type-safe linkage for MARM builds. STORE's uid3 is 0x100000CF.
+
+3). CPermanentFileStore reclamation is now operational. In the context of
+	permanent file stores, reclamation simply reports free space, as
+	compaction is the only way a permanent file store can make space
+	available for reuse.
+
+	Compaction is not yet available. For the time being, the relevant services
+	have the same effect as reclamation. Client code for compaction can be
+	written and run, but do bear in mind that having a stream open causes
+	compaction to stall, whereas it has no effect on reclamation.
+
+	Reclamation runs in time roughly proportional to the number of streams in
+	the store, and is generally blindingly fast. (<0.4s for a 500 stream
+	store, with some file seeking optimisation yet to come.)
+
+	Committing the store, or compacting it during reclamation causes the
+	reclamation process to be aborted.
+
+4). During implementation of permanent file store reclamation, the non-leaving
+	status of Reset() proved to be untenable.
+
+	Changed to RStoreReclaim::ResetL().
+
+Version 0.01.027
+================
+(Made by Geert, 23 October 1996)
+
+1). Binary compatible with 024 and newer. Files produced by 027 may not be
+	readable by older releases. (See point 6 below.) However, this release
+	reads all files produced by 025 or newer.
+
+	Uses E32TOOLS/045, E32/071 and F32/037. ARM narrow release DLL is 56632
+	bytes. (55.3K)
+
+2). At MartinB's request, split <s32stor.h> in two, resulting in new header
+	<s32std.h>. This header publishes most commonly used data types, including
+	everything a STORE-aware component might need to store and restore itself.
+	<s32std.h> pulls in some 1150 lines less than does <s32stor.h>, which is
+	quite nice but not terribly significant given that <e32base.h> accounts
+	for nearly 6000 lines--3/4 of <s32stor.h>...
+
+	Note that <s32std.h> declares CStreamStore but does *not* define it.
+
+3). Added CStreamDictionary, previously featured in APPARCH, making this
+	release incompatible with APPARCH 016 and 017.
+
+4). Thanks to Andrew, STORE now comes with its own set of tools.
+	(well, just the one, currently ;-)
+	They live in new release component TOOLS. MNT getrel fetches this into
+	your \Epoc32\Tools directory.
+
+	PFSDUMP analyses permanent file stores. See the notes at the bottom for a
+	'read me' file on its operation.
+
+5). F32's new 'set error condition' functionality (037) can be used to
+	simulate failures. Used without a client-side buffer, the combination of
+	file server and allocation failure simulation makes it possible to cause
+	the failure of virtually everything in STORE that has the potential to
+	fail.
+
+	Disabling the client side buffer is done through CFileStore::Reset(0).
+	(or RFileBuf::Reset(0)) See earlier release notes for Reset()
+	documentation.
+
+	Let me hear no more of a 'store failure tool'. (You know who you are.)
+
+6). Added user-defined type TCardinality, a type which converts to TInt and
+	back. It has chevrons that compress small values down to take up less
+	space. (1 byte for 0-127, 2 bytes for 128-16383, 4 bytes otherwise.)
+
+	The range of TCardinality is 0 to KMaxCardinality. (2^29-1)
+
+	Used TCardinality to stream the counts of arrays and buffers, as well as
+	descriptor headers. Descriptors of up to 63 in length now take only a
+	single byte for their length count.
+
+7). Fixed bugs reported by Bruce, MartinH and Duncan.
+
+NOTES
+=====
+
+Permanent File Store Dump Utility
+
+This tool can dump the contents of a permanent file store in terms of the
+streams it contains. So it can help in analysing stream usage, as well as
+debugging use of the store and stream structure. It has no knowledge of the
+internal structure of streams. It cannot know how the streams reference each
+other, so it cannot inform you of "stream heaven" or dangling stream
+references.
+
+A default invocation of the utility will generate output something like:
+
+> D:\epoc32\wins\c\dbms-tst__on>pfsdump t_window.db
+>
+> EPOC/32 PermanentFileStore Dump Utility   Version 00.01(build 027)
+> Copyright (c) Symbian Ltd. 1996
+>
+> Dumping t_window.db
+>
+> Toc at 9a3[9c3] with 6 entries: 6 allocated, 0 free
+> root is 000002:0
+>
+> Stream 000001:0 at 998[9b8], 9 bytes
+> Stream 000002:0 at 63c[65c], 73 bytes
+> Stream 000003:0 at 956[976], 64 bytes
+> Stream 000004:0 at 931[951], 16 bytes
+> Stream 000005:0 at 943[963], 17 bytes
+> Stream 000006:0 at 427[447], 512 bytes
+
+"Toc" is the table-of-contents. All locations in the file are given in the
+format <streampos>[<file offset>] in hexadecimal. The number of entries in the
+Toc is the maximum number of stream IDs that existed concurrently in the store.
+The number allocated is the number of streams currently in the store.
+
+Stream IDs are always represented as <index>:<generation>, where index is a 6
+digit hexadecimal value and generation is a single hex digit. The TStreamId is
+calculated by reversing the order, e.g. stream 000004:3 has a TStreamId value
+of 0x3000004. The generation number is incremented every time a toc entry is
+recycled for a new stream.
+
+Every stream in the store is listed, along with its location and its length.
+If the -v option is specified, the contents of the stream will be dumped for
+each stream.
+
+If a store has not been compacted, it is possible to view the history of the
+store using the -r<n> option, which dumps the nth previous revision
+(commit point) of the store. The default is -r0, i.e. the last commit on the
+store, -r1 will show the contents after the previous commit in the store, etc.,
+thus making the entire history of the store available. (This does not work
+for streams that have been re-written in place.)
+Following compaction, some or all of previous revisions may be lost or corrupt.
+
+If you get any errors reported when running PFSDUMP, let us know!
+
+Version 0.01.026
+================
+(Made by Geert, 8 October 1996)
+
+1). Compatible with 025 in every conceivable sense of the word; merely
+	binary compatible with 024.
+
+	Built against E32TOOLS/045, E32/070 and F32/036. ARM narrow release
+	build is 55264 bytes. (54.0K)
+
+2). KNullStreamId now officially denotes a stream that is guaranteed not to
+	exist. Accordingly, using it to open a stream and so on results in
+	KErrDoesNotExist. (Earlier releases were liable to panic, which Jezar
+	convinced me wasn't the right thing to do.)
+
+3). Up to 025, CPermanentFileStore held its entire 'table of contents' in
+	memory, at a cost of a whopping 12 bytes per stream in existence.
+	This release uses a little cache, the bulk of the toc is left in the file.
+	On the other hand, every stream touched by the current, uncommitted
+	transaction needs 8 bytes; ie, the amount of work done in a single
+	transaction is constrained by available memory.
+
+	I don't expect a very noticeable performance impact, which is borne out
+	by STORE and DBMS test code. If you do spot things taking significantly
+	longer please let me know.
+
+4). Fixed permanent file store bug sometimes failing to truncate the file
+	properly, leading to corruption and/or panics.
+	Bruce found another nasty to do with accessing different versions of a
+	stream being replaced. Fixed.
+
+Version 0.01.025
+================
+(Made by Geert, 3 October 1996)
+
+1). Binary compatible with 024. File formats, however, are *not* compatible.
+	See below for details.
+
+	Built using E32TOOLS/042, E32/069 and F32/035. 53804 bytes--52.5K
+	(ARM 8-bit release).
+
+2). Changed the external representation of descriptors, buffers (CBufXxx)
+	and arrays (CArrayFixXxx) to enable their headers to be compressed.
+	Whilst the compression doesn't currently happen, headers written by this
+	release will be able to be read by future releases.
+
+	In general, this is the last release to break the file format. All future
+	releases of STORE will read files written by 025. Of course this guarantee
+	does not necessarily extend to downstream components.
+
+	*WARNING*: Any attempt to read old files with streamed descriptors,
+	buffers or arrays in them is likely to result in KErrCorrupt errors. In
+	practice this means *all* old files are unusable. Specifically, you'll
+	need new font files to be able to run with STORE 025. Compatible fonts
+	will be released shortly.
+
+3). Removed differences between release and debug build permanent file store
+	format.
+
+4). Renamed RFileBuf::Set(TInt aSize) to Reset(), and added
+	CFileStore::Reset(TInt aSize). This change enables the use of a custom
+	buffer. The effect of a bigger buffer would be most noticeable when large
+	quantities of data are written in small chunks. When making large requests,
+	or when reading, a bigger than default buffer is a waste of space.
+
+	To reiterate, CFileStore::Reset() must only be used when the buffer is
+	guaranteed to contain no outstanding write data. This is the case after
+	opening a file (*not* after creation); after a *succesful* commit; or
+	after reverting, whether successful or not.
+
+5). Fixed a permanent file store bug which would cause empty streams to panic
+	on commit in certain circumstances. Also fixed a replace defect, where
+	closing a prior version of a stream after the new one had been committed
+	would blow up. Both problems reported by Bruce.
+
+6). Fixed bug where inserting into a B-tree could write a new entry outside
+	its target node, causing random memory corruption. (Andrew)
+	Reported by MartinD.
+
+7). TBtree::MarkBroken() would happily mark an empty B-tree as broken--empty
+	B-trees are inherently unbreakable. You'll have to recompile to get this
+	fix, as it's an inline function.
+
+Version 0.01.024
+================
+(Made by Geert, 27 September 1996)
+
+1). This release is not compatible with anything that went before.
+	
+	Given the E32/069, F32/035 situation, attempting binary compatibility
+	would have been a pointless exercise. Just as well, really, it would have
+	been a bit shaky in places.
+
+	Uses E32TOOLS/042, E32/069 and F32/035, ARM 8-bit release is 53560 bytes.
+	(52.3K)
+
+2). Added TPoint, TSize and TRect chevrons, courtesy of Ian. He's promised to
+	do some test code as well at some point. Until then: caveat emptor--this
+	product may not be fit for any purpose whatsoever.
+
+3). From Andrew:
+
+	- Fixed KEmptyBtreeToken.
+
+	- Implemented broken B-tree handling. Broken B-trees can be repaired,
+	cleared and walked using a TBtreeMark. Any attempt at other operations
+	results in KErrCorrupt.
+
+	- When inserting in order, a B-tree's index set will now be completely
+	filled--a repaired B-tree will end up having the smallest possible index
+	set.
+
+	- RStorePagePool is now fully implemented, including the reclaimable page
+	allocator.
+
+4). Added RFileBuf::SetSizeL(), improved read buffering and reduced the number
+	of calls to RFile::Size() being made.
+
+	KDefaultFileBuffer is back to being called KDefaultFileBufSize, currently
+	defined as 0x600 (1.5K)--now really the size used. Withdrew
+	RFileBuf::Buffer(), previously known as Size().
+
+5). Added KEmptyPagedSetToken and TPagedSetToken::Count().
+
+Version 0.01.023
+================
+(Made by Geert, 23 September 1996)
+
+1). Candidate final API release. Unless some of the new stuff turns out to be
+	seriously broken the interface will not change again. Tweaked a thing or
+	two where I thought living with their previous state would be too
+	terrible, but for the most part changes in this release are additions.
+
+	Built against E32TOOLS/041, E32/067 and F32/033. ARM 8-bit release size is
+	51484--50.3K, down 13% due to omissions and the withdrawal of
+	CFragmentFileStore.
+
+2). Naturally, <s32exp.h>, the 'experimental' header, is no more.
+	Huffman encoding--<s32huf.h>--has also been withdrawn, possibly temporarily.
+
+3). RXxxStreams can no longer be pushed onto the cleanup stack directly,
+	they've lost their implicit conversion to TCleanupItem. All the OpenLC()s
+	etc remain, however, so this is unlikely to affect existing code.
+
+	<s32strm.h> features new TCleanupDelete<T>, TCleanupClose<T> and
+	TCleanupRelease<T> templates, derived from TCleanupItem, which can be used
+	instead. These are returned from template functions
+	CleanupDelete(T* aPtr), CleanupClose(T& aRef) and CleanupRelease(T& aRef).
+	Pushing their return values onto the cleanup stack causes their arguments
+	to be deleted, Close()d or Release()d on cleanup.
+
+	All stream-related XxxLC() member functions use CleanupRelease().
+
+4). Withdrew RStoreXxxStream::StoreL[C]() in favour of a new, public
+	CEmbeddedStore class. It features FromL[C](RReadStream& aStream) and
+	NewL[C](RWriteStream& aStream) static factory functions, making it
+	altogether more flexible than a scheme where the type of store to use is
+	wired into RStoreXxxStream.
+
+	You now write
+
+		RStoreReadStream stream;
+		CPersistentStore* store=CEmbeddedStore::FromLC(stream);
+		...
+		RStoreWriteStream stream;
+		CPersistentStore* store=CEmbeddedStore::NewLC(stream);
+
+	where previously you would have written
+
+		RStoreReadStream stream;
+		CPersistentStore* store=stream.StoreLC();
+		...
+		RStoreWriteStream stream;
+		CPersistentStore* store=stream.StoreLC();
+
+5). Revamped the various seek interfaces. MStreamBuf and TStreamMark acquire
+	TellL() const functions, returning the current position of the relevant
+	mark as a TStreamPos. MStreamBuf and TStreamExchange also feature SizeL()
+	const functions returning the size of a stream--the offset of the stream
+	end. Withdrew variants of SeekL() taking just a mark, as they are rendered
+	obsolete by the inclusion of TellL().
+
+6.) Renamed RFileBuf::Size() to Buffer(), and KDefaultFileBufSize to
+	KDefaultFileBuffer, so as not to conflict with the notion of stream size
+	thus introduced.
+
+	KDefaultFileBuffer is now advertised as 4K. This is not in fact the value
+	used internally as RFileBuf's read buffering strategy needs to be altered
+	to avoid spending too much effort reading data which won't be required by
+	the client. 4K may not be the final value, either. Ultimately, the choice
+	needs to be made on the basis of performance measurements.
+
+7). With CPermanentFileStore, and, in general, any CStreamStore implementation
+	providing full transaction support, the effect of certain stream
+	operations is delayed until the affected streams are committed.
+
+	A stream created using RStoreWriteStream::CreateL[C]() does not come into
+	existence until RWriteStream::Commit[L]() is first called and completes
+	succesfully. (RWriteStream::Close() attempts an implicit commit,
+	RWriteStream::Release() doesn't.) Until that time, attempting to open the
+	stream using the id returned from CreateL[C]() will result in
+	KErrDoesNotExist.
+
+	Similarly, people opening a stream which is being ReplaceL[C]()d but has
+	not yet been committed see the stream's original contents.
+
+8). Added CStreamStore space reclamation and compaction services. Single shot
+	(long-running) as well as incremental services are provided.
+	In general, space reclamation makes free space available for reuse within
+	the store, whereas compaction attempts to return as much space as possible
+	to the global system pool; ie, to the filing system in the case of
+	file-based stores.
+
+	CStreamStore::ReclaimL() and CompactL() perform an entire reclamation or
+	compacting reclamation pass in one call. They may take an extended time to
+	complete. Both return the amount of free space in the store on completion.
+
+	Use RStoreReclaim to reclaim space incrementally.
+	RStoreReclaim::OpenL[C](CStreamStore& aStore,TInt& aCount) sets one up for
+	incremental reclamation, whereas CompactL[C]() initiates compacting
+	reclamation. Both return an estimate of the effort involved in aCount,
+	which should be used to set a control variable passed into subsequent
+	Next[L]() calls. This variable may only be changed by Next[L](), which
+	decrements it by an unspecified amount on each call. The process finishes
+	when the variable is set to 0. Next[L]() should not be called again after
+	that.
+
+	Four variants of Next[L]() are provided: synchronous leaving (1);
+	asynchronous with guaranteed completion (2); asynchronous, initiation
+	leaving (3); and synchronous returning error code (4).
+
+	(1) void NextL(TInt& aStep): Performs a reclamation step synchronously,
+	leaving on failure.
+
+	(2) void Next(TPckgBuf<TInt>& aStep,TRequestStatus& aStatus): Performs a
+	reclamation step asynchronously with guaranteed completion; ie, for every
+	call of Next(), an asynchronous request will be initiated--and
+	eventually complete. Correct asynchronous request protocol is simply a
+	matter of balancing waits with Next() calls. Problems are reported
+	exclusively through aStatus. (Equivalent to p_ioc() in PLIB speak.) As far
+	as I'm aware, asynchronous requests in EPOC/32 are all of this nature.
+
+	(3) void NextL(TPckgBuf<TInt>& aStep,TRequestStatus& aStatus): Performs an
+	asynchronous reclamation step. The initiation phase may leave in which
+	case no request will have been started. (A leaving p_ioa(), if you like.)
+
+	(4) TInt Next(TInt& aStep): Performs a reclamation step synchronously,
+	reporting errors through its return value.
+
+	Leaving variants are generally cheaper in that they do not require a trap
+	harness.
+
+	At any time during reclamation, RStoreReclaim::Available() returns a
+	running total of free space discovered so far. This may decrease during
+	compacting reclamation as space is returned to the system.
+
+	RStoreReclaim::Close() and Release() serve their usual purpose of
+	releasing resources. They can be called at any time, abandoning any
+	reclamation in progress. Reset(TInt& aCount) can be used to restart the
+	process at any time.
+
+	This release implements neither reclamation nor compaction.
+	Both will be supported by CPermanentFileStore in a future release.
+
+9). Added asynchronous transfer services to the MStreamBuf interface.
+	Guaranteed completion variants (1) are provided as well as ones that may
+	leave during initiation (2).
+
+	(1) Report errors through request completion exclusively:
+
+	TInt Read(TDes8& aDes,TRequestStatus& aStatus);
+	TInt Read(TDes8& aDes,TInt aMaxLength,TRequestStatus& aStatus);
+	TInt Write(const TDesC8& aDes,TRequestStatus& aStatus);
+	TInt Write(const TDesC8& aDes,TInt aMaxLength,TRequestStatus& aStatus);
+
+	(2) Won't have started a request in case of initiation failure:
+
+	TInt ReadL(TDes8& aDes,TRequestStatus& aStatus);
+	TInt ReadL(TDes8& aDes,TInt aMaxLength,TRequestStatus& aStatus);
+	TInt WriteL(const TDesC8& aDes,TRequestStatus& aStatus);
+	TInt WriteL(const TDesC8& aDes,TInt aMaxLength,TRequestStatus& aStatus);
+
+	In all cases, aMaxLength serves to override the descriptor as usual.
+	During initiation, an implementation determines the maximum request it can
+	undertake in the circumstances, which value is returned as the result of
+	the initiation function.
+
+	Note that the number of asynchronous channels available may be severely
+	limited. For instance, streams open on a file store can have have just one
+	pending read and one pending write between them. (Well, they could if
+	RFileBuf implemented the interface, which it doesn't.)
+
+10).Added functions HasAvailable() and IsEmpty() to TStorePagePoolToken.
+	Renamed RStorePagePool::Available() to HasAvailable() and added IsEmpty()
+	member. Introduced KEmptyPagePoolToken, a constant token representing an
+	empty--newly created or fully reclaimed--page pool.
+
+11).Added functions IsBroken(), IsIntact() and IsEmpty() to TBtreeToken, and
+	therefore indirectly to TPagedSetToken. The new constant KEmptyBtreeToken
+	represents the token of an empty B-tree.
+
+12).Various semi-internal changes, including:
+
+	- Withdrew CStreamStore::DoAppendL(). RStoreWriteStream::AppendL[C]() just
+	seeks to the end of an OpenL[C]()ed stream.
+
+	- Added virtual functions CStreamStore::DoReclaimL() and DoCompactL(), and
+	abstract interface MIncrementalCollector to implement space reclamation.
+
+	- Changed TStreamBuf::UnderflowL() to enable more sophisticated read
+	buffering. Withdrew MovePtr() and renamed Left() to Avail().
+
+	- Brought TStreamFilter's state flags in line with current concrete stream
+	buffer practice.
+
+Version 0.01.022
+================
+(Made by Geert, 18 September 1996)
+
+1). A new concept in compatiblity: this release is *binary compatible* but not
+	source compatible with STORE 021. There are some incompatible file format
+	changes as well. See below for details.
+
+	Uses E32TOOLS/041, E32/067, F32/033 or compatible. The ARM release DLL
+	(8 bit) weighs in at 59040 bytes (57.7K).
+
+2). Withdrew or inlined several ctors and dtors, where those members were only
+	required to work around past limitations of gcc.
+
+3). CFragmentFileStore and related bits and pieces are no longer in the public
+	interface, although the DLL continues to export them for compatibility
+	reasons. The next release will omit fragment file stores altogether.
+
+4). CPermanentFileStore's file format has changed and it will fail to open
+	021-generated files.
+
+5). Generally made permanent file stores more robust; eg, files will now
+	survive having an uncommitted stream written to them.
+	CStreamStore::RevertL() will do the right thing as well.
+
+6). Due to efficiency considerations, CPermanentFileStore's stream id
+	allocation scheme has changed significantly.
+
+	Stream ids are now recycled, in some cases fairly rapidly. The upshot is
+	that some bad references may go undetected by the store. However, for
+	every stream id in use 15 others are known to be invalid, so there's generally
+	a better than 90% chance of referential integrity problems being caught.
+
+	The worst case is when a stream is deleted and replaced by a newly created
+	one repeatedly. 16 iterations of this and the initial id will come up
+	again. Also, after rollback--CStreamStore::RevertL()--an identical pattern of
+	allocations and deallocations will yield identical numbers.
+
+	A CPermanentFileStore can hold up to 16M streams concurrently.
+
+7). The good news is that this scheme gives the best possible stream lookup
+	performance, for little space overhead. Per-stream overhead is 7 bytes.
+
+	The size of a fully compact permanent file store is now, and for all time
+	32+(12+7*#streams+payload)*(16K+2)/16K
+
+	(The tacked-on factor represents a bulk data overhead of 0.012%.)
+
+	Note that there may be some unused space in a file that in-place
+	compaction cannot recover.
+	
+8). MStreamUpdate had become surplus to requirements due to internal
+	CPermanentFileStore changes and has been withdrawn.
+
+Version 0.01.021
+================
+(Made by Geert, 1 September 1996)
+
+1). This is the B1-Day API freeze release. Whilst not binary compatible with
+	020, it preserves source compatibility with mainstream client code; ie,
+	for the vast majority of clients, recompilation should suffice.
+
+	Built using on E32TOOLS/039, E32/066 and F32/031. The 8-bit ARM release
+	DLL is 60192 bytes, or 58.8K.
+
+2). CPermanentFileStore is now fully functional. Fixed one or two seek bugs
+	reported by Andrew wearing his DBMS hat.
+
+	*WARNING*: Do not use a debug-build CPermanentFileStore for anything but
+	the shortest-running tests. In debug mode, various internal parameters are
+	set to maximise our chances of catching bugs in code that would normally
+	run very rarely. As a result, permanent file stores are at least an order
+	of magnitude slower in debug mode.
+
+	Neither build can read the other's files.
+
+3). Fixed MNT getrel verb.
+
+4). Miscellaneous API changes (which shouldn't affect existing clients):
+
+	- Adopted Release() as a counterpart to Close(). Where Close() will
+	attempt to bring things to a successful conclusion, flushing buffers and
+	the like, Release() backs out without any such attempt. Release() is
+	generally more suitable as a cleanup action. Introduced the new functions
+	where required, most notably in RReadStream and RWriteStream, which
+	acquire Release() functions. RReadStream::Close() and Release() are
+	synonymous.
+	Streams are released rather than closed on cleanup.
+
+	- Withdrew all heap-based MStreamBuf subclasses from the public interface
+	as too trivial to be worth reusing. HBufBuf, HShareBuf, HHufEncodeFilter
+	and HHufDecodeFilter are no more. As a result, public headers are once
+	again free of gcc warnings.
+
+	- Replaced RFileBuf's Seize() member with a mechanism private to STORE.
+
+	The remaining changes are aimed at making B-trees safer in the face of
+	failures. Used in conjunction with STORE's transaction feature, there is
+	no reason why B-trees should ever corrupt user data or cause stream
+	heaven.
+
+	Unless you are a STORE B-tree user, you can safely skip the rest of these
+	notes.
+
+5). Reworked MPagePool's interface to enable secure B-tree operation.
+	Changed B-tree code and concrete page pool classes to match.
+
+6). CPageCache is now an entirely passive object and serves merely to enable
+	caching page pools to share resources; ie, memory. CPageCache::FlushL()
+	has been withdrawn.
+
+	Simplified cache statistics. The cache will now only report the total
+	number of requests made, how many of those were hits and how many were
+	misses.
+
+7). The base class for cache-based page page pools is now known as
+	TCachePagePool, changed from TCachedPagePool, as that name was a bit too
+	'passive'.
+
+	Added TCachePagePool::Flush(), which returns an error code, complementing
+	the existing FlushL().
+
+	No concrete cache-based page pool must be destroyed without having removed
+	all its pages from the cache. To this end, added TCachePagePool::Purge().
+
+8). Changed RFilePagePool to bring it more in line with other file-related
+	classes in STORE. Its interface is now very close to RFileBuf's.
+
+	RFilePagePool::Close() and Release() automatically Purge() the page pool,
+	in Close()'s case after Flush()ing.
+
+9). RStorePagePool, renamed from TStorePagePool, has all security features
+	a B-tree needs to run safely.
+
+	It can update pages safely--by Replace()ing the streams they are in--and
+	it has a page allocator which independently keeps track of those pages a
+	B-tree can't be guaranteed not to lose.
+
+	Independent page tracking involves some persistent data which is not
+	maintained by the page pool itself but wrapped into a TStorePagePoolToken,
+	to become part of the client's persistent data structures.
+
+	Correct use of these features in a store running transactions involves
+	following a protocol which, whilst not terribly hard, is too complicated
+	to go into here. For more information, talk to Andrew or myself.
+
+	The change to an R-style class involved a reshuffle of the CPageCache and
+	CStreamStore initialisation parameters. Should be reasonably
+	straigthforward. RStorePagePool::Close() and Release() do the right thing
+	in terms of clearing themselves out of the cache.
+
+	Independent page tracking is not yet implemented.
+
+10).TBtree has undergone fairly extensive changes:
+
+	- Its persistent bits are now assembled into a TBtreeToken. The new class
+	takes over responsibility for the externalisation and internalisation of
+	the various B-tree parameters.
+
+	- TBtree::TQos has disappeared. Enter TBtreeMode, which gives you just two
+	operating modes to choose from. Neither allows the B-tree's structure to
+	become terminally damaged, but EBtreeFast may cause the loss of data
+	entered into the B-tree, whereas EBtreeSecure doesn't. EBtreeSecure should
+	be used unless the B-tree can be regenerated.
+	Both do less writing and should therefore perform better than the service
+	levels they replace, EQosBalance and EQosSafest.
+
+	- The operating mode and token together determine the B-tree's state and
+	so are parameters to c'tors and Set() functions. (A broken EBtreeFast
+	B-tree must be assumed to contain damaged data.)
+	
+	- The First(), Root(), and Height() functions are replaced by the single
+	Token() function.
+
+	- Added RepairL() function (courtesy of Andrew) to rebuild a B-tree's
+	index set from the sequence set.
+
+	- Shortened TBtree::TFindMode to TFind, and MBtreeLeafNodeOrg,
+	MBtreeIndexNodeOrg to MBtreeLeafOrg,MBtreeIndexOrg.
+
+	- TBtreeLeafNodeOrgFix and TBtreeIndexNodeOrgFix are henceforth known as
+	TBtreeInlineLeafOrg and TBtreeInlineIndexOrg. 'Inline' referring to the
+	fact that they store all bits associated with an entry together.
+
+	TBtreeMark, the sequence set cursor, is now fully implemented.
+	Its interface remains unchanged.
+
+	As with RStorePagePool, there's a protocol to be followed to implement the
+	safety features correctly. Feel free to ask.
+
+	Derived B-tree classes have been brought more in line with other templated
+	containers (ie, CArrayXxx). TBtreeFixBase's type-unsafe functions have
+	become accessible and the stock template instance TBtreeFix<TAny,TAny> is
+	available for those wishing to use B-trees of untyped fixed-length records.
+
+11).Added full complement of B-tree management functions to TPagedSet<T>.
+
+	On the other hand, generally made the set functionality less B-tree
+	flavoured. TBtreeMode, for instance, is not carried over: sets operate in
+	secure mode only. InsertL() and DeletL() lose their return value in favour
+	of appropriate KErrAlreadyExists and KErrDoesNotExist error conditions.
+
+	By the same token, split the existing TPagedSet which would either accept
+	or reject duplicates on insertion based on a flag argument into
+	TPagedSet<T>, which does not allow duplicates, and TPagedMultiset<T>,
+	which does.
+
+	TPagedMultiset arguably needs further functionality; eg, a function
+	returning the number of occurences of a given element, but no new features
+	have been introduced as multisets are on 'omissions'.
+
+	Naturally, the set iterators work with either flavour of set.
+
+	Added IsEmpty() member function to the sets and brought sets and iterators
+	in line with CArrayXxx and TBtreeFix in terms of accessibility of untyped
+	functions through the template 'base' class and the addition of untyped
+	stock instances TPagedSet<TAny>, TPagedSetIter<TAny> etc.
+
+Version 0.01.020
+================
+(Made by Geert, 19 August 1996)
+
+1). Depends on E32TOOLS/038, E32/065 and F32/029. Adopted the new directory
+	structure and the organisation of releasables that goes with it.
+	See E32 065 release notes for more details.
+
+	Due to the scope of changes some MNT features are temporarily unavailable.
+
+	The 8-bit ARM release mode DLL's size is 56284 bytes (55K).
+
+2). Most of the contents of <s32exp.h> have been moved to <s32file.h> or
+	<s32share.h>. The latter is a new public header which very few people
+	will ever need to include directly.
+
+	Another of those pesky "`class Xxx' has virtual functions but non-virtual
+	destructor" gcc warnings seems to have crept into this header. This is
+	harmless and will be dealt with in a future release.
+
+3). TCheckedUid has acquired chevron operators.
+
+4). The 'experimental' file store interface introduced in STORE 019 has moved
+	up in the world.
+
+	CWriteOnceFileStore and CRewritableFileStore are no longer with us. They
+	are superseded by the new-style CDirectFileStore and CFragmentFileStore.
+
+	File formats and functionality remain unchanged.
+
+5). The new CFileStore can open files of unknown type and instantiate the
+	concrete subclass to be used with the file.
+
+	It does this using a file store factory which is simply a NULL-terminated
+	array of pointers to factory functions--typedef TFileStoreFactoryFunction.
+
+	STORE supplies a default file store factory--KDefaultFileStoreFactory--as
+	well as constant definitions for the functions it contains,
+	KDirectFileStoreFactoryFunction, KPermanentFileStoreFactoryFunction and
+	KFragmentFileStoreFactoryFunction.
+
+	The factory handles files whose first UID is KDirectFileStoreLayout,
+	KPermanentFileStoreLayout or KFragmentFileStoreLayout.
+
+	Alternative factories can be declared and initialised as constant static
+	data and will go into the .rdata section of your executable; ie, EPOC/32
+	DLLs are no worse off than other executables.
+
+6). Opening a file of uncertain type is done through CFileStore's static
+	OpenL() or OpenLC() functions. They take the same parameters as
+	RFile::Open() and return a newly instantiated CFileStore.
+
+	Alternatively, if you happen to have a handle to the file you can use
+	CFileStore::FromL(RFile&) or FromLC().
+
+	[For the guardians of Symbian naming conventions: these would have been
+	called NewL() if it weren't for the fact that, with persistent objects, a
+	distinction needs to be made between constructing a new persistent object,
+	and merely hooking up to an existing one.
+	I've adopted a FromL()/MarshalL() pattern for the latter case, where
+	MarshalL() is equivalent to ConstructL() in the former.]
+
+	There are also overloads of OpenL[C]() and FromL[C]() taking a custom
+	factory.
+
+7). The concrete file store classes also have static OpenL[C]() and FromL[C]()
+	functions. These accept files of the right type as well as invalid
+	type. CFileStore does not open files with an invalid type.
+
+	It is possible, if not very likely, that a file's type should be lost if
+	changed. Without this facility, such files could not be opened again.
+
+8). To create a new file store, CFileStore-derived classes feature static
+	CreateL[C](), ReplaceL[C]() and TempL[C]() functions. They take the same
+	parameters as the equivalent RFile functions, returning a pointer to the
+	new file store. A newly created store only becomes operational when its
+	type is set using SetTypeL(). (See below.)
+
+	Should you have the file by handle, there are NewL[C](RFile&) functions
+	as well.
+
+	All file store functions with file handle arguments take ownership of the
+	file on entry; ie, if NewL[C]() or FromL[C]() fails the file is closed.
+
+	CreateL[C]() and friends may leave an empty or partly written file behind
+	on failure.
+
+9). CFileStore provides access to the file's type through the Type() function,
+	which returns a TUidType.
+
+	The file's type _must_ be set immediately after creation and can be
+	changed subsequently using the SetTypeL() member function. SetTypeL()
+	takes a TUidType which is required to specify the concrete file store's
+	layout as its first id.
+
+	A file store's layout id is available through the Layout() function (and
+	also through the KXxxFileStoreLayout constants).
+
+	Type()[0] may differ from Layout() only when the file's type is invalid
+	(!Type().IsValid()).
+
+10).CFileStore::Reset(),Detach(),Reattach(RFile&) and File() afford some
+	control over the RFileBuf at the heart of a file store.
+
+	File(), and certainly Detach() and Reattach() must only be used for
+	certain, well-behaved applications, such as substituting a new handle
+	to the same file after it's been closed and re-opened.
+
+	Reset() frees the file store's buffer space. It will be re-allocated
+	automatically when needed. Reset() should only be used straight after a
+	successful CommitL() or RevertL() call, which leaves the buffer empty.
+
+11).CPermanentFileStore is a brand new file store intended in due course to
+	become the preferred choice for applications managing large numbers of
+	persistent objects.
+
+	It supports transactions as described in STORE 019 release notes and
+	generally the full CPersistentStore interface, including embedded stores.
+
+	The exception is appending to an existing stream, which it doesn't support.
+	(RStoreWriteStream::AppendL[C]()) Streams can only be replaced in their
+	entirety--using RStoreWriteStream::ReplaceL[C]()--or rewritten up to their
+	original length--using RStoreWriteStream::OpenL[C](). KErrOverflow errors
+	result after that.
+
+	Note that a rewritten stream can not be reverted, whereas a replaced
+	one can.
+
+	Additional design goals for the format were:
+
+	- low persistent overhead: 32 bytes fixed + 2 bytes per 16K of data,
+	overhead per stream is variable but could be as low as 4 bytes and no
+	higher than 10.
+
+	- fast, constant time access to any arbitrary stream.
+
+	- small, bounded I/O bandwidth reduction: the insertion or removal of
+	a 2-byte marker every 16K is all that stands between clients and the
+	file server.
+
+	- fast random access within streams, supporting embedded stores
+	efficiently.
+
+	- atomiticity of transactions in the face of failures: short of
+	catastrophic failures--ie, loss of the file--the state recorded in the
+	file is that of the last commit point.
+
+	- relatively simple and entirely safe in-place compaction.
+
+	*NOTE*: The CPermanentFileStore in this release has a few crucial bits
+	missing and is little more than a glorified write-once jobbie. However,
+	these defects do not affect the API and a fully functional, binary
+	compatible version will be available within days.
+
+12).<s32buf.h> contains a new MStreamUpdate interface for atomic updates, used
+	by CPermanentFileStore.
+
+Version 0.01.019
+================
+(Made by Geert, 29 July 1996)
+
+1). Built using E32TOOLS/036, E32/064 and F32/028. Not compatible with
+	STORE/018.
+
+	Contains only an ARM 8-bit release build, since E32/064 doesn't come with
+	any other variants. ESTOR.DLL grows to 56336 bytes (55K), largely due to
+	some temporary code duplication.
+
+2). Features pre-release versions of a fair amount of new functionality.
+
+	Most has been developed in parallel with existing code, and is currently
+	available through 'experimental' header <s32exp.h>.
+
+	A lot of what is part of that header at the moment is not directly of
+	interest to STORE clients, with the exception of class XFileStore and its
+	subclasses XDirectFileStore and XFragmentFileStore. These will shortly
+	replace CFileStore, CWriteOnceFileStore and CRewritableFileStore,
+	respectively. (at which point they'll be renamed CXxxFileStore, of course)
+
+	Although not entirely ready for prime time yet, these represent the new
+	file store API, which should not change substantially hereafter. I would
+	like to hear any comments on this API you might have. The 'experimental'
+	classes should be up to the standard of their predecessors, and support
+	additional functionality:
+
+	- XFileStore and derived classes open or create their file themselves.
+	- XFileStore is capable of opening (_not_ creating) all known types of
+	store files.
+	- They support 'embedded stores'. (In the case of XFragmentFileStore, this
+	is subject to certain limitations. Contact me if you wish to experiment
+	with stores embedded in fragment file stores.)
+
+3). There have been a few changes to the streaming framework. (header <s32strm.h>)
+
+	An RWriteStream's externaliser of 'foreign' references
+	(MExternalizer<TStreamRef>) has become a fixed attribute of the stream, set
+	at construction time and never changed. This change has been carried
+	through into the various stream implementations.
+	
+	In practice the only such beast around is CStoreMap, which means that where
+	you once wrote
+
+		CStoreMap* map=CStoreMap::NewLC(aStore);
+		(...)
+		RStoreWriteStream stream;
+		TStreamId id=stream.CreateLC(aStore,*map);
+
+	you now write
+
+		RStoreWriteStream stream(*map);
+		TStreamId id=stream.CreateLC(aStore);
+
+	This is the only stream change likely to affect existing code outside
+	STORE. For completeness:
+	
+	RXxxStream::Open()--taking a MStreamBuf*--has been withdrawn. Instantiate
+	stream objects using the equivalent constructor instead.
+	
+	RReadStream::Source() and RWriteStream::Sink() provide access to the
+	stream's underlying stream buffer, for advanced applications.
+	
+	TExternalizerFunction and TInternalizerFunction have lost their 'r' and are
+	known as TExternalizeFunction and TInternalizeFunction.
+	
+	One or two more changes to the protected interface of interest to stream
+	implementors only.
+
+4). The store framework has also undergone a number of changes.
+	(header <s32stor.h>)
+
+	The variants of RStoreWriteStream::CreateL(), OpenL(), TruncateL() and
+	AppendL() taking a MExternalizer<TStreamRef> (or CStoreMap) have
+	disappeared.
+	This is merely the effect of the changed relationship between write streams
+	and these externalisers. See the previous point for more information.
+
+	CStreamStore now features protocol to support transaction-like behaviour.
+	CStreamStore::CommitL() commits changes made since the last commit point,
+	establishing a new one. CStreamStore::RevertL() rolls the store back to
+	its state at the last commit point.
+
+	If a failure of any sort occurs, stores fully supporting transactions will
+	be recovered to the state at the last succesful commit point; ie, on
+	failure (eg, process termination, media failure), an implicit revert
+	happens.
+
+	Store transactions apply to all operations affecting a whole stream at
+	once, not to piecemeal changes made to an existing stream; ie, re-opening
+	a stream for writing and changing or appending a few bytes is not subject
+	to transactions.
+
+	Better to reflect its status under the transaction feature,
+	RStoreWriteStream::TruncateL() has been renamed ReplaceL(). Operations
+	subject to transactions are:
+
+	- CStreamStore::ExtendL()
+	- CStreamStore::DeleteL()
+	- CPersistentStore::SetRootL()
+	- RStoreWriteStream::CreateL()
+	- RStoreWriteStream::ReplaceL()
+
+	and all variations thereof.
+
+	At present no flavour of store implements this behaviour. However, one
+	that does will appear shortly.
+
+	CStreamStore::Commit() is simply a non-leaving variant returning an error
+	code. CStreamStore::Revert(), on the other hand, does not report errors
+	and is useful as a last attempt to recover from failures. Destroying a
+	store object will result in an implicit Commit() and, if this fails,
+	Revert().
+
+	Whilst any seekable stream can host 'embedded stores', direct support is
+	built into RStoreReadStream and RStoreWriteStream.
+
+	Their StoreL() or StoreLC() functions return a persistent store which in
+	turn contains streams which can contain stores, ad infinitum. Until
+	deleted, the embedded store object has sole control over the state of the
+	stream; ie, the host stream should not be used while an embedded store is
+	active.
+
+	Embedded stores are of a 'direct' nature; ie, their behaviour is roughly
+	the same as that of write-once (direct) file stores.
+	RStoreReadStream::StoreL() returns a read-only store which can be used to
+	restore an object network from. RStoreWriteStream returns a writable,
+	blank store which can store an object network.
+
+	Although this isn't currently implemented, if the criterion of full
+	reachability from the root stream is satisfied, and proper bottom-up store
+	as well as top-down restore procedures are used, it will be possible to
+	carry on streaming after an embedded store is closed. This means that a
+	stream can actually hold any number of embedded stores, accessible in turn.
+
+	To use embedded stores with file stores, you should switch to the new
+	XFileStore and friends, as the existing classes don't support them.
+
+	Other changes are of interest to store implementors only.
+
+5). File-based streams and stores have undergone a few minor changes.
+	(header <s32file.h>)
+
+	In preparation for the introduction of the new file stores, all but the
+	overload of CWriteOnceFileStore::NewL(), NewLC() and
+	CRewritableFileStore::NewL(), NewLC() taking a file handle and two
+	UIDs have been withdrawn.
+
+	This will reduce the opportunity for mistakes in porting to the new API
+	as that contains NewL() and NewLC() functions with the same signature but
+	a different meaning. Meanwhile, just pass KNullUid for any missing TUids.
+
+	RFileBuf::Attach() taking a file handle and an initial read position as
+	well as a write position has been withdrawn as not required and too
+	expensive.
+
+	RFileBuf::Reattach() just reinstates a file handle which had been detached
+	without changing the current read or write position. Useful in case a file
+	needs to be closed and re-opened to give up a write lock. (for backup
+	purposes, say)
+	This functionality is carried through into the new file store API. It is
+	vital that the file contents shouldn't change while the file is detached.
+	Or indeed, ever, except under the store's control.
+
+	RFileBuf::Seize(RFileBuf&) is a 'destructive assignment' operation,
+	whereby one buffer can take over all resources managed by another, leaving
+	the latter empty.
+
+6). Changes to <s32buf.h> include:
+
+	- Added constant KStreamBeginning, a TStreamPos denoting the beginning
+	of any seekable stream. TStreamPos::Offset() returns the offset relative
+	to KStreamBeginning; ie, for any pos, KStreamBeginning+pos.Offset()==pos.
+	- MStreamBuf::TLocation has become the global TStreamLocation; its values
+	MStreamBuf::EBeginning, EBMark and EEnd the global EStreamBeginning,
+	EStreamMark and EStreamEnd.
+
+	as well as a few quasi-internal ones.
+
+7). On Arwel's recommendation, added debug mode only range checks to
+	functions taking a descriptor and a length parameter.
+
+Version 0.01.018
+================
+(Made by Geert, 9 July 1996)
+
+1). Uses E32/063, F32/027 and E32TOOLS/034. 8-bit ARM release build 42776
+	bytes (41.8K).
+
+	Strictly binary compatible with 017, even though there are one or two
+	changes in <s32file.h>
+
+2). Optimised RFileBuf's seek function to do as little work as possible.
+
+	No file server calls will be made unless the write mark is moved or
+	seeking from the end of the file, and seek will preserve an existing
+	bufferful of read data whenever the resulting position is within that
+	buffer.
+
+	While this should speed up most file store operations, the effect will
+	be most noticeable with rewritable file stores containing a large
+	proportion of small streams. (<512 bytes) Performance increases of up to
+	200% have been measured.
+
+3). Fixed a CPageCache bug which would cause release mode code to see 'ghost'
+	data in certain rare circumstances.
+
+	A cache page's owning page pool was not cleared on initialisation so that,
+	if cache and page pool happened to be instantiated in the same cells as
+	a previous incarnation the cache would contain old data. This would happen
+	in release mode only since heaps clear freed cells in debug mode.
+
+	Fixed by clearing the owner pointer during initialisation.
+
+4). Some internal changes to TBufBuf. (<s32mem.h>) Most notably, any read mark
+	on a buffer being inserted into will be moved along with data that's
+	alread been read.
+
+Version 0.01.017
+================
+(Made by Geert, 3 July 1996)
+
+1). This release is binary incompatible with 016.
+
+	Uses E32/063, F32/027 and E32TOOLS/034. 8-bit ARM release build 42588
+	bytes (41.6K), or nearly 20% savings compared to 016.
+	This is entirely due to the compiler upgrade coming through.
+
+2). Template functions are now fully inlined, all chevron-related
+	instantiation requests or pseudo instantiation requests can be removed.
+
+	However, there is currently a problem with implicit instantiation of
+	callable function templates. The compiler will happily lay down instances
+	in every compilation unit that needs them and give them 'extern' linkage.
+
+	This means that if two or more compilation units in your program need the
+	same instance of a 'fat' template, your program won't link. You'll get
+	"multiple definition of `<some template function>'" errors.
+
+	Fortunately there aren't very many non-thin templates around, though it
+	might still happen if you are unlucky enough to be streaming pointers,
+	swizzles or arrays having the same 'content' type from different
+	source files.
+
+	If this happens you will have no choice but to carry on compiling with
+	-fno-implicit-templates until the compiler can be fixed. See E32TOOLS 028
+	release notes on maktran's -g option.
+
+3). RFileBuf::Attach() no longer uses the current file position as the
+	starting point for I/O. Instead, separate read and write positions can be
+	passed into Attach(RFile& aFile,TInt aReadPos,TInt aWritePos).
+	Attach(RFile& aFile,TInt aPos) uses the same position for both, and
+	Attach(RFile& aFile) starts at position 0.
+
+	Note that this means RFileBuf::Attach(RFile&)'s semantics have changed
+	from starting at the current file position to starting at the beginning
+	of the file.
+
+	This change has been carried through into RFileReadStream and
+	RFileWriteStream's Attach() functions, as well as the equivalent
+	constructors, except that these take at most one starting position.
+
+4). The WINS variants now use link-by-ordinal exclusively.
+
+5). CStreamStore::DeleteL() is back to leaving with KErrNotSupported
+	by default.
+
+	It was changed to do nothing in case delete couldn't be supported in the
+	mistaken belief that this was necessary to implement the new CStoreMap
+	functionality introduced in 014.
+
+NOTES
+=====
+
+CRewritableFileStore users: a performance upgrade of RFileBuf is in the works,
+which we should be able to release within the next couple of days.
+This should have significant beneficial impact on CRewritableFileStore
+performance.
+The release will be binary compatible with 017.
+
+Version 0.01.016
+================
+(Made by Geert, 31 May 1996)
+
+1). Final J-Day release, binary compatible with 014.
+
+	Built using E32/061, F32/025 and E32TOOLS/028, compatible with E32/058,
+	F32/022 and higher. ARM release build 52992 bytes (51.75K).
+
+2). Potential end-of-file death fixed in CRewritableFileStore. If, having
+	recovered from a failed write extending the file, you'd carry on using the
+	store, and manage to write a new stream in the space left by the failed
+	write without using it all up, this would result in file corruption if you
+	closed the file at this point.
+
+	*WARNING*: To cope with this eventuality, CRewritableFileStore's
+	end-of-file detection scheme has changed so that there is always a marker
+	record in the file. 016 expects to see this marker, and, since 015 did not
+	write it in all circumstances, 016 may not be able to use some old files.
+	Symptoms would be KErrEof errors during stream open or creation.
+
+	Note that this applies to CRewritableFileStore only. CWriteOnceFileStore
+	files are not affected.
+
+3). Tracked down and fixed another RFileBuf problem, causing an invariant
+	panic as a result of certain rare sequences of transfers.
+
+Version 0.01.015
+================
+(Made by Geert, 28 May 1996)
+
+1). Maintenance release, binary compatible with 014 clients.
+
+	Built using E32/060, F32/024 and E32TOOLS/026, compatible with E32/058,
+	F32/022 and newer.
+
+	ARM release build, as reported by BUILDROM, 52928 bytes (<52K).
+
+2). Implemented link-by-ordinal import libraries for the WINS variants. All
+	functions are fixed at 014 ordinals.
+
+	However, to preserve binary compatibility with the link-by-name 014
+	import libraries, the DLLs continue to export by name as well as by
+	ordinal. The names will be removed after J-day.
+
+3). Fixed bug in RFileBuf to do with simultaneous reads and writes, close
+	together in a file.
+
+	This would normally only show up when copying between two streams within
+	the same file store, and result in a panic.
+
+4). Various bug fixes in CRewritableFileStore as the recent re-write settles.
+
+	Symptoms would be corruption occurring in the first stream in the file
+	and the last stream added, and a deplorable tendency for the file to grow
+	until it takes up all available disk space.
+
+5). A number of internal changes, hammering a few things into "final" shape.
+
+	Note that this has resulted in one or two header changes, although
+	compatibility is not compromised.
+
+Version 0.01.014
+================
+(Made by Geert, 21 May 1996)
+
+1). Somewhat later than intended, but there it is: STORE's J-Day release.
+	I'd like to blame the delay on the new file typing scheme, but that
+	wouldn't be entirely fair.
+
+	Built using E32/059, F32/023 and E32TOOLS/024, compatible with E32/058,
+	F32/022 and newer. ARM release build size 53.5K.
+
+	There are a few, hopefully relatively low-impact changes. See the
+	*WARNING*s below.
+
+2). CStoreMap's role has changed somewhat. A map now takes ownership of
+	streams passed into it using BindL(), until such time as it is told to
+	forget about them, typically using Reset().
+
+	Think of CStoreMap as a kind of cleanup stack, keeping track of newly
+	allocated resources until a permanent home is found for them. In this
+	case, until the head stream pointing to the streams held in the map is
+	written.
+
+	On destruction, the map will attempt to delete any streams it still owns,
+	thus helping to prevent "stream heaven." Stream deletion _can_ fail, but
+	only if the filing system is broken beyond repair. CStoreMap will not
+	report any problems it encounters during destruction.
+
+	CStoreMap::NewL() and NewLC() now take a CStreamStore& parameter, telling
+	the map which store contains the new streams.
+
+	Example code:
+
+	TStreamId Xxx::StoreL(CStreamStore& aStore) const
+		{
+		CStoreMap* map=CStoreMap::NewLC(aStore); // leave on cleanup stack
+		StoreComponentsL(aStore,*map); // create and bind any child streams
+	//
+		RStoreWriteStream stream;
+		TStreamId id=stream.CreateLC(aStore,*map); // leave on cleanup stack
+		ExternalizeL(stream); // or "stream<<*this;"
+		stream.CommitL(); // the stream doesn't really exist before commit
+	//
+		map->Reset(); // it's all done, forget about component streams !!!
+		CleanupStack::PopAndDestroy(2); // close stream and delete map
+		return id;
+		}
+
+	*WARNING*: The "map->Reset()" statement in the above is _essential_
+	if you want to hang on to the streams created in StoreComponentsL().
+
+	Note that the change in CStoreMap::NewL()'s signature means you don't
+	have to go hunting for all places where store maps might be used: the
+	compiler will.
+
+	CStoreMap's interface has become quite a bit richer, mainly in case the
+	pattern in the example code above breaks down. Come and see us if for
+	some reason you cannot use CStoreMap in this way.
+
+3). Implemented the EON file typing scheme. The format of a store file has
+	changed to accommodate the 16-byte header.
+
+	*WARNING*: Old files will _not_ open. CXxxFileStore::NewL() leaves with
+	KErrGeneral. If you have a significant investment in data files which
+	aren't easily re-generated, come and see us. We may be able to help you
+	patch them.
+
+	CXxxFileStore::NewL() and NewLC()'s optional signature argument has been
+	replaced with up to two TUids. If you supply values they will be checked
+	against the file header, and the file will fail to open in case of a
+	mismatch.
+
+	KStoreWriteOnceLayoutId and KStoreRewritableLayoutId are the UIDs of the
+	file formats used by STORE. They replace KWriteOnceSignature and
+	KRewritableSignature, respectively. The file format ID occupies slot 0.
+
+4). Added members TruncateL() and TruncateLC() to RStoreWriteStream. Streams
+	re-written using these functions will be cut off at the write position,
+	whereas OpenL()-ed streams will retain their contents after that point.
+
+	This changes the semantics of RStoreWriteStream::OpenL(), which used to
+	mean what TruncateL() now means. The motivation for the change was the
+	tension between security and performance. TruncateL() is safer in that, 
+	should things go wrong during write, it is virtually guaranteed that this
+	will be detected when the file is next loaded.
+	
+	However, in order to achieve this, TruncateL() needs to mark the stream
+	_before_ writing user data. Even though this is obviously more expensive,
+	unless you have some other means of detecting potential file corruption
+	you should use TruncateL() to re-write existing streams.
+
+	Note that CRewritableFileStore does not currently implement the full
+	semantics of TruncateL() v. OpenL().
+
+5). The interface to standalone file streams (i.e., RFileXxxStream) has
+	changed. They now feature Open(), Create(), Replace() and Temp() functions
+	with the same signature and semantics as the RFile members of the same
+	name, as well as Attach(RFile&) functions taking ownership of an open
+	file handle.
+
+	When a file is attached, data transfer starts at the current position.
+
+	The constructors taking a file handle are equivalent to default
+	construction followed by Attach().
+
+6). Added function CStreamStore::Delete() which attempts to delete a stream,
+	without reporting any errors.
+
+	Both this function and the existing CStreamStore::DeleteL() now accept
+	and ignore KNullStreamId.
+
+7). Replaced RBufferedFile with an implementation of the MStreamBuf interface
+	by the name of RFileBuf.
+
+8). Implemented TBufBuf, and withdrew TBufSource and TBufSink. HBufBuf
+	replaces HBufSource and HBufSink.
+
+9). Now compiles without gcc warnings.
+
+Version 0.01.013
+================
+(Made by Geert, 9 May 1996)
+
+1). Hopefully the last release before STORE's J-Day API freeze.
+	Compatible with E32/058 and F32/022 and upwards, until further notice.
+	Built using E32TOOLS/023. ARM release build size 51K.
+
+2). Adapted array and buffer streaming code to take advantage of the new E32
+	features.
+	
+	Prior to this release, you would have had to instantiate template
+	functions AppendL(CArrayFix<T>&,const T&,TInt) and
+	ResizeL(CArrayFix<T>&,TInt) in order to stream arrays under __GCC32__.
+	As their functionality has now been absorbed into CArrayFix<T> these
+	templates are no longer with us.
+
+3). Streaming operators for the defunct TGuid have been replaced with
+	equivalent ones for TUid.
+
+4). A change to the semantics of RFile::Read() may break streaming operations
+	in certain, rare circumstances. This will be fixed in a forthcoming
+	release of F32. Symptoms of the problem are unwarranted KErrEof errors
+	reported by stream to stream copy operations or reads from a filtered
+	stream.
+
+5). Removed broken formatting code from the test programs since this is now
+	taken care of at file server startup.
+
+6). MStreamBuf has a new Synch() function returning an error code. This is in
+	addition to the existing SynchL(). As synch's only purpose in life is to
+	make sure all data is delivered or report an error, it might as well
+	return success or failure as its value. Both functions are implemented by
+	the virtual DoSynchL(), which hasn't changed.
+
+7). MStreamInChan and MStreamOutChan have changed somewhat and are now
+	"fully pure." As a side effect, this turns them into responsible STORE
+	citizens and clients can provide custom implementations if they so wish.
+
+8). Derived classes of TStreamBuf will now receive an UnderFlowL() or
+	OverflowL() call when a buffer area's delimiting pointers are _both_ NULL.
+	As this is the state of a newly constructed stream buffer, initialisation
+	can be deferred until the first client request, which will cause
+	underflow/overflow.
+
+Version 0.01.012
+================
+(Made by Geert, 25 April 1996)
+
+1). Basically another interim release. Few API changes though the internals
+	continue to evolve. Based on E32/057, F32/21 and E32TOOLS/21. ARM release
+	mode code size 51K. (As reported by E32ROM.)
+
+2). Interface changes:
+
+	- RReadStream and RWriteStream feature new ReadL() and WriteL() functions
+	reading and writing 16-bit quantities, in the form of 16-bit descriptors
+	or TUint16* and length. The purpose is obviously making wide text transfers
+	easier to do. As with all such functions in E32, length parameters are
+	expressed in "units," rather than size in bytes.
+
+	- Because it would have been too easy to call the wrong overload, the
+	existing 8-bit transfer functions now take a pointer to TUint8 rather than
+	a TAny pointer. If this affects you, you may want to consider whether you
+	should be calling the "raw" read and write functions in the first place.
+	The streaming framework exists to do away with "struct dumping," so unless
+	you have a buffer made up of TUint8s or TUint16s you probably shouldn't	be
+	using these functions.
+
+	- <s32cache.h> has been scrapped, its contents moved to various, existing
+	headers. The new setup may be less than totally politically correct in
+	terms of layering, but is perhaps more practical.
+	CPageCache and TCachedPagePool are now found in <s32page.h>; TStorePagePool
+	has moved to <s32stor.h>, which has started including <s32page.h>; and
+	RFilePagePool now lives in <s32file.h>.
+
+	- There is a new B-tree cursor by the name of TBtreeMark. This is currently
+	an alias for TBtreePos but will become a sequence set iterator in due
+	course. The upshot is that TBtreeMark can only be used to walk the entries
+	in a B-tree from start to finish, but that it will be smaller, faster, and
+	able to be used with a broken B-tree. B-tree member functions ResetL(),
+	NextL() as well as ExtractAtL() and AtL() accept TBtreeMarks.
+
+	- In addition to the existing TPagedSetIter<T>, there are now bidirectional
+	iterators and reverse iterators for sets, by the name of TPagedSetBiIter<T>
+	and TPagedSetRIter<T>.
+	The default, forward only iterator uses a TBtreeMark.
+	The iterators all feature a new ExtractAtL(), in addition to the existing
+	AtL() function which can be used to assign the current element to an
+	existing object of type T.
+
+3). Implemented streaming of MARM's word-swapped doubles, so that TReal64's
+	external representation is now also identical between WINS and MARM.
+	File formats should now be totally compatible.
+
+4). Quasi-internal changes:
+
+	- MStreamBuf has acquired SeekL() members. Seeking is optional
+	functionality and may not work on certain implementations. (A stream
+	of data coming in across a network connection is an example of a
+	non-seekable stream.) Those MStreamBuf implementations providing SeekL()
+	will be able to support stream stores, clearing the way for stores
+	embedded within other stores.
+
+	- Classes TStreamSource and TStreamSink have been withdrawn from
+	<s32buf.h>. Their functionality is now effectively provided by the base
+	class, MStreamBuf.
+
+	- TStreamBuf is a new base class for streambufs with buffering
+	capabilities.
+	
+	- <s32mem.h> has lost classes TMemSource, TMemSink and TDesSink. They are
+	replaced with TMemBuf and TDesBuf, derived from TStreamBuf. HMemSource,
+	HMemSink and HDesSink have been withdrawn. New streambufs are an integral,
+	exported part of the library so that anyone requiring HXxx versions can
+	trivially derive them from outside.
+	TBufBuf is intended to replace TBufSource and TBufSink and obviate the
+	need for HBufSource and HBufSink, but is not yet implemented.
+
+5). The test code now creates its files in C:\STOR-TST\, a directory it
+	creates.
+	There is also code to format the rack's RAM drive if needed, but this is
+	currently broken. If the test code fails on a rack during formatting,
+	format drive C: manually.
+
+Version 0.01.011
+================
+(Made by Geert, 9 April 1996)
+
+1). For the most part just an upgrade release. Should be source compatible
+	with the vast majority of client code.
+	
+	Uses E32/056, F32/020 and E32TOOLS/019. The ARM release build passes all
+	tests thanks to Jal's wonderful new file server.
+
+2). New functionality:
+
+	- Implemenent HBufCX's new NewL(RReadStream &aStream,TInt aMaxLength) and
+	NewLC(RReadStream &aStream,TInt aMaxLength) static member functions.
+	They instantiate a HBufCX of the exact length required, or leave with
+	KErrOverflow if that length is greater than aMaxLength.
+
+	- TGuid has acquired streaming operators, courtesy of Duncan.
+
+	- RReadStream has a new ReadL() overload taking just a length parameter.
+	This reads and discards the specified number of bytes from the stream.
+
+	Note that the purpose of this function is not to prevent the data transfer
+	actually happening, although it will generally save on buffer copying.
+	Rather, it serves to save clients the hassle of managing buffer space and
+	the transfer loop. Do not use it as a substitute for the random access
+	afforded by a stream store.
+
+3). Various minor changes:
+
+	- <s32chan.h> has been replaced by <s32buf.h> which also takes over some of
+	<s32strm.h>'s old contents. Should be completely transparent.
+
+	- Slight re-shuffle of responsibilities in streaming pointers etc. This
+	used to	be done by the stream buffer and has now become a task of the
+	stream itself. RWriteStream doubles in size from 4 to 8 bytes.
+	No change to the API.
+
+	- TAnyExternalizer and TAnyInternalizer have become stock instances of the
+	TExternalizer and TInternalizer templates and are henceforth known as
+	TExternalizer<TAny> and TInternalizer<TAny>.
+
+	- By the same token TAnySwizzle has become TSwizzleC<TAny>. TSwizzle<TAny>
+	is to TSwizzleC<TAny> what TAny* is to const TAny*. Compared to generic
+	instances they are cut down in the sense that they cannot be externalized
+	but enhanced in that any TSwizzle<T> or TSwizzleC<T> can be converted into
+	them.
+
+4). Some more, purely internal, changes were made in preparation for major new
+	stuff coming through in the near future.
+
+Version 0.01.010
+================
+(Made by Geert, 19 March 1996)
+
+1). This is the first release of STORE to include ARM releasables. It is
+	compatible with E32/055, F32/019 and E32TOOLS/016.
+	The WINS release components are now called EWINS and EWINSDB, instead of
+	ESTOR and ESTORDB. The ARM release component contains an 8-bit release
+	build only, and is called EMARM.
+
+2). The library has been reorganised to accommodate new areas of
+	functionality.
+	There are a number of new project directories, and if you plan to get the
+	source down to your local hard disk it's best to start with a clean slate.
+
+	The project directories each correspond roughly with one of the public
+	headers:
+
+	- <s32strm.h> was--and still is--the stream framework header. It is the
+	only header required to implement ExternalizeL/InternalizeL. It also
+	defines the major abstractions used in stream implementations: data
+	sources, sinks and filters.
+
+	- <s32stor.h> remains the main stream store header. StoreL/RestoreL
+	implementors require this header only.
+
+	- <s32file.h> and <s32mem.h> provide concrete implementations of the
+	stream/store framework, based around files or in-memory data structures,
+	respectively.
+
+	- <s32huf.h> is a stream "filter" providing on-the-fly Huffman encoding
+	and decoding. Filters (THufEncodeFilter, THufDecodeFilter) can be combined
+	with data sources or sinks to produce new stream implementations, or can be
+	used directly by clients to filter an existing stream
+	(RHufEncodeWriteStream, RHufDecodeReadStream, etc.).
+	
+	- <s32chan.h> is an additional header for stream implementors. Clients
+	shouldn't ever need it.
+
+	The remaining headers are to do with STORE's new B-tree functionality:
+
+	B-trees are large-scale storage containers for ordered data.
+	Persistent forms do not require the entire structure to be in memory,
+	yet provide rapid lookup, insertion and deletion of items.
+
+	- <s32page.h> contains the storage abstraction used by STORE B-trees.
+	The storage is provided by a "page pool", which is described by the
+	MPagePool interface. The pool provides access to in-memory pages
+	which are released by the B-tree when no longer required.
+	Three concrete pools are provided in STORE which use different
+	media for their page storage:
+
+	CMemPagePool
+		allocates pages from the default heap, storing them in an
+		array. This pool is not persistent.
+
+	- <s32cache.h> provides cached page pools. The persistent pools rely on a
+	page cache to provide the in-memory space for their pages and to cache
+	frequently accessed pages.
+
+	CPageCache
+		The cache. Manages pages for multiple pools.
+
+	RFilePagePool
+		uses a file directly, pages following each other sequentially
+		through the file. Close() should be used after OpenL() or
+		ReplaceL() to release the file resource.
+
+	TStorePagePool
+		uses a store for persistent storage, each page having its own
+		stream. The stream store must support ExtendL(), DeleteL() and
+		allow streams to be re-written. (In practice, this means
+		CRewritableFileStore only at present. Other than for testing
+		purposes there seems little point in having a B-tree inside a
+		CBufStore.)
+
+	- <s32btree.h> is the B-tree header itself. STORE B-trees are a flavour of
+	B-tree sometimes referred to as B+-trees. ("B-plus-tree") The
+	distinguishing property of a B+-tree is that all interesting data is
+	contained within the leaf nodes. These are linked together in a singly
+	linked list known as the "sequence set." Singly linked lists are reasonably
+	easy to maintain safely on unreliable media.
+
+	TBtree
+		The "raw" TBtree is untyped and does not provide the means to
+		manage the data, which is done by four organisation classes. These
+		are set using the Connect() member.
+		The information a B-tree requires to operate once it has its
+		managers can be set in construction or with the Set() member.
+		This can be extracted from a tree via the inline functions
+		First(), Root() and Height().
+
+	TBtree::TQos
+		The important bit of TBtree is the scoped enum TQos--"Quality of
+		service" (or security). TQos affects when pages containing the
+		data (leaf pages) are written to persistent storage:
+		EQosFastest: Never force a write, leaf pages will only be
+					written if they cannot be kept in memory (e.g.
+					flushed from the cache) (least secure but fastest)
+		EQosBalance: Force a write if a leaf page is added or deleted.
+					(this provides a reasonable balance between speed and
+					safety: small amounts of user data may be lost in the
+					event of media failure.)
+		EQosSafest: Force a write whenever a leaf page is changed
+					(most secure but slowest)
+		The higher the security the more often pages will have to be
+		written when making lots of changes to the tree.
+
+	TBtreePos
+		This records a position within the B-tree, and via the TBtree
+		interface allows iteration over the contents, indexed lookup,
+		record extraction and positioned deletion.
+
+	TBtreeKey
+		This beast is a concrete Key for TBtree to order its data. It
+		is very similar in construction to the keys used for CArrays.
+		The key cannot be more than KMaxBtreeKeyLength long.
+
+		Note that the text comparison constructors which do not provide a
+		length do not assume the data is a TDesC8, they assume that the
+		data is leading character counted, i.e. an 8-bit character count
+		of following 8-bit data or a 16-bit character count of 16-bit
+		character data. 
+
+	TBtreeFix<Record,Lookup>
+		For storing Record classes, ordered by the Lookup, which must be
+		embedded within the Record class. This provides real node
+		organisations for TBtree which assume that each entry takes up
+		the same fixed size. A Key must still be created for this tree. A
+		suitably constructed TBtreeKey should do the trick.
+
+		e.g. suppose you want a persistent map from TInt32 to TReal64:
+
+		struct Map
+			{
+			TInt32 iLookup;
+			TReal64 iValue;
+			};
+		class TMyBtree : public TBtreeFix<Map,TInt32>
+			{
+			TMyBtree(MPagePool &pool);
+			// etc
+		private:
+			TBtreeKey iKey;
+			}
+
+		TMyBtree::TMyBtree(MPagePool &aPool)
+			: TBtreeFix<Map,TInt32>(),iKey(_FOFF(Map,iLookup),ECmpTInt32)
+			{
+			Connect(&aPool,TBtree::EQosBalance,&iKey);
+			}
+
+	- <s32cont.h> layers a container-style interface over STORE B-trees.
+
+	TPagedSet<T>
+	TPagedSetIter<T>
+		This is a packaged B-tree to provide a persistent associative set
+		of class T.
+		Ts can be inserted (with or without duplicates) into the set and
+		deleted from the set, or tested for being in the set.
+		The iterator for the set provides ResetL and NextL, these return
+		ETrue if the AtL() member can be used to extract the current item.
+		e.g.
+
+		TPagedSetIter<T> iter(set);
+		if (iter.ResetL())
+			{
+			do
+				{
+				T x=iter.AtL();
+				// do something with x;
+				} while (iter.NextL());
+			}
+
+	Note that STORE B-trees and the containers built on top of them do not
+	acquire resources, except transiently during B-tree primitive operations.
+	(Hence the "TXxx"-s.)
+	All external resources are held within the page pool, B-trees and
+	containers briefly "borrow" a pool's pages, returning them to the pool
+	before control reverts back to client code.
+
+3). A number of relatively minor interface changes were made (some of which
+	were already implemented in 009):
+
+	- Stream implementations which don't acquire resources ("lightweight
+	streams") are now fully supported. Concrete stream classes in this category
+	are: RMemXxxStream, RDesXxxStream, RBufXxxStream, RHufEncodeXxxStream and
+	RHufDecodeXxxStream. Such flavours of "Open()" as they may have don't
+	leave, and they all have constructors combining the effect of default
+	construction followed by Open().
+	Closing these streams is not strictly necessary.
+	
+	- RBufWriteStream's interface has become a lot richer. It can now be used
+	to insert into a buffer at an arbitrary position as well as to overwrite
+	the data in the buffer starting anywhere within te buffer. Append(buf) is
+	the same as Insert(buf,buf.Size()). An overwriting stream will extend the
+	buffer when it reaches the end, and you have a choice between a stream which
+	leaves the rest of the buffer intact (Open()) and a stream truncating the
+	buffer (Truncate()).
+	Note that this is a change in semantics for Open()-ed RBufWriteStreams:
+	prior to this release they would truncate. If you need the old behaviour,
+	use Truncate() instead.
+	All modes behave the same when operating on an empty buffer. Actual
+	truncation happens on CommitL()--or Close().
+
+	- RMemXxxStream and RDesXxxStream allow stream access to regions of memory,
+	described using pointer and length (RMemXxxStream) or a descriptor
+	(RDesXxxStream). RDesWriteStream will update its host descriptor's length.
+	This is deferred until CommitL() or Close().
+
+	- Stream ID values are now limited to 28 bits. KMaxStreamIdValue,
+	KMaskStreamIdValue, KShiftStreamIdValue are a variety of ways in which
+	this information is available to clients.
+
+	- The global streaming operator templates can be made to work with a given
+	type in three ways:
+
+		1. If the type is a class, it can be provided with ExternalizeL() and
+		InternalizeL() members. The templates will call these by default.
+
+		2. If it's a non-template, non-class type (e.g., an enum) you can
+		implement specific instances of the templates. They have to match the
+		templates' prototypes exactly, and you can't rely on conversions to
+		limit the number of functions to write. E.g.,
+
+		enum TXxx {EXxx,EYyy,EZzz};
+		RWriteStream &operator<<(RWriteStream &aStream,const TXxx &anXxx);
+		RReadStream &operator>>(RReadStream &aStream,TXxx &anXxx);
+
+		3. If the type is somehow dependent on a template you have to plug in
+		to the templates' implemention selection mechanism. This is a variant
+		of the mechanism used in the Standard Template Library to select
+		the version of an algorithm which is best suited to a particular data
+		structure.
+		This situation occurs within STORE when externalising pointers to any
+		type of object. Another case might be one where you want to provide
+		streaming for a template class but the component defining it can't
+		depend on STORE. (a third party library, say)
+		
+		Imagine you want to provide streaming functionality for E32's regions
+		without changing the base.
+		The TRegionFix<Nnn> subclass template precludes the use of the previous
+		technique, so you'd have to use the method STORE uses for descriptor
+		streaming; i.e.,
+
+		inline Externalize::Function Externalization(const TRegion*)
+			{return Externalize::Function();}
+		inline Internalize::Function Internalization(TRegion*)
+			{return Internalize::Function();}
+
+		IMPORT_C void ExternalizeL(const TRegion &aRegion,RWriteStream &aStream);
+		IMPORT_C void InternalizeL(TRegion &aRegion,RReadStream &aStream);
+
+		These Externalization() and Internalization() definitions will
+		cause the streaming operator templates to invoke the ExternalizeL()
+		and InternalizeL() functions provided, rather than nonexistent members.
+
+	- A number of new function objects can be of assistance in some of the more
+	complex streaming situations, e.g., streaming for a container class
+	template.
+	TAnyExternalizer/TAnyInternalizer stream an object in or out given a TAny
+	pointer.
+	In contrast, TExternalizer<T>/TInternalizer<T> are typed and can be
+	converted into the above.
+	MExternalize<T>/MInternalizer<T> are mixin classes defining an operator()
+	which can stream Ts in or out.
+
+	- Some changes to the Huffman filter interface serve to enable sharing of
+	code and tables with E32 descriptors' Huffman encoding and decoding.
+
+4). Fixes to 009 and implementation changes:
+
+	- CFileStore's destructor was still protected when it should have become
+	public in order to work with single-phase destruction. Reported by Bruce.
+
+	- A weird and wonderful MSVC4 bug caused compiler errors if KNullStreamId
+	or KNullPageRef were used on the right hand side of assignments. Fixed by
+	removing the outer parentheses from the macro definitions. Operator
+	precedence shouldn't be a problems in any sensible expression.
+	First spotted by David Wood.
+
+	- A copy request from one stream to another where the source stream was
+	reading from a buffer (RBufReadStream or RStoreReadStream on a CBufStore)
+	and the input buffer was consumed exactly would panic. Duncan reported
+	this one.
+
+	- MNT.CMD's getrel verb was broken when T:\pvcs\getrel mysteriously
+	disappeared, as reported by Jal and Brendan. Now fixed.
+
+	- CRewritableFileStore will now cause fewer file hits when rewriting a
+	stream whose length remains unchanged.
+
+Version 0.01.009
+================
+(Made by Geert, 27 February 1996)
+
+1). Uses E32/054 and F32/018, initial MSVC4 release.
+
+2). This is an interim release made to allow work dependent on STORE to proceed
+	in the new environment. It represents work in progress, although with few
+	exceptions--noted below--all existing functionality remains available.
+
+	The following is a brief porting guide describing the changes that need to
+	be made to existing STORE client code, above and beyond those mandated by
+	E32/054:
+
+	- headers <s32bstr.h> and <s32fstr.h> have been renamed <s32mem.h> and
+	<s32file.h>, respectively.
+
+	- RBufReadStream and RBufWriteStream have become lightweight in the sense
+	that they no longer acquire resources. Close()-ing these streams is now
+	optional. CommitL(), however, cuts of the buffer at the point written to
+	and should be used if the buffer might shrink as a result of the write
+	operation.
+	Calls to OpenL() or OpenLC() should be replaced by calls to Open() or by
+	using the constructor taking a buffer. AppendL() and AppendLC() calls
+	can be replaced by Append().
+
+	- TStream has been renamed TStreamId and KNullStream changed to
+	KNullStreamId. A stream id's numeric value is now publicly available
+	through a conversion of TUint32 to TStreamId and the TStreamId.Value()
+	member function.
+
+	- CStreamStore::CreateL() has been renamed ExtendL().
+
+	- All Xxx::StoreL(RWriteStream&) const and Xxx::RestoreL(RReadStream&)
+	member functions have been renamed ExternalizeL() and InternalizeL(),
+	respectively. Any class that has ExternalizeL/InternalizeL members can
+	have streaming operators << and >> applied to its instances without the
+	class designer having to provide the operator functions.
+
+	- TSurrogate<T>, TSurrogateC<T> and TAnySurrogate have been renamed
+	TSwizzle<T>, TSwizzleC<T> and TAnySwizzle, respectively. The class
+	hierarchy has also been reorganised so that the conversions to T* and
+	const T* could be reinstated without lurking ambiguities. Calling AsPtr()
+	should never be necessary. The conversion to TStreamId, however, remains
+	explicit for the old reasons.
+
+	- TSurrogateX<T>::AsStream() is now known as TSwizzleX<T>::AsId().
+
+	- RStoreWriteStream now takes a const CStoreMap& where it used to take a
+	CStoreMap*, in effect. In actual fact it takes a reference to a new
+	functor mixin CStoreMap derives from.
+
+	- The stream operators copying one stream to another have been withdrawn.
+	Use RReadStream::ReadL(RWriteStream&) or RWriteStream::WriteL(RReadStream&)
+	instead.
+
+	- Resource support, i.e., header <s32rstr.h>, has been withdrawn. Current
+	thinking is that the store model is not the right thing for resources,
+	although streaming might still be used.
+
+	- CArrayVar<T> and CArrayPak<T> streaming support has been withdrawn. It
+	is not in fact possible to implement it safely, i.e., without the
+	potential for it crashing an unsuspecting application if the input
+	operator were to be presented with a corrupt stream. CArrayFix<T>
+	streaming has a different implementation mechanism which no longer relies
+	on the template classes in <s32tmpl.h> (i.e., TStreamCArrayFix<T>).
+	Header and contents have been withdrawn.
+
+Version 0.01.008
+================
+(Made by AjT, 30 January 1996)
+
+1). Now uses E32 (053) and F32 (017)
+
+2). Fixed a compilation bug which MSVC does not pick up.
+	RReadStream is now a friend of TStreamSource
+
+Version 0.01.007
+================
+(Made by AjT, 18 January 1996)
+
+1). Now uses E32 (052) and F32 (016)
+
+2). Stream buffering for files has been moved into its own class
+	RBufferedFile. This is used by CFileStore and the new single
+	stream file classes.
+
+3). Two new types of stream are available: RFileReadStream and
+	RFileWriteStream. These are single-stream-files, providing stream
+	access to a file.
+
+4). All File stores now provide two information members:
+
+	TInt SizeL() - returns the total store size in bytes
+	TInt FreeSpaceL() - returns the (approximate) space in bytes that may
+						be recovered by compaction (when we get it).
+
+5). Added free-space filling in Debug builds for fragment truncation.
+	In Debug builds, all padding for alignment is filled with '=', all
+	deleted data is filled with '-'.
+
+Version 0.01.006
+================
+(Made by AjT, 27 December 1995)
+
+1). Now uses E32 (051) and F32 (015)
+
+Version 0.01.005
+================
+(Made by AjT, 14 December 1995)
+
+1). Now uses E32 (050) and F32 (014)
+
+Version 0.01.004
+================
+(Made by Geert, 24 November 1995)
+
+1). Fully exploits the cleanup stack, including the new 049 functionality.
+
+	All CBase-derived classes now feature both NewL() and NewLC() static
+	member functions. NewLC() returns a new instance which has been placed
+	on the cleanup stack.
+
+	RReadStream and RWriteStream instances provide the conversion to
+	TCleanupItem which enables them to be pushed onto the cleanup stack.
+
+	The effect is as if the stream is passed to CleanupStack::PushL() by
+	reference; i.e., the cleanup stack holds a pointer to the RXxxStream
+	and should be popped before it goes out of scope.
+	The benefit of this is that the RXxxStream instance is effectively
+	NULLed by the cleanup operation, as it is by Close(). It can therefore
+	be Close()'d afterwards without adverse	effects.
+	The same is not true for any copies of the RXxxStream object.
+
+	The various stream classes' OpenL(), CreateL() and AppendL() members
+	have been complemented with OpenLC(), CreateLC() and AppendLC() which
+	additionally push the stream in question.
+
+	The 'canonical' form of functions opening and processing a stream
+	should be something like the following (taken from T_SHAPE.CPP):
+
+	TStream CShape::StoreL(CStreamStore &aStore) const
+		{
+
+		RStoreWriteStream stream;
+		TStream id=stream.CreateLC(aStore);
+		StoreL(stream);
+		stream.CommitL();
+		CleanupStack::PopAndDestroy();
+		return id;
+		}
+
+	Note that the cleanup operation does not attempt to commit the stream
+	and the call to CommitL() is therefore essential. Close() causes a
+	CommitL() to happen but does not pass on any errors. A function like
+	the one shown should make sure to report errors during commit, since
+	they may invalidate the entire operation.
+
+	This code may result in 'stream heaven', since a new stream may be
+	created whose id is never returned to the outside world. One possible
+	solution would be for CreateLC to push a cleanup operation designed to
+	get rid of the stream altogether.
+
+2). The full functionality of descriptor streaming is now implemented.
+
+	TDes8 and TDes16 input operators now handle the case where the stream
+	was written by the other class's output operator. This would occur
+	when a text descriptor stream written on an ASCII machine is moved
+	to a Unicode machine or vice versa. The result is the same as that
+	of TDes16::Copy(const TDesC8&) and TDes8::Copy(const TDesC16&).
+	The external representation of TDes16 has changed to accommodate this
+	requirement. TDes8's remains the same.
+
+	In addition, the input operators no longer panic if the	streamed
+	descriptor is too long to fit into the one being read. They now leave
+	with KErrOverflow.
+
+Version 0.01.003
+================
+(Made by Geert, 15 November 1995)
+
+1). CStoreMap now associates stream ids with surrogates, rather than pointers.
+	This is necessary to be able to store partially loaded object networks.
+	A 'Save As...' function storing documents using deferred loading may
+	benefit from this functionality. The alternative is to load the component,
+	possibly temporarily, and use its StoreL() as usual.
+	When a StoreComponentsL() encounters a component which hasn't been loaded,
+	it should copy the component's stream using RWriteStream::WriteL
+	(RReadStream&) or RWriteStream::WriteL(RReadStream&,TInt) and bind the
+	existing surrogate to the new stream id.
+
+	The following code illustrates this:
+
+	void TShapeHolder::StoreComponentsL(
+			CStreamStore &aStore,CStoreMap &aMap) const
+		{
+
+		if (iShape==NULL)
+			return;
+	//
+		TStream id;
+		if (iShape.IsPtr())
+			id=iShape->StoreL(aStore);
+		else
+			{
+			RStoreReadStream in;
+			in.OpenL(BackingStore(),iShape.AsStream());
+			RStoreWriteStream out;
+			id=out.CreateL(aStore);
+			out.WriteL(in);
+			out.Close();
+			in.Close();
+			}
+		aMap.BindL(iShape,id);
+		}
+
+	For reasons of clarity, the example ignores error recovery issues. It also
+	assumes there is a BackingStore() member returning a reference to the store
+	containing unloaded components. The iShape member is a surrogate.
+
+	Note that the version of WriteL() used will only work if the underlying
+	stream implementation has an end-of-stream marker of some sort.
+	This is currently the case for all implementations, with the exception of
+	CWriteOnceFileStore. On a CWriteOnceFileStore, use the length-limited
+	stream copying functions.
+
+2). The implicit conversions from surrogates to pointers or stream ids have
+	been withdrawn. The two-way implicit conversions were ambiguities
+	waiting to happen. Moreover, when storing, stream ids are interpreted
+	as references within the same store, whereas surrogates and	pointers
+	are treated as external references, and mapped to an 'equivalent'
+	stream within the store. It seemed prudent not to have implicit conversions
+	that might cause an external reference to be interpreted as an internal one
+	accidentally.
+	Use the AsStream() and AsPtr() explicit conversion functions instead. Note
+	that surrogates can still be used as pointers in most circumstances.
+
+3). Problems with FileStore::FlushL() during clean-up have been fixed,
+	also ensuring stores which are not written to do not have their headers
+	updated on closing.
+
+4). The rewritable file store lost its root stream saving code in a code
+	reshuffle. This has been fixed.
+
+5). Slight change in CommitL() semantics. Whenever possible, a stream
+	implementation will carry on accepting data after a CommitL().
+	Currently only Huffman-filtered streams shut down on CommitL().
+
+	Filters can be separate from the data producer or consumer; or they can
+	be attached to it. Filters attached to a stream are virtually transparent:
+	they pass CommitL()s on down the chain to the ultimate consumer.
+	Separate filters work relative to the stream they have been opened on:
+	CommitL()'s effect is to terminate the filter's output; the consuming
+	stream is not committed.
+
+6). Resource stores have been modified. Header file is S32RSTR.H. Two
+	stores are available:
+	
+	CResourceFileStore: is a single	file resource store. No format
+	assumptions are made, and resources are	indexed from 1.
+	
+	CResourceStore: is a multi-file resource store, assuming the HCIL
+	first resource format. AddFileL() adds a resource file, and returns
+	the id of the first resource; to remove a file RemoveFileL() requires
+	the id of the first resource.
+	
+	RResourceStream works with either type of store: The CResourceStore
+	will locate the resource file which has the resource id passed.
+
+7). There is a known problem with copying streams in the presence of
+	a filter. (e.g., copying a compressed stream to an uncompressed one)
+	If both streams are contained within the same CRewritableFileStore,
+	this situation will cause contention for the single read buffer,
+	resulting in a panic.
+
+8). When the new cleanup stack arrives, hopefully in E32 049, streams will
+	be able to be pushed onto the cleanup stack. By their nature, streams are
+	almost always local to a function; e.g., StoreComponentsL() and
+	RestoreComponentsL(). Streaming code should therefore benefit enormously
+	from this facility.
+
+Version 0.01.002
+================
+(Made by Geert, 27 October 1995)
+
+1). Finalised the design of stream internals to support efficient
+	stream-to-stream copying and data filters such as on-the-fly Huffman
+	compression and decompression as well as encryption. The client API was
+	not affected.
+
+2). Fixed a conditional inclusion in <s32bstr.h> testing the wrong macro.
+	Thanks to Duncan Skelton for pointing this out.
+
+3). On failure, CXxxFileStore::NewL() would not Close() the RFile passed in if
+	the initial allocation failed, but it would do so during the second phase
+	of construction. Ownership of the file now passes to the file store as soon
+	as it is handed to NewL(). Accordingly, if NewL() fails the file will be
+	closed.
+	Thanks to David Wood and Chris Wilson for reporting this problem.
+
+4). All User::Leave()s now use error codes taken from <e32std.h>.
+
+5). Implemented Huffman encoding and decoding filters. They are not currently
+	available through the client API, pending a rethink of the various public
+	headers. If a requirement for standalone Huffman filters emerges, they can
+	be added quickly and easily. T_STRM.CPP and T_HUFF.CPP demonstrate the way
+	we intend to provide standalone filters. (RHexXxxStream and RHuffXxxStream.)
+
+6). Implemented an experimental 'resource store'. It provides access to Symbian
+	resource files via the stream store interface. For the time being, it
+	is made available through <s32fstr.h>. Streams opened on the resource store
+	use the Huffman decoding filter to present the client with uncompressed
+	resource data.
+
+7). Added a number of #pragma message()s to remind us of areas needing attention.
+
+8). Implemented TInt64 streaming and CBufXxx input. (i.e., operator>>(
+	RReadStream&,CBufBase&))
+	We would like to hear of people's requirements for streaming additional base
+	components.
+
+9). There is a testCopy() template function in T_CONV.CPP which can provide some
+	assistance in testing your component's StoreL() and RestoreL() functions.
+	The intention is to make it available through a <s32test.h> header shortly.
+
+Version 0.01.001
+================
+(Made by Geert, 16 October 1995)
+
+1). First release.
+
+	The main header files are S32STRM.H and S32STOR.H.
+	S32BSTR.H and S32FSTR.H respectively provide memory-based and
+	file-based streams and stores.
+
+	The header file S32ADT.H is for the use of implementers of the
+	various stream and store flavours.
+
+2). Works with E32 047 and F32 011.
+
+3). CBufStore may be removed in a future release.
+

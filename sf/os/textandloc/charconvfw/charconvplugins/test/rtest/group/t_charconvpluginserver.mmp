@@ -1,0 +1,100 @@
+/*
+* Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+TARGET		  t_charconvpluginserver.exe
+TARGETTYPE	  exe
+UID 0x1000007A 0xE27AD85E
+//for browser
+SECUREID 0x10008D39
+VENDORID		0x70000001
+
+CAPABILITY		ProtServ
+
+USERINCLUDE		../../
+USERINCLUDE		../tsrc/plugins
+USERINCLUDE		../../../inc
+
+APP_LAYER_SYSTEMINCLUDE 
+OS_LAYER_LIBC_SYSTEMINCLUDE 
+
+SOURCEPATH		..\tsrc\main
+SOURCE			t_charconvpluginserver.cpp
+SOURCE			t_big5.cpp
+SOURCE			t_cp949.cpp
+SOURCE			t_autodetect.cpp
+
+SOURCE			t_win1250.cpp
+SOURCE			t_win1251.cpp
+SOURCE			t_win1253.cpp
+SOURCE			t_win1254.cpp
+SOURCE			t_win1255.cpp
+SOURCE			t_win1256.cpp
+SOURCE			t_win1257.cpp
+SOURCE			t_win1258.cpp
+SOURCE			t_win874.cpp
+SOURCE			t_ucs2.cpp
+SOURCE			t_turkishsingle.cpp
+SOURCE			t_turkishlockingsingle.cpp
+SOURCE			t_turkishlocking.cpp
+SOURCE			t_tis_620.cpp
+SOURCE			t_spanishgsmsingle.cpp
+SOURCE			t_snm.cpp
+SOURCE			t_replacement.cpp
+SOURCE			t_portugueselockingsingle.cpp
+SOURCE			t_portugueselocking.cpp
+SOURCE			t_portuguesesingle.cpp
+SOURCE			t_iso8859x.cpp g_tiso8859x.cpp
+SOURCE			t_iscii.cpp
+SOURCE			t_gb2312.cpp
+SOURCE			t_gbk.cpp
+SOURCE			t_hz.cpp
+SOURCE			t_extendedsms.cpp
+SOURCE			t_koi8r.cpp
+SOURCE			t_koi8u.cpp
+SOURCE			t_gb18030.cpp
+SOURCE			t_multi_plugins.cpp
+SOURCE			t_generalforeign.cpp
+SOURCE			t_jis.cpp
+SOURCE			t_builtin.cpp
+SOURCE			t_j5_kddiau.cpp
+SOURCE			t_j5_docomo.cpp
+SOURCE			t_eucjpdirectmap.cpp
+SOURCE			t_shiftjisdirectmap.cpp
+SOURCE			t_eucjp_packed.cpp
+SOURCE			t_eucjp_packed_2.cpp
+SOURCE			t_iso2022jp.cpp
+SOURCE			t_iso2022jp_2.cpp
+SOURCE			t_iso2022jp1_2.cpp
+SOURCE			t_shiftjis_kddiau.cpp
+SOURCE			t_shiftjis_docomo.cpp
+
+LIBRARY		euser.lib
+LIBRARY		efsrv.lib
+LIBRARY		charconv.lib
+LIBRARY	    testexecuteutils.lib 
+LIBRARY	    testexecutelogclient.lib
+LIBRARY		ecom.lib 
+LIBRARY		shiftjis_kddiau_shared.lib
+LIBRARY		shiftjis_docomo_shared.lib
+
+#ifdef ENABLE_ABIV2_MODE
+DEBUGGABLE_UDEBONLY
+#endif
+
+epocstacksize	50000
+
+SMPSAFE

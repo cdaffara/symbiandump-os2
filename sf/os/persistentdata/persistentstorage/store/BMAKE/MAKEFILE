@@ -1,0 +1,51 @@
+# makefile to replace BLD.CMD
+#
+# plat is wins/marm
+# cfg is rel,deb,urel,udeb
+# target is component to build
+#
+TARGETS=estor
+
+MAKE_DIR=\epoc32\make\$(PLAT)
+
+MAKE=nmake -nologo
+MAKMAKE=makmake
+MAKCLEAN=makmake -clean
+
+!if "$(PLAT)" == "marm"
+CPP_FLAG=-Wno-non-virtual-dtor
+!endif
+
+all: $(TARGETS)
+
+$(TARGETS):
+!if "$(PLAT)" == "ide"
+# build the IDE makfile in the current directory
+#
+    $(MAKMAKE) -d $(*B) $(CFG)
+!else if "$(CFG)" == "clean"
+# use Makmake's clean verb to delete all generated files
+#
+    $(MAKCLEAN) -d $(*B) $(PLAT)
+    @if exist $(MAKE_DIR)\$(*B).$(PLAT) erase $(MAKE_DIR)\$(*B).$(PLAT)
+!else
+	@$(MAKE) -c $(MAKE_DIR)\$(*B).$(PLAT)
+	$(MAKE) -kcs -f$(MAKE_DIR)\$(*B).$(PLAT) $(CFG) USERDEFS=$(CPP_FLAG) 1>$(*B).$(PLAT).$(CFG).log 2>&1
+!endif
+
+.SUFFIXES: .$(PLAT) .mmp
+
+.mmp{$(MAKE_DIR)}.$(PLAT):
+	$(MAKMAKE) -d $(*B) $(PLAT)
+
+wins:
+    @$(MAKE) plat=wins cfg=urel
+    @$(MAKE) plat=wins cfg=udeb
+
+marm:
+    @$(MAKE) plat=marm cfg=urel
+    @$(MAKE) plat=marm cfg=udeb
+
+clean:
+    @$(MAKE) plat=wins cfg=clean
+    @$(MAKE) plat=marm cfg=clean

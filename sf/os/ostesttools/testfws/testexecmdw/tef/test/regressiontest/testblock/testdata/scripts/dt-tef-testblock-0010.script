@@ -1,0 +1,44 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SERVER te_RegBlockTestSuite -SharedData
+
+START_TESTCASE DT-TEF-TestBlock-0010
+//! @SYMTestCaseID          DT-TEF-TestBlock-0010
+//! @SYMCreationDate        03-07-2008
+//! @SYMAuthor              DavidZhang
+//! @SYMTestType            CT
+//! @SYMTestPriority        Medium
+//! @SYMTestCaseDesc        SHARED_ACTIVE_SCHEDULER/STORE_ACTIVE_SCHEDULER test.
+//! @SYMTestExpectedResults The test completes without errors.
+//!                         The test result should be pass.
+//! @SYMTestActions         Check that an active object created in the first block is still found in the second block's
+//!                         active scheduler assuming that the test case reuses
+//!                         the active scheduler created in the first block (using SHARED_ACTIVE_SCHEDULER/STORE_ACTIVE_SCHEDULER)
+	START_TEST_BLOCK	100 te_RegBlockTestSuite ${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini
+		SHARED_ACTIVE_SCHEDULER
+		CREATE_OBJECT	te_RegBlockTestActiveObjectWrapper	TestCase077_obj
+		COMMAND		TestCase077_obj			AddActiveObjectToScheduler
+		STORE		TestCase077_obj
+		STORE_ACTIVE_SCHEDULER
+	END_TEST_BLOCK
+	START_TEST_BLOCK	100 te_RegBlockTestSuite ${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini
+		SHARED_ACTIVE_SCHEDULER
+		RESTORE_OBJECT	te_RegBlockTestActiveObjectWrapper	TestCase077_obj
+		COMMAND		TestCase077_obj			ActivateActiveObject		TestCase077_obj
+		OUTSTANDING
+	END_TEST_BLOCK
+END_TESTCASE DT-TEF-TestBlock-0010

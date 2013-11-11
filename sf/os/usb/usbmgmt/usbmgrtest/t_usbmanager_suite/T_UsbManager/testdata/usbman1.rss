@@ -1,0 +1,100 @@
+/*
+* Copyright (c) 2003-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+* Resource file for usbman configuration.
+*
+*/
+
+/**
+ @file
+*/
+
+NAME USBM
+
+#include <badef.rh>
+#include "usbman.rh"
+#ifdef LANGUAGE_01 				// UK English  
+ 	#include "usbman_01.rls"	
+#elif LANGUAGE_02 	 				// French  
+ 	#include "usbman_02.rls"	
+#elif defined LANGUAGE_03  		// German
+ 	#include "usbman_03.rls"
+#elif defined LANGUAGE_10  		// US English
+ 	#include "usbman_10.rls"
+#endif      
+
+RESOURCE BA_RSS_SIGNATURE
+	{
+	signature = 0;
+	}
+
+RESOURCE usb_configuration usb_config
+	{
+	}
+
+RESOURCE CLASS_UIDS uids_one
+	{
+	uids = {0x10203285, 0x10203287, 0x10203289};
+	}
+	
+RESOURCE CLASS_UIDS uids_two
+	{
+	uids = {0x10203287, 0x10203289};
+	}
+	
+RESOURCE PERSONALITY_ARRAY device_personalities
+	{
+	personalities = 
+		{
+		PERSONALITY
+			{
+ 			descriptorType = 100;
+			bcdUSB = 101;
+			bcdDeviceClass = 102;
+			bcdDeviceSubClass = 103;
+			protocol = 104;
+			maxPacketSize = 105;
+			numConfigurations = 107;
+			vendorId = 108;
+			productId =109;
+			bcdDevice = 110;
+			manufacturer = per_manufacturer1;
+			product = per_product1;
+			id = 113;					
+			class_uids = uids_one;			
+			description = per_description1;
+			},
+		PERSONALITY
+			{
+ 			descriptorType = 2;
+			bcdUSB = 2;
+			bcdDeviceClass = 2;
+			bcdDeviceSubClass = 2;
+			protocol = 2;
+			maxPacketSize = 256;
+			numConfigurations = 1;
+			vendorId = 2;
+			productId = 2;
+			bcdDevice = 2;
+			manufacturer= per_manufacturer2;
+			product = per_product2;
+			id = 2;					
+			class_uids = uids_two;			
+			description = per_description2;
+			}
+		};
+	}
+					
+			
+	

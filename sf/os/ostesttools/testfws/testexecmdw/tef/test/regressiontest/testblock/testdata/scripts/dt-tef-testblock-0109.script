@@ -1,0 +1,42 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SERVER te_RegBlockTestSuite 
+
+START_TESTCASE DT-TEF-TestBlock-0109
+//! @SYMTestCaseID          DT-TEF-TestBlock-0109
+//! @SYMCreationDate        29-07-2008
+//! @SYMAuthor              extjasonzhou
+//! @SYMTestType            CT
+//! @SYMTestPriority        Medium
+//! @SYMTestCaseDesc        Test Read/Write value from/to configuration file.
+//! @SYMTestExpectedResults Value should be read/write correctly.
+//! @SYMTestActions         1. Write integer value to config file.
+//!                         2. check the value.
+//!                         3. Write bool value to config file.
+//!                         4. check the value.
+//!                         5. Write hex value to config file.
+//!                         6. check the value.
+//!                         7. Write string value to config file.
+//!                         8. check the value.
+	START_TEST_BLOCK	100 te_RegBlockTestSuite ${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini
+		CREATE_OBJECT	te_RegBlockTestWrapper	TC0109_obj_name
+		COMMAND		TC0109_obj_name		WriteIntValue			TC0109_ValSection
+		COMMAND		TC0109_obj_name		WriteBoolValue			TC0109_ValSection
+		COMMAND		TC0109_obj_name		WriteHexValue			TC0109_ValSection
+		COMMAND		TC0109_obj_name		WriteStringValue		TC0109_ValSection
+	END_TEST_BLOCK
+END_TESTCASE DT-TEF-TestBlock-0109

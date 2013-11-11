@@ -1,0 +1,46 @@
+// Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+
+TARGET      normal_plugin.dll
+TARGETTYPE  PLUGIN
+UID         0x10009D8D 0x102836F5 
+CAPABILITY  All -Tcb
+
+USERINCLUDE ../inc
+USERINCLUDE ../../../shared/inc
+USERINCLUDE ../../../../src/inc
+
+OS_LAYER_SYSTEMINCLUDE
+
+SOURCEPATH  ../src
+SOURCE      baseplugin.cpp
+SOURCE      normalplugin.cpp
+SOURCE      plugintimer.cpp
+
+
+START RESOURCE ../data/102836F5.rss 
+TARGET normal_plugin.rsc
+END
+
+LIBRARY     euser.lib
+LIBRARY     ecom.lib
+LIBRARY     test_featmgr.lib
+
+// Trace macros
+//MACRO     TEST_PLUGIN_API_TRACE_FLAG  // Uncomment during testing to get API traces.
+//MACRO     TEST_PLUGIN_TRACE_FLAG      // Uncomment during testing to get COMPONENT traces.
+
+SMPSAFE

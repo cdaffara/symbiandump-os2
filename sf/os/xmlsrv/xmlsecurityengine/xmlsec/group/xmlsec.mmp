@@ -1,0 +1,92 @@
+/*
+* Copyright (c) 2005-2006 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Project definition file for XMLSec component.
+*
+*/
+
+#include "../../inc/xmlsecvariant.hrh"
+
+TARGET          xmlsec.dll
+TARGETTYPE      dll
+UID             0x1000008D 0x101F9790
+
+SOURCEPATH ../src
+
+SOURCE xmlsec_app.c
+SOURCE xmlsec_base64.c
+SOURCE xmlsec_bn.c
+SOURCE xmlsec_buffer.c
+SOURCE xmlsec_c14n.c
+SOURCE xmlsec_dl.c
+SOURCE xmlsec_enveloped.c
+SOURCE xmlsec_errors.c
+SOURCE xmlsec_io.c
+SOURCE xmlsec_keyinfo.c
+SOURCE xmlsec_keys.c
+SOURCE xmlsec_keysdata.c
+SOURCE xmlsec_keysmngr.c
+SOURCE xmlsec_list.c
+SOURCE xmlsec_membuf.c
+SOURCE xmlsec_nodeset.c
+SOURCE xmlsec_error_flag.c
+SOURCE xmlsec_parser.c
+SOURCE xmlsec_soap.c
+SOURCE xmlsec_strings.c
+SOURCE xmlsec_templates.c
+SOURCE xmlsec_transforms.c
+SOURCE xmlsec_x509.c
+SOURCE xmlsec_xkms.c
+SOURCE xmlsec_xmldsig.c
+SOURCE xmlsec_xmlenc.c
+SOURCE xmlsec_xmlsec.c
+SOURCE xmlsec_xmltree.c
+SOURCE xmlsec_xpath.c
+SOURCE xmlsec_xslt.c
+
+OS_LAYER_SYSTEMINCLUDE
+SYSTEMINCLUDE ../../../inc
+
+SYSTEMINCLUDE /epoc32/include/libc
+
+USERINCLUDE ../inc
+
+LIBRARY estlib.lib
+#if !defined(__RD_XMLSEC_SRCINC_CHANGE_REVERSE__)
+LIBRARY		xmlengine.lib
+#else
+LIBRARY		wsstarxmlengine.lib
+#endif
+
+nostrictdef
+epocallowdlldata
+
+#if defined(ARMCC)
+#if !defined(__RD_XMLSEC_MEMCOPY_PROBLEM_FIX__)
+  DEFFILE ../eabi/xmlsec.def
+#else
+  DEFFILE ../eabi/wsstarxmlsec.def
+#endif
+#elif defined(WINSCW) || defined(WINS)
+  DEFFILE ../bwinscw/xmlsec.def
+#endif
+
+#ifdef CAP_GENERAL_DLL
+    CAPABILITY CAP_GENERAL_DLL
+#else
+    CAPABILITY ALL -TCB
+#endif
+
+    VENDORID VID_DEFAULT        
+
+SMPSAFE

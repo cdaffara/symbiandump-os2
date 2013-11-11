@@ -1,0 +1,83 @@
+// Copyright (c) 2008-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+//! @file
+//! @SYMTestSuiteName               	utfv1-unit-test-suite.script
+//! @SYMScriptTestEnvironment       	TEF
+
+//
+PRINT Run all te_UTrace Suite Tests
+
+//
+LOAD_SUITE te_UTraceSuite
+//
+
+START_TESTCASE			DT-DEBUG-TRACE-UTFv1-APICheckUserPerformance-0001
+//! @SYMTestCaseID		DT-DEBUG-TRACE-UTFv1-APICheckUserPerformance-0001
+//! @SYMTestCaseDesc     Run test to test the user-side API performance 
+//! @SYMTestPriority     Medium
+//! @SYMTestActions    Measure the trace time of the implemented user-side API
+//! @SYMTestExpectedResults     Verify that performance of the trace APIs are not significantly more intrusive than previous implementations  
+//! @SYMTestType         UT
+//! @SYMTestStatus   Implemented
+//! @SYMPREQ                 PREQ1635
+//! @SYMREQ   
+RUN_TEST_STEP 300 te_UTraceSuite CUTrace_User_Performance_Step c:\testdata\configs\te_utracesuite.ini Performance
+END_TESTCASE			DT-DEBUG-TRACE-UTFv1-APICheckUserPerformance-0001
+
+
+START_TESTCASE			DT-DEBUG-TRACE-UTFv1-APINonStatic-0001
+//! @SYMTestCaseID		DT-DEBUG-TRACE-UTFv1-APINonStatic-0001
+//! @SYMTestCaseDesc     Run test to for nonstatic APIs
+//! @SYMTestPriority     Medium
+//! @SYMTestActions    Test the implementation of nonstatic APIs
+//! @SYMTestExpectedResults     Verify that traces generated as expected
+//! @SYMTestType         UT
+//! @SYMTestStatus   Implemented
+//! @SYMPREQ                 PREQ1635
+//! @SYMREQ   
+RUN_TEST_STEP 100 te_UTraceSuite CUTrace_nonStatic_Step c:\testdata\configs\te_utracesuite.ini General
+END_TESTCASE			DT-DEBUG-TRACE-UTFv1-APINonStatic-0001
+
+
+START_TESTCASE			DT-DEBUG-TRACE-UTFv1-APIStatic-0001
+//! @SYMTestCaseID		DT-DEBUG-TRACE-UTFv1-APIStatic-0001
+//! @SYMTestCaseDesc     Run test to for static APIs
+//! @SYMTestPriority     Medium
+//! @SYMTestActions    Test the implementation of static APIs
+//! @SYMTestExpectedResults     Verify that traces generated as expected
+//! @SYMTestType         UT
+//! @SYMTestStatus   Implemented
+//! @SYMPREQ                 PREQ1635
+//! @SYMREQ 
+RUN_TEST_STEP 100 te_UTraceSuite CUTrace_Static_Step c:\testdata\configs\te_utracesuite.ini General
+END_TESTCASE			DT-DEBUG-TRACE-UTFv1-APIStatic-0001
+
+
+//uncomment test case when kernel side API reimplemented/graceful kernel side bahviour tested
+//START_TESTCASE			DT-DEBUG-TRACE-UTFv1-APICheckKernelPerformance-0001
+//! @SYMTestCaseID		DT-DEBUG-TRACE-UTFv1-APICheckKernelPerformance-0001
+//! @SYMTestCaseDesc     Run test to test the kernel-side API performance 
+//! @SYMTestPriority     Medium
+//! @SYMTestActions    Measure the trace time of the implemented kernel-side API
+//! @SYMTestExpectedResults     Verify that performance of the trace APIs are not significantly more intrusive than previous implementations  
+//! @SYMTestType         UT
+//! @SYMTestStatus   Implemented
+//! @SYMPREQ                 PREQ1635
+//! @SYMREQ   
+//RUN_TEST_STEP 100 te_UTraceSuite CUTrace_KernPerf_Step c:\testdata\configs\te_utracesuite.ini General
+//END_TESTCASE			DT-DEBUG-TRACE-UTFv1-APICheckKernelPerformance-0001
+
+PRINT Complete_te_UTrace_Tests

@@ -1,0 +1,621 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+
+PRINT Run all RTA tests 
+PRINT
+
+LOAD_SUITE RTAUtils
+
+RUN_UTILS MkDir c:\rta\
+RUN_UTILS MkDir c:\rta\testdata\
+
+RUN_UTILS CopyFile z:\rta\testdata\*.* c:\rta\testdata\*.*
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RTA-3250
+//! @SYMTestCaseDesc 		Test multipart archive creation
+//! @SYMDEF			PDEF099961
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Tests whether constructed multicontent .content file has the right MIME type
+//! @SYMTestExpectedResults	A .content file is produced which has "application/x-caf" MIME
+//! @SYMTestType		UT
+START_TESTCASE SEC-CAF-RTA-3250
+RUN_TEST_STEP 100 RTAUtils MultipartContent z:\rta\rta.ini MultipartContent
+END_TESTCASE SEC-CAF-RTA-3250
+
+RUN_UTILS Delete c:\output.content
+RUN_UTILS Delete c:\output2.content
+
+//! @SYMTestCaseID 		SEC-CAF-RTA-0024
+//! @SYMTestCaseDesc 		ClearRightsDb
+START_TESTCASE SEC-CAF-RTA-0024
+RUN_TEST_STEP 100 RTAUtils ClearRightsDb 
+END_TESTCASE SEC-CAF-RTA-0024
+
+RUN_UTILS Delete c:\output.contentrights 
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RTA-0001
+//! @SYMTestCaseDesc 		Create a Drm archive
+//! 				(CreateArchive)
+//! @SYMPREQ			REQ3678
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Constructs a DRM archive from the content and rights xml files provided
+//! @SYMTestExpectedResults	A .contentrights file is produced
+//! @SYMTestType		UT
+START_TESTCASE SEC-CAF-RTA-0001
+RUN_TEST_STEP 100 RTAUtils CreateDrmArchive z:\rta\rta.ini CreateDrmArchive
+END_TESTCASE SEC-CAF-RTA-0001
+
+
+RUN_UTILS Delete c:\output.txt
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RTA-0002
+//! @SYMTestCaseDesc 		Display the contents of a Drm archive
+//! 				(DumpArchive)
+//! @SYMPREQ			REQ3678
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Opens a DRM archive and displays the objects inside
+//! @SYMTestExpectedResults	Reads the archive sucessfully
+//! @SYMTestType		UT
+START_TESTCASE SEC-CAF-RTA-0002
+RUN_TEST_STEP 100 RTAUtils DumpDrmArchive z:\rta\rta.ini DumpDrmArchive
+END_TESTCASE SEC-CAF-RTA-0002
+
+RUN_UTILS Delete c:\imported.content
+RUN_UTILS Delete c:\TestRights001.TXT
+RUN_UTILS Delete c:\TestRights002.TXT
+RUN_UTILS Delete c:\TestRights003.TXT
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RTA-0003
+//! @SYMTestCaseDesc 		Import a Drm archive
+//! 				(ImportArchive)
+//! @SYMPREQ			REQ3678
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Imports a DRM archive producing a .content file and adding rights to the rights database
+//! @SYMTestExpectedResults	A .content file is produced
+//! @SYMTestType		UT
+START_TESTCASE SEC-CAF-RTA-0003
+RUN_TEST_STEP 100 RTAUtils ImportDrmArchive z:\rta\rta.ini ImportDrmArchive
+END_TESTCASE SEC-CAF-RTA-0003
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RTA-0004
+//! @SYMTestCaseDesc 		Display the rights present in the rights database
+//! 				(DumpRightsDb)
+//! @SYMPREQ			REQ3678
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Display the rights present in the database
+//! @SYMTestExpectedResults	No error occurs
+//! @SYMTestType		UT
+START_TESTCASE SEC-CAF-RTA-0004
+RUN_TEST_STEP 100 RTAUtils DumpRightsDb z:\rta\rta.ini DumpRightsDb
+END_TESTCASE SEC-CAF-RTA-0004
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RTA-0005
+//! @SYMTestCaseDesc 		Clear all rights in the database
+//! 				(ClearRightsDb)
+//! @SYMPREQ			REQ3678
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Clear all rights from the database
+//! @SYMTestExpectedResults	All rights are cleared
+//! @SYMTestType		UT
+START_TESTCASE SEC-CAF-RTA-0005
+RUN_TEST_STEP 100 RTAUtils ClearRightsDb 
+END_TESTCASE SEC-CAF-RTA-0005
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RTA-0006
+//! @SYMTestCaseDesc 		Display contents of rights db, should be empty
+//! 				(DumpRightsDb2)
+//! @SYMPREQ			REQ3678
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Display contents of rights db
+//! @SYMTestExpectedResults	Rigths db should be empty
+//! @SYMTestType		UT
+START_TESTCASE SEC-CAF-RTA-0006
+RUN_TEST_STEP 100 RTAUtils DumpRightsDb z:\rta\rta.ini DumpRightsDb2
+END_TESTCASE SEC-CAF-RTA-0006
+
+LOAD_SUITE tcaf
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RTA-0007
+//! @SYMTestCaseDesc 		Compare the size of the content with the size of the original content
+//! 				(Size)
+//! @SYMPREQ			REQ3678
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Compare the size of the content using CAF and RFile
+//! @SYMTestExpectedResults	Sizes are identical
+//! @SYMTestType		IT
+START_TESTCASE SEC-CAF-RTA-0007
+RUN_TEST_STEP 100 tcaf CAFSizeStep z:\rta\rta.ini  CompareContentF32Agent
+END_TESTCASE SEC-CAF-RTA-0007
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RTA-0008
+//! @SYMTestCaseDesc 		Compare the content with the original content
+//! 				(ReadSeek)
+//! @SYMPREQ			REQ3678
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Compare the content using CAF and RFile
+//! @SYMTestExpectedResults	Content is identical
+//! @SYMTestType		IT
+START_TESTCASE SEC-CAF-RTA-0008
+RUN_TEST_STEP 100 tcaf CAFSeekReadStep z:\rta\rta.ini  CompareContentF32Agent
+END_TESTCASE SEC-CAF-RTA-0008
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RTA-0009
+//! @SYMTestCaseDesc 		Compare the size of the content with the size of the original content
+//! 				(Size_Handle)
+//! @SYMPREQ			REQ3678
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Compare the size of the content using CAF and RFile using file handles
+//! @SYMTestExpectedResults	Sizes are identical
+//! @SYMTestType		IT
+START_TESTCASE SEC-CAF-RTA-0009
+RUN_TEST_STEP 100 tcaf CAFHandleSizeStep z:\rta\rta.ini  CompareContentF32Agent
+END_TESTCASE SEC-CAF-RTA-0009
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RTA-0010
+//! @SYMTestCaseDesc 		Compare the content with the original content
+//! 				(ReadSeek_Handle)
+//! @SYMPREQ			REQ3678
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Compare the content using CAF and RFile using file handles
+//! @SYMTestExpectedResults	Content is identical
+//! @SYMTestType		IT
+START_TESTCASE SEC-CAF-RTA-0010
+RUN_TEST_STEP 100 tcaf CAFHandleSeekReadStep z:\rta\rta.ini  CompareContentF32Agent
+END_TESTCASE SEC-CAF-RTA-0010
+
+
+RUN_UTILS Delete c:\TestRights001.TXT
+RUN_UTILS Delete c:\TestRights002.TXT
+RUN_UTILS Delete c:\TestRights003.TXT
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RTA-0011
+//! @SYMTestCaseDesc 		Supply a file containing rights to the RTA agent
+//! 				(Supply)
+//! @SYMPREQ			REQ3678
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Use the CAF supplier API to supply a file for the RTA
+//! @SYMTestExpectedResults	Rights are removed, left with just the content
+//! @SYMTestType		IT
+START_TESTCASE SEC-CAF-RTA-0011
+RUN_TEST_STEP 100 tcaf CAFSupplierStep z:\rta\rta.ini  SupplyDrm
+END_TESTCASE SEC-CAF-RTA-0011
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RTA-0012
+//! @SYMTestCaseDesc 		Compare the supplied content with the original content
+//! 				(Supply_ReadSeek)
+//! @SYMPREQ			REQ3678
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Compare the content using CAF and RFile
+//! @SYMTestExpectedResults	Content is identical
+//! @SYMTestType		IT
+START_TESTCASE SEC-CAF-RTA-0012
+RUN_TEST_STEP 100 tcaf CAFSeekReadStep z:\rta\rta.ini  CheckImport
+END_TESTCASE SEC-CAF-RTA-0012
+
+RUN_UTILS Delete c:\output.content
+RUN_UTILS Delete c:\TestRights001.TXT
+RUN_UTILS Delete c:\TestRights002.TXT
+RUN_UTILS Delete c:\TestRights003.TXT
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RTA-0013
+//! @SYMTestCaseDesc 		Supply a file containing rights to the RTA agent
+//! 				(Supply_ClientOutputFiles)
+//! @SYMPREQ			REQ3678
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Use the CAF supplier API to supply a file for the RTA
+//! @SYMTestExpectedResults	Rights are removed, left with just the content
+//! @SYMTestType		IT
+START_TESTCASE SEC-CAF-RTA-0013
+RUN_TEST_STEP 100 tcaf CAFClientOutputSupplierStep z:\rta\rta.ini  ClientSupplyDrm
+END_TESTCASE SEC-CAF-RTA-0013
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RTA-0014
+//! @SYMTestCaseDesc 		Supply a file containing rights to the RTA agent
+//! 				(Supply_ClientOutputFiles)
+//! @SYMPREQ			CR1440
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Use the CAF supplier API to supply a file for the RTA
+//! @SYMTestExpectedResults	content Mime type is correctly recognized
+//! @SYMTestType		IT
+START_TESTCASE SEC-CAF-RTA-0014
+RUN_TEST_STEP 100 tcaf CAFClientOutputSupplierStep z:\rta\rta.ini  CheckContentMime
+END_TESTCASE SEC-CAF-RTA-0014
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RTA-0015
+//! @SYMTestCaseDesc 		Compare the content with the original content
+//! 				(Supply_ClientOutputFiles_ReadSeek)
+//! @SYMPREQ			REQ3678
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Compare the content using CAF and RFile
+//! @SYMTestExpectedResults	Content is identical
+//! @SYMTestType		IT
+START_TESTCASE SEC-CAF-RTA-0015
+RUN_TEST_STEP 100 tcaf CAFSeekReadStep z:\rta\rta.ini  CheckImport2
+END_TESTCASE SEC-CAF-RTA-0015
+
+
+//! @SYMTestCaseID 		SEC-CAF-RTA-0025
+//! @SYMTestCaseDesc 		ThreadSharing
+START_TESTCASE SEC-CAF-RTA-0025
+RUN_TEST_STEP 100 tcaf CAFMultiThreadCDataStep z:\rta\rta.ini  ThreadSharing
+RUN_TEST_STEP 100 tcaf CAFHandleMultiThreadCDataStep z:\rta\rta.ini  ThreadSharing
+END_TESTCASE SEC-CAF-RTA-0025
+
+
+
+RUN_UTILS Delete c:\container.contentrights 
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RTA-0016
+//! @SYMTestCaseDesc 		Create a Drm archive with a container inside
+//! 				(CreateArchive2)
+//! @SYMPREQ			REQ3678
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Constructs a DRM archive from the content and rights xml files provided
+//! @SYMTestExpectedResults	A .contentrights file is produced
+//! @SYMTestType		UT
+START_TESTCASE SEC-CAF-RTA-0016
+RUN_TEST_STEP 100 RTAUtils CreateDrmArchive z:\rta\rta.ini  CreateDrmArchive2
+END_TESTCASE SEC-CAF-RTA-0016
+
+RUN_UTILS Delete c:\supplied2.content
+RUN_UTILS Delete c:\TestRights001.TXT
+RUN_UTILS Delete c:\TestRights002.TXT
+RUN_UTILS Delete c:\TestRights003.TXT
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RTA-0017
+//! @SYMTestCaseDesc 		Supply a file containing a container and rights to the RTA agent
+//! 				(Supply2)
+//! @SYMPREQ			REQ3678
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Use the CAF supplier API to supply a file for the RTA
+//! @SYMTestExpectedResults	Rights are removed, left with just the content
+//! @SYMTestType		IT
+START_TESTCASE SEC-CAF-RTA-0017
+RUN_TEST_STEP 100 tcaf CAFSupplierStep z:\rta\rta.ini  SupplyDrm2
+END_TESTCASE SEC-CAF-RTA-0017
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RTA-0018
+//! @SYMTestCaseDesc 		Display contents of rights db, should be twice as many counts
+//! 				(DumpRightsDb3)
+//! @SYMPREQ			REQ3678
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Display contents of rights db
+//! @SYMTestExpectedResults	Rights db should be twice the original counts
+//! @SYMTestType		UT
+START_TESTCASE SEC-CAF-RTA-0018
+RUN_TEST_STEP 100 RTAUtils DumpRightsDb z:\rta\rta.ini  DumpRightsDb3
+END_TESTCASE SEC-CAF-RTA-0018
+
+
+//! @SYMTestCaseID 		SEC-CAF-RTA-0026
+//! @SYMTestCaseDesc 		Attribute
+START_TESTCASE SEC-CAF-RTA-0026
+RUN_TEST_STEP 100 tcaf CAFDataAttributeStep z:\rta\rta.ini  Attribute
+RUN_TEST_STEP 100 tcaf CAFDataAttributeSetStep z:\rta\rta.ini  AttributeSet
+RUN_TEST_STEP 100 tcaf CAFDataStringAttributeStep z:\rta\rta.ini  StringAttribute
+RUN_TEST_STEP 100 tcaf CAFDataStringAttributeSetStep z:\rta\rta.ini  StringAttributeSet
+END_TESTCASE SEC-CAF-RTA-0026
+
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RTA-0019
+//! @SYMTestCaseDesc 		Verify that counts are decremented when ExecuteIntent is called
+//! 				(ExecuteIntent)
+//! @SYMPREQ			REQ3678
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Execute intent, import rights, execute intent again, then execute intent a third time
+//! @SYMTestExpectedResults	Execute intent should fail the first time, succeed after rights are imported then fail again because rights are exhausted
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-RTA-0019
+RUN_TEST_STEP 100 RTAUtils ClearRightsDb 
+RUN_UTILS Delete c:\RTATest001.rights 
+RUN_UTILS Delete c:\RTATest001.content
+RUN_TEST_STEP 100 RTAUtils CreateDrmArchive z:\rta\rta.ini CreateRights
+RUN_TEST_STEP 100 tcaf CAFExecuteIntentStep z:\rta\rta.ini ExecuteIntentDisplayFail1
+RUN_TEST_STEP 100 RTAUtils ImportDrmArchive z:\rta\rta.ini ImportRights
+RUN_TEST_STEP 100 tcaf CAFExecuteIntentStep z:\rta\rta.ini ExecuteIntentDisplayOk
+RUN_TEST_STEP 100 tcaf CAFExecuteIntentStep z:\rta\rta.ini ExecuteIntentDisplayFail2
+END_TESTCASE SEC-CAF-RTA-0019
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RTA-1663
+//! @SYMTestCaseDesc 		Verify that calling DeleteFile API will delete rights associated with the file.
+//! @SYMDEF			DEF080669
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Import the rights, call DeleteFile, then execute intent.
+//! @SYMTestExpectedResults	Execute intent should fail because rights is deleted after calling DeleteFile
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-RTA-1663
+RUN_TEST_STEP 100 RTAUtils ClearRightsDb 
+RUN_UTILS Delete c:\RTATest001.rights 
+RUN_UTILS Delete c:\RTATest001.content
+RUN_TEST_STEP 100 RTAUtils CreateDrmArchive z:\rta\rta.ini CreateRights
+RUN_TEST_STEP 100 RTAUtils ImportDrmArchive z:\rta\rta.ini ImportRights
+RUN_TEST_STEP 100 tcaf CAFDeleteStep c:\rta\rta.ini DeleteRightsViaDeleteFile
+RUN_TEST_STEP 100 tcaf CAFExecuteIntentStep z:\rta\rta.ini ExecuteIntentDisplayFail1
+END_TESTCASE SEC-CAF-RTA-1663
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RTA-0020
+//! @SYMTestCaseDesc 		Verify that after DEF080669 is fixed, RTA is still compatible with old database files.
+//! @SYMDEF			DEF080669
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Get RTA server to internalise a db file of orignal format.
+//! @SYMTestExpectedResults	RTA server can internalise the old format. 
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-RTA-0020
+RUN_UTILS DeleteFile c:\rta\rightsdump.txt
+RUN_TEST_STEP 100 RTAUtils LoadOldDb z:\rta\rta.ini LoadOldDb
+RUN_TEST_STEP 100 RTAUtils ClearRightsDb 
+END_TESTCASE SEC-CAF-RTA-0020
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RTA-1860
+//! @SYMTestCaseDesc 		Verify that RTA correctly handles a corrupted file.
+//! @SYMDEF			DEF091117
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		RRtaData client attempts to open a corrupt file.
+//! @SYMTestExpectedResults	KErrCorrupt error is returned.
+//! @SYMTestType		UT
+START_TESTCASE SEC-CAF-RTA-1860
+RUN_TEST_STEP 100 RTAUtils OpenCorruptedFile z:\rta\rta.ini OpenCorruptFile
+END_TESTCASE SEC-CAF-RTA-1860
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RTA-1911
+//! @SYMTestCaseDesc 		Verify container unique id constraint.
+//! @SYMDEF			DEF091118
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Boundary check on container unique id.
+//! @SYMTestExpectedResults	
+//! @SYMTestType		UT
+START_TESTCASE SEC-CAF-RTA-1911
+RUN_TEST_STEP 100 RTAUtils ContainerUniqueIdBoundaryCheck z:\rta\rta.ini ContainerUniqueIdBoundaryCheck
+END_TESTCASE SEC-CAF-RTA-1911
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RTA-1912
+//! @SYMTestCaseDesc 		Verify content name constraint.
+//! @SYMDEF			DEF091119
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Boundary check on content name.
+//! @SYMTestExpectedResults	
+//! @SYMTestType		UT
+START_TESTCASE SEC-CAF-RTA-1912
+RUN_TEST_STEP 100 RTAUtils ContentNamedBoundaryCheck z:\rta\rta.ini ContentNamedBoundaryCheck
+END_TESTCASE SEC-CAF-RTA-1912
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RTA-1913
+//! @SYMTestCaseDesc 		Verify content unique	id constraint.
+//! @SYMDEF			DEF091118
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Boundary check on content unique id.
+//! @SYMTestExpectedResults	
+//! @SYMTestType		UT
+START_TESTCASE SEC-CAF-RTA-1913
+RUN_TEST_STEP 100 RTAUtils ContentUniqueIdBoundaryCheck z:\rta\rta.ini ContentUniqueIdBoundaryCheck
+END_TESTCASE SEC-CAF-RTA-1913
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RTA-1920
+//! @SYMTestCaseDesc 		Verify that container unique id is specified
+//! @SYMDEF			DEF091118
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Check that container unique id is specified
+//! @SYMTestExpectedResults	
+//! @SYMTestType		UT
+START_TESTCASE SEC-CAF-RTA-1920
+RUN_TEST_STEP 100 RTAUtils ContainerNoUniqueId z:\rta\rta.ini ContainerNoUniqueId
+END_TESTCASE SEC-CAF-RTA-1920
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RTA-1921
+//! @SYMTestCaseDesc 		Verify that content unique id is specified
+//! @SYMDEF			DEF091118
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Check that content unique id is specified
+//! @SYMTestExpectedResults	
+//! @SYMTestType		UT
+START_TESTCASE SEC-CAF-RTA-1921
+RUN_TEST_STEP 100 RTAUtils ContentNoUniqueId z:\rta\rta.ini ContentNoUniqueId
+END_TESTCASE SEC-CAF-RTA-1921
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RTA-1928
+//! @SYMTestCaseDesc 		Verify that container unique id is not empty
+//! @SYMDEF			DEF091118
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Check that container unique id is not empty
+//! @SYMTestExpectedResults	
+//! @SYMTestType		UT
+START_TESTCASE SEC-CAF-RTA-1928
+RUN_TEST_STEP 100 RTAUtils ContainerEmptyUniqueId z:\rta\rta.ini ContainerEmptyUniqueId
+END_TESTCASE SEC-CAF-RTA-1928
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RTA-1929
+//! @SYMTestCaseDesc 		Verify that content unique id is not empty
+//! @SYMDEF			DEF091118
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Check that content unique id is not empty
+//! @SYMTestExpectedResults	
+//! @SYMTestType		UT
+START_TESTCASE SEC-CAF-RTA-1929
+RUN_TEST_STEP 100 RTAUtils ContentEmptyUniqueId z:\rta\rta.ini ContentEmptyUniqueId
+END_TESTCASE SEC-CAF-RTA-1929
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RTA-1652
+//! @SYMTestCaseDesc 		Verify that RTA can parse these intents: peek, play, pause, continue, stop, unknown and install. The display intent is tested in other teststeps.
+//! @SYMDEF			DEF081093
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Constructs a DRM archive from the content and rights xml files. The rights include the eight intents listed in TestCaseDesc above.
+//! @SYMTestExpectedResults	A .contentrights file is produced.
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-RTA-1652
+RUN_TEST_STEP 100 RTAUtils CreateDrmArchive z:\rta\rta.ini CreateDrmArchiveAudio
+RUN_TEST_STEP 100 RTAUtils ImportDrmArchive z:\rta\rta.ini ImportDrmArchiveAudio
+END_TESTCASE SEC-CAF-RTA-1652
+
+//! @SYMTestCaseID 		SEC-CAF-RTA-1864
+//! @SYMTestCaseDesc 		Verify that calling DeleteFile API will delete rights associated with the file. Verify that if client does not specify output filename, RTA will return the rights cid in GetSuggestedFileName.
+//! @SYMDEF			DEF088475
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		1. Import rights, 2. save rights db, 3. execute intent, 4. invoke DeleteFile with wrong filename, 5. restore saved db, 6. invoke DeleteFile with correct filename, 7. execute intent
+//! @SYMTestExpectedResults 	1. Rights import pass, 3. execute intent OK, 4. DeletFile with wrong name failed with KErrArgument, 6. DeleteFile pass, 7. execute intent fails with KErrCANoRights. 
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-RTA-1864
+RUN_TEST_STEP 100 RTAUtils ClearRightsDb 
+RUN_UTILS Delete C:\RTA\Rights3.contentrights
+RUN_TEST_STEP 100 RTAUtils CreateDrmArchive z:\rta\rta.ini CreateRights3Archive
+RUN_TEST_STEP 100 RTAUtils ImportDrmArchive z:\rta\rta.ini ImportRights3ClientCreateFiles
+RUN_UTILS CopyFile C:\private\10205ea5\rights.db c:\rta\saved.db
+RUN_TEST_STEP 100 tcaf CAFExecuteIntentStep z:\rta\rta.ini ExecuteIntentRights3OK
+RUN_TEST_STEP 100 tcaf CAFDeleteStep z:\rta\rta.ini DeleteRightsRights3WrongKey
+RUN_TEST_STEP 100 RTAUtils LoadOldDb z:\rta\rta.ini LoadRights3SavedDb
+RUN_TEST_STEP 100 tcaf CAFDeleteStep z:\rta\rta.ini DeleteRightsRights3OK
+RUN_TEST_STEP 100 tcaf CAFExecuteIntentStep z:\rta\rta.ini ExecuteIntentRights3Fail
+END_TESTCASE SEC-CAF-RTA-1864
+
+//! @SYMTestCaseID 		SEC-CAF-RTA-0021
+//! @SYMTestCaseDesc 		Verify that when importing rights, clients can specify output filename and let RTA automatically create all output files. 
+//! @SYMDEF			DEF088475
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		1. Import rights from c:\RTA\Rights3.contentrights created in part1, 2. call DeleteFile with correct filename.
+//! @SYMTestExpectedResults 	1. Rights import pass, 2. DeletFile pass
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-RTA-0021
+
+
+RUN_TEST_STEP 100 RTAUtils ClearRightsDb 
+RUN_UTILS Delete C:\RTA\RtaAuto.content
+RUN_TEST_STEP 100 RTAUtils ImportDrmArchive z:\rta\rta.ini ImportRights3SpecifyOutfile
+RUN_TEST_STEP 100 tcaf CAFDeleteStep z:\rta\rta.ini DeleteRightsRights3SpecifyOutfileOK
+
+RUN_UTILS Delete C:\RTA\RtaAuto.content
+RUN_UTILS Delete C:\RTA\Rights3.contentrights
+RUN_UTILS Delete C:\RTA\RTATest001.content
+END_TESTCASE SEC-CAF-RTA-0021
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RTA-0022
+//! @SYMTestCaseDesc 		Verify that RTA correctly handles a file which has the negative length.
+//! 				(Read_negativeLengthFile)
+//! @SYMDEF			DEF125672
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		RRtaData client attempts to open a file which has negative length.
+//! @SYMTestExpectedResults	KErrCorrupt error is returned.
+//! @SYMTestType		UT
+START_TESTCASE SEC-CAF-RTA-0022
+RUN_TEST_STEP 100 RTAUtils OpenCorruptedFile z:\rta\rta.ini OpenFileWithNegativeLength
+END_TESTCASE SEC-CAF-RTA-0022
+
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RTA-0023
+//! @SYMTestCaseDesc 		Check for Bad file handle
+//! 				(RTABadFileHandleCheck)
+//! @SYMDEF			DEF126906
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Open a file using RFile and transfer the file handle to another process with the file server session not marked as shareable.
+//! @SYMTestExpectedResults 	File opening fails with KErrBadHandle in the receiving process.
+//! @SYMTestType		
+START_TESTCASE SEC-CAF-RTA-0023
+RUN_TEST_STEP 100 RTAUtils RTABadFileHandleCheck z:\rta\rta.ini RTABadFileHandleCheck
+END_TESTCASE SEC-CAF-RTA-0023
+
+RUN_UTILS Delete c:\rightsdb1.txt
+RUN_UTILS Delete c:\rightsdb2.txt
+RUN_UTILS Delete c:\rightsdb3.txt
+
+RUN_UTILS Delete c:\container.contentrights
+RUN_UTILS Delete c:\imported.content
+RUN_UTILS Delete c:\OUTPUT.content
+RUN_UTILS Delete c:\output.contentrights
+RUN_UTILS Delete c:\output.txt
+RUN_UTILS Delete c:\RTATest001.rights
+RUN_UTILS Delete c:\RTATest001.content
+RUN_UTILS Delete c:\supplied.content
+RUN_UTILS Delete c:\supplied2.content
+RUN_UTILS Delete c:\TestRights003.TXT
+RUN_UTILS Delete c:\Audio.content
+RUN_UTILS Delete c:\Audio.contentrights
+
+RUN_SCRIPT z:\tcaf\testcleanupstep.script
+
+PRINT
+PRINT All RTA tests completed
+
+
+
+
+
+
+
+

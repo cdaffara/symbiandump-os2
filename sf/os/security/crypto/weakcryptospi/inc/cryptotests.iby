@@ -1,0 +1,145 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+REM CRYPTO TESTS
+#include "crypto.iby"
+
+define ZDRIVE \epoc32\winscw\c
+
+#include "pbetests.iby"
+#include "pkcs5kdftests.iby"
+#include "paddingtests.iby"
+#include "tcryptospi.iby"
+// conditionally included to avoid to be included in vasco image creation but needed in h4/h6 image creation
+#ifdef _SERIAL_DOWNLOAD
+#include "cryptospi_testplugins.iby"
+#endif
+
+#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
+#include "cryptospi_testwmdrmplugins.iby"
+#endif
+
+file=ABI_DIR\BUILD_DIR\tsymmetric.exe	System\Programs\tsymmetric.exe
+file=ABI_DIR\BUILD_DIR\tasymmetric.exe	System\Programs\tasymmetric.exe
+file=ABI_DIR\BUILD_DIR\tbigint.exe	System\Programs\tbigint.exe
+
+
+
+//	Scripts
+
+data = ZDRIVE\tasymmetric\asymmetricPerformance.txt	tasymmetric\asymmetricPerformance.txt
+
+//TMS support
+data = ZDRIVE\tasymmetric\tasymmetrictests.script		tasymmetric\tasymmetrictests.script
+data = ZDRIVE\tasymmetric\tasymmetrictests.ini		tasymmetric\tasymmetrictests.ini
+
+data = ZDRIVE\tsymmetric\tsymmetricperformancetests.txt tsymmetric\tsymmetricperformancetests.txt
+
+//TMS support
+data = ZDRIVE\tsymmetric\tsymmetrictests.script		tsymmetric\tsymmetrictests.script
+data = ZDRIVE\tsymmetric\symmetricOOMtests.script		tsymmetric\symmetricOOMtests.script
+
+data = ZDRIVE\tsymmetric\AESECBVectorsScript.script	tsymmetric\AESECBVectorsScript.script
+data = ZDRIVE\tsymmetric\AESECB_KAT_VT.script			tsymmetric\AESECB_KAT_VT.script
+data = ZDRIVE\tsymmetric\AESECB_KAT_VK.script			tsymmetric\AESECB_KAT_VK.script
+
+data = ZDRIVE\tsymmetric\AESMonteCarloEncryptECB128.script tsymmetric\AESMonteCarloEncryptECB128.script
+data = ZDRIVE\tsymmetric\AESMonteCarloEncryptECB192.script tsymmetric\AESMonteCarloEncryptECB192.script
+data = ZDRIVE\tsymmetric\AESMonteCarloEncryptECB256.script tsymmetric\AESMonteCarloEncryptECB256.script
+
+data = ZDRIVE\tsymmetric\AESMonteCarloDecryptECB128.script tsymmetric\AESMonteCarloDecryptECB128.script
+data = ZDRIVE\tsymmetric\AESMonteCarloDecryptECB192.script tsymmetric\AESMonteCarloDecryptECB192.script
+data = ZDRIVE\tsymmetric\AESMonteCarloDecryptECB256.script tsymmetric\AESMonteCarloDecryptECB256.script
+
+data = ZDRIVE\tsymmetric\AESMonteCarloEncryptCBC128.script tsymmetric\AESMonteCarloEncryptCBC128.script
+data = ZDRIVE\tsymmetric\AESMonteCarloEncryptCBC192A.script tsymmetric\AESMonteCarloEncryptCBC192A.script
+data = ZDRIVE\tsymmetric\AESMonteCarloEncryptCBC192B.script tsymmetric\AESMonteCarloEncryptCBC192B.script
+data = ZDRIVE\tsymmetric\AESMonteCarloEncryptCBC256.script tsymmetric\AESMonteCarloEncryptCBC256.script
+
+data = ZDRIVE\tsymmetric\AESMonteCarloDecryptCBC128.script tsymmetric\AESMonteCarloDecryptCBC128.script
+data = ZDRIVE\tsymmetric\AESMonteCarloDecryptCBC192.script tsymmetric\AESMonteCarloDecryptCBC192.script
+data = ZDRIVE\tsymmetric\AESMonteCarloDecryptCBC256.script tsymmetric\AESMonteCarloDecryptCBC256.script
+
+
+data = ZDRIVE\tsymmetric\tsymmetrictests.ini		tsymmetric\tsymmetrictests.ini
+data = ZDRIVE\tsymmetric\symmetricOOMtests.ini		tsymmetric\symmetricOOMtests.ini
+
+data = ZDRIVE\tsymmetric\AESECBVectorsScript.ini	tsymmetric\AESECBVectorsScript.ini
+data = ZDRIVE\tsymmetric\AESECB_KAT_VT.ini			tsymmetric\AESECB_KAT_VT.ini
+data = ZDRIVE\tsymmetric\AESECB_KAT_VK.ini			tsymmetric\AESECB_KAT_VK.ini
+
+data = ZDRIVE\tsymmetric\AESMonteCarloEncryptECB128.ini tsymmetric\AESMonteCarloEncryptECB128.ini
+data = ZDRIVE\tsymmetric\AESMonteCarloEncryptECB192.ini tsymmetric\AESMonteCarloEncryptECB192.ini
+data = ZDRIVE\tsymmetric\AESMonteCarloEncryptECB256.ini tsymmetric\AESMonteCarloEncryptECB256.ini
+
+data = ZDRIVE\tsymmetric\AESMonteCarloDecryptECB128.ini tsymmetric\AESMonteCarloDecryptECB128.ini
+data = ZDRIVE\tsymmetric\AESMonteCarloDecryptECB192.ini tsymmetric\AESMonteCarloDecryptECB192.ini
+data = ZDRIVE\tsymmetric\AESMonteCarloDecryptECB256.ini tsymmetric\AESMonteCarloDecryptECB256.ini
+
+data = ZDRIVE\tsymmetric\AESMonteCarloEncryptCBC128.ini tsymmetric\AESMonteCarloEncryptCBC128.ini
+data = ZDRIVE\tsymmetric\AESMonteCarloEncryptCBC192.ini tsymmetric\AESMonteCarloEncryptCBC192.ini
+data = ZDRIVE\tsymmetric\AESMonteCarloEncryptCBC256.ini tsymmetric\AESMonteCarloEncryptCBC256.ini
+
+data = ZDRIVE\tsymmetric\AESMonteCarloDecryptCBC128.ini tsymmetric\AESMonteCarloDecryptCBC128.ini
+data = ZDRIVE\tsymmetric\AESMonteCarloDecryptCBC192.ini tsymmetric\AESMonteCarloDecryptCBC192.ini
+data = ZDRIVE\tsymmetric\AESMonteCarloDecryptCBC256.ini tsymmetric\AESMonteCarloDecryptCBC256.ini
+
+
+data = ZDRIVE\tbigint\tperformancetests.txt		tbigint\tperformancetests.txt
+
+// TMS support
+data = ZDRIVE\tbigint\tbasicmathstests.script		tbigint\tbasicmathstests.script
+data = ZDRIVE\tbigint\tconstructiontests.script	tbigint\tconstructiontests.script
+data = ZDRIVE\tbigint\tmontgomerytests.script		tbigint\tmontgomerytests.script
+data = ZDRIVE\tbigint\tprimetests.script			tbigint\tprimetests.script
+data = ZDRIVE\tbigint\tprimetests2.script			tbigint\tprimetests2.script
+data = ZDRIVE\tbigint\tprimefailuretests.script		tbigint\tprimefailuretests.script
+data = ZDRIVE\tbigint\tprimegen.script             tbigint\tprimegen.script
+data = ZDRIVE\tbigint\tbasicmathstests.ini		tbigint\tbasicmathstests.ini
+data = ZDRIVE\tbigint\tconstructiontests.ini	tbigint\tconstructiontests.ini
+data = ZDRIVE\tbigint\tmontgomerytests.ini		tbigint\tmontgomerytests.ini
+data = ZDRIVE\tbigint\tprimetests.ini			tbigint\tprimetests.ini
+data = ZDRIVE\tbigint\tprimetests2.ini			tbigint\tprimetests2.ini
+data = ZDRIVE\tbigint\tprimefailuretests.ini		tbigint\tprimefailuretests.ini
+data = ZDRIVE\tbigint\tprimegen.ini             tbigint\tprimegen.ini
+
+// conditionally included to avoid to be included in vasco image creation but needed in h4/h6 image creation
+#ifdef _SERIAL_DOWNLOAD
+
+#if !defined(SMP)
+// Proof of concept KMS (Key Management Server)
+// Add them to the Core image (core.img) only. As rofs1.img does not support the device, and extension.
+ROM_IMAGE[0] {
+extension[VARID]=KERNEL_DIR\BUILD_DIR\kmskext.dll \sys\bin\kmskext.dll
+device[VARID]=ABI_DIR\BUILD_DIR\kmslddk.ldd \sys\bin\kmslddk.ldd
+device[VARID]=ABI_DIR\BUILD_DIR\kmsextrlddk.ldd \sys\bin\kmsextrlddk.ldd
+}
+
+file=ABI_DIR\BUILD_DIR\kmsldd.dll		sys\bin\kmsldd.dll
+
+file=ABI_DIR\BUILD_DIR\kmsextrldd.dll		sys\bin\kmsextrldd.dll
+file=ABI_DIR\BUILD_DIR\kmslddtest.exe		sys\bin\kmslddtest.exe
+data=ABI_DIR\BUILD_DIR\kmslddclient.exe	sys\bin\kmslddclient.exe
+
+file=ABI_DIR\BUILD_DIR\kmsserver.exe		sys\bin\kmsserver.exe
+file=ABI_DIR\BUILD_DIR\kmsclient.dll		sys\bin\kmsclient.dll
+
+file=ABI_DIR\BUILD_DIR\kmstest.exe			sys\bin\kmstest.exe
+#endif
+
+#endif
+// End of cryptotests.iby 

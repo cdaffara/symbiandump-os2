@@ -1,0 +1,62 @@
+// Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// e32\drivers\trace\tracek.mmp
+//
+
+#include <kernel/kern_ext.mmh>
+
+#define SYMBIAN_TRACE_EXECUTABLE_INCLUDE
+#include    <platform/opensystemtrace.mmh>
+//MACRO SYMBIAN_TRACE_EXECUTABLE_INCLUDE
+
+MACRO TE_UPT_TRACE_ENABLED //could remove this and just #ifdef on SYMBIAN_TRACE_ENABLed
+
+
+target			te_optostddenabled.ldd
+targettype		ldd
+UID				0x100000af 0x10287232
+VENDORID		0x70000001
+capability		all
+
+OS_LAYER_SYSTEMINCLUDE
+
+USERINCLUDE			../inc/
+USERINCLUDE			../../te_ostv2integsuite_common/inc/
+USERINCLUDE			../../te_ostv2integsuite_functional/inc/
+USERINCLUDE			../../te_ostv2integsuite_performance/inc/
+USERINCLUDE			../../te_ostv2integsuite_performance/inc/sanity
+USERINCLUDE			../../te_ostv2integsuite_performance/inc/timer
+	
+SOURCEPATH			../../te_ostv2integsuite_common/src/
+SOURCE				te_apirunconfig.cpp
+
+SOURCEPATH			../src/
+SOURCE				te_drv.cpp
+
+SOURCEPATH			../../te_ostv2integsuite_performance/src/
+SOURCE				timer/te_perfkerneltimer.cpp
+SOURCE 				sanity/te_perfsanityhelpers.cpp
+SOURCE 				sanity/te_perfsanitytimer.cpp
+
+#ifndef WINSCW	
+SOURCE				te_cacheflush.s 
+SOURCE				te_stackinfo.s
+#endif
+
+start wins
+win32_headers
+end
+
+SMPSAFE
+epocallowdlldata

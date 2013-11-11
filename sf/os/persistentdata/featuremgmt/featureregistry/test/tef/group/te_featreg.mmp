@@ -1,0 +1,45 @@
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+TARGET te_featreg.exe
+TARGETTYPE exe
+VENDORID 0x70000001
+UID 0 0x102744CC
+
+// Please add any change under here
+
+SOURCEPATH  ../te_featreg/src
+SOURCE te_featreg_server.cpp
+SOURCE te_featreg_stepbase.cpp
+SOURCE tc_featreg_steps.cpp
+
+SOURCEPATH  ../../../src/shared
+SOURCE featregcmn.cpp
+
+USERINCLUDE ../../helper/maketestconfig
+USERINCLUDE ../../../inc
+USERINCLUDE ../../../src/inc
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+LIBRARY euser.lib testexecuteutils.lib testexecutelogclient.lib hal.lib efsrv.lib
+
+#ifdef SYMBIAN_FEATURE_MANAGER
+LIBRARY test_featreg.lib 
+#else
+LIBRARY featreg.lib 
+#endif
+
+CAPABILITY None

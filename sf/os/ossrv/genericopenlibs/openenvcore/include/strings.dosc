@@ -1,0 +1,333 @@
+/** @file  ../include/strings.h
+@internalComponent
+*/
+
+/** @fn  bcmp(const void *b1, const void *b2, size_t length)
+@param b1
+@param b2
+@param length
+@return   bcmp function returns 0 if the byte sequences are equal and non-zero 
+  otherwise.
+
+  The bcmp function compares byte string b1 against byte string b2, returning zero if they are identical and non-zero otherwise. Both 
+strings are assumed to be length bytes long. Zero-length strings are always identical.
+
+ The strings may overlap.
+
+Examples:
+@code
+#include <string.h>
+#include <stdio.h>
+int main()
+{
+   int ret = 0;
+   ret = bcmp("a","a",1);               
+   printf("bcmp(\"a\",\"a\",1) is %d",ret);
+   ret = bcmp("abcd","abce",4); 
+   printf("
+bcmp(\"abcd\",\"abce\",1) is %d",ret);
+   ret = bcmp("abc","xyz",0);
+   printf("
+bcmp(\"abc\",\"xyz\",0) is %d",ret);
+   return 0;
+}
+
+@endcode
+ Output
+@code
+bcmp("a","a",1) is 0
+bcmp("abcd","abce",1) is -1
+bcmp("abc","xyz",0) is 0
+
+@endcode
+@see memcmp()
+@see strcasecmp()
+@see strcmp()
+@see strcoll()
+@see strxfrm()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  bcopy(const void *src0, void *dst0, size_t length)
+@param src0
+@param dst0
+@param length
+
+  The bcopy function copies length bytes from string src0 to string dst0 . The two strings may overlap. If length is zero no bytes are copied.
+
+Examples:
+@code
+#include <string.h>
+#include <stdio.h>
+int main()
+{
+    char dst[50];
+    bcopy("Hello World",dst,12);        
+    printf("Destination string after bcopy = %s
+",dst);
+    return 0;
+}
+
+@endcode
+ Output
+@code
+Destination string after bcopy = Hello World
+
+@endcode
+@see memccpy()
+@see memcpy()
+@see memmove()
+@see strcpy()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  bzero(void *b, size_t len)
+@param b
+@param len
+
+  The bzero function
+writes len zero bytes to the string b. If len is zero, bzero does nothing.
+
+Examples:
+@code
+#include <string.h>
+#include <stdio.h>
+int main()
+{
+    char dst[50] = "abcdef";
+    bzero(dst + 2, 2);
+    if(!strcmp(dst, "ab")) printf("dst =  %s
+",dst);
+    if(!strcmp(dst+3, "")) printf("zeros added to dst string
+");
+    if(!strcmp(dst + 4, "ef")) printf("dst + 4 = %s
+",dst);
+    return 0;
+}
+
+@endcode
+ Output
+@code
+dst =  ab
+zeros added to dst string
+dst + 4 = ab
+
+@endcode
+@see memset()
+@see swab()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  ffs(int mask)
+@param mask
+
+Note: This description also covers the following functions -
+ ffsl()  fls()  flsl() 
+
+@return  
+
+  The ffs and ffsl functions find the first bit set in mask and return the index of that bit.
+
+ The fls and flsl functions find the last bit set in mask and return the index of that bit.
+
+ Bits are numbered starting from 1, starting at the right-most
+(least significant) bit.
+A return value of zero from any of these functions means that the
+argument was zero.
+
+Examples:
+@code
+#include <string.h>
+#include <stdio.h>
+int main()
+{
+    int i = 0x10;
+    int j = ffs(i);
+    if(j == 5) printf("First bit position in 0x10 is %d
+",j);
+    return 0;
+}
+
+@endcode
+ Output
+@code
+First bit position in 0x10 is 5
+@endcode
+ 
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  index(const char *p, int ch)
+@param p
+@param ch
+Note: This description also covers the following functions -
+ rindex() 
+
+@return   The functions index and rindex return a pointer to the located character, or NULL if the character does not appear in the string.
+
+The  index function locates the first occurrence of  ch (converted to a char ) in the string pointed to by p. The terminating null character is considered part of the string; therefore if  ch is ‘\\0,’ the functions locate the terminating ‘\\0.’
+
+The rindex function is identical to index, except it locates the last occurrence of ch.
+
+Examples:
+@code
+#include <string.h>
+#include <stdio.h>
+int main()
+{
+    char one[50];
+    char* ret;
+    strcpy(one,"abcd");
+    ret = index(one, ’c’);
+    if(!strncmp(one+2,ret,1)) printf("index of \ ’c\ ’ in string \"abcd\" is %d \n",2);
+    ret = index(one, ’z’);
+    if(ret == NULL) printf("\ ’z\ ’ not found in string \"abcd\"\n");
+    ret = index(one, ’\0’);
+    if(!strncmp(one+4,ret,1)) printf("index of \ ’\ \0\ ’ in string \"abcd\" is %d\n",4);
+    strcpy(one,"cdcab");
+    ret = rindex(one, ’c’);
+    if(!strncmp(one+2,ret,1)) printf("rindex of \ ’c\ ’ in string \"cscab\" is %d\n",2);
+    strcpy(one,"dcab");
+    ret = rindex(one, ’\0’);
+    if(!strncmp(one+4,ret,1)) printf("index of \ ’\ \0\ ’ in string \"dcab\" is %d\n",4);
+    return 0;
+}
+
+@endcode
+ Output
+@code
+index of ’c’ in string "abcd" is 2
+ ’z’ not found in string "abcd"
+index of ’\0’ in string "abcd" is 4
+rindex of ’c’ in string "cscab" is 2
+index of ’\0’ in string "dcab" is 4
+@endcode
+@see memchr()
+@see strchr()
+@see strcspn()
+@see strpbrk()
+@see strsep()
+@see strspn()
+@see strstr()
+@see strtok()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  rindex(const char *p, int ch)
+@param p
+@param ch
+
+Refer to  index() for the documentation
+@see memchr()
+@see strchr()
+@see strcspn()
+@see strpbrk()
+@see strsep()
+@see strspn()
+@see strstr()
+@see strtok()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  strcasecmp(const char *s1, const char *s2)
+@param s1
+@param s2
+
+Note: This description also covers the following functions -
+ strncasecmp() 
+
+@return   The strcasecmp and strncasecmp return an integer greater than, equal to, or less than 0, 
+according to whether s1 is lexicographically greater than, equal to, or less than s2 after translation of each corresponding character to lower-case. The 
+strings themselves are not modified.
+
+  The strcasecmp and strncasecmp functions
+compare the null-terminated strings s1 and s2. The  strcasecmp() function compares the two strings s1 and s2 , ignoring
+the case of the characters.
+
+ The strncasecmp compares at most len characters.
+
+Examples:
+@code
+#include <string.h>
+#include <stdio.h>
+int main()
+{
+    int ret;
+    ret = strcasecmp("ABC","abc");
+    printf("strcasecmp of \"ABC\" \"abc\" is %d
+",ret);
+    ret = strcasecmp("abc","abc");
+    printf("strcasecmp of \"abc\" \"abc\" is %d
+",ret);
+    return 0;   
+}
+
+@endcode
+ Output
+@code
+strcasecmp of "ABC" "abc" is 0
+strcasecmp of "abc" "abc" is 0
+
+@endcode
+@see bcmp()
+@see memcmp()
+@see strcmp()
+@see strcoll()
+@see strxfrm()
+@see tolower()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  strncasecmp(const char *s1, const char *s2, size_t n)
+@param s1
+@param s2
+@param n
+
+Refer to  strcasecmp() for the documentation
+@see bcmp()
+@see memcmp()
+@see strcmp()
+@see strcoll()
+@see strxfrm()
+@see tolower()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+

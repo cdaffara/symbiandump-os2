@@ -1,0 +1,54 @@
+// Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+
+TARGET      efm_normal_testserver.exe
+TARGETTYPE  exe
+VENDORID    0x70000001
+UID         0 0x102836E7
+CAPABILITY  All -Tcb
+
+USERINCLUDE ../inc
+USERINCLUDE ../../../shared/inc
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+MW_LAYER_SYSTEMINCLUDE_SYMBIAN  // #include <apgcli.h>, #include <apacmdln.h>
+
+SOURCEPATH  ../src
+SOURCE      efm_normal_testserver.cpp
+SOURCE      featurecontrol_test_steps.cpp
+SOURCE      featuremanager_test_steps.cpp
+SOURCE      featurenotifier_test_steps.cpp
+SOURCE      featurediscovery_test_steps.cpp
+SOURCE      component_test_steps.cpp
+SOURCE      feature_oom_test_steps.cpp
+SOURCE      feature_ood_test_steps.cpp
+
+SOURCEPATH  ../../../shared/src
+SOURCE      efm_teststepbase.cpp
+SOURCE      efm_featurenotifierstepbase.cpp
+
+LIBRARY     featmgr.lib
+LIBRARY     featdiscovery.lib
+LIBRARY     estor.lib
+LIBRARY     euser.lib
+LIBRARY     cone.lib
+LIBRARY     efsrv.lib
+LIBRARY     testexecuteutils.lib
+LIBRARY     testexecutelogclient.lib
+LIBRARY     apparc.lib
+LIBRARY     apgrfx.lib
+
+SMPSAFE

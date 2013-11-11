@@ -1,0 +1,202 @@
+// Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+// @file
+
+//! @SYMTestSuiteName SYSLIB-TEF-EFM-UNIT
+//! @SYMScriptTestEnvironment TEF
+//! @internalComponent
+//! @test
+
+//create folders for the emulated data cages
+RUN_UTILS MkDir C:\Private\
+RUN_UTILS MkDir C:\Private\102836E5\
+RUN_UTILS MkDir C:\Private\102836E5\runtime\
+
+//delete plugin files placed in C:-drive in case the normal script did not run 
+RUN_PROGRAM -1 pluginhelper.exe c:\sys\bin\normal_plugin.dll
+RUN_PROGRAM -1 pluginhelper.exe c:\resource\plugins\normal_plugin.rsc
+
+//load the server used to geneate feature files
+LOAD_SUITE tef_feature_generator
+
+//load the main TEF server used by this script
+LOAD_SUITE efm_unit_testserver
+
+START_TESTCASE SYSLIB-EFM-UT-4002
+//! @SYMTestCaseID 		SYSLIB-EFM-UT-4002
+//! @SYMTestCaseDesc  		Server side data testing - TFeatureServerEntry test.
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		1) Create an object of TFeatureServerEntry class with a default constructor.
+//!				2) Call getter functions and check that all data members have been zero-initialised
+//!				3) Create an object of TFeatureServerEntry class with a constructor which takes Aid argument.
+//!				4) Check that all data members have been properly initialised by calling getter functions
+//!				5) Create an object of TFeatureServerEntry class with a constructor which takes a full list of arguments.
+//!				6) Check that all data members have been properly initialised by calling getter functions
+//! @SYMTestExpectedResults 	All functions should return expected result
+//! @SYMPREQ  		PREQ1645
+//! @SYMREQ 			REQ7763
+
+    RUN_TEST_STEP 100 efm_unit_testserver ServerDataTest
+END_TESTCASE SYSLIB-EFM-UT-4002
+
+START_TESTCASE SYSLIB-EFM-UT-4003
+//! @SYMTestCaseID 		SYSLIB-EFM-UT-4003
+//! @SYMTestCaseDesc  		Feature Manager server update code testing
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		1) Create feature data file with 1 feature and 1 DSR range in it
+//!				2) Try to set state and data for an existing feature via SetFeature method (KErrNone expected)
+//!				3) Try to set state and data for an non-existing feature via SetFeature method(KErrNotFound expected)
+//!				4) Try to set state and data for a feature from DSR via SetFeature method(KErrNotFound expected)
+//! @SYMTestExpectedResults 	All functions should return expected result
+//! @SYMPREQ			PREQ1645
+//! @SYMREQ 			REQ8366
+//!                 REQ8194
+
+    RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\unit_features.ini CreateEFMFile
+    RUN_TEST_STEP 100 efm_unit_testserver ServerUpdateCodeTest
+    RUN_UTILS DeleteFile C:\Private\102836E5\features.dat
+    RUN_UTILS DeleteFile C:\Private\102836E5\runtime\features.dat
+END_TESTCASE SYSLIB-EFM-UT-4003
+
+START_TESTCASE SYSLIB-EFM-UT-4004
+//! @SYMTestCaseID 		SYSLIB-EFM-UT-4004
+//! @SYMTestCaseDesc  		Feature Manager query and lookup testing
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		1) Search feature in the empty feature array (KErrNotFound expected)
+//!				2) Add one feature with UID1 
+//!				3) Search for this feature (feature should be found)
+//!				4) Search for the feature with UID less than UID1 (KErrNotFound expected)
+//!				5) Search for the feature with UID greater than UID1 (KErrNotFound expected)
+//!				6) Add one more feature with UID2 greater than UID1 
+//!				7) Search for the feature with UID1 (feature should be found)
+//!				8) Search for the feature with UID2(feature should be found)
+//!				9) Search for the feature with UID less than UID1(KErrNotFound expected)
+//!				10) Search for the feature with UID greater than UID2 (KErrNotFound expected)
+//! @SYMTestExpectedResults 	All functions should return expected result
+//! @SYMPREQ  		PREQ1645
+//! @SYMREQ 			REQ8366
+//!                 REQ8194
+
+    RUN_TEST_STEP 100 efm_unit_testserver ServerFeatureLookupTest
+END_TESTCASE SYSLIB-EFM-UT-4004
+
+START_TESTCASE SYSLIB-EFM-UT-4020
+//! @SYMTestCaseID 		SYSLIB-EFM-UT-4020
+//! @SYMTestCaseDesc  	Feature Manager server OOM tests.
+//! @SYMTestPriority 	High 
+//! @SYMTestActions 		1) Repeats the ServerFeatureLookupTest and
+//!                         ServerUpdateCodeTest with OOM to check for
+//!                         memory leaks in CFeatMgrFeatureRegistry
+//!                         IsFeatureSupported, AddFeature, SetFeature.
+//! @SYMTestExpectedResults 	No methods should leak memory.
+//! @SYMPREQ 		PREQ1645
+//! @SYMREQ 			REQ8200
+
+
+    RUN_TEST_STEP 100 tef_feature_generator CEFMTest z:\test\efm\scripts\unit_features.ini CreateEFMFile
+    RUN_TEST_STEP !OOM 100 efm_unit_testserver ServerUpdateCodeTest z:\test\efm\scripts\tef_efm_unit.ini OOM
+    RUN_UTILS DeleteFile C:\Private\102836E5\features.dat
+    RUN_UTILS DeleteFile C:\Private\102836E5\runtime\features.dat
+
+    RUN_TEST_STEP !OOM 100 efm_unit_testserver ServerFeatureLookupTest z:\test\efm\scripts\tef_efm_unit.ini OOM
+END_TESTCASE SYSLIB-EFM-UT-4020
+
+START_TESTCASE SYSLIB-EFM-UT-4021
+//! @SYMTestCaseID 		SYSLIB-EFM-UT-4021
+//! @SYMTestCaseDesc  	Feature Manager ReadRuntimeFeaturesL OOM test.
+//! @SYMTestPriority 	High 
+//! @SYMTestActions 		1) Create a feature file in the runtime directory
+//!						   with two features.
+//!						2) Run CFeatMgrFeatureRegistry::ReadRuntimeFeaturesL
+//!                       
+//! @SYMTestExpectedResults 	The features are read without error (urel) and no
+//!                          methods should leak memory (udeb).
+//! @SYMPREQ 		PREQ1645
+//! @SYMREQ 			REQ8200
+
+    RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\unit_runtime_features.ini CreateEFMFile
+    RUN_TEST_STEP !OOM 100 efm_unit_testserver ServerReadRuntimeFeaturesTest
+    RUN_UTILS DeleteFile C:\Private\102836E5\runtime\features.dat
+END_TESTCASE SYSLIB-EFM-UT-4021
+
+START_TESTCASE SYSLIB-EFM-UT-4022
+//! @SYMTestCaseID 		SYSLIB-EFM-UT-4022
+//! @SYMTestCaseDesc  	Feature Manager MergePluginFeatures OOM test.
+//! @SYMTestPriority 	High 
+//! @SYMTestActions 		1) Create a feature file in the runtime directory
+//!						   with two features.
+//!						2) Create an RFeatureArray with several features.
+//!						3) Run CFeatMgrFeatureRegistry::MergePluginFeatures(RFeatureArray&)
+//!                       
+//! @SYMTestExpectedResults 	The merge function runs in a low memory environment
+//!                          and does not leak memory (udeb). Runs without error
+//!                          (urel).
+//! @SYMPREQ 		PREQ1645
+//! @SYMREQ 			REQ8200
+
+    RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\unit_features.ini CreateEFMFile
+    RUN_TEST_STEP !OOM 100 efm_unit_testserver ServerMergePluginFeaturesTest z:\test\efm\scripts\tef_efm_unit.ini OOM
+    RUN_UTILS DeleteFile C:\Private\102836E5\features.dat
+    RUN_UTILS DeleteFile C:\Private\102836E5\runtime\features.dat
+    DELAY 1000
+END_TESTCASE SYSLIB-EFM-UT-4022
+
+START_TESTCASE SYSLIB-EFM-UT-4023
+//! @SYMTestCaseID 		SYSLIB-EFM-UT-4023
+//! @SYMTestCaseDesc  	Feature Manager MergePluginFeatures OOM test.
+//! @SYMTestPriority 	High 
+//! @SYMTestActions 		1) Create a feature file in the runtime directory
+//!						   with two features.
+//!						2) Create an RFeatureArray with several features.
+//!						3) Run CFeatMgrFeatureRegistry::MergePluginFeatures(RArray<FeatureInfoCommand::TFeature>&)
+//!                       
+//! @SYMTestExpectedResults 	The merge function runs in a low memory environment
+//!                          and does not leak memory (udeb). Runs without error
+//!                          (urel).
+//! @SYMPREQ 		PREQ1645
+//! @SYMREQ 			REQ8200
+
+    RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\unit_features.ini CreateEFMFile
+    RUN_TEST_STEP !OOM 100 efm_unit_testserver ServerMergePluginFeaturesTest2 z:\test\efm\scripts\tef_efm_unit.ini OOM
+    RUN_UTILS DeleteFile C:\Private\102836E5\features.dat
+    RUN_UTILS DeleteFile C:\Private\102836E5\runtime\features.dat
+    DELAY 1000
+END_TESTCASE SYSLIB-EFM-UT-4023
+
+START_TESTCASE SYSLIB-EFM-UT-4044
+//! @SYMTestCaseID 		SYSLIB-EFM-UT-4044
+//! @SYMTestCaseDesc  	Feature Manager AddFeature/SetFeature/DeletFeature OOM test during SWI installation session.
+//! @SYMTestPriority 	High 
+//! @SYMTestActions 		1) Start an SWI installation session by launching dummyswi.exe.
+//!						2) Call SWIStart then AddFeature, SetFeature and DeleteFeature which will cause the feature 
+//!						   manipulations to be cached. 
+//!						3) Call SWIEnd to stop caching features and prepare for committing them when the SWI 
+//!						   installation finishes.
+//!                       
+//! @SYMTestExpectedResults 	No methods should leak memory.
+//! @SYMPREQ 		PREQ1645
+//! @SYMREQ 			REQ8200
+
+    RUN_TEST_STEP 100 tef_feature_generator CEFMTest z:\test\efm\scripts\unit_features.ini CreateEFMFile
+    RUN_TEST_STEP !OOM 100 efm_unit_testserver FeatmgrOomSWI 
+    RUN_UTILS DeleteFile C:\Private\102836E5\features.dat
+    RUN_UTILS DeleteFile C:\Private\102836E5\runtime\features.dat
+    DELAY 1000
+END_TESTCASE SYSLIB-EFM-UT-4044
+
+
+
+
+

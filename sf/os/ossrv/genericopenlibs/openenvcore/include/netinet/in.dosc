@@ -1,0 +1,1777 @@
+/** @file ../include/netinet/in.h
+@internalComponent
+*/
+
+
+/** @struct sockaddr_in
+
+Socket address, internet style.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @var sockaddr_in::sin_family
+AF_INET. 
+*/
+
+/** @var sockaddr_in::sin_port
+Port number. . 
+*/
+
+/** @var sockaddr_in::sin_addr
+IP address. 
+*/
+
+/** @var sockaddr_in::sin_zero
+There's also this sin_zero field which some people claim must be set to zero. Other people don't claim anything about it (the Linux documentation doesn't even mention it at all), and setting it to zero doesn't seem to be actually necessary. 
+So, if you feel like it, set it to zero using memset().
+*/
+
+/** @struct  in_addr
+
+Internet address (a structure for historical reasons).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @var in_addr::s_addr
+s_addr is a 4-byte number that represents one digit in an IP address per byte
+*/
+
+/** @typedef  typedef	uint32_t	in_addr_t
+
+Internet address manipulation
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @typedef  typedef	uint16_t	in_port_t
+
+Internet port manipulation
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def IPPROTO_IP
+
+Internet protocol.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def IPPROTO_ICMP	
+
+Control message protocol.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def IPPROTO_TCP
+
+tcp  KProtocolInetTcp 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def IPPROTO_UDP
+
+user datagram protocol KProtocolInetUdp 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def INADDR_ANY
+
+IPv4 local host address.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def INADDR_BROADCAST
+
+IPv4 broadcast address.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @fn  bindresvport(int sd, struct sockaddr_in *sin)
+@param sd
+@param sin
+
+  The bindresvport function is used to bind a socket descriptor to a privileged IP port, i.e. a port with a number in the range 0-1023.
+
+ If sin is a pointer to a struct sockaddr_in the appropriate fields in the structure should be 
+  defined. Note that sin-\>sin_family must be initialized to the address 
+  family of the socket, passed by sd. If sin-\>sin_port is '0' an anonymous port (in the range 600-1023) will be chosen and, if bind is successful, the sin-\>sin_port will be updated to contain the allocated 
+  port.
+
+ If sin is the NULL pointer an anonymous port will be allocated (as above). However, 
+  there is no way for bindresvport to return the allocated port in this case.
+
+ The function prototype of bindresvport is biased to AF_INET socket.
+
+Examples:
+@code
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <unistd.h>
+void BindResvPort()
+{
+   int sockfd;
+   sockaddr_in selfAddr;
+   sockfd = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP);
+       
+   selfAddr.sin_family = AF_INET;
+   selfAddr.sin_addr.s_addr = INADDR_ANY;
+   selfAddr.sin_port = htons(100);
+   bindresvport(sockfd, &selfAddr;);
+   close(sockfd);
+}
+
+@endcode
+@return   The bindresvport() function returns the value 0 if successful. Otherwise 
+it returns the value -1 and sets the global variable errno to indicate the error.
+
+@see bind()
+@see getsockopt()
+@see setsockopt()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def IN_BADCLASS(i)
+
+Definitions of bits in internet address integers. 
+
+@publishedAll
+@released
+*/
+
+
+/** @def IN_CLASSA(i)
+
+Definitions of bits in internet address integers. On subnets, the decomposition of addresses to host and net parts is done according to subnet mask, not the masks here.
+
+@publishedAll
+@released
+*/
+
+/** @def IN_CLASSA_NET
+
+Definitions of bits in internet address integers. On subnets, the decomposition of addresses to host and net parts is done according to subnet mask, not the masks here.
+
+@publishedAll
+@released
+*/
+
+/** @def IN_CLASSA_NSHIFT	
+
+Definitions of bits in internet address integers. On subnets, the decomposition of addresses to host and net parts is done according to subnet mask, not the masks here.
+
+@publishedAll
+@released
+*/
+
+
+/** @def IN_CLASSA_HOST
+
+Definitions of bits in internet address integers. On subnets, the decomposition of addresses to host and net parts is done according to subnet mask, not the masks here.
+
+@publishedAll
+@released
+*/
+
+
+/** @def IN_CLASSA_MAX	
+
+Definitions of bits in internet address integers. On subnets, the decomposition of addresses to host and net parts is done according to subnet mask, not the masks here.
+
+@publishedAll
+@released
+*/
+
+
+/** @def IN_CLASSB(i) 
+
+Definitions of bits in internet address integers. On subnets, the decomposition of addresses to host and net parts is done according to subnet mask, not the masks here.
+
+@publishedAll
+@released
+*/
+
+
+/** @def IN_CLASSB_NET
+
+Definitions of bits in internet address integers. On subnets, the decomposition of addresses to host and net parts is done according to subnet mask, not the masks here.
+
+@publishedAll
+@released
+*/
+
+
+/** @def IN_CLASSB_NSHIFT
+
+Definitions of bits in internet address integers. On subnets, the decomposition of addresses to host and net parts is done according to subnet mask, not the masks here.
+
+@publishedAll
+@released
+*/
+
+
+/** @def IN_CLASSB_HOST	
+
+Definitions of bits in internet address integers. On subnets, the decomposition of addresses to host and net parts is done according to subnet mask, not the masks here.
+
+@publishedAll
+@released
+*/
+
+/** @def IN_CLASSB_MAX	
+
+Definitions of bits in internet address integers. On subnets, the decomposition of addresses to host and net parts is done according to subnet mask, not the masks here.
+
+@publishedAll
+@released
+*/
+
+/** @def IN_CLASSC(i)
+
+Definitions of bits in internet address integers. On subnets, the decomposition of addresses to host and net parts is done according to subnet mask, not the masks here.
+
+@publishedAll
+@released
+*/
+
+/** @def IN_CLASSC_NET	
+
+Definitions of bits in internet address integers. On subnets, the decomposition of addresses to host and net parts is done according to subnet mask, not the masks here.
+
+@publishedAll
+@released
+*/
+
+
+/** @def IN_CLASSC_NSHIFT
+
+Definitions of bits in internet address integers. On subnets, the decomposition of addresses to host and net parts is done according to subnet mask, not the masks here.
+
+@publishedAll
+@released
+*/
+
+/** @def IN_CLASSC_HOST	
+
+Definitions of bits in internet address integers. On subnets, the decomposition of addresses to host and net parts is done according to subnet mask, not the masks here.
+
+@publishedAll
+@released
+*/
+
+/** @def IN_CLASSD(i)
+
+Definitions of bits in internet address integers. On subnets, the decomposition of addresses to host and net parts is done according to subnet mask, not the masks here.
+
+@publishedAll
+@released
+*/
+
+/** @def IN_CLASSD_NET
+
+Definitions of bits in internet address integers. On subnets, the decomposition of addresses to host and net parts is done according to subnet mask, not the masks here.
+
+@publishedAll
+@released
+*/
+
+/** @def IN_CLASSD_NSHIFT
+
+Definitions of bits in internet address integers. On subnets, the decomposition of addresses to host and net parts is done according to subnet mask, not the masks here.
+
+@publishedAll
+@released
+*/
+
+/** @def IN_CLASSD_HOST
+
+Definitions of bits in internet address integers. On subnets, the decomposition of addresses to host and net parts is done according to subnet mask, not the masks here.
+
+@publishedAll
+@released
+*/
+
+
+/** @def IN_EXPERIMENTAL(i)
+
+Definitions of bits in internet address integers. On subnets, the decomposition of addresses to host and net parts is done according to subnet mask, not the masks here.
+
+@publishedAll
+@released
+*/
+
+
+/** @def IN_LOOPBACKNET	
+
+Definitions of bits in internet address integers. On subnets, the decomposition of addresses to host and net parts is done according to subnet mask, not the masks here.
+
+@publishedAll
+@released
+*/
+
+/** @def IN_MULTICAST(i)	
+
+Definitions of bits in internet address integers. On subnets, the decomposition of addresses to host and net parts is done according to subnet mask, not the masks here.
+
+@publishedAll
+@released
+*/
+
+/** @def INADDR_LOOPBACK
+
+Definitions of bits in internet address integers. On subnets, the decomposition of addresses to host and net parts is done according to subnet mask, not the masks here.
+	
+@publishedAll
+@released
+*/
+
+
+/** @def INADDR_MAX_LOCAL_GROUP
+
+Definitions of bits in internet address integers.
+
+@publishedAll
+@released
+*/
+
+
+/** @def INADDR_NONE	
+
+Definitions of bits in internet address integers.
+
+@publishedAll
+@released
+*/
+
+
+/** @def INADDR_UNSPEC_GROUP	
+
+Definitions of bits in internet address integers.
+
+@publishedAll
+@released
+*/
+
+
+/** @def INADDR_ALLHOSTS_GROUP
+
+Definitions of bits in internet address integers.
+
+@publishedAll
+@released
+*/
+
+
+/** @def IP_DEFAULT_MULTICAST_LOOP
+
+Defaults and limits for options. normally hear sends if a member 
+
+@publishedAll
+@released
+*/
+
+/** @def IP_DEFAULT_MULTICAST_TTL 
+
+Defaults and limits for options. normally limit m'casts to 1 hop 
+
+@publishedAll
+@released
+*/
+
+
+/** @def IP_ADD_MEMBERSHIP
+
+ip_mreq; add an IP group membership
+
+@publishedAll
+@released
+*/
+
+
+/** @def IP_DROP_MEMBERSHIP
+
+ip_mreq; drop an IP group membership
+
+@publishedAll
+@released
+*/
+
+
+/** @def IP_HDRINCL
+
+int; header is included with data
+
+@publishedAll
+@released
+*/
+
+
+/** @struct ip_mreq
+
+Argument structure for IP_ADD_MEMBERSHIP and IP_DROP_MEMBERSHIP.
+
+@publishedAll
+@released
+*/
+
+/** @var ip_mreq::imr_multiaddr
+IP multicast address of group
+*/
+
+/** @var ip_mreq::imr_interface
+local IP address of interface 
+*/
+
+
+/** @def IP_MULTICAST_IF	
+
+set or get IP multicast interface
+
+@publishedAll
+@released
+*/
+
+
+/** @def IP_MULTICAST_LOOP
+
+u_char; set or get IP multicast loopback 
+
+@publishedAll
+@released
+*/
+
+/** @def IP_MULTICAST_TTL
+
+set or get IP multicast timetolive
+
+@publishedAll
+@released
+*/
+
+/** @def IP_OPTIONS
+
+Options for use with [gs]etsockopt at the IP level. First word of comment is data type; bool is stored in int.
+buf or ip_opts; set or get IP options
+
+@publishedAll
+@released
+*/
+
+
+/** @def IP_RECVDSTADDR
+
+Options for use with [gs]etsockopt at the IP level. First word of comment is data type; bool is stored in int.
+bool; receive IP dst addr wdgram 
+	
+@publishedAll
+@released
+*/
+
+
+/** @def IP_RECVOPTS
+
+Options for use with [gs]etsockopt at the IP level. First word of comment is data type; bool is stored in int.
+bool; receive all IP opts w dgram 
+
+@publishedAll
+@released
+*/
+
+
+/** @def IP_RECVRETOPTS	
+
+Options for use with [gs]etsockopt at the IP level. First word of comment is data type; bool is stored in int.
+bool; receive IP opts for response
+
+@publishedAll
+@released
+*/
+
+
+/** @def IP_RETOPTS
+
+Options for use with [gs]etsockopt at the IP level. First word of comment is data type; bool is stored in int.
+ip_opts; set or get IP options
+
+@publishedAll
+@released
+*/
+
+
+
+/** @def IP_TOS		
+
+Options for use with [gs]etsockopt at the IP level. First word of comment is data type; bool is stored in int.
+int; IP type of service and preced.
+
+@publishedAll
+@released
+*/
+
+/** @def IP_TTL
+
+Options for use with [gs]etsockopt at the IP level. First word of comment is data type; bool is stored in int.
+int; IP type of service and preced.
+
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_EGP
+
+exterior gateway protocol
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_HOPOPTS	
+
+IP6 hop-by-hop options
+
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_IGMP
+
+group mgmt protocol
+
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_GGP	
+
+gateway2 (deprecated)
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_IPV4
+
+IPv4 encapsulation
+
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_IPIP
+
+for compatibility
+
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_ST
+
+Stream protocol II 
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_EGP	
+
+exterior gateway protocol 
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_PIGP
+
+private interior gateway
+
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_RCCMON	
+
+BBN RCC Monitoring
+
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_NVPII	
+
+network voice protocol
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_PUP	
+
+pup
+
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_ARGUS	
+
+Argus
+
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_EMCON	
+
+EMCON
+
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_XNET
+
+Cross Net Debugger
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_CHAOS
+
+Chaos
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_MUX
+
+Multiplexing
+
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_MEAS	
+
+DCN Measurement Subsystems
+
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_HMP
+
+Host Monitoring
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_PRM
+
+Packet Radio Measurement
+
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_IDP
+
+xns idp
+
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_TRUNK1
+
+Trunk-1
+
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_TRUNK2
+
+Trunk-2
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_LEAF1
+
+Leaf-1
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_LEAF2	
+
+Leaf-2
+
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_RDP
+
+Reliable Data 
+
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_IRTP
+
+Reliable Transaction
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_TP
+
+tp-4 w class negotiation
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_BLT
+
+Bulk Data Transfer
+
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_NSP
+
+Network Services 
+
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_INP
+
+Merit Internodal 
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_SEP
+
+Sequential Exchange
+
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_3PC
+
+Third Party Connect
+
+@publishedAll
+@released
+*/
+
+/**@def IPPROTO_IDPR
+
+InterDomain Policy Routing
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_XTP
+
+XTP
+
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_DDP
+
+Datagram Delivery
+
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_SDRP
+
+Source Demand Routing
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_CMTP	
+
+Control Message Transport
+	
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_TPXX		
+
+TP++ Transport
+
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_IL	
+
+IL transport protocol 
+	
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_IPV6	
+
+IP6 header 
+	
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_ROUTING	
+
+IP6 routing header 
+	
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_FRAGMENT	
+
+IP6 fragmentation header 
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_IDRP		
+
+InterDomain Routing
+
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_RSVP	
+
+resource reservation 
+	
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_GRE		
+
+General Routing Encap.
+
+@publishedAll
+@released
+*/
+
+
+
+/** @def IPPROTO_BHA	
+
+BHA
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_ESP	
+
+IP6 Encap Sec. Payload
+	
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_AH		
+
+IP6 Auth Header
+
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_INLSP		
+
+Integ. Net Layer Security
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_SWIPE		
+
+IP with encryption
+
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_NHRP	
+
+Next Hop Resolution 
+	
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_MOBILE	
+
+IP Mobility 
+	
+@publishedAll
+@released
+*/
+
+/**@def IPPROTO_TLSP	
+
+Transport Layer Security
+	
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_SKIP
+
+SKIP
+		
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_ICMPV6		
+
+ICMP6
+
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_NONE	
+
+IP6 no next header
+	
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_DSTOPTS	
+
+IP6 destination option 
+	
+@publishedAll
+@released
+*/
+
+
+
+/** @def IPPROTO_AHIP		
+
+any host internal protocol
+
+@publishedAll
+@released
+*/
+
+
+
+/** @def IPPROTO_CFTP	
+
+CFTP
+	
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_HELLO		
+
+"hello" routing protocol 
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_SATEXPAK
+
+SATNET or Backroom EXPAK
+	
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_KRYPTOLAN	
+
+Kryptolan
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_RVD	
+
+Remote Virtual Disk
+	
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_IPPC		
+
+Pluribus Packet Core
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_ADFS	
+
+Any distributed FS
+	
+@publishedAll
+@released
+*/
+
+
+
+/** @def IPPROTO_SATMON		
+
+Satnet Monitoring
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_VISA	
+
+VISA Protocol
+	
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_IPCV		
+
+Packet Core Utility 
+
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_CPNX	
+
+Comp. Prot. Net. Executive
+	
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_CPHB	
+
+Comp. Prot. HeartBeat
+	
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_WSN	
+
+Wang Span Network
+	
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_PVP		
+
+Packet Video Protocol
+
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_BRSATMON	
+
+BackRoom SATNET Monitoring 
+
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_ND		
+
+Sun net disk proto (temp.)
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_WBMON		
+
+WIDEBAND Monitoring 
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_WBEXPAK	
+
+WIDEBAND EXPAK 
+	
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_EON	
+
+ISO cnlp
+	
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_VMTP		
+
+VMTP
+
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_SVMTP	
+
+Secure VMTP
+	
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_VINES	
+
+Banyon VINES
+	
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_TTP		
+
+TTP	
+
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_IGP		
+
+NSFNET-IGP
+
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_DGP	
+
+dissimilar gateway prot.
+	
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_TCF	
+
+TCF	
+	
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_IGRP		
+
+Cisco or GXS IGRP 
+
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_OSPFIGP	
+
+OSPFIGP	
+	
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_SRPC		
+
+Strite RPC protocol
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_LARP		
+
+Locus Address Resoloution 
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_MTP	
+
+Multicast Transport
+	
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_AX25		
+
+AX.25 Frames
+
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_IPEIP		
+
+IP encapsulated in IP
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_MICP		
+
+Mobile Int.ing control
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_SCCSP	
+
+Semaphore Comm. security
+	
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_ETHERIP
+
+Ethernet IP encapsulation
+		
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_ENCAP		
+
+encapsulation header
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_APES	
+
+any private encr. scheme 
+	
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_GMTP
+
+GMTP
+
+@publishedAll
+@released
+*/
+
+
+/**@def IPPROTO_PIM		
+
+Protocol Independent Mcast
+
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_CARP	
+
+CARP
+	
+@publishedAll
+@released
+*/
+
+/** @def IPPROTO_PGM
+
+PGM
+		
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_PFSYNC	
+
+PFSYNC	
+	
+@publishedAll
+@released
+*/
+
+
+/** @def SOL_IP
+
+options for IP level KSolInetIp
+
+@publishedAll
+@released
+*/
+
+
+/** @def SOL_TCP	
+
+options for TCP level KSolInetTcp
+
+@publishedAll
+@released
+*/
+
+
+/** @def TCP_NODELAY	
+
+User-settable options (used with setsockopt). don't delay send to coalesce packets KSoTcpNoDelay
+
+@publishedAll
+@released
+*/
+
+
+/** @def TCP_MAXSEG
+
+User-settable options (used with setsockopt). set maximum segment size KSoTcpMaxSegSize 
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPPORT_RESERVED	
+
+Ports < IPPORT_RESERVED are reserved for privileged processes (e.g. root).         (IP_PORTRANGE_LOW)
+	
+@publishedAll
+@released
+*/
+
+
+/** @def IPPORT_HIFIRSTAUTO	
+
+Default local port range, used by both IP_PORTRANGE_DEFAULT and IP_PORTRANGE_HIGH.
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPPORT_HILASTAUTO	
+
+Default local port range, used by both IP_PORTRANGE_DEFAULT and IP_PORTRANGE_HIGH.
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPPORT_RESERVEDSTART	
+
+Scanning for a free reserved port return a value below IPPORT_RESERVED, but higher than IPPORT_RESERVEDSTART.  Traditionally the start value was 512, but that conflicts with some well-known-services that firewalls may have a fit if we use.
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_MAX	
+
+Maximum value for IPPROTO options
+	
+@publishedAll
+@released
+*/
+
+
+/** @def IPPORT_MAX	
+
+Defines MAX value
+	
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_DONE		
+
+last return value of _input(), meaning all job for this pkt is done.
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPPROTO_SPACER		
+
+Defined to avoid confusion.  The master value is defined by PROTO_SPACER in sys//protosw.h.
+
+@publishedAll
+@released
+*/
+
+
+/** @def IP_RSVP_ON	
+
+enable RSVP in kernel
+	
+@publishedAll
+@released
+*/
+
+
+/** @def IP_RSVP_OFF	
+
+disable RSVP in kernel
+	
+@publishedAll
+@released
+*/
+
+
+/** @def IP_RSVP_VIF_ON		
+
+set RSVP per-vif socket
+
+@publishedAll
+@released
+*/
+
+
+/** @def IP_RSVP_VIF_OFF	
+
+unset RSVP per-vif socket
+	
+@publishedAll
+@released
+*/
+
+
+/** @def IP_PORTRANGE		
+
+int; range to choose for unspec port
+
+@publishedAll
+@released
+*/
+
+
+/** @def IP_RECVIF	
+
+bool; receive reception if w dgram 
+	
+@publishedAll
+@released
+*/
+
+
+/** @def IP_IPSEC_POLICY	
+
+int; set or get security policy
+	
+@publishedAll
+@released
+*/
+
+
+/** @def IP_FAITH	
+
+bool; accept FAITH'ed connections
+	
+@publishedAll
+@released
+*/
+
+
+/** @def IP_ONESBCAST		
+
+bool: send all-ones broadcast
+
+@publishedAll
+@released
+*/
+
+
+/** @def IP_FW_TABLE_ADD	
+
+add entry
+	
+@publishedAll
+@released
+*/
+
+
+/** @def IP_FW_TABLE_DEL	
+
+delete entry
+	
+@publishedAll
+@released
+*/
+
+
+/** @def IP_FW_TABLE_FLUSH	
+
+flush table
+
+@publishedAll
+@released
+*/
+
+
+/** @def IP_FW_TABLE_GETSIZE	
+
+get table size
+
+@publishedAll
+@released
+*/
+
+
+/** @def IP_FW_TABLE_LIST	
+
+list table contents
+
+@publishedAll
+@released
+*/
+
+
+/** @def IP_FW_ADD	
+
+add a firewall rule to chain 
+	
+@publishedAll
+@released
+*/
+
+
+/** @def IP_FW_DEL		
+
+delete a firewall rule from chain
+
+@publishedAll
+@released
+*/
+
+
+/** @def IP_FW_FLUSH	
+
+flush firewall rule chain
+	
+@publishedAll
+@released
+*/
+
+
+/** @def IP_FW_ZERO		
+
+clear single or all firewall counter(s)
+
+@publishedAll
+@released
+*/
+
+
+/** @def IP_FW_GET	
+
+get entire firewall rule chain
+	
+@publishedAll
+@released
+*/
+
+
+/** @def IP_FW_RESETLOG		
+
+reset logging counters
+
+@publishedAll
+@released
+*/
+
+
+/** @def IP_DUMMYNET_CONFIGURE	
+
+add or configure a dummynet pipe 
+
+@publishedAll
+@released
+*/
+
+
+/** @def IP_DUMMYNET_DEL	
+
+delete a dummynet pipe from chain 
+	
+@publishedAll
+@released
+*/
+
+
+/** @def IP_DUMMYNET_FLUSH	
+
+flush dummynet
+
+@publishedAll
+@released
+*/
+
+
+/** @def IP_DUMMYNET_GET	
+
+get entire dummynet pipes
+	
+@publishedAll
+@released
+*/
+
+/** @def IP_RECVTTL	
+
+bool; receive IP TTL w dgram 
+	
+@publishedAll
+@released
+*/
+
+
+/** @def IP_MINTTL		
+
+minimum TTL for packet or drop 
+
+@publishedAll
+@released
+*/
+
+/** @def IP_DONTFRAG		
+
+don't fragment packet
+
+@publishedAll
+@released
+*/
+
+
+
+
+
+
+

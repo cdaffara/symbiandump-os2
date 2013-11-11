@@ -1,0 +1,46 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+*
+*/
+#ifndef __COMMSLOG_IBY__
+#define __COMMSLOG_IBY__
+
+REM Communications Logging Components
+REM A minimum set of binaries compiled with logging enabled is required to produce log output,
+REM including some components which are not part of CommsDebugUtility.  The following components
+REM must be built with logging enabled and included on a target ROM.  To engage logging for
+REM release builds, uncomment //#define __FLOGGER_UREL in commslog.iby and
+REM commsdebugutility.mmh.
+REM Note: the commsfw and commsrootserver components are not considered part of the logging
+REM system but they must be built with the same defines as CommsDebugUtility or else the logging
+REM environment will not be properly initialized.  If logging/non-logging components are
+REM mismatched, the first component to add a log entry is likely to panic and the target may
+REM reset.
+
+
+// Uncomment next line to temporarily engage logging for release builds.
+//#define __FLOGGER_UREL
+// Comment next line to temporarily disengage logging for debug builds
+#define __FLOGGER_UDEB
+
+#include <flogger.iby>
+#if ( defined _DEBUG && defined __FLOGGER_UDEB ) || ( !defined _DEBUG && defined __FLOGGER_UREL )
+	#include <cflog.iby>
+	#include <commsdebugutility.iby>
+#endif // ( defined _DEBUG && defined __FLOGGER_UDEB ) || ( !defined _DEBUG && defined __FLOGGER_UREL )
+#include <commsfw.iby>
+#include <commsrootserver.iby>
+
+#endif

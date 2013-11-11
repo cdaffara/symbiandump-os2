@@ -1,0 +1,42 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+*
+*/
+#ifndef __BAFL_IBY__
+#define __BAFL_IBY__
+
+file=ABI_DIR\BUILD_DIR\bafl.dll 		System\Libs\Bafl.dll
+file=ABI_DIR\BUILD_DIR\baksrv.dll		System\Libs\baksrv.dll
+file=ABI_DIR\BUILD_DIR\baksrvs.exe		System\Programs\baksrvs.exe
+
+data=ZPRIVATE\100048aa\backup_registration.xml private\100048aa\backup_registration.xml
+
+#include "initialiselocale.iby"
+#include <bsul.iby>
+#include <centralrepository.iby>
+
+
+#ifdef SYMBIAN_BAFL_SYSUTIL
+//Core OS extension
+#include <sysutil.iby>
+#endif
+
+
+#ifdef SYMBIAN_BAFL_ACTIVITYMGR
+//Core OS extension
+#include <activitymanager.iby>
+#endif
+
+#endif

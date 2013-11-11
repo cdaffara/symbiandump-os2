@@ -1,0 +1,1034 @@
+/** @file  ../include/sys/stat.h
+@internalComponent
+*/
+
+/** @fn  chmod(const char *_path, mode_t _mode)
+@param _path
+@param _mode
+
+Note: This description also covers the following functions -
+ fchmod()  lchmod() 
+
+@return   Upon successful completion, the value 0 is returned; otherwise the
+value -1 is returned and the global variable errno is set to indicate the
+error.
+
+@code
+  #include < sys/stat.h > :
+@endcode
+  The file permission bits of the file named specified by _path or referenced by the file descriptor fd are changed to _mode. The chmod system call verifies that the process owner (user) either owns
+the file specified by _path (or fd ),
+or
+is the super-user.
+The chmod system call follows symbolic links to operate on the target of the link
+rather than the link itself.
+
+ The lchmod system call is similar to chmod but does not follow symbolic links.
+
+ A mode is created from ored permission bit masks
+defined in  \#include \<sys/stat.h\> :
+
+@code
+#define S_IRWXU 0000700    // RWX mask for owner
+#define S_IRUSR 0000400    // R for owner 
+#define S_IWUSR 0000200    // W for owner 
+#define S_IXUSR 0000100    // X for owner 
+#define S_IRWXG 0000070    // RWX mask for group
+#define S_IRGRP 0000040    // R for group
+#define S_IWGRP 0000020    // W for group
+#define S_IXGRP 0000010    // X for group
+#define S_IRWXO 0000007    // RWX mask for other
+#define S_IROTH 0000004    // R for other
+#define S_IWOTH 0000002    // W for other
+#define S_IXOTH 0000001    // X for other
+#define S_ISUID 0004000    // set user id on execution
+#define S_ISGID 0002000    // set group id on execution
+#ifndef __BSD_VISIBLE
+#define S_ISTXT 0001000    // sticky bit
+#endif
+@endcode
+
+ Notes :
+
+ Sticky bit and set id on execution are not supported.
+
+ Permission values for group and others are ignored as there is no concept of 
+  group and others on the Symbian OS.
+ The flag bits S_IXUSR, S_IXGRP & S_IXOTH are ignored as execute permissions on a file are meaningless on Symbian OS.
+ 
+  An attempt to change file permission to write-only changes the file permission 
+  to read-write.
+
+Either or both of S_IRUSR or S_IWUSR bits must be set in the _mode argument, else chmod fails with EINVAL. 
+
+ Permissions for directories are ignored.
+
+ 000 mode is treated as invalid mode as Symbian OS cannot have entries with 
+  both read and write permissions absent.
+
+
+
+Examples:
+@code
+/*Detailed description: This test code demonstartes usage of chmod system call, it
+ * changes mode of file Example.txt in the current working directory to read-only.
+ * Preconditions: Example.txt file should be present in the current working directory.
+ */
+int main()
+{
+  if(chmod("Example.txt" , 0444) < 0 )  
+  {
+     printf("change mode of file Example.txt failed");
+     return -1;
+  }
+  printf("Chmod system call successful");
+  return 0;
+}
+
+@endcode
+ Output
+@code
+Chmod system call successful
+
+@endcode
+@code
+/* Detailed description : This sample code demonstrates the usage of fchmod system call, this code
+ * changes mode of file Example.txt using fchmod system call.
+ */
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+int main()
+{
+ int fd = 0;
+ fd = open("Example.txt" , O_CREAT | O_RDWR , 0666);
+ if(fd < 0 )   {
+    printf("Failed to open file Example.txt");
+    return -1;
+ }
+ if(fchmod(fd , 0444) < 0 )  {
+    printf("fchmod failed to change mode of file Example.txt");
+    return -1;
+ }
+ printf("Fchmod call changed mode of Example.txt");
+ return 0;
+}
+
+@endcode
+ Output
+@code
+Fchmod call changed mode of Example.txt
+
+@endcode
+
+Limitations:
+
+KErrNotReady of Symbian error code is mapped to ENOENT, which typically means drive
+not found or filesystem not mounted on the drive.
+
+@see chmod()
+@see chown()
+@see open()
+@see stat()
+
+
+
+@capability Deferred @ref RFs::SetAtt(const TDesC16&, unsigned, unsigned)
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fchmod(int fd, mode_t _mode)
+@param fd
+@param _mode
+
+Refer to  chmod() for the documentation
+
+@see chmod()
+@see chown()
+@see open()
+@see stat()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fstat(int fd, struct stat *st)
+@param fd
+@param st
+
+Refer to  stat() for the documentation
+
+Notes:
+
+If 'fd' refers to a shared memory object, the implementation updates only the st_uid, st_gid, st_size, 
+and st_mode fields in the stat structure pointed to by the 'st' argument .
+
+@see access()
+@see chmod()
+@see chown()
+@see utimes()
+@see symlink()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fstat64(int fd, struct stat64 *st)
+@param fd
+@param st
+
+For full documentation see: http://www.unix.org/version2/whatsnew/lfs20mar.html#3.0
+
+@see fstat()
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @fn  lstat(const char *file_name, struct stat *buf)
+@param file_name
+@param buf
+
+Refer to  stat() for the documentation
+
+@see access()
+@see chmod()
+@see chown()
+@see utimes()
+@see symlink()
+
+
+
+@capability Deferred @ref RFs::Entry(const TDesC16&, TEntry&)
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  lstat64(const char *file_name, struct stat64 *buf)
+@param file_name
+@param buf
+
+For full documentation see: http://www.unix.org/version2/whatsnew/lfs20mar.html#3.0
+
+@see lstat()
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  __xstat(int, const char *file, struct stat *buf)
+@param file
+@param buf
+
+Refer to  stat() for the documentation
+
+@see access()
+@see chmod()
+@see chown()
+@see utimes()
+@see symlink()
+
+
+ 
+
+@publishedAll
+@released
+*/
+
+/** @fn  __xstat64(int, const char *file, struct stat64 *buf)
+@param file
+@param buf
+
+For full documentation see: http://www.unix.org/version2/whatsnew/lfs20mar.html#3.0
+
+@see __xstat()
+
+@publishedAll
+@released
+*/
+
+/** @fn  __lxstat(int, const char *file, struct stat *buf)
+@param file
+@param buf
+
+Refer to  stat() for the documentation
+
+@see access()
+@see chmod()
+@see chown()
+@see utimes()
+@see symlink()
+
+
+ 
+
+@publishedAll
+@released
+*/
+
+/** @fn  __lxstat64(int, const char *file, struct stat64 *buf)
+@param file
+@param buf
+
+For full documentation see: http://www.unix.org/version2/whatsnew/lfs20mar.html#3.0
+
+@see __lxstat()
+
+@publishedAll
+@released
+*/
+
+
+/** @fn  mkdir(const char *_path, mode_t _mode)
+@param _path
+@param _mode
+@return   The mkdir() function returns the value 0 if successful; otherwise the
+value -1 is returned and the global variable errno is set to indicate the
+error.
+
+  The directory _path is created with the access permissions specified by _mode.
+
+ Notes:
+
+ _mode values and access permissions are ignored in Symbian OS.
+
+ The default working directory of a process is initialized to C: \\private\\U ID 
+  (UID of the calling application) and any data written into this directory persists between phone resets.
+
+ The parent directory's time stamp is not updated when a new child is created.
+
+ The newly created directory will be empty (i.e. it doesn't have "." and 
+  ".." entries)
+
+Examples:
+@code
+/* Detailed description : This test code demonstrates usage of mkdir systemcall,
+ * it creates function a  directory Example in current working directory.
+ */
+int main()
+{
+  if(mkdir("Example" , 0666) < 0 )  
+  {
+      printf("Directory creation failed");
+      return -1;
+  }
+  printf("Directory Example created");
+  return 0;
+}
+
+@endcode
+ Output
+@code
+Directory Example created
+
+@endcode
+
+Limitations:
+
+The path parameter in mkdir() should not exceed 256 characters in length. 
+
+KErrNotReady of Symbian error code is mapped to ENOENT, which typically means drive
+not found or filesystem not mounted on the drive.
+
+The path given to mkdir() should be complete. Attempting to create a directory my calling mkdir("logs",0400|0200|0100) 
+will pass on emulator but fails on h/w because the cwd is taken as c:\private\uid3 on emulator and
+z:\private\uid3 on h/w. Since Z drive is a rom on h/w, mkdir() fails by setting errno to 13 on hardware.
+
+@see chmod()
+@see stat()
+@see umask()
+
+
+
+@capability Deferred @ref RFs::MkDir(const TDesC16&)
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @fn  mkfifo(const char *pathname, mode_t mode)
+@param pathname
+@param mode
+@return   The mkfifo function returns the value 0 if successful; otherwise the
+value -1 is returned and errno is set to indicate the error.
+
+  The mkfifo system call
+creates a new FIFO(First In First Out) file with name path. The access permissions are
+specified by mode and restricted by the umask of the calling process.
+With the current implementation, the use of umask has no effect.
+
+ The FIFO's owner ID and group ID are set to root.
+
+ Please note that running stat on a FIFO file does not provide modification 
+  time information (it provides the creation time). Use fstat on the fd to retrieve the last modified 
+  time.
+
+Examples:
+@code
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <stdio.h>
+
+int main(void)
+{
+    char *pathname = "C:\XXX";
+    mode_t mode = 0666;
+    if (mkfifo(pathname, mode) == -1) {
+        printf("mkfifo() failed");
+    }
+    return 0;
+}
+
+@endcode
+@see chmod()
+@see stat()
+@see umask()
+
+Limitations:
+
+KErrNotReady of Symbian error code is mapped to ENOENT, which typically means drive
+not found or filesystem not mounted on the drive.
+
+@capability Deferred @ref RFs::Delete(const TDesC16&)
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  stat(const char *name, struct stat *st)
+@param name
+@param st
+
+Note: This description also covers the following functions -
+ lstat()  fstat()  __xstat()  __lxstat() 
+
+@return   Upon successful completion, the value 0 is returned; otherwise the
+value -1 is returned and the global variable errno is set to indicate the error.
+
+@code
+ st_dev The numeric ID of the device containing the file.
+ st_ino The file's inode number.
+ st_nlink
+  The number of hard links to the file.
+
+@endcode
+@code
+ st_atime Time when file data last accessed.
+ Changed by the .Xr utimes 2, read and readv system calls.
+ st_mtime Time when file data last modified.
+ Changed by the mkdir, mkfifo, mknod, utimes, write and writev system calls.
+ st_ctime Time when file status was last changed (inode data modification).
+ Changed by the chmod, chown, creat, link, mkdir, mkfifo, mknod, rename, rmdir, symlink, truncate, unlink, utimes, write and writev system calls.
+ st_birthtime
+  Time when the inode was created.
+
+@endcode
+@code
+ st_size The file size in bytes.
+ st_blksize
+  The optimal I/O block size for the file.
+ st_blocks The actual number of blocks allocated for the file in 512-byte units.
+ As short symbolic links are stored in the inode, this number may
+ be zero.
+
+@endcode
+@code
+ st_uid The user ID of the file's owner.
+ st_gid The group ID of the file.
+ st_mode
+  Status of the file (see below).
+
+@endcode
+@code
+ Test for a block special file.
+ Test for a character special file.
+ Test for a directory.
+ Test for a pipe or FIFO special file.
+ Test for a symbolic link. NOTE: Inode structure is not supported by Symbian OS and hence link count updation is not possible.
+ Check for symbolic link would always fail because of this reason.
+ Test for a regular file.
+ Test for a socket.
+ Test for a whiteout.
+
+@endcode
+  The stat system call obtains information about the file pointed to by path. Read, write or execute
+permission of the named file is not required, but all directories
+listed in the path name leading to the file must be searchable.
+
+ The lstat system call is like stat except in the case where the named file is a symbolic link,
+in which case lstat returns information about the link,
+while stat returns information about the file the link references.
+
+ The fstat system call obtains the same information about an open file
+known by the file descriptor fd.
+
+ The __xstat and __lxstat system calls are exactly similar to stat and lstat functionality.
+
+ The sb argument is a pointer to a stat structure as defined by \#include \<sys/stat.h\> and into which information is 
+  placed concerning the file.
+
+ The fields of struct stat
+related to the file system are as follows: 
+
+@code
+
+st_dev The numeric ID of the device containing the file. 
+st_ino The file's inode number. 
+st_nlink  The number of hard links to the file.
+
+@endcode
+
+ The st_dev and st_ino fields together identify the file uniquely within the system.
+
+ The time-related fields of struct stat
+are as follows: 
+
+st_atime Time when file data last accessed.
+Changed by the .Xr utimes 2, read and readv system calls. 
+st_mtime Time when file data last modified.
+Changed by the mkdir, mkfifo, mknod, utimes, write and writev system calls. 
+st_ctime Time when file status was last changed (inode data modification).
+Changed by the chmod, chown, creat, link, mkdir, mkfifo, mknod, rename, rmdir, symlink, truncate, unlink, utimes, write and writev system calls. st_birthtime  Time when the inode was created.
+
+ If _POSIX_SOURCE is not defined, the time-related fields are defined as: 
+
+@code
+#ifndef _POSIX_SOURCE
+#define st_atime st_atimespec.tv_sec
+#define st_mtime st_mtimespec.tv_sec
+#define st_ctime st_ctimespec.tv_sec
+#endif
+@endcode
+
+ The size-related fields of the struct stat
+are as follows: 
+st_size The file size in bytes. 
+st_blksize  The optimal I/O block size for the file. st_blocks The actual number of blocks allocated for the file in 512-byte units.
+
+As short symbolic links are stored in the inode, this number may
+be zero.
+
+ The access-related fields of struct stat
+are as follows: 
+st_uid The user ID of the file's owner. 
+st_gid The group ID of the file. 
+st_mode  Status of the file (see below).
+
+ The status information word st_mode has the following bits: 
+@code
+#define S_IFMT   0170000  // type of file
+#define S_IFIFO  0010000  // named pipe (fifo) 
+#define S_IFCHR  0020000  // character special 
+#define S_IFDIR  0040000  // directory 
+#define S_IFBLK  0060000  // block special 
+#define S_IFREG  0100000  // regular 
+#define S_IFLNK  0120000  // symbolic link 
+#define S_IFSOCK 0140000  // socket 
+#define S_IFWHT  0160000  // whiteout 
+#define S_ISUID  0004000  // set user id on execution 
+#define S_ISGID  0002000  // set group id on execution 
+#define S_ISVTX  0001000  // save swapped text even after use 
+#define S_IRUSR  0000400  // read permission, owner 
+#define S_IWUSR  0000200  // write permission, owner 
+#define S_IXUSR  0000100  // execute/search permission, owner 
+@endcode
+
+
+ For a list of access modes, see \#include \<sys/stat.h\> access and chmod The following macros are available to 
+  test whether a st_mode value passed in the m argument corresponds to a file of the specified type: S_ISBLK (m); Test for a block special file. S_ISCHR (m); Test for a character special file. S_ISDIR (m); Test for a directory. S_ISFIFO (m); Test for a pipe or FIFO special file. S_ISLNK (m); Test for a symbolic link. NOTE: Inode structure is not supported by Symbian OS and hence link count updation is not possible.
+Check for symbolic link would always fail because of this reason. S_ISREG (m); Test for a regular file. S_ISSOCK (m); Test for a socket. S_ISWHT (m); Test for a whiteout.
+
+ The macros evaluate to a non-zero value if the test is true
+or to the value 0 if the test is false.
+
+ Note: To obtain correct timestamps of FIFOs use fstat instead of stat call.
+
+Examples:
+@code
+/* Detailed description: Sample usage of stat system call
+ * Preconditions: Example.txt file should be present in working directory 
+ */
+#include <fcntl.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+int main()
+{
+  struct stat buf;
+   if(stat("Example.txt"  , &buf;) < 0 )
+   {
+      printf("Failed to stat Example.txt");
+      return -1;
+   }
+   printf("Stat system call succeeded");
+   return 0;
+ }
+/*
+ * Detailed description: Sample usage of fstat system call
+ *
+ */
+#include <fcntl.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+int main()
+{
+  struct stat buf;
+   int fd = open("Example.txt" , O_RDONLY | O_CREAT  , 0666);
+   if(fstat(fd  , &buf;) < 0 ) 
+   {
+      printf("Failed to stat Example.txt");
+      return -1;
+   }
+   printf("Stat system call succeeded");
+   close(fd);
+   return 0;
+ }
+
+@endcode
+ Output
+@code
+Stat system call succeeded
+
+@endcode
+ Output
+@code
+Stat system call succeeded
+
+@endcode
+
+Limitations:
+
+The path parameters of the stat() and lstat() functions should not exceed 256 characters each in length. 
+
+KErrNotReady of Symbian error code is mapped to ENOENT, which typically means drive
+not found or filesystem not mounted on the drive.
+
+@see access()
+@see chmod()
+@see chown()
+@see utimes()
+@see symlink()
+
+
+
+@capability Deferred @ref RFs::Entry(const TDesC16&, TEntry&)
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  stat64(const char *name, struct stat64 *st)
+@param name
+@param st
+@return   Upon successful completion, the value 0 is returned; otherwise the
+value -1 is returned and the global variable errno is set to indicate the error.
+
+For full documentation see: http://www.unix.org/version2/whatsnew/lfs20mar.html#3.0
+
+@see stat()
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  umask(mode_t cmask)
+@param cmask
+@return   This function always returns MASK_RWUSR.
+
+  This function is build supported but not available functionally. Symbian 
+OS does not support multiple users and groups
+
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @struct stat 
+
+This structure provides detailed information about a file. The information returned depends on the type of file and/or the file system on which the file resides.
+Includes following members,
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @var stat::st_dev
+inode's device
+*/
+
+/** @var stat::st_ino
+inode's number
+*/
+
+/** @var stat::st_mode
+inode protection mode
+*/
+
+/** @var stat::st_nlink
+number of hard links
+*/
+
+/** @var stat::st_uid
+user ID of the file's owner
+*/
+
+/** @var stat::st_gid
+group ID of the file's group
+*/
+
+/** @var stat::st_rdev
+device type
+*/
+
+/** @var stat::st_atimespec
+time of last access
+*/
+
+/** @var stat::st_mtimespec
+time of last data modification
+*/
+
+/** @var stat::st_ctimespec
+time of last file status change
+*/
+
+/** @var stat::st_size
+file size, in bytes
+*/
+
+/** @var stat::st_blocks
+blocks allocated for file 
+*/
+
+/** @var stat::st_blksize
+optimal blocksize for IO
+*/
+
+/** @var stat::st_flags
+user defined flags for file
+*/
+
+/** @var stat::st_gen
+file generation number
+*/
+
+/** @struct stat64 
+
+The stat64 structure is similar to the stat structure, except that it is capable of returning information about files that are larger than 2 gigabytes.
+This structure provides detailed information about a file. The information returned depends on the type of file and/or the file system on which the file resides.
+Includes following members,
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @var stat64::st_dev
+inode's device
+*/
+
+/** @var stat64::st_ino
+inode's number
+*/
+
+/** @var stat64::st_mode
+inode protection mode
+*/
+
+/** @var stat64::st_nlink
+number of hard links
+*/
+
+/** @var stat64::st_uid
+user ID of the file's owner
+*/
+
+/** @var stat64::st_gid
+group ID of the file's group
+*/
+
+/** @var stat64::st_rdev
+device type
+*/
+
+/** @var stat64::st_atimespec
+time of last access
+*/
+
+/** @var stat64::st_mtimespec
+time of last data modification
+*/
+
+/** @var stat64::st_ctimespec
+time of last file status change
+*/
+
+/** @var stat64::st_size
+file size, in bytes
+*/
+
+/** @var stat64::st_blocks
+blocks allocated for file 
+*/
+
+/** @var stat64::st_blksize
+optimal blocksize for IO
+*/
+
+/** @var stat64::st_flags
+user defined flags for file
+*/
+
+/** @var stat64::st_gen
+file generation number
+*/
+
+
+/** @def S_IRWXU	
+
+RWX mask for owner
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def S_IRUSR
+
+R for owner
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def S_IWUSR
+
+W for owner
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def S_IXUSR
+
+X for owner
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def S_IFMT
+
+type of file mask
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def S_IFIFO
+
+named pipe (fifo)
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def S_IFCHR
+
+character special 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def S_IFDIR
+
+directory
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def S_IFBLK
+
+block special
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def S_IFREG	
+
+regular
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def S_IFLNK
+
+symbolic link 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def S_ISDIR(m)
+
+directory.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def S_ISCHR(m)
+
+char special.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def S_ISLNK(m)
+
+symbolic link
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def S_ISBLK(m)
+
+block special
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def S_ISREG(m)
+
+regular file 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def S_ISFIFO(m)
+
+fifo or socket
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def S_ISUID
+
+set user id on execution
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def S_ISGID
+
+set group id on execution
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def S_IRWXG
+
+RWX mask for group
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def S_IRGRP
+
+R for group
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def S_IWGRP
+
+W for group
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def S_IXGRP
+
+X for group
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def S_IRWXO
+
+RWX mask for other
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def S_IROTH
+
+R for other
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def S_IWOTH
+
+W for other
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def S_IXOTH
+
+X for other
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def S_ISVTX
+
+save swapped text even after use 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+

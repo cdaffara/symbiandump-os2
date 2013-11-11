@@ -1,0 +1,47 @@
+// An encrypted safe bag PKCS#7 encrypted data
+// PARAM1: salt
+// PARAM2: iteration count
+// PARAM3: cipher_oid
+// PARAM4: cipher
+// PARAM5: key
+// PARAM6: iv
+// PARAM7: include file for safe contents
+// PARAM8: argument for safecontents
+// PARAM9: argument for safecontents
+// PARAM10: argument for safecontents
+// PARAM11: argument for safecontents
+// PARAM12: argument for safecontents
+// PARAM13: argument for safecontents
+SEQUENCE
+	OID=PKCS7_ENCRYPTEDDATA
+	EXPLICIT		
+		SEQUENCE
+			INTEGER=0
+			SEQUENCE
+				OID=PKCS7_data
+				SEQUENCE
+					OID=$3
+					SEQUENCE
+						OCTETSTRING
+							OUTPUT_BINARY_FILE=sha1and128bitrc2_salt.der,1
+								RAW=$1
+							END
+						END
+						INTEGER=$2
+					END
+				END
+				IMPLICIT=0
+					OCTETSTRING
+						OUTPUT_BINARY_FILE=sha1and128bitrc2_encryptedcontent.der,1
+  							ENCRYPT=$4,$5,$6
+								INCLUDE=$7,$8,$9,$10,$11,$12,$13
+							END
+						END
+					END
+				END
+			END
+		END
+	END	
+END
+
+	

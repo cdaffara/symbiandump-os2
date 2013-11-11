@@ -1,0 +1,42 @@
+/*
+* Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+*
+*/
+
+PRJ_EXPORTS
+// repository files exported for testing purposes
+10208DD7.txt				/epoc32/data/z/private/10202be9/10208dd7.txt
+10208DD7.txt				/epoc32/release/winscw/udeb/z/private/10202be9/10208dd7.txt
+10208DD7.txt				/epoc32/release/winscw/urel/z/private/10202be9/10208dd7.txt
+../public/usbchargingpublishedinfo.h                 SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(/)
+
+// ConfML Files
+../conf/usbmanager_10208dd7.crml	       OS_LAYER_EXPORTS_CRML(usbmanager_10208dd7.crml)
+
+PRJ_MMPFILES
+    UsbBatteryChargingPlugin.mmp
+
+#if defined(SYMBIAN_ENABLE_USB_OTG_HOST) && !defined(WINS) && !defined(X86GCC)
+	UsbBatteryChargingPluginotg.mmp
+#endif
+
+PRJ_TESTEXPORTS
+// These files are exported so the battery charging TEST plugin can derive.
+../public/CUsbBatteryChargingPlugin.h   SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(usb/charging/cusbbatterychargingplugin.h)
+../public/chargingstates.h              SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(usb/charging/chargingstates.h)
+../public/devicestatetimer.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(devicestatetimer.h)
+../public/motgobserver.h				SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(motgobserver.h)
+../public/usbbatterycharging.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(usbbatterycharging.h)
+

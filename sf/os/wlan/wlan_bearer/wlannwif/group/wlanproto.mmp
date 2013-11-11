@@ -1,0 +1,72 @@
+/*
+* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Project definition file for project WLAN proto
+*
+*/
+
+/*
+* %version: 8 %
+*/
+
+#include <platform_paths.hrh>
+
+
+TARGET          wlannif.nif
+TARGETTYPE      DLL
+UID             0x1000008d 0x2001b2d4
+
+VENDORID        0x101fb657
+
+DEFFILE         wlanproto.def
+
+SOURCEPATH      ../src
+SOURCE          Wlanbase.cpp
+SOURCE          NifWLMServerIf.cpp
+SOURCE          CLanxBearer.cpp
+SOURCE          CLanIp4Bearer.cpp
+SOURCE          CLanIp6Bearer.cpp
+SOURCE          wlanmcpr.cpp
+SOURCE          WlanConfig.cpp
+
+SOURCEPATH      ../etherpkt
+SOURCE          CardDll.cpp
+SOURCE          sender_common.cpp
+SOURCE          sender_hw.cpp
+SOURCE          receiver_hw.cpp
+
+USERINCLUDE     ../inc
+USERINCLUDE     ../../inc
+USERINCLUDE     ../etherpkt
+OS_LAYER_SYSTEMINCLUDE
+
+LIBRARY         euser.lib
+LIBRARY         esock.lib
+LIBRARY         esocksvr.lib
+LIBRARY         centralrepository.lib
+LIBRARY         insock.lib
+LIBRARY         efsrv.lib
+LIBRARY         mbufmgr.lib
+LIBRARY         netmeta.lib
+LIBRARY         commsfw.lib
+LIBRARY         commsdat.lib
+LIBRARY         coreproviders.lib
+LIBRARY         agentprcore.lib
+LIBRARY         wlmserver.lib
+LIBRARY         nodemessages.lib
+LIBRARY         meshmachine.lib
+LIBRARY         netinterfaces.lib
+LIBRARY         factories.lib
+LIBRARY         serverden.lib
+
+CAPABILITY CommDD PowerMgmt ReadDeviceData WriteDeviceData TrustedUI ProtServ NetworkControl NetworkServices LocalServices ReadUserData WriteUserData

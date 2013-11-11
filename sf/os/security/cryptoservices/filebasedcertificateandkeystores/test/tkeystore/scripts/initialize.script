@@ -1,0 +1,37 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+
+PRINT Initialize authentication server to run key store test.
+
+RUN_PROGRAM 100 SETCAP tAuthSvr.exe 188b0 -SID 102740FC tAuthSvr_new.exe
+
+LOAD_SUITE tAuthSvr
+LOAD_SUITE tAuthSvr_new
+
+
+//! @SYMTestCaseID SEC-FSTOKEN-KEYSTORE-0001
+//! @SYMTestCaseDesc Initialize all authentication server data. Set the values in the cenrep file.
+START_TESTCASE SEC-FSTOKEN-KEYSTORE-0001
+RUN_UTILS DeleteFile C:\pinplugin_inactive.txt
+RUN_UTILS DeleteFile  C:\t_pinplugindlg_in.dat
+RUN_UTILS DeleteFile  C:\t_pinplugindlg_out.dat
+RUN_TEST_STEP !Result=0 100	tAuthSvr 	REMOVE_DBS
+RUN_TEST_STEP !Result=0 100	tAuthSvr_new	INIT_CENREP	c:\tkeystore\scripts\registration.ini Alias
+RUN_TEST_STEP !Result=0 100	tAuthSvr_new	INIT_CENREP	c:\tauth\tauthsvr\scripts\tauthsvr2.ini defaultplugin
+END_TESTCASE SEC-FSTOKEN-KEYSTORE-0001
+
+

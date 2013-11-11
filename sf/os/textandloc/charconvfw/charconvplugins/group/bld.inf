@@ -1,0 +1,580 @@
+/*
+* Copyright (c) 2008-2010 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* Character Conversion Library plugins
+*
+*/
+
+
+/**
+ @file
+*/
+
+#if !defined(TOOLS)
+
+PRJ_EXPORTS
+
+	../inc/convgeneratedcpp.h						SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(convgeneratedcpp.h)
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+	../inc/gb2312.h									/epoc32/include/gb2312.h
+#endif
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+	../inc/gbk.h									/epoc32/include/gbk.h
+#endif
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+	../inc/big5.h									/epoc32/include/big5.h
+#endif
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+	../inc/jisx0201.h								/epoc32/include/jisx0201.h
+#endif
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+	../inc/jisx0208.h								/epoc32/include/jisx0208.h
+#endif
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+	../inc/jisx0212.h								/epoc32/include/jisx0212.h
+#endif
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+	../inc/shiftjis.h								/epoc32/include/shiftjis.h
+#endif
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+	../inc/SHIFTJIS_2.H								/epoc32/include/shiftjis_2.h
+#endif
+
+	../documentation/charconv_plugins_perltools.ipr	/epoc32/engdoc/tools/charconv_plugins_perltools.ipr
+	../documentation/cnvtool.rtf					/epoc32/engdoc/charconv/cnvtool.rtf
+
+	../tools/cnvtool.bat							/epoc32/tools/cnvtool.bat
+	../tools/charconv.bat							/epoc32/tools/charconv.bat
+	../tools/charconv.pl							/epoc32/tools/charconv.pl
+	../tools/cnvtool.pl								/epoc32/tools/cnvtool.pl
+	../tools/UTF.PM									/epoc32/tools/UTF.pm
+
+	charconv_chinese_simplfied.iby					/epoc32/rom/include/charconv_chinese_simplfied.iby
+	charconv_chinese_traditional.iby				/epoc32/rom/include/charconv_chinese_traditional.iby
+	charconv_japanese.iby							/epoc32/rom/include/charconv_japanese.iby
+	charconv_japanese_docomo.iby					/epoc32/rom/include/charconv_japanese_docomo.iby
+	charconv_japanese_kddiau.iby					/epoc32/rom/include/charconv_japanese_kddiau.iby
+	charconv_iso8859x.iby							/epoc32/rom/include/charconv_iso8859x.iby
+	charconv_all_plugins.iby						/epoc32/rom/include/charconv_all_plugins.iby
+	charconv_codepage.iby							/epoc32/rom/include/charconv_codepage.iby
+	charconv_sms7bit.iby							/epoc32/rom/include/charconv_sms7bit.iby
+	charconv_gsm7_turkish.iby						/epoc32/rom/include/charconv_gsm7_turkish.iby
+	charconv_spanish_smsencoding.iby					/epoc32/rom/include/charconv_spanish_smsencoding.iby
+	charconv_portuguese_smsencoding.iby					/epoc32/rom/include/charconv_portuguese_smsencoding.iby						
+	charconv_s60.iby								/epoc32/rom/include/charconv_s60.iby
+	charconv_japanese_s60.iby							/epoc32/rom/include/charconv_japanese_s60.iby
+
+PRJ_EXTENSIONS // this must be built *before* the MMPs depending on generated CPP files (which is most of them)
+
+// Extension makefiles - use the following to get abld to autogenerate cpp data files.
+// STEMS - the stem name used to resolve data and code files related to a plugin
+//         eg, gb2312 resolves to gb2312.ctl, gb2312.dat, g_gb2312.cpp, etc.
+// TYPE - used to specify if the data for this plugin should generate dat files,
+//        cpp files (default) or both
+// EXTRA_PARAMS - use this to specify any extra parameters that the convtool requires
+// EXTRA_DEP - extra make dependancy.  put in especially for gbk which is a superset
+//             that includes gb2312
+// CTL_EXT - allows different ctl files for dat and cpp generation. specifies extra
+//           characters to be appended to the ctl file stem name
+// When adding a new plugin, where possible add to existing 'start extension' blocks.
+
+	start extension syslibs/generate_cpp	//cpp s for plugins and dat files for charconv.bat.
+		option STEMS \
+			gb2312 \
+			gb12345 \
+			big5 \
+			iso88592 \
+			iso88593 \
+			iso88594 \
+			iso88595 \
+			iso88596 \
+			iso88597 \
+			iso88598 \
+			iso88599 \
+			iso885910 \
+			iso885913 \
+			iso885914 \
+			iso885915
+		option TYPE all
+	end
+
+	start extension syslibs/generate_cpp	//just cpp.
+		option STEMS gb18030_4byte
+	end
+
+	start extension syslibs/generate_cpp	//just cpp.
+		option STEMS gb18030_diff_gbk
+	end
+
+	start extension syslibs/generate_cpp	//just cpp.
+		option STEMS cp850
+	end
+
+	start extension syslibs/generate_cpp	//just dat.
+		option STEMS shiftjis iso88591 cp1252
+		option TYPE dat
+	end
+
+	start extension syslibs/generate_cpp	//cpp with extra parameter to cnvtool.
+		option STEMS jisx0201 jisx0212 jisx0201_2
+		option EXTRA_PARAMS -omitReplacementForUnconvertibleUnicodeCharacters
+	end
+
+	start extension syslibs/generate_cpp
+		option STEMS jisx0208
+		option EXTRA_PARAMS -columns(3: 2, 3) -omitReplacementForUnconvertibleUnicodeCharactersrs
+	end
+
+	start extension syslibs/generate_cpp	//cpp with extra make dependancy etc.
+		option STEMS gbk
+		option EXTRA_DEP $(SOURCE_DIRECTORY)$/gb2312.txt
+		option EXTRA_PARAMS -cutOutAnyPrivateUseUnicodeCharacterSlotsBeingUsed -sourceFilesToSubtract($(EXTRA_DEP))
+	end
+
+	start extension syslibs/generate_cpp	//dat using extended ctl file name.
+		option STEMS gbk
+		option CTL_EXT f
+		option TYPE dat
+	end
+
+	start extension syslibs/generate_cpp	//just cpp.
+		option STEMS extended_sms_7bit
+	end
+	
+	start extension syslibs/generate_cpp	//just cpp.
+		option STEMS turkish_locking_gsm7ext
+	end
+
+	start extension syslibs/generate_cpp	//just cpp.
+		option STEMS turkish_locking_single
+	end
+
+	start extension syslibs/generate_cpp	//just cpp.
+		option STEMS gsm7_turkish_single
+	end
+
+	start extension syslibs/generate_cpp	//generate the cpp file for spanish gsm 7 bits single shift table
+		option STEMS spanish_gsm7_single
+	end
+
+	
+	start extension syslibs/generate_cpp	//generate the cpp file for portuguese locking shift 
+		option STEMS portuguese_locking_gsm7ext
+	end
+
+	start extension syslibs/generate_cpp	//just cpp.
+		option STEMS portuguese_gsm7_single
+	end
+
+	start extension syslibs/generate_cpp	//just cpp.
+		option STEMS portuguese_locking_single
+	end
+
+	start extension syslibs/generate_cpp	//just cpp.
+		option STEMS \
+		ShiftJisDirectmap \
+		iscii \
+		KOI8R \
+		KOI8U \
+		TIS_620 \
+		win874 \
+		win1250 \
+		win1251 \
+		win1253 \
+		win1254 \
+		win1255 \
+		win1256 \
+		win1257 \
+		win1258		
+	end
+
+PRJ_MMPFILES
+	// The XXXXX_shared.mmp files below build DLLs that non-plug-in DLLs (such as locale DLLs) can statically link against.
+	gb2312_shared.mmp
+	gbk_shared.mmp
+	big5_shared.mmp
+	gb18030_4byte.mmp
+	gb18030_diff_gbk.mmp
+	jisbase_shared.mmp
+	jisbase_shared_2.mmp
+	jisx0201.mmp
+	jisx0201_2.mmp
+	jisx0208.mmp
+	jisx0208_2.mmp
+	jisx0212.mmp
+	shiftjis_kddiau_shared.mmp
+	shiftjis_kddiau_shared_2.mmp
+	shiftjis_docomo_shared.mmp
+	CnvShiftJisDirectmap.mmp
+	CnvPictographShared.mmp
+	CP949table.mmp	
+
+	// The rest are plug-ins.
+	gb2312.mmp
+	hz.mmp
+	gb12345.mmp
+	gbk.mmp
+	gb18030.mmp
+	big5.mmp
+	shiftjis_kddiau.mmp
+	shiftjis_kddiau_2.mmp
+	shiftjis_docomo.mmp
+	iso2022jp.mmp
+	iso2022jp_2.mmp
+	iso2022jp1.mmp
+	iso2022jp1_2.mmp
+	jis.mmp
+	jis_2.mmp
+	eucjp_packed.mmp
+	eucjp_packed_2.mmp
+	iso88592.mmp
+	iso88593.mmp
+	iso88594.mmp
+	iso88595.mmp
+	iso88596.mmp
+	iso88597.mmp
+	iso88598.mmp
+	iso88599.mmp
+	iso885910.mmp
+	iso885913.mmp
+	iso885914.mmp
+	iso885915.mmp
+	ucs2.mmp
+	j5_kddiau.mmp
+	j5_kddiau_2.mmp
+	j5_docomo.mmp
+	cp850.mmp
+	extended_sms_7bit.mmp
+	gsm7_turkish_single.mmp
+	turkish_locking_gsm7ext.mmp
+	turkish_locking_single.mmp
+	portuguese_gsm7_single.mmp
+	portuguese_locking_gsm7ext.mmp
+	portuguese_locking_single.mmp
+	spanish_gsm7_single.mmp
+	Win949.mmp
+	ShiftJisDirectmap.mmp
+	EucJpDirectmap.mmp
+	EUCKR.mmp
+	iscii.mmp
+	iso2022kr.mmp
+	KOI8R.mmp
+	KOI8U.mmp
+	ksc5601.mmp
+	TIS_620.mmp
+	Win874.mmp
+	Win1250.mmp
+	Win1251.mmp
+	Win1253.mmp
+	Win1254.mmp
+	Win1255.mmp
+	Win1256.mmp
+	Win1257.mmp
+	Win1258.mmp
+
+PRJ_TESTEXPORTS
+	
+	../test/rtest/tsrc/main/T_ALL.script	/epoc32/data/z/test/T_ALL.script
+	../test/rtest/tsrc/main/T_ALL.bat		/epoc32/data/z/test/T_ALL.bat
+	../test/rtest/tsrc/main/T_ALL.script	/epoc32/winscw/c/test/T_ALL.script
+	../test/rtest/tsrc/main/T_ALL.bat		/epoc32/winscw/c/test/T_ALL.bat
+	
+	../test/data/swedish.txt				/epoc32/data/z/test/data/swedish.txt
+	../test/data/finnish.txt				/epoc32/data/z/test/data/finnish.txt
+	../test/data/swedish.txt				/epoc32/winscw/c/test/data/swedish.txt
+	../test/data/finnish.txt				/epoc32/winscw/c/test/data/finnish.txt
+	../test/data/swedish.txt				/epoc32/wins/c/test/data/swedish.txt
+	../test/data/finnish.txt				/epoc32/wins/c/test/data/finnish.txt
+
+// used by TJ5 for testing J5 plug-in
+	../test/data/ansi.test					/epoc32/data/z/test/data/ansi.test	
+	../test/data/ansi.uni					/epoc32/data/z/test/data/ansi.uni		
+	../test/data/imode.test					/epoc32/data/z/test/data/imode.test		
+	../test/data/imode.uni					/epoc32/data/z/test/data/imode.uni	
+	../test/data/imode_not_mapped.uni		/epoc32/data/z/test/data/imode_not_mapped.uni
+	../test/data/jpeuc-j.test				/epoc32/data/z/test/data/jpeuc-j.test
+	../test/data/jpeuc-j.uni				/epoc32/data/z/test/data/jpeuc-j.uni
+	../test/data/jpjis.test					/epoc32/data/z/test/data/jpjis.test	
+	../test/data/jpjis.uni					/epoc32/data/z/test/data/jpjis.uni	
+	../test/data/jpsjis.test				/epoc32/data/z/test/data/jpsjis.test	
+	../test/data/jpsjis.uni					/epoc32/data/z/test/data/jpsjis.uni	
+	../test/data/jpunicode.test				/epoc32/data/z/test/data/jpunicode.test
+	../test/data/jpunicode.uni				/epoc32/data/z/test/data/jpunicode.uni
+	../test/data/jputf8.test				/epoc32/data/z/test/data/jputf8.test	
+	../test/data/jputf8.uni					/epoc32/data/z/test/data/jputf8.uni	
+	../test/data/mopera.test				/epoc32/data/z/test/data/mopera.test	
+	../test/data/mopera.uni					/epoc32/data/z/test/data/mopera.uni	
+	../test/data/mopera_not_mapped.uni		/epoc32/data/z/test/data/mopera_not_mapped.uni	
+	../test/data/mscodefont.test			/epoc32/data/z/test/data/mscodefont.test
+	../test/data/mscodefont.uni				/epoc32/data/z/test/data/mscodefont.uni
+	../test/data/s-jis.test					/epoc32/data/z/test/data/s-jis.test
+	../test/data/s-jis.uni					/epoc32/data/z/test/data/s-jis.uni
+	../test/data/s-jis_docomo.uni			/epoc32/data/z/test/data/s-jis_docomo.uni
+
+	../test/data/ansi.test					/epoc32/winscw/c/test/data/ansi.test	
+	../test/data/ansi.uni					/epoc32/winscw/c/test/data/ansi.uni		
+	../test/data/imode.test					/epoc32/winscw/c/test/data/imode.test	
+	../test/data/imode.uni					/epoc32/winscw/c/test/data/imode.uni	
+	../test/data/imode_not_mapped.uni		/epoc32/winscw/c/test/data/imode_not_mapped.uni	
+	../test/data/jpeuc-j.test				/epoc32/winscw/c/test/data/jpeuc-j.test
+	../test/data/jpeuc-j.uni				/epoc32/winscw/c/test/data/jpeuc-j.uni
+	../test/data/jpjis.test					/epoc32/winscw/c/test/data/jpjis.test	
+	../test/data/jpjis.uni					/epoc32/winscw/c/test/data/jpjis.uni	
+	../test/data/jpsjis.test				/epoc32/winscw/c/test/data/jpsjis.test	
+	../test/data/jpsjis.uni					/epoc32/winscw/c/test/data/jpsjis.uni	
+	../test/data/jpunicode.test				/epoc32/winscw/c/test/data/jpunicode.test
+	../test/data/jpunicode.uni				/epoc32/winscw/c/test/data/jpunicode.uni
+	../test/data/jputf8.test				/epoc32/winscw/c/test/data/jputf8.test	
+	../test/data/jputf8.uni					/epoc32/winscw/c/test/data/jputf8.uni	
+	../test/data/mopera.test				/epoc32/winscw/c/test/data/mopera.test	
+	../test/data/mopera.uni					/epoc32/winscw/c/test/data/mopera.uni	
+	../test/data/mopera_not_mapped.uni		/epoc32/winscw/c/test/data/mopera_not_mapped.uni	
+	../test/data/mscodefont.test			/epoc32/winscw/c/test/data/mscodefont.test
+	../test/data/mscodefont.uni				/epoc32/winscw/c/test/data/mscodefont.uni
+	../test/data/s-jis.test					/epoc32/winscw/c/test/data/s-jis.test
+	../test/data/s-jis.uni					/epoc32/winscw/c/test/data/s-jis.uni
+	../test/data/s-jis_docomo.uni			/epoc32/winscw/c/test/data/s-jis_docomo.uni
+	// Work around for DEF063276
+	../test/data/main/koriginalsms7bit.dat 	z:/test/data/koriginalsms7bit.dat
+	../test/data/main/originaljis.dat 		z:/test/data/originaljis.dat
+	../test/data/main/klittleendian.dat 	z:/test/data/klittleendian.dat
+	../test/data/main/kbigendian.dat 		z:/test/data/kbigendian.dat
+	// Work around for DEF089572
+	../test/data/main/ksms7bit.dat	 		z:/test/data/ksms7bit.dat
+
+	//test extended sms 7bit
+	../test/data/extendedsms_uni_expect.dat	/epoc32/winscw/c/test/data/extendedsms_uni_expect.dat
+	../test/data/extendedsms_uni_input.dat	/epoc32/winscw/c/test/data/extendedsms_uni_input.dat
+	../test/data/extendedsms_for_expect.dat	/epoc32/winscw/c/test/data/extendedsms_for_expect.dat
+	../test/data/extendedsms_for_input.dat	/epoc32/winscw/c/test/data/extendedsms_for_input.dat
+	../test/data/extendedsms_for_expect.dat	/epoc32/data/z/test/data/extendedsms_for_expect.dat
+	../test/data/extendedsms_for_input.dat	/epoc32/data/z/test/data/extendedsms_for_input.dat
+	../test/data/extendedsms_uni_expect.dat	/epoc32/data/z/test/data/extendedsms_uni_expect.dat
+	../test/data/extendedsms_uni_input.dat	/epoc32/data/z/test/data/extendedsms_uni_input.dat
+
+	//test spanish single
+	../test/data/gsm7_spanish_single_for_expect.dat	/epoc32/winscw/c/test/data/gsm7_spanish_single_for_expect.dat
+	../test/data/gsm7_spanish_single_for_input.dat	/epoc32/winscw/c/test/data/gsm7_spanish_single_for_input.dat
+	../test/data/gsm7_spanish_single_uni_expect.dat	/epoc32/winscw/c/test/data/gsm7_spanish_single_uni_expect.dat
+	../test/data/gsm7_spanish_single_uni_input.dat	/epoc32/winscw/c/test/data/gsm7_spanish_single_uni_input.dat
+	../test/data/gsm7_spanish_single_for_expect.dat	/epoc32/data/z/test/data/gsm7_spanish_single_for_expect.dat
+	../test/data/gsm7_spanish_single_for_input.dat	/epoc32/data/z/test/data/gsm7_spanish_single_for_input.dat
+	../test/data/gsm7_spanish_single_uni_expect.dat	/epoc32/data/z/test/data/gsm7_spanish_single_uni_expect.dat
+	../test/data/gsm7_spanish_single_uni_input.dat	/epoc32/data/z/test/data/gsm7_spanish_single_uni_input.dat
+
+	//test Portuguese locking gsm7ext
+	../test/data/portuguese_locking_gsm7ext_for_expect.dat	/epoc32/winscw/c/test/data/portuguese_locking_gsm7ext_for_expect.dat
+	../test/data/portuguese_locking_gsm7ext_for_input.dat	/epoc32/winscw/c/test/data/portuguese_locking_gsm7ext_for_input.dat
+	../test/data/portuguese_locking_gsm7ext_uni_expect.dat	/epoc32/winscw/c/test/data/portuguese_locking_gsm7ext_uni_expect.dat
+	../test/data/portuguese_locking_gsm7ext_uni_input.dat	/epoc32/winscw/c/test/data/portuguese_locking_gsm7ext_uni_input.dat
+	../test/data/portuguese_locking_gsm7ext_for_expect.dat	/epoc32/data/z/test/data/portuguese_locking_gsm7ext_for_expect.dat
+	../test/data/portuguese_locking_gsm7ext_for_input.dat	/epoc32/data/z/test/data/portuguese_locking_gsm7ext_for_input.dat
+	../test/data/portuguese_locking_gsm7ext_uni_expect.dat	/epoc32/data/z/test/data/portuguese_locking_gsm7ext_uni_expect.dat
+	../test/data/portuguese_locking_gsm7ext_uni_input.dat	/epoc32/data/z/test/data/portuguese_locking_gsm7ext_uni_input.dat
+
+	//test Portuguese locking single
+	../test/data/portuguese_locking_single_for_expect.dat	/epoc32/winscw/c/test/data/portuguese_locking_single_for_expect.dat
+	../test/data/portuguese_locking_single_for_input.dat	/epoc32/winscw/c/test/data/portuguese_locking_single_for_input.dat
+	../test/data/portuguese_locking_single_uni_expect.dat	/epoc32/winscw/c/test/data/portuguese_locking_single_uni_expect.dat
+	../test/data/portuguese_locking_single_uni_input.dat	/epoc32/winscw/c/test/data/portuguese_locking_single_uni_input.dat
+	../test/data/portuguese_locking_single_for_expect.dat	/epoc32/data/z/test/data/portuguese_locking_single_for_expect.dat
+	../test/data/portuguese_locking_single_for_input.dat	/epoc32/data/z/test/data/portuguese_locking_single_for_input.dat
+	../test/data/portuguese_locking_single_uni_expect.dat	/epoc32/data/z/test/data/portuguese_locking_single_uni_expect.dat
+	../test/data/portuguese_locking_single_uni_input.dat	/epoc32/data/z/test/data/portuguese_locking_single_uni_input.dat
+
+    //test Portuguese gsm7 & single
+	../test/data/gsm7_portuguese_single_for_expect.dat	/epoc32/winscw/c/test/data/gsm7_portuguese_single_for_expect.dat
+	../test/data/gsm7_portuguese_single_for_input.dat	/epoc32/winscw/c/test/data/gsm7_portuguese_single_for_input.dat
+	../test/data/gsm7_portuguese_single_uni_expect.dat	/epoc32/winscw/c/test/data/gsm7_portuguese_single_uni_expect.dat
+	../test/data/gsm7_portuguese_single_uni_input.dat	/epoc32/winscw/c/test/data/gsm7_portuguese_single_uni_input.dat
+	../test/data/gsm7_portuguese_single_for_expect.dat	/epoc32/data/z/test/data/gsm7_portuguese_single_for_expect.dat
+	../test/data/gsm7_portuguese_single_for_input.dat	/epoc32/data/z/test/data/gsm7_portuguese_single_for_input.dat
+	../test/data/gsm7_portuguese_single_uni_expect.dat	/epoc32/data/z/test/data/gsm7_portuguese_single_uni_expect.dat
+	../test/data/gsm7_portuguese_single_uni_input.dat	/epoc32/data/z/test/data/gsm7_portuguese_single_uni_input.dat
+
+    //test turkish single
+	../test/data/gsm7_turkish_single_for_expect.dat	/epoc32/winscw/c/test/data/gsm7_turkish_single_for_expect.dat
+	../test/data/gsm7_turkish_single_for_input.dat	/epoc32/winscw/c/test/data/gsm7_turkish_single_for_input.dat
+	../test/data/gsm7_turkish_single_uni_expect.dat	/epoc32/winscw/c/test/data/gsm7_turkish_single_uni_expect.dat
+	../test/data/gsm7_turkish_single_uni_input.dat	/epoc32/winscw/c/test/data/gsm7_turkish_single_uni_input.dat
+	../test/data/gsm7_turkish_single_for_expect.dat	/epoc32/data/z/test/data/gsm7_turkish_single_for_expect.dat
+	../test/data/gsm7_turkish_single_for_input.dat	/epoc32/data/z/test/data/gsm7_turkish_single_for_input.dat
+	../test/data/gsm7_turkish_single_uni_expect.dat	/epoc32/data/z/test/data/gsm7_turkish_single_uni_expect.dat
+	../test/data/gsm7_turkish_single_uni_input.dat	/epoc32/data/z/test/data/gsm7_turkish_single_uni_input.dat
+
+	//test turkish locking
+	../test/data/turkish_locking_gsm7ext_for_expect.dat	/epoc32/winscw/c/test/data/turkish_locking_gsm7ext_for_expect.dat
+	../test/data/turkish_locking_gsm7ext_for_input.dat	/epoc32/winscw/c/test/data/turkish_locking_gsm7ext_for_input.dat
+	../test/data/turkish_locking_gsm7ext_uni_expect.dat	/epoc32/winscw/c/test/data/turkish_locking_gsm7ext_uni_expect.dat
+	../test/data/turkish_locking_gsm7ext_uni_input.dat	/epoc32/winscw/c/test/data/turkish_locking_gsm7ext_uni_input.dat
+	../test/data/turkish_locking_gsm7ext_for_expect.dat	/epoc32/data/z/test/data/turkish_locking_gsm7ext_for_expect.dat
+	../test/data/turkish_locking_gsm7ext_for_input.dat	/epoc32/data/z/test/data/turkish_locking_gsm7ext_for_input.dat
+	../test/data/turkish_locking_gsm7ext_uni_expect.dat	/epoc32/data/z/test/data/turkish_locking_gsm7ext_uni_expect.dat
+	../test/data/turkish_locking_gsm7ext_uni_input.dat	/epoc32/data/z/test/data/turkish_locking_gsm7ext_uni_input.dat
+
+	//test turkish locking single
+	../test/data/turkish_locking_single_for_expect.dat	/epoc32/winscw/c/test/data/turkish_locking_single_for_expect.dat
+	../test/data/turkish_locking_single_for_input.dat	/epoc32/winscw/c/test/data/turkish_locking_single_for_input.dat
+	../test/data/turkish_locking_single_uni_expect.dat	/epoc32/winscw/c/test/data/turkish_locking_single_uni_expect.dat
+	../test/data/turkish_locking_single_uni_input.dat	/epoc32/winscw/c/test/data/turkish_locking_single_uni_input.dat
+	../test/data/turkish_locking_single_for_expect.dat	/epoc32/data/z/test/data/turkish_locking_single_for_expect.dat
+	../test/data/turkish_locking_single_for_input.dat	/epoc32/data/z/test/data/turkish_locking_single_for_input.dat
+	../test/data/turkish_locking_single_uni_expect.dat	/epoc32/data/z/test/data/turkish_locking_single_uni_expect.dat
+	../test/data/turkish_locking_single_uni_input.dat	/epoc32/data/z/test/data/turkish_locking_single_uni_input.dat
+
+	//test KOI8R
+	../test/data/KOI8R_for_expect.dat	/epoc32/winscw/c/test/data/KOI8R_for_expect.dat
+	../test/data/KOI8R_for_input.dat	/epoc32/winscw/c/test/data/KOI8R_for_input.dat
+	../test/data/KOI8R_uni_expect.dat	/epoc32/winscw/c/test/data/KOI8R_uni_expect.dat
+	../test/data/KOI8R_uni_input.dat	/epoc32/winscw/c/test/data/KOI8R_uni_input.dat
+	../test/data/KOI8R_for_expect.dat	/epoc32/data/z/test/data/KOI8R_for_expect.dat
+	../test/data/KOI8R_for_input.dat	/epoc32/data/z/test/data/KOI8R_for_input.dat
+	../test/data/KOI8R_uni_expect.dat	/epoc32/data/z/test/data/KOI8R_uni_expect.dat
+	../test/data/KOI8R_uni_input.dat	/epoc32/data/z/test/data/KOI8R_uni_input.dat
+
+	//test KOI8U
+	../test/data/KOI8U_for_expect.dat	/epoc32/winscw/c/test/data/KOI8U_for_expect.dat
+	../test/data/KOI8U_for_input.dat	/epoc32/winscw/c/test/data/KOI8U_for_input.dat
+	../test/data/KOI8U_uni_expect.dat	/epoc32/winscw/c/test/data/KOI8U_uni_expect.dat
+	../test/data/KOI8U_uni_input.dat	/epoc32/winscw/c/test/data/KOI8U_uni_input.dat
+	../test/data/KOI8U_for_expect.dat	/epoc32/data/z/test/data/KOI8U_for_expect.dat
+	../test/data/KOI8U_for_input.dat	/epoc32/data/z/test/data/KOI8U_for_input.dat
+	../test/data/KOI8U_uni_expect.dat	/epoc32/data/z/test/data/KOI8U_uni_expect.dat
+	../test/data/KOI8U_uni_input.dat	/epoc32/data/z/test/data/KOI8U_uni_input.dat
+
+	//test TIS_620
+	../test/data/TIS_620_for_expect.dat	/epoc32/winscw/c/test/data/TIS_620_for_expect.dat
+	../test/data/TIS_620_for_input.dat	/epoc32/winscw/c/test/data/TIS_620_for_input.dat
+	../test/data/TIS_620_uni_expect.dat	/epoc32/winscw/c/test/data/TIS_620_uni_expect.dat
+	../test/data/TIS_620_uni_input.dat	/epoc32/winscw/c/test/data/TIS_620_uni_input.dat
+	../test/data/TIS_620_for_expect.dat	/epoc32/data/z/test/data/TIS_620_for_expect.dat
+	../test/data/TIS_620_for_input.dat	/epoc32/data/z/test/data/TIS_620_for_input.dat
+	../test/data/TIS_620_uni_expect.dat	/epoc32/data/z/test/data/TIS_620_uni_expect.dat
+	../test/data/TIS_620_uni_input.dat	/epoc32/data/z/test/data/TIS_620_uni_input.dat
+
+	//test win874
+	../test/data/win874_for_expect.dat	/epoc32/winscw/c/test/data/win874_for_expect.dat
+	../test/data/win874_for_input.dat	/epoc32/winscw/c/test/data/win874_for_input.dat
+	../test/data/win874_uni_expect.dat	/epoc32/winscw/c/test/data/win874_uni_expect.dat
+	../test/data/win874_uni_input.dat	/epoc32/winscw/c/test/data/win874_uni_input.dat
+	../test/data/win874_for_expect.dat	/epoc32/data/z/test/data/win874_for_expect.dat
+	../test/data/win874_for_input.dat	/epoc32/data/z/test/data/win874_for_input.dat
+	../test/data/win874_uni_expect.dat	/epoc32/data/z/test/data/win874_uni_expect.dat
+	../test/data/win874_uni_input.dat	/epoc32/data/z/test/data/win874_uni_input.dat
+
+	//test win1250
+	../test/data/win1250_for_expect.dat	/epoc32/winscw/c/test/data/win1250_for_expect.dat
+	../test/data/win1250_for_input.dat	/epoc32/winscw/c/test/data/win1250_for_input.dat
+	../test/data/win1250_uni_expect.dat	/epoc32/winscw/c/test/data/win1250_uni_expect.dat
+	../test/data/win1250_uni_input.dat	/epoc32/winscw/c/test/data/win1250_uni_input.dat
+	../test/data/win1250_for_expect.dat	/epoc32/data/z/test/data/win1250_for_expect.dat
+	../test/data/win1250_for_input.dat	/epoc32/data/z/test/data/win1250_for_input.dat
+	../test/data/win1250_uni_expect.dat	/epoc32/data/z/test/data/win1250_uni_expect.dat
+	../test/data/win1250_uni_input.dat	/epoc32/data/z/test/data/win1250_uni_input.dat
+
+	//test win1251
+	../test/data/win1251_for_expect.dat	/epoc32/winscw/c/test/data/win1251_for_expect.dat
+	../test/data/win1251_for_input.dat	/epoc32/winscw/c/test/data/win1251_for_input.dat
+	../test/data/win1251_uni_expect.dat	/epoc32/winscw/c/test/data/win1251_uni_expect.dat
+	../test/data/win1251_uni_input.dat	/epoc32/winscw/c/test/data/win1251_uni_input.dat
+	../test/data/win1251_for_expect.dat	/epoc32/data/z/test/data/win1251_for_expect.dat
+	../test/data/win1251_for_input.dat	/epoc32/data/z/test/data/win1251_for_input.dat
+	../test/data/win1251_uni_expect.dat	/epoc32/data/z/test/data/win1251_uni_expect.dat
+	../test/data/win1251_uni_input.dat	/epoc32/data/z/test/data/win1251_uni_input.dat
+
+	//test win1253
+	../test/data/win1253_for_expect.dat	/epoc32/winscw/c/test/data/win1253_for_expect.dat
+	../test/data/win1253_for_input.dat	/epoc32/winscw/c/test/data/win1253_for_input.dat
+	../test/data/win1253_uni_expect.dat	/epoc32/winscw/c/test/data/win1253_uni_expect.dat
+	../test/data/win1253_uni_input.dat	/epoc32/winscw/c/test/data/win1253_uni_input.dat
+	../test/data/win1253_for_expect.dat	/epoc32/data/z/test/data/win1253_for_expect.dat
+	../test/data/win1253_for_input.dat	/epoc32/data/z/test/data/win1253_for_input.dat
+	../test/data/win1253_uni_expect.dat	/epoc32/data/z/test/data/win1253_uni_expect.dat
+	../test/data/win1253_uni_input.dat	/epoc32/data/z/test/data/win1253_uni_input.dat
+
+	//test win1254
+	../test/data/win1254_for_expect.dat	/epoc32/winscw/c/test/data/win1254_for_expect.dat
+	../test/data/win1254_for_input.dat	/epoc32/winscw/c/test/data/win1254_for_input.dat
+	../test/data/win1254_uni_expect.dat	/epoc32/winscw/c/test/data/win1254_uni_expect.dat
+	../test/data/win1254_uni_input.dat	/epoc32/winscw/c/test/data/win1254_uni_input.dat
+	../test/data/win1254_for_expect.dat	/epoc32/data/z/test/data/win1254_for_expect.dat
+	../test/data/win1254_for_input.dat	/epoc32/data/z/test/data/win1254_for_input.dat
+	../test/data/win1254_uni_expect.dat	/epoc32/data/z/test/data/win1254_uni_expect.dat
+	../test/data/win1254_uni_input.dat	/epoc32/data/z/test/data/win1254_uni_input.dat
+
+	//test win1255
+	../test/data/win1255_for_expect.dat	/epoc32/winscw/c/test/data/win1255_for_expect.dat
+	../test/data/win1255_for_input.dat	/epoc32/winscw/c/test/data/win1255_for_input.dat
+	../test/data/win1255_uni_expect.dat	/epoc32/winscw/c/test/data/win1255_uni_expect.dat
+	../test/data/win1255_uni_input.dat	/epoc32/winscw/c/test/data/win1255_uni_input.dat
+	../test/data/win1255_for_expect.dat	/epoc32/data/z/test/data/win1255_for_expect.dat
+	../test/data/win1255_for_input.dat	/epoc32/data/z/test/data/win1255_for_input.dat
+	../test/data/win1255_uni_expect.dat	/epoc32/data/z/test/data/win1255_uni_expect.dat
+	../test/data/win1255_uni_input.dat	/epoc32/data/z/test/data/win1255_uni_input.dat
+
+	//test win1256
+	../test/data/win1256_for_expect.dat	/epoc32/winscw/c/test/data/win1256_for_expect.dat
+	../test/data/win1256_for_input.dat	/epoc32/winscw/c/test/data/win1256_for_input.dat
+	../test/data/win1256_uni_expect.dat	/epoc32/winscw/c/test/data/win1256_uni_expect.dat
+	../test/data/win1256_uni_input.dat	/epoc32/winscw/c/test/data/win1256_uni_input.dat
+	../test/data/win1256_for_expect.dat	/epoc32/data/z/test/data/win1256_for_expect.dat
+	../test/data/win1256_for_input.dat	/epoc32/data/z/test/data/win1256_for_input.dat
+	../test/data/win1256_uni_expect.dat	/epoc32/data/z/test/data/win1256_uni_expect.dat
+	../test/data/win1256_uni_input.dat	/epoc32/data/z/test/data/win1256_uni_input.dat
+
+	//test win1257
+	../test/data/win1257_for_expect.dat	/epoc32/winscw/c/test/data/win1257_for_expect.dat
+	../test/data/win1257_for_input.dat	/epoc32/winscw/c/test/data/win1257_for_input.dat
+	../test/data/win1257_uni_expect.dat	/epoc32/winscw/c/test/data/win1257_uni_expect.dat
+	../test/data/win1257_uni_input.dat	/epoc32/winscw/c/test/data/win1257_uni_input.dat
+	../test/data/win1257_for_expect.dat	/epoc32/data/z/test/data/win1257_for_expect.dat
+	../test/data/win1257_for_input.dat	/epoc32/data/z/test/data/win1257_for_input.dat
+	../test/data/win1257_uni_expect.dat	/epoc32/data/z/test/data/win1257_uni_expect.dat
+	../test/data/win1257_uni_input.dat	/epoc32/data/z/test/data/win1257_uni_input.dat
+
+	//test win1258
+	../test/data/win1258_for_expect.dat	/epoc32/winscw/c/test/data/win1258_for_expect.dat
+	../test/data/win1258_for_input.dat	/epoc32/winscw/c/test/data/win1258_for_input.dat
+	../test/data/win1258_uni_expect.dat	/epoc32/winscw/c/test/data/win1258_uni_expect.dat
+	../test/data/win1258_uni_input.dat	/epoc32/winscw/c/test/data/win1258_uni_input.dat
+	../test/data/win1258_for_expect.dat	/epoc32/data/z/test/data/win1258_for_expect.dat
+	../test/data/win1258_for_input.dat	/epoc32/data/z/test/data/win1258_for_input.dat
+	../test/data/win1258_uni_expect.dat	/epoc32/data/z/test/data/win1258_uni_expect.dat
+	../test/data/win1258_uni_input.dat	/epoc32/data/z/test/data/win1258_uni_input.dat
+
+	../test/rtest/group/charconvplugintests.iby		/epoc32/rom/include/charconvplugintests.iby
+
+PRJ_TESTEXTENSIONS
+	start extension syslibs/test/charconv_tsnmdata						// not test code
+	end
+	start extension syslibs/test/charconv_tiso8859x_generate_cpp		// not test code
+	end
+
+PRJ_TESTMMPFILES
+	../test/rtest/group/shiftjis_with_sample_extension.mmp		support		// Plug-in for test code.
+	../test/rtest/group/iso2022jp1_2_test.mmp					support		// For testing S60 variants of iso2022jp1.
+	../test/rtest/group/iso2022jp_2_test.mmp					support		// For testing S60 variants of iso2022jp.
+ 	../test/rtest/group/eucjp_packed_2_test.mmp					support		// For testing S60 variants of eucjp_packed.
+ 	../test/rtest/group/test_j5_kddiau.mmp						support		// For testing Kddiau variants of Shift-JIS.
+	../test/rtest/group/tis1620.mmp								support
+	../test/rtest/group/shiftjis_kddiau_test.mmp				support		// For testing Kddiau variants of Shift-JIS.
+ 		
+	../test/rtest/group/t_charconvpluginserver.mmp
+
+	
+PRJ_TESTEXTENSIONS
+	start extension syslibs/test/charconv_testpostbuild		// Remove shiftjis_kddiau.rsc and j5_kddiau.rsc so test version will work correctly.
+	end
+
+#endif

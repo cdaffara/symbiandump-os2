@@ -1,0 +1,834 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="HtiMessages"
+ targetNamespace="urn:hti"
+ xmlns:tns="urn:hti"
+ xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+ xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+ xmlns:ns1="urn:hti"
+ xmlns:SOAP="http://schemas.xmlsoap.org/wsdl/soap/"
+ xmlns:MIME="http://schemas.xmlsoap.org/wsdl/mime/"
+ xmlns:DIME="http://schemas.xmlsoap.org/ws/2002/04/dime/wsdl/"
+ xmlns:WSDL="http://schemas.xmlsoap.org/wsdl/"
+ xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+<types>
+
+ <schema targetNamespace="urn:hti"
+  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:ns1="urn:hti"
+  xmlns="http://www.w3.org/2001/XMLSchema"
+  elementFormDefault="unqualified"
+  attributeFormDefault="unqualified">
+  <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+  <simpleType name="folder">
+   <restriction base="xsd:string">
+    <enumeration value="AllFolders"/>
+    <enumeration value="Indox"/>
+    <enumeration value="Drafts"/>
+    <enumeration value="Sent"/>
+    <enumeration value="Outbox"/>
+   </restriction>
+  </simpleType>
+  <simpleType name="messageType">
+   <restriction base="xsd:string">
+    <enumeration value="AllMessages"/>
+    <enumeration value="SMS"/>
+    <enumeration value="MMS"/>
+    <enumeration value="SmartMsg"/>
+    <enumeration value="Email"/>
+    <enumeration value="IRmsg"/>
+    <enumeration value="BTmsg"/>
+    <enumeration value="AudioMsg"/>
+   </restriction>
+  </simpleType>
+  <simpleType name="bearerType">
+   <restriction base="xsd:string">
+    <enumeration value="CSD"/>
+    <enumeration value="GPRS"/>
+    <enumeration value="HSCSD"/>
+    <enumeration value="CDMA"/>
+    <enumeration value="WLAN"/>
+   </restriction>
+  </simpleType>
+  <simpleType name="mailboxType">
+   <restriction base="xsd:string">
+    <enumeration value="POP3"/>
+    <enumeration value="IMAP4"/>
+   </restriction>
+  </simpleType>
+  <simpleType name="securitySetting">
+   <restriction base="xsd:string">
+    <enumeration value="Off"/>
+    <enumeration value="TLS"/>
+    <enumeration value="SSL"/>
+   </restriction>
+  </simpleType>
+  <simpleType name="sendOption">
+   <restriction base="xsd:string">
+    <enumeration value="Immediately"/>
+    <enumeration value="NextConnection"/>
+    <enumeration value="OnRequest"/>
+   </restriction>
+  </simpleType>
+  <simpleType name="copyToOwn">
+   <restriction base="xsd:string">
+    <enumeration value="NoCopy"/>
+    <enumeration value="ToField"/>
+    <enumeration value="CcField"/>
+    <enumeration value="BccField"/>
+   </restriction>
+  </simpleType>
+  <simpleType name="retrievedParts">
+   <restriction base="xsd:string">
+    <enumeration value="OnlyHeaders"/>
+    <enumeration value="LessThanSize"/>
+    <enumeration value="BodyAndAttachments"/>
+   </restriction>
+  </simpleType>
+  <simpleType name="automaticUpdate">
+   <restriction base="xsd:string">
+    <enumeration value="AlwaysOn"/>
+    <enumeration value="InHomeNetwork"/>
+    <enumeration value="NotEnabled"/>
+   </restriction>
+  </simpleType>
+  <simpleType name="mmsCreationMode">
+   <restriction base="xsd:string">
+    <enumeration value="Restricted"/>
+    <enumeration value="Guided"/>
+    <enumeration value="Free"/>
+   </restriction>
+  </simpleType>
+  <simpleType name="mmsImageSize">
+   <restriction base="xsd:string">
+    <enumeration value="Small"/>
+    <enumeration value="Large"/>
+    <enumeration value="Original"/>
+   </restriction>
+  </simpleType>
+  <simpleType name="mmsReception">
+   <restriction base="xsd:string">
+    <enumeration value="AlwaysAutomatic"/>
+    <enumeration value="AutomaticInHomeNetwork"/>
+    <enumeration value="AlwaysManual"/>
+    <enumeration value="Disabled"/>
+   </restriction>
+  </simpleType>
+  <simpleType name="msgValidity">
+   <restriction base="xsd:string">
+    <enumeration value="Maximum"/>
+    <enumeration value="OneHour"/>
+    <enumeration value="SixHours"/>
+    <enumeration value="TwentyFourHours"/>
+    <enumeration value="ThreeDays"/>
+    <enumeration value="OneWeek"/>
+   </restriction>
+  </simpleType>
+  <simpleType name="smsCharacterSupport">
+   <restriction base="xsd:string">
+    <enumeration value="Full"/>
+    <enumeration value="Reduced"/>
+   </restriction>
+  </simpleType>
+  <simpleType name="smsMessageConversion">
+   <restriction base="xsd:string">
+    <enumeration value="None"/>
+    <enumeration value="Fax"/>
+    <enumeration value="Paging"/>
+    <enumeration value="EMail"/>
+   </restriction>
+  </simpleType>
+  <simpleType name="smsPreferredConnection">
+   <restriction base="xsd:string">
+    <enumeration value="GSM"/>
+    <enumeration value="PacketData"/>
+   </restriction>
+  </simpleType>
+  <complexType name="HtiAPSettingField">
+   <sequence>
+     <element name="fieldType" type="xsd:unsignedByte" minOccurs="1" maxOccurs="1"/>
+     <element name="fieldData" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+   </sequence>
+  </complexType>
+  <complexType name="ArrayOfHtiAPSettingField">
+   <complexContent>
+    <restriction base="SOAP-ENC:Array">
+     <sequence>
+      <element name="HtiAPSettingField" type="ns1:HtiAPSettingField" minOccurs="0" maxOccurs="unbounded"/>
+     </sequence>
+     <attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="ns1:HtiAPSettingField[]"/>
+    </restriction>
+   </complexContent>
+  </complexType>
+  <!-- operation request element -->
+  <element name="fromField" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="description" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="messageBody" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="isNewFlag" type="xsd:boolean"/>
+  <!-- operation request element -->
+  <element name="isUnreadFlag" type="xsd:boolean"/>
+  <!-- operation request element -->
+  <element name="folder" type="ns1:folder"/>
+  <!-- operation response element -->
+  <element name="messageId" type="xsd:int"/>
+  <!-- operation request element -->
+  <element name="attachmentPath" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="BIOmessageUID" type="xsd:int"/>
+  <!-- operation request element -->
+  <element name="type" type="ns1:messageType"/>
+  <!-- operation request element -->
+  <element name="bearer" type="ns1:bearerType"/>
+  <!-- operation request element -->
+  <element name="apName" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="APSettings" type="ns1:ArrayOfHtiAPSettingField"/>
+  <!-- operation response element -->
+  <element name="apId" type="xsd:int"/>
+  <!-- operation request element -->
+  <element name="mailboxType" type="ns1:mailboxType"/>
+  <!-- operation request element -->
+  <element name="mailboxName" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="incomingServer" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="incomingAccessPoint" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="incomingUsername" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="incomingPassword" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="incomingSecurity" type="ns1:securitySetting"/>
+  <!-- operation request element -->
+  <element name="incomingPort" type="xsd:unsignedShort"/>
+  <!-- operation request element -->
+  <element name="aPopSecureLogin" type="xsd:boolean"/>
+  <!-- operation request element -->
+  <element name="outgoingServer" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="outgoingAccessPoint" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="outgoingUsername" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="outgoingPassword" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="outgoingSecurity" type="ns1:securitySetting"/>
+  <!-- operation request element -->
+  <element name="outgoingPort" type="xsd:unsignedShort"/>
+  <!-- operation request element -->
+  <element name="ownMailAddress" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="ownName" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="sendOption" type="ns1:sendOption"/>
+  <!-- operation request element -->
+  <element name="copyToOwnAddress" type="ns1:copyToOwn"/>
+  <!-- operation request element -->
+  <element name="signatureText" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="newMailIndicators" type="xsd:boolean"/>
+  <!-- operation request element -->
+  <element name="retrievedParts" type="ns1:retrievedParts"/>
+  <!-- operation request element -->
+  <element name="retrieveSizeLimit" type="xsd:unsignedShort"/>
+  <!-- operation request element -->
+  <element name="emailsToRetrieve" type="xsd:unsignedShort"/>
+  <!-- operation request element -->
+  <element name="imap4FolderPath" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="automaticUpdate" type="ns1:automaticUpdate"/>
+  <!-- operation request element -->
+  <element name="setAsDefault" type="xsd:boolean"/>
+  <!-- operation request element -->
+  <element name="smsCenterName" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="smsCenterNumber" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="characterSupport" type="ns1:smsCharacterSupport"/>
+  <!-- operation request element -->
+  <element name="requestDeliveryReport" type="xsd:boolean"/>
+  <!-- operation request element -->
+  <element name="validityPeriod" type="ns1:msgValidity"/>
+  <!-- operation request element -->
+  <element name="messageConversion" type="ns1:smsMessageConversion"/>
+  <!-- operation request element -->
+  <element name="preferredConnection" type="ns1:smsPreferredConnection"/>
+  <!-- operation request element -->
+  <element name="replyViaSameCenter" type="xsd:boolean"/>
+  <!-- operation request element -->
+  <element name="accessPointName" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="creationMode" type="ns1:mmsCreationMode"/>
+  <!-- operation request element -->
+  <element name="imageSize" type="ns1:mmsImageSize"/>
+  <!-- operation request element -->
+  <element name="reception" type="ns1:mmsReception"/>
+  <!-- operation request element -->
+  <element name="receiveAnonymous" type="xsd:boolean"/>
+  <!-- operation request element -->
+  <element name="receiveAdvertisements" type="xsd:boolean"/>
+  <!-- operation request element -->
+  <element name="requestDeliveryReports" type="xsd:boolean"/>
+  <!-- operation request element -->
+  <element name="sendDeliveryReports" type="xsd:boolean"/>
+  <!-- operation request element -->
+  <element name="destinationName" type="xsd:string"/>
+ </schema>
+
+</types>
+
+<message name="addSMSRequest">
+ <part name="fromField" element="ns1:fromField"/>
+ <part name="description" element="ns1:description"/>
+ <part name="messageBody" element="ns1:messageBody"/>
+ <part name="isNewFlag" element="ns1:isNewFlag"/>
+ <part name="isUnreadFlag" element="ns1:isUnreadFlag"/>
+ <part name="folder" element="ns1:folder"/>
+</message>
+
+<message name="addSMSResponse">
+ <part name="messageId" element="ns1:messageId"/>
+</message>
+
+<message name="addMMSRequest">
+ <part name="fromField" element="ns1:fromField"/>
+ <part name="description" element="ns1:description"/>
+ <part name="messageBody" element="ns1:messageBody"/>
+ <part name="attachmentPath" element="ns1:attachmentPath"/>
+ <part name="isNewFlag" element="ns1:isNewFlag"/>
+ <part name="isUnreadFlag" element="ns1:isUnreadFlag"/>
+ <part name="folder" element="ns1:folder"/>
+</message>
+
+<message name="addMMSResponse">
+ <part name="messageId" element="ns1:messageId"/>
+</message>
+
+<message name="addEMailRequest">
+ <part name="fromField" element="ns1:fromField"/>
+ <part name="description" element="ns1:description"/>
+ <part name="messageBody" element="ns1:messageBody"/>
+ <part name="attachmentPath" element="ns1:attachmentPath"/>
+ <part name="isNewFlag" element="ns1:isNewFlag"/>
+ <part name="isUnreadFlag" element="ns1:isUnreadFlag"/>
+ <part name="folder" element="ns1:folder"/>
+</message>
+
+<message name="addEMailResponse">
+ <part name="messageId" element="ns1:messageId"/>
+</message>
+
+<message name="addIRMessageRequest">
+ <part name="fromField" element="ns1:fromField"/>
+ <part name="description" element="ns1:description"/>
+ <part name="attachmentPath" element="ns1:attachmentPath"/>
+ <part name="isNewFlag" element="ns1:isNewFlag"/>
+ <part name="isUnreadFlag" element="ns1:isUnreadFlag"/>
+ <part name="folder" element="ns1:folder"/>
+</message>
+
+<message name="addIRMessageResponse">
+ <part name="messageId" element="ns1:messageId"/>
+</message>
+
+<message name="addBTMessageRequest">
+ <part name="fromField" element="ns1:fromField"/>
+ <part name="description" element="ns1:description"/>
+ <part name="attachmentPath" element="ns1:attachmentPath"/>
+ <part name="isNewFlag" element="ns1:isNewFlag"/>
+ <part name="isUnreadFlag" element="ns1:isUnreadFlag"/>
+ <part name="folder" element="ns1:folder"/>
+</message>
+
+<message name="addBTMessageResponse">
+ <part name="messageId" element="ns1:messageId"/>
+</message>
+
+<message name="addSmartMessageRequest">
+ <part name="fromField" element="ns1:fromField"/>
+ <part name="description" element="ns1:description"/>
+ <part name="messageBody" element="ns1:messageBody"/>
+ <part name="isNewFlag" element="ns1:isNewFlag"/>
+ <part name="isUnreadFlag" element="ns1:isUnreadFlag"/>
+ <part name="folder" element="ns1:folder"/>
+ <part name="BIOmessageUID" element="ns1:BIOmessageUID"/>
+</message>
+
+<message name="addSmartMessageResponse">
+ <part name="messageId" element="ns1:messageId"/>
+</message>
+
+<message name="addAudioMessageRequest">
+ <part name="fromField" element="ns1:fromField"/>
+ <part name="description" element="ns1:description"/>
+ <part name="attachmentPath" element="ns1:attachmentPath"/>
+ <part name="isNewFlag" element="ns1:isNewFlag"/>
+ <part name="isUnreadFlag" element="ns1:isUnreadFlag"/>
+ <part name="folder" element="ns1:folder"/>
+</message>
+
+<message name="addAudioMessageResponse">
+ <part name="messageId" element="ns1:messageId"/>
+</message>
+
+<message name="deleteMessage">
+ <part name="messageId" element="ns1:messageId"/>
+</message>
+
+<message name="deleteMessageResponse">
+</message>
+
+<message name="deleteAllFromFolder">
+ <part name="type" element="ns1:type"/>
+ <part name="folder" element="ns1:folder"/>
+</message>
+
+<message name="deleteAllFromFolderResponse">
+</message>
+
+<message name="createAccessPointRequest">
+ <part name="bearer" element="ns1:bearer"/>
+ <part name="apName" element="ns1:apName"/>
+ <part name="APSettings" element="ns1:APSettings"/>
+</message>
+
+<message name="createAccessPointResponse">
+ <part name="apId" element="ns1:apId"/>
+</message>
+
+<message name="deleteAccessPoint">
+ <part name="apName" element="ns1:apName"/>
+</message>
+
+<message name="deleteAccessPointResponse">
+</message>
+
+<message name="createMailbox">
+ <part name="mailboxType" element="ns1:mailboxType"/>
+ <part name="mailboxName" element="ns1:mailboxName"/>
+ <part name="incomingServer" element="ns1:incomingServer"/>
+ <part name="incomingAccessPoint" element="ns1:incomingAccessPoint"/>
+ <part name="incomingUsername" element="ns1:incomingUsername"/>
+ <part name="incomingPassword" element="ns1:incomingPassword"/>
+ <part name="incomingSecurity" element="ns1:incomingSecurity"/>
+ <part name="incomingPort" element="ns1:incomingPort"/>
+ <part name="aPopSecureLogin" element="ns1:aPopSecureLogin"/>
+ <part name="outgoingServer" element="ns1:outgoingServer"/>
+ <part name="outgoingAccessPoint" element="ns1:outgoingAccessPoint"/>
+ <part name="outgoingUsername" element="ns1:outgoingUsername"/>
+ <part name="outgoingPassword" element="ns1:outgoingPassword"/>
+ <part name="outgoingSecurity" element="ns1:outgoingSecurity"/>
+ <part name="outgoingPort" element="ns1:outgoingPort"/>
+ <part name="ownMailAddress" element="ns1:ownMailAddress"/>
+ <part name="ownName" element="ns1:ownName"/>
+ <part name="sendOption" element="ns1:sendOption"/>
+ <part name="copyToOwnAddress" element="ns1:copyToOwnAddress"/>
+ <part name="signatureText" element="ns1:signatureText"/>
+ <part name="newMailIndicators" element="ns1:newMailIndicators"/>
+ <part name="retrievedParts" element="ns1:retrievedParts"/>
+ <part name="retrieveSizeLimit" element="ns1:retrieveSizeLimit"/>
+ <part name="emailsToRetrieve" element="ns1:emailsToRetrieve"/>
+ <part name="imap4FolderPath" element="ns1:imap4FolderPath"/>
+ <part name="automaticUpdate" element="ns1:automaticUpdate"/>
+ <part name="setAsDefault" element="ns1:setAsDefault"/>
+</message>
+
+<message name="createMailboxResponse">
+</message>
+
+<message name="deleteMailbox">
+ <part name="mailboxName" element="ns1:mailboxName"/>
+</message>
+
+<message name="deleteMailboxResponse">
+</message>
+
+<message name="setDefaultSmsCenter">
+ <part name="smsCenterName" element="ns1:smsCenterName"/>
+ <part name="smsCenterNumber" element="ns1:smsCenterNumber"/>
+</message>
+
+<message name="setDefaultSmsCenterResponse">
+</message>
+
+<message name="deleteSmsCenter">
+ <part name="smsCenterName" element="ns1:smsCenterName"/>
+</message>
+
+<message name="deleteSmsCenterResponse">
+</message>
+
+<message name="setSmsSettings">
+ <part name="characterSupport" element="ns1:characterSupport"/>
+ <part name="requestDeliveryReport" element="ns1:requestDeliveryReport"/>
+ <part name="validityPeriod" element="ns1:validityPeriod"/>
+ <part name="messageConversion" element="ns1:messageConversion"/>
+ <part name="preferredConnection" element="ns1:preferredConnection"/>
+ <part name="replyViaSameCenter" element="ns1:replyViaSameCenter"/>
+</message>
+
+<message name="setSmsSettingsResponse">
+</message>
+
+<message name="setMmsSettings">
+ <part name="accessPointName" element="ns1:accessPointName"/>
+ <part name="creationMode" element="ns1:creationMode"/>
+ <part name="imageSize" element="ns1:imageSize"/>
+ <part name="reception" element="ns1:reception"/>
+ <part name="receiveAnonymous" element="ns1:receiveAnonymous"/>
+ <part name="receiveAdvertisements" element="ns1:receiveAdvertisements"/>
+ <part name="requestDeliveryReports" element="ns1:requestDeliveryReports"/>
+ <part name="sendDeliveryReports" element="ns1:sendDeliveryReports"/>
+ <part name="validityPeriod" element="ns1:validityPeriod"/>
+</message>
+
+<message name="setMmsSettingsResponse">
+</message>
+
+<message name="createDestination">
+ <part name="destinationName" element="ns1:destinationName"/>
+</message>
+
+<message name="createDestinationResponse">
+</message>
+
+<message name="deleteDestination">
+ <part name="destinationName" element="ns1:destinationName"/>
+</message>
+
+<message name="deleteDestinationResponse">
+</message>
+
+<message name="addToDestination">
+ <part name="accessPointName" element="ns1:accessPointName"/>
+ <part name="destinationName" element="ns1:destinationName"/>
+</message>
+
+<message name="addToDestinationResponse">
+</message>
+
+<message name="removeFromDestination">
+ <part name="accessPointName" element="ns1:accessPointName"/>
+ <part name="destinationName" element="ns1:destinationName"/>
+</message>
+
+<message name="removeFromDestinationResponse">
+</message>
+
+<portType name="HtiMessagesPortType">
+ <operation name="addSMS">
+  <documentation>Service definition of function ns1__addSMS</documentation>
+  <input message="tns:addSMSRequest"/>
+  <output message="tns:addSMSResponse"/>
+ </operation>
+ <operation name="addMMS">
+  <documentation>Service definition of function ns1__addMMS</documentation>
+  <input message="tns:addMMSRequest"/>
+  <output message="tns:addMMSResponse"/>
+ </operation>
+ <operation name="addEMail">
+  <documentation>Service definition of function ns1__addEMail</documentation>
+  <input message="tns:addEMailRequest"/>
+  <output message="tns:addEMailResponse"/>
+ </operation>
+ <operation name="addIRMessage">
+  <documentation>Service definition of function ns1__addIRMessage</documentation>
+  <input message="tns:addIRMessageRequest"/>
+  <output message="tns:addIRMessageResponse"/>
+ </operation>
+ <operation name="addBTMessage">
+  <documentation>Service definition of function ns1__addBTMessage</documentation>
+  <input message="tns:addBTMessageRequest"/>
+  <output message="tns:addBTMessageResponse"/>
+ </operation>
+ <operation name="addSmartMessage">
+  <documentation>Service definition of function ns1__addSmartMessage</documentation>
+  <input message="tns:addSmartMessageRequest"/>
+  <output message="tns:addSmartMessageResponse"/>
+ </operation>
+ <operation name="addAudioMessage">
+  <documentation>Service definition of function ns1__addAudioMessage</documentation>
+  <input message="tns:addAudioMessageRequest"/>
+  <output message="tns:addAudioMessageResponse"/>
+ </operation>
+ <operation name="deleteMessage">
+  <documentation>Service definition of function ns1__deleteMessage</documentation>
+  <input message="tns:deleteMessage"/>
+  <output message="tns:deleteMessageResponse"/>
+ </operation>
+ <operation name="deleteAllFromFolder">
+  <documentation>Service definition of function ns1__deleteAllFromFolder</documentation>
+  <input message="tns:deleteAllFromFolder"/>
+  <output message="tns:deleteAllFromFolderResponse"/>
+ </operation>
+ <operation name="createAccessPoint">
+  <documentation>Service definition of function ns1__createAccessPoint</documentation>
+  <input message="tns:createAccessPointRequest"/>
+  <output message="tns:createAccessPointResponse"/>
+ </operation>
+ <operation name="deleteAccessPoint">
+  <documentation>Service definition of function ns1__deleteAccessPoint</documentation>
+  <input message="tns:deleteAccessPoint"/>
+  <output message="tns:deleteAccessPointResponse"/>
+ </operation>
+ <operation name="createMailbox">
+  <documentation>Service definition of function ns1__createMailbox</documentation>
+  <input message="tns:createMailbox"/>
+  <output message="tns:createMailboxResponse"/>
+ </operation>
+ <operation name="deleteMailbox">
+  <documentation>Service definition of function ns1__deleteMailbox</documentation>
+  <input message="tns:deleteMailbox"/>
+  <output message="tns:deleteMailboxResponse"/>
+ </operation>
+ <operation name="setDefaultSmsCenter">
+  <documentation>Service definition of function ns1__setDefaultSmsCenter</documentation>
+  <input message="tns:setDefaultSmsCenter"/>
+  <output message="tns:setDefaultSmsCenterResponse"/>
+ </operation>
+ <operation name="deleteSmsCenter">
+  <documentation>Service definition of function ns1__deleteSmsCenter</documentation>
+  <input message="tns:deleteSmsCenter"/>
+  <output message="tns:deleteSmsCenterResponse"/>
+ </operation>
+ <operation name="setSmsSettings">
+  <documentation>Service definition of function ns1__setSmsSettings</documentation>
+  <input message="tns:setSmsSettings"/>
+  <output message="tns:setSmsSettingsResponse"/>
+ </operation>
+ <operation name="setMmsSettings">
+  <documentation>Service definition of function ns1__setMmsSettings</documentation>
+  <input message="tns:setMmsSettings"/>
+  <output message="tns:setMmsSettingsResponse"/>
+ </operation>
+ <operation name="createDestination">
+  <documentation>Service definition of function ns1__createDestination</documentation>
+  <input message="tns:createDestination"/>
+  <output message="tns:createDestinationResponse"/>
+ </operation>
+ <operation name="deleteDestination">
+  <documentation>Service definition of function ns1__deleteDestination</documentation>
+  <input message="tns:deleteDestination"/>
+  <output message="tns:deleteDestinationResponse"/>
+ </operation>
+ <operation name="addToDestination">
+  <documentation>Service definition of function ns1__addToDestination</documentation>
+  <input message="tns:addToDestination"/>
+  <output message="tns:addToDestinationResponse"/>
+ </operation>
+ <operation name="removeFromDestination">
+  <documentation>Service definition of function ns1__removeFromDestination</documentation>
+  <input message="tns:removeFromDestination"/>
+  <output message="tns:removeFromDestinationResponse"/>
+ </operation>
+</portType>
+
+<binding name="HtiMessages" type="tns:HtiMessagesPortType">
+ <SOAP:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+ <operation name="addSMS">
+  <SOAP:operation style="rpc" soapAction="HtiMessages"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="addMMS">
+  <SOAP:operation style="rpc" soapAction="HtiMessages"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="addEMail">
+  <SOAP:operation style="rpc" soapAction="HtiMessages"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="addIRMessage">
+  <SOAP:operation style="rpc" soapAction="HtiMessages"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="addBTMessage">
+  <SOAP:operation style="rpc" soapAction="HtiMessages"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="addSmartMessage">
+  <SOAP:operation style="rpc" soapAction="HtiMessages"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="addAudioMessage">
+  <SOAP:operation style="rpc" soapAction="HtiMessages"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="deleteMessage">
+  <SOAP:operation style="rpc" soapAction="HtiMessages"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="deleteAllFromFolder">
+  <SOAP:operation style="rpc" soapAction="HtiMessages"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="createAccessPoint">
+  <SOAP:operation style="rpc" soapAction="HtiMessages"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="deleteAccessPoint">
+  <SOAP:operation style="rpc" soapAction="HtiMessages"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="createMailbox">
+  <SOAP:operation style="rpc" soapAction="HtiMessages"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="deleteMailbox">
+  <SOAP:operation style="rpc" soapAction="HtiMessages"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="setDefaultSmsCenter">
+  <SOAP:operation style="rpc" soapAction="HtiMessages"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="deleteSmsCenter">
+  <SOAP:operation style="rpc" soapAction="HtiMessages"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="setSmsSettings">
+  <SOAP:operation style="rpc" soapAction="HtiMessages"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="setMmsSettings">
+  <SOAP:operation style="rpc" soapAction="HtiMessages"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="createDestination">
+  <SOAP:operation style="rpc" soapAction="HtiMessages"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="deleteDestination">
+  <SOAP:operation style="rpc" soapAction="HtiMessages"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="addToDestination">
+  <SOAP:operation style="rpc" soapAction="HtiMessages"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="removeFromDestination">
+  <SOAP:operation style="rpc" soapAction="HtiMessages"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+</binding>
+
+<service name="HtiMessages">
+ <documentation>gSOAP 2.7.6b generated service definition</documentation>
+ <port name="HtiMessages" binding="tns:HtiMessages">
+  <SOAP:address location="http://localhost:2000"/>
+ </port>
+</service>
+
+</definitions>

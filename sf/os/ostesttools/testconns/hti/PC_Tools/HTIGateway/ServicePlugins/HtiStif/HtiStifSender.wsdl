@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="HtiStif"
+ targetNamespace="urn:hti"
+ xmlns:tns="urn:hti"
+ xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+ xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+ xmlns:ns1="urn:hti"
+ xmlns:SOAP="http://schemas.xmlsoap.org/wsdl/soap/"
+ xmlns:MIME="http://schemas.xmlsoap.org/wsdl/mime/"
+ xmlns:DIME="http://schemas.xmlsoap.org/ws/2002/04/dime/wsdl/"
+ xmlns:WSDL="http://schemas.xmlsoap.org/wsdl/"
+ xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+<types>
+
+ <schema targetNamespace="urn:hti"
+  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:ns1="urn:hti"
+  xmlns="http://www.w3.org/2001/XMLSchema"
+  elementFormDefault="unqualified"
+  attributeFormDefault="unqualified">
+  <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+  <complexType name="HtiStifResult">
+   <sequence>
+     <element name="caseId" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="caseResult" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="executionResult" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="resultDescription" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+   </sequence>
+  </complexType>
+  <!-- operation request element -->
+  <element name="message" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="result" type="ns1:HtiStifResult"/>
+ </schema>
+
+</types>
+
+<message name="stifMessage">
+ <part name="message" element="ns1:message"/>
+</message>
+
+<message name="stifResult">
+ <part name="result" element="ns1:result"/>
+</message>
+
+<portType name="HtiStifPortType">
+ <operation name="stifMessage">
+  <documentation>Service definition of function ns1__stifMessage</documentation>
+  <input message="tns:stifMessage"/>
+ </operation>
+ <operation name="stifResult">
+  <documentation>Service definition of function ns1__stifResult</documentation>
+  <input message="tns:stifResult"/>
+ </operation>
+</portType>
+
+<binding name="HtiStif" type="tns:HtiStifPortType">
+ <SOAP:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+ <operation name="stifMessage">
+  <SOAP:operation style="rpc" soapAction="HtiStif"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+ </operation>
+ <operation name="stifResult">
+  <SOAP:operation style="rpc" soapAction="HtiStif"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+ </operation>
+</binding>
+
+<service name="HtiStif">
+ <documentation>gSOAP 2.7.6b generated service definition</documentation>
+ <port name="HtiStif" binding="tns:HtiStif">
+  <SOAP:address location="http://localhost:2000"/>
+ </port>
+</service>
+
+</definitions>

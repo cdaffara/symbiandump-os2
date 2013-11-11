@@ -1,0 +1,11 @@
+Previously it was not possible for teams other than Security to build the crypto
+library as the source code was licensed from RSA and access to it was
+restricted.  Now that the source for cryptography.dll is accessible in the
+master codeline all teams can build this library according to their needs.
+
+To build strong crypto, you must build the file crypto/strong/bld.inf in
+addition to crypto/group/bld.inf.  This will generate an addition dll,
+strong_cryptography.dll.
+
+This can be included in ROMs by specifying the flag USE_STRONG_CRYPTOGRAPHY.  On
+the emulator, the strong version is automatically picked up if it has been built.

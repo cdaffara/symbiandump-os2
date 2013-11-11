@@ -1,0 +1,51 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  ECOM Plugin project to support communication over serial port
+*
+*/
+
+
+#include <platform_paths.hrh>
+
+TARGET          HtiBtCommEcomPlugin.dll
+TARGETTYPE      PLUGIN
+
+// ECom Dll recognition UID followed by the unique UID for this dll
+UID             0x10009D8D 0x200212CB
+
+VENDORID        0x101FB657
+
+CAPABILITY      ALL -TCB
+
+SOURCEPATH      ../HtiBtCommEcomPlugin/src
+SOURCE          proxy.cpp
+SOURCE          HtiBtCommEcomPlugin.cpp
+
+USERINCLUDE     ../HtiBtCommEcomPlugin/inc ../BtEngine/inc ../HtiBtCommServer/inc
+OS_LAYER_SYSTEMINCLUDE
+
+START RESOURCE  ../data/200212CB.rss
+TARGET          HtiBtCommEcomPlugin.rsc
+END
+
+LIBRARY         euser.lib
+LIBRARY         ecom.lib
+LIBRARY         c32.lib
+LIBRARY         hticfg.lib
+LIBRARY         htibtcomminterface.lib
+LIBRARY         flogger.lib
+
+SMPSAFE
+
+// End of file

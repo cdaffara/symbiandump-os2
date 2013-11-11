@@ -1,0 +1,55 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+/**
+ @file
+ @publishedAll
+ @released
+*/
+#include <ecom/registryinfoconst.hrh>
+
+
+UID2 ECOM_RESOURCE_FILE
+
+STRUCT IMPLEMENTATION_INFO
+	{
+	LONG	implementation_uid;
+	BYTE	version_no;
+	LTEXT	display_name;
+	LTEXT8	default_data;
+	LTEXT8	opaque_data;
+	}
+
+STRUCT BINARY_IMPLEMENTATION_INFO
+	{
+	LONG	implementation_uid;
+	BYTE	version_no;
+	LTEXT	display_name;
+	LEN BYTE BYTE	default_data[];
+	LEN BYTE BYTE	opaque_data[];
+	}
+
+STRUCT INTERFACE_INFO
+	{
+	LONG	interface_uid;
+	STRUCT	implementations[];
+	}
+
+STRUCT REGISTRY_INFO
+	{
+	LONG	dll_uid;
+	STRUCT	interfaces[];
+	}
+

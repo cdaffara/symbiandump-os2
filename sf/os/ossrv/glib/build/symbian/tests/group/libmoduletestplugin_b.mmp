@@ -1,0 +1,49 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+#include <platform_paths.hrh>
+target			libmoduletestplugin_b.dll
+targettype			stddll
+
+UID               0x20004c45  0x1028308D
+#ifdef EKA2
+CAPABILITY ALL -TCB
+//VENDORID        VID_DEFAULT
+#endif
+
+userinclude			../../../../tests
+userinclude			../../../../gmodule
+//The top level directory is added to the include path by default
+//systeminclude			.  ..  ../glib  ../gmodule 
+
+//Adding the Symbian and PIPS include path
+systeminclude			/epoc32/include
+systeminclude			/epoc32/include/stdapis
+systeminclude			/epoc32/include/stdapis/glib-2.0
+
+sourcepath			../../../../tests
+source				libmoduletestplugin_b.c 
+
+//Adding some default libraries
+library			euser.lib libglib.lib libgobject.lib libgthread.lib libgmodule.lib
+library			libc.lib
+
+#ifndef WINSCW
+EPOCALLOWDLLDATA
+#endif
+
+SMPSAFE

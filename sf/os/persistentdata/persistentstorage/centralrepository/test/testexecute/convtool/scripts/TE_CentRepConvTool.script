@@ -1,0 +1,269 @@
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+//! @file
+//! @SYMTestSuiteName PDS-TEF-CENTREP-CONVTOOL
+//! @SYMScriptTestEnvironment TEF
+//! @internalComponent
+//! @test
+
+RUN_UTILS MkDir C:\CentRepConv\
+RUN_UTILS DeleteFile C:\CentRepConv\*
+
+RUN_UTILS MkDir C:\TEF_CentralRepository\
+RUN_UTILS CopyFile Z:\TEF_CentralRepository\CentRepConvTool.ini C:\TEF_CentralRepository\CentRepConvTool.ini
+RUN_UTILS MakeReadWrite C:\TEF_CentralRepository\CentRepConvTool.ini
+RUN_UTILS CopyFile Z:\TEF_CentralRepository\1027431B.txt C:\TEF_CentralRepository\1027431B.txt
+RUN_UTILS MakeReadWrite C:\TEF_CentralRepository\1027431B.txt
+
+PRINT Install custom testexecute.ini to suppress Get???FromConfig logs
+RUN_UTILS CopyFile C:\system\data\testexecute.ini C:\TEF_CentralRepository\testexecute_sav.ini
+RUN_UTILS MakeReadWrite C:\TEF_CentralRepository\testexecute_sav.ini
+RUN_UTILS CopyFile Z:\TEF_CentralRepository\convtooltestexecute.ini C:\system\data\testexecute.ini
+RUN_UTILS MakeReadWrite C:\system\data\testexecute.ini
+
+LOAD_SUITE CentRepConvToolTestSvr
+
+
+START_TESTCASE  SYSLIBS-CENTRALREPOSITORY-CT-1426 //TextRoundTrip
+//! @SYMTestCaseID SYSLIBS-CENTRALREPOSITORY-CT-1426
+//! @SYMTestCaseDesc Convert a binary file to text and then to
+//!  binary again. The two binary files should be identical.
+//! @SYMTestPriority Critical
+//! @SYMTestActions  1. Create a .cre file from a text initialisation
+//!  file. 2. Save a copy of this .cre. Then convert the .cre to
+//!  text and then to .cre. 3. Compare the two binary files.
+//!  4. While at it, convert the second .cre file to text and
+//!  compare this text file with the one generated in step 2.
+//! @SYMTestExpectedResults The two binary files are identical.
+//!  The two generated text files are identical.
+//! @SYMPREQ PREQ1192
+//! @SYMTestStatus Defined
+
+  RUN_PROGRAM CentRepConv -nowait C:\TEF_CentralRepository\1027431B.txt
+  RUN_UTILS CopyFile C:\1027431B.cre C:\CentRepConv\1027431B.cr0
+  RUN_UTILS MakeReadWrite C:\CentRepConv\1027431B.cr0
+  RUN_PROGRAM CentRepConv -nowait 1027431B.cre
+  RUN_UTILS CopyFile C:\1027431B.txt C:\CentRepConv\1027431B.tx0
+  RUN_UTILS MakeReadWrite C:\CentRepConv\1027431B.tx0
+  RUN_UTILS DeleteFile C:\1027431B.cre
+  RUN_PROGRAM CentRepConv -nowait 1027431B.txt
+  RUN_UTILS DeleteFile C:\CentRepConv\1027431B.txt
+  RUN_PROGRAM CentRepConv -nowait C:\1027431B.cre
+  RUN_TEST_STEP 120 CentRepConvToolTestSvr RoundTripStep C:\TEF_CentralRepository\CentRepConvTool.ini  roundtripStartFromTxt
+  RUN_UTILS DeleteFile C:\1027431B.txt
+  RUN_UTILS DeleteFile C:\1027431B.cre
+END_TESTCASE   SYSLIBS-CENTRALREPOSITORY-CT-1426 //TextRoundTrip
+
+
+START_TESTCASE  SYSLIBS-CENTRALREPOSITORY-CT-1430 //BinRoundTrip
+//! @SYMTestCaseID SYSLIBS-CENTRALREPOSITORY-CT-1430
+//! @SYMTestCaseDesc Convert a binary file to text and then to
+//!  binary again. The two binary files should be identical.
+//! @SYMTestPriority Critical
+//! @SYMTestActions
+//!  Same as previous TestCase except this one starts from CCCCCC00.cre
+//!  instead of converting a .txt to binary. CCCCCC00.cre has the special
+//!  property that the settings are created by CRepository APIs, not
+//!  converted from a text initialisation file.
+//! @SYMTestExpectedResults The generated .cre is the same as the original
+//!  .cre. The two generated .txt files are also identical.
+//! @SYMPREQ PREQ1192
+//! @SYMTestStatus Defined
+
+  RUN_TEST_STEP 120 CentRepConvToolTestSvr GeneratePersistedCreStep C:\TEF_CentralRepository\CentRepConvTool.ini  generatePersistedCreFile
+  RUN_UTILS CopyFile C:\private\10202BE9\persists\cccccc00.cre C:\cccccc00.cre
+  RUN_UTILS MakeReadWrite C:\CCCCCC00.cre
+  RUN_PROGRAM CentRepConv -nowait -o C:\CentRepConv\cccccc00.txt C:\cccccc00.cre
+  RUN_PROGRAM CentRepConv -nowait -o C:\CentRepConv\cccccc00.cre C:\CentRepConv\cccccc00.txt
+  RUN_UTILS CopyFile C:\CentRepConv\cccccc00.txt C:\CentRepConv\cccccc00.tx0
+  RUN_UTILS DeleteFile C:\CentRepConv\cccccc00.txt
+  RUN_PROGRAM CentRepConv -nowait -o C:\CentRepConv\cccccc00.txt C:\CentRepConv\cccccc00.cre
+  RUN_TEST_STEP 120 CentRepConvToolTestSvr RoundTripStep C:\TEF_CentralRepository\CentRepConvTool.ini  roundtripStartFromCre
+  RUN_UTILS DeleteFile C:\CCCCCC00.cre
+  RUN_UTILS DeleteFile C:\private\10202BE9\persists\CCCCCC00.cre
+END_TESTCASE  SYSLIBS-CENTRALREPOSITORY-CT-1430 //BinRoundTrip
+
+
+START_TESTCASE   SYSLIBS-CENTRALREPOSITORY-CIT-1431  //IntegrateWithCommsDat
+//! @SYMTestCaseID SYSLIBS-CENTRALREPOSITORY-CIT-1431
+//! @SYMTestCaseDesc Integrate with CommsDat. Install a CCCCCC00.cre
+//!  which is generated by the CentRepConv and read modem record.
+//! @SYMTestPriority Critical
+//! @SYMTestActions
+//! 1. Read modem record from the original Z:\private\10202BE9\cccccc00.cre.
+//! 2. Wait 6 seconds for centrep server to unload the rep from cache.
+//! 3. Copy the cccccc00.cre generated by CentRepConv in the previous testcase
+//!    to C:\private\10202BE9\persists and read the modem record again.
+//!    Compare sample values from the two records. Make sure they are the same.
+//! @SYMTestExpectedResults The values read in step 1 and 3 are identical.
+//! @SYMPREQ PREQ1192
+//! @SYMTestStatus Defined
+
+  RUN_UTILS DeleteFile C:\private\10202BE9\persists\CCCCCC00.cre
+  RUN_TEST_STEP 120 CentRepConvToolTestSvr ReadModemRecordStep C:\TEF_CentralRepository\CentRepConvTool.ini ReadModemRecord1
+  PRINT Use the CCCCCC00.cre generated in previous BinRoundTrip testcase.
+  RUN_UTILS CopyFile C:\CentRepConv\CCCCCC00.cre C:\private\10202BE9\persists\CCCCCC00.cre
+  RUN_UTILS MakeReadWrite C:\private\10202BE9\persists\CCCCCC00.cre
+  PRINT Wait for centrep server to unload CCCCCC00 from cache.
+  DELAY 6000
+  RUN_TEST_STEP 120 CentRepConvToolTestSvr ReadModemRecordStep C:\TEF_CentralRepository\CentRepConvTool.ini ReadModemRecord2
+  RUN_UTILS DeleteFile C:\private\10202BE9\persists\CCCCCC00.cre
+END_TESTCASE   SYSLIBS-CENTRALREPOSITORY-CIT-1431 //IntegrateWithCommsDat
+
+
+
+START_TESTCASE   SYSLIBS-CENTRALREPOSITORY-CT-1427 //ConversionTest_01
+//! @SYMTestCaseID SYSLIBS-CENTRALREPOSITORY-CT-1427
+//! @SYMTestCaseDesc Test binary and text output generated by
+//! the conversion tool have correct values.
+//! @SYMTestPriority Critical
+//! @SYMTestActions Before conversion, load the original text
+//! initialisation file to compare the expected values of security
+//! policies, default and range meta, and settings. This prove
+//! the values expected by the teststep are correct.
+//! Convert the text file to binary, load and compare with
+//! expected values. Next, convert the binary file created
+//! in the last step to text, load it and compare with expected
+//! values.
+//! @SYMTestExpectedResults ALl sections and settings have the expected
+//!  values.
+//! @SYMPREQ PREQ1192
+//! @SYMTestStatus Defined  
+  RUN_TEST_STEP 120 CentRepConvToolTestSvr ConvertToBinaryStep C:\TEF_CentralRepository\CentRepConvTool.ini conversion
+  RUN_TEST_STEP 120 CentRepConvToolTestSvr ConvertToTextStep C:\TEF_CentralRepository\CentRepConvTool.ini conversion
+END_TESTCASE   SYSLIBS-CENTRALREPOSITORY-CT-1427  //ConversionTest_01
+
+START_TESTCASE  SYSLIBS-CENTRALREPOSITORY-CT-1428  //ConversionTest_02
+//! @SYMTestCaseID SYSLIBS-CENTRALREPOSITORY-CT-1428
+//! @SYMTestCaseDesc Test binary and text output generated by
+//! the conversion tool have correct values. Differ from the
+//! previous testcase in that all the optional sections in this
+//! repository are blank.
+//! @SYMTestPriority Critical
+//! @SYMTestActions Before conversion, load the original text
+//! initialisation file to compare the expected values of security
+//! policies, default and range meta, and settings. This prove
+//! the values expected by the teststep are correct.
+//! Convert the text file to binary, load and compare with
+//! expected values. Next, convert the binary file created
+//! in the last step to text, load it and compare with expected
+//! values.
+//! @SYMTestExpectedResults ALl sections and settings have the expected
+//!  values.
+//! @SYMPREQ PREQ1192
+//! @SYMTestStatus Defined
+  RUN_UTILS CopyFile Z:\private\10202BE9\00000002.txt C:\00000002.txt
+  RUN_UTILS MakeReadWrite C:\00000002.txt
+  RUN_TEST_STEP 120 CentRepConvToolTestSvr ConvertToBinaryStep C:\TEF_CentralRepository\CentRepConvTool.ini conversion2
+  RUN_TEST_STEP 120 CentRepConvToolTestSvr ConvertToTextStep C:\TEF_CentralRepository\CentRepConvTool.ini conversion2
+  RUN_UTILS DeleteFile C:\00000002.txt
+END_TESTCASE   SYSLIBS-CENTRALREPOSITORY-CT-1428  //ConversionTest_02
+
+
+START_TESTCASE   SYSLIBS-CENTRALREPOSITORY-CT-1429  //CmdLineTest
+//! @SYMTestCaseID SYSLIBS-CENTRALREPOSITORY-CT-1429
+//! @SYMTestCaseDesc Test conversion tool validates the cmd line
+//!  arguments properly.
+//! @SYMTestPriority Critical
+//! @SYMTestActions
+//! 1. CentRepConv refuse to convert .txt in z:\private\10202BE9
+//! 2. CentRepConv refuse to convert .txt in C:\private\10202BE9
+//! 3. CentRepConv reject the cmd to write output file to Read Only drive.
+//! 4. CentRepConv reject the cmd if input txt filename does not match output cre filename.
+//! 5. Same as 1 but is from binary to text.
+//! 6. Same as 2 but is from binary to text.
+//! 7. CentRepConv reject the cmd if output file is in C:\private\10202BE9
+//! 8. Same as 4 but input is binary.
+//! 9. CentRepConv accepts .txt in C:\private\1027431B\ because it can access its own data cage.
+//! @SYMTestExpectedResults See individual SYMTestActions above.
+//! @SYMPREQ PREQ1192
+//! @SYMTestStatus Defined
+
+  RUN_TEST_STEP 120 CentRepConvToolTestSvr CmdLineTestStep C:\TEF_CentralRepository\CentRepConvTool.ini TextSrcInZPrivate
+  
+  RUN_UTILS CopyFile Z:\private\10202BE9\00000002.txt C:\private\10202BE9\00000002.txt
+  RUN_TEST_STEP 120 CentRepConvToolTestSvr CmdLineTestStep C:\TEF_CentralRepository\CentRepConvTool.ini TextSrcInCPrivate
+
+  RUN_UTILS CopyFile Z:\private\10202BE9\00000002.txt C:\CentRepConv\00000002.txt
+  RUN_TEST_STEP 120 CentRepConvToolTestSvr CmdLineTestStep C:\TEF_CentralRepository\CentRepConvTool.ini BinOutFileInZ
+
+  RUN_TEST_STEP 120 CentRepConvToolTestSvr CmdLineTestStep C:\TEF_CentralRepository\CentRepConvTool.ini MismatchCreOutFileName
+
+
+  RUN_TEST_STEP 120 CentRepConvToolTestSvr CmdLineTestStep C:\TEF_CentralRepository\CentRepConvTool.ini BinSrcInZPrivate
+  PRINT Generate binary file for BinSrcInCPrivate teststep
+  RUN_PROGRAM CentRepConv -nowait -o C:\CentRepConv\00000002.cre C:\CentRepConv\00000002.txt
+  RUN_UTILS CopyFile C:\CentRepConv\00000002.cre C:\private\10202BE9\00000002.cre
+  RUN_UTILS MakeReadWrite C:\private\10202BE9\00000002.cre
+  RUN_UTILS CopyFile C:\CentRepConv\00000002.cre C:\private\10202BE9\persists\00000002.cre
+  RUN_UTILS MakeReadWrite C:\private\10202BE9\persists\00000002.cre
+
+  RUN_TEST_STEP 120 CentRepConvToolTestSvr CmdLineTestStep C:\TEF_CentralRepository\CentRepConvTool.ini BinSrcInCPrivate
+
+  RUN_TEST_STEP 120 CentRepConvToolTestSvr CmdLineTestStep C:\TEF_CentralRepository\CentRepConvTool.ini BinSrcInPersist
+
+  RUN_TEST_STEP 120 CentRepConvToolTestSvr CmdLineTestStep C:\TEF_CentralRepository\CentRepConvTool.ini TextOutFileInZ
+
+  PRINT Put a 00000002.txt in the output dir
+  RUN_UTILS CopyFile Z:\private\10202BE9\00000002.txt C:\private\10202BE9\persists\00000002.txt
+  RUN_TEST_STEP 120 CentRepConvToolTestSvr CmdLineTestStep C:\TEF_CentralRepository\CentRepConvTool.ini TextOutInPrivate
+  RUN_TEST_STEP 120 CentRepConvToolTestSvr CmdLineTestStep C:\TEF_CentralRepository\CentRepConvTool.ini MismatchTxtOutFileName
+  RUN_UTILS CopyFile c:\CentRepConv\00000002.txt C:\private\1027431B\00000002.txt
+  RUN_PROGRAM CentRepConv -nowait  C:\private\1027431B\00000002.txt
+  RUN_UTILS DeleteFile C:\00000002.cre
+END_TESTCASE   SYSLIBS-CENTRALREPOSITORY-CT-1429 //CmdLineTest
+
+START_TESTCASE   SYSLIB-CENTRALREPOSITORY-CT-1534 //DEF074524
+//! @SYMTestCaseID SYSLIB-CENTRALREPOSITORY-CT-1534
+//! @SYMTestCaseDesc CentRep convtool silent failure
+//! @SYMTestPriority Medium
+//! @SYMTestActions Test that conversion tool refuses converting corrupt files
+//! @SYMTestExpectedResults The test must not fail
+//! @SYMDEF DEF074524 
+	RUN_UTILS CopyFile Z:\private\10202BE9\00000003.txt C:\00000003.txt
+	RUN_TEST_STEP 120 CentRepConvToolTestSvr CmdLineTestStep C:\TEF_CentralRepository\CentRepConvTool.ini CorruptedInputTextFile
+	RUN_UTILS DeleteFile C:\00000003.txt
+
+	RUN_UTILS CopyFile Z:\TEF_CentralRepository\51551bad.txt C:\51551bad.txt
+	RUN_TEST_STEP 120 CentRepConvToolTestSvr CmdLineTestStep C:\TEF_CentralRepository\CentRepConvTool.ini CorruptedInputTextFile2
+	RUN_UTILS DeleteFile C:\51551bad.txt
+
+	RUN_UTILS CopyFile Z:\private\10202BE9\00000bad.cre C:\00000bad.cre
+	RUN_TEST_STEP 120 CentRepConvToolTestSvr CmdLineTestStep C:\TEF_CentralRepository\CentRepConvTool.ini CorruptedInputBinaryFile
+	RUN_UTILS DeleteFile C:\00000bad.cre
+
+	RUN_UTILS CopyFile Z:\private\10202BE9\00000e0f.cre C:\00000e0f.cre
+	RUN_TEST_STEP 120 CentRepConvToolTestSvr CmdLineTestStep C:\TEF_CentralRepository\CentRepConvTool.ini CorruptedInputBinaryFile2
+	RUN_UTILS DeleteFile C:\00000e0f.cre
+END_TESTCASE   SYSLIB-CENTRALREPOSITORY-CT-1534 // DEF074524
+
+START_TESTCASE   SYSLIB-CENTRALREPOSITORY-CT-3518 // INC108803
+//! @SYMTestCaseID SYSLIB-CENTRALREPOSITORY-CT-3518
+//! @SYMTestCaseDesc CentRep convtool - failure on corrupt UID
+//! @SYMTestPriority Medium
+//! @SYMTestActions Test that conversion tool refuses to convert a cre file with a corrupt UID
+//! @SYMTestExpectedResults The test must not fail
+//! @SYMDEF INC108803 
+	RUN_UTILS CopyFile Z:\TEF_CentralRepository\101f8766.cre C:\101f8766.cre
+	RUN_TEST_STEP 120 CentRepConvToolTestSvr CmdLineTestStep C:\TEF_CentralRepository\CentRepConvTool.ini CorruptedInputBinaryFile3
+	RUN_UTILS DeleteFile C:\101f8766.cre
+END_TESTCASE   SYSLIB-CENTRALREPOSITORY-CT-3518 // INC108803
+ 
+PRINT Restore testexecute.ini
+RUN_UTILS DeleteFile C:\system\data\testexecute.ini
+RUN_UTILS CopyFile C:\TEF_CentralRepository\testexecute_sav.ini C:\system\data\testexecute.ini
+RUN_UTILS MakeReadWrite C:\system\data\testexecute.ini
+RUN_UTILS DeleteFile C:\TEF_CentralRepository\testexecute_sav.ini

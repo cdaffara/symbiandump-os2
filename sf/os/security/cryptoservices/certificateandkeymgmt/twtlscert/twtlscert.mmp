@@ -1,0 +1,52 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+/**
+@file
+
+@SYMPurpose twtlscert.exe Test harness for parsing of WTLS Class 3 certificates for WAP
+*/
+
+TARGET	twtlscert.exe
+TARGETTYPE	exe
+UID 0x10000079 0x10001011
+VENDORID 0x70000001
+
+// WriteDeviceData capability is required so we can set the certificate apps
+CAPABILITY WriteDeviceData
+
+SOURCEPATH	.
+SOURCE twtlscert.cpp CertWriter.cpp TestChain.cpp  
+SOURCE ValidateTest.cpp CorruptionTest.cpp SyntaxTest.cpp
+
+USERINCLUDE ../../../crypto/weakcrypto/inc
+USERINCLUDE ../../../cryptomgmtlibs/securitytestfw/test/testhandler2
+
+USERINCLUDE .
+USERINCLUDE ../tcertcommon
+USERINCLUDE ../inc
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+LIBRARY	euser.lib estor.lib efsrv.lib wtlscert.lib random.lib crypto.lib
+LIBRARY bafl.lib 
+LIBRARY tcertcommon.lib
+LIBRARY t_testhandler2.lib
+LIBRARY ecom.lib
+
+LIBRARY cryptography.lib
+LIBRARY hash.lib
+SMPSAFE

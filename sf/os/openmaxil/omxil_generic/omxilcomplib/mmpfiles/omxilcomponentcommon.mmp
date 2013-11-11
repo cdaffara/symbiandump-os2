@@ -1,0 +1,72 @@
+// Copyright (c) 2008-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+#include                <mmf/common/mmfbase.hrh>
+#include				"../src/omxilcomponent.hrh"	// get UIDs
+
+TARGET                  omxilcomponentcommon.dll
+CAPABILITY              ALL -TCB
+TARGETTYPE              dll
+UID                     KSharedLibraryUidDefine KUidSymbianOmxILComponentCommonDll
+VENDORID                0x70000001
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+SOURCEPATH              ../src/
+SOURCE                  omxilcomponent.cpp
+SOURCE                  omxilcomponentimpl.cpp
+SOURCE                  omxilcallbackmanagerifimpl.cpp
+SOURCE                  omxilcallbackmanager.cpp
+SOURCE                  omxilconfigmanager.cpp
+SOURCE                  omxilconfigmanagerimpl.cpp
+SOURCE                  omxilincontextcallbackmanager.cpp
+SOURCE                  omxilfsm.cpp
+SOURCE                  omxilport.cpp
+SOURCE                  omxilportimpl.cpp
+SOURCE                  omxilaudioport.cpp
+SOURCE                  omxilaudioportimpl.cpp
+SOURCE                  omxilportmanager.cpp
+SOURCE                  omxilprocessingfunction.cpp
+SOURCE                  omxilstate.cpp
+SOURCE                  omxilspecversion.cpp
+SOURCE                  omxilutil.cpp
+SOURCE                  omxilimageport.cpp
+SOURCE                  omxilimageportimpl.cpp
+SOURCE                  omxilvideoport.cpp
+SOURCE                  omxilvideoportimpl.cpp
+SOURCE                  omxilotherport.cpp
+SOURCE                  omxilotherportimpl.cpp
+SOURCE                  omxilclientclockport.cpp
+
+LIBRARY                 euser.lib
+
+// Uncomment to activate debug tracing in this module
+//MACRO                   _OMXIL_COMMON_DEBUG_TRACING_ON
+
+
+// Uncomment to activate tracing of FillThisBuffer and EmptyThisBuffer
+// This produces a *lot* of output
+//MACRO                   _OMXIL_COMMON_BUFFER_TRACING_ON
+
+// Uncomment to activate spec version checks in OMX IL structs
+//MACRO                   _OMXIL_COMMON_SPEC_VERSION_CHECKS_ON
+
+// Uncomment to activate the "alternatives to App Note IL #318"
+// See IL516c_Issue#1-Race-Conditions-Solutions-for-1.y_Nokia.pdf
+// MACRO                   _OMXIL_COMMON_IL516C_ON
+
+
+NOSTRICTDEF
+
+SMPSAFE

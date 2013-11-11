@@ -1,0 +1,48 @@
+// Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// Build information for all feature registry composite rom manual testing
+// 
+//
+
+PRJ_PLATFORMS
+DEFAULT
+
+PRJ_TESTEXPORTS
+//corrupt featreg.cfg files for testing
+../testfiles/featreg_ok.cfg			z:/featregcomposite/featreg.cfg
+../testfiles/featreg_corrupt.cfg	z:/featregcomposite/featreg.cfg[1-0]
+
+// pre-generetated config files for WINSCW testing ONLY
+../testfiles/featreg.cfg			/epoc32/release/winscw/udeb/z/featregtest/featreg.cfg
+../testfiles/featreg.cfg			/epoc32/release/winscw/urel/z/featregtest/featreg.cfg
+../testfiles/featreg.cfg{2-0}		/epoc32/release/winscw/udeb/z/featregtest/featreg.cfg[2-0]
+../testfiles/featreg.cfg{2-0}		/epoc32/release/winscw/urel/z/featregtest/featreg.cfg[2-0]
+../testfiles/featreg.cfg{3-0}		/epoc32/release/winscw/udeb/z/featregtest/featreg.cfg[3-0]
+../testfiles/featreg.cfg{3-0}		/epoc32/release/winscw/urel/z/featregtest/featreg.cfg[3-0]
+
+./rofs2.iby				/epoc32/rom/include/rofs2.iby
+./rofs3.iby				/epoc32/rom/include/rofs3.iby
+./featregsetupTest.iby	/epoc32/rom/include/featregsetuptest.iby 
+
+../testfiles/testfeatureUIDs2.xml	/epoc32/rom/include/testfeatureuids2.xml
+../testfiles/testfeatureUIDs3.xml	/epoc32/rom/include/testfeatureuids3.xml
+../testfiles/featregtest_rombuild.bat /epoc32/rom/tools/featregtest_rombuild.bat
+
+PRJ_TESTMMPFILES
+// Emulator test can make use of the pregenerated files
+// Hardware test should rely on the buildrom generated files(and hence manual)
+#ifndef SYMBIAN_FEATURE_MANAGER
+./featregsetupTest.mmp manual
+
+#endif

@@ -1,0 +1,609 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+//Script file for running File URI Tests
+
+PRINT Running_FileURI_Test
+
+// Load the test
+LOAD_SUITE TestFileUriServer
+
+
+// Create file URI from File Name
+
+START_TESTCASE	IWS-PREQ171-URI-CIT4.1.1-0001
+//CreateUri_Internal_Public_8
+
+//! @file			TestFileUriSuite.script
+//! @SYMTestCaseID		IWS-PREQ171-URI-CIT4.1.1-0001
+//! @SYMTestCaseDesc 		Generate an 8-bit file URI from a fully qualified file name for a file that resides in a local non-private directory.
+//! @SYMFssID			<Application-Protocols>/<InetProtUtil>/FILEURI.2
+//! @SYMTestStatus 		Implemented
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		1. Call CUri8::CreateFileUriL passing a fully qualified filename of a file that resides in a local non-private directory.
+//! @SYMTestExpectedResults 	The URI is created as expected.
+//! @SYMTestType 		Integration
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Internal_Public_8
+END_TESTCASE 	IWS-PREQ171-URI-CIT4.1.1-0001
+
+
+START_TESTCASE 	IWS-PREQ171-URI-CIT4.1.2-0001
+//CreateUri_Internal_Public_16
+
+//! @file			TestFileUriSuite.script
+//! @SYMTestCaseID		IWS-PREQ171-URI-CIT4.1.2-0001
+//! @SYMTestCaseDesc 		Generate a 16-bit file URI from a fully qualified file name for a file that resides in a local non-private directory.
+//! @SYMFssID			<Application-Protocols>/<InetProtUtil>/FILEURI.2
+//! @SYMTestStatus 		Implemented
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		1. Call CUri16::CreateFileUriL passing a fully qualified filename of a file that resides in a local non-private directory.
+//! @SYMTestExpectedResults 	The URI is created as expected.
+//! @SYMTestType 		Integration
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Internal_Public_16
+END_TESTCASE 	IWS-PREQ171-URI-CIT4.1.2-0001
+
+
+START_TESTCASE 	IWS-PREQ171-URI-CIT4.1.3-0001
+//CreateUri_Removable_Public_8
+
+//! @file			TestFileUriSuite.script
+//! @SYMTestCaseID		IWS-PREQ171-URI-CIT4.1.3-0001
+//! @SYMTestCaseDesc 		Generate an 8-bit file URI from a fully qualified file name for a non-private file that resides in an external media.
+//! @SYMFssID			<Application-Protocols>/<InetProtUtil>/FILEURI.4
+//! @SYMTestStatus 		Implemented
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		1. Call CUri8::CreateFileUriL passing a fully qualified filename of a file that resides in a non-private directory on a removable media
+//! @SYMTestExpectedResults 	The URI is created as expected.
+//! @SYMTestType 		Integration
+// Testing 8-bit CreateFileUri for a public file on drives that are suspected to be removable ones
+// If they are not removable, the CreateFileUri API should still return a valid URI and the tests should pass
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Removable_PublicX_8
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Removable_PublicD_8
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Removable_PublicE_8
+END_TESTCASE 	IWS-PREQ171-URI-CIT4.1.3-0001
+
+
+START_TESTCASE 	IWS-PREQ171-URI-CIT4.1.4-0001
+//CreateUri_Removable_Public_16
+
+//! @file			TestFileUriSuite.script
+//! @SYMTestCaseID		IWS-PREQ171-URI-CIT4.1.4-0001
+//! @SYMTestCaseDesc 		Generate a 16-bit file URI from a fully qualified file name for a non-private file that resides in an external media.
+//! @SYMFssID			<Application-Protocols>/<InetProtUtil>/FILEURI.4
+//! @SYMTestStatus 		Implemented
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		1. Call CUri16::CreateFileUriL passing a fully qualified filename of a file that resides in a non-private directory on a removable media
+//! @SYMTestExpectedResults 	The URI is created as expected.
+//! @SYMTestType 		Integration
+// Testing 16-bit CreateFileUri for a public file on drives that are suspected to be removable ones. 
+// If they are removable, then the expected URI will be considered to be of the form file:///ext-media...
+// If they are not removable, the CreateFileUri API should still return a valid URI and the tests should pass
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Removable_PublicX_16
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Removable_PublicD_16
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Removable_PublicE_16
+END_TESTCASE 	IWS-PREQ171-URI-CIT4.1.4-0001
+
+
+START_TESTCASE 	IWS-PREQ171-URI-CIT4.1.5-0001
+//CreateUri_Internal_Private_Relative
+
+//! @file			TestFileUriSuite.script
+//! @SYMTestCaseID		IWS-PREQ171-URI-CIT4.1.5-0001
+//! @SYMTestCaseDesc 		Generate an 8-bit file URI from a relative file path for a private file that resides on a fixed drive.
+//! @SYMFssID			<Application-Protocols>/<InetProtUtil>/FILEURI.6
+//! @SYMTestStatus 		Implemented
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		1. Call CUri8::CreatePrivateFileUriL passing a relative path and filename of a file that resides in a private directory on a fixed drive
+//! @SYMTestExpectedResults 	The URI is created as expected.
+//! @SYMTestType 		Integration
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Internal_Private_Relative_8_1
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Internal_Private_Relative_8_2
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Internal_Private_Relative_8_3
+END_TESTCASE 	IWS-PREQ171-URI-CIT4.1.5-0001
+
+
+START_TESTCASE 	IWS-PREQ171-URI-CIT4.1.6-0001
+//CreateUri_Internal_Private_FullPath_8
+
+//! @file			TestFileUriSuite.script
+//! @SYMTestCaseID		IWS-PREQ171-URI-CIT4.1.6-0001
+//! @SYMTestCaseDesc 		Generate an 8-bit file URI from a fully qualified file name for a private file that resides on a fixed drive.
+//! @SYMFssID			<Application-Protocols>/<InetProtUtil>/FILEURI.6
+//! @SYMTestStatus 		Implemented
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		1. Call CUri8::CreateFileUriL passing the fully qualified filename of a file that resides in a private directory on a fixed drive
+//! @SYMTestExpectedResults 	The URI is created as expected.
+//! @SYMTestType 		Integration
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Internal_Private_FullPath_8
+END_TESTCASE 	IWS-PREQ171-URI-CIT4.1.6-0001
+
+
+START_TESTCASE 	IWS-PREQ171-URI-CIT4.1.7-0001
+//CreateUri_Internal_Private_Relative_16
+
+//! @file			TestFileUriSuite.script
+//! @SYMTestCaseID		IWS-PREQ171-URI-CIT4.1.7-0001
+//! @SYMTestCaseDesc 		Generate a 16-bit file URI from a relative path for a private file that resides on a fixed drive.
+//! @SYMFssID			<Application-Protocols>/<InetProtUtil>/FILEURI.6
+//! @SYMTestStatus 		Implemented
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		1. Call CUri16::CreatePrivateFileUriL passing a relative path and filename of a file that resides in a private directory on a fixed drive
+//! @SYMTestExpectedResults 	The URI is created as expected.
+//! @SYMTestType 		Integration
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Internal_Private_Relative_16_1
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Internal_Private_Relative_16_2
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Internal_Private_Relative_16_3
+END_TESTCASE 	IWS-PREQ171-URI-CIT4.1.7-0001
+
+
+START_TESTCASE 	IWS-PREQ171-URI-CIT4.1.8-0001
+//CreateUri_Internal_Private_FullPath_16
+
+//! @file			TestFileUriSuite.script
+//! @SYMTestCaseID		IWS-PREQ171-URI-CIT4.1.8-0001
+//! @SYMTestCaseDesc 		Generate a 16-bit file URI from a fully qualified file name for a private file that resides on a fixed drive.
+//! @SYMFssID			<Application-Protocols>/<InetProtUtil>/FILEURI.6
+//! @SYMTestStatus 		Implemented
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		1. Call CUri16::CreateFileUriL passing the fully qualified filename of a file that resides in a private directory on a fixed drive
+//! @SYMTestExpectedResults 	The URI is created as expected.
+//! @SYMTestType 		Integration
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Internal_Private_FullPath_16
+END_TESTCASE 	IWS-PREQ171-URI-CIT4.1.8-0001
+
+
+START_TESTCASE 	IWS-PREQ171-URI-CIT4.1.9-0001
+//CreateUri_Removable_Private_Relative_8
+
+//! @file			TestFileUriSuite.script
+//! @SYMTestCaseID		IWS-PREQ171-URI-CIT4.1.9-0001
+//! @SYMTestCaseDesc 		Generate an 8-bit file URI from a relative file path for a private file that resides on a removable drive.
+//! @SYMFssID			<Application-Protocols>/<InetProtUtil>/FILEURI.6, <Application-Protocols>/<InetProtUtil>/FILEURI.4
+//! @SYMTestStatus 		Implemented
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		1. Call CUri8::CreatePrivateFileUriL passing the relative path and filename of a file that resides in a private directory on a removable drive
+//! @SYMTestExpectedResults 	The URI is created as expected.
+//! @SYMTestType 		Integration
+// Similar to IWS-PREQ171-URI-CIT4.1.4-0001, testing on suspected removable drives
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Removable_Private_RelativeX_8_1
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Removable_Private_RelativeD_8_1
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Removable_Private_RelativeE_8_1
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Removable_Private_RelativeX_8_2
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Removable_Private_RelativeD_8_2
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Removable_Private_RelativeE_8_2
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Removable_Private_RelativeX_8_3
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Removable_Private_RelativeD_8_3
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Removable_Private_RelativeE_8_3
+END_TESTCASE 	IWS-PREQ171-URI-CIT4.1.9-0001
+
+
+START_TESTCASE 	IWS-PREQ171-URI-CIT4.1.10-0001
+//CreateUri_Removable_Private_FullPath_8
+
+//! @file			TestFileUriSuite.script
+//! @SYMTestCaseID		IWS-PREQ171-URI-CIT4.1.10-0001
+//! @SYMTestCaseDesc 		Generate an 8-bit file URI from a fully qualified file name for a private file that resides on a removable drive.
+//! @SYMFssID			<Application-Protocols>/<InetProtUtil>/FILEURI.6, <Application-Protocols>/<InetProtUtil>/FILEURI.4
+//! @SYMTestStatus 		Implemented
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		1. Call CUri8::CreateFileUriL passing the fully qualified filename of a file that resides in a private directory on a removable drive
+//! @SYMTestExpectedResults 	The URI is created as expected.
+//! @SYMTestType 		Integration
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Removable_Private_FullPathX_8
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Removable_Private_FullPathD_8
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Removable_Private_FullPathE_8
+END_TESTCASE 	IWS-PREQ171-URI-CIT4.1.10-0001
+
+
+START_TESTCASE 	IWS-PREQ171-URI-CIT4.1.11-0001
+//CreateUri_Removable_Private_Relative_16
+
+//! @file			TestFileUriSuite.script
+//! @SYMTestCaseID		IWS-PREQ171-URI-CIT4.1.11-0001
+//! @SYMTestCaseDesc 		Generate a 16-bit file URI from a relative file path for a private file that resides on a removable drive.
+//! @SYMFssID			<Application-Protocols>/<InetProtUtil>/FILEURI.6, <Application-Protocols>/<InetProtUtil>/FILEURI.4
+//! @SYMTestStatus 		Implemented
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		1. Call CUri16::CreatePrivateFileUriL passing the relative path and filename of a file that resides in a private directory on a removable drive
+//! @SYMTestExpectedResults 	The URI is created as expected.
+//! @SYMTestType 		Integration
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Removable_Private_RelativeX_16_1
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Removable_Private_RelativeD_16_1
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Removable_Private_RelativeE_16_1
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Removable_Private_RelativeX_16_2
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Removable_Private_RelativeD_16_2
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Removable_Private_RelativeE_16_2
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Removable_Private_RelativeX_16_3
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Removable_Private_RelativeD_16_3
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Removable_Private_RelativeE_16_3
+END_TESTCASE 	IWS-PREQ171-URI-CIT4.1.11-0001
+
+
+START_TESTCASE 	IWS-PREQ171-URI-CIT4.1.12-0001
+//CreateUri_Removable_Private_FullPath_16
+
+//! @file			TestFileUriSuite.script
+//! @SYMTestCaseID		IWS-PREQ171-URI-CIT4.1.12-0001
+//! @SYMTestCaseDesc 		Generate a 16-bit file URI from a fully qualified file name for a private file that resides on a removable drive.
+//! @SYMFssID			<Application-Protocols>/<InetProtUtil>/FILEURI.6, <Application-Protocols>/<InetProtUtil>/FILEURI.4
+//! @SYMTestStatus 		Implemented
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		1. Call CUri16::CreateFileUriL passing the fully qualified filename of a file that resides in a private directory on a removable drive
+//! @SYMTestExpectedResults 	The URI is created as expected.
+//! @SYMTestType 		Integration
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Removable_Private_FullPathX_16
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Removable_Private_FullPathD_16
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Removable_Private_FullPathE_16
+END_TESTCASE 	IWS-PREQ171-URI-CIT4.1.12-0001
+
+
+// Get File Name from URI
+
+START_TESTCASE 	IWS-PREQ171-URI-CIT4.2.1-0001
+//GetFileName_Internal_Public_8
+
+//! @file			TestFileUriSuite.script
+//! @SYMTestCaseID		IWS-PREQ171-URI-CIT4.2.1-0001
+//! @SYMTestCaseDesc 		Generate fully qualified file name from an 8-bit file URI for a file that resides in a local non-private directory.
+//! @SYMFssID			<Application-Protocols>/<InetProtUtil>/FILEURI.1
+//! @SYMTestStatus 		Implemented
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		1. Call TUriC8::GetFileNameL passing an 8-bit file URI for a file that resides in a local non-private directory.
+//! @SYMTestExpectedResults 	The file name is generated as expected.
+//! @SYMTestType 		Integration
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_Internal_Public_8
+END_TESTCASE 	IWS-PREQ171-URI-CIT4.2.1-0001
+
+
+START_TESTCASE 	IWS-PREQ171-URI-CIT4.2.2-0001
+//GetFileName_Internal_Public_16
+
+//! @file			TestFileUriSuite.script
+//! @SYMTestCaseID		IWS-PREQ171-URI-CIT4.2.2-0001
+//! @SYMTestCaseDesc 		Generate fully qualified file name from a 16-bit file URI for a file that resides in a local non-private directory.
+//! @SYMFssID			<Application-Protocols>/<InetProtUtil>/FILEURI.1
+//! @SYMTestStatus 		Implemented
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		1. Call TUriC16::GetFileNameL passing a 16-bit file URI for a file that resides in a local non-private directory.
+//! @SYMTestExpectedResults 	The file name is generated as expected.
+//! @SYMTestType 		Integration
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_Internal_Public_16
+END_TESTCASE 	IWS-PREQ171-URI-CIT4.2.2-0001
+
+
+START_TESTCASE 	IWS-PREQ171-URI-CIT4.2.3-0001
+//GetFileName_Removable_Public_8
+
+//! @file			TestFileUriSuite.script
+//! @SYMTestCaseID		IWS-PREQ171-URI-CIT4.2.3-0001
+//! @SYMTestCaseDesc 		Generate fully qualified file name from an 8-bit file URI for a non-private file that resides in an external media.
+//! @SYMFssID			<Application-Protocols>/<InetProtUtil>/FILEURI.3
+//! @SYMTestStatus 		Implemented
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		1. Call TUriC8::GetFileNameL passing an 8-bit file URI for a non-private file that resides in an external media.
+//! @SYMTestExpectedResults 	The file name is generated as expected.
+//! @SYMTestType 		Integration
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestCreateFileStep		z:\testdata\ini\TestFileUriSuite.ini 	Removable_Public_FileX
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestCreateFileStep		z:\testdata\ini\TestFileUriSuite.ini 	Removable_Public_FileD
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestCreateFileStep		z:\testdata\ini\TestFileUriSuite.ini 	Removable_Public_FileE
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_Removable_PublicX_8
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_Removable_PublicD_8
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_Removable_PublicE_8
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestDeleteFileStep		z:\testdata\ini\TestFileUriSuite.ini 	Removable_Public_FileX
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestDeleteFileStep		z:\testdata\ini\TestFileUriSuite.ini 	Removable_Public_FileD
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestDeleteFileStep		z:\testdata\ini\TestFileUriSuite.ini 	Removable_Public_FileE
+END_TESTCASE 	IWS-PREQ171-URI-CIT4.2.3-0001
+
+
+START_TESTCASE 	IWS-PREQ171-URI-CIT4.2.4-0001
+//GetFileName_Removable_Public_16
+
+//! @file			TestFileUriSuite.script
+//! @SYMTestCaseID		IWS-PREQ171-URI-CIT4.2.4-0001
+//! @SYMTestCaseDesc 		Generate fully qualified file name from a 16-bit file URI for a non-private file that resides in an external media.
+//! @SYMFssID			<Application-Protocols>/<InetProtUtil>/FILEURI.3
+//! @SYMTestStatus 		Implemented
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		1. Call TUriC16::GetFileNameL passing a 16-bit file URI for a non-private file that resides in an external media.
+//! @SYMTestExpectedResults 	The file name is generated as expected.
+//! @SYMTestType 		Integration
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestCreateFileStep		z:\testdata\ini\TestFileUriSuite.ini 	Removable_Public_FileX
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestCreateFileStep		z:\testdata\ini\TestFileUriSuite.ini 	Removable_Public_FileD
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestCreateFileStep		z:\testdata\ini\TestFileUriSuite.ini 	Removable_Public_FileE
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_Removable_PublicX_16
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_Removable_PublicD_16
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_Removable_PublicE_16
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestDeleteFileStep		z:\testdata\ini\TestFileUriSuite.ini 	Removable_Public_FileX
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestDeleteFileStep		z:\testdata\ini\TestFileUriSuite.ini 	Removable_Public_FileD
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestDeleteFileStep		z:\testdata\ini\TestFileUriSuite.ini 	Removable_Public_FileE
+END_TESTCASE 	IWS-PREQ171-URI-CIT4.2.4-0001
+
+
+START_TESTCASE 	IWS-PREQ171-URI-CIT4.2.5-0001
+//GetFileName_Internal_Private_8
+
+//! @file			TestFileUriSuite.script
+//! @SYMTestCaseID		IWS-PREQ171-URI-CIT4.2.5-0001
+//! @SYMTestCaseDesc 		Generate fully qualified file name from an 8-bit file URI for a private file that resides on a fixed drive.
+//! @SYMFssID			<Application-Protocols>/<InetProtUtil>/FILEURI.5
+//! @SYMTestStatus 		Implemented
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		1. Call TUriC8::GetFileNameL passing an 8-bit file URI for a private file that resides on a fixed drive.
+//! @SYMTestExpectedResults 	The file name is generated as expected.
+//! @SYMTestType 		Integration
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_Internal_Private_8
+END_TESTCASE 	IWS-PREQ171-URI-CIT4.2.5-0001
+
+
+START_TESTCASE 	IWS-PREQ171-URI-CIT4.2.6-0001
+//GetFileName_Internal_Private_16
+
+//! @file			TestFileUriSuite.script
+//! @SYMTestCaseID		IWS-PREQ171-URI-CIT4.2.6-0001
+//! @SYMTestCaseDesc 		Generate fully qualified file name from a 16-bit file URI for a private file that resides on a fixed drive.
+//! @SYMFssID			<Application-Protocols>/<InetProtUtil>/FILEURI.5
+//! @SYMTestStatus 		Implemented
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		1. Call TUriC16::GetFileNameL passing a 16-bit file URI for a private file that resides on a fixed drive.
+//! @SYMTestExpectedResults 	The file name is generated as expected.
+//! @SYMTestType 		Integration
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_Internal_Private_16
+END_TESTCASE 	IWS-PREQ171-URI-CIT4.2.6-0001
+
+
+START_TESTCASE 	IWS-PREQ171-URI-CIT4.2.7-0001
+//GetFileName_Removable_Private_8
+
+//! @file			TestFileUriSuite.script
+//! @SYMTestCaseID		IWS-PREQ171-URI-CIT4.2.7-0001
+//! @SYMTestCaseDesc 		Generate fully qualified file name from an 8-bit file URI for a private file that resides on a removable drive.
+//! @SYMFssID			<Application-Protocols>/<InetProtUtil>/FILEURI.5, <Application-Protocols>/<InetProtUtil>/FILEURI.3
+//! @SYMTestStatus 		Implemented
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		1. Call TUriC8::GetFileNameL passing an 8-bit file URI for a private file that resides on a removable drive.
+//! @SYMTestExpectedResults 	The file name is generated as expected.
+//! @SYMTestType 		Integration
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestCreateFileStep		z:\testdata\ini\TestFileUriSuite.ini 	Removable_Private_FileX
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestCreateFileStep		z:\testdata\ini\TestFileUriSuite.ini 	Removable_Private_FileD
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestCreateFileStep		z:\testdata\ini\TestFileUriSuite.ini 	Removable_Private_FileE
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_Removable_PrivateX_8
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_Removable_PrivateD_8
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_Removable_PrivateE_8
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestDeleteFileStep		z:\testdata\ini\TestFileUriSuite.ini 	Removable_Private_FileX
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestDeleteFileStep		z:\testdata\ini\TestFileUriSuite.ini 	Removable_Private_FileD
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestDeleteFileStep		z:\testdata\ini\TestFileUriSuite.ini 	Removable_Private_FileE
+END_TESTCASE 	IWS-PREQ171-URI-CIT4.2.7-0001
+
+
+START_TESTCASE 	IWS-PREQ171-URI-CIT4.2.8-0001
+//GetFileName_Removable_Private_16
+
+//! @file			TestFileUriSuite.script
+//! @SYMTestCaseID		IWS-PREQ171-URI-CIT4.2.8-0001
+//! @SYMTestCaseDesc 		Generate fully qualified file name from a 16-bit file URI for a private file that resides on a removable drive.
+//! @SYMFssID			<Application-Protocols>/<InetProtUtil>/FILEURI.5, <Application-Protocols>/<InetProtUtil>/FILEURI.3
+//! @SYMTestStatus 		Implemented
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		1. Call TUriC16::GetFileNameL passing a 16-bit file URI for a private file that resides on a removable drive.
+//! @SYMTestExpectedResults 	The file name is generated as expected.
+//! @SYMTestType 		Integration
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestCreateFileStep		z:\testdata\ini\TestFileUriSuite.ini 	Removable_Private_FileX
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestCreateFileStep		z:\testdata\ini\TestFileUriSuite.ini 	Removable_Private_FileD
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestCreateFileStep		z:\testdata\ini\TestFileUriSuite.ini 	Removable_Private_FileE
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_Removable_PrivateX_16
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_Removable_PrivateD_16
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_Removable_PrivateE_16
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestDeleteFileStep		z:\testdata\ini\TestFileUriSuite.ini 	Removable_Private_FileX
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestDeleteFileStep		z:\testdata\ini\TestFileUriSuite.ini 	Removable_Private_FileD
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestDeleteFileStep		z:\testdata\ini\TestFileUriSuite.ini 	Removable_Private_FileE
+END_TESTCASE 	IWS-PREQ171-URI-CIT4.2.8-0001
+
+
+START_TESTCASE 	IWS-PREQ171-URI-CIT4.3.1-0001
+//UnusualUrisAndFileNames
+
+//! @file			TestFileUriSuite.script
+//! @SYMTestCaseID		IWS-PREQ171-URI-CIT4.3.1-0001
+//! @SYMTestCaseDesc 		Test the creation of URIs from filenames and extraction of filenames from URIs with some unusual but possible paths and filenames.
+//! @SYMFssID			
+//! @SYMTestStatus 		Implemented
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		1. Call CUri8::CreateFileUriL and TUriC::GetFileNameL passing unusual but possible paths and filenames
+//! @SYMTestExpectedResults 	These unusual filenames and uris must be consistently handled by the File URI API and appropriate URIs or filenames must be returned
+//! @SYMTestType 		Integration
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Unusual1_8
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Unusual1_16
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Unusual2_8
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Unusual2_16
+
+
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_Unusual1_8
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_Unusual1_16
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_Unusual2_8
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_Unusual2_16
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_Unusual3_8
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_Unusual3_16
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_Unusual4_8
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_Unusual4_16
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_Unusual5_8
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_Unusual5_16
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_Unusual6_8
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_Unusual6_16
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_Unusual7_8
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_Unusual7_16
+
+// A not-so-frequent situation on removable drive - a public file in a directory named private on a removable drive.
+// If the file exists, a valid filename should be returned
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestCreateFileStep		z:\testdata\ini\TestFileUriSuite.ini 	File_Unusual_X
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestCreateFileStep		z:\testdata\ini\TestFileUriSuite.ini 	File_Unusual_D
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestCreateFileStep		z:\testdata\ini\TestFileUriSuite.ini 	File_Unusual_E
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_Unusual8_X_8
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_Unusual8_X_16
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_Unusual8_D_8
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_Unusual8_D_16
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_Unusual8_E_8
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_Unusual8_E_16
+
+// Where the file does not exist, KErrNotFound should be returned, in case of a removable drive. In case 
+// of other drives a valid filename should be returned.
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestDeleteFileStep		z:\testdata\ini\TestFileUriSuite.ini 	File_Unusual_X
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestDeleteFileStep		z:\testdata\ini\TestFileUriSuite.ini 	File_Unusual_D
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestDeleteFileStep		z:\testdata\ini\TestFileUriSuite.ini 	File_Unusual_E
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_Unusual8_X_8
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_Unusual8_X_16
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_Unusual8_D_8
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_Unusual8_D_16
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_Unusual8_E_8
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_Unusual8_E_16
+
+END_TESTCASE 	IWS-PREQ171-URI-CIT4.3.1-0001
+
+
+START_TESTCASE 	IWS-PREQ171-URI-CIT4.3.2-0001
+//BadUrisAndFileNames
+
+//! @file			TestFileUriSuite.script
+//! @SYMTestCaseID		IWS-PREQ171-URI-CIT4.3.2-0001
+//! @SYMTestCaseDesc 		Test that the File URI handler handles incorrect URIs properly.
+//! @SYMFssID			
+//! @SYMTestStatus 		Implemented
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		1. Call CUri8::CreateFileUriL and TUriC::GetFileNameL passing erroneous filenames and URIs
+//! @SYMTestExpectedResults 	The File URI APIs must leave with KErrBadName when such erroneous filenames and URIs are passed
+//! @SYMTestType 		Integration
+// Bad Filenames and URIs for which an error is expected
+RUN_TEST_STEP 	!Error=-28 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Bad1_8
+RUN_TEST_STEP 	!Error=-28 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Bad1_16
+RUN_TEST_STEP 	!Error=-28 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Bad2_8
+RUN_TEST_STEP 	!Error=-28 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Bad2_16
+RUN_TEST_STEP 	!Error=-28 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Bad5_8
+RUN_TEST_STEP 	!Error=-28 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	CreateUri_Bad5_16
+
+RUN_TEST_STEP 	!Error=-28 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_Bad5_8
+RUN_TEST_STEP 	!Error=-28 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_Bad5_16
+END_TESTCASE 	IWS-PREQ171-URI-CIT4.3.2-0001
+
+
+START_TESTCASE 	IWS-PREQ171-URI-CIT4.3.3-0001
+//FileDoesNotExistOnRemovableDrive
+
+//! @file			TestFileUriSuite.script
+//! @SYMTestCaseID		IWS-PREQ171-URI-CIT4.3.3-0001
+//! @SYMTestCaseDesc 		Running tests on drives that are suspected to be removable ones where, the file specified by 
+//!				the file uri, is deliberately made non-existent on the drive. In such a case, a leave should 
+//!				occur and a filename should not be returned. By chance the suspected drive is not a 
+//!				removable one, the test should still pass by returning a filename, as the File URI API checks 
+//!				for the existence of the file only in case of removable drives.
+//! @SYMFssID			
+//! @SYMTestStatus 		Implemented
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		1. Call TUriC::GetFileNameL passing filenames of files that are non-existent.
+//! @SYMTestExpectedResults 	If the drive is a removable media, then the API must leave with KErrNotFound if file is not 
+//!				found on the media. Otherwise, a valid filename must be returned.
+//! @SYMTestType 		Integration
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestDeleteFileStep		z:\testdata\ini\TestFileUriSuite.ini 	FileDoesNotExistOnX
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestDeleteFileStep		z:\testdata\ini\TestFileUriSuite.ini 	FileDoesNotExistOnD
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestDeleteFileStep		z:\testdata\ini\TestFileUriSuite.ini 	FileDoesNotExistOnE
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_On_X_8
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_On_X_16
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_On_D_8
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_On_D_16
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep 	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_On_E_8
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep	z:\testdata\ini\TestFileUriSuite.ini 	GetFileName_On_E_16
+END_TESTCASE 	IWS-PREQ171-URI-CIT4.3.3-0001
+
+
+START_TESTCASE 	IWS-PREQ171-URI-CIT4.3.4-0001
+//Non-7-bit-safe-URIs
+
+//! @file			TestFileUriSuite.script
+//! @SYMTestCaseID		IWS-PREQ171-URI-CIT4.3.4-0001
+//! @SYMTestCaseDesc 		Testing the handling of non-7-bit safe URIs
+//! @SYMFssID			
+//! @SYMTestStatus 		Implemented
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		1. Call CUri8::CreateFileUriL and TUriC::GetFileNameL passing filenames and URIs that are non-7-bit-safe
+//! @SYMTestExpectedResults 	The File URI APIs must handle such URIs and filenames consistently and return appropriate filenames or URIs.
+//! @SYMTestType 		Integration
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite_Non_7_Bit.ini	CreateUri_Non-7-bit1_8
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite_Non_7_Bit.ini 	CreateUri_Non-7-bit1_16
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite_Non_7_Bit.ini	CreateUri_Non-7-bit2_8
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite_Non_7_Bit.ini	CreateUri_Non-7-bit2_16
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite_Non_7_Bit.ini	CreateUri_Non-7-bit3_8
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite_Non_7_Bit.ini	CreateUri_Non-7-bit3_16
+
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep	z:\testdata\ini\TestFileUriSuite_Non_7_Bit.ini 	GetFileName_Non-7-bit1_8
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep	z:\testdata\ini\TestFileUriSuite_Non_7_Bit.ini	GetFileName_Non-7-bit1_16
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep	z:\testdata\ini\TestFileUriSuite_Non_7_Bit.ini 	GetFileName_Non-7-bit2_8
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep	z:\testdata\ini\TestFileUriSuite_Non_7_Bit.ini	GetFileName_Non-7-bit2_16
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep	z:\testdata\ini\TestFileUriSuite_Non_7_Bit.ini 	GetFileName_Non-7-bit3_8
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep	z:\testdata\ini\TestFileUriSuite_Non_7_Bit.ini	GetFileName_Non-7-bit3_16
+END_TESTCASE 	IWS-PREQ171-URI-CIT4.3.4-0001
+
+
+START_TESTCASE 	IWS-PREQ171-URI-CIT4.3.5-0001
+//URIs_With_Unicode_Chars
+
+//! @file			TestFileUriSuite.script
+//! @SYMTestCaseID		IWS-PREQ171-URI-CIT4.3.5-0001
+//! @SYMTestCaseDesc 		Testing the handling of URIs with Unicode characters
+//! @SYMFssID			
+//! @SYMTestStatus 		Implemented
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		1. Call CUri8::CreateFileUriL and TUriC::GetFileNameL passing filenames and URIs that contain Unicode characters.
+//! @SYMTestExpectedResults 	The File URI APIs must handle such URIs and filenames consistently and return appropriate filenames or URIs.
+//! @SYMTestType 		Integration
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite_16_Bit.ini 	CreateUri_Unicode_Chars1_8
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite_16_Bit.ini 	CreateUri_Unicode_Chars1_16
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite_16_Bit.ini 	CreateUri_Unicode_Chars2_8
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGenerateFileUriStep 	z:\testdata\ini\TestFileUriSuite_16_Bit.ini 	CreateUri_Unicode_Chars2_16
+
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep	z:\testdata\ini\TestFileUriSuite_16_Bit.ini 	GetFileName_Unicode_Chars1_8
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep	z:\testdata\ini\TestFileUriSuite_16_Bit.ini 	GetFileName_Unicode_Chars1_16
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep	z:\testdata\ini\TestFileUriSuite_16_Bit.ini 	GetFileName_Unicode_Chars2_8
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestGetFileNameFromUriStep	z:\testdata\ini\TestFileUriSuite_16_Bit.ini 	GetFileName_Unicode_Chars2_16
+END_TESTCASE 	IWS-PREQ171-URI-CIT4.3.5-0001
+
+
+START_TESTCASE 	IWS-PREQ171-URI-CIT4.3.6-0001
+//Test_For_All_Files
+
+//! @file			TestFileUriSuite.script
+//! @SYMTestCaseID		IWS-PREQ171-URI-CIT4.3.6-0001
+//! @SYMTestCaseDesc 		Testing the generation of URIs and converting them back to filename for all the 
+//!				files in the directory structure.
+//! @SYMFssID			
+//! @SYMTestStatus 		Implemented
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		1. Run a DirScan, and for each file in the file system, call CUri8::CreateFileUriL to get a 
+//!				URI for the filename, and TUriC::GetFileNameL on that URI. Verify whether the returned 
+//!				filename is caselessly same as the filename that was passed initially.
+//! @SYMTestExpectedResults 	The generation of URI and converting it back to a filename is done consistently for all the files.
+//! @SYMTestType 		Integration
+// Testing the generation of URIs and converting them back to filename for all the 
+// files in the directory structure. Even if one of them fails, the test step is considered to be fail.
+// Creating files with non-7-bit-safe and unicode characters to test their handling too
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestCreateFileStep		z:\testdata\ini\TestFileUriSuite_Non_7_Bit.ini	File_With_Non-7-bit_Chars
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestCreateFileStep		z:\testdata\ini\TestFileUriSuite_16_Bit.ini	File_With_Unicode_Chars
+
+// The actual test
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestForAllFilesStep
+
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestDeleteFileStep		z:\testdata\ini\TestFileUriSuite_Non_7_Bit.ini	File_With_Non-7-bit_Chars
+RUN_TEST_STEP 	100 	TestFileUriServer 	TestDeleteFileStep		z:\testdata\ini\TestFileUriSuite_16_Bit.ini	File_With_Unicode_Chars
+END_TESTCASE 	IWS-PREQ171-URI-CIT4.3.6-0001
+
+PRINT Completed_FileURI_Test
+

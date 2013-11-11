@@ -1,0 +1,42 @@
+/*
+* Copyright (c) 2008-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+*
+*/
+
+/**
+ @file
+ @internalComponent
+*/
+
+PRJ_PLATFORMS
+ARMV5 GCCXML
+
+PRJ_MMPFILES
+
+#if defined(SYMBIAN_ENABLE_USB_OTG_HOST) && !defined(WINS) && !defined(X86GCC)
+msmmserver.mmp
+#endif
+
+PRJ_EXPORTS
+../public/msmm_policy_def.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(usb/hostms/msmm_policy_def.h)
+../public/msmmpolicypluginbase.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(usb/hostms/msmmpolicypluginbase.h)
+../public/msmmpolicypluginbase.inl SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(usb/hostms/msmmpolicypluginbase.inl)
+../public/policyplugin.hrh /epoc32/include/usb/hostms/policyplugin.hrh
+../public/policypluginnotifier.hrh /epoc32/include/usb/hostms/policypluginnotifier.hrh
+../public/srverr.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(usb/hostms/srverr.h)
+
+PRJ_TESTEXPORTS
+../public/hostmscaps.mmh /epoc32/include/usb/hostms/hostmscaps.mmh
+../public/msmm_pub_def.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(msmm_pub_def.h)

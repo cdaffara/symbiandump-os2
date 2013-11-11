@@ -1,0 +1,167 @@
+// Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// @file
+// 
+//
+
+
+PRINT Run all tef_schsvr_bursuite Suite Tests
+
+LOAD_SUITE tef_schsvr_bursuite
+
+RUN_UTILS DeleteFile c:\private\10005399\schedulesbackup.dat
+RUN_UTILS DeleteFile c:\BackupArchive\DataOwners\*.*
+RUN_UTILS DeleteFile c:\BackupArchive\10005399\C\Passive\Base\*.*
+
+START_TESTCASE   SYSLIB-SCHSVR-CT-3423  //APIBehaviourDuringBUR
+//!@file
+//!@SYMTestCaseID	SYSLIB-SCHSVR-CT-3423
+//!@SYMTestCaseDesc 	Check that the persistent file modification functions are not executed during backup/restore
+//!@SYMTestPriority 	High
+//!@SYMTestActions  	Creates an instance of CTaskScheduler, simulates backup, call functions, check return value
+//!@SYMTestExpectedResults	All functions should return KErrServerBusy.
+//!@SYMDEF 		INC102610 Task scheduler is not backup/restore aware 
+
+	RUN_TEST_STEP 100 tef_schsvr_bursuite APIStep 
+END_TESTCASE   SYSLIB-SCHSVR-CT-3423  //APIBehaviourDuringBUR
+
+RUN_UTILS DeleteFile c:\private\10005399\schedulesbackup.dat
+RUN_UTILS DeleteFile c:\BackupArchive\DataOwners\*.*
+RUN_UTILS DeleteFile c:\BackupArchive\10005399\C\Passive\Base\*.*
+
+START_TESTCASE   SYSLIB-SCHSVR-CIT-3424  //BURTestCondition
+//!@file
+//!@SYMTestCaseID SYSLIB-SCHSVR-CIT-3424
+//!@SYMTestCaseDesc Test Backup & Restore functionality for condition-based schedules
+//!@SYMTestPriority High
+//!@SYMTestActions  Create persistent condition schedule, backup, check if task in the schedule executes, 
+//!check again if it has been automatically deleted, restore, check if task in the restored schedule executes
+//!@SYMTestExpectedResults The task should execute after backup. It should be deleted after execution from the persistent //!schedules list. It should exist in persistent schedules list after restore and successfully execute.
+//!@SYMDEF INC102610 Task scheduler is not backup/restore aware 
+
+	RUN_TEST_STEP 100 tef_schsvr_bursuite InitialiseStep z:\TEF_SchSvr\tef_schsvr_bursuite.ini test
+	RUN_TEST_STEP -1 tef_schsvr_bursuite BURStep z:\TEF_SchSvr\tef_schsvr_bursuite.ini burbackup
+ 	RUN_TEST_STEP -1 tef_schsvr_bursuite CompareStep z:\TEF_SchSvr\tef_schsvr_bursuite.ini trigger
+ 	RUN_TEST_STEP_RESULT 106 -1 tef_schsvr_bursuite CompareStep z:\TEF_SchSvr\tef_schsvr_bursuite.ini trigger
+	RUN_TEST_STEP -1 tef_schsvr_bursuite BURStep z:\TEF_SchSvr\tef_schsvr_bursuite.ini burrestore
+ 	RUN_TEST_STEP -1 tef_schsvr_bursuite CompareStep z:\TEF_SchSvr\tef_schsvr_bursuite.ini trigger
+END_TESTCASE   SYSLIB-SCHSVR-CIT-3424  //BURTestCondition
+
+START_TESTCASE   SYSLIB-SCHSVR-CIT-3425  //BURTestTime
+//!@file
+//!@SYMTestCaseID SYSLIB-SCHSVR-CIT-3425
+//!@SYMTestCaseDesc Test Backup & Restore functionality for time-based schedules
+//!@SYMTestPriority High
+//!@SYMTestActions  Create persistent time schedule, backup, check if task in the schedule executes, 
+//!check again if it has been automatically deleted, restore, check if task in the restored schedule executes
+//!@SYMTestExpectedResults The task should execute after backup. It should be deleted after execution from the persistent //!schedules list. It should exist in persistent schedules list after restore and successfully execute.
+//!@SYMDEF INC102610 Task scheduler is not backup/restore aware 
+
+	RUN_TEST_STEP 100 tef_schsvr_bursuite InitialiseStep z:\TEF_SchSvr\tef_schsvr_bursuite.ini time
+	RUN_TEST_STEP -1 tef_schsvr_bursuite BURStep z:\TEF_SchSvr\tef_schsvr_bursuite.ini burbackup
+ 	RUN_TEST_STEP -1 tef_schsvr_bursuite CompareStep z:\TEF_SchSvr\tef_schsvr_bursuite.ini timetrigger
+ 	RUN_TEST_STEP_RESULT 106 -1 tef_schsvr_bursuite CompareStep z:\TEF_SchSvr\tef_schsvr_bursuite.ini timetrigger
+	RUN_TEST_STEP -1 tef_schsvr_bursuite BURStep z:\TEF_SchSvr\tef_schsvr_bursuite.ini burrestore
+ 	RUN_TEST_STEP -1 tef_schsvr_bursuite CompareStep z:\TEF_SchSvr\tef_schsvr_bursuite.ini timetrigger
+END_TESTCASE   SYSLIB-SCHSVR-CIT-3425  //BURTestTime
+
+RUN_UTILS DeleteFile c:\private\10005399\schedulesbackup.dat
+RUN_UTILS DeleteFile c:\BackupArchive\DataOwners\*.*
+RUN_UTILS DeleteFile c:\BackupArchive\10005399\C\Passive\Base\*.*
+
+START_TESTCASE   SYSLIB-SCHSVR-CIT-3428  //ScheduleExecDuringBackup
+//!@file
+//!@SYMTestCaseID SYSLIB-SCHSVR-CIT-3428
+//!@SYMTestCaseDesc Test task execution after Backup
+//!@SYMTestPriority High
+//!@SYMTestActions  Create persistent schedule with a task to be executed when backup starts, backup, 
+//!check if task in the schedule executed and the result persisted properly
+//!@SYMTestExpectedResults The backup task should execute after backup starts and before backup finishes. It should be //!deleted after execution from the persistent schedules list.
+//!@SYMDEF INC102610 Task scheduler is not backup/restore aware 
+
+	RUN_TEST_STEP 100 tef_schsvr_bursuite InitialiseStep z:\TEF_SchSvr\tef_schsvr_bursuite.ini backup
+	RUN_TEST_STEP -1 tef_schsvr_bursuite BURStep z:\TEF_SchSvr\tef_schsvr_bursuite.ini burbackup
+ 	RUN_TEST_STEP -1 tef_schsvr_bursuite CompareStep z:\TEF_SchSvr\tef_schsvr_bursuite.ini notrigger
+ 	RUN_TEST_STEP_RESULT 106 -1 tef_schsvr_bursuite CompareStep z:\TEF_SchSvr\tef_schsvr_bursuite.ini notrigger
+END_TESTCASE   SYSLIB-SCHSVR-CIT-3428  //ScheduleExecDuringBackup
+
+START_TESTCASE   SYSLIB-SCHSVR-CIT-3429  //ScheduleExecDuringRestore
+//!@file
+//!@SYMTestCaseID SYSLIB-SCHSVR-CIT-3429
+//!@SYMTestCaseDesc Test task execution during Restore
+//!@SYMTestPriority High
+//!@SYMTestActions  Create persistent schedule with a task to be executed when restore starts, restore (from backup 
+//!created in previous test), check if the persistent task is executed
+//!@SYMTestExpectedResults The persistent schedule that is scheduled to run during the restore will be executed
+//!@SYMDEF INC102610 Task scheduler is not backup/restore aware 
+
+	RUN_TEST_STEP 100 tef_schsvr_bursuite InitialiseStep z:\TEF_SchSvr\tef_schsvr_bursuite.ini restore
+	RUN_TEST_STEP -1 tef_schsvr_bursuite BURStep z:\TEF_SchSvr\tef_schsvr_bursuite.ini burrestore
+ 	RUN_TEST_STEP_RESULT 0 -1 tef_schsvr_bursuite CompareStep z:\TEF_SchSvr\tef_schsvr_bursuite.ini notrigger
+END_TESTCASE   SYSLIB-SCHSVR-CIT-3429  //ScheduleExecDuringRestore
+
+START_TESTCASE   SYSLIB-SCHSVR-CIT-4001  //ScheduleExecDuringRestoreWithTransient
+//!@file
+//!@SYMTestCaseID SYSLIB-SCHSVR-CIT-4001
+//!@SYMTestCaseDesc Test Transient task execution during Restore
+//!@SYMTestPriority High
+//!@SYMTestActions  Create transient schedule with a task to be executed when restore starts, restore (from backup 
+//!created in previous test), check if the transient task is executed
+//!@SYMTestExpectedResults The transient schedule that is scheduled to run during the restore will be executed
+//!@SYMDEF INC102610 Task scheduler is not backup/restore aware 
+
+	RUN_TEST_STEP 100 tef_schsvr_bursuite InitialiseStep z:\TEF_SchSvr\tef_schsvr_bursuite.ini restore1
+	RUN_TEST_STEP -1 tef_schsvr_bursuite BURStep z:\TEF_SchSvr\tef_schsvr_bursuite.ini burrestore
+ 	RUN_TEST_STEP_RESULT 0 -1 tef_schsvr_bursuite CompareStep z:\TEF_SchSvr\tef_schsvr_bursuite.ini notrigger
+END_TESTCASE   SYSLIB-SCHSVR-CIT-4001  //ScheduleExecDuringRestoreWithTransient
+
+RUN_UTILS DeleteFile c:\private\10005399\schedulesbackup.dat
+RUN_UTILS DeleteFile c:\BackupArchive\DataOwners\*.*
+RUN_UTILS DeleteFile c:\BackupArchive\10005399\C\Passive\Base\*.*
+
+START_TESTCASE   SYSLIB-SCHSVR-CT-3461  //MultipleScheduleExecDuringBUR
+//!@file
+//!@SYMTestCaseID	SYSLIB-SCHSVR-CT-3461
+//!@SYMTestCaseDesc 	Test multiple task execution during Backup and Restore
+//!@SYMTestPriority 	High
+//!@SYMTestActions  	Create two persistent time schedules, simulate backup, check if tasks in the schedule has been 
+//!automatically deleted, create two schedules again, simulate restore, check if tasks in the schedule has been automatically deleted
+//!@SYMTestExpectedResults The tasks should execute during backup and restore. They should be deleted after execution from //!the persistent schedules list.
+//!@SYMDEF 		INC102610 Task scheduler is not backup/restore aware 
+
+
+	RUN_TEST_STEP 100 tef_schsvr_bursuite MultiStep 
+END_TESTCASE   SYSLIB-SCHSVR-CT-3461  //MultipleScheduleExecDuringBUR
+
+RUN_UTILS DeleteFile c:\private\10005399\schedulesbackup.dat
+RUN_UTILS DeleteFile c:\BackupArchive\DataOwners\*.*
+RUN_UTILS DeleteFile c:\BackupArchive\10005399\C\Passive\Base\*.*
+
+START_TESTCASE   SYSLIBS-SCHSVR-CT-4002  //ScheduleMergeDuringBUR
+//@file
+//!@SYMTestCaseID	SYSLIBS-SCHSVR-CT-4002
+//!@SYMTestCaseDesc 	Test of schedule merging during Backup and Restore
+//!@SYMTestPriority 	High
+//!@SYMTestActions	Create one persistent time schedule before backup, now backup and then create further one persistent time schedule and one transient schedule with task on //!			each, all the schedules created here will not expire during the BUR, now perform a restore, after the restore, the persistent schedule created after the //!			backup will no longer be there but the transient one will be, as well as the persistent schedule created before the backup.
+//!@SYMTestExpectedResults Behaviour should be as described in the test action.
+//!@SYMDEF 		INC102610 Task scheduler is not backup/restore aware 
+
+	RUN_TEST_STEP 100 tef_schsvr_bursuite MergeStep 
+END_TESTCASE   SYSLIBS-SCHSVR-CT-4002  //ScheduleMergeDuringBUR
+
+RUN_UTILS DeleteFile c:\private\10005399\schedulesbackup.dat
+RUN_UTILS DeleteFile c:\BackupArchive\DataOwners\*.*
+RUN_UTILS DeleteFile c:\BackupArchive\10005399\C\Passive\Base\*.*
+
+PRINT Complete tef_schsvr_bursuite

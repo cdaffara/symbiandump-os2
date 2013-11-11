@@ -1,0 +1,54 @@
+
+<!--
+* ==============================================================================
+*  Name        : libcrypto_topenssltrsa_blr_hw_component.xml
+*  Part of     : topenssl
+*
+*  Description : xml for hw
+*  Version:   0.5
+*
+*  Copyright (C) 2006 Nokia Corporation.
+*  This material, including documentation and any related 
+*  computer programs, is protected by copyright controlled by 
+*  Nokia Corporation. All rights are reserved. Copying, 
+*  including reproducing, storing,  adapting or translating, any 
+*  or all of this material requires the prior written consent of 
+*  Nokia Corporation. This material also contains confidential 
+*  information which may not be disclosed to others without the 
+*  prior written consent of Nokia Corporation.
+*
+* ============================================================================
+-->
+<component>
+		<name>libcrypto_topenssltrsa_blr_hw_component</name>
+		
+		<testset>
+				<id>libcrypto_topenssltrsa_blr</id>
+				<priority>High</priority>
+		
+		<install type="binary">
+				<src>openssl.exe</src>
+				<dst>c:\sys\bin\openssl.exe</dst>
+		</install>
+		<install type="data">
+                		<src>testrsa.pem</src>
+                		<dst>c:\testrsa.pem </dst>
+    </install>
+    
+   <install type="data">
+                		<src>trsa.txt</src>
+                		<dst>c:\trsa.txt</dst>
+    </install>
+    		
+		<execute>
+				<file>c:\sys\bin\openssl.exe</file>
+				<parameters>c:/trsa.txt</parameters>
+        <result type="common">
+            <file>c:\spd_logs\xml\trsa(3_50_2_6739).xml</file>
+        </result>
+        <timeout>600</timeout>
+		</execute>
+		
+		</testset>
+		
+</component>

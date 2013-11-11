@@ -1,0 +1,62 @@
+STRUCT RSS_SIGNATURE
+	{
+	LONG signature=4;
+	SRLINK self;
+	}
+
+STRUCT TBUF
+	{
+	BUF buf;
+	}
+
+STRUCT SIMPLE
+	{
+	WORD word=0x3176;
+	}
+
+STRUCT WITH_BYTE_COUNT BYTE
+	{
+	LONG integer;
+	STRUCT struct; // a WITHOUT_BYTE_COUNT or a SIMPLE
+	}
+
+STRUCT WITHOUT_BYTE_COUNT
+	{
+	LONG integer;
+	STRUCT struct; // a WITH_BYTE_COUNT or a SIMPLE
+	}
+
+STRUCT LTEXT_ARRAY
+	{
+	LEN BYTE LTEXT array[];
+	}
+
+NAME EDAC
+
+RESOURCE RSS_SIGNATURE t_compressed_unicode_2_resource_1 {}
+
+RESOURCE TBUF t_compressed_unicode_2_resource_2 {buf="My program is cool";}
+
+RESOURCE TBUF t_compressed_unicode_2_resource_3 {buf="z:\\system\\data\\eikon.mbm";}
+
+RESOURCE WITHOUT_BYTE_COUNT t_compressed_unicode_2_resource_4
+	{
+	integer=9174804;
+	struct=WITH_BYTE_COUNT{integer=-6208493; struct=SIMPLE{};};
+	}
+
+RESOURCE WITH_BYTE_COUNT t_compressed_unicode_2_resource_5
+	{
+	integer=-120727;
+	struct=WITHOUT_BYTE_COUNT{integer=-82385253; struct=SIMPLE{};};
+	}
+
+RESOURCE LTEXT_ARRAY t_compressed_unicode_2_resource_6
+	{
+	array=
+		{
+		"z:\\system\\data\\uikon.mbm",
+		"z:\\system\\apps\\my_program\\my_program.mbm"
+		};
+	}
+

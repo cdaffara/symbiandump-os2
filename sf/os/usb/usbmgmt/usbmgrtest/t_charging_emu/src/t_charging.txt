@@ -1,0 +1,171 @@
+# Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+# All rights reserved.
+# This component and the accompanying materials are made available
+# under the terms of "Eclipse Public License v1.0"
+# which accompanies this distribution, and is available
+# at the URL "http://www.eclipse.org/legal/epl-v10.html".
+#
+# Initial Contributors:
+# Nokia Corporation - initial contribution.
+#
+# Contributors:
+#
+# Description:
+#
+#
+// command.......	asyncOp......		check........
+
+
+** start undefined, with user setting on...
+
+devicestate 0		none 0			none 0
+usersetting 1		none 1000000		pluginstate 0
+
+// test initial negotiation...
+
+devicestate 2		none 0			pluginstate 0
+devicestate 4		none 0			pluginstate 0
+devicestate 32		none 0			pluginstate 0
+devicestate 1		none 0			pluginstate 0
+devicestate 16		none 0			pluginstate 1
+none 0			none 0			milliamps 500
+none 0			none 0			charging 0
+devicestate 4		none 0			pluginstate 1
+devicestate 1		none 0			pluginstate 1
+devicestate 32		none 0			pluginstate 1
+devicestate 1		none 0			pluginstate 1
+devicestate 16		none 0			pluginstate 1
+devicestate 8		none 0			pluginstate 3
+none 0			none 0			charging 500
+
+** toggle suspend mode and user setting...
+
+devicestate 32		none 0			pluginstate 4
+none 0			none 0			charging 0
+devicestate 8		none 0			pluginstate 3
+none 0			none 0			charging 500
+devicestate 32		none 0			pluginstate 4
+none 0			none 0			charging 0
+devicestate 8		none 0			pluginstate 3
+none 0			none 0			charging 500
+usersetting 0		delay 100000		pluginstate 5
+none 0			none 0			charging 0
+devicestate 32		none 0			pluginstate 5
+none 0			none 0			charging 0
+devicestate 8		none 0			pluginstate 5
+none 0			none 0			charging 0
+devicestate 32		none 0			pluginstate 5
+usersetting 1		delay 100000		pluginstate 4
+none 0			none 0			charging 0
+devicestate 8		none 0			pluginstate 3
+none 0			none 0			charging 500
+devicestate 32		none 0			pluginstate 4
+usersetting 0		delay 100000		pluginstate 5
+none 0			none 0			charging 0
+
+** re-enumerate..
+
+devicestate 32		none 0			pluginstate 5
+devicestate 0		none 0			pluginstate 0
+devicestate 2		none 0			pluginstate 7
+devicestate 4		none 0			pluginstate 7
+devicestate 1		none 0			pluginstate 7
+devicestate 16		none 0			pluginstate 7
+none 0			none 0			milliamps 500
+none 0			none 0			charging 0
+
+** configure... (but UI is disabled)
+
+devicestate 16		none 0			pluginstate 7
+devicestate 8		none 0			pluginstate 7
+none 0			none 0			charging 0
+
+usersetting 1		delay 100000		pluginstate 7
+none 0			none 0			charging 0
+
+** now try failing to enumerate until current is lowered to 100mA
+
+devicestate 32		none 0			pluginstate 7
+none 0			none 0			charging 0
+devicestate 0		none 0			pluginstate 0
+devicestate 2		none 0			pluginstate 0
+devicestate 4		none 0			pluginstate 0
+devicestate 1		none 0			pluginstate 0
+devicestate 16		none 0			pluginstate 1
+none 0			none 0			milliamps 500
+none 0			none 0			charging 0
+
+none 0			delay 3500000		pluginstate 1
+none 0			none 0			milliamps 100
+none 0			none 0			charging 0
+
+devicestate 4		delay 1500000		pluginstate 1
+devicestate 1		none 0			pluginstate 1
+devicestate 32		none 0			pluginstate 1
+devicestate 1		none 0			pluginstate 1
+devicestate 16		none 0			pluginstate 1
+devicestate 8		none 0			pluginstate 3
+none 0			none 0			charging 100
+
+devicestate 32		none 0			pluginstate 4
+none 0			none 0			charging 0
+devicestate 8		none 0			pluginstate 3
+none 0			none 0			charging 100
+usersetting 0		delay 100000		pluginstate 5
+none 0			none 0			charging 0
+usersetting 1		delay 100000		pluginstate 3
+none 0			none 0			charging 100
+
+** now try failing to enumerate until current is lowered to 0mA
+
+devicestate 32		none 0			pluginstate 4
+none 0			none 0			charging 0
+devicestate 2		none 0			pluginstate 0
+devicestate 4		none 0			pluginstate 0
+devicestate 1		none 0			pluginstate 0
+devicestate 16		none 0			pluginstate 1
+none 0			none 0			milliamps 500
+none 0			none 0			charging 0
+
+none 0			delay 3500000		pluginstate 1
+none 0			none 0			milliamps 100
+none 0			none 0			charging 0
+
+devicestate 16		none 0			pluginstate 1
+none 0			delay 3500000		pluginstate 2
+none 0			none 0			milliamps 0
+none 0			none 0			charging 0
+
+** so become configured with no current...
+
+devicestate 4		delay 1500000		pluginstate 2
+devicestate 1		none 0			pluginstate 2
+devicestate 32		none 0			pluginstate 2
+devicestate 1		none 0			pluginstate 2
+devicestate 16		none 0			pluginstate 2
+devicestate 8		none 0			pluginstate 6
+none 0			none 0			charging 0
+
+devicestate 32		none 0			pluginstate 6
+none 0			none 0			charging 0
+devicestate 8		none 0			pluginstate 6
+none 0			none 0			charging 0
+devicestate 32		none 0			pluginstate 6
+none 0			none 0			charging 0
+devicestate 8		none 0			pluginstate 6
+none 0			none 0			charging 0
+usersetting 0		delay 100000		pluginstate 6
+none 0			none 0			charging 0
+usersetting 1		delay 100000		pluginstate 6
+none 0			none 0			charging 0
+
+** and disconnect...
+
+devicestate 32		none 0			pluginstate 6
+devicestate 0		none 0			pluginstate 0
+devicestate 2		none 0			pluginstate 0
+devicestate 4		none 0			pluginstate 0
+devicestate 1		none 0			pluginstate 0
+devicestate 16		none 0			pluginstate 1
+none 0			none 0			milliamps 500
+none 0			none 0			charging 0

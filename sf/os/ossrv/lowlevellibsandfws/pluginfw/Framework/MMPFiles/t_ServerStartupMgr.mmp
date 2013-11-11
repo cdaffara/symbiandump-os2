@@ -1,0 +1,64 @@
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// Unit tests for CServerStartupMgr
+// 
+//
+
+MACRO __ECOM_SERVER_TESTABILITY__
+
+UID 0x101FB5A8 0x10009E2A
+
+TARGET      t_serverstartupmgr.exe		//RTEST
+TARGETTYPE  exe
+
+SOURCEPATH  ../../Framework/ServerStartupMgrTest
+SOURCE      t_ServerStartupMgr.cpp StartupStateObserverObject.cpp
+
+// Have to explicitly build in the entire server side framework!!!
+// only because we are using the static IsSSA() method of CEcomServer
+SOURCEPATH	../../Framework/frame
+SOURCE		EComServer.cpp EComServerSession.cpp resolvercache.cpp
+SOURCE		ServerStartupManager.cpp
+SOURCE		LoadManager.cpp
+SOURCE		Registrar.cpp RegistryData.cpp
+SOURCE		DefaultResolver.cpp RomOnlyResolver.cpp
+SOURCE		Discoverer.cpp ImplementationInformation.cpp
+SOURCE		BackupNotifier.cpp UnloadPolicy.cpp
+SOURCE		EComEntry.cpp
+SOURCE		DowngradePath.cpp
+SOURCE  	clientrequest.cpp
+SOURCE		EComEntryBase.cpp
+SOURCE		TestHarnessDomainMember.cpp 
+SOURCE		DriveInfo.cpp
+SOURCE		EComPerformance.cpp
+SOURCE		FileUtils.cpp
+SOURCE		EComPatchDataConstantv2.cpp
+SOURCE		RegistryResolveTransaction.cpp
+SOURCE		ParseImplementationData.cpp
+
+SOURCEPATH	../EcomTestUtils
+SOURCE		EcomTestIniFileUtils.cpp
+SOURCE		EcomTestCompTestabilityUtils.cpp
+
+USERINCLUDE    ../../Test_Bed/inc ../../Framework/frame ../../Framework/inc ../EcomTestUtils
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+LIBRARY euser.lib efsrv.lib estor.lib bafl.lib domaincli.lib
+LIBRARY ecomtestutils.lib
+LIBRARY bsul.lib
+LIBRARY	hal.lib
+
+VENDORID 0x70000001
+
+SMPSAFE

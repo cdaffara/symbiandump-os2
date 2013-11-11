@@ -1,0 +1,87 @@
+; Copyright (c) 2004-2009 Nokia Corporation and/or its subsidiary(-ies).
+; All rights reserved.
+; This component and the accompanying materials are made available
+; under the terms of "Eclipse Public License v1.0"
+; which accompanies this distribution, and is available
+; at the URL "http://www.eclipse.org/legal/epl-v10.html".
+;
+; Initial Contributors:
+; Nokia Corporation - initial contribution.
+;
+; Contributors:
+;
+; Description:
+; Windows Device Setup File
+;
+; Allows Lubbock to be installed as a COM port, instead of a Modem.
+; Tested with Windows 2000
+;
+; Instructions for use 
+;----------------------
+;
+; - Unplug the USB cable from the Lubbock (switching off USB Manager should work, but best to safe).
+; - From C:\WINNT\INF need to delete the *.inf and *.pnf files corresponding to the Lubbock drivers. 
+; - The *.inf files can be found by searching the INF directory for files containing "lubbock". 
+;   Each *.inf file should have a corresponding *.pnf file. (Note, it may be necessary to change 
+;   the WINNT folder options so hidden files and folders are shown).
+; - Run "regedt32" from Start | Run.
+; - In the HKEY_LOCAL_MACHINE window, navigate to SYSTEM\CurrentControlSet\Enum\USB
+; - Using the Permission menu option, add yourself to the permissions list for the USB folder.
+; - Open the USB folder and delete Vid_0e22&Pid_000b (deletion should be possible from regedt32,
+;   but it may be necessary to use regedit instead).
+; - Now plug in the Lubbock USB cable (and start USB Manager if it is not running).
+; - Windows should detect Lubbock as a completely new device. Point it at this file. 
+; - COM port should install
+;
+
+
+
+[Version] 
+Signature="$Windows NT$" 
+Class=Ports 
+ClassGuid={4D36E978-E325-11CE-BFC1-08002BE10318} 
+
+Provider=%SYM% 
+LayoutFile=layout.inf 
+DriverVer=10/15/1999,5.0.2153.1 
+
+[Manufacturer] 
+%SYM%=SYM
+
+[SYM]
+%LUB%=Reader, USB\VID_0E22&PID_000B 
+
+[Reader_Install.NTx86] 
+;Windows2000 
+
+[DestinationDirs] 
+DefaultDestDir=12 
+Reader.NT.Copy=12 
+
+[Reader.NT] 
+CopyFiles=Reader.NT.Copy 
+AddReg=Reader.NT.AddReg 
+
+[Reader.NT.Copy] 
+usbser.sys 
+
+[Reader.NT.AddReg] 
+HKR,,DevLoader,,*ntkern 
+HKR,,NTMPDriver,,usbser.sys 
+HKR,,EnumPropPages32,,"MsPorts.dll,SerialPortPropPageProvider" 
+
+[Reader.NT.Services] 
+AddService = usbser, 0x00000002, Service_Inst 
+
+[Service_Inst] 
+DisplayName = %Serial.SvcDesc% 
+ServiceType = 1 ; SERVICE_KERNEL_DRIVER 
+StartType = 3 ; SERVICE_DEMAND_START 
+ErrorControl = 1 ; SERVICE_ERROR_NORMAL 
+ServiceBinary = %12%\usbser.sys 
+LoadOrderGroup = Base 
+
+[Strings] 
+SYM = "Symbian Software Ltd." 
+LUB = "Lubbock USB serial connection" 
+Serial.SvcDesc = "USB Serial emulation driver"

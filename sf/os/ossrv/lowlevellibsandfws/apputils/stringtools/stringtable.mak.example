@@ -1,0 +1,49 @@
+# This is a GNU makefile
+# Specify 'gnumakefile xxx.mak' in your bld.inf
+#
+
+ifeq "$(OS)" "Windows_NT"
+ERASE := @erase 2>>nul
+else
+ERASE := @erase
+endif
+
+GENERATED_FILES= \
+	$(EPOCROOT)epoc32\build\generated\http\HttpStringConstants.cpp \
+	$(EPOCROOT)epoc32\include\HttpStringConstants.h
+
+$(EPOCROOT)epoc32\build\generated\http\HttpStringConstants.cpp : ..\strings\HttpStringConstants.st
+	copy ..\strings\HttpStringConstants.st $(EPOCROOT)epoc32\build\generated\http
+	perl $(EPOCROOT)epoc32\tools\stringtable.pl $(EPOCROOT)epoc32\build\generated\http\HttpStringConstants.st
+
+$(EPOCROOT)epoc32\include\HttpStringConstants.h : $(EPOCROOT)epoc32\build\generated\http\HttpStringConstants.cpp
+	copy $(EPOCROOT)epoc32\build\generated\http\HttpStringConstants.h $(EPOCROOT)epoc32\include
+
+
+do_nothing:
+	@rem do nothing
+
+#
+# The targets invoked by bld...
+#
+
+MAKMAKE : $(GENERATED_FILES)
+
+BLD : MAKMAKE
+
+SAVESPACE : MAKMAKE
+
+CLEAN : 
+	-$(ERASE) $(GENERATED_FILES) $(EPOCROOT)epoc32\build\generated\http\HttpStringConstants.h
+
+FREEZE : do_nothing
+
+LIB : do_nothing
+
+CLEANLIB : do_nothing
+
+RESOURCE : do_nothing
+
+FINAL : do_nothing
+
+RELEASABLES : $(GENERATED_FILES)

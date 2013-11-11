@@ -1,0 +1,2984 @@
+
+(object Petal
+    version    	40)
+
+(object Design "Logical View"
+    is_unit    	TRUE
+    is_loaded  	TRUE
+    file_name  	"D:\\schsvr\\DESIGN\\Model.mdl"
+    quid       	"3607CDBF00DB"
+    defaults   	(object defaults
+	rightMargin 	0.250000
+	leftMargin 	0.250000
+	topMargin  	0.250000
+	bottomMargin 	0.500000
+	pageOverlap 	0.250000
+	clipIconLabels 	TRUE
+	autoResize 	FALSE
+	snapToGrid 	TRUE
+	gridX      	16
+	gridY      	16
+	defaultFont 	(object Font
+	    size       	10
+	    face       	"Arial"
+	    bold       	FALSE
+	    italics    	FALSE
+	    underline  	FALSE
+	    strike     	FALSE
+	    color      	0
+	    default_color 	TRUE)
+	showMessageNum 	3
+	showClassOfObject 	TRUE
+	notation   	"Unified")
+    root_usecase_package 	(object Class_Category "Use Case View"
+	quid       	"34B4B32D038B"
+	exportControl 	"Public"
+	global     	TRUE
+	logical_models 	(list unit_reference_list)
+	logical_presentations 	(list unit_reference_list
+	    (object UseCaseDiagram "Main"
+		quid       	"358F97CC012F"
+		title      	"Main"
+		zoom       	100
+		max_height 	28350
+		max_width  	21600
+		origin_x   	0
+		origin_y   	0
+		items      	(list diagram_item_list))))
+    root_category 	(object Class_Category "Logical View"
+	quid       	"34B4B32D038A"
+	exportControl 	"Public"
+	global     	TRUE
+	subsystem  	"Component View"
+	quidu      	"34B4B32D038C"
+	logical_models 	(list unit_reference_list
+	    (object Class "CServer"
+		quid       	"34D1C70C010E"
+		abstract   	TRUE
+		operations 	(list Operations
+		    (object Operation "RunL"
+			quid       	"34D1C726002F"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "Start"
+			quid       	"34D1C73102B6"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)))
+	    (object Class "CSession"
+		quid       	"34D1C70C0168"
+		abstract   	TRUE)
+	    (object Class "CSchSession"
+		quid       	"34D1C70C014A"
+		documentation 	
+|
+|The session class, server-side. Mostly just unpacks RMessages and forwards commands on to the Task Scheduler instance.
+|Initialised on creation with the instance of CTaskScheduler. 
+|Its iClient member is initialised to NULL. Once the client using the session has registered, its iClient member is set to point to that client, and any tasks scheduled by that client during the session belong to that iClient.
+		
+		superclasses 	(list inheritance_relationship_list
+		    (object Inheritance_Relationship
+			quid       	"34D1C70C014B"
+			supplier   	"CSession"
+			quidu      	"34D1C70C0168"))
+		used_nodes 	(list uses_relationship_list
+		    (object Uses_Relationship
+			quid       	"352B456F0032"
+			label      	"iSchedules"
+			supplier   	"CSchedule"
+			quidu      	"34D1CB1C0073"
+			supplier_cardinality 	(value cardinality "0..n")
+			client_cardinality 	(value cardinality "1..1")))
+		operations 	(list Operations
+		    (object Operation "ServiceL"
+			quid       	"34D1C74003BB"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)))
+	    (object Class "CSchServer"
+		quid       	"34D1C70C0110"
+		documentation 	
+|
+|The server class. Owns (directly) all session instances, and the one and only instance of CTaskScheduler. 
+|Owns (indirectly) everything else.
+		
+		superclasses 	(list inheritance_relationship_list
+		    (object Inheritance_Relationship
+			quid       	"34D1C70C010F"
+			supplier   	"CServer"
+			quidu      	"34D1C70C010E")))
+	    (object Class "CTaskScheduler"
+		quid       	"34D1C70C0186"
+		documentation 	
+|- Owns all the other scheduler objects.
+|- Provides an interface for creating, deleting, editing & naming schedules
+|- Provides an interface for registering users by creating new client proxies
+|- Provides an interface for scheduling tasks
+|- Informs schedules when they are due, and updates them accordingly
+|- Executes clients when appropriate
+|- Ensures that any persistent schedules are added to the persistent backup store through its iBackup member; so all is not lost in case of server death
+|- Maintains schedule instances in TWO lists:
+|       -the first, 'iSchedules' is a list of all the schedules defined and is an owning list.
+|       -the second, iPending, is a list of all schedules which are waiting to go off (i.e. those schedules which have tasks scheduled and are not disabled. This list is ordered by the due time for the schedules. The scheduler maintains this list and sets the timer's time to be the due time of the first schedule in the list.
+|
+|- Whenever the server starts, it asks its iBackup member to restore its schedules from backup. 
+|If the backup file is missing or corrupt it asks the iBackup to create a new, empty one.
+|Subsequently, whenever schedules are added, deleted or edited the iBackup member is asked to back up the store to keep it in sync
+|
+|N.B. I would like to eliminate this class, as soon as I get the time. This won't affect clients at all but will improve the design.
+		
+		fields     	(list has_relationship_list
+		    (object Has_Relationship
+			quid       	"34D1C70C0187"
+			label      	"iTimer"
+			supplier   	"CServiceTimer"
+			quidu      	"34D1CB1C0005"
+			supplier_cardinality 	(value cardinality "1..1")
+			client_cardinality 	(value cardinality "1..1")))
+		operations 	(list Operations
+		    (object Operation "ScheduleTaskL"
+			quid       	"34D1C70C018A"
+			parameters 	(list Parameters
+			    (object Parameter "aUser"
+				type       	"TUid")
+			    (object Parameter "aItem"
+				type       	"TInt")
+			    (object Parameter "aAction"
+				type       	"TItemAction")
+			    (object Parameter "aSchedule"
+				type       	"TScheduleInfo"))
+			result     	"void"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "DeleteTaskL"
+			quid       	"34D1C70C018F"
+			parameters 	(list Parameters
+			    (object Parameter "aUser"
+				type       	"TUid")
+			    (object Parameter "aItem"
+				type       	"TInt"))
+			result     	"return"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "NewScheduleL"
+			quid       	"34D1C70C0192"
+			parameters 	(list Parameters
+			    (object Parameter "aUser"
+				type       	"TUid"))
+			result     	"return"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "DeleteScheduleL"
+			quid       	"34D1C70C0194"
+			parameters 	(list Parameters
+			    (object Parameter "aUser"
+				type       	"TUid"))
+			result     	"return"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "RegisterClientL"
+			quid       	"34D1C70C0196"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "EditScheduleL"
+			quid       	"34D1C70C0197"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "DueTaskNotify"
+			quid       	"352B45320229"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "ExecuteClients"
+			quid       	"352B453D0095"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0))
+		class_attributes 	(list class_attribute_list
+		    (object ClassAttribute "iNotifier"
+			quid       	"3587EEDB01FD"
+			type       	"CEnvironmentChangeNotifier")
+		    (object ClassAttribute "iBackup"
+			quid       	"3587F07A0380"
+			type       	"TScheduleBackup"))
+		statediagram 	(object State_Diagram ""
+		    quid       	"3587F1420279"
+		    title      	""
+		    zoom       	100
+		    max_height 	28350
+		    max_width  	21600
+		    origin_x   	0
+		    origin_y   	0
+		    items      	(list diagram_item_list)))
+	    (object Class "CClientProxy"
+		quid       	"34D1CB1B03A7"
+		documentation 	
+|
+|This class encapsulates the information needed to execute a set of tasks, and owns the tasks associated with it.
+|
+|An instance of it gets created when a client registers, and is initialized with the name of the executing program, and its priority: if 2 clients have different priorities, the one with the higher priority gets to execute all its tasks before the low-priority one gets to execute any.
+|When it's told to execute, it:
+| - saves all its due tasks to a file
+| - creates a task executor, initializing it with the name of the executing program and the name of the file in which it's saved the tasks
+| - tells it to execute the tasks
+| - deletes any of the tasks which don't repeat  
+|
+|It is reference-counted: it is deleted when:
+|          - there are no open sessions which have a pointer to it
+|AND  - there are no pending tasks belonging to it  
+		
+		used_nodes 	(list uses_relationship_list
+		    (object Uses_Relationship
+			quid       	"34D1CB1B03A8"
+			label      	"iSchedules"
+			supplier   	"TScheduleEntry"
+			quidu      	"34D1CB1C0091"
+			supplier_cardinality 	(value cardinality "0..n")
+			client_cardinality 	(value cardinality "1..1"))
+		    (object Uses_Relationship
+			quid       	"3587DC1100C0"
+			supplier   	"CTaskExecutor"
+			quidu      	"3587DB8B0352"))
+		operations 	(list Operations
+		    (object Operation "Execute()"
+			quid       	"34FAE9140125"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0))
+		class_attributes 	(list class_attribute_list
+		    (object ClassAttribute "iTaskExecutor"
+			quid       	"34D1CB1B03B2"
+			type       	"TFileName")
+		    (object ClassAttribute "iClientPriority"
+			quid       	"34FAE57802F3"
+			type       	"TInt"
+			exportControl 	"Public")
+		    (object ClassAttribute "iUsers"
+			quid       	"3588DFB30261"
+			type       	"TInt")))
+	    (object Class "CTimer"
+		quid       	"34D1CB1C0023")
+	    (object Class "CServiceTimer"
+		quid       	"34D1CB1C0005"
+		superclasses 	(list inheritance_relationship_list
+		    (object Inheritance_Relationship
+			quid       	"34D1CB1C0006"
+			supplier   	"CTimer"
+			quidu      	"34D1CB1C0023"))
+		operations 	(list Operations
+		    (object Operation "SetDueTime"
+			quid       	"34D1CB1C0007"
+			parameters 	(list Parameters
+			    (object Parameter "aNewTime"
+				type       	"TTime"))
+			result     	"return"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "DueTime"
+			quid       	"34D1CB1C000F"
+			result     	"TTime"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0))
+		class_attributes 	(list class_attribute_list
+		    (object ClassAttribute "iDueTime"
+			quid       	"34D1CB1C0010"
+			type       	"TTime")
+		    (object ClassAttribute "iCallback"
+			quid       	"34D1CB1C0011"
+			type       	"TCallback")))
+	    (object Class "CSchedule"
+		quid       	"34D1CB1C0073"
+		documentation 	
+|
+|This class is responsible for knowing what time it's due. 
+|
+|It is defined essentially by an ordered list of one or more TScheduleEntry instances, each of which will return their own next due time when asked. 
+|
+|It also has zero or more tasks (TScheduledTask). When it is due, all its tasks are due and it tells them this. 
+|
+|It has 2 flags of type TBool:
+|    - iPersists: if a schedule persists, it hangs around whether it has got any tasks of not. If it doesn't, it gets deleted as soon as all its tasks are deleted.
+|   - iEnabled: if a schedule is disabled it just does nothing, whether it has tasks or not, until it is enabled again. 
+|
+		
+		fields     	(list has_relationship_list
+		    (object Has_Relationship
+			quid       	"34D1CB1C007D"
+			label      	"iEntries"
+			supplier   	"TScheduleEntry"
+			quidu      	"34D1CB1C0091"
+			exportControl 	"Private"
+			supplier_cardinality 	(value cardinality "1..1")
+			client_cardinality 	(value cardinality "1..1"))
+		    (object Has_Relationship
+			quid       	"352B481E0207"
+			label      	"iTasks"
+			supplier   	"TScheduledTask"
+			quidu      	"34D1CCE902E3"
+			supplier_cardinality 	(value cardinality "0..n")
+			client_cardinality 	(value cardinality "1..1")))
+		operations 	(list Operations
+		    (object Operation "AddEntry"
+			quid       	"34D1CB7503BA"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "RemoveEntry"
+			quid       	"34D1CB7B035F"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "AddTask"
+			quid       	"34D991F00386"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "DueTime"
+			quid       	"34D9922800FC"
+			result     	"TTime"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "FirstScheduledTime"
+			quid       	"34D9A92301AF"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "NextScheduledTime"
+			quid       	"34D9A9360185"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "NotifyClients"
+			quid       	"352B478A0055"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "NewL"
+			quid       	"3588EC8003CC"
+			parameters 	(list Parameters
+			    (object Parameter "aStore"
+				type       	"CFileStore")
+			    (object Parameter "aId"
+				type       	"TStreamId"))
+			result     	"CSchedule"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "StoreL"
+			quid       	"3588ECED0058"
+			parameters 	(list Parameters
+			    (object Parameter "aStore"
+				type       	"CFileStore"))
+			result     	"TStreamId"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "RestoreL"
+			quid       	"3588ED2E014B"
+			parameters 	(list Parameters
+			    (object Parameter "aStore"
+				type       	"CFileStore")
+			    (object Parameter "aId"
+				type       	"TStreamId"))
+			result     	"void"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "UpdateStoreL"
+			quid       	"3588ED490371"
+			parameters 	(list Parameters
+			    (object Parameter "aStore"
+				type       	"CPermanentFileStore")
+			    (object Parameter "aId"
+				type       	"TStreamId"))
+			result     	"void"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0))
+		class_attributes 	(list class_attribute_list
+		    (object ClassAttribute "iDueTime"
+			quid       	"34D991DF01F1"
+			type       	"TTime")
+		    (object ClassAttribute "iPersists"
+			quid       	"3587F3B8001C"
+			type       	"TBool")
+		    (object ClassAttribute "iEnabled"
+			quid       	"3587F3BE0378"
+			type       	"TBool"
+			exportControl 	"Public")))
+	    (object Class "TScheduleEntry"
+		quid       	"34D1CB1C0091"
+		documentation 	
+|
+|TScheduleEntry knows what time it's next due after the time it gets passed. It is defined in terms of a start time and a time interval. So, when you pass it a time, if the time is before its start time it returns its start time, otherwise it adds its interval to its start time till the time it comes up with is after the time it got passed, and returns that.
+|
+|TScheduleEntry is abstract; it has 4 subclasses:
+|
+|TScheduleEntryHourly
+|TScheduleEntryDaily
+|TScheduleEntryMonthly
+|TScheduleEntryYearly
+|
+|The subclasses are necessary only because 'TTime operator + ' needs a concrete subclass of TTimeIntervalBase as the other operand. You specify which kind you want to create with the 'enum TIntervalType' parameter. This determines how the Interval member is interpreted,  i.e. if it's 1 and your interval type is EHourly then the actual interval is 1 hour; if it's EDaily then it's 1 day etc.
+|
+|
+		
+		abstract   	TRUE
+		operations 	(list Operations
+		    (object Operation "NextScheduledTime"
+			quid       	"34D1CB1C0092"
+			result     	"TTime"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)))
+	    (object Class "TScheduledTask"
+		quid       	"34D1CCE902E3"
+		documentation 	
+|
+|A TScheduledTask is a kind of placeholder for the real task, which is a CScheduledTask. It keeps a reference to the client proxy representing the client which scheduled it, and a reference to the real task. 
+|When it's due it tells both of them of this fact.
+		
+		operations 	(list Operations
+		    (object Operation "OnDue"
+			quid       	"3588DF80004B"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0))
+		class_attributes 	(list class_attribute_list
+		    (object ClassAttribute "iClient"
+			quid       	"3587DADF025B"
+			type       	"CClientProxy")
+		    (object ClassAttribute "iTask"
+			quid       	"3587DAE40398"
+			type       	"CScheduledTask")))
+	    (object Class "CScheduledTask"
+		quid       	"3587D90700A3"
+		documentation 	
+|
+|This is where the real task data is kept:
+|  - name (TName), Id (TInt), data (HBufC),  how many times it repeats (TInt), when it's valid until (TTime), its priority
+|  - if it's repeat is specified as zero or less it repeats forever, or until it is explicitly deleted
+|  - tasks with high priority get executed before tasks with low priority
+|
+|It only needs to be a C-class 'cos of the HBufC* member.
+| 
+|
+|
+		
+		operations 	(list Operations
+		    (object Operation "OnDue"
+			quid       	"3588DF9B02C1"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0))
+		class_attributes 	(list class_attribute_list
+		    (object ClassAttribute "iInfo"
+			quid       	"3587DB3E01B7"
+			type       	"TTaskInfo")
+		    (object ClassAttribute "iData"
+			quid       	"3587DB4803B0"
+			type       	"HBufC")))
+	    (object Class "TTaskInfo"
+		quid       	"3587DA760264"
+		documentation 	
+|
+|
+|This is passed to the scheduler when you schedule a task, and passed back again when you retireve it. 
+|You only need to specify iRepeat, iName and iPriority; the 	ID is filled in by the scheduler and can be retrieved and examined later.
+		
+		class_attributes 	(list class_attribute_list
+		    (object ClassAttribute "iRepeat"
+			quid       	"3588FADE0186"
+			type       	"TInt")
+		    (object ClassAttribute "iName"
+			quid       	"3588FAE5024E"
+			type       	"TName")
+		    (object ClassAttribute "iTaskId"
+			quid       	"3588FAE70356"
+			type       	"TInt")
+		    (object ClassAttribute "iPriority"
+			quid       	"3588FAED0386"
+			type       	"TInt")))
+	    (object Class "CTaskExecutor"
+		quid       	"3587DB8B0352"
+		documentation 	
+|
+|This class encapsulates the actual task executing business.
+|It's initialized with:
+| - the name of the executing program
+| - the name of the file where the task are kept
+|
+|When it's told to execute, it:
+| - creates a new process, keeping a handle to it
+| - logs on to the process                            
+| - runs the executing program in it
+|This program
+| - creates a new clean up stack
+| - opens the file with the tasks in it
+| - internalizes the tasks
+| - executes them how it likes
+|When the program (hence the process ) terminates, the CTaskExecutor runs. It examines the exit code of the dead process. If the program exited cleanly, and the exit code is KErrNone, the CTaskExecutor
+|just cleans up by closing the process, deleting the file with the tasks in it, and then deleting itself. Otherwise it does some error handling which is STILL NOT IMPLEMENTED, closes the process, deletes the task-file and then itself
+		
+		superclasses 	(list inheritance_relationship_list
+		    (object Inheritance_Relationship
+			quid       	"3587E0D20247"
+			supplier   	"CActive"
+			quidu      	"3587E0BF03E4"))
+		operations 	(list Operations
+		    (object Operation "ExecuteL"
+			quid       	"3587DB9C0144"
+			result     	"void"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0))
+		class_attributes 	(list class_attribute_list
+		    (object ClassAttribute "iProcess"
+			quid       	"3587DBC7013C"
+			type       	"RProcess")
+		    (object ClassAttribute "iTaskFileName"
+			quid       	"3587DBCE0204"
+			type       	"TFileName")
+		    (object ClassAttribute "iClientFileName"
+			quid       	"3587DBE601EB"
+			type       	"TFileName")))
+	    (object Class "TScheduleBackup"
+		quid       	"3587DC9303DE"
+		documentation 	
+|
+|The TScheduleBackup class encapsulates management of the scheduler's backup store. The store has a path & name defined at compile-time, and accessible to the TScheduleBackup only. The store is a permanent file store whose root contains a CScheduleIndex. This is an array of (TInt ScheduleId, TStreamId).
+|So, when the BackupL(...) is called, this class:
+|- opens the store
+|- internalizes the index
+|- asks the index for the stream Id mapped to the Id of the schedule it's been passed
+|- does the appropriate action based on the TBackupAction enum (one of EAdd, EEdit, EDelete)
+|- updates the index, saves the index
+|If things  go wrong it calls Revert() on the store and then closes it, else it calls Commit() and then closes it. It keeps a count of the changes it's made, when it has made 5 changes it compacts the store.
+		
+		used_nodes 	(list uses_relationship_list
+		    (object Uses_Relationship
+			quid       	"3587E061038E"
+			supplier   	"CScheduleIndex"
+			quidu      	"3587DC95028C")
+		    (object Uses_Relationship
+			quid       	"3587E1C4008C"
+			supplier   	"CSchedule"
+			quidu      	"34D1CB1C0073")
+		    (object Uses_Relationship
+			quid       	"3588F2E200FB"
+			supplier   	"TScheduleIndexEntry"
+			quidu      	"3588F2210143"))
+		operations 	(list Operations
+		    (object Operation "BackupL()"
+			quid       	"3587E14C00A7"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "RestoreFromBackupL()"
+			quid       	"3587E153022E"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "BackupL"
+			quid       	"3588ED9F03A7"
+			parameters 	(list Parameters
+			    (object Parameter "aSchedule"
+				type       	"CSchedule")
+			    (object Parameter "TBackupAction aAction"))
+			result     	"void"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "CreateEmptyBackupL"
+			quid       	"3588EDFB0327"
+			result     	"void"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "RestoreFromBackupL"
+			quid       	"3588EE130191"
+			parameters 	(list Parameters
+			    (object Parameter "aSchedules"
+				type       	"TDblQue<CSchedule>"))
+			result     	"void"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "DoAddToBackupL"
+			quid       	"3588EE57035B"
+			parameters 	(list Parameters
+			    (object Parameter "aStore"
+				type       	"CPermanentFileStore")
+			    (object Parameter "aSchedule"
+				type       	"CSchedule"))
+			result     	"void"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "DoEditBackupL"
+			quid       	"3588EE59020A"
+			parameters 	(list Parameters
+			    (object Parameter "aStore"
+				type       	"CPermanentFileStore")
+			    (object Parameter "aSchedule"
+				type       	"CSchedule"))
+			result     	"void"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "DoRemoveFromBackupL"
+			quid       	"3588EE5B0054"
+			parameters 	(list Parameters
+			    (object Parameter "aStore"
+				type       	"CPermanentFileStore")
+			    (object Parameter "aScheduleId"
+				type       	"TInt"))
+			result     	"void"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "BackupName"
+			quid       	"3588EE600214"
+			parameters 	(list Parameters
+			    (object Parameter "aFileName"
+				type       	"TFileName"))
+			result     	"void"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "DoCompactL"
+			quid       	"3588EF2401F7"
+			result     	"void"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0))
+		class_attributes 	(list class_attribute_list
+		    (object ClassAttribute "iChangesToStore"
+			quid       	"3588EF3403DB"
+			type       	"TInt")))
+	    (object Class "CScheduleIndex"
+		quid       	"3587DC95028C"
+		documentation 	
+|
+|Root stream of backup store.
+|Manages mapping of schedule Ids onto stream Ids.
+		
+		used_nodes 	(list uses_relationship_list
+		    (object Uses_Relationship
+			quid       	"3587E067001C"
+			supplier   	"CSchedule"
+			quidu      	"34D1CB1C0073"))
+		operations 	(list Operations
+		    (object Operation "UpdateStoreL"
+			quid       	"3588F1C000B7"
+			parameters 	(list Parameters
+			    (object Parameter "aStore"
+				type       	"CPermanentFileStore"))
+			result     	"void"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "RestoreL"
+			quid       	"3588F2000377"
+			parameters 	(list Parameters
+			    (object Parameter "aStore"
+				type       	"CFileStore"))
+			result     	"void"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "FindL"
+			quid       	"3588F2C1017F"
+			parameters 	(list Parameters
+			    (object Parameter "aScheduleId"
+				type       	"TInt"))
+			result     	"TScheduleIndexEntry"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)))
+	    (object Class "CActive"
+		quid       	"3587E0BF03E4")
+	    (object Class "CScheduleTimer"
+		quid       	"3587E1E90360"
+		documentation 	
+|
+|Derived from CTimer. Initialised to KMaxTTime; its time is subsequently set by the task scheduler.
+|When it runs, it tells the task scheduler.
+		)
+	    (object Class "CEnvironmentChangeNotifier"
+		quid       	"3587E6D100B3")
+	    (object Class "$UNNAMED$0"
+		quid       	"3587F7C900C4")
+	    (object Class "$UNNAMED$1"
+		quid       	"3587F7CA029C"
+		fields     	(list has_relationship_list
+		    (object Has_Relationship
+			quid       	"3587F7CD01B0"
+			supplier   	"$UNNAMED$0"
+			quidu      	"3587F7C900C4")))
+	    (object Class "TScheduleIndexEntry"
+		quid       	"3588F2210143"
+		operations 	(list Operations
+		    (object Operation "ExternalizeL"
+			quid       	"3588F23400F0"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "InternalizeL"
+			quid       	"3588F24002B0"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0))
+		class_attributes 	(list class_attribute_list
+		    (object ClassAttribute "iStreamId"
+			quid       	"3588F24A01D8"
+			type       	"TStreamId")
+		    (object ClassAttribute "iScheduleId"
+			quid       	"3588F261007D"
+			type       	"TInt")))
+	    (object Class "RScheduler"
+		quid       	"3588FA6800AA"
+		documentation 	
+|
+|This is the client-side representation of a session with the scheduler; thus this is the API for the thing.
+|
+|N.B. There are in fact two 'ScheduleTask' functions, distinguished by their parameters. One schedules a task with an existing, persistent schedule, the other creates a new transient schedule and schedules the task with that.
+		
+		used_nodes 	(list uses_relationship_list
+		    (object Uses_Relationship
+			quid       	"3588FB460095"
+			supplier   	"TScheduleEntryInfo"
+			quidu      	"3588FA7702BE")
+		    (object Uses_Relationship
+			quid       	"3588FB490220"
+			supplier   	"TTaskInfo"
+			quidu      	"3587DA760264")
+		    (object Uses_Relationship
+			quid       	"358FA3AB02BE"
+			supplier   	"TScheduleState"
+			quidu      	"358FA35103AF")
+		    (object Uses_Relationship
+			quid       	"358FAB050351"
+			supplier   	"TSchedulerItemRef"
+			quidu      	"358FAACE01FD"))
+		operations 	(list Operations
+		    (object Operation "Register"
+			quid       	"3588FCFB0011"
+			parameters 	(list Parameters
+			    (object Parameter "argname"
+				type       	"argtype"
+				initv      	"default"))
+			result     	"return"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "CreatePersistentSchedule"
+			quid       	"3588FCFC01A3"
+			parameters 	(list Parameters
+			    (object Parameter "argname"
+				type       	"argtype"
+				initv      	"default"))
+			result     	"return"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "DeleteSchedule"
+			quid       	"3588FCFD033F"
+			parameters 	(list Parameters
+			    (object Parameter "argname"
+				type       	"argtype"
+				initv      	"default"))
+			result     	"return"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "DisableSchedule"
+			quid       	"3588FCFF00B7"
+			parameters 	(list Parameters
+			    (object Parameter "argname"
+				type       	"argtype"
+				initv      	"default"))
+			result     	"return"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "EnableSchedule"
+			quid       	"3588FD000249"
+			parameters 	(list Parameters
+			    (object Parameter "argname"
+				type       	"argtype"
+				initv      	"default"))
+			result     	"return"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "EditSchedule"
+			quid       	"3588FD0103E5"
+			parameters 	(list Parameters
+			    (object Parameter "argname"
+				type       	"argtype"
+				initv      	"default"))
+			result     	"return"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "ScheduleTask"
+			quid       	"3588FD03028A"
+			parameters 	(list Parameters
+			    (object Parameter "argname"
+				type       	"argtype"
+				initv      	"default"))
+			result     	"return"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "DeleteTask"
+			quid       	"3588FD050084"
+			parameters 	(list Parameters
+			    (object Parameter "argname"
+				type       	"argtype"
+				initv      	"default"))
+			result     	"return"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "GetScheduleRefsL"
+			quid       	"3588FD070087"
+			parameters 	(list Parameters
+			    (object Parameter "argname"
+				type       	"argtype"
+				initv      	"default"))
+			result     	"return"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "GetScheduleL"
+			quid       	"3588FD08033B"
+			parameters 	(list Parameters
+			    (object Parameter "argname"
+				type       	"argtype"
+				initv      	"default"))
+			result     	"return"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "GetTaskRefsL"
+			quid       	"3588FD0A0212"
+			parameters 	(list Parameters
+			    (object Parameter "argname"
+				type       	"argtype"
+				initv      	"default"))
+			result     	"return"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "GetTaskInfoL"
+			quid       	"3588FDB502F4"
+			parameters 	(list Parameters
+			    (object Parameter "argname"
+				type       	"argtype"
+				initv      	"default"))
+			result     	"return"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "GetTaskDataSize"
+			quid       	"3588FDB7018E"
+			parameters 	(list Parameters
+			    (object Parameter "argname"
+				type       	"argtype"
+				initv      	"default"))
+			result     	"return"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)))
+	    (object Class "TScheduleEntryInfo"
+		quid       	"3588FA7702BE"
+		documentation 	
+|
+|
+|This is passed to the scheduler when you create a schedule, and passed back again when you retireve it. 
+|You need one of these for each schedule entry in your schedule.
+		
+		class_attributes 	(list class_attribute_list
+		    (object ClassAttribute "iIntervalType"
+			quid       	"3588FB8800EA"
+			type       	"TIntervalType")
+		    (object ClassAttribute "iInterval"
+			quid       	"3588FB8A0057"
+			type       	"TInterval")
+		    (object ClassAttribute "iStartTime"
+			quid       	"3588FB8C00BE"
+			type       	"TTime")
+		    (object ClassAttribute "iValidityPeriod"
+			quid       	"3588FB8E0002"
+			type       	"TTimeIntervalMinutes")))
+	    (object Class "TScheduleState"
+		quid       	"358FA35103AF"
+		class_attributes 	(list class_attribute_list
+		    (object ClassAttribute "iName"
+			quid       	"358FA361024A"
+			type       	"TName")
+		    (object ClassAttribute "iDueTime"
+			quid       	"358FA3710225"
+			type       	"TTime")
+		    (object ClassAttribute "iPersists"
+			quid       	"358FA38201B1"
+			type       	"TBool")
+		    (object ClassAttribute "iEnabled"
+			quid       	"358FA3900251"
+			type       	"TBool")))
+	    (object Class "TSchedulerItemRef"
+		quid       	"358FAACE01FD"
+		class_attributes 	(list class_attribute_list
+		    (object ClassAttribute "iName"
+			quid       	"358FAADF00CB"
+			type       	"TName")
+		    (object ClassAttribute "iHandle"
+			quid       	"358FAAEE01D1"
+			type       	"TInt")))
+	    (object Association "iClient"
+		quid       	"34FAF6FD00A3"
+		roles      	(list role_list
+		    (object Role "$UNNAMED$2"
+			quid       	"34FAF6FD02C0"
+			supplier   	"CClientProxy"
+			quidu      	"34D1CB1B03A7")
+		    (object Role "$UNNAMED$3"
+			quid       	"34FAF6FD02DE"
+			supplier   	"TScheduledTask"
+			quidu      	"34D1CCE902E3")))
+	    (object Association "$UNNAMED$4"
+		quid       	"34FD88580389"
+		roles      	(list role_list
+		    (object Role "$UNNAMED$5"
+			quid       	"34FD885903BD"
+			supplier   	"CTaskScheduler"
+			quidu      	"34D1C70C0186"
+			is_navigable 	TRUE)
+		    (object Role "$UNNAMED$6"
+			quid       	"34FD885A007F"
+			supplier   	"CServiceTimer"
+			quidu      	"34D1CB1C0005"
+			is_navigable 	TRUE)))
+	    (object Association "iPendingSchedules"
+		quid       	"34FD89A201FD"
+		roles      	(list role_list
+		    (object Role "$UNNAMED$7"
+			quid       	"34FD89A203CA"
+			supplier   	"CSchedule"
+			quidu      	"34D1CB1C0073")
+		    (object Role "$UNNAMED$8"
+			quid       	"34FD89A3000A"
+			supplier   	"CTaskScheduler"
+			quidu      	"34D1C70C0186")))
+	    (object Association "iClient"
+		quid       	"3587D95D009D"
+		roles      	(list role_list
+		    (object Role "$UNNAMED$9"
+			quid       	"3587D95D02D8"
+			supplier   	"CClientProxy"
+			quidu      	"34D1CB1B03A7"
+			client_cardinality 	(value cardinality "1..1")
+			is_navigable 	TRUE)
+		    (object Role "$UNNAMED$10"
+			quid       	"3587D95D0314"
+			supplier   	"CSchSession"
+			quidu      	"34D1C70C014A"
+			client_cardinality 	(value cardinality "1..1"))))
+	    (object Association "iTaskScheduler"
+		quid       	"3587D96F036A"
+		roles      	(list role_list
+		    (object Role "$UNNAMED$11"
+			quid       	"3587D97102CC"
+			supplier   	"CTaskScheduler"
+			quidu      	"34D1C70C0186"
+			client_cardinality 	(value cardinality "1..1")
+			is_navigable 	TRUE)
+		    (object Role "$UNNAMED$12"
+			quid       	"3587D9710313"
+			supplier   	"CSchSession"
+			quidu      	"34D1C70C014A"
+			client_cardinality 	(value cardinality "1..1"))))
+	    (object Association "iClient"
+		quid       	"3587DB09037D"
+		roles      	(list role_list
+		    (object Role "$UNNAMED$13"
+			quid       	"3587DB0A0216"
+			supplier   	"CClientProxy"
+			quidu      	"34D1CB1B03A7"
+			is_navigable 	TRUE)
+		    (object Role "$UNNAMED$14"
+			quid       	"3587DB0A0248"
+			supplier   	"TScheduledTask"
+			quidu      	"34D1CCE902E3")))
+	    (object Association "iTask"
+		quid       	"3587DB0F00BF"
+		roles      	(list role_list
+		    (object Role "$UNNAMED$15"
+			quid       	"3587DB100337"
+			supplier   	"CScheduledTask"
+			quidu      	"3587D90700A3"
+			client_cardinality 	(value cardinality "1..1")
+			is_navigable 	TRUE)
+		    (object Role "$UNNAMED$16"
+			quid       	"3587DB100338"
+			supplier   	"TScheduledTask"
+			quidu      	"34D1CCE902E3"
+			client_cardinality 	(value cardinality "1..1"))))
+	    (object Association "iTasks"
+		quid       	"3587DB2A00FA"
+		roles      	(list role_list
+		    (object Role "$UNNAMED$17"
+			quid       	"3587DB2A02A9"
+			supplier   	"CSchedule"
+			quidu      	"34D1CB1C0073"
+			client_cardinality 	(value cardinality "1..1")
+			is_aggregate 	TRUE)
+		    (object Role "$UNNAMED$18"
+			quid       	"3587DB2A02DB"
+			supplier   	"TScheduledTask"
+			quidu      	"34D1CCE902E3"
+			client_cardinality 	(value cardinality "0..n")
+			is_navigable 	TRUE)))
+	    (object Association "iBackup"
+		quid       	"3587DCB40377"
+		roles      	(list role_list
+		    (object Role "$UNNAMED$19"
+			quid       	"3587DCB60149"
+			supplier   	"CTaskScheduler"
+			quidu      	"34D1C70C0186"
+			client_cardinality 	(value cardinality "1..1")
+			is_aggregate 	TRUE)
+		    (object Role "$UNNAMED$20"
+			quid       	"3587DCB6019A"
+			supplier   	"TScheduleBackup"
+			quidu      	"3587DC9303DE"
+			client_cardinality 	(value cardinality "1..1")
+			is_navigable 	TRUE)))
+	    (object Association "iClients"
+		quid       	"3587DD3F0377"
+		roles      	(list role_list
+		    (object Role "$UNNAMED$21"
+			quid       	"3587DD4003B5"
+			supplier   	"CTaskScheduler"
+			quidu      	"34D1C70C0186"
+			client_cardinality 	(value cardinality "1..1")
+			is_aggregate 	TRUE)
+		    (object Role "$UNNAMED$22"
+			quid       	"3587DD41001D"
+			supplier   	"CClientProxy"
+			quidu      	"34D1CB1B03A7"
+			client_cardinality 	(value cardinality "0..n")
+			is_navigable 	TRUE)))
+	    (object Association "iPending"
+		quid       	"3587E24B0126"
+		roles      	(list role_list
+		    (object Role "$UNNAMED$23"
+			quid       	"3587E24C038B"
+			supplier   	"CSchedule"
+			quidu      	"34D1CB1C0073"
+			client_cardinality 	(value cardinality "0..n")
+			is_navigable 	TRUE)
+		    (object Role "$UNNAMED$24"
+			quid       	"3587E24C03C7"
+			supplier   	"CTaskScheduler"
+			quidu      	"34D1C70C0186"
+			client_cardinality 	(value cardinality "1..1"))))
+	    (object Association "iSchedules"
+		quid       	"3587E2510297"
+		roles      	(list role_list
+		    (object Role "$UNNAMED$25"
+			quid       	"3587E2520357"
+			supplier   	"CTaskScheduler"
+			quidu      	"34D1C70C0186"
+			client_cardinality 	(value cardinality "1..1")
+			is_aggregate 	TRUE)
+		    (object Role "$UNNAMED$26"
+			quid       	"3587E25203B1"
+			supplier   	"CSchedule"
+			quidu      	"34D1CB1C0073"
+			client_cardinality 	(value cardinality "0..n")
+			is_navigable 	TRUE)))
+	    (object Association "iTaskScheduler"
+		quid       	"3587E34000D8"
+		roles      	(list role_list
+		    (object Role "$UNNAMED$27"
+			quid       	"3587E341030B"
+			supplier   	"CTaskScheduler"
+			quidu      	"34D1C70C0186"
+			client_cardinality 	(value cardinality "1..1")
+			is_navigable 	TRUE)
+		    (object Role "$UNNAMED$28"
+			quid       	"3587E341036F"
+			supplier   	"CScheduleTimer"
+			quidu      	"3587E1E90360"
+			client_cardinality 	(value cardinality "1..1"))))
+	    (object Association "iTimer"
+		quid       	"3587E356021A"
+		roles      	(list role_list
+		    (object Role "$UNNAMED$29"
+			quid       	"3587E3570104"
+			supplier   	"CTaskScheduler"
+			quidu      	"34D1C70C0186"
+			client_cardinality 	(value cardinality "1..1")
+			is_aggregate 	TRUE)
+		    (object Role "$UNNAMED$30"
+			quid       	"3587E3570172"
+			supplier   	"CScheduleTimer"
+			quidu      	"3587E1E90360"
+			client_cardinality 	(value cardinality "1..1")
+			is_navigable 	TRUE)))
+	    (object Association "iNotifier"
+		quid       	"3587E6E702AA"
+		roles      	(list role_list
+		    (object Role "$UNNAMED$31"
+			quid       	"3587E6E802F1"
+			supplier   	"CTaskScheduler"
+			quidu      	"34D1C70C0186"
+			client_cardinality 	(value cardinality "1..1")
+			is_aggregate 	TRUE)
+		    (object Role "$UNNAMED$32"
+			quid       	"3587E6E8035F"
+			supplier   	"CEnvironmentChangeNotifier"
+			quidu      	"3587E6D100B3"
+			client_cardinality 	(value cardinality "1..1")
+			is_navigable 	TRUE)))
+	    (object Association "iEntries"
+		quid       	"3587E7340282"
+		roles      	(list role_list
+		    (object Role "$UNNAMED$33"
+			quid       	"3587E736019F"
+			supplier   	"CSchedule"
+			quidu      	"34D1CB1C0073"
+			client_cardinality 	(value cardinality "1..1")
+			is_aggregate 	TRUE)
+		    (object Role "$UNNAMED$34"
+			quid       	"3587E73601DB"
+			supplier   	"TScheduleEntry"
+			quidu      	"34D1CB1C0091"
+			client_cardinality 	(value cardinality "1..n")
+			is_navigable 	TRUE)))
+	    (object Association "$UNNAMED$35"
+		quid       	"3587E7B603A2"
+		roles      	(list role_list
+		    (object Role "$UNNAMED$36"
+			quid       	"3587E7B7035D"
+			supplier   	"CSchServer"
+			quidu      	"34D1C70C0110"
+			is_navigable 	TRUE
+			is_aggregate 	TRUE)
+		    (object Role "$UNNAMED$37"
+			quid       	"3587E7B7035E"
+			supplier   	"CSchSession"
+			quidu      	"34D1C70C014A"
+			is_navigable 	TRUE)))
+	    (object Association "iTaskScheduler"
+		quid       	"3587E7BA027B"
+		roles      	(list role_list
+		    (object Role "$UNNAMED$38"
+			quid       	"3587E7BC004D"
+			supplier   	"CSchServer"
+			quidu      	"34D1C70C0110"
+			client_cardinality 	(value cardinality "1..1")
+			is_aggregate 	TRUE)
+		    (object Role "$UNNAMED$39"
+			quid       	"3587E7BC004E"
+			supplier   	"CTaskScheduler"
+			quidu      	"34D1C70C0186"
+			client_cardinality 	(value cardinality "1..1")
+			is_navigable 	TRUE)))
+	    (object Association "iClient"
+		quid       	"3587EB2F016F"
+		roles      	(list role_list
+		    (object Role "$UNNAMED$40"
+			quid       	"3587EB300379"
+			supplier   	"CClientProxy"
+			quidu      	"34D1CB1B03A7"
+			client_cardinality 	(value cardinality "1..1")
+			is_navigable 	TRUE)
+		    (object Role "$UNNAMED$41"
+			quid       	"3587EB3003BF"
+			supplier   	"TScheduledTask"
+			quidu      	"34D1CCE902E3"
+			client_cardinality 	(value cardinality "0..n"))))
+	    (object Association "iTasks"
+		quid       	"3587EB3F03CB"
+		roles      	(list role_list
+		    (object Role "$UNNAMED$42"
+			quid       	"3587EB4300CE"
+			supplier   	"CClientProxy"
+			quidu      	"34D1CB1B03A7"
+			client_cardinality 	(value cardinality "1..1")
+			is_aggregate 	TRUE)
+		    (object Role "$UNNAMED$43"
+			quid       	"3587EB43010A"
+			supplier   	"CScheduledTask"
+			quidu      	"3587D90700A3"
+			client_cardinality 	(value cardinality "0..n")
+			is_navigable 	TRUE)))
+	    (object Association "iEntries"
+		quid       	"3588F2700223"
+		roles      	(list role_list
+		    (object Role "$UNNAMED$44"
+			quid       	"3588F27003E6"
+			supplier   	"CScheduleIndex"
+			quidu      	"3587DC95028C"
+			client_cardinality 	(value cardinality "1..1")
+			is_aggregate 	TRUE)
+		    (object Role "$UNNAMED$45"
+			quid       	"3588F271003A"
+			supplier   	"TScheduleIndexEntry"
+			quidu      	"3588F2210143"
+			client_cardinality 	(value cardinality "0..n")
+			is_navigable 	TRUE)))
+	    (object Class_Category "fdbfs"
+		quid       	"359A15A403A7"
+		exportControl 	"Public"
+		logical_models 	(list unit_reference_list)
+		logical_presentations 	(list unit_reference_list)))
+	logical_presentations 	(list unit_reference_list
+	    (object ClassDiagram "Main"
+		quid       	"34B4B32D03A7"
+		title      	"Main"
+		zoom       	100
+		max_height 	28350
+		max_width  	21600
+		origin_x   	0
+		origin_y   	0
+		items      	(list diagram_item_list
+		    (object ClassView "Class" "CTaskExecutor" @1
+			IncludeAttribute 	TRUE
+			IncludeOperation 	TRUE
+			location   	(2608, 1472)
+			label      	(object ItemLabel
+			    Parent_View 	@1
+			    location   	(2355, 1316)
+			    nlines     	1
+			    max_width  	505
+			    justify    	0
+			    label      	"CTaskExecutor")
+			quidu      	"3587DB8B0352"
+			compartment 	(object Compartment
+			    Parent_View 	@1
+			    location   	(2344, 1376)
+			    anchor     	2
+			    nlines     	5
+			    max_width  	525)
+			width      	546
+			height     	336
+			autoResize 	TRUE)
+		    (object ClassView "Class" "CActive" @2
+			location   	(2624, 896)
+			label      	(object ItemLabel
+			    Parent_View 	@2
+			    location   	(2538, 847)
+			    nlines     	1
+			    max_width  	170
+			    justify    	0
+			    label      	"CActive")
+			quidu      	"3587E0BF03E4"
+			width      	184
+			height     	122)
+		    (object ClassView "Class" "CScheduledTask" @3
+			IncludeAttribute 	TRUE
+			location   	(1264, 1664)
+			label      	(object ItemLabel
+			    Parent_View 	@3
+			    location   	(1094, 1533)
+			    nlines     	1
+			    max_width  	338
+			    justify    	0
+			    label      	"CScheduledTask")
+			quidu      	"3587D90700A3"
+			compartment 	(object Compartment
+			    Parent_View 	@3
+			    location   	(1090, 1593)
+			    anchor     	2
+			    nlines     	4
+			    max_width  	291
+			    compartmentItems 	(list Compartment
+				"OnDue( )"))
+			width      	366
+			height     	286
+			autoResize 	TRUE)
+		    (object ClassView "Class" "TScheduleEntry" @4
+			IncludeAttribute 	TRUE
+			IncludeOperation 	TRUE
+			location   	(272, 1328)
+			label      	(object ItemLabel
+			    Parent_View 	@4
+			    location   	(73, 1247)
+			    nlines     	1
+			    max_width  	397
+			    justify    	0
+			    label      	"TScheduleEntry")
+			quidu      	"34D1CB1C0091"
+			compartment 	(object Compartment
+			    Parent_View 	@4
+			    location   	(66, 1307)
+			    anchor     	2
+			    nlines     	2
+			    max_width  	409)
+			width      	430
+			height     	186
+			autoResize 	TRUE)
+		    (object ClassView "Class" "TScheduledTask" @5
+			IncludeAttribute 	TRUE
+			IncludeOperation 	TRUE
+			location   	(768, 1360)
+			label      	(object ItemLabel
+			    Parent_View 	@5
+			    location   	(554, 1229)
+			    nlines     	1
+			    max_width  	427
+			    justify    	0
+			    label      	"TScheduledTask")
+			quidu      	"34D1CCE902E3"
+			compartment 	(object Compartment
+			    Parent_View 	@5
+			    location   	(546, 1289)
+			    anchor     	2
+			    nlines     	4
+			    max_width  	450)
+			width      	462
+			height     	286
+			autoResize 	TRUE)
+		    (object AssociationViewNew "iTask" @6
+			location   	(847, 1646)
+			label      	(object SegLabel @7
+			    Parent_View 	@6
+			    location   	(854, 1611)
+			    font       	(object Font
+				size       	10
+				face       	"Arial"
+				bold       	FALSE
+				italics    	TRUE
+				underline  	FALSE
+				strike     	FALSE
+				color      	0
+				default_color 	TRUE)
+			    anchor     	1
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	600
+			    justify    	0
+			    label      	"iTask"
+			    pctDist    	0.616667
+			    height     	35
+			    orientation 	0)
+			quidu      	"3587DB0F00BF"
+			roleview_list 	(list RoleViews
+			    (object RoleView "$UNNAMED$15" @8
+				Parent_View 	@6
+				location   	(-737, 286)
+				quidu      	"3587DB100337"
+				client     	@6
+				supplier   	@3
+				line_style 	3
+				origin_attachment 	(847, 1646)
+				terminal_attachment 	(1081, 1646)
+				label      	(object SegLabel @9
+				    Parent_View 	@8
+				    location   	(999, 1699)
+				    anchor     	2
+				    anchor_loc 	1
+				    nlines     	1
+				    max_width  	15
+				    justify    	0
+				    label      	"1..1"
+				    pctDist    	0.653846
+				    height     	53
+				    orientation 	1))
+			    (object RoleView "$UNNAMED$16" @10
+				Parent_View 	@6
+				location   	(-737, 286)
+				quidu      	"3587DB100338"
+				client     	@6
+				supplier   	@5
+				vertices   	(list Points
+				    (847, 1646)
+				    (756, 1646)
+				    (756, 1503))
+				line_style 	3
+				origin_attachment 	(847, 1646)
+				terminal_attachment 	(768, 1503)
+				label      	(object SegLabel @11
+				    Parent_View 	@10
+				    location   	(704, 1586)
+				    anchor     	2
+				    anchor_loc 	1
+				    nlines     	1
+				    max_width  	15
+				    justify    	0
+				    label      	"1..1"
+				    pctDist    	0.646154
+				    height     	53
+				    orientation 	0))))
+		    (object ClassView "Class" "CSchSession" @12
+			IncludeAttribute 	TRUE
+			IncludeOperation 	TRUE
+			location   	(2656, 576)
+			label      	(object ItemLabel
+			    Parent_View 	@12
+			    location   	(2465, 495)
+			    nlines     	1
+			    max_width  	381
+			    justify    	0
+			    label      	"CSchSession")
+			quidu      	"34D1C70C014A"
+			compartment 	(object Compartment
+			    Parent_View 	@12
+			    location   	(2459, 555)
+			    anchor     	2
+			    nlines     	2
+			    max_width  	200)
+			width      	412
+			height     	186
+			autoResize 	TRUE)
+		    (object ClassView "Class" "CClientProxy" @13
+			IncludeAttribute 	TRUE
+			IncludeOperation 	TRUE
+			location   	(1984, 1552)
+			label      	(object ItemLabel
+			    Parent_View 	@13
+			    location   	(1747, 1396)
+			    nlines     	1
+			    max_width  	473
+			    justify    	0
+			    label      	"CClientProxy")
+			quidu      	"34D1CB1B03A7"
+			compartment 	(object Compartment
+			    Parent_View 	@13
+			    location   	(1737, 1456)
+			    anchor     	2
+			    nlines     	5
+			    max_width  	500)
+			width      	512
+			height     	336
+			autoResize 	TRUE)
+		    (object AssociationViewNew "iClient" @14
+			location   	(2206, 894)
+			label      	(object SegLabel @15
+			    Parent_View 	@14
+			    location   	(2191, 883)
+			    font       	(object Font
+				size       	10
+				face       	"Arial"
+				bold       	FALSE
+				italics    	TRUE
+				underline  	FALSE
+				strike     	FALSE
+				color      	0
+				default_color 	TRUE)
+			    anchor     	1
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	600
+			    justify    	0
+			    label      	"iClient"
+			    pctDist    	0.250000
+			    height     	12
+			    orientation 	0)
+			quidu      	"3587D95D009D"
+			roleview_list 	(list RoleViews
+			    (object RoleView "$UNNAMED$9" @16
+				Parent_View 	@14
+				location   	(-978, 238)
+				quidu      	"3587D95D02D8"
+				client     	@14
+				supplier   	@13
+				line_style 	3
+				origin_attachment 	(2206, 894)
+				terminal_attachment 	(2206, 1384)
+				label      	(object SegLabel @17
+				    Parent_View 	@16
+				    location   	(2259, 1277)
+				    anchor     	2
+				    anchor_loc 	1
+				    nlines     	1
+				    max_width  	15
+				    justify    	0
+				    label      	"1..1"
+				    pctDist    	0.781609
+				    height     	53
+				    orientation 	0))
+			    (object RoleView "$UNNAMED$10" @18
+				Parent_View 	@14
+				location   	(-978, 238)
+				quidu      	"3587D95D0314"
+				client     	@14
+				supplier   	@12
+				vertices   	(list Points
+				    (2206, 894)
+				    (2206, 647)
+				    (2450, 647))
+				line_style 	3
+				origin_attachment 	(2206, 894)
+				terminal_attachment 	(2450, 576)
+				label      	(object SegLabel @19
+				    Parent_View 	@18
+				    location   	(2415, 607)
+				    anchor     	2
+				    anchor_loc 	1
+				    nlines     	1
+				    max_width  	15
+				    justify    	0
+				    label      	"1..1"
+				    pctDist    	0.930807
+				    height     	41
+				    orientation 	0))))
+		    (object AssociationViewNew "iClient" @20
+			location   	(1363, 1438)
+			label      	(object SegLabel @21
+			    Parent_View 	@20
+			    location   	(1359, 1411)
+			    font       	(object Font
+				size       	10
+				face       	"Arial"
+				bold       	FALSE
+				italics    	TRUE
+				underline  	FALSE
+				strike     	FALSE
+				color      	0
+				default_color 	TRUE)
+			    anchor     	1
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	600
+			    justify    	0
+			    label      	"iClient"
+			    pctDist    	0.450000
+			    height     	28
+			    orientation 	0)
+			quidu      	"3587EB2F016F"
+			roleview_list 	(list RoleViews
+			    (object RoleView "$UNNAMED$40" @22
+				Parent_View 	@20
+				location   	(595, -210)
+				quidu      	"3587EB300379"
+				client     	@20
+				supplier   	@13
+				line_style 	3
+				origin_attachment 	(1363, 1438)
+				terminal_attachment 	(1728, 1438)
+				label      	(object SegLabel @23
+				    Parent_View 	@22
+				    location   	(1666, 1491)
+				    anchor     	2
+				    anchor_loc 	1
+				    nlines     	1
+				    max_width  	15
+				    justify    	0
+				    label      	"1..1"
+				    pctDist    	0.831224
+				    height     	53
+				    orientation 	1))
+			    (object RoleView "$UNNAMED$41" @24
+				Parent_View 	@20
+				location   	(595, -210)
+				quidu      	"3587EB3003BF"
+				client     	@20
+				supplier   	@5
+				line_style 	3
+				origin_attachment 	(1363, 1438)
+				terminal_attachment 	(999, 1438)
+				label      	(object SegLabel @25
+				    Parent_View 	@24
+				    location   	(1087, 1475)
+				    anchor     	2
+				    anchor_loc 	1
+				    nlines     	1
+				    max_width  	15
+				    justify    	0
+				    label      	"0..*"
+				    pctDist    	0.758475
+				    height     	37
+				    orientation 	0))))
+		    (object AssociationViewNew "iTasks" @26
+			location   	(1587, 1631)
+			label      	(object SegLabel @27
+			    Parent_View 	@26
+			    location   	(1598, 1594)
+			    font       	(object Font
+				size       	10
+				face       	"Arial"
+				bold       	FALSE
+				italics    	TRUE
+				underline  	FALSE
+				strike     	FALSE
+				color      	0
+				default_color 	TRUE)
+			    anchor     	1
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	600
+			    justify    	0
+			    label      	"iTasks"
+			    pctDist    	0.683333
+			    height     	38
+			    orientation 	0)
+			quidu      	"3587EB3F03CB"
+			roleview_list 	(list RoleViews
+			    (object RoleView "$UNNAMED$42" @28
+				Parent_View 	@26
+				location   	(499, 415)
+				quidu      	"3587EB4300CE"
+				client     	@26
+				supplier   	@13
+				line_style 	3
+				origin_attachment 	(1587, 1631)
+				terminal_attachment 	(1728, 1631)
+				label      	(object SegLabel @29
+				    Parent_View 	@28
+				    location   	(1673, 1687)
+				    anchor     	2
+				    anchor_loc 	1
+				    nlines     	1
+				    max_width  	15
+				    justify    	0
+				    label      	"1..1"
+				    pctDist    	0.610687
+				    height     	56
+				    orientation 	1))
+			    (object RoleView "$UNNAMED$43" @30
+				Parent_View 	@26
+				location   	(499, 415)
+				quidu      	"3587EB43010A"
+				client     	@26
+				supplier   	@3
+				line_style 	3
+				origin_attachment 	(1587, 1631)
+				terminal_attachment 	(1447, 1631)
+				label      	(object SegLabel @31
+				    Parent_View 	@30
+				    location   	(1498, 1579)
+				    anchor     	2
+				    anchor_loc 	1
+				    nlines     	1
+				    max_width  	15
+				    justify    	0
+				    label      	"0..*"
+				    pctDist    	0.646154
+				    height     	53
+				    orientation 	1))))
+		    (object ClassView "Class" "CSchedule" @32
+			IncludeAttribute 	TRUE
+			IncludeOperation 	TRUE
+			location   	(352, 496)
+			label      	(object ItemLabel
+			    Parent_View 	@32
+			    location   	(128, 42)
+			    nlines     	1
+			    max_width  	447
+			    justify    	0
+			    label      	"CSchedule")
+			quidu      	"34D1CB1C0073"
+			compartment 	(object Compartment
+			    Parent_View 	@32
+			    location   	(119, 102)
+			    anchor     	2
+			    nlines     	17
+			    max_width  	472)
+			width      	484
+			height     	930
+			autoResize 	TRUE)
+		    (object AssociationViewNew "iEntries" @33
+			location   	(175, 1098)
+			label      	(object SegLabel @34
+			    Parent_View 	@33
+			    location   	(175, 1039)
+			    font       	(object Font
+				size       	10
+				face       	"Arial"
+				bold       	FALSE
+				italics    	TRUE
+				underline  	FALSE
+				strike     	FALSE
+				color      	0
+				default_color 	TRUE)
+			    anchor     	1
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	600
+			    justify    	0
+			    label      	"iEntries"
+			    pctDist    	0.500000
+			    height     	60
+			    orientation 	0)
+			quidu      	"3587E7340282"
+			roleview_list 	(list RoleViews
+			    (object RoleView "$UNNAMED$33" @35
+				Parent_View 	@33
+				location   	(-65, -502)
+				quidu      	"3587E736019F"
+				client     	@33
+				supplier   	@32
+				line_style 	3
+				origin_attachment 	(175, 1098)
+				terminal_attachment 	(175, 961)
+				label      	(object SegLabel @36
+				    Parent_View 	@35
+				    location   	(242, 989)
+				    anchor     	2
+				    anchor_loc 	1
+				    nlines     	1
+				    max_width  	15
+				    justify    	0
+				    label      	"1..1"
+				    pctDist    	0.805405
+				    height     	67
+				    orientation 	1))
+			    (object RoleView "$UNNAMED$34" @37
+				Parent_View 	@33
+				location   	(-65, -502)
+				quidu      	"3587E73601DB"
+				client     	@33
+				supplier   	@4
+				line_style 	3
+				origin_attachment 	(175, 1098)
+				terminal_attachment 	(175, 1235)
+				label      	(object SegLabel @38
+				    Parent_View 	@37
+				    location   	(118, 1209)
+				    anchor     	2
+				    anchor_loc 	1
+				    nlines     	1
+				    max_width  	15
+				    justify    	0
+				    label      	"1..*"
+				    pctDist    	0.819718
+				    height     	58
+				    orientation 	1))))
+		    (object AssociationViewNew "iTasks" @39
+			location   	(540, 1089)
+			label      	(object SegLabel @40
+			    Parent_View 	@39
+			    location   	(544, 1030)
+			    font       	(object Font
+				size       	10
+				face       	"Arial"
+				bold       	FALSE
+				italics    	TRUE
+				underline  	FALSE
+				strike     	FALSE
+				color      	0
+				default_color 	TRUE)
+			    anchor     	1
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	600
+			    justify    	0
+			    label      	"iTasks"
+			    pctDist    	0.566667
+			    height     	60
+			    orientation 	0)
+			quidu      	"3587DB2A00FA"
+			roleview_list 	(list RoleViews
+			    (object RoleView "$UNNAMED$17" @41
+				Parent_View 	@39
+				location   	(-1124, -271)
+				quidu      	"3587DB2A02A9"
+				client     	@39
+				supplier   	@32
+				line_style 	3
+				origin_attachment 	(540, 1089)
+				terminal_attachment 	(540, 961)
+				label      	(object SegLabel @42
+				    Parent_View 	@41
+				    location   	(471, 985)
+				    anchor     	2
+				    anchor_loc 	1
+				    nlines     	1
+				    max_width  	15
+				    justify    	0
+				    label      	"1..1"
+				    pctDist    	0.809524
+				    height     	70
+				    orientation 	0))
+			    (object RoleView "$UNNAMED$18" @43
+				Parent_View 	@39
+				location   	(-1124, -271)
+				quidu      	"3587DB2A02DB"
+				client     	@39
+				supplier   	@5
+				line_style 	3
+				origin_attachment 	(540, 1089)
+				terminal_attachment 	(540, 1217)
+				label      	(object SegLabel @44
+				    Parent_View 	@43
+				    location   	(488, 1191)
+				    anchor     	2
+				    anchor_loc 	1
+				    nlines     	1
+				    max_width  	62
+				    justify    	0
+				    label      	"0..*"
+				    pctDist    	0.797468
+				    height     	53
+				    orientation 	1))))
+		    (object ClassView "Class" "CSchServer" @45
+			IncludeAttribute 	TRUE
+			IncludeOperation 	TRUE
+			location   	(2144, 144)
+			label      	(object ItemLabel
+			    Parent_View 	@45
+			    location   	(1972, 95)
+			    nlines     	1
+			    max_width  	342
+			    justify    	0
+			    label      	"CSchServer")
+			quidu      	"34D1C70C0110"
+			width      	370
+			height     	122
+			annotation 	8
+			autoResize 	TRUE)
+		    (object AssociationViewNew "$UNNAMED$35" @46
+			location   	(2608, 125)
+			quidu      	"3587E7B603A2"
+			roleview_list 	(list RoleViews
+			    (object RoleView "$UNNAMED$36" @47
+				Parent_View 	@46
+				location   	(112, -531)
+				quidu      	"3587E7B7035D"
+				client     	@46
+				supplier   	@45
+				line_style 	3
+				origin_attachment 	(2608, 125)
+				terminal_attachment 	(2329, 125))
+			    (object RoleView "$UNNAMED$37" @48
+				Parent_View 	@46
+				location   	(112, -531)
+				quidu      	"3587E7B7035E"
+				client     	@46
+				supplier   	@12
+				vertices   	(list Points
+				    (2608, 125)
+				    (2668, 125)
+				    (2668, 483))
+				line_style 	3
+				origin_attachment 	(2608, 125)
+				terminal_attachment 	(2656, 483))))
+		    (object ClassView "Class" "CScheduleTimer" @49
+			location   	(848, 176)
+			label      	(object ItemLabel
+			    Parent_View 	@49
+			    location   	(685, 127)
+			    nlines     	1
+			    max_width  	325
+			    justify    	0
+			    label      	"CScheduleTimer")
+			quidu      	"3587E1E90360"
+			width      	352
+			height     	122
+			autoResize 	TRUE)
+		    (object ClassView "Class" "CTaskScheduler" @50
+			IncludeAttribute 	TRUE
+			IncludeOperation 	TRUE
+			location   	(1536, 848)
+			label      	(object ItemLabel
+			    Parent_View 	@50
+			    location   	(1209, 517)
+			    nlines     	1
+			    max_width  	653
+			    justify    	0
+			    label      	"CTaskScheduler")
+			quidu      	"34D1C70C0186"
+			compartment 	(object Compartment
+			    Parent_View 	@50
+			    location   	(1192, 577)
+			    anchor     	2
+			    nlines     	12
+			    max_width  	684)
+			width      	706
+			height     	686
+			autoResize 	TRUE)
+		    (object AssociationViewNew "iTaskScheduler" @51
+			location   	(2169, 528)
+			label      	(object SegLabel @52
+			    Parent_View 	@51
+			    location   	(2120, 488)
+			    font       	(object Font
+				size       	10
+				face       	"Arial"
+				bold       	FALSE
+				italics    	TRUE
+				underline  	FALSE
+				strike     	FALSE
+				color      	0
+				default_color 	TRUE)
+			    anchor     	1
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	600
+			    justify    	0
+			    label      	"iTaskScheduler"
+			    pctDist    	-0.316667
+			    height     	41
+			    orientation 	0)
+			quidu      	"3587D96F036A"
+			roleview_list 	(list RoleViews
+			    (object RoleView "$UNNAMED$11" @53
+				Parent_View 	@51
+				location   	(-1015, -128)
+				quidu      	"3587D97102CC"
+				client     	@51
+				supplier   	@50
+				line_style 	3
+				origin_attachment 	(2169, 528)
+				terminal_attachment 	(1889, 528)
+				label      	(object SegLabel @54
+				    Parent_View 	@53
+				    location   	(1934, 581)
+				    anchor     	2
+				    anchor_loc 	1
+				    nlines     	1
+				    max_width  	15
+				    justify    	0
+				    label      	"1..1"
+				    pctDist    	0.838130
+				    height     	53
+				    orientation 	0))
+			    (object RoleView "$UNNAMED$12" @55
+				Parent_View 	@51
+				location   	(-1015, -128)
+				quidu      	"3587D9710313"
+				client     	@51
+				supplier   	@12
+				line_style 	3
+				origin_attachment 	(2169, 528)
+				terminal_attachment 	(2450, 528)
+				label      	(object SegLabel @56
+				    Parent_View 	@55
+				    location   	(2407, 500)
+				    anchor     	2
+				    anchor_loc 	1
+				    nlines     	1
+				    max_width  	15
+				    justify    	0
+				    label      	"1..1"
+				    pctDist    	0.849315
+				    height     	29
+				    orientation 	0))))
+		    (object AssociationViewNew "iClients" @57
+			location   	(1731, 1287)
+			label      	(object SegLabel @58
+			    Parent_View 	@57
+			    location   	(1731, 1282)
+			    font       	(object Font
+				size       	10
+				face       	"Arial"
+				bold       	FALSE
+				italics    	TRUE
+				underline  	FALSE
+				strike     	FALSE
+				color      	0
+				default_color 	TRUE)
+			    anchor     	1
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	132
+			    justify    	0
+			    label      	"iClients"
+			    pctDist    	0.500000
+			    height     	6
+			    orientation 	0)
+			quidu      	"3587DD3F0377"
+			roleview_list 	(list RoleViews
+			    (object RoleView "$UNNAMED$21" @59
+				Parent_View 	@57
+				location   	(-749, 231)
+				quidu      	"3587DD4003B5"
+				client     	@57
+				supplier   	@50
+				line_style 	3
+				origin_attachment 	(1731, 1287)
+				terminal_attachment 	(1731, 1191)
+				label      	(object SegLabel @60
+				    Parent_View 	@59
+				    location   	(1680, 1224)
+				    anchor     	2
+				    anchor_loc 	1
+				    nlines     	1
+				    max_width  	15
+				    justify    	0
+				    label      	"1..1"
+				    pctDist    	0.660550
+				    height     	52
+				    orientation 	0))
+			    (object RoleView "$UNNAMED$22" @61
+				Parent_View 	@57
+				location   	(-749, 231)
+				quidu      	"3587DD41001D"
+				client     	@57
+				supplier   	@13
+				line_style 	3
+				origin_attachment 	(1731, 1287)
+				terminal_attachment 	(1731, 1384)
+				label      	(object SegLabel @62
+				    Parent_View 	@61
+				    location   	(1801, 1350)
+				    anchor     	2
+				    anchor_loc 	1
+				    nlines     	1
+				    max_width  	62
+				    justify    	0
+				    label      	"0..*"
+				    pctDist    	0.660550
+				    height     	70
+				    orientation 	0))))
+		    (object AssociationViewNew "iPending" @63
+			location   	(888, 819)
+			label      	(object SegLabel @64
+			    Parent_View 	@63
+			    location   	(886, 791)
+			    font       	(object Font
+				size       	10
+				face       	"Arial"
+				bold       	FALSE
+				italics    	TRUE
+				underline  	FALSE
+				strike     	FALSE
+				color      	0
+				default_color 	TRUE)
+			    anchor     	1
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	600
+			    justify    	0
+			    label      	"iPending"
+			    pctDist    	0.483333
+			    height     	29
+			    orientation 	0)
+			quidu      	"3587E24B0126"
+			roleview_list 	(list RoleViews
+			    (object RoleView "$UNNAMED$23" @65
+				Parent_View 	@63
+				location   	(-440, 435)
+				quidu      	"3587E24C038B"
+				client     	@63
+				supplier   	@32
+				line_style 	3
+				origin_attachment 	(888, 819)
+				terminal_attachment 	(594, 819)
+				label      	(object SegLabel @66
+				    Parent_View 	@65
+				    location   	(623, 873)
+				    anchor     	2
+				    anchor_loc 	1
+				    nlines     	1
+				    max_width  	15
+				    justify    	0
+				    label      	"0..*"
+				    pctDist    	0.900000
+				    height     	54
+				    orientation 	0))
+			    (object RoleView "$UNNAMED$24" @67
+				Parent_View 	@63
+				location   	(-440, 435)
+				quidu      	"3587E24C03C7"
+				client     	@63
+				supplier   	@50
+				line_style 	3
+				origin_attachment 	(888, 819)
+				terminal_attachment 	(1183, 819)
+				label      	(object SegLabel @68
+				    Parent_View 	@67
+				    location   	(1122, 875)
+				    anchor     	2
+				    anchor_loc 	1
+				    nlines     	1
+				    max_width  	15
+				    justify    	0
+				    label      	"1..1"
+				    pctDist    	0.794212
+				    height     	56
+				    orientation 	1))))
+		    (object AssociationViewNew "iSchedules" @69
+			location   	(888, 644)
+			label      	(object SegLabel @70
+			    Parent_View 	@69
+			    location   	(886, 620)
+			    font       	(object Font
+				size       	10
+				face       	"Arial"
+				bold       	FALSE
+				italics    	TRUE
+				underline  	FALSE
+				strike     	FALSE
+				color      	0
+				default_color 	TRUE)
+			    anchor     	1
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	600
+			    justify    	0
+			    label      	"iSchedules"
+			    pctDist    	0.483333
+			    height     	25
+			    orientation 	0)
+			quidu      	"3587E2510297"
+			roleview_list 	(list RoleViews
+			    (object RoleView "$UNNAMED$25" @71
+				Parent_View 	@69
+				location   	(360, -940)
+				quidu      	"3587E2520357"
+				client     	@69
+				supplier   	@50
+				line_style 	3
+				origin_attachment 	(888, 644)
+				terminal_attachment 	(1183, 644)
+				label      	(object SegLabel @72
+				    Parent_View 	@71
+				    location   	(1137, 697)
+				    anchor     	2
+				    anchor_loc 	1
+				    nlines     	1
+				    max_width  	15
+				    justify    	0
+				    label      	"1..1"
+				    pctDist    	0.842444
+				    height     	53
+				    orientation 	1))
+			    (object RoleView "$UNNAMED$26" @73
+				Parent_View 	@69
+				location   	(360, -940)
+				quidu      	"3587E25203B1"
+				client     	@69
+				supplier   	@32
+				line_style 	3
+				origin_attachment 	(888, 644)
+				terminal_attachment 	(594, 644)
+				label      	(object SegLabel @74
+				    Parent_View 	@73
+				    location   	(623, 698)
+				    anchor     	2
+				    anchor_loc 	1
+				    nlines     	1
+				    max_width  	15
+				    justify    	0
+				    label      	"0..*"
+				    pctDist    	0.900000
+				    height     	54
+				    orientation 	0))))
+		    (object AssociationViewNew "iTaskScheduler" @75
+			location   	(1616, 144)
+			label      	(object SegLabel @76
+			    Parent_View 	@75
+			    location   	(1647, 147)
+			    font       	(object Font
+				size       	10
+				face       	"Arial"
+				bold       	FALSE
+				italics    	TRUE
+				underline  	FALSE
+				strike     	FALSE
+				color      	0
+				default_color 	TRUE)
+			    anchor     	1
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	288
+			    justify    	0
+			    label      	"iTaskScheduler"
+			    pctDist    	1.016667
+			    height     	3
+			    orientation 	1)
+			quidu      	"3587E7BA027B"
+			roleview_list 	(list RoleViews
+			    (object RoleView "$UNNAMED$38" @77
+				Parent_View 	@75
+				location   	(160, -320)
+				quidu      	"3587E7BC004D"
+				client     	@75
+				supplier   	@45
+				line_style 	3
+				origin_attachment 	(1616, 144)
+				terminal_attachment 	(1959, 144)
+				label      	(object SegLabel @78
+				    Parent_View 	@77
+				    location   	(1924, 198)
+				    anchor     	2
+				    anchor_loc 	1
+				    nlines     	1
+				    max_width  	15
+				    justify    	0
+				    label      	"1..1"
+				    pctDist    	0.900000
+				    height     	54
+				    orientation 	1))
+			    (object RoleView "$UNNAMED$39" @79
+				Parent_View 	@75
+				location   	(160, -320)
+				quidu      	"3587E7BC004E"
+				client     	@75
+				supplier   	@50
+				vertices   	(list Points
+				    (1616, 144)
+				    (1556, 144)
+				    (1556, 505))
+				line_style 	3
+				origin_attachment 	(1616, 144)
+				terminal_attachment 	(1536, 505)
+				label      	(object SegLabel @80
+				    Parent_View 	@79
+				    location   	(1610, 423)
+				    anchor     	2
+				    anchor_loc 	1
+				    nlines     	1
+				    max_width  	15
+				    justify    	0
+				    label      	"1..1"
+				    pctDist    	0.806452
+				    height     	54
+				    orientation 	0))))
+		    (object AssociationViewNew "iTaskScheduler" @81
+			location   	(1349, 156)
+			label      	(object SegLabel @82
+			    Parent_View 	@81
+			    location   	(1304, 156)
+			    font       	(object Font
+				size       	10
+				face       	"Arial"
+				bold       	FALSE
+				italics    	TRUE
+				underline  	FALSE
+				strike     	FALSE
+				color      	0
+				default_color 	TRUE)
+			    anchor     	1
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	600
+			    justify    	0
+			    label      	"iTaskScheduler"
+			    pctDist    	-0.250000
+			    height     	0
+			    orientation 	1)
+			quidu      	"3587E34000D8"
+			roleview_list 	(list RoleViews
+			    (object RoleView "$UNNAMED$28" @83
+				Parent_View 	@81
+				location   	(-347, -692)
+				quidu      	"3587E341036F"
+				client     	@81
+				supplier   	@49
+				line_style 	3
+				origin_attachment 	(1349, 156)
+				terminal_attachment 	(1024, 156)
+				label      	(object SegLabel @84
+				    Parent_View 	@83
+				    location   	(1058, 210)
+				    anchor     	2
+				    anchor_loc 	1
+				    nlines     	1
+				    max_width  	15
+				    justify    	0
+				    label      	"1..1"
+				    pctDist    	0.900000
+				    height     	54
+				    orientation 	0))
+			    (object RoleView "$UNNAMED$27" @85
+				Parent_View 	@81
+				location   	(-347, -692)
+				quidu      	"3587E341030B"
+				client     	@81
+				supplier   	@50
+				vertices   	(list Points
+				    (1349, 156)
+				    (1409, 156)
+				    (1409, 505))
+				line_style 	3
+				origin_attachment 	(1349, 156)
+				terminal_attachment 	(1536, 505)
+				label      	(object SegLabel @86
+				    Parent_View 	@85
+				    location   	(1463, 464)
+				    anchor     	2
+				    anchor_loc 	1
+				    nlines     	1
+				    max_width  	15
+				    justify    	0
+				    label      	"1..1"
+				    pctDist    	0.900000
+				    height     	54
+				    orientation 	0))))
+		    (object AssociationViewNew "iTimer" @87
+			location   	(944, 509)
+			label      	(object SegLabel @88
+			    Parent_View 	@87
+			    location   	(895, 466)
+			    font       	(object Font
+				size       	10
+				face       	"Arial"
+				bold       	FALSE
+				italics    	TRUE
+				underline  	FALSE
+				strike     	FALSE
+				color      	0
+				default_color 	TRUE)
+			    anchor     	1
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	600
+			    justify    	0
+			    label      	"iTimer"
+			    pctDist    	-0.333333
+			    height     	44
+			    orientation 	0)
+			quidu      	"3587E356021A"
+			roleview_list 	(list RoleViews
+			    (object RoleView "$UNNAMED$30" @89
+				Parent_View 	@87
+				location   	(-752, -339)
+				quidu      	"3587E3570172"
+				client     	@87
+				supplier   	@49
+				vertices   	(list Points
+				    (944, 509)
+				    (884, 509)
+				    (884, 237))
+				line_style 	3
+				origin_attachment 	(944, 509)
+				terminal_attachment 	(884, 237)
+				label      	(object SegLabel @90
+				    Parent_View 	@89
+				    location   	(831, 270)
+				    anchor     	2
+				    anchor_loc 	1
+				    nlines     	1
+				    max_width  	15
+				    justify    	0
+				    label      	"1..1"
+				    pctDist    	0.900000
+				    height     	54
+				    orientation 	0))
+			    (object RoleView "$UNNAMED$29" @91
+				Parent_View 	@87
+				location   	(-752, -339)
+				quidu      	"3587E3570104"
+				client     	@87
+				supplier   	@50
+				line_style 	3
+				origin_attachment 	(944, 509)
+				terminal_attachment 	(1183, 509)
+				label      	(object SegLabel @92
+				    Parent_View 	@91
+				    location   	(1166, 567)
+				    anchor     	2
+				    anchor_loc 	1
+				    nlines     	1
+				    max_width  	15
+				    justify    	0
+				    label      	"1..1"
+				    pctDist    	0.935096
+				    height     	58
+				    orientation 	1))))
+		    (object UsesView "" @93
+			quidu      	"3587DC1100C0"
+			client     	@13
+			supplier   	@1
+			line_style 	3
+			origin_attachment 	(2240, 1500)
+			terminal_attachment 	(2335, 1500))
+		    (object InheritView "" @94
+			quidu      	"3587E0D20247"
+			client     	@1
+			supplier   	@2
+			line_style 	3
+			origin_attachment 	(2621, 1304)
+			terminal_attachment 	(2621, 957))))
+	    (object ClassDiagram "Backing Up"
+		quid       	"3588EB33023D"
+		title      	"Backing Up"
+		zoom       	100
+		max_height 	28350
+		max_width  	21600
+		origin_x   	0
+		origin_y   	0
+		items      	(list diagram_item_list
+		    (object ClassView "Class" "CSchedule" @95
+			location   	(560, 1408)
+			label      	(object ItemLabel
+			    Parent_View 	@95
+			    location   	(336, 1327)
+			    nlines     	1
+			    max_width  	447
+			    justify    	0
+			    label      	"CSchedule")
+			quidu      	"34D1CB1C0073"
+			compartment 	(object Compartment
+			    Parent_View 	@95
+			    location   	(327, 1387)
+			    anchor     	2
+			    nlines     	2
+			    max_width  	472
+			    compartmentItems 	(list Compartment
+				"iEntries : TScheduleEntry"))
+			width      	484
+			height     	186
+			autoResize 	TRUE)
+		    (object ClassView "Class" "TScheduleBackup" @96
+			IncludeOperation 	TRUE
+			location   	(2048, 400)
+			label      	(object ItemLabel
+			    Parent_View 	@96
+			    location   	(1813, 69)
+			    nlines     	1
+			    max_width  	468
+			    justify    	0
+			    label      	"TScheduleBackup")
+			quidu      	"3587DC9303DE"
+			compartment 	(object Compartment
+			    Parent_View 	@96
+			    location   	(1804, 129)
+			    anchor     	2
+			    nlines     	12
+			    max_width  	484
+			    compartmentItems 	(list Compartment
+				"iChangesToStore : TInt"))
+			width      	506
+			height     	686
+			autoResize 	TRUE)
+		    (object ClassView "Class" "CTaskScheduler" @97
+			location   	(2432, 1184)
+			label      	(object ItemLabel
+			    Parent_View 	@97
+			    location   	(2185, 1103)
+			    nlines     	1
+			    max_width  	493
+			    justify    	0
+			    label      	"CTaskScheduler")
+			quidu      	"34D1C70C0186"
+			compartment 	(object Compartment
+			    Parent_View 	@97
+			    location   	(2174, 1163)
+			    anchor     	2
+			    nlines     	2
+			    max_width  	512
+			    compartmentItems 	(list Compartment
+				"iBackup : TScheduleBackup"))
+			width      	534
+			height     	186
+			autoResize 	TRUE)
+		    (object AssociationViewNew "iSchedules" @98
+			location   	(1715, 1472)
+			label      	(object SegLabel @99
+			    Parent_View 	@98
+			    location   	(1746, 1432)
+			    font       	(object Font
+				size       	10
+				face       	"Arial"
+				bold       	FALSE
+				italics    	TRUE
+				underline  	FALSE
+				strike     	FALSE
+				color      	0
+				default_color 	TRUE)
+			    anchor     	1
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	600
+			    justify    	0
+			    label      	"iSchedules"
+			    pctDist    	1.033333
+			    height     	41
+			    orientation 	0)
+			quidu      	"3587E2510297"
+			roleview_list 	(list RoleViews
+			    (object RoleView "$UNNAMED$25" @100
+				Parent_View 	@98
+				location   	(1187, -112)
+				quidu      	"3587E2520357"
+				client     	@98
+				supplier   	@97
+				vertices   	(list Points
+				    (1715, 1472)
+				    (2434, 1472)
+				    (2434, 1277))
+				line_style 	3
+				origin_attachment 	(1715, 1472)
+				terminal_attachment 	(2434, 1277)
+				label      	(object SegLabel @101
+				    Parent_View 	@100
+				    location   	(2487, 1421)
+				    anchor     	2
+				    anchor_loc 	1
+				    nlines     	1
+				    max_width  	15
+				    justify    	0
+				    label      	"1..1"
+				    pctDist    	0.842444
+				    height     	53
+				    orientation 	1))
+			    (object RoleView "$UNNAMED$26" @102
+				Parent_View 	@98
+				location   	(1187, -112)
+				quidu      	"3587E25203B1"
+				client     	@98
+				supplier   	@95
+				line_style 	3
+				origin_attachment 	(1715, 1472)
+				terminal_attachment 	(802, 1472)
+				label      	(object SegLabel @103
+				    Parent_View 	@102
+				    location   	(954, 1525)
+				    anchor     	2
+				    anchor_loc 	1
+				    nlines     	1
+				    max_width  	15
+				    justify    	0
+				    label      	"0..*"
+				    pctDist    	0.833333
+				    height     	53
+				    orientation 	0))))
+		    (object AssociationViewNew "iBackup" @104
+			location   	(2262, 917)
+			label      	(object SegLabel @105
+			    Parent_View 	@104
+			    location   	(2262, 891)
+			    font       	(object Font
+				size       	10
+				face       	"Arial"
+				bold       	FALSE
+				italics    	TRUE
+				underline  	FALSE
+				strike     	FALSE
+				color      	0
+				default_color 	TRUE)
+			    anchor     	1
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	600
+			    justify    	0
+			    label      	"iBackup"
+			    pctDist    	0.500000
+			    height     	27
+			    orientation 	0)
+			quidu      	"3587DCB40377"
+			roleview_list 	(list RoleViews
+			    (object RoleView "$UNNAMED$20" @106
+				Parent_View 	@104
+				location   	(166, 197)
+				quidu      	"3587DCB6019A"
+				client     	@104
+				supplier   	@96
+				line_style 	3
+				origin_attachment 	(2262, 917)
+				terminal_attachment 	(2262, 743)
+				label      	(object SegLabel @107
+				    Parent_View 	@106
+				    location   	(2212, 799)
+				    anchor     	2
+				    anchor_loc 	1
+				    nlines     	1
+				    max_width  	15
+				    justify    	0
+				    label      	"1..1"
+				    pctDist    	0.682119
+				    height     	51
+				    orientation 	0))
+			    (object RoleView "$UNNAMED$19" @108
+				Parent_View 	@104
+				location   	(166, 197)
+				quidu      	"3587DCB60149"
+				client     	@104
+				supplier   	@97
+				line_style 	3
+				origin_attachment 	(2262, 917)
+				terminal_attachment 	(2262, 1091)
+				label      	(object SegLabel @109
+				    Parent_View 	@108
+				    location   	(2317, 1059)
+				    anchor     	2
+				    anchor_loc 	1
+				    nlines     	1
+				    max_width  	15
+				    justify    	0
+				    label      	"1..1"
+				    pctDist    	0.816092
+				    height     	55
+				    orientation 	0))))
+		    (object ClassView "Class" "CScheduleIndex" @110
+			IncludeAttribute 	TRUE
+			IncludeOperation 	TRUE
+			location   	(656, 784)
+			label      	(object ItemLabel
+			    Parent_View 	@110
+			    location   	(213, 653)
+			    nlines     	1
+			    max_width  	884
+			    justify    	0
+			    label      	"CScheduleIndex")
+			quidu      	"3587DC95028C"
+			compartment 	(object Compartment
+			    Parent_View 	@110
+			    location   	(187, 713)
+			    anchor     	2
+			    nlines     	4
+			    max_width  	294)
+			width      	956
+			height     	286
+			autoResize 	TRUE)
+		    (object ClassView "Class" "TScheduleIndexEntry" @111
+			location   	(560, 224)
+			label      	(object ItemLabel
+			    Parent_View 	@111
+			    location   	(350, 68)
+			    nlines     	1
+			    max_width  	418
+			    justify    	0
+			    label      	"TScheduleIndexEntry")
+			quidu      	"3588F2210143"
+			compartment 	(object Compartment
+			    Parent_View 	@111
+			    location   	(343, 128)
+			    anchor     	2
+			    nlines     	5
+			    max_width  	403
+			    compartmentItems 	(list Compartment
+				"ExternalizeL( )"
+				"InternalizeL( )"
+				"iStreamId : TStreamId"
+				"iScheduleId : TInt"))
+			width      	452
+			height     	336
+			autoResize 	TRUE)
+		    (object AssociationViewNew "iEntries" @112
+			location   	(537, 516)
+			label      	(object SegLabel @113
+			    Parent_View 	@112
+			    location   	(533, 488)
+			    font       	(object Font
+				size       	10
+				face       	"Arial"
+				bold       	FALSE
+				italics    	TRUE
+				underline  	FALSE
+				strike     	FALSE
+				color      	0
+				default_color 	TRUE)
+			    anchor     	1
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	600
+			    justify    	0
+			    label      	"iEntries"
+			    pctDist    	0.450000
+			    height     	29
+			    orientation 	0)
+			quidu      	"3588F2700223"
+			roleview_list 	(list RoleViews
+			    (object RoleView "$UNNAMED$44" @114
+				Parent_View 	@112
+				location   	(9, 292)
+				quidu      	"3588F27003E6"
+				client     	@112
+				supplier   	@110
+				line_style 	3
+				origin_attachment 	(537, 516)
+				terminal_attachment 	(537, 641)
+				label      	(object SegLabel @115
+				    Parent_View 	@114
+				    location   	(592, 614)
+				    anchor     	2
+				    anchor_loc 	1
+				    nlines     	1
+				    max_width  	15
+				    justify    	0
+				    label      	"1..1"
+				    pctDist    	0.795620
+				    height     	55
+				    orientation 	0))
+			    (object RoleView "$UNNAMED$45" @116
+				Parent_View 	@112
+				location   	(9, 292)
+				quidu      	"3588F271003A"
+				client     	@112
+				supplier   	@111
+				line_style 	3
+				origin_attachment 	(537, 516)
+				terminal_attachment 	(537, 392)
+				label      	(object SegLabel @117
+				    Parent_View 	@116
+				    location   	(606, 422)
+				    anchor     	2
+				    anchor_loc 	1
+				    nlines     	1
+				    max_width  	15
+				    justify    	0
+				    label      	"0..*"
+				    pctDist    	0.758065
+				    height     	69
+				    orientation 	1))))
+		    (object UsesView "" @118
+			quidu      	"3587E067001C"
+			client     	@110
+			supplier   	@95
+			line_style 	3
+			origin_attachment 	(362, 927)
+			terminal_attachment 	(362, 1315))
+		    (object UsesView "" @119
+			quidu      	"3587E1C4008C"
+			client     	@96
+			supplier   	@95
+			vertices   	(list Points
+			    (1981, 743)
+			    (1981, 1072)
+			    (631, 1072)
+			    (631, 1315))
+			line_style 	3
+			origin_attachment 	(1981, 743)
+			terminal_attachment 	(631, 1315))
+		    (object UsesView "" @120
+			quidu      	"3587E061038E"
+			client     	@96
+			supplier   	@110
+			line_style 	3
+			origin_attachment 	(1795, 687)
+			terminal_attachment 	(1134, 687))
+		    (object UsesView "" @121
+			quidu      	"3588F2E200FB"
+			client     	@96
+			supplier   	@111
+			line_style 	3
+			origin_attachment 	(1795, 353)
+			terminal_attachment 	(786, 353))))
+	    (object ClassDiagram "Client-side"
+		quid       	"3588FA630175"
+		title      	"Client-side"
+		zoom       	100
+		max_height 	28350
+		max_width  	21600
+		origin_x   	0
+		origin_y   	0
+		items      	(list diagram_item_list
+		    (object ClassView "Class" "RScheduler" @122
+			location   	(800, 672)
+			label      	(object ItemLabel
+			    Parent_View 	@122
+			    location   	(554, 291)
+			    nlines     	1
+			    max_width  	490
+			    justify    	0
+			    label      	"RScheduler")
+			quidu      	"3588FA6800AA"
+			compartment 	(object Compartment
+			    Parent_View 	@122
+			    location   	(544, 351)
+			    anchor     	2
+			    nlines     	14
+			    max_width  	519
+			    compartmentItems 	(list Compartment
+				"Register( )"
+				"CreatePersistentSchedule( )"
+				"DeleteSchedule( )"
+				"DisableSchedule( )"
+				"EnableSchedule( )"
+				"EditSchedule( )"
+				"ScheduleTask( )"
+				"DeleteTask( )"
+				"GetScheduleRefsL( )"
+				"GetScheduleL( )"
+				"GetTaskRefsL( )"
+				"GetTaskInfoL( )"
+				"GetTaskDataSize( )"))
+			width      	530
+			height     	786
+			autoResize 	TRUE)
+		    (object ClassView "Class" "TScheduleEntryInfo" @123
+			location   	(1792, 976)
+			label      	(object ItemLabel
+			    Parent_View 	@123
+			    location   	(1470, 820)
+			    nlines     	1
+			    max_width  	643
+			    justify    	0
+			    label      	"TScheduleEntryInfo")
+			quidu      	"3588FA7702BE"
+			compartment 	(object Compartment
+			    Parent_View 	@123
+			    location   	(1453, 880)
+			    anchor     	2
+			    nlines     	5
+			    max_width  	684
+			    compartmentItems 	(list Compartment
+				"iIntervalType : TIntervalType"
+				"iInterval : TInterval"
+				"iStartTime : TTime"
+				"iValidityPeriod : TTimeIntervalMinutes"))
+			width      	696
+			height     	336
+			autoResize 	TRUE)
+		    (object ClassView "Class" "TTaskInfo" @124
+			location   	(1600, 1408)
+			label      	(object ItemLabel
+			    Parent_View 	@124
+			    location   	(1460, 1252)
+			    nlines     	1
+			    max_width  	279
+			    justify    	0
+			    label      	"TTaskInfo")
+			quidu      	"3587DA760264"
+			compartment 	(object Compartment
+			    Parent_View 	@124
+			    location   	(1458, 1312)
+			    anchor     	2
+			    nlines     	5
+			    max_width  	281
+			    compartmentItems 	(list Compartment
+				"iRepeat : TInt"
+				"iName : TName"
+				"iTaskId : TInt"
+				"iPriority : TInt"))
+			width      	302
+			height     	336
+			autoResize 	TRUE)
+		    (object UsesView "" @125
+			quidu      	"3588FB460095"
+			client     	@122
+			supplier   	@123
+			line_style 	3
+			origin_attachment 	(1065, 956)
+			terminal_attachment 	(1444, 956))
+		    (object UsesView "" @126
+			quidu      	"3588FB490220"
+			client     	@122
+			supplier   	@124
+			vertices   	(list Points
+			    (819, 1065)
+			    (819, 1424)
+			    (1449, 1424))
+			line_style 	3
+			origin_attachment 	(800, 1065)
+			terminal_attachment 	(1449, 1408))
+		    (object NoteView @127
+			location   	(480, 1296)
+			label      	(object ItemLabel
+			    Parent_View 	@127
+			    location   	(258, 1118)
+			    nlines     	7
+			    max_width  	409
+			    label      	
+|This diagram shows the classes 
+|which are visible to clients: that is, they make up part of the interface
+			    )
+			width      	469
+			height     	369)
+		    (object ClassView "Class" "TScheduleState" @128
+			IncludeAttribute 	TRUE
+			location   	(1632, 560)
+			label      	(object ItemLabel
+			    Parent_View 	@128
+			    location   	(1471, 404)
+			    nlines     	1
+			    max_width  	320
+			    justify    	0
+			    label      	"TScheduleState")
+			quidu      	"358FA35103AF"
+			width      	346
+			height     	336
+			autoResize 	TRUE)
+		    (object UsesView "" @129
+			quidu      	"358FA3AB02BE"
+			client     	@122
+			supplier   	@128
+			line_style 	3
+			origin_attachment 	(1065, 659)
+			terminal_attachment 	(1459, 659))
+		    (object ClassView "Class" "TSchedulerItemRef" @130
+			location   	(1648, 208)
+			label      	(object ItemLabel
+			    Parent_View 	@130
+			    location   	(1463, 102)
+			    nlines     	1
+			    max_width  	368
+			    justify    	0
+			    label      	"TSchedulerItemRef")
+			quidu      	"358FAACE01FD"
+			compartment 	(object Compartment
+			    Parent_View 	@130
+			    location   	(1458, 162)
+			    anchor     	2
+			    nlines     	3
+			    max_width  	291
+			    compartmentItems 	(list Compartment
+				"iName : TName"
+				"iHandle : TInt"))
+			width      	398
+			height     	236
+			autoResize 	TRUE)
+		    (object UsesView "" @131
+			quidu      	"358FAB050351"
+			client     	@122
+			supplier   	@130
+			vertices   	(list Points
+			    (1022, 279)
+			    (1022, 222)
+			    (1449, 222))
+			line_style 	3
+			origin_attachment 	(1065, 302)
+			terminal_attachment 	(1449, 302))))
+	    (object ClassDiagram "Main"
+		quid       	"358F97CC011B"
+		title      	"Main"
+		zoom       	100
+		max_height 	28350
+		max_width  	21600
+		origin_x   	0
+		origin_y   	0
+		items      	(list diagram_item_list))))
+    root_subsystem 	(object SubSystem "Component View"
+	quid       	"34B4B32D038C"
+	physical_models 	(list unit_reference_list)
+	physical_presentations 	(list unit_reference_list
+	    (object Module_Diagram "Main"
+		quid       	"358F97CC012E"
+		title      	"Main"
+		zoom       	100
+		max_height 	28350
+		max_width  	21600
+		origin_x   	0
+		origin_y   	0
+		items      	(list diagram_item_list))))
+    process_structure 	(object Processes
+	quid       	"34B4B32D038D"
+	ProcsNDevs 	(list
+	    (object Process_Diagram "Deployment View"
+		quid       	"358F97CC011A"
+		title      	"Deployment View"
+		zoom       	100
+		max_height 	28350
+		max_width  	21600
+		origin_x   	0
+		origin_y   	0
+		items      	(list diagram_item_list))))
+    properties 	(object Properties
+	attributes 	(list Attribute_Set
+	    (object Attribute
+		tool       	"cg"
+		name       	"roseId"
+		value      	"753117540")
+	    (object Attribute
+		tool       	"cg"
+		name       	"propertyId"
+		value      	"809135966")
+	    (object Attribute
+		tool       	"cg"
+		name       	"default__Project"
+		value      	(list Attribute_Set
+		    (object Attribute
+			tool       	"cg"
+			name       	"project"
+			value      	" "))))
+	quid       	"34B4B32D038E"))

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<relnotes name="Crypto Token Framework">
+  <purpose>
+    Framework providing application support for cryptographic functionality implemented on a variety of secure hardware tokens e.g. smart cards and software emulations.
+  </purpose>
+
+  <defect number="DEF129395" title="[Coverity]-SYMBIAN.CLEANUP_STACK-security/tlsprovider" revision="023">
+	coverity issues fixed
+  </defect>
+
+  <defect number="DEF127711" title="[Coverity]-SYMBIAN.CLEANUP_STACK-security/tlsprovider" revision="022">
+	coverity issues fixed
+  </defect>
+
+  <deliverystep number="" name="PREQ2193 SMP-Safe Crypto Services Components" osproject="Diran" revision="021">
+	  <milestone project="GT0433" number="MS3.7"/>
+	  <preq number="2193" title="SMP-Safe Crypto Services Components">
+		  Add SMPSAFE keyword in SDP mmp files
+	  </preq>
+  </deliverystep>
+ 
+ <defect number="DEF129271" title="security subsystem has two identical files called certstorepatchdata.h" revision="020">
+     certstorepatchdata.h removed from swicertstore. This file has been already exported to epoc32/include by filetokens. All references to this header file have been updated. 
+  </defect>
+
+  <defect number="DEF125306" title="SMP: fstokenserver doesn't build on x86gcc platform" revision="019">
+	fstokenserver.mmp fixed to build for x86gcc platform
+  </defect>
+
+  <defect number="PDEF124970" title="Inappropriate handling of DriveName in filetokens " revision="018">
+	Drive Name will return as character not byte.
+  </defect>
+
+  <deliverystep number="1091" name="CR1393: Crypto Services: Multiple Certificate Stores Support" osproject="Sphinx" revision="017">
+	  <milestone project="GT0379" number="MS3.31"/>
+	  <cr number="1393" title="Support for aggregation of several certificate databases in different rofs layers">
+		Support for aggregation of several certificate databases in different rofs layers	  
+	  </cr>
+  </deliverystep>
+
+  <defect number="DEF118391" title="Certtool is still broken" revision="016">
+	Label argument has been handled and the value assigned to it for the cases when the command is given with label or without label.
+  </defect>
+
+  <defect number="PDEF121025" title="CACert.dat is not updated when removing certificate" revision="015">
+	Cacerts.dat file is updated now.
+  </defect>
+
+  <defect number="PDEF120726" title="Symbain - symbian keystore server panics while creating 2 RSA keys in sequence." revision="014">
+	2 RSA keys can be added in sequence.
+  </defect>
+  
+  <defect number="DEF115021" title="FileToken server panicks itself on incorrectly constructed input" revision="013">
+	When the KeyStore server recieves an unexpected message, panic and shutdown the client instead of the server.
+  </defect>
+
+  <defect number="PDEF114651" title="TLS authentication falis and device becomes slow when key store password is not" revision="012">
+     The following methods are now functional:void CRSARepudiableSigner::CancelSign(), void CDSARepudiableSigner::CancelSign(), void CFSRSADecryptor::CancelDecrypt()
+void CDHAgreement::CancelAgreement().
+  </defect>
+  
+  <defect number="DEF107092" title="Remove/Ratify \TO\DO comments from security's test component - tpkixcert" revision="011">
+     Minor changes made to commenting and code to finish off leftover comments from the file "filecertstore.cpp".
+  </defect>
+  
+  <deliverystep number="496" name="EC073: Security: Crypto Services Header File Refactoring" osproject="Oghma" revision="010">
+	  <milestone project="GT0313" number="MS3.7"/>
+	  <ec number="73" title="Crypto Services Header File Refactoring (to simplify the SDK creation process)">
+		  Correct headers included in source file. This change was to fix the effect of BR2143.
+	  </ec>
+  </deliverystep>
+  
+  <deliverystep number="708" name="Security - Alignment of CBR and System Model components" osproject="Oghma" revision="009">
+    <milestone project="GT0313" number="MS3.7"/>
+    <preq number="775" title="Alignment of CBR and System Model components">
+      Asnpkcs is removed from filetokens and now is a new component under security root directory.
+    </preq>
+  </deliverystep>
+
+  <defect number="DEF106230" title="Clean up build's tagscan errors" revision="008">
+    Remove tagscan errors
+  </defect>
+
+  <defect number="DEF107276" title="Lint errors in security code should be fixed (production and test)" revision="007">
+    Minor changes to remove lint errors
+  </defect>
+
+  <defect number="PDEF104034" title="Panic occurs while getting key list during handshake if key is in another key st" revision="006">
+    Fixed Panic when key found in another key store
+  </defect>
+
+  <preq number="1182" title="GNU Make-based build system" revision="005">
+    TOOLS2 macro is added with TOOLS.
+  </preq>
+
+  <preq number="1182" title="GNU Make-based build system" revision="004">
+    Changed according to filename policy to support the building of Symbian OS on both Windows and Linux for the test code.
+  </preq>
+
+  <defect number="INC096420" title="UnifiedKeyStore can't get Key Manager Interface from keystore token plugin" revision="003">
+    UnifiedKeyStore cannot get Key Manager Interface from keystore token plugin
+  </defect>
+
+  <defect number="DEF102043" title="Makesis &amp; SWI assumes system drive is c:" revision="002">
+    Removed hardcoded references to C drive and replaced with system drive.
+  </defect>
+
+  <defect number="DEF099289" title="Remove SYMBIAN_PKCS12 #ifdefs from code" revision="001">
+    Removed SYMBIAN_PKCS12 #ifdefs from code.
+  </defect>
+</relnotes>

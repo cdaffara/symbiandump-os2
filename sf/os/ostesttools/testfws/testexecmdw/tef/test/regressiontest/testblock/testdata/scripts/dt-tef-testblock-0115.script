@@ -1,0 +1,34 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SERVER te_RegBlockTestSuite 
+
+START_TESTCASE DT-TEF-TestBlock-0115
+//! @SYMTestCaseID          DT-TEF-TestBlock-0115
+//! @SYMCreationDate        10-11-2008
+//! @SYMAuthor              extshuohuang
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        this test case form DPDEF129807. when panic string to long the testexecute can't handle the long panic sting.
+//!                         So adding this test case to test.
+//! @SYMTestExpectedResults panic string should match.
+//!                         so the test case should pass.
+//! @SYMTestActions         1. read panci string for ini.
+//!                         2. do panic.
+	START_TEST_BLOCK	100 te_RegBlockTestSuite ${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini
+		CREATE_OBJECT	te_RegBlockTestWrapper	TestCase0115_obj
+		COMMAND		TestCase0115_obj PanickingFunction		TestCase0115_obj_Panic
+	END_TEST_BLOCK		!PanicCode=22 !PanicString="MutexUnheld"
+END_TESTCASE DT-TEF-TestBlock-0115

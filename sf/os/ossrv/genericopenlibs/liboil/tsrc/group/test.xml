@@ -1,0 +1,1962 @@
+<?xml version="1.0"?>
+<test>
+    <id>66</id>
+    <owner>admin</owner>
+    <priority>10</priority>
+    <buildid></buildid>
+	<name>Liboil-testcases</name>
+    <target>
+    		<device rank="master" alias="default" >
+            <property name="HARNESS" value="ATSINTERFACE" />
+            <property name="TYPE" value="vasco" />
+            <property name="NAME" value="vasco" /> 
+        </device>
+    </target>
+    <plan id="1.1" name="Imported ATS test liboil_testrun.zip" harness="ATSINTERFACE" enabled="true" passrate="100">
+        <session id="1.1.1" name="pipeline" harness="ATSINTERFACE" enabled="true" passrate="100">
+			<set id = "1.1.1.1" name = "example1.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.1.1" name="example1.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.1.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "example1.exe"/>
+							<param dst = "C:\sys\bin\example1.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.1.1.2" name = "Execute example1.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\example1.exe"/>
+							<param result-file = "C:\LOGS\example1.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.1.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\example1.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>
+			<set id = "1.1.2.1" name = "jpeg_test.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.2.1" name="jpeg_test.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.1.1.1" name="Test Step" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+                        <params>
+                            <param type = "data"/>
+                            <param src = "test.jpg"/>
+                            <param dst = "C:\test.jpg"/>
+                            <param component-path="ATS3DROP"/>
+                        </params>
+                    </step>
+
+					<step id="1.1.1.2.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "jpeg_test.exe"/>
+							<param dst = "C:\sys\bin\jpeg_test.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.2.1.2" name = "Execute jpeg_test.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\jpeg_test.exe"/>
+							<param parameters = "c:\test.jpg"/>
+							<param result-file = "C:\LOGS\examples_jpeg.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.2.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\examples_jpeg_log1.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>
+			<set id = "1.1.3.1" name = "jpeg_rgb_test.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.3.1" name="jpeg_rgb_test.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.1.1.1" name="Test Step" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+                        <params>
+                            <param type="data"/>
+                            <param src="test.jpg"/>
+                            <param dst="C:\test.jpg"/>
+                            <param component-path="ATS3DROP"/>
+                        </params>
+                    </step>
+
+					<step id="1.1.1.3.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "jpeg_rgb_test.exe"/>
+							<param dst = "C:\sys\bin\jpeg_rgb_test.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.3.1.2" name = "Execute jpeg_rgb_test.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\jpeg_rgb_test.exe"/>
+							<param parameters="c:\test.jpg"/>
+							<param result-file = "C:\LOGS\examples_jpeg_rgb.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.3.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\examples_jpeg_rgb_log1.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>
+			<set id = "1.1.4.1" name = "memcpy-speed.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.4.1" name="memcpy-speed.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.4.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "memcpy-speed.exe"/>
+							<param dst = "C:\sys\bin\memcpy-speed.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.4.1.2" name = "Execute memcpy-speed.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\memcpy-speed.exe"/>
+							<param result-file = "C:\LOGS\memcpy-speed.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.4.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\memcpy-speed_logs.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>
+			<set id = "1.1.5.1" name = "oil-bugreport.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.5.1" name="oil-bugreport.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.5.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "oil-bugreport.exe"/>
+							<param dst = "C:\sys\bin\oil-bugreport.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.5.1.2" name = "Execute oil-bugreport.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\oil-bugreport.exe"/>
+							<param result-file = "C:\LOGS\examples_oil-bugreport.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.5.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\oil-bugreport.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>
+			<set id = "1.1.6.1" name = "oil-mt19937.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.6.1" name="oil-mt19937.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.6.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "oil-mt19937.exe"/>
+							<param dst = "C:\sys\bin\oil-mt19937.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.6.1.2" name = "Execute oil-mt19937.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\oil-mt19937.exe"/>
+							<param result-file = "C:\LOGS\examples_oil-mt19937.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.6.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\examples_oil-mt19937_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>
+			<set id = "1.1.7.1" name = "oil-random.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.7.1" name="oil-random.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.7.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "oil-random.exe"/>
+							<param dst = "C:\sys\bin\oil-random.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.7.1.2" name = "Execute oil-random.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\oil-random.exe"/>
+							<param result-file = "C:\LOGS\examples_oil-random.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.7.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\examples_oil-random_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>
+			<set id = "1.1.8.1" name = "oil-suggest.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.8.1" name="oil-suggest.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.8.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "oil-suggest.exe"/>
+							<param dst = "C:\sys\bin\oil-suggest.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.8.1.2" name = "Execute oil-suggest.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\oil-suggest.exe"/>
+							<param result-file = "C:\LOGS\examples_oil-suggest.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.8.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\examples_oil-suggest_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>
+			<set id = "1.1.9.1" name = "oil-test.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.9.1" name="oil-test.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.9.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "oil-test.exe"/>
+							<param dst = "C:\sys\bin\oil-test.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.9.1.2" name = "Execute oil-test.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\oil-test.exe"/>
+							<param parameters = "abs_f32_f32"/>
+							<param result-file = "C:\LOGS\examples_oil-test.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.9.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\examples_oil-test_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>
+		<!--	<set id = "1.1.10.1" name = "printcpu.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.10.1" name="printcpu.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.10.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "printcpu.exe"/>
+							<param dst = "C:\sys\bin\printcpu.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.10.1.2" name = "Execute printcpu.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\printcpu.exe"/>
+							<param result-file = "C:\LOGS\examples_printcpu.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.10.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\examples_printcpu_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>
+		-->
+			<set id = "1.1.11.1" name = "test_merge_linear_argb.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.11.1" name="test_merge_linear_argb.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.11.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "test_merge_linear_argb.exe"/>
+							<param dst = "C:\sys\bin\test_merge_linear_argb.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.11.1.2" name = "Execute test_merge_linear_argb.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\test_merge_linear_argb.exe"/>
+							<param result-file = "C:\LOGS\test_merge_linear_argb.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.11.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\test_merge_linear_argb_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>
+			<set id = "1.1.12.1" name = "test_merge_linear_u8.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.12.1" name="test_merge_linear_u8.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.12.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "test_merge_linear_u8.exe"/>
+							<param dst = "C:\sys\bin\test_merge_linear_u8.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.12.1.2" name = "Execute test_merge_linear_u8.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\test_merge_linear_u8.exe"/>
+							<param result-file = "C:\LOGS\test_merge_linear_u8.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.12.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\test_merge_linear_u8_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>
+			<set id = "1.1.13.1" name = "test_scalarmultiply_f32_ns.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.13.1" name="test_scalarmultiply_f32_ns.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.13.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "test_scalarmultiply_f32_ns.exe"/>
+							<param dst = "C:\sys\bin\test_scalarmultiply_f32_ns.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.13.1.2" name = "Execute test_scalarmultiply_f32_ns.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\test_scalarmultiply_f32_ns.exe"/>
+							<param result-file = "C:\LOGS\testapps_scalarmultiply_f32_ns.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.13.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\testapps_scalarmultiply_f32_ns_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>
+			<set id = "1.1.14.1" name = "test_splat_u8.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.14.1" name="test_splat_u8.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.14.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "test_splat_u8.exe"/>
+							<param dst = "C:\sys\bin\test_splat_u8.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.14.1.2" name = "Execute test_splat_u8.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\test_splat_u8.exe"/>
+							<param result-file = "C:\LOGS\test_splat_u8.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.14.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\test_splat_u8_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>
+			<set id = "1.1.15.1" name = "test_splat_u8_ns.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.15.1" name="test_splat_u8_ns.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.15.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "test_splat_u8_ns.exe"/>
+							<param dst = "C:\sys\bin\test_splat_u8_ns.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.15.1.2" name = "Execute test_splat_u8_ns.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\test_splat_u8_ns.exe"/>
+							<param result-file = "C:\LOGS\test_splat_u8_ns.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.15.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\test_splat_u8_ns_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>
+			<set id = "1.1.16.1" name = "testsuite_abs.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.16.1" name="testsuite_abs.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.16.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "testsuite_abs.exe"/>
+							<param dst = "C:\sys\bin\testsuite_abs.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.16.1.2" name = "Execute testsuite_abs.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\testsuite_abs.exe"/>
+							<param result-file = "C:\LOGS\testsuite_abs.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.16.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\testsuite_abs_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>
+			<set id = "1.1.17.1" name = "testsuite_align.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.17.1" name="testsuite_align.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.17.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "testsuite_align.exe"/>
+							<param dst = "C:\sys\bin\testsuite_align.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.17.1.2" name = "Execute testsuite_align.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\testsuite_align.exe"/>
+							<param result-file = "C:\LOGS\testsuite_align.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.17.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\testsuite_align_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>
+			<set id = "1.1.18.1" name = "testsuite_copy.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.18.1" name="testsuite_copy.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.18.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "testsuite_copy.exe"/>
+							<param dst = "C:\sys\bin\testsuite_copy.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.18.1.2" name = "Execute testsuite_copy.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\testsuite_copy.exe"/>
+							<param result-file = "C:\LOGS\testsuite_copy.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.18.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\testsuite_copy_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>
+			<set id = "1.1.19.1" name = "testsuite_dso_check.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.19.1" name="testsuite_dso_check.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.19.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "testsuite_dso_check.exe"/>
+							<param dst = "C:\sys\bin\testsuite_dso_check.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.19.1.2" name = "Execute testsuite_dso_check.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\testsuite_dso_check.exe"/>
+							<param result-file = "C:\LOGS\testsuite_dso_check.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.19.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\testsuite_dso_check_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>
+			<set id = "1.1.20.1" name = "testsuite_introspect.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.20.1" name="testsuite_introspect.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.20.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "testsuite_introspect.exe"/>
+							<param dst = "C:\sys\bin\testsuite_introspect.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.20.1.2" name = "Execute testsuite_introspect.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\testsuite_introspect.exe"/>
+							<param result-file = "C:\LOGS\testsuite_introspect.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.20.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\testsuite_introspect_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>
+			<set id = "1.1.21.1" name = "testsuite_list_impls.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.21.1" name="testsuite_list_impls.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.21.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "testsuite_list_impls.exe"/>
+							<param dst = "C:\sys\bin\testsuite_list_impls.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.21.1.2" name = "Execute testsuite_list_impls.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\testsuite_list_impls.exe"/>
+							<param result-file = "C:\LOGS\testsuite_list_impls.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.21.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\testsuite_list_impls_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>
+			<set id = "1.1.22.1" name = "testsuite_md5.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.22.1" name="testsuite_md5.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.22.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "testsuite_md5.exe"/>
+							<param dst = "C:\sys\bin\testsuite_md5.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.22.1.2" name = "Execute testsuite_md5.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\testsuite_md5.exe"/>
+							<param result-file = "C:\LOGS\testsuite_md5.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.22.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\testsuite_md5_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>
+			<set id = "1.1.23.1" name = "testsuite_md5_profile.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.23.1" name="testsuite_md5_profile.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.23.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "testsuite_md5_profile.exe"/>
+							<param dst = "C:\sys\bin\testsuite_md5_profile.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.23.1.2" name = "Execute testsuite_md5_profile.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\testsuite_md5_profile.exe"/>
+							<param result-file = "C:\LOGS\testsuite_md5_profile.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.23.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\testsuite_md5_profile_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>
+			<set id = "1.1.24.1" name = "testsuite_moo.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.24.1" name="testsuite_moo.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.24.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "testsuite_moo.exe"/>
+							<param dst = "C:\sys\bin\testsuite_moo.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.24.1.2" name = "Execute testsuite_moo.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\testsuite_moo.exe"/>
+							<param result-file = "C:\LOGS\testsuite_moo.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.24.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\testsuite_moo_log1.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>
+			<set id = "1.1.25.1" name = "testsuite_proto1.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.25.1" name="testsuite_proto1.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.25.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "testsuite_proto1.exe"/>
+							<param dst = "C:\sys\bin\testsuite_proto1.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.25.1.2" name = "Execute testsuite_proto1.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\testsuite_proto1.exe"/>
+							<param result-file = "C:\LOGS\testsuite_proto1.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.25.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\testsuite_proto1_log1.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>
+			<set id = "1.1.26.1" name = "testsuite_proto2.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.26.1" name="testsuite_proto2.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.26.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "testsuite_proto2.exe"/>
+							<param dst = "C:\sys\bin\testsuite_proto2.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.26.1.2" name = "Execute testsuite_proto2.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\testsuite_proto2.exe"/>
+							<param result-file = "C:\LOGS\testsuite_proto2.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.26.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\testsuite_proto2_log1.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>
+			<set id = "1.1.27.1" name = "testsuite_proto3.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.27.1" name="testsuite_proto3.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.27.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "testsuite_proto3.exe"/>
+							<param dst = "C:\sys\bin\testsuite_proto3.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.27.1.2" name = "Execute testsuite_proto3.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\testsuite_proto3.exe"/>
+							<param result-file = "C:\LOGS\testsuite_proto3.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.27.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\testsuite_proto3_log1.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>
+			<set id = "1.1.28.1" name = "testsuite_proto4.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.28.1" name="testsuite_proto4.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.28.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "testsuite_proto4.exe"/>
+							<param dst = "C:\sys\bin\testsuite_proto4.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.28.1.2" name = "Execute testsuite_proto4.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\testsuite_proto4.exe"/>
+							<param result-file = "C:\LOGS\testsuite_proto4.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.28.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\testsuite_proto4_log1.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>
+			<set id = "1.1.29.1" name = "testsuite_stride.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.29.1" name="testsuite_stride.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.29.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "testsuite_stride.exe"/>
+							<param dst = "C:\sys\bin\testsuite_stride.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.29.1.2" name = "Execute testsuite_stride.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\testsuite_stride.exe"/>
+							<param result-file = "C:\LOGS\testsuite_stride.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.29.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\testsuite_stride_log1.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>
+			
+			<set id = "1.1.31.1" name = "testsuite_zigzag.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.31.1" name="testsuite_zigzag.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.31.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "testsuite_zigzag.exe"/>
+							<param dst = "C:\sys\bin\testsuite_zigzag.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.31.1.2" name = "Execute testsuite_zigzag.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\testsuite_zigzag.exe"/>
+							<param result-file = "C:\LOGS\testsuite_zigzag.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.31.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\testsuite_zigzag_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>
+			<set id = "1.1.32.1" name = "testapps_oil_resample_linear_argb.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.32.1" name="testapps_oil_resample_linear_argb.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.32.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "testapps_oil_resample_linear_argb.exe"/>
+							<param dst = "C:\sys\bin\testapps_oil_resample_linear_argb.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.32.1.2" name = "Execute testapps_oil_resample_linear_argb.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\testapps_oil_resample_linear_argb.exe"/>
+							<param result-file = "C:\LOGS\testapps_oil_resample_linear_argb.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.32.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\testapps_oil_resample_linear_argb_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>
+			<set id = "1.1.33.1" name = "testapps_oil_resample_linear_u8.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.33.1" name="testapps_oil_resample_linear_u8.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.33.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "testapps_oil_resample_linear_u8.exe"/>
+							<param dst = "C:\sys\bin\testapps_oil_resample_linear_u8.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.33.1.2" name = "Execute testapps_oil_resample_linear_u8.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\testapps_oil_resample_linear_u8.exe"/>
+							<param result-file = "C:\LOGS\testapps_oil_resample_linear_u8.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.33.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\testapps_oil_resample_linear_u8_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>
+			<set id = "1.1.30.1" name = "testsuite_test1.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.30.1" name="testsuite_test1.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.30.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "testsuite_test1.exe"/>
+							<param dst = "C:\sys\bin\testsuite_test1.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.30.1.2" name = "Execute testsuite_test1.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\testsuite_test1.exe"/>
+							<param result-file = "C:\LOGS\testsuite_test1.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.30.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\testsuite_test1_log1.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>
+					<set id = "1.1.34.1" name = "testsuite_copyptr.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.34.1" name="testsuite_copyptr.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.34.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "testsuite_copyptr.exe"/>
+							<param dst = "C:\sys\bin\testsuite_copyptr.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.34.1.2" name = "Execute testsuite_copyptr.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\testsuite_copyptr.exe"/>
+							<param result-file = "C:\LOGS\testsuite_copyptr.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.34.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\testsuite_copyptr_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>			
+			<set id = "1.1.35.1" name = "testsuite_diff.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.35.1" name="testsuite_diff.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.35.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "testsuite_diff.exe"/>
+							<param dst = "C:\sys\bin\testsuite_diff.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.35.1.2" name = "Execute testsuite_diff.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\testsuite_diff.exe"/>
+							<param result-file = "C:\LOGS\testsuite_diff.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.35.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\testsuite_diff_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>	
+			<set id = "1.1.36.1" name = "testsuite_misc8x8.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.36.1" name="testsuite_misc8x8.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.36.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "testsuite_misc8x8.exe"/>
+							<param dst = "C:\sys\bin\testsuite_misc8x8.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.36.1.2" name = "Execute testsuite_misc8x8.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\testsuite_misc8x8.exe"/>
+							<param result-file = "C:\LOGS\testsuite_misc8x8.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.36.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\testsuite_misc8x8_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>			
+			<set id = "1.1.37.1" name = "testsuite_yuv2rgb.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.37.1" name="testsuite_yuv2rgb.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.37.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "testsuite_yuv2rgb.exe"/>
+							<param dst = "C:\sys\bin\testsuite_yuv2rgb.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.37.1.2" name = "Execute testsuite_diff.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\testsuite_yuv2rgb.exe"/>
+							<param result-file = "C:\LOGS\testsuite_yuv2rgb.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.37.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\testsuite_yuv2rgb_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>	
+			<set id = "1.1.38.1" name = "testsuite_yuv2rgb.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.38.1" name="testsuite_yuv2rgb.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.38.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "testsuite_yuv2rgb.exe"/>
+							<param dst = "C:\sys\bin\testsuite_yuv2rgb.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.38.1.2" name = "Execute testsuite_yuv2rgb.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\testsuite_yuv2rgb.exe"/>
+							<param result-file = "C:\LOGS\testsuite_yuv2rgb.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.38.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\testsuite_yuv2rgb_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>		
+			<set id = "1.1.39.1" name = "testsuite_math.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.39.1" name="testsuite_math.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.39.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "testsuite_math.exe"/>
+							<param dst = "C:\sys\bin\testsuite_math.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.39.1.2" name = "Execute testsuite_math.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\testsuite_math.exe"/>
+							<param result-file = "C:\LOGS\testsuite_math.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.39.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\testsuite_math_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>	
+			<set id = "1.1.40.1" name = "testsuite_err8x8.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.40.1" name="testsuite_err8x8.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.40.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "testsuite_err8x8.exe"/>
+							<param dst = "C:\sys\bin\testsuite_err8x8.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.40.1.2" name = "Execute testsuite_err8x8.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\testsuite_err8x8.exe"/>
+							<param result-file = "C:\LOGS\testsuite_err8x8.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.40.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\testsuite_err8x8_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>								
+			<set id = "1.1.41.1" name = "testsuite_sad8x8.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.41.1" name="testsuite_sad8x8.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.41.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "testsuite_sad8x8.exe"/>
+							<param dst = "C:\sys\bin\testsuite_sad8x8.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.41.1.2" name = "Execute testsuite_sad8x8.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\testsuite_sad8x8.exe"/>
+							<param result-file = "C:\LOGS\testsuite_sad8x8.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.41.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\testsuite_sad8x8_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>	
+			<set id = "1.1.42.1" name = "testsuite_recon8x8.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.42.1" name="testsuite_recon8x8.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.42.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "testsuite_recon8x8.exe"/>
+							<param dst = "C:\sys\bin\testsuite_recon8x8.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.42.1.2" name = "Execute testsuite_recon8x8.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\testsuite_recon8x8.exe"/>
+							<param result-file = "C:\LOGS\testsuite_recon8x8.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.42.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\testsuite_recon8x8_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>				
+			<set id = "1.1.43.1" name = "testsuite_mult8x8.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.43.1" name="testsuite_mult8x8.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.43.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "testsuite_mult8x8.exe"/>
+							<param dst = "C:\sys\bin\testsuite_mult8x8.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.43.1.2" name = "Execute testsuite_mult8x8.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\testsuite_mult8x8.exe"/>
+							<param result-file = "C:\LOGS\testsuite_mult8x8.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.43.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\testsuite_mult8x8_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>			
+			<set id = "1.1.44.1" name = "testsuite_rowcoladd8x8.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.44.1" name="testsuite_rowcoladd8x8.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.44.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "testsuite_rowcoladd8x8.exe"/>
+							<param dst = "C:\sys\bin\testsuite_rowcoladd8x8.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.44.1.2" name = "Execute testsuite_rowcoladd8x8.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\testsuite_rowcoladd8x8.exe"/>
+							<param result-file = "C:\LOGS\testsuite_rowcoladd8x8.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.44.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\testsuite_rowcoladd8x8_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>	
+			<set id = "1.1.45.1" name = "testsuite_splat.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.45.1" name="testsuite_splat.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.45.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "testsuite_splat.exe"/>
+							<param dst = "C:\sys\bin\testsuite_splat.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.45.1.2" name = "Execute testsuite_splat.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\testsuite_splat.exe"/>
+							<param result-file = "C:\LOGS\testsuite_splat.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.45.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\testsuite_splat_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>						
+    <set id = "1.1.46.1" name = "testsuite_convert.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.46.1" name="testsuite_convert.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.46.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "testsuite_convert.exe"/>
+							<param dst = "C:\sys\bin\testsuite_convert.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.46.1.2" name = "Execute testsuite_convert.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\testsuite_convert.exe"/>
+							<param result-file = "C:\LOGS\testsuite_convert.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.46.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\testsuite_convert_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>		    
+			<set id = "1.1.47.1" name = "testsuite_composite.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.47.1" name="testsuite_composite.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.47.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "testsuite_composite.exe"/>
+							<param dst = "C:\sys\bin\testsuite_composite.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.47.1.2" name = "Execute testsuite_composite.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\testsuite_composite.exe"/>
+							<param result-file = "C:\LOGS\testsuite_composite.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.47.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\testsuite_composite_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>		
+			    <set id = "1.1.48.1" name = "testsuite_mas.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.48.1" name="testsuite_mas.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.48.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "testsuite_mas.exe"/>
+							<param dst = "C:\sys\bin\testsuite_mas.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.48.1.2" name = "Execute testsuite_mas.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\testsuite_mas.exe"/>
+							<param result-file = "C:\LOGS\testsuite_mas.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.48.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\testsuite_mas_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>	
+			    <set id = "1.1.49.1" name = "testsuite_wavelet.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.49.1" name="testsuite_wavelet.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.49.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "testsuite_wavelet.exe"/>
+							<param dst = "C:\sys\bin\testsuite_wavelet.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.49.1.2" name = "Execute testsuite_wavelet.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\testsuite_wavelet.exe"/>
+							<param result-file = "C:\LOGS\testsuite_wavelet.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.49.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\testsuite_wavelet_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>	
+			    <set id = "1.1.50.1" name = "testsuite_dct.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.50.1" name="testsuite_dct.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.50.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "testsuite_dct.exe"/>
+							<param dst = "C:\sys\bin\testsuite_dct.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.50.1.2" name = "Execute testsuite_dct.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\testsuite_dct.exe"/>
+							<param result-file = "C:\LOGS\testsuite_dct.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.50.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\testsuite_dct_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>	
+			    <set id = "1.1.51.1" name = "testsuite_debug.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.51.1" name="testsuite_debug.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.51.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "testsuite_debug.exe"/>
+							<param dst = "C:\sys\bin\testsuite_debug.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.51.1.2" name = "Execute testsuite_debug.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\testsuite_debug.exe"/>
+							<param result-file = "C:\LOGS\testsuite_debug.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.51.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\testsuite_debug_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>	
+			<set id = "1.1.52.1" name = "testsuite_function.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.52.1" name="testsuite_function.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.52.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "testsuite_function.exe"/>
+							<param dst = "C:\sys\bin\testsuite_function.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.52.1.2" name = "Execute testsuite_function.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\testsuite_function.exe"/>
+							<param result-file = "C:\LOGS\testsuite_function.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.52.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\testsuite_function_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>		
+			<set id = "1.1.53.1" name = "testsuite_liboiltest.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.53.1" name="testsuite_liboiltest.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.53.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "testsuite_liboiltest.exe"/>
+							<param dst = "C:\sys\bin\testsuite_liboiltest.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.53.1.2" name = "Execute testsuite_liboiltest.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\testsuite_liboiltest.exe"/>
+							<param result-file = "C:\LOGS\testsuite_liboiltest.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.53.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\testsuite_liboiltest_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>
+			<set id = "1.1.54.1" name = "testsuite_random.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.54.1" name="testsuite_random.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.54.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "testsuite_random.exe"/>
+							<param dst = "C:\sys\bin\testsuite_random.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.54.1.2" name = "Execute testsuite_random.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\testsuite_random.exe"/>
+							<param result-file = "C:\LOGS\testsuite_random.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.54.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\testsuite_random_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>	
+		 <set id = "1.1.55.1" name = "testsuite_swab.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.55.1" name="testsuite_swab.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.55.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "testsuite_swab.exe"/>
+							<param dst = "C:\sys\bin\testsuite_swab.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.55.1.2" name = "Execute testsuite_swab.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\testsuite_swab.exe"/>
+							<param result-file = "C:\LOGS\testsuite_swab.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.55.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\testsuite_swab_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>				
+		 <set id = "1.1.56.1" name = "testsuite_trans8x8.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.56.1" name="testsuite_trans8x8.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.56.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "testsuite_trans8x8.exe"/>
+							<param dst = "C:\sys\bin\testsuite_trans8x8.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.56.1.2" name = "Execute testsuite_trans8x8.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\testsuite_trans8x8.exe"/>
+							<param result-file = "C:\LOGS\testsuite_trans8x8.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.56.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\testsuite_trans8x8_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>	
+		 <set id = "1.1.57.1" name = "testsuite_swab.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.57.1" name="testsuite_swab.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.57.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "testsuite_swab.exe"/>
+							<param dst = "C:\sys\bin\testsuite_swab.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.57.1.2" name = "Execute testsuite_swab.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\testsuite_swab.exe"/>
+							<param result-file = "C:\LOGS\testsuite_swab.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.57.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\testsuite_swab_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>	
+		 <set id = "1.1.58.1" name = "testsuite_clamp1.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100">
+				<target>
+					<device rank = "master" alias = "default"/>
+				</target>
+                <case id="1.1.1.58.1" name="testsuite_clamp1.exe" harness="ATSINTERFACE" enabled="true" passrate="100">
+					<step id="1.1.1.58.1.1" name="INSTALL EXE" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>install</command>
+						<params>
+							<param type = "binary"/>
+							<param src = "testsuite_clamp1.exe"/>
+							<param dst = "C:\sys\bin\testsuite_clamp1.exe"/>
+							<param component-path = "ATS3Drop"/>
+						</params>
+					</step>
+					<step id = "1.1.1.58.1.2" name = "Execute testsuite_clamp1.exe" harness = "ATSINTERFACE" enabled = "true" passrate = "100" significant = "true">
+						<command>execute</command>
+						<params>
+							<param file = "C:\sys\bin\testsuite_clamp1.exe"/>
+							<param result-file = "C:\LOGS\testsuite_clamp1.xml"/>
+							<param timeout ="900" />
+						</params>
+					</step>
+					<step id="1.1.1.58.1.2" name="Fetch Test module Logs" harness="ATSINTERFACE" enabled="true" passrate="100" significant="false">
+						<command>fetch-log</command>
+						<params>
+							<param type="text"/>
+							<param delete="true"/>
+							<param path="C:\Logs\testsuite_clamp1_log.txt"/>
+						</params>
+					</step>
+				</case>
+			</set>																							
+		</session>
+    </plan>
+    
+    <files>    	
+	    <file>ATS3Drop/general/test.jpg</file>
+	    <file>ATS3Drop/armv5_urel/testsuite_abs.exe</file>
+	    <file>ATS3Drop/armv5_urel/testsuite_align.exe</file>
+	    <file>ATS3Drop/armv5_urel/testsuite_copy.exe</file>
+	    <file>ATS3Drop/armv5_urel/testsuite_dso_check.exe</file>
+	    <file>ATS3Drop/armv5_urel/testsuite_introspect.exe</file>
+	    <file>ATS3Drop/armv5_urel/testsuite_list_impls.exe</file>
+	    <file>ATS3Drop/armv5_urel/testsuite_md5.exe</file>
+	    <file>ATS3Drop/armv5_urel/testsuite_md5_profile.exe</file>
+	    <file>ATS3Drop/armv5_urel/testsuite_moo.exe</file>
+	    <file>ATS3Drop/armv5_urel/testsuite_proto1.exe</file>
+	    <file>ATS3Drop/armv5_urel/testsuite_proto2.exe</file>
+	    <file>ATS3Drop/armv5_urel/testsuite_proto3.exe</file>
+	    <file>ATS3Drop/armv5_urel/testsuite_proto4.exe</file>
+	    <file>ATS3Drop/armv5_urel/testsuite_stride.exe</file>
+	    <file>ATS3Drop/armv5_urel/testsuite_test1.exe</file>
+	    <file>ATS3Drop/armv5_urel/testsuite_zigzag.exe</file>
+	    <file>ATS3Drop/armv5_urel/example1.exe</file>
+	    <file>ATS3Drop/armv5_urel/memcpy-speed.exe</file>
+	    <file>ATS3Drop/armv5_urel/oil-bugreport.exe</file>
+	    <file>ATS3Drop/armv5_urel/jpeg_rgb_test.exe</file>
+	    <file>ATS3Drop/armv5_urel/jpeg_test.exe</file>
+	    <file>ATS3Drop/armv5_urel/oil-mt19937.exe</file>
+	    <file>ATS3Drop/armv5_urel/oil-random.exe</file>
+	    <file>ATS3Drop/armv5_urel/oil-suggest.exe</file>
+	    <file>ATS3Drop/armv5_urel/oil-test.exe</file>
+	<!--    <file>ATS3Drop/armv5_urel/printcpu.exe</file>	 -->
+		<file>ATS3Drop/armv5_urel/test_merge_linear_argb.exe</file>	
+		<file>ATS3Drop/armv5_urel/test_merge_linear_u8.exe</file>	
+		<file>ATS3Drop/armv5_urel/test_scalarmultiply_f32_ns.exe</file>	
+		<file>ATS3Drop/armv5_urel/test_splat_u8.exe</file>	
+		<file>ATS3Drop/armv5_urel/test_splat_u8_ns.exe</file>
+		<file>ATS3Drop/armv5_urel/testapps_oil_resample_linear_u8.exe</file>
+		<file>ATS3Drop/armv5_urel/testapps_oil_resample_linear_argb.exe</file>		
+		<file>ATS3Drop/armv5_urel/testsuite_copyptr.exe</file>	
+		<file>ATS3Drop/armv5_urel/testsuite_diff.exe</file>	
+		<file>ATS3Drop/armv5_urel/testsuite_misc8x8.exe</file>	
+		<file>ATS3Drop/armv5_urel/testsuite_yuv2rgb.exe</file>
+		<file>ATS3Drop/armv5_urel/testsuite_math.exe</file>
+		<file>ATS3Drop/armv5_urel/testsuite_err8x8.exe</file>		
+		<file>ATS3Drop/armv5_urel/testsuite_sad8x8.exe</file>				
+		<file>ATS3Drop/armv5_urel/testsuite_recon8x8.exe</file>		
+		<file>ATS3Drop/armv5_urel/testsuite_mult8x8.exe</file>		
+		<file>ATS3Drop/armv5_urel/testsuite_rowcoladd8x8.exe</file>		
+	  <file>ATS3Drop/armv5_urel/testsuite_splat.exe</file>		
+	  <file>ATS3Drop/armv5_urel/testsuite_convert.exe</file>
+		<file>ATS3Drop/armv5_urel/testsuite_composite.exe</file>
+		<file>ATS3Drop/armv5_urel/testsuite_mas.exe</file>		
+		<file>ATS3Drop/armv5_urel/testsuite_wavelet.exe</file>				
+		<file>ATS3Drop/armv5_urel/testsuite_dct.exe</file>		
+		<file>ATS3Drop/armv5_urel/testsuite_debug.exe</file>		
+		<file>ATS3Drop/armv5_urel/testsuite_function.exe</file>		
+	  <file>ATS3Drop/armv5_urel/testsuite_liboiltest.exe</file>	
+		<file>ATS3Drop/armv5_urel/testsuite_random.exe</file>		
+		<file>ATS3Drop/armv5_urel/testsuite_swab.exe</file>		
+		<file>ATS3Drop/armv5_urel/testsuite_trans8x8.exe</file>		
+		<file>ATS3Drop/armv5_urel/testsuite_clamp1.exe</file>		
+	
+    </files>
+    
+</test>

@@ -1,0 +1,36 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// DLL to support STDLIB test programs
+// 
+//
+
+OPTION CW   -w off
+
+TARGETTYPE		dll
+TARGET			ctest.dll
+CAPABILITY		All -Tcb
+
+SOURCEPATH	../TSTLIB
+SOURCE			CTEST.C CTHREAD.CPP COMMINIT.CPP testcons.cpp testconsole.cpp
+
+DEFFILE			ctest3.def
+NOSTRICTDEF
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_ESTLIB_SYSTEMINCLUDE
+LIBRARY			estlib.lib redircli.lib efsrv.lib euser.lib charconv.lib
+
+VENDORID 0x70000001
+
+SMPSAFE

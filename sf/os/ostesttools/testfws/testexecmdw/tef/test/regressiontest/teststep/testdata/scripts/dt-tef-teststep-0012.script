@@ -1,0 +1,40 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SUITE	te_RegStepTestSuite
+
+START_TESTCASE DT-TEF-TestStep-0012
+//! @SYMTestCaseID          DT-TEF-TestStep-0012
+//! @SYMCreationDate        30-07-2008
+//! @SYMAuthor              extjasonzhou
+//! @SYMTestType            CT
+//! @SYMTestPriority        Medium
+//! @SYMTestCaseDesc        Step panic tests
+//! @SYMTestExpectedResults The steps should panic with the expected result (panic code and/or panic string)
+//!                         The test result should be pass.
+//! @SYMTestActions         1. Make the step panics with the expected code and/or string
+//!                         2. Write the expected panic code and/or string in script file to check the panic result.
+//! @SYMPREQ                PREQ2261
+//! @SYMREQ                 REQ10438
+//!                         REQ10440
+//! @SYMTestStatus          2. Functional
+	RUN_TEST_STEP !PanicString="PanicMe" 100 te_RegStepTestSuite PanicTestStep ${SYSDRIVE}\testdata\configs\panictest.ini PanicStringCode
+	RUN_TEST_STEP !PanicCode=-90 100 te_RegStepTestSuite PanicTestStep ${SYSDRIVE}\testdata\configs\panictest.ini PanicStringCode
+	RUN_TEST_STEP !PanicString=PanicMe !PanicCode=-90 100 te_RegStepTestSuite PanicTestStep ${SYSDRIVE}\testdata\configs\panictest.ini PanicStringCode
+	RUN_TEST_STEP !PanicCode=-90 !PanicString=PanicMe 100 te_RegStepTestSuite PanicTestStep ${SYSDRIVE}\testdata\configs\panictest.ini PanicStringCode
+	RUN_TEST_STEP !PanicCode=110 !PanicString="Panic Me" 100 te_RegStepTestSuite PanicTestStep ${SYSDRIVE}\testdata\configs\PanicTest.ini PanicStringCodeEx
+	RUN_TEST_STEP !PanicString="Panic Me" !PanicCode=110 100 te_RegStepTestSuite PanicTestStep ${SYSDRIVE}\testdata\configs\PanicTest.ini PanicStringCodeEx
+END_TESTCASE DT-TEF-TestStep-0012

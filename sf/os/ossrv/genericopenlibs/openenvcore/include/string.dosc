@@ -1,0 +1,1587 @@
+/** @file  ../include/string.h
+@internalComponent
+*/
+
+/** @fn  memccpy(void *t, const void *f, int c, size_t n)
+@param t
+@param f
+@param c
+@param n
+@return   memccpy function returns a pointer to the next character in t after c, or NULL if c was not found in the first n characters of f.
+
+  The memccpy function
+copies bytes from string f to string t. If the character c (as converted to an unsigned char) occurs in the string f, the copy stops and a pointer to the byte after the copy of c in the string t is returned.
+Otherwise, n bytes are copied, and a NULL pointer is returned.
+
+Examples:
+@code
+#include <string.h>
+#include <stdio.h>
+int main()
+{
+    char one[50] = {"\0"};
+    (void) memccpy(one, "abcdefgh",8,3);
+    printf("String after memcpy %s
+",one);
+    (void) memccpy(one, "Hello",5,1);
+    printf("String after memcpy %s
+",one);
+    return 0;
+}
+
+@endcode
+ Output
+@code
+String after memcpy abc
+String after memcpy Hbc
+
+@endcode
+@see bcopy()
+@see memcpy()
+@see memmove()
+@see strcpy()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  memchr(const void *s, int c, size_t n)
+@param s
+@param c
+@param n
+
+@return   The memchr function
+returns a pointer to the byte located,
+or NULL if no such byte exists within n bytes.
+
+  The memchr function
+locates the first occurrence of c (converted to an unsigned char)
+in string s.
+
+Examples:
+@code
+#include <string.h>
+#include <stdio.h>
+int main()
+{
+    char one[50];
+    char* ret;
+    strcpy(one,"abcd");
+    ret = memchr("abcd", ’c’,4);
+    if(!strncmp(one+2,ret,1)) printf("\ ’c\ ’ found in string \"abcd\"\n");
+    ret = memchr(one, ’z’,4);
+    if(ret == NULL) printf("\ ’z\ ’ not found in string \"abcd\"\n");           
+    return 0;
+}
+
+@endcode
+ Output
+@code
+ ’c’ found in string "abcd"
+ ’z’ not found in string "abcd"
+
+@endcode
+@see strchr()
+@see strcspn()
+@see strpbrk()
+@see strsep()
+@see strstr()
+@see strtok()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  memcmp(const void *s1, const void *s2, size_t n)
+@param s1
+@param s2
+@param n
+
+@return   The memcmp function
+returns zero if the two strings are identical,
+otherwise returns the difference between the first two differing bytes
+(treated as unsigned char values, so that '\\200'
+is greater than '\\0'
+for example).
+Zero-length strings are always identical.
+
+  The memcmp function
+compares byte string s1 against byte string s2. Both strings are assumed to be n bytes long.
+
+Examples:
+@code
+#include <string.h>
+#include <stdio.h>
+int main()
+{
+   char str1[]  = "abcdefg";
+   char str2[] =  "abcdefr";
+   int result;
+   printf( "Compare ’%.6s’ to ’%.6s\n", str1, str2 );
+   result = memcmp( str1, str2, 6);
+   if( result < 0 )
+      printf( "str1 is less than str2.\n" );
+   else if( result == 0 )
+      printf( "str1 is equal to str2.\n" );
+   else if( result > 0 )
+      printf( "str1 is greater than str2.\n" );
+   printf( "Compare ’%.7s’ to ’%.7s\n", str1, str2 );
+   result = memcmp( str1, str2, 7 );
+   if( result < 0 )
+      printf( "str1 is less than str2.\n" );
+   else if( result == 0 )
+      printf( "str1 is equal to str2.\n" );
+   else if( result > 0 )
+      printf( "str1 is greater than str2.\n" );
+   return 0;    
+}
+
+@endcode
+ Output
+@code
+Compare ’abcdef’ to ’abcdef
+str1 is equal to str2.
+Compare ’abcdefg’ to ’abcdefr
+str1 is less than str2.
+
+@endcode
+@see bcmp()
+@see strcasecmp()
+@see strcmp()
+@see strcoll()
+@see strxfrm()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  memcpy(void *dst, const void *src, size_t len)
+@param dst
+@param src
+@param len
+@return   The memcpy function
+returns the original value of dst.
+
+  The memcpy function
+copies len bytes from string src to string dst.
+
+Examples:
+@code
+#include <string.h>
+#include <stdio.h>
+int main()
+{
+    char one[50] = {"\0"};
+    (void) memcpy(one, "abcdefgh",8);
+    printf("String after memcpy %s
+",one);
+    (void) memcpy(one, "Hello",5);
+    printf("String after memcpy %s
+",one);
+    return 0;   
+}
+
+@endcode
+ Output
+@code
+String after memcpy abcdefgh
+String after memcpy Hellofgh
+
+@endcode
+@see bcopy()
+@see memccpy()
+@see memmove()
+@see strcpy()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  memmove(void *dst, const void *src, size_t len)
+@param dst
+@param src
+@param len
+
+  The memmove function copies len bytes from string src to string dst. The two strings may overlap. The copy is always done in a non-destructive 
+manner.
+
+Examples:
+@code
+#include <string.h>
+#include <stdio.h>
+int main()
+{
+    char one[50];
+    (void) strcpy(one, "abcdefgh");
+    printf("String before memmove %s
+",one);
+    (void) memmove(one+1, "xyz", 2);
+    printf("String after memmove %s
+",one);
+    (void) strcpy(one, "abcdefgh");
+    printf("String before memmove %s
+",one);
+    (void) memmove(one+1, "xyz", 0);
+    printf("String after memmove %s
+",one);
+    return 0;   
+}
+
+@endcode
+ Output
+@code
+String before memmove abcdefgh
+String after memmove axydefgh
+String before memmove abcdefgh
+String after memmove abcdefgh
+
+@endcode
+@return   The memmove function returns pointer to dst dst.
+
+@see bcopy()
+@see memcpy()
+@see strcpy()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  memset(void *dst0, int c0, size_t length)
+@param dst0
+@param c0
+@param length
+
+  The memset function
+writes length bytes of value c0 (converted to an unsigned char) to the string dst0.
+
+Examples:
+@code
+#include <string.h>
+#include <stdio.h>
+int main()
+{
+    char one[50];       
+    strcpy(one, "abcdefgh");
+    printf("String before memset %s
+",one);
+    memset(one+1, 'x', 3);
+    printf("String after calling memset first time %s
+",one);          
+    memset(one+2, 'y', 0);
+    printf("String after calling memset second time %s
+",one);
+    return 0;   
+}
+
+@endcode
+ Output
+@code
+String before memset abcdefgh
+String after calling memset first time axxxefgh
+String after calling memset second time axxxefgh
+
+@endcode
+@return   The memset function returns its first argument.
+
+@see bzero()
+@see swab()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  stpcpy(char *to, const char *from)
+@param to
+@param from
+
+Note: This description also covers the following functions -
+ strcpy()  strncpy() 
+
+@return   The strcpy and strncpy functions
+return to. The stpcpy function returns a pointer to the terminating ‘\\0’
+character of to.
+
+  The stpcpy and strcpy functions
+copy the string from to to (including the terminating ‘\\0’
+character.)
+
+ The strncpy function copies at most len characters from from into to. If from is less than len characters long,
+the remainder of to is filled with '\\0'
+characters.
+Otherwise, to is not terminated.
+
+Examples:
+@code
+#include <string.h>
+#include <stdio.h>
+int main()
+{
+    char one[50] = {"abcdefgh"};        
+    printf("String before strcpy %s
+",one);
+    strcpy(one,"Hello");
+    printf("String after strcpy %s
+",one);
+    strncpy(one + 5, " ",1);
+    strncpy(one + 6, "World",5);
+    printf("String after strncpy %s
+",one);
+    return 0;   
+}
+
+@endcode
+ Output
+@code
+String before strcpy abcdefgh
+String after strcpy Hello
+String after strncpy Hello World
+
+@endcode
+Examples:
+ The following sets chararray to "abc\\0\\0\\0"
+@code
+char chararray[6];
+(void)strncpy(chararray, "abc", sizeof(chararray));
+
+@endcode
+ The following sets chararray to "abcdef:"
+@code
+char chararray[6];
+(void)strncpy(chararray, "abcdefgh", sizeof(chararray));
+
+@endcode
+ Note that it does not NULL terminate chararray because the length of the source string is greater than or equal
+to the length argument. The following copies as many characters from input to buf as will fit and NULL terminates the result.
+Because strncpy does not guarantee to NULL terminate the string itself, this must be done explicitly.
+@code
+char buf[1024];
+(void)strncpy(buf, input, sizeof(buf) - 1);
+buf[sizeof(buf) - 1] = ’\0’;
+
+@endcode
+
+Security considerations:
+
+ The strcpy function is easily misused in a manner which enables malicious users
+to arbitrarily change a running program's functionality through a
+buffer overflow attack.
+@see bcopy()
+@see memcpy()
+@see memmove()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  strcasestr(const char *s, const char *find)
+@param s
+@param find
+
+Refer to  strstr() for the documentation
+@see memchr()
+@see strchr()
+@see strcspn()
+@see strpbrk()
+@see strrchr()
+@see strsep()
+@see strspn()
+@see strtok()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  strcat(char *  s, const char *  append)
+@param s
+@param append
+
+Note: This description also covers the following functions -
+ strncat() 
+
+@return   The strcat and strncat functions
+return the pointer s.
+
+  The strcat and strncat functions
+append a copy of the null-terminated string append to the end of the null-terminated string s, then add a terminating ‘\\0’
+The string s must have sufficient space to hold the result.
+
+ The strncat function
+appends not more than count characters from append, and then adds a terminating ‘\\0’
+
+Examples:
+@code
+#include <string.h>
+#include <stdio.h>
+int main()
+{
+    char one[50] = {"\0"};              
+    strcpy(one,"Hello");
+    strcat(one," World");
+    printf("Concatenated String %s
+",one);
+    return 0;   
+}
+
+@endcode
+ Output
+@code
+Concatenated String Hello World
+
+@endcode
+
+Security considerations:
+
+ The strcat function is easily misused in a manner
+which enables malicious users to arbitrarily change
+a running program's functionality through a buffer overflow attack. Avoid using strcat. Instead, use strncat or strlcat and ensure that no more characters are copied to the destination buffer
+than it can hold. Note that strncat can also be problematic.
+It may be a security concern for a string to be truncated at all.
+Since the truncated string will not be as long as the original,
+it may refer to a completely different resource
+and usage of the truncated resource
+could result in very incorrect behavior.
+Example:
+
+@see bcopy()
+@see memcpy()
+@see memmove()
+@see strcpy()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  strchr(const char *s, int c)
+@param s
+@param c
+
+Note: This description also covers the following functions -
+ strrchr() 
+
+@return   The functions strchr and strrchr return a pointer to the located character, or NULL if the character does not appear in the string.
+
+  The strchr function locates the first occurrence of c (converted to a char)
+in the string pointed to by s. The terminating null character is considered part of the string;
+therefore if c is ‘\\0’
+the functions locate the terminating ‘\\0’
+
+ The strrchr function is identical to strchr except it locates the last occurrence of c.
+
+Examples:
+@code
+#include <string.h>
+#include <stdio.h>
+int main()
+{
+        char one[50];
+        char* ret;
+        strcpy(one,"abcd");
+        ret = strchr("abcd", 'c');
+        if(!strncmp(one+2,ret,1)) printf("\ 'c\ ' found in string \"abcd\"
+");
+        ret = strchr(one, 'z');
+        if(ret == NULL) printf("\ 'z\ ' not found in string \"abcd\"
+");               
+        return 0;
+}
+
+@endcode
+ Output
+@code
+ ’c’ found in string "abcd"
+ ’z’ not found in string "abcd"
+
+@endcode
+@see memchr()
+@see strcspn()
+@see strpbrk()
+@see strsep()
+@see strspn()
+@see strstr()
+@see strtok()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  strcmp(const char *s1, const char *s2)
+@param s1
+@param s2
+
+Note: This description also covers the following functions -
+ strncmp() 
+
+@return   The strcmp and strncmp return an integer greater than, equal to, or less than 0, according 
+to whether the string s1 is greater than, equal to, or less than the string s2.
+
+  The strcmp and strncmp functions
+lexicographically compare the null-terminated strings s1 and s2.
+
+ The strncmp function
+compares not more than len characters.
+Because strncmp is designed for comparing strings rather than binary data,
+characters that appear after a ‘\\0’
+character are not compared.
+
+Examples:
+@code
+#include <string.h>
+#include <stdio.h>
+int main()
+{
+   char str1[]  = "abcdefg";
+   char str2[] =  "abcdefr";
+   int result;
+   printf( "Compare '%s' to '%s
+", str1, str2 );
+   result = strcmp( str1, str2);
+   if( result < 0 )
+      printf( "str1 is less than str2.
+" );
+   else if( result == 0 )
+      printf( "str1 is equal to str2.
+" );
+   else if( result > 0 )
+      printf( "str1 is greater than str2.
+" );
+   printf( "Compare '%.6s' to '%.6s
+", str1, str2 );
+   result = strncmp( str1, str2, 6 );
+   if( result < 0 )
+      printf( "str1 is less than str2.
+" );
+   else if( result == 0 )
+      printf( "str1 is equal to str2.
+" );
+   else if( result > 0 )
+      printf( "str1 is greater than str2.
+" );
+   return 0;    
+}
+
+@endcode
+ Output
+@code
+Compare ’abcdefg’ to ’abcdefr
+str1 is less than str2.
+Compare ’abased’ to ’abcdef
+str1 is equal to str2.
+
+@endcode
+@see bcmp()
+@see memcmp()
+@see strcasecmp()
+@see strcoll()
+@see strxfrm()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  strcoll(const char *s1, const char *s2)
+@param s1   
+@param s2      
+
+  This function lexicographically compares the null-terminated strings s1 and s2 according to the current locale collation, if locale is set. 
+  Calls strcmp and returns an integer greater than, equal to, or less than 0, to whether s1 is greater than, equal to, or less than s2 if C locale is set.
+  Otherwise it will compare the strings according to the smartphone's locale collation.
+
+Examples:
+@code
+#include <string.h>
+#include <stdio.h>
+#include <locale.h>
+int main()
+{
+    int res;
+    setlocale(LC_ALL,"ar_AE.ISO-8859-6");
+    if(strcoll("abcde","abcde")==0)
+       printf("Strings are same
+");
+    return 0;
+}
+
+@endcode
+ Output
+@code
+Strings are same
+
+@endcode
+@return   This  function  returns  an  integer  less than, equal to, or
+greater than zero if s1 is found, respectively, to  be  less  than,  to
+match,  or be greater than s2, when both are interpreted as appropriate
+for the current locale.
+
+@see setlocale()
+@see strcmp()
+@see strxfrm()
+@see wcscoll()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  strcpy(char *  from, const char *  to)
+@param from
+@param to
+
+Refer to  stpcpy() for the documentation
+@see bcopy()
+@see memcpy()
+@see memmove()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  strcspn(const char *s, const char *charset)
+@param s
+@param charset
+@return   The strcspn function
+returns the number of characters spanned.
+
+  The strcspn function
+spans the initial part of the null-terminated string s as long as the characters from s do not occur in string charset (it
+spans the complement of charset). In other words, it computes the string array index in s of the first character of s which is also in charset, else the index of the first null character.
+
+Examples:
+@code
+#include <string.h>
+#include <stdio.h>
+int main()
+{
+    printf("Number of characters present in s
+ which are not in charset is %d",strcspn("abcde","df"));
+    return 0;
+}
+
+@endcode
+ Output
+@code
+Number of characters present in s
+ which are not in charset is 3
+
+@endcode
+@see memchr()
+@see strchr()
+@see strpbrk()
+@see strrchr()
+@see strsep()
+@see strspn()
+@see strstr()
+@see strtok()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  strdup(const char *str)
+@param str
+
+  The strdup function
+allocates sufficient memory for a copy
+of the string str ,
+does the copy, and returns a pointer to it.
+The pointer may subsequently be used as an
+argument to the function free .
+
+ If insufficient memory is available, NULL is returned and errno is set to ENOMEM .
+
+Examples:
+@code
+#include <string.h>
+#include <stdio.h>
+int main()
+{
+    char* ptr;
+    ptr = (char *)strdup("abcde");
+    printf("Duplicated string %s
+",ptr);
+    ptr = (char *)strdup("Hello Hi");
+    printf("Duplicated string %s
+",ptr);
+    return 0;   
+}
+
+@endcode
+ Output
+@code
+Duplicated string abcde
+Duplicated string Hello Hi
+
+@endcode
+@return   The  strdup()  function  returns a pointer to the duplicated string, or
+NULL if insufficient memory was available.
+
+@see free()
+@see malloc()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  strndup(const char *old, size_t sz)
+@param old
+@param sz
+
+  The strndup function
+allocates sufficient memory for a copy
+of the string old ,
+does the copy of at most sz characters, and returns a pointer to it.
+If old is longer than sz, only sz characters are copied and a terminating NULL is added.
+The pointer may subsequently be used as an
+argument to the function free .
+
+ If insufficient memory is available, NULL is returned and errno is set to ENOMEM .
+
+Examples:
+@code
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+int main()
+{
+    char* ptr;
+    ptr = (char *)strndup("abcde",3);
+    printf("Duplicated string %s
+",ptr);
+    ptr = (char *)strndup("Hello Hi",5);
+    printf("Duplicated string %s
+",ptr);
+    free(ptr);
+    return 0;   
+}
+
+@endcode
+ Output
+@code
+Duplicated string abc
+Duplicated string Hello
+
+@endcode
+@return   The  strdup()  function  returns a pointer to the duplicated string, or
+NULL if insufficient memory was available.
+
+@see free()
+@see malloc()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn strnlen(const char *s, size_t len)
+@param s
+@param len
+
+@return The  strnlen function returns strlen(s), if that is less than len, or len if there is no "\\0" character among the first len characters pointed to by s.
+
+Examples:
+@code
+#include <string.h>
+#include <stdio.h>
+int main()
+{
+    char one[50];
+    int ret;
+    strcpy(one,"abcdef");
+    ret = strnlen(one,5);
+    printf("Length obtained using strnlen = %d\n",ret);
+    ret = strnlen(one,10);
+    printf("Length obtained using strnlen = %d\n",ret);
+}
+
+@endcode
+ Output
+@code
+Length obtained using strnlen = 5
+Length obtained using strnlen = 6
+
+@endcode
+Feedback For additional information or queries on this page send feedback
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @fn  strerror(int num)
+@param num
+
+Refer to  perror() for the documentation
+@see intro()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  strerror_r(int errnum, char *strerrbuf, size_t buflen)
+@param errnum
+@param strerrbuf
+@param buflen
+
+Refer to  perror() for the documentation
+@see intro()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  strlcat(char *dst, const char *src, size_t size)
+@param dst
+@param src
+@param size
+
+Refer to  strlcpy() for the documentation
+@see snprintf()
+@see strncat()
+@see strncpy()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  strlcpy(char *dst, const char *src, size_t size)
+@param dst
+@param src
+@param size
+
+Note: This description also covers the following functions -
+ strlcat() 
+
+@return   The strlcpy and strlcat functions return the total length of the string they tried to
+create.
+For strlcpy that means the length of src .
+For strlcat that means the initial length of dst plus
+the length of src .
+While this may seem somewhat confusing it was done to make
+truncation detection simple. Note however, that if strlcat traverses size characters without finding a NULL, the length of the string is 
+  considered to be size and the destination string will not be NULL-terminated (since there 
+  was no space for the NULL). This prevents strlcat from running off the end of a string. In practice this should 
+  not happen (as it means that either size is incorrect or that dst is not a proper "C" string). The check exists to prevent potential security problems in incorrect 
+  code.
+
+  The strlcpy and strlcat functions copy and concatenate strings respectively. They are 
+designed to be safer, more consistent, and less error prone replacements for strncpy and strncat. Unlike those functions, strlcpy and strlcat take the full size of the buffer (not just the length) and guarantee 
+to NULL-terminate the result (as long as size is larger than 0 or, in the case of strlcat , as long as there is at least one byte free in dst ). Note that you should include a byte for the NULL in size . Also note that strlcpy and strlcat only operate on true "C" strings. This means that for strlcpy src must be NUL-terminated and for strlcat both src and dst must be NULL-terminated.
+
+ The strlcpy function copies up to size - 1 characters from the NULL-terminated string src to dst , NULL-terminating the result.
+
+ The strlcat function appends the NULL-terminated string src to the end of dst . It will append at most size - strlen(dst) - 1 bytes, NULL-terminating the result.
+
+
+
+Examples:
+ The following code fragment illustrates the simple case:
+@code
+char *s, *p, buf[BUFSIZ];
+...
+(void)strlcpy(buf, s, sizeof(buf));
+(void)strlcat(buf, p, sizeof(buf));
+
+@endcode
+ To detect truncation, perhaps while building a pathname, something
+like the following might be used:
+@code
+char *dir, *file, pname[MAXPATHLEN];
+...
+if (strlcpy(pname, dir, sizeof(pname)) >= sizeof(pname))
+        goto toolong;
+if (strlcat(pname, file, sizeof(pname)) >= sizeof(pname))
+        goto toolong;
+
+@endcode
+ Since we know how many characters we copied the first time, we can
+speed things up a bit by using a copy instead of an append:
+@code
+char *dir, *file, pname[MAXPATHLEN];
+size_t n;
+...
+n = strlcpy(pname, dir, sizeof(pname));
+if (n >= sizeof(pname))
+        goto toolong;
+if (strlcpy(pname + n, file, sizeof(pname) - n) >= sizeof(pname) - n)
+        goto toolong;
+
+@endcode
+ However, one may question the validity of such optimizations, as they
+defeat the whole purpose of strlcpy and strlcat .
+As a matter of fact, the first version of this manual page got it wrong.
+Examples:
+@code
+#include <string.h>
+#include <stdio.h>
+int main()
+{
+    char one[50] = {"abcdefgh"};
+    printf("String before strcpy %s
+",one);
+    strlcpy(one,"Hello");
+    printf("String after strcpy %s
+",one);
+    strlcpy(one + 5, " ",1);
+    strlcpy(one + 6, "World",5);
+    printf("String after strncpy %s
+",one);
+    return 0;
+}
+
+@endcode
+@see snprintf()
+@see strncat()
+@see strncpy()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  strlen(const char *str)
+@param str
+@return  The strlen() function shall return the length of s; no return value shall be reserved to indicate an error.
+
+The strlen() function shall compute the number of bytes in the string to which s points,
+ not including the terminating null byte.
+
+Examples:
+@code
+#include <string.h>
+#include <stdio.h>
+int main()
+{
+    char one[50];
+    int ret;
+    strcpy(one,"abcdef");
+    ret = strnlen(one,5);
+    printf("Length obtained using strnlen = %d
+",ret);
+    ret = strnlen(one,10);
+    printf("Length obtained using strnlen = %d
+",ret);
+}
+
+@endcode
+ Output
+@code
+Length obtained using strnlen = 5
+Length obtained using strnlen = 6
+@endcode
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  strncat(char * dst, const char * src, size_t n)
+@param dst
+@param src
+@param n
+
+Refer to  strcat() for the documentation
+@see bcopy()
+@see memcpy()
+@see memmove()
+@see strcpy()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  strncmp(const char *s1, const char *s2, size_t n)
+@param s1
+@param s2
+@param n
+
+Refer to  strcmp() for the documentation
+@see bcmp()
+@see memcmp()
+@see strcasecmp()
+@see strcoll()
+@see strxfrm()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  strncpy(char *  dst, const char *  src, size_t n)
+@param dst
+@param src
+@param n
+
+Refer to  stpcpy() for the documentation
+@see bcopy()
+@see memcpy()
+@see memmove()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  strnstr(const char *s, const char *find, size_t slen)
+@param s
+@param find
+@param slen
+
+Refer to  strstr() for the documentation
+@see memchr()
+@see strchr()
+@see strcspn()
+@see strpbrk()
+@see strrchr()
+@see strsep()
+@see strspn()
+@see strtok()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  strpbrk(const char *s1, const char *s2)
+@param s1
+@param s2
+
+  The strpbrk function
+locates in the null-terminated string s1 the first occurrence of any character in the string s2 and returns a pointer to this character.
+If no characters from s2 occur anywhere in s1 strpbrk returns NULL.
+
+Examples:
+@code
+#include <string.h>
+#include <stdio.h>
+int main()
+{
+    char one[50];
+    char *res;
+    strcpy(one,"acdb");
+    res = strpbrk(one, "bc");
+    if(res != NULL)
+       printf("%s
+",res);
+    return 0;
+}
+
+@endcode
+ Output
+@code
+cdb
+
+@endcode
+@return   The strpbrk() function returns a pointer to the  character  in  s1  that
+matches  one  of the characters in accept, or NULL if no such character
+is found.
+
+@see memchr()
+@see strchr()
+@see strcspn()
+@see strsep()
+@see strspn()
+@see strstr()
+@see strtok()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  strrchr(const char *s, int c)
+@param s
+@param c
+
+Refer to  strchr() for the documentation
+@see memchr()
+@see strcspn()
+@see strpbrk()
+@see strsep()
+@see strspn()
+@see strstr()
+@see strtok()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  strsep(char **stringp, const char *delim)
+@param stringp
+@param delim
+@return   strsep function returns a pointer to the token, i.e it returns the original value of *stringp
+
+  The strsep function locates, in the string referenced by *stringp ,
+the first occurrence of any character in the string delim (or the terminating ‘\\0’
+character) and replaces it with a ‘\\0’.
+The location of the next character after the delimiter character
+(or NULL, if the end of the string was reached) is stored in *stringp .
+The original value of *stringp is returned.
+
+ An "empty"
+field (i.e., a character in the string delim occurs as the first character of *stringp )
+can be detected by comparing the location referenced by the returned pointer
+to ‘\\0’.
+
+ If *stringp is initially NULL , strsep returns NULL .
+
+Examples:
+@code
+#include <string.h>
+#include <stdio.h>
+int main()
+{
+    char *one=(char *)malloc(12);
+    char *res;
+    char **two=&one;
+    strcpy(one,"Hello,World");
+    res=strsep(two,",");
+    if(strcmp(res,"hello"))
+    printf("%s
+",res);      
+    return 0;
+}
+
+@endcode
+ Output
+@code
+Hello
+
+@endcode
+@see memchr()
+@see strchr()
+@see strcspn()
+@see strpbrk()
+@see strspn()
+@see strstr()
+@see strtok()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  strspn(const char *s, const char *charset)
+@param s
+@param charset
+@return   strspn function returns the number of characters in the initial segment of s which consists only of characters from accept
+
+  The strspn function
+spans the initial part of the null-terminated string s as long as the characters from s occur in the null-terminated string charset .
+In other words, it computes the string array index in s of the first character of s which is not in charset ,
+else the index of the first null character.
+
+Examples:
+@code
+#include <string.h>
+#include <stdio.h>
+int main()
+{
+    char one[50];
+    int res;
+    strcpy(one,"abcba");
+    res = strspn(one, "abc");
+    printf(" %d times characters found in the string 
+",res);
+    return 0;
+}
+
+@endcode
+ Output
+@code
+5 times characters found in the string
+
+@endcode
+@return   The strspn function
+returns the number of characters spanned.
+
+@see memchr()
+@see strchr()
+@see strpbrk()
+@see strsep()
+@see strstr()
+@see strtok()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  strstr(const char *s, const char *find)
+@param s
+@param find
+
+Note: This description also covers the following functions -
+ strcasestr()  strnstr() 
+
+@return   The strstr function returns a pointer to the beginning of the substring, or NULL if the substring is not found.If find is an empty string, s is returned;
+if find occurs nowhere in s , NULL is returned;
+otherwise a pointer to the first character of the first occurrence of find is returned.
+
+
+  The strstr function
+locates the first occurrence of the null-terminated string find in the null-terminated string s .
+
+ The strcasestr function is similar to strstr ,
+but ignores the case of both strings.
+
+ The strnstr function
+locates the first occurrence of the null-terminated string find in the string s ,
+where not more than slen characters are searched.
+Characters that appear after a ‘\\0’
+character are not searched.
+Since the strnstr function is a specific API, it should only be used when portability is not a concern.
+
+Examples:
+@code
+#include <string.h>
+#include <stdio.h>
+int main()
+{
+    char *ptr;
+    ptr = strstr("abcd", "z");
+    if(ptr == NULL)
+       printf("strstr: \"z\" not found in \"abcd\"
+");
+    else
+       printf("strstr: \"z\" found in \"abcd\"
+");
+    ptr = strstr("abcd", "ab");
+    if(ptr == NULL)
+       printf("strstr: \"ab\" not found in \"abcd\"
+");
+    else
+       printf("strstr: \"ab\" found in \"abcd\"
+");
+    ptr = strstr("abcd", "abcde");
+    if(ptr == NULL)
+       printf("strstr: \"abcde\" found in \"abcd\"
+");
+    else
+       printf("strstr: \"abbcde\" not found in \"abcd\"
+");
+    return 0;
+}
+
+@endcode
+ Output
+@code
+strstr: "z" not found in "abcd"
+strstr: "ab" found in "abcd"
+strstr: "abcde" found in "abcd"
+
+@endcode
+Examples:
+ The following sets the pointer ptr to the "Bar Baz"
+portion of largestring :
+@code
+const char *largestring = "Foo Bar Baz";
+const char *smallstring = "Bar";
+char *ptr;
+ptr = strstr(largestring, smallstring);
+
+@endcode
+ The following sets the pointer ptr to NULL ,
+because only the first 4 characters of largestring are searched:
+@code
+const char *largestring = "Foo Bar Baz";
+const char *smallstring = "Bar";
+char *ptr;
+ptr = strnstr(largestring, smallstring, 4);
+
+@endcode
+@see memchr()
+@see strchr()
+@see strcspn()
+@see strpbrk()
+@see strrchr()
+@see strsep()
+@see strspn()
+@see strtok()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  strtok(char *s, const char *delim)
+@param s
+@param delim
+
+Note: This description also covers the following functions -
+ strtok_r() 
+
+@return   strtok function returns a pointer to the next token, or NULL if there are no more tokens.
+
+  This interface is superceded by strsep .
+
+ The strtok function
+is used to isolate sequential tokens in a null-terminated string, s .
+These tokens are separated in the string by at least one of the
+characters in delim .
+The first time that strtok is called, s should be specified; subsequent calls, wishing to obtain further tokens
+from the same string, should pass a null pointer instead.
+The separator string, delim ,
+must be supplied each time, and may change between calls.
+
+ The implementation will behave as if no library function calls strtok .
+
+ The strtok_r function is a reentrant version of strtok .
+The context pointer last must be provided on each call.
+The strtok_r function
+may also be used to nest two parsing loops within one another, as
+long as separate context pointers are used.
+
+ The strtok and strtok_r functions
+return a pointer to the beginning of each subsequent token in the string,
+after replacing the token itself with a NUL character.
+When no more tokens remain, a null pointer is returned.
+
+Examples:
+@code
+#include <string.h>
+#include <stdio.h>
+int main()
+{
+    char one[50];
+    char *res;
+    strcpy(one,"Hello,World,Hi");
+    res=strtok(one,",");
+    if(!strcmp(res,"Hello"))
+    printf("%s
+",res);
+    res=strtok(NULL,",");
+    if(!strcmp(res,"World"))
+    printf("%s
+",res);
+    return 0;
+}
+
+@endcode
+ Output
+@code
+Hello
+World
+
+@endcode
+@see memchr()
+@see strchr()
+@see strcspn()
+@see strpbrk()
+@see strsep()
+@see strspn()
+@see strstr()
+@see wcstok()
+
+
+Bugs:
+
+ The System V strtok ,
+if handed a string containing only delimiter characters,
+will not alter the next starting point, so that a call to strtok with a different (or empty) delimiter string
+may return a non- NULL value.
+Since this implementation always alters the next starting point,
+such a sequence of calls would always return NULL . 
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  strtok_r(char *s1, const char *s2, char **lasts)
+@param s1
+@param s2
+@param lasts
+
+Refer to  strtok() for the documentation
+@see memchr()
+@see strchr()
+@see strcspn()
+@see strpbrk()
+@see strsep()
+@see strspn()
+@see strstr()
+@see wcstok()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  strxfrm(char *  dest, const char *  src, size_t n)
+@param dest
+@param src
+@param n
+@return   Upon successful completion, strxfrm returns the length of the transformed string not including
+the terminating null character.
+If this value is n or more, the contents of dst are indeterminate.
+
+  The strxfrm function transforms a null-terminated string pointed to by src according to the current locale collation if any,
+then copies the transformed string
+into dst .
+Not more than n characters are copied into dst ,
+including the terminating null character added.
+If n is set to 0
+(it helps to determine an actual size needed
+for transformation), dst is permitted to be a NULL pointer.
+
+ Comparing two strings using strcmp after strxfrm is equal to comparing
+two original strings with strcoll .
+
+Examples:
+@code
+#include <string.h>
+#include <stdio.h>
+int main()
+{
+    char src2[20] = "abc";
+    char dst1[20] = {’\0’};
+    char src1[20] = "abc";
+    char dst2[20] = {’\0’};
+    int retx1;
+    int retx2;
+    int retc;
+    retx1 = strxfrm(dst1,src1,strlen(src1));
+    retx2 = strxfrm(dst2,src2,strlen(src2));
+    if((retc = strcmp(dst1,dst2))== 0)
+        printf("Strings are same
+");
+}
+
+@endcode
+ Output
+@code
+Strings are same
+
+@endcode
+@see setlocale()
+@see strcmp()
+@see strcoll()
+@see wcsxfrm()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  swab(const void *from, void *to, ssize_t len)
+@param from
+@param to
+@param len
+
+  The function swab copies len bytes from the location referenced by from to the location referenced by to ,
+swapping adjacent bytes.
+
+ The argument len must be an even number.
+
+Examples:
+@code
+#include <string.h>
+#include <stdio.h>
+int main()
+{
+    int i=0x00003366,j=0x0;
+    swab((void *)&i;,(void *)&j;,2);
+    if(j==0x6633)
+       printf("Ouput val = %#x
+",j);
+    return 0;
+}
+
+@endcode
+ Output
+@code
+Ouput val = 0x6633
+
+@endcode
+@see bzero()
+@see memset()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+

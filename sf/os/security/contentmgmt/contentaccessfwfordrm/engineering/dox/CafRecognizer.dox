@@ -1,0 +1,117 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// <hr>
+// The Apparc framework uses data type recognizers derived from \c CApaDataRecognizerType 
+// to determine the MIME type of files in Symbian OS. Apparc supplies the filename and 
+// a buffer containing bytes read from the start of the file. If a file is recognized, 
+// the recognizer must return the MIME type and the degree of confidence in recognizing 
+// the file (a \c TInt ranging from <code>"KMinInt=Not Recognized"</code> to <code>"KMaxInt=Certain"</code>).
+// The implementation of DRM presents a problem when determinining the MIME type. Usually, a DRM 
+// file stores one or more content objects. For example, an OMA file with 
+// MIME type <code>application/vnd.oma.drm.content</code> might store an image file with 
+// MIME type <code>image/jpeg</code>. Apparc expects only one MIME type to be returned, not two. 
+// The CAF recognizer <code>RECCAF.DLL</code> uses the 
+// to determine whether or not a file is recognized by the content access framework and 
+// if so retrieves these two MIME types.
+// The mapping of these two MIME types returned by CAF to a single MIME type follows these rules:
+// <table border=1>
+// <tr><th> File MIME Type </th><th> Content MIME Type              </th><th> Apparc MIME Type                         </th></tr>
+// <tr><td> Present        </td><td> Present                        </td><td> <code><i>x-caf-</i>ContentMimeType</code></td></tr>
+// <tr><td> Present        </td><td> Not Present                    </td><td> <code>FileMimeType</code>                </td></tr>
+// <tr><td> Present        </td><td> <code>application/x-caf</code> </td><td> <code>application/x-caf</code>           </td></tr>
+// </table>
+// The rationale for the above mapping is as follows:
+// Access Framework. A file is either recognized by an agent or it is not recognized.
+// <hr>
+// When recognizing a file, Apparc supplies the name of the file to be recognized, and a 
+// buffer containing the start of the file, to all <code>CApaDataRecognizerType::DoRecognizeL()</code> 
+// implementations. These two parameters can be passed to the <code>ContentAccess::CAgentResolver::DoRecognize()</code> 
+// function to determine whether one of the Content Access Agents recognizes the file. 
+// CApaDataRecognizer::DoRecognize(TDesC& aFilename, TDesC8& aBuffer)
+// TBool recognized;
+// CAgentResolver *resolver = CAgentResolver::NewL();
+// recognized = resolver->DoRecognize(filename, buffer, fileMimeType, contentMimeType);
+// <code>ContentAccess::CAgentResolver::DoRecognize()</code> passes the filename and buffer to each of the  
+// agents in turn. The agents perform the recognition, and the result is returned 
+// as either \c ETrue if the file was recognized, or \c EFalse if it was not. If the file 
+// is recognized, the \c fileMimeType and \c contentMimeType parameters are populated 
+// with the correct MIME types.
+// The recognition is distributed to the agents because they are able to recognize 
+// a file belonging to their agent. They are also able to examine the contents to 
+// work out the content MIME type. This allows one generic CAF recognizer to be used 
+// for all the agents implemented with the content access framework.
+// <hr>
+// The following diagram illustrates the recognition of an OMA file with 
+// JPEG content.
+// <hr>
+// The CAF recognizer configuration file is stored in the Apparc server's
+// private directory \c \\private\\10003a3f\\RecCaf\\RecCafMimeTypes.txt.
+// It is just a list of all known content MIME types. The list allows the 
+// recognizer to return a fixed set of MIME types when 
+// Apparc calls the recognizer's <code>CApaCafRecognizer::SupportedDataTypeL()</code> fuction.
+// image/jpeg
+// image/gif
+// text/plain
+// text/html
+// ... etc
+// If this file is replaced (to support new content types), the recognizer 
+// will only implement the changes during the next power on. Similarly if a new agent 
+// is added, the recognizer will only rebuild its list of agents after the next power on.
+// <hr>
+// In order to use CAF content, applications will need to update their registration resource files (e.g. 
+// <code>AppName_reg.rss</code>) to include the new CAF MIME types. For example, in the past an image 
+// viewer may have only included <code>image/jpeg</code> in the list of MIME types it could open. 
+// If the application is updated to use the Content Access Framework, it should support 
+// <code>image/jpeg</code> and <code>x-caf-image/jpeg</code> in order to support 
+// unprotected and protected content respectively. See the registration file examples below.
+// All file operations should be conducted through the CAF framework, so that the 
+// application will not need to know anything about a specific DRM scheme.
+// <b>Registration file that doesn't use CAF</b>
+// datatype_list = 
+// DATATYPE { priority= EDataTypePriorityHigh ; type="image/jpeg"; },
+// <b>Registration file that does use CAF</b>
+// datatype_list = 
+// DATATYPE { priority= EDataTypePriorityHigh ; type="image/jpeg"; },
+// DATATYPE { priority= EDataTypePriorityHigh ; type="x-caf-image/jpeg"; },
+// <hr>
+// 
+//
+
+/**
+ @page CAFRecognizer How to write an Apparc recognizer for the Content Access Framework
+ - @ref RecognizerOverview
+ - @ref DoRecognize
+ - @ref ConfigFile
+ - @ref AppRegFiles
+ @section RecognizerOverview Overview 
+ <code>ContentAccess::CAgentResolver::DoRecognize()</code> function @ref DoRecognize "(see below)"  
+ @li Users and applications will be interested in the MIME type of the content within a file not the packaging. CAF abstracts the packaging.
+ @li If the content is recognized with only the MIME type of the content within the file, it would confuse legacy applications who thought the entire file was that MIME type
+ @li Prefixing the content type with <code>"x-caf-"</code> shows it is a file that can be opened by CAF to read that content type without confusing legacy applications
+ @li A file that needs to be passed through the supplier interface before it can be used will just be recognized as the file MIME type, the content type is irrelevant before the supply operation.
+ @li A file containing many content objects should just be recognized as <code>application/x-caf</code> since the packaging of the archive is irrelevant. CAF abstracts the packaging.
+ @note The concept of "confidence" has also been eliminated for the files within the Content 
+ @section DoRecognize How to determine the file and content MIME types of a DRM file
+ @code
+ @endcode
+ @image html recognizer.gif
+ @section ConfigFile CAF Recognizer Configuration File
+ @code
+ @endcode
+ @section AppRegFiles Application Registration files
+ @code
+ @endcode	
+ @code
+ @endcode	
+*/

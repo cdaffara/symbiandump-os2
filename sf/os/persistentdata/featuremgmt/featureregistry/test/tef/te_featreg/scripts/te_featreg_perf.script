@@ -1,0 +1,72 @@
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// te_featreg.script
+// 
+// @file
+//
+
+//! @SYMTestSuiteName SYSLIB-FEATREG-TEF-PERF
+//! @SYMScriptTestEnvironment This script can be run in both Techview and Textshell. Please see "SGL.TS0017.257 Feature Registry Design.doc" for details about how build the required image.
+//! @internalComponent
+//! @test
+
+PRINT Run Feature Registry performance tests
+PRINT
+
+LOAD_SUITE te_featreg
+
+START_TESTCASE    SYSLIB-FEATREG-PT-1399  //FeatRegPerformance
+//! @SYMTestCaseID SYSLIB-FEATREG-PT-1399
+//! @SYMTestCaseDesc Measure performance of Feature Registry query API
+//! @SYMTestPriority High
+//! @SYMTestActions Measure elapsed time for various query and setup operations; timings can be read from output file
+//! @SYMTestExpectedResults The test must not fail
+//! @SYMPREQ PREQ1086
+
+	RUN_PROGRAM 100 featreg_maketestconfig.exe valid_perf_100
+	RUN_TEST_STEP 100 te_featreg FeatRegMeasPerformance z:\testdata\featreg\dummy.ini 100 
+	RUN_PROGRAM 100 featreg_maketestconfig.exe valid_perf_200
+	RUN_TEST_STEP 100 te_featreg FeatRegMeasPerformance z:\testdata\featreg\dummy.ini 200
+	RUN_PROGRAM 100 featreg_maketestconfig.exe valid_perf_400
+	RUN_TEST_STEP 100 te_featreg FeatRegMeasPerformance z:\testdata\featreg\dummy.ini 400
+	RUN_PROGRAM 100 featreg_maketestconfig.exe valid_perf_800
+	RUN_TEST_STEP 100 te_featreg FeatRegMeasPerformance z:\testdata\featreg\dummy.ini 800
+	RUN_PROGRAM 100 featreg_maketestconfig.exe valid_perf_1000
+	RUN_TEST_STEP 100 te_featreg FeatRegMeasPerformance z:\testdata\featreg\dummy.ini 1000
+	RUN_PROGRAM 100 featreg_maketestconfig.exe valid_perf_1600
+	RUN_TEST_STEP 100 te_featreg FeatRegMeasPerformance z:\testdata\featreg\dummy.ini 1600
+	RUN_PROGRAM 100 featreg_maketestconfig.exe valid_perf_2000
+	RUN_TEST_STEP 100 te_featreg FeatRegMeasPerformance z:\testdata\featreg\dummy.ini 2000
+	RUN_PROGRAM 100 featreg_maketestconfig.exe valid_perf_3000
+	RUN_TEST_STEP 100 te_featreg FeatRegMeasPerformance z:\testdata\featreg\dummy.ini 3000
+	RUN_PROGRAM 100 featreg_maketestconfig.exe valid_perf_4000
+	RUN_TEST_STEP 100 te_featreg FeatRegMeasPerformance z:\testdata\featreg\dummy.ini 4000 
+	RUN_PROGRAM 100 featreg_maketestconfig.exe valid_perf_5000
+	RUN_TEST_STEP 100 te_featreg FeatRegMeasPerformance z:\testdata\featreg\dummy.ini 5000
+	RUN_PROGRAM 100 featreg_maketestconfig.exe valid_perf_6000
+	RUN_TEST_STEP 100 te_featreg FeatRegMeasPerformance z:\testdata\featreg\dummy.ini 6000
+	RUN_PROGRAM 100 featreg_maketestconfig.exe valid_perf_7000
+	RUN_TEST_STEP 100 te_featreg FeatRegMeasPerformance z:\testdata\featreg\dummy.ini 7000
+	RUN_PROGRAM 100 featreg_maketestconfig.exe valid_perf_8000
+	RUN_TEST_STEP 100 te_featreg FeatRegMeasPerformance z:\testdata\featreg\dummy.ini 8000
+	RUN_PROGRAM 100 featreg_maketestconfig.exe valid_nofeatures
+	RUN_TEST_STEP 100 te_featreg FeatRegMeasPerformance z:\testdata\featreg\dummy.ini 0
+	RUN_PROGRAM 100 featreg_maketestconfig.exe valid_small
+	RUN_TEST_STEP 100 te_featreg FeatRegMeasPerformance z:\testdata\featreg\dummy.ini 2
+	RUN_PROGRAM 100 featreg_maketestconfig.exe valid_large
+	RUN_TEST_STEP 100 te_featreg FeatRegMeasPerformance z:\testdata\featreg\dummy.ini 256
+END_TESTCASE    SYSLIB-FEATREG-PT-1399  //FeatRegPerformance
+
+PRINT
+PRINT All Feature Registry performance tests complete

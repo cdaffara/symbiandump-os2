@@ -1,0 +1,40 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+macro __CPU_ARM1136__
+#define MM_MULTIPLE
+macro __CPU_HAS_VFP
+#define USE_VFP_MATH
+
+#define VariantTarget(name,ext) _h4hrp_##name##.##ext
+
+#define VariantMediaDefIncludePath /epoc32/include/omap_hrp/h4
+
+macro __DEBUGGER_SUPPORT__
+
+macro OMAPFPGA_MDB          // Use FPGA settings for H2 multiport debug
+
+#define OMAP24XX_ASSP
+
+macro __IS_OMAP2420__
+
+macro __TI_QUART_CLOCKSRC__=14736840 // Clock input frequency (Hz) for the Quad UART
+
+// Macro if enabled, the system will start using the new style
+// tick timer implementation. Whenever enabling/disabling this 
+// macro clean and build power and kaomap24xx DLLs.
+macro NEW_TICKTIMER_IMP

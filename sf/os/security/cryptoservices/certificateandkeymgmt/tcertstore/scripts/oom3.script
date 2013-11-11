@@ -1,0 +1,338 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+START_TESTCASE                SEC-CERTMAN-OOM3-CERTSTORE-0001
+
+//! @SYMTestCaseID            SEC-CERTMAN-OOM3-CERTSTORE-0001
+
+//! @SYMTestCaseDesc          oom3.txt
+
+//!                           Oom tests for the certificate addition, deletion, trust&application setting with notification
+
+//!                           to the client process.
+
+//!                           
+
+//!                           Note: The in-source test tag is only added to the new tests for PREQ226. The tests without test tag is the existing tests
+
+//!                           in the certstore component, which are used to set up the environment needed by the PREQ226 tests.
+
+//!                           
+
+//!                           Setup ///////////////////////////////////////////////////////////////////////
+
+//! @SYMTestActions           1) No Test,Opening a CertificateAppInfoManager
+
+//!                           2) No Test,Adding client A1
+
+//!                           3) No Test,Adding client A2
+
+//!                           4) No Test,Adding client A3
+
+//!                           5) No Test,Adding client A4
+
+//!                           6) No Test,Deleting the CertificateAppInfoManager
+
+//!                           7) Opening a writable certificate store manager
+
+//!                           8) Deleting all certs
+
+//!                           9) Import a RSA key rsacertkey1
+
+//!                           10) Start OOM testing
+
+RUN_TEST_STEP                 -1    CTestHandler        initappmanager      
+
+RUN_TEST_STEP                 -1    CTestHandler        addclient              oom3.ini   SEC-CERTMAN-OOM3-0001-002
+
+RUN_TEST_STEP                 -1    CTestHandler        addclient              oom3.ini   SEC-CERTMAN-OOM3-0001-003
+
+RUN_TEST_STEP                 -1    CTestHandler        addclient              oom3.ini   SEC-CERTMAN-OOM3-0001-004
+
+RUN_TEST_STEP                 -1    CTestHandler        addclient              oom3.ini   SEC-CERTMAN-OOM3-0001-005
+
+RUN_TEST_STEP                 -1    CTestHandler        deleteappmanager    
+
+RUN_TEST_STEP                 -1    CTestHandler        init                   oom3.ini   SEC-CERTMAN-OOM3-0001-007
+
+RUN_TEST_STEP                 -1    CTestHandler        deletecert             oom3.ini   SEC-CERTMAN-OOM3-0001-008
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              oom3.ini   SEC-CERTMAN-OOM3-0001-009
+
+RUN_TEST_STEP                 -1    CTestHandler        startmemfailure     
+
+END_TESTCASE                  SEC-CERTMAN-OOM3-CERTSTORE-0001
+
+
+
+
+
+// Add certs ///////////////////////////////////////////////////////////////////
+
+
+
+START_TESTCASE                UCTSSEC-CT-WMODEUCTADDCWNOOM1.1
+
+//! @SYMTestCaseID            UCTSSEC-CT-WMODEUCTADDCWNOOM1.1
+
+//! @file                     
+
+//! @SYMTestCaseDesc          The test is the OOM test of X509 CA certificate addition with notification.
+
+//! @SYMPREQ                  226
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 1.1, OOM test of X509 CA certificate CAX1 addition with notification
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                oom3.ini   UCTSSEC-CT-WMODEUCTADDCWNOOM1.1-001
+
+END_TESTCASE                  UCTSSEC-CT-WMODEUCTADDCWNOOM1.1
+
+
+
+
+
+// Add certs ///////////////////////////////////////////////////////////////////
+
+
+
+START_TESTCASE                UCTSSEC-CT-WMODEUCTADDCWNOOM1.2
+
+//! @SYMTestCaseID            UCTSSEC-CT-WMODEUCTADDCWNOOM1.2
+
+//! @file                     
+
+//! @SYMTestCaseDesc          The test is the OOM test of WTLS CA certificate addition with notification.
+
+//! @SYMPREQ                  226
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 1.2, OOM test of WTLS CA certificate CAW1 addition with notification
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                oom3.ini   UCTSSEC-CT-WMODEUCTADDCWNOOM1.2-001
+
+END_TESTCASE                  UCTSSEC-CT-WMODEUCTADDCWNOOM1.2
+
+
+
+
+
+// Add certs ///////////////////////////////////////////////////////////////////
+
+
+
+START_TESTCASE                UCTSSEC-CT-WMODEUCTADDCWNOOM1.3
+
+//! @SYMTestCaseID            UCTSSEC-CT-WMODEUCTADDCWNOOM1.3
+
+//! @file                     
+
+//! @SYMTestCaseDesc          The test is the OOM test of X509 user certificate addition with notification.
+
+//! @SYMPREQ                  226
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 1.3, OOM test of X509 user certificate rsacert1 addition with notification
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                oom3.ini   UCTSSEC-CT-WMODEUCTADDCWNOOM1.3-001
+
+END_TESTCASE                  UCTSSEC-CT-WMODEUCTADDCWNOOM1.3
+
+
+
+
+
+START_TESTCASE                SEC-CERTMAN-OOM3-0005
+
+//! @SYMTestCaseID            SEC-CERTMAN-OOM3-0005
+
+//! @SYMTestCaseDesc          List certs //////////////////////////////////////////////////////////////////
+
+//! @SYMTestActions           1) List CA certificates
+
+//!                           2) List user certificates
+
+//!                           3) List user certificates filtered by key usage
+
+//!                           4) List user certificates filtered by key usage
+
+//!                           5) List certificates filtered by Issuer DN
+
+//!                           6) List certificates filtered by Issuer DN
+
+//!                           7) List certificates filtered by Issuer DN
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               oom3.ini   SEC-CERTMAN-OOM3-0005-001
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               oom3.ini   SEC-CERTMAN-OOM3-0005-002
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               oom3.ini   SEC-CERTMAN-OOM3-0005-003
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               oom3.ini   SEC-CERTMAN-OOM3-0005-004
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               oom3.ini   SEC-CERTMAN-OOM3-0005-005
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               oom3.ini   SEC-CERTMAN-OOM3-0005-006
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               oom3.ini   SEC-CERTMAN-OOM3-0005-007
+
+END_TESTCASE                  SEC-CERTMAN-OOM3-0005
+
+
+
+
+
+// Applications and trust //////////////////////////////////////////////////////
+
+
+
+START_TESTCASE                UCTSSEC-CT-WMODEUCTSAPPCWNOOM4.1
+
+//! @SYMTestCaseID            UCTSSEC-CT-WMODEUCTSAPPCWNOOM4.1
+
+//! @file                     
+
+//! @SYMTestCaseDesc          The test is the OOM test of setting X509 CA certificate with notification.
+
+//! @SYMPREQ                  226
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 4.1, OOM test of applications setting to the CAX1 certificate with notification
+
+//!                           2) Get applications for CAX1
+
+RUN_TEST_STEP                 -1    CTestHandler        setapplications        oom3.ini   UCTSSEC-CT-WMODEUCTSAPPCWNOOM4.1-001
+
+RUN_TEST_STEP                 -1    CTestHandler        getapplications        oom3.ini   UCTSSEC-CT-WMODEUCTSAPPCWNOOM4.1-002
+
+END_TESTCASE                  UCTSSEC-CT-WMODEUCTSAPPCWNOOM4.1
+
+
+
+
+
+START_TESTCASE                UCTSSEC-CT-WMODEUCTSTRUSTCWNOOM3.1
+
+//! @SYMTestCaseID            UCTSSEC-CT-WMODEUCTSTRUSTCWNOOM3.1
+
+//! @file                     
+
+//! @SYMTestCaseDesc          The test is the OOM test of setting X509 CA certificate with notification.
+
+//! @SYMPREQ                  226
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 3.1 OOM test of the trust setting for CAX1 with notification
+
+//!                           2) Get the trust for CAX1
+
+RUN_TEST_STEP                 -1    CTestHandler        settrust               oom3.ini   UCTSSEC-CT-WMODEUCTSTRUSTCWNOOM3.1-001
+
+RUN_TEST_STEP                 -1    CTestHandler        gettrusters            oom3.ini   UCTSSEC-CT-WMODEUCTSTRUSTCWNOOM3.1-002
+
+END_TESTCASE                  UCTSSEC-CT-WMODEUCTSTRUSTCWNOOM3.1
+
+
+
+
+
+// Delete certs ////////////////////////////////////////////////////////////////
+
+
+
+START_TESTCASE                UCTSSEC-CT-WMODEUCTDELCWNOOM2.1
+
+//! @SYMTestCaseID            UCTSSEC-CT-WMODEUCTDELCWNOOM2.1
+
+//! @file                     
+
+//! @SYMTestCaseDesc          The test is the OOM test of the certificates deletion with notification.
+
+//! @SYMPREQ                  226
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 2.1, OOM test of all certs deletion with notification
+
+RUN_TEST_STEP                 -1    CTestHandler        deletecert             oom3.ini   UCTSSEC-CT-WMODEUCTDELCWNOOM2.1-001
+
+END_TESTCASE                  UCTSSEC-CT-WMODEUCTDELCWNOOM2.1
+
+
+
+
+
+START_TESTCASE                SEC-CERTMAN-OOM3-0009
+
+//! @SYMTestCaseID            SEC-CERTMAN-OOM3-0009
+
+//! @SYMTestCaseDesc          Cleanup /////////////////////////////////////////////////////////////////////
+
+//! @SYMTestActions           1) None
+
+//!                           2) Deleting the writable certificate store manager
+
+//!                           3) No Test,Opening a CertificateAppInfoManager
+
+//!                           4) No Test,Deleting the client A1
+
+//!                           5) No Test,Deleting the client A2
+
+//!                           6) No Test,Deleting the client A3
+
+//!                           7) No Test,Deleting the client A4
+
+//!                           8) No Test,Deleting the CertificateAppInfoManager
+
+RUN_TEST_STEP                 -1    CTestHandler        stopmemfailure      
+
+RUN_TEST_STEP                 -1    CTestHandler        delete              
+
+RUN_TEST_STEP                 -1    CTestHandler        initappmanager      
+
+RUN_TEST_STEP                 -1    CTestHandler        removeclient           oom3.ini   SEC-CERTMAN-OOM3-0009-004
+
+RUN_TEST_STEP                 -1    CTestHandler        removeclient           oom3.ini   SEC-CERTMAN-OOM3-0009-005
+
+RUN_TEST_STEP                 -1    CTestHandler        removeclient           oom3.ini   SEC-CERTMAN-OOM3-0009-006
+
+RUN_TEST_STEP                 -1    CTestHandler        removeclient           oom3.ini   SEC-CERTMAN-OOM3-0009-007
+
+RUN_TEST_STEP                 -1    CTestHandler        deleteappmanager    
+
+END_TESTCASE                  SEC-CERTMAN-OOM3-0009
+
+
+
+
+

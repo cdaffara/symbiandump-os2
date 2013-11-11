@@ -1,0 +1,54 @@
+/*
+* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* Generic interface for certificate and keys management.
+* certstore.dll Abstract secure certificate storage, root certificate and keys management
+*
+*/
+
+
+/**
+ @file
+*/
+
+TARGET	certstore.dll
+CAPABILITY All -Tcb
+TARGETTYPE	dll
+
+UID 0x1000008d 0x10005e0a
+VENDORID 0x70000001
+#ifdef SYMBIAN_AUTH_SERVER
+DEFFILE certstore.def
+#else
+DEFFILE CERTSTORE_V2.DEF
+#endif // SYMBIAN_AUTH_SERVER
+
+SOURCEPATH	.
+
+SOURCE Unifiedcertstoreworkingvars.cpp
+SOURCE certificateapps.cpp
+SOURCE unifiedcertstore.cpp
+SOURCE unifiedkeystore.cpp
+SOURCE CCheckedCertStore.cpp
+
+USERINCLUDE ../../../crypto/weakcrypto/inc
+USERINCLUDE  ../../../cryptomgmtlibs/cryptotokenfw/inc_interfaces
+USERINCLUDE  ../../filebasedcertificateandkeystores/Inc
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+LIBRARY	euser.lib estor.lib efsrv.lib 
+LIBRARY ctframework.lib x500.lib x509.lib wtlscert.lib hash.lib
+LIBRARY	pbe.lib random.lib asnpkcs.lib
+LIBRARY ecom.lib ctfinder.lib fstokencli.lib
+SMPSAFE

@@ -1,0 +1,370 @@
+/** @file  ../include/sys/event.h
+@internalComponent
+*/
+
+/** @def	EVFILT_READ
+
+They are some pre-defined system filter
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def	EVFILT_WRITE
+
+They are some pre-defined system filter
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def	EVFILT_AIO
+
+attached to aio requests
+
+@publishedAll
+@released
+*/
+
+
+
+/** @def	EVFILT_VNODE
+
+attached to vnodes
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def	EVFILT_PROC
+
+attached to struct proc
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def	EVFILT_SIGNAL
+
+attached to struct proc
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def	EVFILT_TIMER
+
+timers
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def	EVFILT_NETDEV
+
+network devices
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def	EVFILT_FS
+
+filesystem events
+
+@publishedAll
+@released
+*/
+
+/** @struct kevent
+
+Contains the following members,
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @var kevent::ident
+identifier for this event
+*/
+
+/** @var kevent::filter
+filter for event
+*/
+
+/** @var kevent::flags
+action flags for kqueue
+*/
+
+/** @var kevent::fflags
+filter flag value 
+*/
+
+/** @var kevent::data
+filter data value
+*/
+
+/** @var kevent::udata
+opaque user data identifier
+*/
+
+
+/** @def EV_SET(kevp_, a, b, c, d, e, f)
+
+The EV_SET() macro is provided for ease of initializing a kevent structure. 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def EV_ADD		
+
+It is an action.. add event to kq (implies enable).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def EV_DELETE
+
+It is an action.. delete event from kq
+	
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def EV_ENABLE
+
+It is an action.. enable event.
+	
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def EV_DISABLE	
+
+It is an action.. disable event (not reported)
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def EV_ONESHOT	
+
+flags supported. only report one occurrence.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def EV_CLEAR
+	
+flags supported. clear event state after reporting .
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def EV_EOF		
+
+returned value.EOF detected.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def EV_ERROR	
+
+returned value. error, data contains errno.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def EV_SYSFLAGS	
+
+flags supported. reserved by system.
+
+@publishedAll
+@released
+*/
+
+
+/** @def EV_FLAG1	
+
+flags supported. filter-specific flag.
+
+@publishedAll
+@released
+*/
+
+
+/** @struct knote 
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @var knote::kn_link
+for kq
+*/
+
+/** @var knote::kn_selnext
+for struct selinfo
+*/
+
+/** @var knote::kn_knlist
+f_attach populated
+*/
+
+/** @var knote::kn_tqe
+identifier for this event
+*/
+
+/** @var knote::kn_kq
+which queue we are on 
+*/
+
+/** @var knote::kn_kevent
+identifier for this event
+*/
+
+/** @var knote::kn_status
+protected by kq lock
+*/
+
+/** @var knote::kn_sfflags
+saved filter flags
+*/
+
+/** @var knote::kn_sdata
+saved data field 
+*/
+
+/** @var knote::kn_fop
+identifier for this event
+*/
+
+/** @var knote::kn_hook
+identifier for this event
+*/
+
+/** @def NOTE_LOWAT	
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def NOTE_DELETE	
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def NOTE_WRITE	
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def NOTE_EXTEND	
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def NOTE_ATTRIB	
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def NOTE_LINK	
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def NOTE_RENAME	
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def NOTE_REVOKE	
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def NOTE_EXIT	
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def NOTE_FORK	
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def NOTE_EXEC	
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def NOTE_TRACK	
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def NOTE_TRACKERR	
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def NOTE_CHILD	
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def NOTE_PCTRLMASK	
+@publishedAll
+@released
+*/
+
+/** @def NOTE_PDATAMASK	
+@publishedAll
+@released
+*/
+
+
+/** @def NOTE_LINKUP	
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def NOTE_LINKDOWN	
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def NOTE_LINKINV	
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+

@@ -1,0 +1,88 @@
+// Copyright (c) 1997-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// estor.dll Stream store management
+// 
+//
+
+/**
+ @file
+*/
+
+// Define this macro only when the edbms.mmh file is present in 
+// the /epoc32/include folder. 
+#ifdef SYMBIAN_CUSTOM_STORE_BUFFER_SIZES
+#include "estor.mmh"
+#endif
+
+// The project release file
+SOURCEPATH	../group
+
+// The component build proper...
+
+target          estor.dll
+CAPABILITY All
+targettype      dll
+UID      0x1000008d 0x10003b0d
+VENDORID 0x70000001
+
+UNPAGED
+
+SMPSAFE
+
+//CodeWarrior compilation options - disable the "illegal pragma" warning
+OPTION CW -w noillpragmas
+
+userinclude     ../INC
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+userinclude	../../../../security/crypto/weakcrypto/inc
+
+SOURCEPATH	../UBTREE 
+source          UB_FIX.CPP UB_INL.CPP UB_KEY.CPP UB_NODE.CPP UB_TREE.CPP UB_UTL.CPP 
+ 
+SOURCEPATH	../UCONT 
+source          UC_SET.CPP UC_UTL.CPP 
+ 
+SOURCEPATH	../UCRYPT 
+source          UE_FLTR.CPP UE_STOR.CPP UE_STRM.CPP UE_UTL.CPP
+ 
+SOURCEPATH	../UFILE 
+source          UF_BUF.CPP UF_DICT.CPP UF_DIR.CPP UF_PERM.CPP UF_STOR.CPP
+source          UF_STRM.CPP UF_UTL.CPP 
+ 
+SOURCEPATH	../ULIB 
+source          UL_UTL.CPP 
+ 
+SOURCEPATH	../UMEM 
+source          UM_BUF.CPP UM_STOR.CPP UM_STRM.CPP UM_UTL.CPP 
+ 
+SOURCEPATH	../UPAGE 
+source          UP_CACHE.CPP UP_FILE.CPP UP_PAGE.CPP UP_STOR.CPP UP_UTL.CPP 
+ 
+SOURCEPATH	../USTOR
+source          UT_COLL.CPP UT_DICT.CPP UT_EMBED.CPP UT_MAP.CPP UT_PERM.CPP
+source          UT_STOR.CPP UT_STRM.CPP UT_SWZ.CPP UT_UTL.CPP UT_Iter.cpp
+ 
+SOURCEPATH	../USTRM
+source          US_BUF.CPP US_FLTR.CPP US_FRAME.CPP US_FUNC.CPP US_HOST.CPP
+source          US_IO.CPP US_SHARE.CPP US_STRM.CPP US_UTL.CPP US_UCMP.CPP
+
+nostrictdef
+
+	    deffile		estor3.def	    //EKA2 kernel - only PBE, INT64
+
+library			euser.lib efsrv.lib
+
+start wins
+baseaddress     0x41200000
+end

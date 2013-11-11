@@ -1,0 +1,713 @@
+<action>
+	<actionname>BasicMaths Forward Backward Test</actionname>
+	<actiontype>BasicMathsFB</actiontype>
+	<actionbody>
+		<bits>2048</bits>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- ADD 4 bytes</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<a>AAAAAAAA</a>
+		<b>55555555</b>
+		<ans>FFFFFFFF</ans>
+		<op>add</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- ADD 4 bytes overflow</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<a>AAAAAAAA</a>
+		<b>55555556</b>
+		<ans>0100000000</ans>
+		<op>add</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- ADD 8 bytes</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<a>AAAAAAAAAAAAAAAA</a>
+		<b>5555555555555555</b>
+		<ans>FFFFFFFFFFFFFFFF</ans>
+		<op>add</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- ADD 8 bytes overflow</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<a>AAAAAAAAAAAAAAAB</a>
+		<b>5555555555555555</b>
+		<ans>010000000000000000</ans>
+		<op>add</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- ADD 4 bytes b > a</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<b>AAAAAAAA</b>
+		<a>55555555</a>
+		<ans>FFFFFFFF</ans>
+		<op>add</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- ADD 4 bytes overflow, b > a</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<b>AAAAAAAA</b>
+		<a>55555556</a>
+		<ans>0100000000</ans>
+		<op>add</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- ADD 8 bytes, b > a</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<b>AAAAAAAAAAAAAAAA</b>
+		<a>5555555555555555</a>
+		<ans>FFFFFFFFFFFFFFFF</ans>
+		<op>add</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- ADD 8 bytes overflow, b > a</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<b>AAAAAAAAAAAAAAAB</b>
+		<a>5555555555555555</a>
+		<ans>010000000000000000</ans>
+		<op>add</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- ADD two large numbers</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<b>1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF</b>
+		<a>2468ACF121579BDE2468ACF121579BDE2468ACF121579BDE2468ACF121579BDE2468ACF121579BDE</a>
+		<ans>369D0369B20369CD369D0369B20369CD369D0369B20369CD369D0369B20369CD369D0369B20369CD</ans>
+		<op>add</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- ADD two large numbers</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<b>1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF</b>
+		<a>1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF</a>
+		<ans>1234567890ABCDEF1234567890ABCDEF2468ACF121579BDE2468ACF121579BDE2468ACF121579BDE2468ACF121579BDE2468ACF121579BDE</ans>
+		<op>add</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- ADD two large numbers with overflow</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<b>1234567890ABCDEF1234567890ABCDEF2468ACF121579BDE2468ACF121579BDE2468ACF121579BDE2468ACF121579BDE2468ACF121579BDE</b>
+		<a>FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF</a>
+		<ans>0100000000000000000000000000000000000000001234567890ABCDEF1234567890ABCDEF2468ACF121579BDE2468ACF121579BDE2468ACF121579BDE2468ACF121579BDE2468ACF121579BDD</ans>
+		<op>add</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- SUB 4 bytes</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<a>CCCCCCCC</a>
+		<b>33333333</b>
+		<ans>99999999</ans>
+		<op>subtract</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- SUB 4 bytes</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<a>FFFFFFFF</a>
+		<b>98765432</b>
+		<ans>6789ABCD</ans>
+		<op>subtract</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- SUB 8 bytes</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<a>AAAAAAAAAAAAAAAA</a>
+		<b>5555555555555555</b>
+		<ans>5555555555555555</ans>
+		<op>subtract</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- SUB 2 large numbers</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<a>0100000000000000000000000000000000000000001234567890ABCDEF1234567890ABCDEF2468ACF121579BDE2468ACF121579BDE2468ACF121579BDE2468ACF121579BDE2468ACF121579BDD</a>
+		<b>0FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF</b>
+		<ans>0100000000000000000000000000000000000000000234567890ABCDEF1234567890ABCDEF2468ACF121579BDE2468ACF121579BDE2468ACF121579BDE2468ACF121579BDE2468ACF121579BDE</ans>
+		<op>subtract</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- multiply small</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<a>10</a>
+		<b>10</b>
+		<ans>0100</ans>
+		<op>multiply</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- multiply large</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<a>1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF</a>
+		<b>1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF</b>
+		<ans>014B66DC328828BCA8DE2CC20802F69A5070F2A7DD7DC477F803B88DB2F892559F967E7388736033472944595DEE2E10EEBC0A3F3368FBEE93B8026CA3D37852EC253C86CE58AA75449276A0F8DDDC979CFFB0BB23630EB9F56CEAD54DE840DC4DDA24EF786D72FEA6475F09A2F2A521</ans>
+		<op>multiply</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- multiply large different size operands</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<a>1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF</a>
+		<b>014B66DC328828BCA8DE2CC20802F69A5070F2A7DD7DC477F803B88DB2F892559F967E7388736033472944595DEE2E10EEBC0A3F3368FBEE93B8026CA3D37852EC253C86CE58AA75449276A0F8DDDC979CFFB0BB23630EB9F56CEAD54DE840DC4DDA24EF786D72FEA6475F09A2F2A521</b>
+		<ans>1790FC50E94EFB2011AA5462D02F816CAD8FF281833861E5EB41D6AD02699C8BCAC000E54DC3315E4C0A712A6545205D6F21277C48EF6988ED512EE83CD51B8165B4691E042E86209A7F173A33373C668BB1393CC9EF3E53394ACF25C8568BE6A34BD8F52E6D2520C9B456AAFC330A01F3373D39ED952BE980BAAAF23F5B3AFDB00A5EB75D49A43E81265889476067ABF40E9867FD9F854608C31E538006FD0CBF43EA4BCE96CF</ans>
+		<op>multiply</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- divide basic</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<a>1230981F</a>
+		<b>0238973B</b>
+		<ans>08</ans>
+		<op>divide</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- modulo basic</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<a>1230981F</a>
+		<b>0238973B</b>
+		<ans>6BDE47</ans>
+		<op>modulus</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- divide basic no remainder</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<a>11C4B9D8</a>
+		<b>0238973B</b>
+		<ans>08</ans>
+		<op>divide</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- modulus basic no remainder</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<a>11C4B9D8</a>
+		<b>0238973B</b>
+		<ans>00</ans>
+		<op>modulus</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- divide large</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<a>0FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF</a>
+		<b>1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF</b>
+		<ans>E10000</ans>
+		<remainder>8D90000E100000008D90000E100000008D90000E100000008D90000E100000008D90000E100000008D90000E100000008D90000F0FFFF</remainder>
+		<op>divide</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- modulus large</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<a>0FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF</a>
+		<b>1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF</b>
+		<ans>08D90000E100000008D90000E100000008D90000E100000008D90000E100000008D90000E100000008D90000E100000008D90000F0FFFF</ans>
+		<op>modulus</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- InverseMod 1</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<a>01</a>
+		<b>08</b>
+		<ans>01</ans>
+		<op>inversemod</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- InverseMod 2</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<a>02</a>
+		<b>08</b>
+		<ans>00</ans>
+		<op>inversemod</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- InverseMod 3</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<a>03</a>
+		<b>08</b>
+		<ans>03</ans>
+		<op>inversemod</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- InverseMod 4</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<a>05</a>
+		<b>08</b>
+		<ans>05</ans>
+		<op>inversemod</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- InverseMod 5</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<a>05</a>
+		<b>07</b>
+		<ans>03</ans>
+		<op>inversemod</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- GCD 1</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<a>18</a>
+		<b>20</b>
+		<ans>08</ans>
+		<op>gcd</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- GCD 2</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<a>06E4</a>
+		<b>0364</b>
+		<ans>1C</ans>
+		<op>gcd</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- GCD 3</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<a>0364</a>
+		<b>06E4</b>
+		<ans>1C</ans>
+		<op>gcd</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- GCD 4 (two really big prime numbers)</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<a>96FC57652F5221A76EB6CC1E6EA830CA44819734C9146590D6269935D9FE0A550B664BA486C237EBC592A1A5083A55C1F67F4820BC5C485C622D2E539EB348B6ADFCA98C74C5ECBC707785E86528F2127FF51B48CDF9D7F0182D52E0EB87440F43F170CB1070A2EB53BE7C5F9400729ED5C180A3C589C3E7FADA19E7AA94730C3896744A976BDB344AAF51235AD0868E4F336BCFA732F4E5CC67ED204EFC70373C8397007909690154EA7064C5DF1A6511C8D731AC307E4623B265DFD71C14CCE20EA277E2156CF4191DEC3247C2A2BB893A07C4D1574D1C3C69400A14952B23AA53A445627A9D6F112751BDFEAC9743BFCB2585CC6747D42549</a>
+		<b>AB33704201D2EF00EA25B8DC1FE2A80B33677B6E9272E8FEFE43F72844E17EF624C257B0C731CCB53DF2879BD0E7128D7E42588869AEF5076CDDB63410999FBC1E197A933D07AA49DFFE96490F8C1F8F0097F34EBD090FCCB4435C1E551327C9F0BC570F1C2FDF4D6A0728E06F7E80DE2FF1CB35B6839BA2D2B746CBC40C300D0D2B06A812719F157713F506DDB7C18EECBF8EA32D68D0258D188664AD349CFB0AED250FC6A963C173E1A1A7A7416148ABB35D5FA85ABBF9E53CE060AD31AF15A71955ED654ED76CDCBEC2ACF44F53CF41F44F289C531036F7FA040EEC7D0F0AE02EA91CBE737CC8FF24475E44B55FF6DE6BD0E75D32C35BCF5D</b>
+		<ans>01</ans>
+		<op>gcd</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>OOM start</actionname>
+	<actiontype>startmemfailure</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- ADD 4 bytes</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<a>AAAAAAAA</a>
+		<b>55555555</b>
+		<ans>FFFFFFFF</ans>
+		<op>add</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- ADD 4 bytes overflow</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<a>AAAAAAAA</a>
+		<b>55555556</b>
+		<ans>0100000000</ans>
+		<op>add</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- ADD 8 bytes</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<a>AAAAAAAAAAAAAAAA</a>
+		<b>5555555555555555</b>
+		<ans>FFFFFFFFFFFFFFFF</ans>
+		<op>add</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- ADD 8 bytes overflow</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<a>AAAAAAAAAAAAAAAB</a>
+		<b>5555555555555555</b>
+		<ans>010000000000000000</ans>
+		<op>add</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- ADD 4 bytes b > a</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<b>AAAAAAAA</b>
+		<a>55555555</a>
+		<ans>FFFFFFFF</ans>
+		<op>add</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- ADD 4 bytes overflow, b > a</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<b>AAAAAAAA</b>
+		<a>55555556</a>
+		<ans>0100000000</ans>
+		<op>add</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- ADD 8 bytes, b > a</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<b>AAAAAAAAAAAAAAAA</b>
+		<a>5555555555555555</a>
+		<ans>FFFFFFFFFFFFFFFF</ans>
+		<op>add</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- ADD 8 bytes overflow, b > a</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<b>AAAAAAAAAAAAAAAB</b>
+		<a>5555555555555555</a>
+		<ans>010000000000000000</ans>
+		<op>add</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- SUB 4 bytes</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<a>CCCCCCCC</a>
+		<b>33333333</b>
+		<ans>99999999</ans>
+		<op>subtract</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- SUB 4 bytes</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<a>FFFFFFFF</a>
+		<b>98765432</b>
+		<ans>6789ABCD</ans>
+		<op>subtract</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- SUB 8 bytes</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<a>AAAAAAAAAAAAAAAA</a>
+		<b>5555555555555555</b>
+		<ans>5555555555555555</ans>
+		<op>subtract</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- InverseMod 1</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<a>01</a>
+		<b>08</b>
+		<ans>01</ans>
+		<op>inversemod</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- InverseMod 2</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<a>02</a>
+		<b>08</b>
+		<ans>00</ans>
+		<op>inversemod</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- InverseMod 3</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<a>03</a>
+		<b>08</b>
+		<ans>03</ans>
+		<op>inversemod</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- InverseMod 4</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<a>05</a>
+		<b>08</b>
+		<ans>05</ans>
+		<op>inversemod</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- InverseMod 5</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<a>05</a>
+		<b>07</b>
+		<ans>03</ans>
+		<op>inversemod</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- GCD 1</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<a>18</a>
+		<b>20</b>
+		<ans>08</ans>
+		<op>gcd</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- GCD 2</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<a>06E4</a>
+		<b>0364</b>
+		<ans>1C</ans>
+		<op>gcd</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Vector Test -- GCD 3</actionname>
+	<actiontype>BasicMathsVector</actiontype>
+	<actionbody>
+		<a>0364</a>
+		<b>06E4</b>
+		<ans>1C</ans>
+		<op>gcd</op>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>BasicMaths Forward Backward Test</actionname>
+	<actiontype>BasicMathsFB</actiontype>
+	<actionbody>
+		<bits>512</bits>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>OOM end</actionname>
+	<actiontype>stopmemfailure</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>

@@ -1,0 +1,46 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* MMP file to compile only the resource files present in securityconfig component
+* Compilation of resource files present in securityconfig component
+*
+*/
+
+
+/**
+ @file
+*/
+
+OPTION CW -w off
+
+TARGETTYPE none
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+USERINCLUDE ../filetokens
+SOURCEPATH ../filetokens
+
+START RESOURCE FSTokenServer.rss
+TARGETPATH /resource
+HEADER
+LANG sc
+END
+
+#ifdef __SECURE_DATA__
+TARGETPATH /resource/errors
+#else
+TARGETPATH /System/Errors
+#endif
+
+SMPSAFE

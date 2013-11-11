@@ -1,0 +1,62 @@
+// Copyright (c) 2004-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// MMP file to build commsdebugutility server dll
+// COMSDBGSVR.DLL Contains Commsdebugutility server code.
+// 
+//
+
+/**
+ @file 
+*/
+
+TARGET			comsdbgsvr.dll
+CAPABILITY All -Tcb
+TARGETTYPE		DLL
+UID			0x1000008d 0x101fe69e
+VENDORID 0x70000001
+
+NOEXPORTLIBRARY  /* Ensures that DEF file can be safely shared 
+                    for RVCT builds */  
+                    
+SOURCEPATH	../SSVR
+SOURCE			comsdbgsvr.cpp comsdbgthrd.cpp comsdbgaux.cpp comsdbgwriter.cpp
+SOURCE			comsdbgmessages.cpp 
+SOURCE			comsdbgostwriter.cpp
+
+USERINCLUDE ../INC
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+LIBRARY			euser.lib efsrv.lib 
+
+#define  SYMBIAN_INCLUDE_EXECUTABLE_TRACE
+#include <platform/opensystemtrace.mmh>
+
+DEFFILE			FLOGSVRL.DEF
+
+#if defined(WINS)
+start wins
+win32_library		kernel32.lib
+end
+library			emulator.lib
+#endif
+
+// Ensure the library is built for release builds.
+// Debug builds triggered automatically by the flogger.h header file.
+MACRO __FLOG_SUPPRESS_REL_WARNING
+MACRO __FLOG_ACTIVE
+
+UNPAGED
+
+
+
+SMPSAFE

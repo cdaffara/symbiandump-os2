@@ -1,0 +1,102 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// An application can explore the content objects inside a file using the <code>ContentAccess::CContent</code> class.
+// <hr>
+// The Content Access Framework provides a generic mechanism for exploring files that contain multiple
+// content objects. These files are often referred to as archive files. This could
+// be anything from a .ZIP compression archive to a DRM protected archive such as an OMA .DCF file.
+// Inside an archive file, and in addition to the content objects, there will be meta-data or information 
+// associated with the content. This meta-data could include information such as the MIME type of the content, 
+// encryption algorithm, compressed size of the content etc.. This information can be retrieved from the attributes
+// The content and meta-data may also be arranged in a heirachy with container objects grouping 
+// content objects together. A typical archive could have a complex structure like the example shown below:
+// In this situation the file itself can be considered as the top level container. All other content, containers and
+// meta-data are nested inside. 
+// In an archive file applications can quickly search for the content objects they are interested in by using 
+// <code>ContentAccess::CContent::Search()</code>.
+// <hr>
+// Archive files containing several content objects cannot be referred to using just the URI of the file. The Content Access
+// Framework uses a concept of virtual paths to identify content objects within a file. The virtual path is a combination
+// of the file URI and a unique identifier supplied by the agent: 
+// A content file is only ever handled by the agent that recognises it. The unique identifier will never need to be 
+// decoded by anyone other that the agent that generated it, so the format is left for the agent to implement as it sees
+// fit. For instance an OMA DRM agent may put the Content ID (CID) in the \c UniqueId field.
+// The only constraint is that the \c UniqueId must be unique within the file. An application must be able to directly
+// reference a content object just using the <code>UniqueId</code>. 
+// <hr>
+// <b> Virtual Path pointer objects on the Stack </b>
+// The <code>ContentAccess::TVirtualPathPtr</code> is used to point to two descriptors holding the URI 
+// of a file and the <code>UniqueId</code> of a content object within the file. It can also be used to 
+// point to another <code>TVirtualPathPtr</code>. Since it is only a pointer, the original descriptors 
+// used to initalise the <code>TVirtualPathPtr</code> should not be destroyed or modified while the 
+// <code>TVirtualPathPtr</code> is still in use.
+// <b> Virtual Path objects on the heap </b>
+// The <code>ContentAccess::CVirtualPath</code> class stores the file URI and content object <code>UniqueId</code> in its own 
+// descriptors. There is a cast operator that allows the <code>CVirtualPath</code> to be used as 
+// if it were a <code>TVirtualPathPtr</code>.
+// <b> Examples </b>
+// // Open a CContent object to browse the objects inside a file
+// CContent *c = CContent::NewL(_L("C:\file.dcf"));
+// CleanupStack::PushL(c);
+// // Create an array to store the embedded objects
+// RStreamablePtrArray<CEmbeddedObject> myArray;
+// CleanupClosePushL(myArray);
+// // Get an array of the embedded objects within the current container in the file
+// c->GetEmbeddedObjectsL(myArray);
+// // If necessary we can get a "mangled" version of the URI that 
+// // references the particular object within the file
+// // ie. "C:\file.dcf\\OBJECT1"
+// TPtrC aURI = *myArray[0];
+// // Now we can use our TPtrC later to create a TVirtualPath object from a URI
+// TVirtualPathPtr aPtr = aURI;
+// // print the file URI  "C:\file.dcf"
+// printf(aPtr.URI());
+// // print the content object's UniqueId "OBJECT1"
+// printf(aPtr.UniqueId());
+// // Create a copy of aVirtualPath on the heap so we don't have any ownership problems
+// CVirtualPath *myVirtualpath = CVirtualPath::NewL(aPtr);
+// // Can now delete the CContent object without loosing our VirtualPath
+// CleanupStack::PopAndDestroy(2);	// c, myArray
+// <hr>
+// <b><code>KNullDesC16() -  ""</code></b>
+// A zero length \c UniqueId is used to refer to the entire file. If a file is opened this way no translation of the contents will be
+// performed. The ability to open the file with no translation is required for example to attach the file to an outgoing message.
+// As with any other function in CAF access to the file is at the agents discretion.
+// <b><code>KDefaultContentObject() - "DEFAULT"</code></b>
+// Allows an application to refer to the default content object within a file. In the case of an unprotected file handled
+// by the \c F32Agent this will be the entire file, the same as if the <code>UniqueId ""</code> was used. Other agents, particularly those
+// with a single content object embedded within the file, use <code>"DEFAULT"</code> to refer to their only content object.
+// Even though the DEFAULT content object is supported, it is recommended that agents always use \c CContent to enumerate the 
+// objects within the file.
+// <hr>
+// 
+//
+
+/**
+ @page FileOverview Files containing multiple content objects 
+ - @ref FileOverviewDescription
+ - @ref VirtualPaths
+ - @ref VirtualPathObjects
+ - @ref SpecialUniqueIds
+ @section FileOverviewDescription Structure of a file containing multiple content objects
+ related to a content object, see @ref ContentAttributes "Content Object Attributes".
+ @image html "multiple DRM file2.gif"
+ @section VirtualPaths Identifying a content object within a File
+ @li \c URI      - The location of the file
+ @li \c UniqueId - The content object inside the file.
+ @section VirtualPathObjects Objects used to identify a content object within a File
+ @code
+ @endcode
+ @section SpecialUniqueIds Special Cases for the UniqueId field
+*/

@@ -1,0 +1,51 @@
+/*
+* Copyright (c) 2005-2010 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+* base mmp of UsbMan extension plugin for battery charging.
+* Resource file for charging plugin.
+*
+*/
+
+/** @file
+@internalComponent
+@SYMPurpose base mmp of UsbMan extension plugin for battery charging.
+@SYMPurpose Resource file for charging plugin.
+*/
+TARGETTYPE		PLUGIN
+// UID2 = 0x10009d8d for ECOM plugins.
+// UID3 = the 'DLL UID' (see resource file)
+UID 			0x10009d8d 0x10208DD7
+VENDORID		0x70000001
+CAPABILITY CommDD NetworkControl NetworkServices LocalServices ProtServ
+
+SOURCEPATH      ../src
+SOURCE          CUsbBatteryChargingPluginMain.cpp
+SOURCE          CUsbBatteryChargingPlugin.cpp
+SOURCE          chargingstates.cpp
+SOURCE          devicestatetimer.cpp
+SOURCE          reenumerator.cpp
+
+
+USERINCLUDE		../inc
+USERINCLUDE		../public
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+USERINCLUDE	../traces	
+
+LIBRARY 		euser.lib 
+LIBRARY 		usbmanextensionplugin.lib 
+LIBRARY			centralrepository.lib
+
+
+NOEXPORTLIBRARY

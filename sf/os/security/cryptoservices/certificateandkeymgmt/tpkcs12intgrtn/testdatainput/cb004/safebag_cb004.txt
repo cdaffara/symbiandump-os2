@@ -1,0 +1,137 @@
+// SafeContents
+// PARAM1: salt
+// PARAM2: iteration count
+// PARAM3: cipher_oid
+// PARAM4: cipher
+// PARAM5: key
+// PARAM6: iv
+// PARAM7: The filename of the DER encoded keyfile
+// PARAM8: The name of the certificate file
+// PARAM9: The 'friendly' name of the certificate
+// SafeBag
+
+// key bag
+SEQUENCE
+	OID=PKCS12_BAGTYPES_KEYBAG
+	EXPLICIT
+		INCLUDE_BINARY_FILE=../root5ca_key.pk8
+	END
+	// Attributes
+	SET
+		SEQUENCE
+			OID=PKCS9_LOCAL_KEYID
+			SET
+				OUTPUT_BINARY_FILE=cb004_localkeyid_firstkey.der,1				
+					OCTETSTRING
+						HASH=sha1
+							INCLUDE_BINARY_FILE=../root5ca.der
+						END
+					END
+				END
+			END
+		END 
+		SEQUENCE
+			OID=PKCS9_FRIENDLY_NAME
+			SET
+				OUTPUT_BINARY_FILE=cb004_friendlyname_firstkey.der,1
+					BMPSTRING=symbian
+				END
+			END
+		END	
+	END
+END
+
+
+
+
+// cert bag
+
+
+SEQUENCE
+	OID=PKCS12_BAGTYPES_CERTBAG
+	EXPLICIT
+		// CertBag
+		SEQUENCE
+			OID=PKCS9_CERTTYPES_PKCS12_X509
+			EXPLICIT
+				OCTETSTRING
+					INCLUDE_BINARY_FILE=../root5ca.der
+				END
+			END
+		END
+	END
+	// Attributes
+	SET
+		SEQUENCE
+			OID=PKCS9_LOCAL_KEYID
+			SET
+				OUTPUT_BINARY_FILE=cb004_localkeyid_firstcert.der,1
+					OCTETSTRING
+						HASH=sha1
+							INCLUDE_BINARY_FILE=../root5ca.der
+						END
+					END
+				END
+			END
+		END 
+		SEQUENCE
+			OID=PKCS9_FRIENDLY_NAME
+			SET
+				OUTPUT_BINARY_FILE=cb004_friendlyname_firstcert.der,1
+					BMPSTRING=symbian
+				END
+			END
+		END	
+	END
+END
+
+
+// shrouded key bag
+SEQUENCE
+	OID=PKCS12_BAGTYPES_PKCS8SHROUDEDKEYBAG
+	EXPLICIT
+		OUTPUT_BINARY_FILE=safebag_shrouded_cb004_1.der,1
+			// KeyBag
+			SEQUENCE
+				SEQUENCE
+					OID=$3
+					SEQUENCE
+						OCTETSTRING
+							RAW=$1
+						END
+						INTEGER=$2
+					END
+				END
+				OCTETSTRING
+					ENCRYPT=$4,$5,$6
+						INCLUDE_BINARY_FILE=../root5ca_key.pk8
+					END	
+				END
+			END
+		END
+	END
+	// Attributes
+	SET
+		SEQUENCE
+			OID=PKCS9_LOCAL_KEYID
+			SET	
+				OUTPUT_BINARY_FILE=cb004_localkeyid_firstshrouded.der,1
+					OCTETSTRING
+						HASH=sha1
+							INCLUDE_BINARY_FILE=../root5ca.der
+						END
+					END
+				END
+			END
+		END 
+		SEQUENCE
+			OID=PKCS9_FRIENDLY_NAME
+			SET
+				OUTPUT_BINARY_FILE=cb004_friendlyname_firstshrouded.der,1
+					BMPSTRING=symbian
+				END
+			END
+		END	
+	END
+END
+

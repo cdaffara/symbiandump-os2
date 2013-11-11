@@ -1,0 +1,235 @@
+/** @file ../inc/semaphore.h
+@internalComponent
+*/
+
+/** @fn  sem_destroy(sem_t *sem)
+@param sem
+@return   Upon successful completion, the function returns zero; otherwise, it returns -1 and set errno to indicate the error.
+
+  The sem_destroy function destroys the unnamed semaphore pointed to by sem .
+After a successful call to sem_destroy , sem is unusable until re-initialized by another call to sem_init .
+
+Examples:
+@code
+sem_t psem;   
+if (sem_init(&psem;, 0, 1) < 0) {
+        perror("sem_init");
+        return -1;
+}
+if (sem_destroy(&psem;) == 0)
+        return -1;
+}
+
+@endcode
+@see sem_init()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+@param sem pointer to sem_t object that needs to be destroyed
+@return 0 if semaphore successfully destroyed, -1 on error, errno set to specific error
+EINVAL -  The sem pointer  is NULL or sem points to an invalid object
+EAGAIN - There are threads waiting on the semaphore.
+*/
+
+/** @fn  sem_trywait(sem_t *sem)
+@param sem
+Refer  sem_wait() for the documentation
+@see sem_getvalue()
+@see sem_post()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+@param sem pointer to sem_t object on which to wait
+@return 0  if calling thread was able to acquire the semaphore immediately, -1  on error or if acquiring the semaphore would block the calling thread and errno is set to 
+EINVAL -  The sem pointer  is NULL or sem points to an invalid object
+EAGAIN - Acquiring the semaphore would block the calling thread.
+*/
+
+/** @fn  sem_wait(sem_t *sem)
+@param sem
+Note: This description also covers the following functions -
+ sem_trywait() 
+
+@return   Upon successful completion, the value 0 is returned; otherwise the
+value -1 is returned and the global variable errno is set to indicate the
+error.
+
+  The sem_wait function decrements (locks) the semaphore pointed to by sem ,
+but blocks if the value of sem is zero, until the value is non-zero and the value can be decremented.
+
+ The sem_trywait function decrements (locks) the semaphore pointed to by sem only if the value is non-zero.
+Otherwise, the semaphore is not decremented and
+an error is returned.
+
+Examples:
+@code
+sem_t psem;   
+if (sem_init(&psem;, 0, 1) < 0) {
+        perror("sem_init");
+        return -1;
+   }
+ /* Lock Semaphore */
+if( sem_wait(psem) == -1 ) {
+  perror("sem_wait failed");
+  return -1;
+}
+else
+    printf ("Locked successfully
+");
+
+@endcode
+@code
+sem_t psem;   
+if (sem_init(&psem;, 0, 1) < 0) {
+        perror("sem_init");
+        return -1;
+   }
+ /* Lock Semaphore */
+if ( sem_trywait(psem) == 0)
+{   switch(errno)
+     {
+     case 0:
+        printf ("Locked successfully");
+        break;
+    case EAGAIN:
+        printf ("could not lock, try later.....");
+        break;
+    }
+}
+else
+    printf ("Sem_trywait failed");
+
+@endcode
+@see sem_getvalue()
+@see sem_post()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+@param sem pointer to sem_t object on which to wait
+@return 0 if calling thread was able to acquire the semaphore, -1 on error and errno set to
+EINVAL -  The sem pointer  is NULL or sem points to an invalid object
+*/
+
+/** @fn  sem_timedwait(sem_t *sem, const struct timespec* abstime)
+@param sem
+@param abstime
+@return   Upon successful completion, the value 0 is returned; otherwise the
+value -1 is returned and the global variable errno is set to indicate the
+error.
+
+  The sem_timedwait function decrements (locks) the semaphore pointed to by sem ,
+but blocks if the value of sem is zero, until the value is non-zero or timeout occurs.
+
+
+
+Examples:
+@code
+sem_t mysemp;
+struct timespec ts;
+int val, sts;
+#define TIMEOUT 3
+if ( sem_init (&mysemp;, 0, 1) == -1 ) {
+      perror( "sem_init failed");
+      return -1;
+}
+       
+struct timeval now;
+gettimeofday(&now;,NULL);
+ts.tv_sec=now.tv_sec + TIMEOUT;
+ts.tv_nsec=0;
+/* Lock Semaphore */
+if (sem_timedwait(&mysemp;, &ts;) == 0)
+{  
+    switch(errno)
+    {
+     case 0:
+        printf ("Locked successfully");
+        break;
+     case ETIMEDOUT:
+        printf ("could not lock, try later.....");
+        break;
+    }
+}
+else
+    printf ("Sem_timedwait failed 
+")
+fprintf(stderr,"Thread wakened up");
+
+@endcode
+@see sem_getvalue()
+@see sem_post()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+@param sem pointer to sem_t object on which to wait
+@param abstime pointer to timespec struct specifying the absolute time till which to wait
+@return 0 if wait was successfull, -1 on error and errno set to: 
+EINVAL -  Either the sem  or abstime pointer  is NULL or  points to an invalid object.
+ETIMEDOUT - The absolute time specified by abstime parameter occurred before the semaphore was signaled.
+*/
+
+/** @fn  sem_post(sem_t *sem)
+@param sem
+@return   If successful, the function returns zero; otherwise, it returns -1 and set errno to indicate the error.
+
+  The sem_post function increments (unlocks) the semaphore pointed to by sem .
+If there are threads blocked on the semaphore when sem_post is called, then the highest priority thread that has been blocked the longest on
+the semaphore will be allowed to return from sem_wait .
+
+
+
+Examples:
+@code
+sem_t psem;   
+if (sem_init(&psem;, 0, 1) < 0) {
+        perror("sem_init");
+        return -1;
+   }
+if( sem_post(psem) == -1 ) {
+  perror( "sem_post failed");
+  return -1;
+ }
+
+@endcode
+@see sem_getvalue()
+@see sem_trywait()
+@see sem_wait()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+@param sem pointer to sem_t object which should be signalled
+@return 0 if post was successfull, -1 on error and errno set to: 
+EINVAL -  The sem pointer  is NULL or sem points to an invalid object
+ERANGE - the semaphore count would exceed SEM_VALUE_MAX if signaled by this function(the semaphore count is left unchanged in this case)
+*/
+
+/** @typedef  typedef struct _sem_t* sem_t
+
+used in performing semaphore operations
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def SEM_FAILED
+
+This value is returned on the failure of sem_open()
+
+@publishedAll
+@externallyDefinedApi
+*/

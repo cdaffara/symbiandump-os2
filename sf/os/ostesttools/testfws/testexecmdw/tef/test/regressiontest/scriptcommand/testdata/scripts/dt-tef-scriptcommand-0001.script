@@ -1,0 +1,32 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+Load_Server Te_RegScriptCommandServer
+
+START_TESTCASE DT-TEF-ScriptCommand-0001
+//! @SYMTestCaseID          DT-TEF-ScriptCommand-0001
+//! @SYMCreationDate        26-06-2008
+//! @SYMAuthor              DavidZhang
+//! @SYMTestType            CT
+//! @SYMTestPriority        Medium
+//! @SYMTestCaseDesc        Test "Delay" command.
+//! @SYMTestExpectedResults The execution of running test script should last 5 seconds.
+//!                         The test result should be pass.
+//! @SYMTestActions         Write a delay command in the test script file to delay 5 seconds
+	RUN_TEST_STEP 10 Te_RegScriptCommandServer StartTime 
+	Delay 5000
+	RUN_TEST_STEP 20 Te_RegScriptCommandServer CheckTime ${SYSDRIVE}\testdata\configs\te_regscriptcommandtest.ini ScriptCommand_0001
+END_TESTCASE DT-TEF-ScriptCommand-0001

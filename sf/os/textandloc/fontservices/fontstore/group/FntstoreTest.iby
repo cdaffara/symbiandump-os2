@@ -1,0 +1,131 @@
+/*
+* Copyright (c) 2001-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+#ifndef __FNTSTORETEST_IBY__
+#define __FNTSTORETEST_IBY__
+
+#include <graphics_testharness.iby>
+#include <dummyfonts.iby>
+#ifdef GRAPHICS_EXCLUDE_FREETYPE
+#include <ityperast.iby>
+#endif
+
+// batch file that runs all automatic fntstore tests
+data=DATAZ_\fntstoretest\fntstoretest_run.bat		\fntstoretest_run.bat
+data=DATAZ_\fntstoretest\fntstoretest.bat			\fntstoretest.bat
+
+//script files
+data=DATAZ_\fntstoretest\fntstoretest_T_All.script				\fntstoretest\fntstoretest_T_All.script
+data=DATAZ_\fntstoretest\fntstoretest_T_Fnt.script						\fntstoretest\fntstoretest_T_Fnt.script
+data=DATAZ_\fntstoretest\fntstoretest_T_FntMem.script					\fntstoretest\fntstoretest_T_FntMem.script
+data=DATAZ_\fntstoretest\fntstoretest_T_FontBitmap.script				\fntstoretest\fntstoretest_T_FontBitmap.script
+data=DATAZ_\fntstoretest\fntstoretest_T_FsOpen.script					\fntstoretest\fntstoretest_T_FsOpen.script
+data=DATAZ_\fntstoretest\fntstoretest_T_GlyphTreeDel.script				\fntstoretest\fntstoretest_T_GlyphTreeDel.script
+data=DATAZ_\fntstoretest\fntstoretest_T_MatchFonts.script				\fntstoretest\fntstoretest_T_MatchFonts.script
+data=DATAZ_\fntstoretest\fntstoretest_T_OpenFontTypes.script			\fntstoretest\fntstoretest_T_OpenFontTypes.script
+data=DATAZ_\fntstoretest\fntstoretest_T_FontMetrics.script				\fntstoretest\fntstoretest_T_FontMetrics.script
+data=DATAZ_\fntstoretest\fntstoretest_T_GetNearestFont.script			\fntstoretest\fntstoretest_T_GetNearestFont.script
+data=DATAZ_\fntstoretest\fntstoretest_t_getnearestfontcapability.script	\fntstoretest\fntstoretest_t_getnearestfontcapability.script
+data=DATAZ_\fntstoretest\fntstoretest_T_CorruptFonts.script				\fntstoretest\fntstoretest_T_CorruptFonts.script
+data=DATAZ_\fntstoretest\fntstoretest_T_ShaperCache.script				\fntstoretest\fntstoretest_T_ShaperCache.script
+data=DATAZ_\fntstoretest\fntstoretest_T_LinkedFonts.script				\fntstoretest\fntstoretest_T_LinkedFonts.script
+data=DATAZ_\fntstoretest\fntstoretest_t_cachedeletion.script			\fntstoretest\fntstoretest_t_cachedeletion.script
+data=DATAZ_\fntstoretest\fntstoretest_t_setdefaulttypefacename.script	\fntstoretest\fntstoretest_t_setdefaulttypefacename.script
+data=DATAZ_\fntstoretest\fntstoretest_T_LinkedFontUpdateInitial.script	\fntstoretest\fntstoretest_T_LinkedFontUpdateInitial.script
+data=DATAZ_\fntstoretest\fntstoretest_T_LinkedFontUpdateStage1.script	\fntstoretest\fntstoretest_T_LinkedFontUpdateStage1.script
+data=DATAZ_\fntstoretest\fntstoretest_T_LinkedFontUpdateStage2.script	\fntstoretest\fntstoretest_T_LinkedFontUpdateStage2.script
+data=DATAZ_\fntstoretest\fntstoretest_T_Cache.script			\fntstoretest\fntstoretest_T_Cache.script
+data=DATAZ_\fntstoretest\fntstoretest_T_FontSessionCache.script			\fntstoretest\fntstoretest_T_FontSessionCache.script
+
+// FntStore test code - TFntStoreServer.exe needs to be copied into \sys\bin\ and set as data so it will be copied to the c: drive and we can change the capabilities of the .exe
+data=ABI_DIR\DEBUG_DIR\TFntStoreServer.exe    \sys\bin\TFntStoreServer.exe
+//file=ABI_DIR\DEBUG_DIR\TFntStoreServer.exe    \sys\bin\TFntStoreServer.exe
+file=ABI_DIR\DEBUG_DIR\tcachedeletionprocess.exe    \sys\bin\tcachedeletionprocess.exe
+file=ABI_DIR\DEBUG_DIR\tfontsessioncacheproc.exe	\sys\bin\tfontsessioncacheproc.exe
+
+// 7650 font which should be compatible with new font compression
+
+ROM_IMAGE[0] {
+data=ZRESOURCE\Fonts\ceurope.gdr         Resource\Fonts\ceurope.gdr
+}
+
+// font used for testing font loading from C: drive
+ROM_IMAGE[0] {
+data=ZSYSTEM\test\TSection.gdr         Test\TSection.gdr
+}
+
+REM near-duplicate fonts for test  CTFntMem::TestDuplicateBitmapFontFileEntriesL
+ROM_IMAGE[0] {
+data=DATAZ_\PlatTest\Graphics\TestData\uniquified_fonts\XXeuro.gdr	\PlatTest\Graphics\TestData\uniquified_fonts\XXeuro.gdr
+}
+
+ROM_IMAGE[0] {
+data=DATAZ_\PlatTest\Graphics\TestData\uniquified_fonts\YYeuro.gdr	\PlatTest\Graphics\TestData\uniquified_fonts\YYeuro.gdr
+}
+
+
+
+REM corrupt font files, these get copied / renamed on to the C: drive
+ROM_IMAGE[0] {
+data=DATAZ_\PlatTest\Graphics\TestData\corrupt_gdr_fonts\bad_streamid \PlatTest\Graphics\TestData\corrupt_gdr_fonts\bad_streamid
+
+data=DATAZ_\PlatTest\Graphics\TestData\corrupt_ttf_fonts\bad_entrysel \PlatTest\Graphics\TestData\corrupt_ttf_fonts\bad_entrysel
+data=DATAZ_\PlatTest\Graphics\TestData\corrupt_ttf_fonts\bad_length \PlatTest\Graphics\TestData\corrupt_ttf_fonts\bad_length
+data=DATAZ_\PlatTest\Graphics\TestData\corrupt_ttf_fonts\bad_numtables \PlatTest\Graphics\TestData\corrupt_ttf_fonts\bad_numtables
+data=DATAZ_\PlatTest\Graphics\TestData\corrupt_ttf_fonts\bad_offset \PlatTest\Graphics\TestData\corrupt_ttf_fonts\bad_offset
+data=DATAZ_\PlatTest\Graphics\TestData\corrupt_ttf_fonts\bad_rangeshift \PlatTest\Graphics\TestData\corrupt_ttf_fonts\bad_rangeshift
+data=DATAZ_\PlatTest\Graphics\TestData\corrupt_ttf_fonts\bad_searchrange \PlatTest\Graphics\TestData\corrupt_ttf_fonts\bad_searchrange
+data=DATAZ_\PlatTest\Graphics\TestData\corrupt_ttf_fonts\bad_tag_order \PlatTest\Graphics\TestData\corrupt_ttf_fonts\bad_tag_order
+data=DATAZ_\PlatTest\Graphics\TestData\corrupt_ttf_fonts\cvt_len \PlatTest\Graphics\TestData\corrupt_ttf_fonts\cvt_len
+data=DATAZ_\PlatTest\Graphics\TestData\corrupt_ttf_fonts\fpgm_len \PlatTest\Graphics\TestData\corrupt_ttf_fonts\fpgm_len
+data=DATAZ_\PlatTest\Graphics\TestData\corrupt_ttf_fonts\glyf_len \PlatTest\Graphics\TestData\corrupt_ttf_fonts\glyf_len
+data=DATAZ_\PlatTest\Graphics\TestData\corrupt_ttf_fonts\head_len \PlatTest\Graphics\TestData\corrupt_ttf_fonts\head_len
+data=DATAZ_\PlatTest\Graphics\TestData\corrupt_ttf_fonts\hhea_len \PlatTest\Graphics\TestData\corrupt_ttf_fonts\hhea_len
+data=DATAZ_\PlatTest\Graphics\TestData\corrupt_ttf_fonts\hmtx_len \PlatTest\Graphics\TestData\corrupt_ttf_fonts\hmtx_len
+data=DATAZ_\PlatTest\Graphics\TestData\corrupt_ttf_fonts\loca_len \PlatTest\Graphics\TestData\corrupt_ttf_fonts\loca_len
+data=DATAZ_\PlatTest\Graphics\TestData\corrupt_ttf_fonts\maxp_len \PlatTest\Graphics\TestData\corrupt_ttf_fonts\maxp_len
+data=DATAZ_\PlatTest\Graphics\TestData\corrupt_ttf_fonts\name_len \PlatTest\Graphics\TestData\corrupt_ttf_fonts\name_len
+data=DATAZ_\PlatTest\Graphics\TestData\corrupt_ttf_fonts\post_len \PlatTest\Graphics\TestData\corrupt_ttf_fonts\post_len
+data=DATAZ_\PlatTest\Graphics\TestData\corrupt_ttf_fonts\prep_len \PlatTest\Graphics\TestData\corrupt_ttf_fonts\prep_len
+data=DATAZ_\PlatTest\Graphics\TestData\corrupt_ttf_fonts\cmap_len \PlatTest\Graphics\TestData\corrupt_ttf_fonts\cmap_len
+data=DATAZ_\PlatTest\Graphics\TestData\corrupt_ttf_fonts\gdef_len \PlatTest\Graphics\TestData\corrupt_ttf_fonts\gdef_len
+data=DATAZ_\PlatTest\Graphics\TestData\corrupt_ttf_fonts\gpos_len \PlatTest\Graphics\TestData\corrupt_ttf_fonts\gpos_len
+data=DATAZ_\PlatTest\Graphics\TestData\corrupt_ttf_fonts\gsub_len \PlatTest\Graphics\TestData\corrupt_ttf_fonts\gsub_len
+data=DATAZ_\PlatTest\Graphics\TestData\corrupt_ttf_fonts\os2_len \PlatTest\Graphics\TestData\corrupt_ttf_fonts\os2_len
+data=DATAZ_\PlatTest\Graphics\TestData\corrupt_ttf_fonts\gasp_len \PlatTest\Graphics\TestData\corrupt_ttf_fonts\gasp_len
+data=DATAZ_\PlatTest\Graphics\TestData\corrupt_ttf_fonts\fftm_len \PlatTest\Graphics\TestData\corrupt_ttf_fonts\fftm_len
+data=DATAZ_\PlatTest\Graphics\TestData\corrupt_ttf_fonts\wrong_offset \PlatTest\Graphics\TestData\corrupt_ttf_fonts\wrong_offset
+}
+
+REM file of hash values for linked fonts testing
+#ifndef GRAPHICS_EXCLUDE_FREETYPE
+data=DATAZ_\fntstoretest\tlinkedfontscomparison_armv5.ini \fntstoretest\tlinkedfontscomparison.ini
+#else
+data=DATAZ_\fntstoretest\tlinkedfontscomparison_armv5_itype.ini \fntstoretest\tlinkedfontscomparison.ini
+#endif
+
+data=DATAZ_\fntstoretest\tlinkedfontscapability.ini \fntstoretest\tlinkedfontscapability.ini
+data=DATAZ_\fntstoretest\tsetdefaulttypefacename.ini \fntstoretest\tsetdefaulttypefacename.ini
+
+REM Executables for T_Fnt.cpp Invalid font fallback tests
+
+file=ABI_DIR\BUILD_DIR\T_WriteInvalidFontFile.exe 	sys/bin/T_WriteInvalidFontFile.exe
+file=ABI_DIR\BUILD_DIR\T_RemoveInvalidFontFile.exe 	sys/bin/T_RemoveInvalidFontFile.exe
+
+
+#endif	//__FNTSTORETEST_IBY__

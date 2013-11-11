@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SystemDefinition schema="3.0.0">
+ <package id="usb" name="USB" levels="adaptation hw-if plugin framework server app-if">
+  <collection id="usb_plat" name="USB Platform Interfaces" level="app-if">
+	<!-- placeholder for platform APIs -->
+  </collection>
+  <collection id="usbdrv" name="USB Device Drivers" level="hw-if">
+	 	<component id="peripheraldrv" name="Usb peripheral driver" purpose="optional">
+  		<unit version="1" bldFile="usbdrv/peripheral/group" mrp="usbdrv/peripheral/group/peripheral.mrp" /> 
+  	</component>
+  </collection>
+  <collection id="usbmgmt" name="USB Management" level="server">
+   <component id="usbmgr" name="USB Manager" purpose="optional">
+    <unit version="2" bldFile="usbmgmt/usbmgr/group" mrp="usbmgmt/usbmgr/group/usb_manager.mrp"/>
+   </component>
+   <component id="usbmgrtest" name="USB Manager Tests" introduced="7.0" purpose="development" filter="test">
+    <unit version="2" mrp="usbmgmt/usbmgrtest/group/usb_test.mrp" bldFile="usbmgmt/usbmgrtest/group"/>
+   </component>
+   <component id="usbclassandmgrdocs" name="USB Class and Manager Documentation" purpose="development" class="doc">
+    <unit mrp="usbmgmt/usbclassandmgrdocs/usb_documentation.mrp"/>
+   </component>
+  </collection>
+  <collection id="usb_info" name="USB Info" level="app-if">
+   <component id="usb_metadata" name="USB Metadata" class="config" introduced="^3" purpose="development" target="desktop">
+    <unit mrp="usb_info/usb_metadata/usb_metadata.mrp"/>
+   </component>
+  </collection>
+ </package>
+</SystemDefinition>

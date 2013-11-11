@@ -1,0 +1,58 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SERVER EventLogServer -SharedData
+
+START_TESTCASE DT-TEF-Utilities-0001
+//! @SYMTestCaseID          DT-TEF-Utilities-0001
+//! @SYMCreationDate        05-09-2008
+//! @SYMAuthor              extShuoHuang
+//! @SYMTestCaseDesc        Event Log test case
+//! @SYMTestExpectedResults all test step should be pass.
+
+
+RUN_TEST_STEP 1000 EventLogServer Start  ${SYSDRIVE}\testdata\configs\EventLogControler.ini SectionOne
+DELAY 500
+RUN_TEST_STEP 1000 EventLogServer Stop  ${SYSDRIVE}\testdata\configs\EventLogControler.ini SectionOne
+
+RUN_TEST_STEP 1000 EventLogServer Start  ${SYSDRIVE}\testdata\configs\EventLogControler.ini SectionTwo
+DELAY 500
+RUN_TEST_STEP 1000 EventLogServer Stop  ${SYSDRIVE}\testdata\configs\EventLogControler.ini SectionTwo
+
+
+RUN_TEST_STEP 1000 EventLogServer Start  ${SYSDRIVE}\testdata\configs\EventLogControler.ini SectionThree
+DELAY 500
+RUN_TEST_STEP 1000 EventLogServer Stop  ${SYSDRIVE}\testdata\configs\EventLogControler.ini SectionThree
+
+RUN_TEST_STEP 1000 EventLogServer Start  ${SYSDRIVE}\testdata\configs\EventLogControler.ini SectionFour
+DELAY 500
+RUN_TEST_STEP 1000 EventLogServer Stop  ${SYSDRIVE}\testdata\configs\eventlogcontroler.ini SectionFour
+
+
+
+RUN_TEST_STEP 1000 EventLogServer Start  ${SYSDRIVE}\testdata\configs\eventlogcontroler.ini SectionFive
+DELAY 500
+RUN_TEST_STEP 1000 EventLogServer Stop  ${SYSDRIVE}\testdata\configs\eventlogcontroler.ini SectionFive
+
+RUN_TEST_STEP 1000 EventLogServer Start  ${SYSDRIVE}\testdata\configs\eventlogcontroler.ini SectionSix
+DELAY 500
+RUN_TEST_STEP 1000 EventLogServer Stop  ${SYSDRIVE}\testdata\configs\eventlogcontroler.ini SectionSix
+
+RUN_TEST_STEP 1000 EventLogServer Start  ${SYSDRIVE}\testdata\configs\eventlogcontroler.ini SectionSeven
+DELAY 500
+RUN_TEST_STEP 1000 EventLogServer Stop  ${SYSDRIVE}\testdata\configs\eventlogcontroler.ini SectionSeven
+
+END_TESTCASE DT-TEF-Utilities-0001

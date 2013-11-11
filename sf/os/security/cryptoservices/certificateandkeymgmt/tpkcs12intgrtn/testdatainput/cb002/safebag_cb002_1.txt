@@ -1,0 +1,52 @@
+// SafeBag: CRLBag
+// PARAM1: The name of X509 CRL file
+// PARAM2: Friendly name for CRL bag
+
+// CRL bag
+OUTPUT_BINARY_FILE=oomcrlbag.der,1 
+	SEQUENCE
+		OID=PKCS12_BAGTYPES_CRLBAG
+		EXPLICIT=0
+			// CRLBag
+			SEQUENCE
+				OID=X509CRL
+				EXPLICIT=0
+					OCTETSTRING
+						INCLUDE_BINARY_FILE=../root5crl.der
+					END
+				END
+			END
+		END
+		// Attributes
+		SET
+			SEQUENCE
+				OID=PKCS9_FRIENDLY_NAME
+				SET
+					OUTPUT_BINARY_FILE=cb002_friendlyname
+						BMPSTRING=symbian
+					END
+				END
+			END	
+		END
+	END
+END
+
+
+//Secret bag
+OUTPUT_BINARY_FILE=oomsecretbag.der,1
+	SEQUENCE
+		OID=PKCS12_BAGTYPES_SECRETBAG
+		EXPLICIT=0
+			SEQUENCE
+				OID=SYMBIAN_DEVICE_ID_LIST
+				EXPLICIT=0
+					SEQUENCE
+						UTF8STRING=11111111-222222-3-44
+					END
+				END
+			END
+		END
+		// No attributes
+	END
+END
+

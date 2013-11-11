@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<driver:driver xmlns:driver="http://www.symbian.com/TestDriver">
+  <task name="ULogger">
+    <executeOnPC>
+      <build testBuild="true" URI="Z:\DV3\EPOC\DV3\team\2007\PTD\DevelopmentTools\Trace\UTrace\IntegrationTest\TEFMCL\group">
+        <componentName>te_uloggermclsuite</componentName>
+      </build>
+    </executeOnPC>
+    <transferToSymbian/>
+    <executeOnSymbian>
+      <testExecuteScript PCPath="Z:\epoc32\WINSCW\C\testdata\scripts\te_uloggermclsuite.script" SymbianPath="c:\testdata\scripts\te_uloggermclsuite.script"/>
+    </executeOnSymbian>
+    <retrieveFromSymbian>
+      <transfer move="false" PCPath="${epocroot}\testdriver2\results\ULoggerLoggingTest.log" SymbianPath="C:\logs\ULoggerLoggingTest.log"/>
+      <transfer move="false" PCPath="${epocroot}\testdriver2\results\ULoggerNegativeLoggingTest.log" SymbianPath="C:\logs\ULoggerNegativeLoggingTest.log"/>
+      <transfer move="false" PCPath="${epocroot}\testdriver2\results\ULoggerMultipleLoggingTest.log" SymbianPath="C:\logs\ULoggerMultipleLoggingTest.log"/>
+      <transfer PCPath="${epocroot}\testdriver2\results\ULoggerKernelLoggingTest.log" SymbianPath="C:\logs\ULoggerKernelLoggingTest.log"/>
+      <transfer PCPath="${epocroot}\testdriver2\results\ULoggerKernelNegativeLoggingTest.log" SymbianPath="C:\logs\ULoggerKernelNegativeLoggingTest.log"/>
+      <transfer PCPath="${epocroot}\testdriver2\results\ULoggerKernelMultipleLoggingTest.log" SymbianPath="C:\logs\ULoggerKernelMultipleLoggingTest.log"/>
+      <transfer PCPath="${epocroot}\testdriver2\results\ULoggerPerfUserSideFileLogging.log" SymbianPath="C:\logs\ULoggerPerfUserSideFileLogging.log"/>
+      <transfer PCPath="${epocroot}\testdriver2\results\ULoggerPerfKernelSideFileLogging.log" SymbianPath="C:\logs\ULoggerPerfKernelSideFileLogging.log"/>
+      <transfer PCPath="${epocroot}\testdriver2\results\User_light_log.txt" SymbianPath="C:\logs\User_light_log.txt"/>
+      <transfer PCPath="${epocroot}\testdriver2\results\Kernel_light_log.txt" SymbianPath="C:\logs\Kernel_light_log.txt"/>
+    </retrieveFromSymbian>
+  </task>
+</driver:driver>

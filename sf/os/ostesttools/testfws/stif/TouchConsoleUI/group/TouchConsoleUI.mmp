@@ -1,0 +1,55 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+* 
+* Description: MMP file for STIF Test Framework's Consoleui app.
+*
+*/
+
+#include <platform_paths.hrh>
+
+SMPSAFE
+
+TARGET          TouchConsoleUI.exe
+TARGETTYPE      exe
+UID			 0 0x2002C347
+CAPABILITY	AllFiles CommDD
+//VENDORID 	0x101FB657
+//SECUREID    0x102073DA
+
+USERINCLUDE     ../inc
+USERINCLUDE     ../../inc
+USERINCLUDE     ../../StifTFwIf/inc
+
+OS_LAYER_SYSTEMINCLUDE
+
+/* Source files */
+SOURCEPATH      ../src
+
+SOURCE          ConsoleUI.cpp
+SOURCE          ConsoleMenus.cpp
+SOURCE          ConsoleNotify.cpp
+
+/* Used libraries */
+LIBRARY         euser.lib
+LIBRARY		efsrv.lib
+LIBRARY         stiftestinterface.lib
+LIBRARY         stiftfwif.lib
+LIBRARY     	  stiftestengine.lib
+LIBRARY         econs.lib
+LIBRARY         hal.lib
+
+// In case of large amount of test cases, bigger heap size is required. 
+// Heap sizes can be changed using EPOCHEAPSIZE statement, where the first
+// parameter is heap's minimum size and the latter the maximum size.
+EPOCHEAPSIZE    0x10000 0x300000
+// End of File

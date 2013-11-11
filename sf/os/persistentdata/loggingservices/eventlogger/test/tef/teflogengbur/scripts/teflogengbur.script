@@ -1,0 +1,94 @@
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+// @file
+//
+
+//! @SYMTestSuiteName SYSLIB-LOGENG-TEFLOGENGBUR
+//! @SYMScriptTestEnvironment this script should be run in Textshell. BURTestserver must be built for this test to run.For HW testing the ROM build must include those iby's that SBE depends on. 
+//! @internalComponent
+//! @test
+
+RUN_UTILS DeleteFile c:\private\101f401d\Logdbu.dat
+
+PRINT Run all log engine backup and restore tests
+
+LOAD_SUITE teflogengbur
+LOAD_SUITE BURTestServer
+
+START_TESTCASE   SYSLIB-LOGENG-CT-1436  //Logengine backup and restore
+//! @SYMTestCaseID SYSLIB-LOGENG-CT-1436
+//! @SYMTestCaseDesc Tests tests log engine backup and restore with log engine shutting down between backup and restore
+//!                  This is intended as only a basic test to make sure backup and restore is configured properly. Additional backup testing can be found in t_logbackup.
+//! @SYMTestPriority High
+//! @SYMTestActions Initialize some data in the log engine, use the backup and restore test server to do a backup of C:, 
+//!                 delete the log engine database, then use the backup and restore test server to do a restore
+//! @SYMTestExpectedResults After the restore, logging from the initialize step is not lost
+//! @SYMDEF INC069553
+
+	
+	PRINT Initialize data set 1 in the log engine
+	RUN_TEST_STEP 100 teflogengbur BackupRestoreInitializeStep z:\TEF_LogEng\testdata_config.ini DataSet1
+	
+	PRINT Backup C:
+	RUN_TEST_STEP -1 BURTestServer TestBackup z:\TEF_LogEng\bur_config.ini
+	
+	PRINT Stop the log engine and delete the database
+	RUN_TEST_STEP 100 teflogengbur StopLogServerStep
+	
+	PRINT Restore C: with log engine shut down
+	RUN_TEST_STEP -1 BURTestServer TestRestore z:\TEF_LogEng\bur_config.ini
+	
+	PRINT Check that data was not lost
+	RUN_TEST_STEP 100 teflogengbur BackupRestoreVerifyStep z:\TEF_LogEng\testdata_config.ini DataSet1
+
+END_TESTCASE   SYSLIB-LOGENG-CT-1436  //Logengine backup and restore
+
+
+START_TESTCASE   SYSLIB-LOGENG-CT-1437  //Logengine backup and restore
+//! @SYMTestCaseID SYSLIB-LOGENG-CT-1437
+//! @SYMTestCaseDesc Tests tests log engine backup and restore with log engine running during the restore
+//! @SYMTestCaseDesc This is intended as only a basic test to make sure backup and restore is configured properly. Additional backup testing can be found in t_logbackup.
+//! @SYMTestPriority High
+//! @SYMTestActions Initialize some data in the log engine, use the backup and restore test server to do a backup of C:, 
+//!                 delete the log engine database, then add different data to the log engine. Do a restore with log engine running.
+//! @SYMTestExpectedResults After the restore, the data from the initial backup is restored.
+//! @SYMDEF INC069553
+
+	
+	PRINT Initialize data set 1 in the log engine
+	RUN_TEST_STEP 100 teflogengbur BackupRestoreInitializeStep z:\TEF_LogEng\testdata_config.ini DataSet1
+	
+	PRINT Backup C: (with the data from data set 1)
+	RUN_TEST_STEP -1 BURTestServer TestBackup z:\TEF_LogEng\bur_config.ini
+
+	PRINT Stop the log engine and delete the database
+	RUN_TEST_STEP 100 teflogengbur StopLogServerStep
+	
+	PRINT Add to the log engine different data from above (using data set 2)
+	RUN_TEST_STEP 100 teflogengbur BackupRestoreInitializeStep z:\TEF_LogEng\testdata_config.ini DataSet2
+	
+	PRINT Restore C: with log engine running
+	RUN_TEST_STEP -1 BURTestServer TestRestore z:\TEF_LogEng\bur_config.ini
+	
+	PRINT Check that the data from the backup is not lost
+	RUN_TEST_STEP 100 teflogengbur BackupRestoreVerifyStep z:\TEF_LogEng\testdata_config.ini DataSet1
+	PRINT Check that the data from after the backup no longer exists (by making sure the verify step fails)
+	RUN_TEST_STEP_RESULT -1 100 teflogengbur BackupRestoreVerifyStep2 z:\TEF_LogEng\testdata_config.ini DataSet2
+
+END_TESTCASE   SYSLIB-LOGENG-CT-1437  // Logengine backup and restore
+
+RUN_UTILS DeleteFile c:\private\101f401d\Logdbu.dat
+
+PRINT Completed log engine backup and restore tests

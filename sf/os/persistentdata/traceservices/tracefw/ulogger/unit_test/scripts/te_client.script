@@ -1,0 +1,276 @@
+// Copyright (c) 2008-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+//
+
+//! @file
+//! @SYMTestSuiteName               	uloggerv1-client-unit-test-suite.script
+//! @SYMScriptTestEnvironment       	TEF
+
+
+
+PRINT Run all te_uloggerclient Suite Tests
+
+// clears uloggerconfig.ini before running the client api tests 
+LOAD_SUITE te_createconfigsuite
+RUN_TEST_STEP 1000 te_createconfigsuite CreateConfigEmptyTestStep
+
+//
+LOAD_SUITE UloggerClientAPIServer
+//
+
+
+
+START_TESTCASE			DT-DEBUG-TRACE-UTFv1-ULoggerClientConnect-0001
+//! @SYMTestCaseID		DT-DEBUG-TRACE-UTFv1-ULoggerClientConnect-0001
+//! @SYMTestCaseDesc     Run test for connecting to ulogger client
+//! @SYMTestPriority     Critical
+//! @SYMTestActions    Connect to ulogger client
+//! @SYMTestExpectedResults     error return as expected
+//! @SYMTestType         UT
+//! @SYMTestStatus   Implemented
+//! @SYMPREQ                 PREQ1635
+//! @SYMREQ 
+RUN_TEST_STEP 100 UloggerClientAPIServer TestConnectStep 
+END_TESTCASE			DT-DEBUG-TRACE-UTFv1-ULoggerClientConnect-0001
+
+
+DELAY 2000
+
+START_TESTCASE			DT-DEBUG-TRACE-UTFv1-ULoggerClientSetPrimaryFlt-0001
+//! @SYMTestCaseID		DT-DEBUG-TRACE-UTFv1-ULoggerClientSetPrimaryFlt-0001
+//! @SYMTestCaseDesc     Run test for setting primary filter in ulogger client
+//! @SYMTestPriority     Critical
+//! @SYMTestActions    Set Primary Filter in ulogger client
+//! @SYMTestExpectedResults      error return as expected
+//! @SYMTestType         UT
+//! @SYMTestStatus   Implemented
+//! @SYMPREQ                 PREQ1635
+//! @SYMREQ 
+RUN_TEST_STEP 100 UloggerClientAPIServer TestSetPrimaryFltStep
+END_TESTCASE			DT-DEBUG-TRACE-UTFv1-ULoggerClientSetPrimaryFlt-0001
+
+ 
+DELAY 2000
+
+START_TESTCASE			DT-DEBUG-TRACE-UTFv1-ULoggerClientStart-0001
+//! @SYMTestCaseID		DT-DEBUG-TRACE-UTFv1-ULoggerClientStart-0001
+//! @SYMTestCaseDesc     Run test for starting ulogger client
+//! @SYMTestPriority     Critical
+//! @SYMTestActions    Start ulogger client
+//! @SYMTestExpectedResults     error return as expected
+//! @SYMTestType         UT
+//! @SYMTestStatus   Implemented
+//! @SYMPREQ 		PREQ1635
+//! @SYMREQ 
+RUN_TEST_STEP 100 UloggerClientAPIServer TestStartStep
+END_TESTCASE			DT-DEBUG-TRACE-UTFv1-ULoggerClientStart-0001 
+
+
+DELAY 2000
+
+START_TESTCASE			DT-DEBUG-TRACE-UTFv1-ULoggerClientStop-0001
+//! @SYMTestCaseID		DT-DEBUG-TRACE-UTFv1-ULoggerClientStop-0001
+//! @SYMTestCaseDesc     Run test for stopping ulogger client
+//! @SYMTestPriority     Critical
+//! @SYMTestActions    Stop ulogger client
+//! @SYMTestExpectedResults     error return as expected
+//! @SYMTestType         UT
+//! @SYMTestStatus   Implemented
+//! @SYMPREQ 			PREQ1635
+//! @SYMREQ 
+RUN_TEST_STEP 100 UloggerClientAPIServer TestStopStep 
+END_TESTCASE			DT-DEBUG-TRACE-UTFv1-ULoggerClientStop-0001
+
+
+DELAY 2000
+
+START_TESTCASE			DT-DEBUG-TRACE-UTFv1-ULoggerClientGetPrimaryFlt-0001
+//! @SYMTestCaseID		DT-DEBUG-TRACE-UTFv1-ULoggerClientGetPrimaryFlt-0001
+//! @SYMTestCaseDesc     Run test for getting primary filter in ulogger client
+//! @SYMTestPriority     Critical
+//! @SYMTestActions    Get Primeay Filter in ulogger client
+//! @SYMTestExpectedResults      error return as expected
+//! @SYMTestType         UT
+//! @SYMTestStatus   Implemented
+//! @SYMPREQ                 PREQ1635
+//! @SYMREQ 
+RUN_TEST_STEP 100 UloggerClientAPIServer TestGetPrimaryFiltersLStep
+END_TESTCASE			DT-DEBUG-TRACE-UTFv1-ULoggerClientGetPrimaryFlt-0001
+
+
+DELAY 2000
+
+START_TESTCASE			DT-DEBUG-TRACE-UTFv1-ULoggerClientGetSecondaryFlt-0001
+//! @SYMTestCaseID		DT-DEBUG-TRACE-UTFv1-ULoggerClientGetSecondaryFlt-0001
+//! @SYMTestCaseDesc     Run test for getting secondary filter in ulogger client
+//! @SYMTestPriority     Critical
+//! @SYMTestActions    Get secondary Filter in ulogger client
+//! @SYMTestExpectedResults      error return as expected
+//! @SYMTestType         UT
+//! @SYMTestStatus   Implemented
+//! @SYMPREQ                 PREQ1635
+//! @SYMREQ 
+RUN_TEST_STEP 100 UloggerClientAPIServer TestGetSecondaryFiltersLStep 
+END_TESTCASE			DT-DEBUG-TRACE-UTFv1-ULoggerClientGetSecondaryFlt-0001
+
+
+DELAY 2000
+
+START_TESTCASE			DT-DEBUG-TRACE-UTFv1-ULoggerClientGetBufferSize-0001
+//! @SYMTestCaseID		DT-DEBUG-TRACE-UTFv1-ULoggerClientGetBufferSize-0001
+//! @SYMTestCaseDesc     Run test for getting buffersize in client
+//! @SYMTestPriority     Critical
+//! @SYMTestActions    Get buffer size in ulogger client
+//! @SYMTestExpectedResults      error return/buffer size as expected
+//! @SYMTestType         UT
+//! @SYMTestStatus   Implemented
+//! @SYMPREQ                 PREQ1635
+//! @SYMREQ 
+RUN_TEST_STEP 100 UloggerClientAPIServer TestGetTraceBufferSizeStep 
+END_TESTCASE			DT-DEBUG-TRACE-UTFv1-ULoggerClientGetBufferSize-0001
+
+DELAY 2000
+
+START_TESTCASE			DT-DEBUG-TRACE-UTFv1-ULoggerClientRemovePrimaryFlt-0001
+//! @SYMTestCaseID		DT-DEBUG-TRACE-UTFv1-ULoggerClientRemovePrimaryFlt-0001
+//! @SYMTestCaseDesc     Run test for removing primary filter in ulogger client
+//! @SYMTestPriority     Critical
+//! @SYMTestActions 	Remove Primeay Filter in ulogger client
+//! @SYMTestExpectedResults      error return as expected
+//! @SYMTestType         UT
+//! @SYMTestStatus   Implemented
+//! @SYMPREQ                 PREQ1635
+//! @SYMREQ 
+RUN_TEST_STEP -1 UloggerClientAPIServer TestRemovePrimaryFltStep 
+END_TESTCASE			DT-DEBUG-TRACE-UTFv1-ULoggerClientRemovePrimaryFlt-0001
+
+
+DELAY 2000
+
+START_TESTCASE			DT-DEBUG-TRACE-UTFv1-ULoggerClientResizeBufferSize-0001
+//! @SYMTestCaseID		DT-DEBUG-TRACE-UTFv1-ULoggerClientResizeBufferSize-0001
+//! @SYMTestCaseDesc     Run test for resizing buffersize in client
+//! @SYMTestPriority     Critical
+//! @SYMTestActions    Resize buffer size in ulogger client
+//! @SYMTestExpectedResults      error return as expected
+//! @SYMTestType         UT
+//! @SYMTestStatus   Implemented
+//! @SYMPREQ                 PREQ1635
+//! @SYMREQ 
+RUN_TEST_STEP 100 UloggerClientAPIServer TestResizeTraceBufferSizeStep 
+END_TESTCASE			DT-DEBUG-TRACE-UTFv1-ULoggerClientResizeBufferSize-0001
+
+
+DELAY 2000
+
+
+START_TESTCASE			DT-DEBUG-TRACE-UTFv1-ULoggerClientSetDNS-0001
+//! @SYMTestCaseID		DT-DEBUG-TRACE-UTFv1-ULoggerClientSetDNS-0001
+//! @SYMTestCaseDesc     Run test for setting data notification size in  client
+//! @SYMTestPriority     Critical
+//! @SYMTestActions    Set DNS in ulogger client
+//! @SYMTestExpectedResults      error return as expected
+//! @SYMTestType         UT
+//! @SYMTestStatus   Implemented
+//! @SYMPREQ                 PREQ1635
+//! @SYMREQ 
+RUN_TEST_STEP 100 UloggerClientAPIServer TestSetDataNotificationSizeStep 
+END_TESTCASE			DT-DEBUG-TRACE-UTFv1-ULoggerClientSetDNS-0001
+
+
+DELAY 2000
+
+START_TESTCASE			DT-DEBUG-TRACE-UTFv1-ULoggerClientSetSecondaryFltAll-0001
+//! @SYMTestCaseID		DT-DEBUG-TRACE-UTFv1-ULoggerClientSetSecondaryFltAll-0001
+//! @SYMTestCaseDesc     Run test for setting all secondary filters in ulogger client
+//! @SYMTestPriority     Critical
+//! @SYMTestActions    Set all secondary Filtesr in ulogger client
+//! @SYMTestExpectedResults      error return as expected
+//! @SYMTestType         UT
+//! @SYMTestStatus   Implemented
+//! @SYMPREQ                 PREQ1635
+//! @SYMREQ 
+RUN_TEST_STEP 100 UloggerClientAPIServer TestSetSecondaryFilterAllStep 
+END_TESTCASE			DT-DEBUG-TRACE-UTFv1-ULoggerClientSetSecondaryFltAll-0001
+
+DELAY 2000
+
+START_TESTCASE			DT-DEBUG-TRACE-UTFv1-ULoggerClientSetSecondaryFlt-0001
+//! @SYMTestCaseID		DT-DEBUG-TRACE-UTFv1-ULoggerClientSetSecondaryFlt-0001
+//! @SYMTestCaseDesc     Run test for setting one secondary filter in ulogger client
+//! @SYMTestPriority     Critical
+//! @SYMTestActions    Set one secondary Filtesr in ulogger client
+//! @SYMTestExpectedResults      error return as expected
+//! @SYMTestType         UT
+//! @SYMTestStatus   Implemented
+//! @SYMPREQ                 PREQ1635
+//! @SYMREQ 
+RUN_TEST_STEP 100 UloggerClientAPIServer TestSetSecondaryFltStep 
+END_TESTCASE			DT-DEBUG-TRACE-UTFv1-ULoggerClientSetSecondaryFlt-0001
+
+
+DELAY 2000
+
+
+START_TESTCASE			DT-DEBUG-TRACE-UTFv1-ULoggerClientVersion-0001
+//! @SYMTestCaseID		DT-DEBUG-TRACE-UTFv1-ULoggerClientVersion-0001
+//! @SYMTestCaseDesc     Run test for getting version in ulogger client
+//! @SYMTestPriority     Critical
+//! @SYMTestActions    Get version in ulogger client
+//! @SYMTestExpectedResults      error return as expected
+//! @SYMTestType         UT
+//! @SYMTestStatus   Implemented
+//! @SYMPREQ                 PREQ1635
+//! @SYMREQ 
+RUN_TEST_STEP 100 UloggerClientAPIServer TestVersionStep 
+END_TESTCASE			DT-DEBUG-TRACE-UTFv1-ULoggerClientVersion-0001
+
+
+DELAY 2000
+
+START_TESTCASE			DT-DEBUG-TRACE-UTFv1-ULoggerClientDeactivateOutputPlugin-0001
+//! @SYMTestCaseID		DT-DEBUG-TRACE-UTFv1-ULoggerClientDeactivateOutputPlugin-0001
+//! @SYMTestCaseDesc     Run test for deactivating output plugin in ulogger client
+//! @SYMTestPriority     Critical
+//! @SYMTestActions    Deactivate output plugin in ulogger client
+//! @SYMTestExpectedResults      error return as expected
+//! @SYMTestType         UT
+//! @SYMTestStatus   Implemented
+//! @SYMPREQ                 PREQ1635
+//! @SYMREQ 
+RUN_TEST_STEP 100 UloggerClientAPIServer TestDeactivateOutputPluginStep
+END_TESTCASE			DT-DEBUG-TRACE-UTFv1-ULoggerClientDeactivateOutputPlugin-0001
+
+DELAY 2000
+
+
+START_TESTCASE			DT-DEBUG-TRACE-UTFv1-ULoggerClientRULoggerAPI-0001
+//! @SYMTestCaseID		DT-DEBUG-TRACE-UTFv1-ULoggerClientRULoggerAPI-0001
+//! @SYMTestCaseDesc     Run test for RULogger API in ulogger client
+//! @SYMTestPriority     Critical
+//! @SYMTestActions    Call RULogger API in ulogger client
+//! @SYMTestExpectedResults      error return as expected
+//! @SYMTestType         UT
+//! @SYMTestStatus   Implemented
+//! @SYMPREQ                 PREQ1635
+//! @SYMREQ 
+RUN_TEST_STEP 2000 UloggerClientAPIServer TestRULoggerAPIStep
+END_TESTCASE			DT-DEBUG-TRACE-UTFv1-ULoggerClientRULoggerAPI-0001
+
+
+DELAY 2000
+
+
+PRINT Ulogger Client API tests complete

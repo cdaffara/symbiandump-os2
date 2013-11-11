@@ -1,0 +1,59 @@
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// TE_CentRepConv.MMP
+// 
+//
+
+MACRO CENTREP_CONV_TOOL
+
+TARGET		centrepconvtooltestsvr.exe
+CAPABILITY 	ReadUserData WriteUserData ReadDeviceData WriteDeviceData AllFiles
+TARGETTYPE	exe
+UID			0x1000007A 0x1027431B  // same UID as CentRepConv.exe
+
+VENDORID 0x70000001
+
+SMPSAFE
+
+USERINCLUDE	../src
+USERINCLUDE	../../../../cenrepsrv
+USERINCLUDE	../../../../common/inc
+USERINCLUDE	../../../../convtool/src
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+SOURCEPATH	../src
+SOURCE		CentRepConvTestSvr.cpp
+SOURCE		CmdLineStep.cpp
+SOURCE		ConvertStep.cpp CompareTwoFiles.cpp
+SOURCE		GetTsyNameFromCommsDat.cpp ReadModemRecordStep.cpp
+
+SOURCEPATH	../../../../cenrepsrv
+SOURCE		shrepos.cpp srvres.cpp
+SOURCE cachemgr.cpp obsrvr_noc.cpp srvrepos_noc.cpp 
+
+SOURCEPATH	../../../../convtool/src
+SOURCE		CentRepConvTool.cpp consoleprint.cpp
+
+SOURCEPATH ../../../../common/src
+SOURCE cregen.cpp datatype.cpp inifile.cpp panic.cpp heaprepos.cpp 
+
+
+LIBRARY     	euser.lib efsrv.lib estor.lib bafl.lib charconv.lib
+LIBRARY		bsulinifile.lib
+LIBRARY		centralrepository.lib
+LIBRARY		testexecuteutils.lib testexecutelogclient.lib
+LIBRARY		commsdat.lib
+#ifdef SYMBIAN_BAFL_SYSUTIL
+LIBRARY sysutil.lib
+#endif

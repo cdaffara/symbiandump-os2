@@ -1,0 +1,33 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SERVER te_RegBlockTestSuite 
+
+START_TESTCASE DT-TEF-TestBlock-0014
+//! @SYMTestCaseID          DT-TEF-TestBlock-0014
+//! @SYMCreationDate        03-07-2008
+//! @SYMAuthor              DavidZhang
+//! @SYMTestType            CT
+//! @SYMTestPriority        Medium
+//! @SYMTestCaseDesc        A test case where a block has no END_TEST_BLOCK having only START_TEST_BLOCK.
+//! @SYMTestExpectedResults The test case result must be FAIL.
+//! @SYMTestActions         Create a START_TEST_BLOCK without a corresponding END_TEST_BLOCK. Do not
+//!                         have any more START_TEST_BLOCK commands in the script.
+	PRINT This test case will be failed.
+	START_TEST_BLOCK	100 te_RegBlockTestSuite ${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini
+		CREATE_OBJECT	te_RegBlockTestWrapper	TestCase009_obj
+		COMMAND		TestCase009_obj			DummyFunction
+END_TESTCASE DT-TEF-TestBlock-0014

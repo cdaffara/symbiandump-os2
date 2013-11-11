@@ -1,0 +1,35 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+#ifndef __STATCOMMON_IBY__
+#define __STATCOMMON_IBY__
+
+#include <iniparser.iby>
+
+// TestExecute Test Framework
+#ifdef STAT_LITE
+file=ABI_DIR\DEBUG_DIR\statlite.exe	Sys\Bin\statapi.exe
+//duplicate the file so that TV on 9.1 would fire-up stat on the device.
+file=ABI_DIR\DEBUG_DIR\statlite.exe      Sys\Bin\statauto.exe
+#else
+file=ABI_DIR\DEBUG_DIR\statapi.exe	Sys\Bin\statapi.exe
+//duplicate the file so that TV on 9.1 would fire-up stat on the device.
+file=ABI_DIR\DEBUG_DIR\statapi.exe      Sys\Bin\statauto.exe
+#endif
+
+file=ABI_DIR\DEBUG_DIR\SerialDriver.DLL	Sys\Bin\SerialDriver.DLL
+
+#endif // __STATCOMMON_IBY__

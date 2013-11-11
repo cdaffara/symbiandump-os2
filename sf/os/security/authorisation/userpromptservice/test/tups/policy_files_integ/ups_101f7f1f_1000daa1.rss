@@ -1,0 +1,71 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* Tests Accessing: SEC-INTEG-UPS-B0010 (Concurrent Multiple Client Requests - ALWAYS Returned from Dialogs)
+* Service: 1000daa1
+* Service: System Server 1 (0x101F7F1F)
+*
+*/
+
+
+#include <ups/policies.rh>
+
+UID2 KUidUpsPolicyResourceFile
+UID3 0x101F7F1F
+
+// Test policy file for WAP GPRS
+RESOURCE POLICIES testpolicies
+	{
+	header = POLICY_HEADER
+		{
+		// use default client config 
+		policyevaluator = 0xe1111e11;
+		dialogcreator = 0xe1111d11;
+		majorversion = 1;
+		minorversion = 0;
+		};
+	policies = 
+		{
+		POLICY
+			{
+			// allow dialog display for all clients
+			sid_classes = KAllSids;
+			destination = "0845126090";
+			options = KYes | KNo | KAlways | KNever | KSessionYes | KSessionNo;
+			flags = 0x01;
+			policyevaluator = 0xe1111e11;
+			dialogcreator = 0xe1111d11;
+			},
+		POLICY
+			{
+			// allow dialog display for all clients
+			sid_classes = KAllSids;
+			destination = "0845126091";
+			options = KYes | KNo | KAlways | KNever | KSessionYes | KSessionNo;
+			flags = 0x02;
+			policyevaluator = 0xe1111e21;
+			dialogcreator = 0xe1111d21;
+			},
+		POLICY
+			{
+			// allow dialog display for all clients
+			sid_classes = KAllSids;
+			destination = "0845126092";
+			options = KYes | KNo | KAlways | KNever | KSessionYes | KSessionNo;
+			flags = 0x03;
+			policyevaluator = 0xe1111e31;
+			dialogcreator = 0xe1111d31;
+			}
+		};
+	}

@@ -1,0 +1,45 @@
+// Copyright (c) 2008-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// @file
+// @SYMPurpose		omxilcomponentif.lib Library used by the OMX Core to
+// allow an OMX component to be loaded as an ECom plugin.
+// 
+//
+
+#ifndef SHAREDOSTOMXILFRAMEWORKTRACE_HRH
+#define SHAREDOSTOMXILFRAMEWORKTRACE_HRH
+
+
+// ******* enables OMX-IL performance traces ***********
+//#define ENABLE_OMXIL_TRACE_OSTV1
+//#define ENABLE_OMXIL_TRACE_OSTV2
+// *******************************************************
+
+#ifdef ENABLE_OMXIL_TRACE_OSTV2
+MACRO SYMBIAN_PERF_TRACE_OMX_IL
+#define SYMBIAN_PERF_TRACE_OMX_IL
+#endif
+
+#ifdef ENABLE_OMXIL_TRACE_OSTV1
+MACRO SYMBIAN_PERF_TRACE_OMX_IL_OSTV1
+#define SYMBIAN_PERF_TRACE_OMX_IL_OSTV1
+#endif
+
+#ifdef SYMBIAN_PERF_TRACE_OMX_IL
+	// comment out to stub out all tracepoint
+#define SYMBIAN_INCLUDE_EXECUTABLE_TRACE 
+	#include <platform/opensystemtrace.mmh>
+#endif // SYMBIAN_PERF_TRACE_OMX_IL
+
+#endif //SHAREDOSTOMXILFRAMEWORKTRACE_HRH

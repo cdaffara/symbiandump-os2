@@ -1,0 +1,50 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+#ifndef __OPENENV_IBY__
+#define __OPENENV_IBY__
+
+// libc.dll has a dependancy on Timezone Server
+#include "timezonelocalization.iby"
+
+file=ABI_DIR\BUILD_DIR\liblogger.dll       	   sys\bin\LibLogger.dll 
+file=ABI_DIR\BUILD_DIR\libcipcserver.exe   	   sys\bin\LibCIpcServer.exe 
+file=ABI_DIR\BUILD_DIR\backend.dll         	   sys\bin\backend.dll 
+file=ABI_DIR\BUILD_DIR\libm.dll            	   sys\bin\libm.dll 
+file=ABI_DIR\BUILD_DIR\libc.dll            	   sys\bin\libc.dll 
+file=ABI_DIR\BUILD_DIR\libpthread.dll      	   sys\bin\libpthread.dll 
+file=ABI_DIR\BUILD_DIR\libdl.dll           	   sys\bin\libdl.dll 
+
+#ifdef SYMBIAN_DISTINCT_LOCALE_MODEL
+data = EPOCROOT##epoc32\winscw\c\resource\pips\locales_new.txt	   \resource\pips\locales_new.txt
+#endif
+data = EPOCROOT##epoc32\winscw\c\resource\pips\locales.txt	   \resource\pips\locales.txt
+data = EPOCROOT##epoc32\winscw\c\resource\pips\services	   \resource\pips\services
+data = EPOCROOT##epoc32\data\z\system\install\openc_stdlibs_stub.sis	\system\install\openc_stdlibs_stub.sis
+data = EPOCROOT##epoc32\data\z\system\install\openc_signalserver_stub.sis	\system\install\openc_signalserver_stub.sis
+
+#include <stdcpp.iby> 	/* StdC++ library*/
+
+#ifdef SYMBIAN_OE_POSIX_SIGNALS
+file=ABI_DIR\BUILD_DIR\signalserver.exe		   sys\bin\signalserver.exe
+#endif /* SYMBIAN_OE_POSIX_SIGNALS */
+
+#ifdef SYMBIAN_OE_LIBRT
+#include <oelibrt.iby>	  /* Librt library*/
+#endif /* SYMBIAN_OE_LIBRT */
+
+#endif
+
+

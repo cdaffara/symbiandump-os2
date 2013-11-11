@@ -1,0 +1,66 @@
+// Copyright (c) 2008-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// Project specification file for XML Serializer
+// 
+//
+
+TARGET          xmlengineserializer.dll
+TARGETTYPE      dll
+UID             0x1000008D 0x101F9794
+
+SOURCEPATH      ../src/xmlengineserializer
+SOURCE          xmlengserializer.cpp
+SOURCE          xmlengserializerxop.cpp
+SOURCE          xmlengxopproxyoutputstream.cpp
+SOURCE          xmlengxopfileoutputstream.cpp
+SOURCE          xmlengserializergzip.cpp
+SOURCE          xmlenggzipfileoutputstream.cpp
+SOURCE          xmlenggzipbufferoutputstream.cpp
+SOURCE          xmlenggzipoutputstream.cpp
+SOURCE          xmlengdeserializer.cpp
+SOURCE          xmlengdeserializerxop.cpp 
+SOURCE          xmlengdeserializergzip.cpp
+SOURCE          xmlengcontenthandler.cpp 
+SOURCE          xmlenggzipbufferdeserializebm.cpp
+SOURCE          xmlenggzipfiledeserializer.cpp
+SOURCE          xmlengdomcontenthandler.cpp
+SOURCE          xmlengdeserializerdom.cpp
+SOURCE          xmlengparsingoptions.cpp
+
+USERINCLUDE  ../src/xmlenginedom
+
+
+OS_LAYER_LIBC_SYSTEMINCLUDE
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+SYSTEMINCLUDE /epoc32/include/stdapis/libxml2
+
+LIBRARY 		libc.lib 
+LIBRARY         euser.lib 
+LIBRARY         efsrv.lib 
+LIBRARY         bafl.lib 
+LIBRARY			xmlengine.lib
+LIBRARY			xmlengineutils.lib
+LIBRARY     	xmlenginedom.lib
+LIBRARY     	multipartparser.lib
+LIBRARY         ezlib.lib
+LIBRARY	        xmlframework.lib
+LIBRARY         bsul.lib //TImCodec
+LIBRARY         sysutil.lib
+
+nostrictdef
+
+CAPABILITY ALL -TCB
+VENDORID 0x70000001
+
+SMPSAFE

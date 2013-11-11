@@ -1,0 +1,683 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+
+LOAD_SUITE RTAUtils
+LOAD_SUITE tcaf
+
+// Required for managerstep.script test cases
+RUN_UTILS MkDir C:\private\
+RUN_UTILS MkDir C:\private\Reference Test Agent\
+
+
+RUN_UTILS Delete c:\tcaf\testdata\sample.content
+
+START_TESTCASE 			SEC-CAF-MAN-0001
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-MAN-0001
+//! @SYMTestCaseDesc 		Create a sample Drm archive
+//!				(TCAF_CreateArchive)
+//! @SYMPREQ			REQ3678
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Constructs a DRM archive from the content and rights xml files provided
+//! @SYMTestExpectedResults	A .contentrights file is produced
+//! @SYMTestType		UT
+RUN_TEST_STEP 100 RTAUtils CreateDrmArchive c:\tcaf\managerstep.ini CreateDrmArchive
+END_TESTCASE 			SEC-CAF-MAN-0001
+
+START_TESTCASE 			SEC-CAF-MAN-0002
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-MAN-0002
+//! @SYMTestCaseDesc 		Plaintext Copy File not found
+//!				(PlainText_CopyFile_Not_Found)
+//! @SYMREQ			REQ3691
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Attempt to copy an file that does not exist, should return expected error code
+//! @SYMTestExpectedResults	returns expected error code
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFCopyFileStep c:\tcaf\managerstep.ini PlainTextCopyFileNotFound
+END_TESTCASE 			SEC-CAF-MAN-0002
+
+START_TESTCASE 			SEC-CAF-MAN-0003
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-MAN-0003
+//! @SYMTestCaseDesc 		Plaintext Copy File
+//!				(PlainText_CopyFile)
+//! @SYMREQ			REQ3691
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Attempt to copy an unprotected file
+//! @SYMTestExpectedResults	File copied sucessfully
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFCopyFileStep c:\tcaf\managerstep.ini PlainTextCopyFileOk
+END_TESTCASE 			SEC-CAF-MAN-0003
+
+START_TESTCASE 			SEC-CAF-MAN-0004
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-MAN-0004
+//! @SYMTestCaseDesc 		Rename a file in the same directory using CAF
+//!				(PlainText_RenameFile_Ok)
+//! @SYMREQ			REQ3691
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Use CAF to try and rename a file
+//! @SYMTestExpectedResults	Rename should return KErrNone
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFRenameFileStep c:\tcaf\managerstep.ini PlainTextRenameFileOk
+END_TESTCASE 			SEC-CAF-MAN-0004
+
+START_TESTCASE 			SEC-CAF-MAN-0005
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-MAN-0005
+//! @SYMTestCaseDesc 		Rename a non existant file using caf
+//!				(PlainText_RenameFile_Fail)
+//! @SYMREQ			REQ3691
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Use CAF to try and rename a file that does not exist
+//! @SYMTestExpectedResults	Rename should return KErrNotFound
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFRenameFileStep c:\tcaf\managerstep.ini PlainTextRenameFileNotFound
+END_TESTCASE 			SEC-CAF-MAN-0005
+
+START_TESTCASE 			SEC-CAF-MAN-0006
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-MAN-0006
+//! @SYMTestCaseDesc 		Move file across different drives using CAF
+//!				(PlainText_DifferentDrivesSameNameRenameFile_Ok)
+//! @SYMREQ			REQ3691, INC106214
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Use CAF to try and move a file to a different drive
+//! @SYMTestExpectedResults	Rename should return KErrNone
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFRenameFileStep c:\tcaf\managerstep.ini DifferentDrivesSameNameRenameFileOk
+END_TESTCASE 			SEC-CAF-MAN-0006
+
+START_TESTCASE 			SEC-CAF-MAN-0007
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-MAN-0007
+//! @SYMTestCaseDesc 		Move file across different drives using CAF
+//!				(PlainText_DifferentDrivesDifferentNameRenameFile_Ok)
+//! @SYMREQ			REQ3691, INC106214
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Use CAF to try and move a file to a different drive while changing the file name
+//! @SYMTestExpectedResults	Rename should return KErrNone
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFRenameFileStep c:\tcaf\managerstep.ini DifferentDrivesDifferentNameRenameFileOk
+END_TESTCASE 			SEC-CAF-MAN-0007
+
+START_TESTCASE 			SEC-CAF-MAN-0008
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-MAN-0008
+//! @SYMTestCaseDesc 		Delete a plain text file using CAF
+//!				(PlainText_Delete_Ok)
+//! @SYMREQ			REQ3691
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Use CAF to delete the file that was copied in the previous test
+//! @SYMTestExpectedResults	Delete should return KErrNone when the file is deleted
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFDeleteStep c:\tcaf\managerstep.ini PlainTextDeleteOk
+END_TESTCASE 			SEC-CAF-MAN-0008
+
+START_TESTCASE 			SEC-CAF-MAN-0009
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-MAN-0009
+//! @SYMTestCaseDesc 		Delete a non existant file using caf
+//!				(PlainText_Delete_Fail)
+//! @SYMREQ			REQ3691
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Use CAF to try and delete a file that does not exist
+//! @SYMTestExpectedResults	Delete should return KErrNotFound
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFDeleteStep c:\tcaf\managerstep.ini PlainTextDeleteFail
+END_TESTCASE 			SEC-CAF-MAN-0009
+
+START_TESTCASE 			SEC-CAF-MAN-0010
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-MAN-0010
+//! @SYMTestCaseDesc 		Tries to creates several nested directories
+//!				(public_Mkdir_fail)
+//! @SYMREQ			REQ3691
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Use CAF to create a nested directory in the file system, fails
+//! @SYMTestExpectedResults	MkDir should return kErrPathNotFound
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFMkDirStep c:\tcaf\managerstep.ini MkDirPublicDirFail
+END_TESTCASE 			SEC-CAF-MAN-0010
+
+START_TESTCASE 			SEC-CAF-MAN-0011
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-MAN-0011
+//! @SYMTestCaseDesc 		Creates a directory in a public part of the file system
+//!				(public_Mkdir_Ok)
+//! @SYMREQ			REQ3691
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Use CAF to create a directory in the file system
+//! @SYMTestExpectedResults	MkDir should return kErrNone
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFMkDirStep c:\tcaf\managerstep.ini MkDirPublicDirOk
+END_TESTCASE 			SEC-CAF-MAN-0011
+
+START_TESTCASE 			SEC-CAF-MAN-0012
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-MAN-0012
+//! @SYMTestCaseDesc 		Creates a directory in a public part of the file system
+//!				(public_Rmdir)
+//! @SYMREQ			REQ3691
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Use CAF to create a directory in the file system
+//! @SYMTestExpectedResults	MkDir should return kErrNone
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFRmDirStep c:\tcaf\managerstep.ini RmDirPublicDirOk
+END_TESTCASE 			SEC-CAF-MAN-0012
+
+START_TESTCASE 			SEC-CAF-MAN-0013
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-MAN-0013
+//! @SYMTestCaseDesc 		Remove a directory that does not exist
+//!				(public_Rmdir_fail)
+//! @SYMREQ			REQ3691
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Use CAF to remove a directory that does not exist in the file system
+//! @SYMTestExpectedResults	RmDir should return KErrNotFound
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFRmDirStep c:\tcaf\managerstep.ini RmDirPublicDirFail
+END_TESTCASE 			SEC-CAF-MAN-0013
+
+START_TESTCASE 			SEC-CAF-MAN-0014
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-MAN-0014
+//! @SYMTestCaseDesc 		Creates a directory in a public part of the file system
+//!				(public_MkDirAll_ok)
+//! @SYMREQ			REQ3691
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Use CAF to create a directory in the file system
+//! @SYMTestExpectedResults	MkDir should return kErrNone
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFMkDirAllStep c:\tcaf\managerstep.ini MkDirAllPublicDirOk
+END_TESTCASE 			SEC-CAF-MAN-0014
+
+START_TESTCASE 			SEC-CAF-MAN-0015
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-MAN-0015
+//! @SYMTestCaseDesc 		Create directory fails
+//!				(public_MkDirAll_fail)
+//! @SYMREQ			REQ3691
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Use CAF to create a directory on the read only Z:\ drive
+//! @SYMTestExpectedResults	MkDir should return kErrAccessDenied
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFMkDirAllStep c:\tcaf\managerstep.ini MkDirAllPublicDirFail
+END_TESTCASE 			SEC-CAF-MAN-0015
+
+START_TESTCASE 			SEC-CAF-MAN-0016
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-MAN-0016
+//! @SYMTestCaseDesc 		List a directory
+//!				(public_GetDir1_ok)
+//! @SYMREQ			REQ3691
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Use CAF to list a directory
+//! @SYMTestExpectedResults	GetDir should return KErrNone
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFGetDirStep c:\tcaf\managerstep.ini GetDirAPI1StepOk
+END_TESTCASE 			SEC-CAF-MAN-0016
+
+START_TESTCASE 			SEC-CAF-MAN-0017
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-MAN-0017
+//! @SYMTestCaseDesc 		List a directory
+//!				(public_GetDir2_ok)
+//! @SYMREQ			REQ3691
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Use CAF to list a directory
+//! @SYMTestExpectedResults	GetDir should return KErrNone
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFGetDirStep c:\tcaf\managerstep.ini GetDirAPI2StepOk
+END_TESTCASE 			SEC-CAF-MAN-0017
+
+START_TESTCASE 			SEC-CAF-MAN-0018
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-MAN-0018
+//! @SYMTestCaseDesc 		List a directory
+//!				(public_GetDir3_ok)
+//! @SYMREQ			REQ3691
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Use CAF to list a directory
+//! @SYMTestExpectedResults	GetDir should return KErrNone
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFGetDirStep c:\tcaf\managerstep.ini GetDirAPI3StepOk
+END_TESTCASE 			SEC-CAF-MAN-0018
+
+START_TESTCASE 			SEC-CAF-MAN-0019
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-MAN-0019
+//! @SYMTestCaseDesc 		List a directory
+//!				(public_GetDir_fail)
+//! @SYMREQ			REQ3691
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Use CAF to list a directory
+//! @SYMTestExpectedResults	GetDir should return KErrPathNotFound
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFGetDirStep c:\tcaf\managerstep.ini GetDirStepFail
+END_TESTCASE 			SEC-CAF-MAN-0019
+
+START_TESTCASE 			SEC-CAF-MAN-0020
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-MAN-0020
+//! @SYMTestCaseDesc 		List a directory
+//!				(public_GetDir_Private1)
+//! @SYMREQ			REQ3691
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Use CAF to list a C:\private\
+//! @SYMTestExpectedResults	GetDir should return KErrNone
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFGetDirStep c:\tcaf\managerstep.ini GetDirAPI1StepPrivate
+END_TESTCASE 			SEC-CAF-MAN-0020
+
+START_TESTCASE 			SEC-CAF-MAN-0021
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-MAN-0021
+//! @SYMTestCaseDesc 		List a directory
+//!				(public_GetDir_Private2)
+//! @SYMREQ			REQ3691
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Use CAF to list a C:\private\
+//! @SYMTestExpectedResults	GetDir should return KErrNone
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFGetDirStep c:\tcaf\managerstep.ini GetDirAPI2StepPrivate
+END_TESTCASE 			SEC-CAF-MAN-0021
+
+START_TESTCASE 			SEC-CAF-MAN-0022
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-MAN-0022
+//! @SYMTestCaseDesc 		List a directory
+//!				(public_GetDir_Private3)
+//! @SYMREQ			REQ3691
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Use CAF to list a C:\private\
+//! @SYMTestExpectedResults	GetDir should return KErrNone
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFGetDirStep c:\tcaf\managerstep.ini GetDirAPI3StepPrivate
+END_TESTCASE 			SEC-CAF-MAN-0022
+
+START_TESTCASE 			SEC-CAF-MAN-0023
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-MAN-0023
+//! @SYMTestCaseDesc 		Copy File to private dir
+//!				(private_CopyFile_Ok)
+//! @SYMREQ			REQ3691
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Attempt to copy an file to the reference test agent private dir
+//! @SYMTestExpectedResults	copy succeeds
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFCopyFileStep c:\tcaf\managerstep.ini PrivateCopyFileOk
+END_TESTCASE 			SEC-CAF-MAN-0023
+
+START_TESTCASE 			SEC-CAF-MAN-0024
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-MAN-0024
+//! @SYMTestCaseDesc 		Creates a directory in the private directory of the reference test agent
+//!				(private_Mkdir_Ok)
+//! @SYMREQ			REQ3691
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Use CAF to create a directory in agents private directory
+//! @SYMTestExpectedResults	MkDir should return kErrNone
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFMkDirStep c:\tcaf\managerstep.ini MkDirPrivateDirOk
+END_TESTCASE 			SEC-CAF-MAN-0024
+
+START_TESTCASE 			SEC-CAF-MAN-0025
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-MAN-0025
+//! @SYMTestCaseDesc 		List a directory
+//!				(public_GetDir_Private1)
+//! @SYMREQ			REQ3691
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Use CAF to list a C:\private\Reference Test Agent\
+//! @SYMTestExpectedResults	GetDir should return KErrNone
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFGetDirStep c:\tcaf\managerstep.ini GetDirAPI1StepPrivateServer
+END_TESTCASE 			SEC-CAF-MAN-0025
+
+START_TESTCASE 			SEC-CAF-MAN-0026
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-MAN-0026
+//! @SYMTestCaseDesc 		List a directory
+//!				(public_GetDir_Private2)
+//! @SYMREQ			REQ3691
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Use CAF to list a C:\private\Reference Test Agent\
+//! @SYMTestExpectedResults	GetDir should return KErrNone
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFGetDirStep c:\tcaf\managerstep.ini GetDirAPI2StepPrivateServer
+END_TESTCASE 			SEC-CAF-MAN-0026
+
+START_TESTCASE 			SEC-CAF-MAN-0027
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-MAN-0027
+//! @SYMTestCaseDesc 		List a directory
+//!				(public_GetDir_Private3)
+//! @SYMREQ			REQ3691
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Use CAF to list a C:\private\Reference Test Agent\
+//! @SYMTestExpectedResults	GetDir should return KErrNone
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFGetDirStep c:\tcaf\managerstep.ini GetDirAPI3StepPrivateServer
+END_TESTCASE 			SEC-CAF-MAN-0027
+
+START_TESTCASE 			SEC-CAF-MAN-0028
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-MAN-0028
+//! @SYMTestCaseDesc 		Delete a file in the reference test agents private directory
+//!				(Private_Delete_Ok)
+//! @SYMREQ			REQ3691
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Use CAF to delete the file in the private directory of the reference test agent
+//! @SYMTestExpectedResults	Delete should return KErrNone when the file is deleted
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFDeleteStep c:\tcaf\managerstep.ini PrivateDeleteFileOk
+END_TESTCASE 			SEC-CAF-MAN-0028
+
+START_TESTCASE 			SEC-CAF-MAN-0029
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-MAN-0029
+//! @SYMTestCaseDesc 		Remove a directory within the agents private directory
+//!				(private_Rmdir)
+//! @SYMREQ			REQ3691
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Use CAF to remove a directory in the agents private directory
+//! @SYMTestExpectedResults	MkDir should return kErrNone
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFRmDirStep c:\tcaf\managerstep.ini RmDirPrivateDirOk
+END_TESTCASE 			SEC-CAF-MAN-0029
+
+START_TESTCASE 			SEC-CAF-MAN-0030
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-MAN-0030
+//! @SYMTestCaseDesc 		Request a status notification on a file
+//!				(Manager_NotifyStatusChange)
+//! @SYMREQ			REQ3680
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Request a notification on an unprotected file
+//! @SYMTestExpectedResults	Should return KErrCANotSupported
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFManagerNotifyStep c:\tcaf\managerstep.ini NotifyStatusChange
+END_TESTCASE 			SEC-CAF-MAN-0030
+
+START_TESTCASE 			SEC-CAF-MAN-0031
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-MAN-0031
+//! @SYMTestCaseDesc 		Set a property within all agents
+//!				(Manager_SetProperty)
+//! @SYMPREQ			PREQ780
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Set a property within all agents
+//! @SYMTestExpectedResults	Should return KErrCANotSupported
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFManagerSetPropertyStep c:\tcaf\managerstep.ini SetProperty
+END_TESTCASE 			SEC-CAF-MAN-0031
+
+START_TESTCASE 			SEC-CAF-MAN-0032
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-MAN-0032
+//! @SYMTestCaseDesc 		Display information about an unprotected file
+//!				(Manager_DisplayInfo)
+//! @SYMPREQ			PREQ780
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Ask the agent to display information about the file
+//! @SYMTestExpectedResults	Should return KErrCANotSupported
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFManagerDisplayInfoStep c:\tcaf\managerstep.ini DisplayInfo
+END_TESTCASE 			SEC-CAF-MAN-0032
+
+START_TESTCASE 			SEC-CAF-MAN-0033
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-MAN-0033
+//! @SYMTestCaseDesc 		List all the agents not including the F32 Agent
+//!				(Manager_List_Agents)
+//! @SYMPREQ			PREQ780
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		List all agents
+//! @SYMTestExpectedResults	Should return KErrNone
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFManagerListAgentsStep c:\tcaf\managerstep.ini ListAgents
+END_TESTCASE 			SEC-CAF-MAN-0033
+
+START_TESTCASE 			SEC-CAF-MAN-0034
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-MAN-0034
+//! @SYMTestCaseDesc 		Execute an agent specific command
+//!				(Manager_Agent_Specific)
+//! @SYMPREQ			PREQ780
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Execute an agent specific command
+//! @SYMTestExpectedResults	Should return KErrNone
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFManagerAgentSpecificStep c:\tcaf\managerstep.ini AgentSpecific
+END_TESTCASE 			SEC-CAF-MAN-0034
+
+START_TESTCASE 			SEC-CAF-MAN-0035
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-MAN-0035
+//! @SYMTestCaseDesc 		Execute an agent specific command
+//!				(Manager_Display_Management_Info)
+//! @SYMPREQ			PREQ780
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Execute an agent specific command
+//! @SYMTestExpectedResults	Should return KErrCANotSupported
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFManagerDisplayConfigStep c:\tcaf\managerstep.ini DisplayManagement
+END_TESTCASE 			SEC-CAF-MAN-0035
+
+START_TESTCASE 			SEC-CAF-MAN-0036
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-MAN-0036
+//! @SYMTestCaseDesc 		Get an attribute for a file
+//!				(Manager_Attribute)
+//! @SYMREQ			REQ3679
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Get a single attribute for a file
+//! @SYMTestExpectedResults	Should return KErrNone
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFManagerAttributeStep c:\tcaf\attributes.ini Attribute
+END_TESTCASE 			SEC-CAF-MAN-0036
+
+START_TESTCASE 			SEC-CAF-MAN-0037
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-MAN-0037
+//! @SYMTestCaseDesc 		Get a set of attributes for a file
+//!				(Manager_AttributeSet)
+//! @SYMREQ			REQ3679
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Get a set of attributes for a file
+//! @SYMTestExpectedResults	Should return KErrNone
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFManagerAttributeSetStep c:\tcaf\attributes.ini AttributeSet
+END_TESTCASE 			SEC-CAF-MAN-0037
+
+START_TESTCASE 			SEC-CAF-MAN-0038
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-MAN-0038
+//! @SYMTestCaseDesc 		Get a string attribute for a file
+//!				(Manager_String_Attribute)
+//! @SYMREQ			REQ3679
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Get a single string attribute for a file
+//! @SYMTestExpectedResults	Should return KErrNone
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFManagerStringAttributeStep c:\tcaf\attributes.ini StringAttribute
+END_TESTCASE 			SEC-CAF-MAN-0038
+
+START_TESTCASE 			SEC-CAF-MAN-3457
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-MAN-3457
+//! @SYMTestCaseDesc 		Get a string attribute for a manager object within a valid gif file
+//! @SYMDEF			PDEF104571
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Get a single string attribute for a manager object within a valid gif file
+//! @SYMTestExpectedResults	A string attribute should successfully be returned
+//! @SYMTestType		CT
+RUN_TEST_STEP 100 tcaf CAFManagerStringAttributeStep c:\tcaf\attributes.ini StringAttributeGoodGif
+END_TESTCASE 			SEC-CAF-MAN-3457
+
+START_TESTCASE 			SEC-CAF-MAN-3458
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-MAN-3458
+//! @SYMTestCaseDesc 		Failure to return a string attribute for a manager object within an invalid gif file
+//! @SYMDEF			PDEF104571
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Attempt to get a single string attribute for a manager object within an invalid gif file
+//! @SYMTestExpectedResults	An  error should be returned
+//! @SYMTestType		CT
+RUN_TEST_STEP 100 tcaf CAFManagerStringAttributeStep c:\tcaf\attributes.ini StringAttributeErrorGif
+END_TESTCASE 			SEC-CAF-MAN-3458
+
+START_TESTCASE 			SEC-CAF-MAN-0039
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-MAN-0039
+//! @SYMTestCaseDesc 		Get a set of string attributes for a file
+//!				(Manager_String_AttributeSet)
+//! @SYMREQ			REQ3679
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Get a set of string attributes for a file
+//! @SYMTestExpectedResults	Should return KErrNone
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFManagerStringAttributeSetStep c:\tcaf\attributes.ini StringAttributeSet
+END_TESTCASE 			SEC-CAF-MAN-0039
+
+START_TESTCASE 			SEC-CAF-MAN-3459
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-MAN-3459
+//! @SYMTestCaseDesc 		Get a set of string attributes for a manager object within a valid gif file
+//! @SYMDEF			PDEF104571
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Get a set of string attributes for a manager object within a valid gif file
+//! @SYMTestExpectedResults	A set of string attributes should successfully be returned
+//! @SYMTestType		CT
+RUN_TEST_STEP 100 tcaf CAFManagerStringAttributeSetStep c:\tcaf\attributes.ini StringAttributeSetGoodGif
+END_TESTCASE 			SEC-CAF-MAN-3459
+
+START_TESTCASE 			SEC-CAF-MAN-3460
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-MAN-3460
+//! @SYMTestCaseDesc 		Get a set of string attributes for a manager object within an invalid gif file
+//! @SYMDEF			PDEF104571
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Get a set of string attributes for a manager object within an invalid gif file
+//! @SYMTestExpectedResults	An  error should be returned for the invalid gif file within the set
+//! @SYMTestType		CT
+RUN_TEST_STEP 100 tcaf CAFManagerStringAttributeSetStep c:\tcaf\attributes.ini StringAttributeSetErrorGif
+END_TESTCASE 			SEC-CAF-MAN-3460
+
+
+//---------------------------------------------------------------------------------------------------------------------------------
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-MAN-0040
+//! @SYMTestCaseDesc 	     	Query standardised information about a content object using a file handle.
+//!				(FileHandle-DRM-Content)
+//! @SYMREQ			REQ8758
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority	       	Normal
+//! @SYMTestActions		1. Get a content's attribute from a file specified by file handle
+//!                        	2. Get content’s set of attributes from a file specified by file handle.
+//!                        	3. Get content’s text string attribute from a file specified by file handle.
+//!                        	4. Get content’s set of string attributes from a file specified by file handle.
+//!                        	5. View information associated with a single content object in a file specified by file handle.
+//! @SYMTestExpectedResults 	1.Should return KErrNone. Attribute’s value should match the expected value. 
+//!                        	2.Should return KErrNone. Value of all the attributes queried must match the expected value. 
+//!                        	3.Should return KErrNone. The text string attribute value should match the expected value.
+//!                        	4.Should return KErrNone. Value of all the text string attributes queried must match the expected value.
+//!                        	5.Should return KErrCANotSupported 
+//! @SYMTestType		CIT
+
+START_TESTCASE SEC-CAF-MAN-0040
+        RUN_TEST_STEP 100 tcaf CAFManagerAttributeByFileHandleStep c:\tcaf\attributes.ini AttributeByFileHandle_DRM_Content
+        RUN_TEST_STEP 100 tcaf CAFManagerAttributeSetByFileHandleStep c:\tcaf\attributes.ini AttributeSetByFileHandle_DRM_Content
+        RUN_TEST_STEP 100 tcaf CAFManagerStringAttributeByFileHandleStep c:\tcaf\attributes.ini StringAttributeByFileHandle_DRM_Content
+        RUN_TEST_STEP 100 tcaf CAFManagerStringAttributeSetByFileHandleStep c:\tcaf\attributes.ini StringAttributeSetByFileHandle_DRM_Content
+        RUN_TEST_STEP 100 tcaf CAFManagerDisplayInfoByFileHandleStep c:\tcaf\managerstep.ini DisplayInfoByFileHandle_DRM_Content
+END_TESTCASE SEC-CAF-MAN-0040
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-MAN-0041
+//! @SYMTestCaseDesc 	     	Query standardised information about a content object using a file handle.
+//!				(FileHandle-PlainText)
+//! @SYMREQ			REQ8758
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority	       	Normal
+//! @SYMTestActions		1. Get a content's attribute from a file specified by file handle
+//!                        	2. Get content’s set of attributes from a file specified by file handle.
+//!                        	3. Get content’s text string attribute from a file specified by file handle.
+//!                        	4. Get content’s set of string attributes from a file specified by file handle.
+//!                        	5. View information associated with a single content object in a file specified by file handle.
+//! @SYMTestExpectedResults 	1.Should return KErrNone. Attribute’s value should match the expected value. 
+//!                        	2.Should return KErrNone. Value of all the attributes queried must match the expected value. 
+//!                        	3.Should return KErrNone. The text string attribute value should match the expected value.
+//!                        	4.Should return KErrNone. Value of all the text string attributes queried must match the expected value.
+//!                        	5.Should return KErrCANotSupported 
+//! @SYMTestType		CIT
+
+START_TESTCASE SEC-CAF-MAN-0041
+        RUN_TEST_STEP 100 tcaf CAFManagerAttributeByFileHandleStep c:\tcaf\attributes.ini Attribute
+        RUN_TEST_STEP 100 tcaf CAFManagerAttributeSetByFileHandleStep c:\tcaf\attributes.ini AttributeSet
+        RUN_TEST_STEP 100 tcaf CAFManagerStringAttributeByFileHandleStep c:\tcaf\attributes.ini StringAttribute
+        RUN_TEST_STEP 100 tcaf CAFManagerStringAttributeSetByFileHandleStep c:\tcaf\attributes.ini StringAttributeSet_PlainText
+        RUN_TEST_STEP 100 tcaf CAFManagerDisplayInfoByFileHandleStep c:\tcaf\managerstep.ini DisplayInfo
+END_TESTCASE SEC-CAF-MAN-0041
+//---------------------------------------------------------------------------------------------------------------------------------
+

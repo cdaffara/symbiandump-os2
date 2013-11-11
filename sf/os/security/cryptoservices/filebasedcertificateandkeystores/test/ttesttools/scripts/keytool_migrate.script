@@ -1,0 +1,79 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+//! @file
+// filetokens tools unit (integration) tests
+PRINT Run  test for migrating old keys data to new format.
+LOAD_SUITE ttesttools
+
+//! @SYMTestCaseID 		SEC-FILETOKENS-DEF136406-0001
+//! @SYMTestCaseDesc 	Migrate the old keys.dat to the new format
+//! @SYMTestPriority	Medium
+//! @SYMTestActions  	Call keytool to migrate key store from old to new format.
+//! @SYMTestExpectedResults Keystore would be successfully migrated.
+//! @SYMDevelopedForRelease Diran
+
+START_TESTCASE SEC-FILETOKENS-DEF136406-0001
+RUN_PROGRAM keytool.exe c:\ttesttools\data\key_migrate.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ListKeyStep c:\ttesttools\scripts\keytool_migrate.ini keytool_list_migrated_keys
+END_TESTCASE SEC-FILETOKENS-DEF136406-0001
+
+//! @SYMTestCaseID 		SEC-FILETOKENS-DEF136406-0002
+//! @SYMTestCaseDesc 	Migrate the old keys.dat to the new format using default parameters
+//! @SYMTestPriority	Medium
+//! @SYMTestActions  	Call keytool to migrate key store from old to new format.
+//! @SYMTestExpectedResults Keystore would be successfully migrated.
+//! @SYMDevelopedForRelease Diran
+
+START_TESTCASE SEC-FILETOKENS-DEF136406-0002
+RUN_PROGRAM keytool.exe c:\ttesttools\data\key_migrate_default.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools CheckFile c:\ttesttools\scripts\keytool_migrate.ini keytool_migrate_default
+END_TESTCASE SEC-FILETOKENS-DEF136406-0002
+
+//! @SYMTestCaseID 		SEC-FILETOKENS-DEF136406-0003
+//! @SYMTestCaseDesc 	keytool check for mandatory parameter, name of the key file to be migrated
+//! @SYMTestPriority	Medium
+//! @SYMTestActions  	Call keytool to display message that mandatory param is missing.
+//! @SYMTestExpectedResults mandatory param missing message displayed alongwith the usage.
+//! @SYMDevelopedForRelease Diran
+
+START_TESTCASE SEC-FILETOKENS-DEF136406-0003
+RUN_PROGRAM keytool.exe c:\ttesttools\data\key_migrated_param_missing1.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\keytool_migrate.ini keytool_migrated_param_missing1
+END_TESTCASE SEC-FILETOKENS-DEF136406-0003
+
+//! @SYMTestCaseID 		SEC-FILETOKENS-DEF136406-0004
+//! @SYMTestCaseDesc 	keytool check for mandatory parameter, passphrase required for old key store
+//! @SYMTestPriority	Medium
+//! @SYMTestActions  	Call keytool to display message that mandatory param is missing.
+//! @SYMTestExpectedResults mandatory param missing message displayed alongwith the usage.
+//! @SYMDevelopedForRelease Diran
+
+START_TESTCASE SEC-FILETOKENS-DEF136406-0004
+RUN_PROGRAM keytool.exe c:\ttesttools\data\key_migrated_param_missing2.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\keytool_migrate.ini keytool_migrated_param_missing2
+END_TESTCASE SEC-FILETOKENS-DEF136406-0004
+
+//! @SYMTestCaseID 		SEC-FILETOKENS-DEF136406-0005
+//! @SYMTestCaseDesc 	keytool check for detail help for migration
+//! @SYMTestPriority	Medium
+//! @SYMTestActions  	Call keytool to display detail help message.
+//! @SYMTestExpectedResults Displays detail help message for migration of old store.
+//! @SYMDevelopedForRelease Diran
+
+START_TESTCASE SEC-FILETOKENS-DEF136406-0005
+RUN_PROGRAM keytool.exe c:\ttesttools\data\key_migrated_help.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\keytool_migrate.ini keytool_migrated_help
+END_TESTCASE SEC-FILETOKENS-DEF136406-0005

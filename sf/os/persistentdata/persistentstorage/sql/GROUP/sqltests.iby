@@ -1,0 +1,109 @@
+// Copyright (c) 2005-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// SqlDb.dll SQL Database management - client dll
+// 
+//
+#ifndef __SQLTESTS_IBY__
+#define __SQLTESTS_IBY__
+
+REM SQLTESTS
+
+#include <testlocale.iby>
+#include <charconv.iby>
+#include <sql.iby>
+
+data=DATAZ_\test\sqltests.bat	                         \test\sqltests.bat
+data=DATAZ_\test\contacts_schema_to_vendors.sql          \test\contacts_schema_to_vendors.sql
+data=DATAZ_\test\add_simple_contacts.sql                 \test\add_simple_contacts.sql
+data=DATAZ_\test\contacts_startup_time.sql               \test\contacts_startup_time.sql
+data=DATAZ_\test\testdb1.db                              \test\testdb1.db
+data=DATAZ_\test\corruptdb.db                            \test\corruptdb.db
+data=DATAZ_\test\t_sqlshortnondb.db                      \test\t_sqlshortnondb.db
+data=DATAZ_\test\t_inc095412.db                          \test\t_inc095412.db
+data=DATAZ_\test\default_avacon.dbsql                    \test\default_avacon.dbsql
+data=DATAZ_\test\t_sqlbur_backup_ver0.bak                \test\t_sqlbur_backup_ver0.bak
+data=DATAZ_\test\t_sqlperformance4.sql                   \test\t_sqlperformance4.sql
+data=ZPRIVATE\10281e17\[21212122]aadb2.db                \private\10281e17\[21212122]aadb2.db
+data=ZPRIVATE\10281e17\[21212122]bbdb2.db                \private\10281e17\[21212122]bbdb2.db
+data=ZPRIVATE\10281e17\[21212125]t_ab.db                 \private\10281e17\[21212125]t_ab.db
+data=ZPRIVATE\10281e17\[1111cccc]t_ab.db                 \private\10281e17\[1111CCCC]t_ab.db
+data=ZPRIVATE\21212124\t_sqldb1.db                       \private\21212124\t_sqldb1.db
+data=ZPRIVATE\10281e17\[21212125]t_onedefpolicy.db       \private\10281e17\[21212125]t_onedefpolicy.db
+data=ZPRIVATE\10281e17\[98765432]t_2defaultpolicies.db   \private\10281e17\[98765432]t_2defaultpolicies.db
+data=ZPRIVATE\10281e17\[98765432]t_emptysettings.db      \private\10281e17\[98765432]t_emptysettings.db
+data=ZPRIVATE\10281e17\[98765432]t_invobject.db          \private\10281e17\[98765432]t_invobject.db
+data=ZPRIVATE\10281e17\[98765432]t_invversion.db         \private\10281e17\[98765432]t_invversion.db
+data=ZPRIVATE\10281e17\[98765432]t_longcollation.db      \private\10281e17\[98765432]t_longcollation.db
+data=ZPRIVATE\10281e17\[98765432]t_nocollation.db        \private\10281e17\[98765432]t_nocollation.db
+data=ZPRIVATE\10281e17\[98765432]t_nodefaultpolicy.db    \private\10281e17\[98765432]t_nodefaultpolicy.db
+data=ZPRIVATE\10281e17\[98765432]t_nosettings.db         \private\10281e17\[98765432]t_nosettings.db
+
+file=ABI_DIR\BUILD_DIR\t_sqlenvcreate.exe           \test\t_sqlenvcreate.exe
+file=ABI_DIR\BUILD_DIR\t_sqlite.exe                 \test\t_sqlite.exe
+file=ABI_DIR\BUILD_DIR\t_sqlapi.exe                 \test\t_sqlapi.exe
+file=ABI_DIR\BUILD_DIR\t_sqlapi2.exe                \test\t_sqlapi2.exe
+file=ABI_DIR\BUILD_DIR\t_sqlpanic.exe               \test\t_sqlpanic.exe
+file=ABI_DIR\BUILD_DIR\t_sqllang.exe                \test\t_sqllang.exe
+file=ABI_DIR\BUILD_DIR\t_sqloom1.exe                \test\t_sqloom1.exe
+file=ABI_DIR\BUILD_DIR\t_sqloom2.exe                \test\t_sqloom2.exe
+file=ABI_DIR\BUILD_DIR\t_sqloom3.exe                \test\t_sqloom3.exe
+file=ABI_DIR\BUILD_DIR\t_sqloom4.exe                \test\t_sqloom4.exe
+file=ABI_DIR\BUILD_DIR\t_sqloom5.exe                \test\t_sqloom5.exe
+file=ABI_DIR\BUILD_DIR\t_sqloom6.exe                \test\t_sqloom6.exe
+file=ABI_DIR\BUILD_DIR\t_sqlmulti.exe               \test\t_sqlmulti.exe
+file=ABI_DIR\BUILD_DIR\t_sqlcollate.exe             \test\t_sqlcollate.exe
+file=ABI_DIR\BUILD_DIR\t_sqltrans.exe               \test\t_sqltrans.exe
+file=ABI_DIR\BUILD_DIR\t_sqlload.exe                \test\t_sqlload.exe
+file=ABI_DIR\BUILD_DIR\t_sqlgetfirststmt.exe        \test\t_sqlgetfirststmt.exe
+file=ABI_DIR\BUILD_DIR\t_sqlsecurity1.exe           \test\t_sqlsecurity1.exe
+file=ABI_DIR\BUILD_DIR\t_sqlsecurity2.exe           \test\t_sqlsecurity2.exe
+file=ABI_DIR\BUILD_DIR\t_sqlsecurity3.exe           \test\t_sqlsecurity3.exe
+file=ABI_DIR\BUILD_DIR\t_sqlsecurity4.exe           \test\t_sqlsecurity4.exe
+file=ABI_DIR\BUILD_DIR\t_sqlsecurity5.exe           \test\t_sqlsecurity5.exe
+file=ABI_DIR\BUILD_DIR\t_sqlsecurity6.exe           \test\t_sqlsecurity6.exe
+file=ABI_DIR\BUILD_DIR\t_sqlattach.exe              \test\t_sqlattach.exe
+file=ABI_DIR\BUILD_DIR\t_sqlattach2.exe             \test\t_sqlattach2.exe
+file=ABI_DIR\BUILD_DIR\t_sqlperformance.exe         \test\t_sqlperformance.exe
+file=ABI_DIR\BUILD_DIR\t_sqlperformance2.exe        \test\t_sqlperformance2.exe
+file=ABI_DIR\BUILD_DIR\t_sqlperformance3.exe        \test\t_sqlperformance3.exe
+file=ABI_DIR\BUILD_DIR\t_sqlperformance4.exe        \test\t_sqlperformance4.exe
+file=ABI_DIR\BUILD_DIR\t_sqlperformance5.exe        \test\t_sqlperformance5.exe
+file=ABI_DIR\BUILD_DIR\t_sqlood.exe                 \test\t_sqlood.exe
+file=ABI_DIR\BUILD_DIR\t_sqloslayer.exe             \test\t_sqloslayer.exe
+file=ABI_DIR\BUILD_DIR\t_sqldefect.exe              \test\t_sqldefect.exe
+file=ABI_DIR\BUILD_DIR\t_sqldefect2.exe             \test\t_sqldefect2.exe
+file=ABI_DIR\BUILD_DIR\t_sqlprivcage.exe            \test\t_sqlprivcage.exe
+file=ABI_DIR\BUILD_DIR\t_sqlbadclient.exe           \test\t_sqlbadclient.exe
+file=ABI_DIR\BUILD_DIR\t_sqlbur.exe                 \test\t_sqlbur.exe
+file=ABI_DIR\BUILD_DIR\t_sqlbur2.exe                \test\t_sqlbur2.exe
+file=ABI_DIR\BUILD_DIR\t_sqlscalarfullselect.exe    \test\t_sqlscalarfullselect.exe
+file=ABI_DIR\BUILD_DIR\t_sqlfserr.exe               \test\t_sqlfserr.exe
+file=ABI_DIR\BUILD_DIR\t_sqlconfig.exe              \test\t_sqlconfig.exe
+file=ABI_DIR\BUILD_DIR\t_sqlconfigfile.exe          \test\t_sqlconfigfile.exE
+file=ABI_DIR\BUILD_DIR\t_sqldbconfigfile.exe        \test\t_sqldbconfigfile.exe
+file=ABI_DIR\BUILD_DIR\t_sqlcompact1.exe            \test\t_sqlcompact1.exe
+file=ABI_DIR\BUILD_DIR\t_sqlcompact2.exe            \test\t_sqlcompact2.exe
+file=ABI_DIR\BUILD_DIR\t_sqlcompact3.exe            \test\t_sqlcompact3.exe
+file=ABI_DIR\BUILD_DIR\t_sqlcompact4.exe            \test\t_sqlcompact4.exe
+file=ABI_DIR\BUILD_DIR\t_sqlblob.exe                \test\t_sqlblob.exe
+file=ABI_DIR\BUILD_DIR\t_sqlauthorizer.exe          \test\t_sqlauthorizer.exe
+file=ABI_DIR\BUILD_DIR\t_sqlfilebuf64.exe           \test\t_sqlfilebuf64.exe
+file=ABI_DIR\BUILD_DIR\t_sqlstartup.exe             \test\t_sqlstartup.exe
+file=ABI_DIR\BUILD_DIR\t_sqldb64.exe                \test\t_sqldb64.exe
+file=ABI_DIR\BUILD_DIR\t_sqlfilesrvcrash1.exe       \test\t_sqlfilesrvcrash1.exe
+file=ABI_DIR\BUILD_DIR\t_sqlfilesrvcrash2.exe       \test\t_sqlfilesrvcrash2.exe
+file=ABI_DIR\BUILD_DIR\t_sqlcorrupt.exe             \test\t_sqlcorrupt.exe
+file=ABI_DIR\BUILD_DIR\t_sqlenvdestroy.exe          \test\t_sqlenvdestroy.exe
+
+#endif

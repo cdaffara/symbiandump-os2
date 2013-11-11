@@ -1,0 +1,40 @@
+/*
+* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  project specification file for the WlanEng
+*
+*/
+
+
+#include <platform_paths.hrh>
+
+TARGET        wlmserverexe.exe
+TARGETTYPE    exe
+UID           0x1000008c 0x101f8ec5
+CAPABILITY    CAP_SERVER CommDD NetworkControl
+VENDORID      VID_DEFAULT
+
+SOURCEPATH    ../src
+SOURCE        wlmserverexe.cpp
+
+USERINCLUDE   ../inc
+USERINCLUDE   ../../../wlan_common/wlanengine_common_3.1/inc
+USERINCLUDE   ../../../../inc
+OS_LAYER_SYSTEMINCLUDE
+
+LIBRARY       euser.lib
+LIBRARY       wlmserversrv.lib
+LIBRARY       ecom.lib
+
+EPOCPROCESSPRIORITY high
+EPOCSTACKSIZE 0x3000

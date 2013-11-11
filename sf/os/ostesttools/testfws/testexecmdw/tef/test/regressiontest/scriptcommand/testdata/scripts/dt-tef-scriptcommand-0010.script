@@ -1,0 +1,33 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+Load_Server Te_RegScriptCommandServer
+
+START_TESTCASE DT-TEF-ScriptCommand-0010
+//! @SYMTestCaseID          DT-TEF-ScriptCommand-0010
+//! @SYMCreationDate        26-06-2008
+//! @SYMAuthor              DavidZhang
+//! @SYMTestType            CT
+//! @SYMTestPriority        Medium
+//! @SYMTestCaseDesc        Test "run_ws_program" script command.
+//! @SYMTestExpectedResults eshell should be started and exit after 5 seconds.
+//!                         Test result should be pass.
+//! @SYMTestActions         Start eshell with timeout 5 seconds.
+	RUN_TEST_STEP 20 Te_RegScriptCommandServer CheckProgram ${SYSDRIVE}\testdata\configs\te_regscriptcommandtest.ini ScriptCommand_0010
+	PRINT THE CALENDAR WILL NOW BE LAUNCHED AND WILL EXIT AFTER 5 SECONDS
+	RUN_WS_PROGRAM 5 timew.exe
+	RUN_TEST_STEP 20 Te_RegScriptCommandServer CheckProgram ${SYSDRIVE}\testdata\configs\te_regscriptcommandtest.ini ScriptCommand_0010
+END_TESTCASE DT-TEF-ScriptCommand-0010

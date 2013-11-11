@@ -1,0 +1,309 @@
+/** @file  ../include/pwd.h
+@internalComponent
+*/
+
+
+/** @fn  getpwnam(const char *name)
+@param name
+
+Refer to  getpwent() for the documentation
+
+@see getgrent()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  getpwuid(uid_t uid)
+@param uid
+
+Refer to  getpwent() for the documentation
+
+@see getgrent()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  endpwent(void)
+
+Refer to  getpwent() for the documentation
+@see getgrent()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  getpwent(void)
+
+Note: This description also covers the following functions -
+ getpwnam()  getpwnam_r()  getpwuid()  getpwuid_r()  setpwent()  endpwent() 
+
+@return   The functions getpwent, getpwnam, and getpwuid return a valid pointer to a passwd structure on success
+or NULL if the entry is not found or if an error occurs.
+If an error does occur, errno will be set.
+The functions getpwnam_r, and getpwuid_r return 0 if no error occurred, or an error number to indicate failure.
+It is not an error if a matching entry is not found.
+(Thus, if result is NULL and the return value is 0, no matching entry exists.) The endpwent and setpwent functions
+have no return value.
+
+These APIs belongs to set which are only build supported and not available functionally. The reason why only build support is extended to these APIs is that Symbian operating system does not support the creation of multiple users and groups in its environment. Moreover it may not make sense to have multiple users and groups in the context of a mobile environment. 
+We refer to the structure  
+@code
+#include <pwd.h> 
+struct passwd {
+        char    *pw_name;       /* user name */
+        char    *pw_passwd;     /* encrypted password */
+        uid_t   pw_uid;         /* user uid */
+        gid_t   pw_gid;         /* user gid */
+        time_t  pw_change;      /* password change time */
+        char    *pw_class;      /* user access class */
+        char    *pw_gecos;      /* Honeywell login info */
+        char    *pw_dir;        /* home directory */
+        char    *pw_shell;      /* default shell */
+        time_t  pw_expire;      /* account expiration */
+        int     pw_fields;      /* internal: fields filled in */
+};
+
+@endcode
+
+
+The functions getpwnam and getpwuid returns the default values for a single user system i.e., pw_name,pw_passwd,pw_uid and pw_gid set to root,NULL,0 and 0 respectively in case the input parameter uid/login is 0/ root else the error number is set and NULL is returned by the APIs. 
+
+The getpwent when called the first time by an application returns the pointer to a valid passwd structure,that of the simulated single-user group.Subsequent calls return NULL until setpwent is called 
+
+The functions getpwnam_r, and getpwuid_r are thread-safe versions of getpwnam, and getpwuid, respectively. The caller must provide storage for the results of the search in the pwd, buffer, bufsize, and result arguments. When these functions are successful, the pwd argument will be filled-in, and a pointer to that argument will be stored in result. If an entry is not found or an error occurs, result will be set to NULL. 
+
+The setpwent function sets the library such that subsequent getpwent call returns a filled passwd structure. 
+
+endpwent function sets up the library such that the subsequent getpwent call returns NULL. 
+ 
+
+
+
+
+
+@see getgrent()
+
+
+Bugs:
+
+ The functions getpwent, getpwnam, and getpwuid, leave their results in an internal static object and return
+a pointer to that object.
+Subsequent calls to
+the same function
+will modify the same object. The functions getpwent, endpwent, and setpwent are fairly useless in a networked environment and should be
+avoided, if possible. 
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  setpwent(void)
+
+Refer to  getpwent() for the documentation
+@see getgrent()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  getpwnam_r(const char *name, struct passwd *pwd, char *, size_t, struct passwd **result)
+@param name
+@param pwd
+@param result
+
+Refer to  getpwent() for the documentation
+
+@see getgrent()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  getpwuid_r(uid_t uid, struct passwd *pwd, char *, size_t, struct passwd **result)
+@param uid
+@param pwd
+@param result
+
+Refer to  getpwent() for the documentation
+
+@see getgrent()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @struct passwd
+
+The passwd data structure is used to hold information about entries in the system user data base
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @var passwd::pw_name
+user name
+*/
+
+/** @var passwd::pw_passwd
+encrypted password
+*/
+
+/** @var passwd::pw_uid
+user uid
+*/
+
+/** @var passwd::pw_gid
+user gid
+*/
+
+/** @var passwd::pw_change
+password change time 
+*/
+
+/** @var passwd::pw_class
+user access class
+*/
+
+/** @var passwd::pw_gecos
+ login info
+*/
+
+/** @var passwd::pw_dir
+home directory
+*/
+
+/** @var passwd::pw_shell
+default shell
+*/
+
+/** @var passwd::pw_expire
+account expiration
+*/
+
+/** @var passwd::pw_fields
+internal: fields filled in
+*/
+
+/** @def _PATH_PWD
+
+Defines to "//etc"
+
+@publishedAll
+@released
+*/
+
+
+/** @def _PATH_PASSWD	
+
+Defines to "//etc//passwd"
+	
+@publishedAll
+@released
+*/
+
+
+/** @def _PASSWD	
+
+Defines to "passwd"
+		
+@publishedAll
+@released
+*/
+
+
+/** @def _PATH_MASTERPASSWD	
+
+Defines to "//etc//master.passwd"
+
+@publishedAll
+@released
+*/
+
+/** @def _MASTERPASSWD		
+
+"master.passwd"
+
+@publishedAll
+@released
+*/
+
+
+/** @def _PATH_MP_DB	
+
+Defines to "//etc//pwd.db"
+	
+@publishedAll
+@released
+*/
+
+
+/** @def _MP_DB		
+
+Defines to "pwd.db"
+	
+@publishedAll
+@released
+*/
+
+
+
+/** @def _PATH_SMP_DB		
+
+Defines to "//etc//spwd.db"
+
+@publishedAll
+@released
+*/
+
+
+/** @def _SMP_DB	
+
+Defines to "spwd.db"
+		
+@publishedAll
+@released
+*/
+
+
+/** @def _PATH_PWD_MKDB		
+
+Defines to "//usr//sbin//pwd_mkdb"
+
+@publishedAll
+@released
+*/
+
+
+/** @def _PASSWORD_LEN	
+
+max length, not counting NULL
+	
+@publishedAll
+@released
+*/
+
+
+
+

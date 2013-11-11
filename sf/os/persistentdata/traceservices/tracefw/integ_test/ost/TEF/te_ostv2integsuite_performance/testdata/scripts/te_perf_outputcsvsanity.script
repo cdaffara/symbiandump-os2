@@ -1,0 +1,48 @@
+// Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+//! @file
+//! @SYMTestSuiteName           te_perf_outputcsvsanity.script
+//! @SYMScriptTestEnvironment   TEF
+
+
+LOAD_SUITE te_ostv2integsuite_enabled
+
+PRINT API_Performance_Output_CSV_Sanity_Tests
+
+
+PREFIX RUN_UTILS
+CopyFile e:\te_apitestresults.csv c:\te_apitestresults.csv
+REMOVE_PREFIX
+
+
+START_TESTCASE                  DT-DEBUG-TRACE-OSTv2-TraceControlOPTOutputSanity-0001
+//! @SYMTestCaseID              DT-DEBUG-TRACE-OSTv2-TraceControlOPTOutputSanity-0001
+//! @SYMTestCaseDesc            Run after a default run of performance tests to flag any change from expected times >10%
+//! @SYMTestPriority            High
+//! @SYMTestActions             Compares a baseline.csv file included in the reference subfolder of the integration tests with that output from a default performance test ru n and return a fail if any of the column elements>10% from that expected. All elements compared and reported back with associated discrepancy
+//! @SYMTestExpectedResults     Verify that there has not been any significant change in the performance figures from previous runs.
+//! @SYMTestType                UT
+//! @SYMTestStatus              Implemented
+//! @SYMPREQ                    PREQ2390
+//! @SYMREQ                     12115 12122 12761
+    START_TEST_BLOCK    100     te_ostv2integsuite_enabled              \testdata\configs\te_perf_outputcsvsanity.ini
+        CREATE_OBJECT           OutputCSVSanityTest                     OutputCSVSanityTest
+        COMMAND                 OutputCSVSanityTest                     doTest
+    END_TEST_BLOCK
+END_TESTCASE                    DT-DEBUG-TRACE-OSTv2-TraceControlOPTOutputSanity-0001 
+
+
+PRINT Complete_API_Output_CSV_Sanity_Tests

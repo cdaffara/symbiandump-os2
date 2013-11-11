@@ -1,0 +1,47 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// rectxt.dll Plain text recogniser
+// 
+//
+
+/**
+ @file
+*/
+
+target 		rectxt.dll
+targettype 	plugin
+uid			0x10009d8d 0x100012fb
+VENDORID 	0x70000001
+
+start resource 100012FB.rss
+target rectxt.rsc
+end
+
+CAPABILITY ProtServ
+
+SOURCEPATH		../rec
+userinclude   ../inc
+// OS_LAYER_SYSTEMINCLUDE_SYMBIAN -- should be this but has a dependency on apmstd.h in the MW layer.
+MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+source          RECTXT.CPP
+
+library         euser.lib apmime.lib
+
+START WINS
+	baseaddress	0x70800000
+END
+
+SMPSAFE
+

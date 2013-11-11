@@ -1,0 +1,40 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  
+*
+*/
+//PRJ_PLATFORMS
+//DEFAULT ARMV5SMP
+
+#include <platform_paths.hrh>
+
+#include "../piprofiler_plat/group/bld.inf"
+#include "../engine/group/bld.inf"
+#include "../plugins/GeneralsPlugin/group/bld.inf"
+#include "../plugins/BUPplugin/group/bld.inf"
+#include "../plugins/DebugOutputWriterPlugin/group/bld.inf"
+#include "../plugins/DiskWriterPlugin/group/bld.inf"
+
+#if ( SYMBIAN_VERSION_SUPPORT >= SYMBIAN_3 )
+    #include "../plugins/PWRPlugin/group/bld.inf"
+#endif
+
+PRJ_EXPORTS
+#if ( SYMBIAN_VERSION_SUPPORT >= SYMBIAN_3 )
+    ../rom/piprofiler.iby CORE_IBY_EXPORT_PATH(tools,piprofiler.iby)
+#else
+    ../rom/piprofiler_s2.iby CORE_IBY_EXPORT_PATH(tools,piprofiler.iby)
+#endif
+../rom/piprofiler_ldd.iby CORE_IBY_EXPORT_PATH(tools/rom,piprofiler_ldd.iby)
+

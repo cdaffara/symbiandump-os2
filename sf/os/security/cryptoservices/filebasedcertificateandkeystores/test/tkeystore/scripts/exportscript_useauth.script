@@ -1,0 +1,630 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+START_TESTCASE                SEC-EXPORTSCRIPT_USEAUTH-0001
+
+//! @SYMTestCaseID            SEC-EXPORTSCRIPT_USEAUTH-0001
+
+//! @SYMTestCaseDesc          //////////////////////////////////////////////////////////////////////////////////
+
+//!                           Exporting  a key
+
+//!                           //////////////////////////////////////////////////////////////////////////////////
+
+//! @SYMTestActions           1) Delete keystore data file
+
+//!                           2) 1.0.1 Opening key store in manager mode
+
+//!                           3) 1.0.2 NOT A TEST Delete everything ** Basic PKCS8 cleartext RSA key import/export**
+
+//!                           4) 1.0.1.0, Import a DH key
+
+//!                           5) 1.1.0 Import a RSA key
+
+//!                           6) 1.1.1 Import a RSA key
+
+//!                           7) 1.1.2 Import a RSA key
+
+//!                           8) 1.1.3 Import a RSA key
+
+//!                           9) 1.1.4 Import a RSA key
+
+//!                           10) 1.1.5 Export a RSA key
+
+//!                           11) 1.1.6 Export a RSA key
+
+//!                           12) 1.1.7 Export a RSA key
+
+//!                           13) 1.1.8 Export a RSA key
+
+//!                           14) 1.1.9 Export a RSA key
+
+//!                           15) 1.1.8 Export a public RSA key
+
+//!                           16) 1.1.8 Export a public RSA key
+
+//!                           17) 1.1.8 Export a public RSA key
+
+//!                           18) 1.1.8 Export a public RSA key
+
+//!                           19) 1.2.0 Import a RSA key from a previously exported one
+
+//!                           20) 1.2.1 Import a RSA key from a previously exported one
+
+//!                           21) 1.2.2 Import a RSA key from a previously exported one
+
+//!                           22) 1.2.3 Import a RSA key from a previously exported one
+
+//!                           23) 1.2.4 Import a RSA key from a previously exported one
+
+//!                           24) 1.3.0 Bitwise Comparison of original key and exported one (RSA, cleartext)
+
+//!                           25) 1.3.1 Bitwise Comparison of original key and exported one (RSA, cleartext)
+
+//!                           26) 1.3.2 Bitwise Comparison of original key and exported one (RSA, cleartext)
+
+//!                           27) 1.3.3 Bitwise Comparison of original key and exported one (RSA, cleartext)
+
+//!                           28) 1.3.4 Bitwise Comparison of original key and exported one (RSA, cleartext)
+
+//!                           29) 1.3.5 Bitwise Comparison of original key and exported one (RSA public)
+
+//!                           30) 1.3.6 Bitwise Comparison of original key and exported one (RSA public)
+
+//!                           31) 1.3.7 Bitwise Comparison of original key and exported one (RSA public)
+
+//!                           32) 1.3.8 Bitwise Comparison of original key and exported one (RSA public)
+
+//!                           33) 1.4.0 NOT A TEST Delete everything 
+
+                    ** Basic PKCS8 cleartext DSA key import/export**
+
+//!                           34) 1.4.1 Import a DSA key
+
+//!                           35) 1.4.2 Import a DSA key
+
+//!                           36) 1.4.3 Import a DSA key
+
+//!                           37) 1.4.4 Import a DSA key
+
+//!                           38) 1.4.5 Import a DSA key
+
+//!                           39) 1.4.6 Export a DSA key
+
+//!                           40) 1.4.7 Export a DSA key
+
+//!                           41) 1.4.8 Export a DSA key
+
+//!                           42) 1.4.9 Export a DSA key
+
+//!                           43) 1.4.10 Export a DSA key
+
+//!                           44) 1.4.12 Export a DSA public key
+
+//!                           45) 1.4.13 Export a DSA public key
+
+//!                           46) 1.4.14 Export a DSA public key
+
+//!                           47) 1.4.15 Export a DSA public key
+
+//!                           48) 1.4.16 Export a DSA public key
+
+//!                           49) 1.4.1.5 Bitwise Comparison of original key and exported one (DSA public)
+
+//!                           50) 1.4.1.6 Bitwise Comparison of original key and exported one (DSA public)
+
+//!                           51) 1.4.1.7 Bitwise Comparison of original key and exported one (DSA public)
+
+//!                           52) 1.4.1.8 Bitwise Comparison of original key and exported one (DSA public)
+
+//!                           53) 1.4.1.9 Bitwise Comparison of original key and exported one (DSA public)
+
+//!                           54) 1.5.0 Import a DSA key from a previously exported one
+
+//!                           55) 1.5.1 Import a DSA key from a previously exported one
+
+//!                           56) 1.5.2 Import a DSA key from a previously exported one
+
+//!                           57) 1.5.3 Import a DSA key from a previously exported one
+
+//!                           58) 1.5.4 Import a DSA key from a previously exported one
+
+//!                           59) 1.6.0 Bitwise Comparison of original key and exported one (DSA, cleartext)
+
+//!                           60) 1.6.1 Bitwise Comparison of original key and exported one (DSA, cleartext)
+
+//!                           61) 1.6.2 Bitwise Comparison of original key and exported one (DSA, cleartext)
+
+//!                           62) 1.6.3 Bitwise Comparison of original key and exported one (DSA, cleartext)
+
+//!                           63) 1.6.4 Bitwise Comparison of original key and exported one (DSA, cleartext)
+
+//!                           64) 1.7.0 NOT A TEST Delete everything 
+
+                    **Basic PKCS8 encrypted RSA key import/export**
+
+//!                           65) 1.7.1 Import a PKCS5 encrypted RSA key
+
+//!                           66) 1.7.2 Import a PKCS5 encrypted RSA key
+
+//!                           67) 1.7.3 Import a PKCS5 encrypted RSA key
+
+//!                           68) 1.7.4 Import a PKCS5 encrypted RSA key
+
+//!                           69) 1.7.5 Import a PKCS5 encrypted RSA key
+
+//!                           70) 1.7.6 Export a RSA key in encrypted format
+
+//!                           71) 1.7.7 Export a RSA key in encrypted format
+
+//!                           72) 1.7.8 Export a RSA key in encrypted format
+
+//!                           73) 1.7.8 Export a RSA key in encrypted format
+
+//!                           74) 1.7.9 Export a RSA key in encrypted format
+
+//!                           75) 1.7.10 Import a PKCS5 encrypted RSA key encrypted with 3DES
+
+//!                           76) 1.8.0 NOT A TEST Delete everything ** PKCS8 encrypted RSA export sanity check ** Import a clear text key. Export it encrypted. Import it. Export it clear text. Compare.
+
+//!                           77) 1.8.1 Import a RSA key
+
+//!                           78) 1.8.2 Export a RSA key in encrypted format
+
+//!                           79) 1.8.3 NOT A TEST Delete everything
+
+//!                           80) 1.8.4 Import a PKCS5 encrypted RSA key from the result of previous export action
+
+//!                           81) 1.8.5 Export a RSA key (cleartext) which has been imported from a
+
+            generated encrypted pkcs8 file
+
+//!                           82) 1.8.6 Bitwise Comparison of original key and exported one
+
+//!                           83) 1.9.0 NOT A TEST Delete everything 
+
+                    ** Basic PKCS8 encrypted DSA key import/export **
+
+//!                           84) 1.9.1 Import a PKCS5 encrypted DSA key
+
+//!                           85) 1.9.2 Import a PKCS5 encrypted DSA key
+
+//!                           86) 1.9.3 Import a PKCS5 encrypted DSA key
+
+//!                           87) 1.9.4 Import a PKCS5 encrypted DSA key
+
+//!                           88) 1.9.5 Import a PKCS5 encrypted DSA key
+
+//!                           89) 1.9.6 Export a DSA key in encrypted format
+
+//!                           90) 1.9.7 Export a DSA key in encrypted format
+
+//!                           91) 1.9.8 Export a DSA key in encrypted format
+
+//!                           92) 1.9.9 Export a DSA key in encrypted format
+
+//!                           93) 1.9.10 Export a DSA key in encrypted format
+
+//!                           94) 1.9.11 Export a DSA public key
+
+//!                           95) 1.10.0 NOT A TEST Delete everything 
+
+                    ** Basic sanity check for PKCS8 encrypted DSA key import/export **
+
+//!                           96) 1.10.1 Import a DSA key
+
+//!                           97) 1.10.2 Export a DSA key in encrypted format
+
+//!                           98) 1.10.3 NOT A TEST Delete everything
+
+//!                           99) 1.10.4 Import a PKCS5 encrypted DSA key from a previously exported one
+
+//!                           100) 1.10.5 Export a DSA key (cleartext) which has been imported from a
+
+            generated encrypted pkcs8 file
+
+//!                           101) 1.10.6 Bitwise Comparison of original key and exported one
+
+//!                           102) 1.11.0.0 NOT A TEST Delete everything 
+
+                    ** Test import/export of weird encrypted pkcs8 **
+
+//!                           103) 1.11.0 Import a PKCS5 encrypted RSA key encrypted with 3DES
+
+//!                           104) 1.11.1 Import a PKCS5 encrypted RSA key encrypted with RC2
+
+//!                           105) 1.11.3 Try to Import a PKCS5 encrypted RSA key encrypted with RC4 (Unsupported)
+
+//!                           106) 1.11.4 Try to Import a PKCS5 encrypted DSA key encrypted with DES3 Broken Netscape format (Unsupported)
+
+//!                           107) 1.11.5 Try to Import a PKCS5 encrypted RSA key encrypted with DES3 Broken Nooctet format (Unsupported)
+
+//!                           108) 1.11.6 Try to Import a PKCS5 encrypted DSA key encrypted with DES3 Broken embed format (Unsupported)
+
+//!                           109) 1.12.0 NOT A TEST Delete everything 
+
+                    ** key import/export of keys with optional PKC#8 attribuets **
+
+//!                           110) 1.12.1 Import a RSA key containing PKCS#8 attributes
+
+//!                           111) 1.12.2 Import a DSA key
+
+//!                           112) 1.12.3 Export a RSA key with optional PKCS8 attributes
+
+//!                           113) 1.12.4 Export a DSA key with optional PKCS#8 encryption
+
+//!                           114) 1.12.5 Bitwise Comparison of original key and exported one (RSA, attributes)
+
+//!                           115) 1.12.6 Bitwise Comparison of original key and exported one (DSA, attributes)
+
+//!                           116) 1.12.0.1 NOT A TEST Delete everything 
+
+                    ** Sanity check all ciphers **
+
+//!                           117) 1.12.0.2 Import a RSA key
+
+//!                           118) 1.12.0.7 Export a RSA key with ECipher3DES_CBC
+
+//!                           119) 1.12.0.8 Export a RSA key with ECipherDES_CBC
+
+//!                           120) 1.12.0.9 Export a RSA key with ECipherRC2_CBC_40
+
+//!                           121) 1.12.0.10 Export a RSA key with ECipherRC2_CBC_128
+
+//!                           122) 1.12.0.9 Export a RSA key with ECipherRC2_CBC_40_16
+
+//!                           123) 1.12.0.10 Export a RSA key with ECipherRC2_CBC_128_16
+
+//!                           124) 1.12.0.11 Import a PKCS5 encrypted RSA key previously exported with ECipherRC2_CBC_40
+
+//!                           125) 1.12.0.12 Import a PKCS5 encrypted RSA key previously exported with ECipherRC2_CBC_128
+
+//!                           126) 1.12.0.11b Import a PKCS5 encrypted RSA key previously exported with ECipherRC2_CBC_40_16
+
+//!                           127) 1.12.0.12b Import a PKCS5 encrypted RSA key previously exported with ECipherRC2_CBC_128_16
+
+//!                           128) 1.12.0.13 Import a PKCS5 encrypted RSA key previously exported with ECipherDES_CBC
+
+//!                           129) 1.12.0.14 Import a PKCS5 encrypted RSA key previously exported with ECipher3DES_CBC
+
+//!                           130) 1.13.1 NOT A TEST Delete everything 
+
+                    ** Test access modifiers Sensitive, AlwaysSensitive, Extractable and NeverExtractable **
+
+//!                           131) 1.13.1 Import a cleartext RSA key ** Cannot become AlwaysSensitive **
+
+//!                           132) 1.13.2 Check access settings ** Cannot be AlwaysSensitive **
+
+//!                           133) 1.13.2 Import a PKCS5 encrypted RSA key ** Must become AlwaysSensitive **
+
+//!                           134) 1.13.3 Check access settings ** Must be AlwaysSensitive **
+
+//!                           135) 1.13.4 Import a cleartext RSA key make it not extractable ** Cannot become NeverExtractable **
+
+//!                           136) 1.13.5 Check access settings ** Cannot be NeverExtractable **
+
+//!                           137) 1.13.6 Create a key, set the extractable flag ** Cannot be NeverExtractble **
+
+//!                           138) 1.13.7 Check access settings ** Cannot be NeverExtractable, must be AlwaysSensitive **
+
+//!                           139) 1.13.8 Create a key ** Must be NeverExtractble **
+
+//!                           140) 1.13.9 Check access settings ** Must be NeverExtractable, must be AlwaysSensitive **
+
+//!                           141) 1.13.X NOT A TEST Delete everything 
+
+                    ** Test access modifiers Sensitive, AlwaysSensitive, Extractable and NeverExtractable **
+
+//!                           142) 1.14.1 Closing key store
+
+//!                           143) 1.14.2 Sleep 5 seconds
+
+//!                           144) 1.14.3 Check for server heap error
+
+RUN_TEST_STEP                 -1    CTestHandler        deletekeystoredata  
+
+RUN_TEST_STEP                 -1    CTestHandler        init                   exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-002
+
+RUN_TEST_STEP                 -1    CTestHandler        deletekeys          
+
+RUN_TEST_STEP !Error=-5       -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-004
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-005
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-006
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-007
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-008
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-009
+
+RUN_TEST_STEP                 -1    CTestHandler        exportkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-010
+
+RUN_TEST_STEP                 -1    CTestHandler        exportkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-011
+
+RUN_TEST_STEP                 -1    CTestHandler        exportkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-012
+
+RUN_TEST_STEP                 -1    CTestHandler        exportkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-013
+
+RUN_TEST_STEP                 -1    CTestHandler        exportkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-014
+
+RUN_TEST_STEP                 -1    CTestHandler        exportpublickey        exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-015
+
+RUN_TEST_STEP                 -1    CTestHandler        exportpublickey        exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-016
+
+RUN_TEST_STEP                 -1    CTestHandler        exportpublickey        exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-017
+
+RUN_TEST_STEP                 -1    CTestHandler        exportpublickey        exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-018
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-019
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-020
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-021
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-022
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-023
+
+RUN_TEST_STEP                 -1    CTestHandler        compare                exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-024
+
+RUN_TEST_STEP                 -1    CTestHandler        compare                exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-025
+
+RUN_TEST_STEP                 -1    CTestHandler        compare                exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-026
+
+RUN_TEST_STEP                 -1    CTestHandler        compare                exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-027
+
+RUN_TEST_STEP                 -1    CTestHandler        compare                exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-028
+
+RUN_TEST_STEP                 -1    CTestHandler        compare                exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-029
+
+RUN_TEST_STEP                 -1    CTestHandler        compare                exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-030
+
+RUN_TEST_STEP                 -1    CTestHandler        compare                exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-031
+
+RUN_TEST_STEP                 -1    CTestHandler        compare                exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-032
+
+RUN_TEST_STEP                 -1    CTestHandler        deletekeys          
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-034
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-035
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-036
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-037
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-038
+
+RUN_TEST_STEP                 -1    CTestHandler        exportkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-039
+
+RUN_TEST_STEP                 -1    CTestHandler        exportkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-040
+
+RUN_TEST_STEP                 -1    CTestHandler        exportkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-041
+
+RUN_TEST_STEP                 -1    CTestHandler        exportkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-042
+
+RUN_TEST_STEP                 -1    CTestHandler        exportkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-043
+
+RUN_TEST_STEP                 -1    CTestHandler        exportpublickey        exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-044
+
+RUN_TEST_STEP                 -1    CTestHandler        exportpublickey        exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-045
+
+RUN_TEST_STEP                 -1    CTestHandler        exportpublickey        exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-046
+
+RUN_TEST_STEP                 -1    CTestHandler        exportpublickey        exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-047
+
+RUN_TEST_STEP                 -1    CTestHandler        exportpublickey        exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-048
+
+RUN_TEST_STEP                 -1    CTestHandler        compare                exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-049
+
+RUN_TEST_STEP                 -1    CTestHandler        compare                exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-050
+
+RUN_TEST_STEP                 -1    CTestHandler        compare                exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-051
+
+RUN_TEST_STEP                 -1    CTestHandler        compare                exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-052
+
+RUN_TEST_STEP                 -1    CTestHandler        compare                exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-053
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-054
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-055
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-056
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-057
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-058
+
+RUN_TEST_STEP                 -1    CTestHandler        compare                exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-059
+
+RUN_TEST_STEP                 -1    CTestHandler        compare                exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-060
+
+RUN_TEST_STEP                 -1    CTestHandler        compare                exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-061
+
+RUN_TEST_STEP                 -1    CTestHandler        compare                exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-062
+
+RUN_TEST_STEP                 -1    CTestHandler        compare                exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-063
+
+RUN_TEST_STEP                 -1    CTestHandler        deletekeys          
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-065
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-066
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-067
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-068
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-069
+
+RUN_TEST_STEP                 -1    CTestHandler        exportkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-070
+
+RUN_TEST_STEP                 -1    CTestHandler        exportkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-071
+
+RUN_TEST_STEP                 -1    CTestHandler        exportkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-072
+
+RUN_TEST_STEP                 -1    CTestHandler        exportkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-073
+
+RUN_TEST_STEP                 -1    CTestHandler        exportkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-074
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-075
+
+RUN_TEST_STEP                 -1    CTestHandler        deletekeys          
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-077
+
+RUN_TEST_STEP                 -1    CTestHandler        exportkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-078
+
+RUN_TEST_STEP                 -1    CTestHandler        deletekeys          
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-080
+
+RUN_TEST_STEP                 -1    CTestHandler        exportkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-081
+
+RUN_TEST_STEP                 -1    CTestHandler        compare                exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-082
+
+RUN_TEST_STEP                 -1    CTestHandler        deletekeys          
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-084
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-085
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-086
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-087
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-088
+
+RUN_TEST_STEP                 -1    CTestHandler        exportkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-089
+
+RUN_TEST_STEP                 -1    CTestHandler        exportkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-090
+
+RUN_TEST_STEP                 -1    CTestHandler        exportkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-091
+
+RUN_TEST_STEP                 -1    CTestHandler        exportkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-092
+
+RUN_TEST_STEP                 -1    CTestHandler        exportkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-093
+
+RUN_TEST_STEP                 -1    CTestHandler        exportkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-094
+
+RUN_TEST_STEP                 -1    CTestHandler        deletekeys          
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-096
+
+RUN_TEST_STEP                 -1    CTestHandler        exportkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-097
+
+RUN_TEST_STEP                 -1    CTestHandler        deletekeys          
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-099
+
+RUN_TEST_STEP                 -1    CTestHandler        exportkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-100
+
+RUN_TEST_STEP                 -1    CTestHandler        compare                exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-101
+
+RUN_TEST_STEP                 -1    CTestHandler        deletekeys          
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-103
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-104
+
+RUN_TEST_STEP !Error=-6       -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-105
+
+RUN_TEST_STEP !Error=-6       -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-106
+
+RUN_TEST_STEP !Error=-6       -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-107
+
+RUN_TEST_STEP !Error=-6       -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-108
+
+RUN_TEST_STEP                 -1    CTestHandler        deletekeys          
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-110
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-111
+
+RUN_TEST_STEP                 -1    CTestHandler        exportkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-112
+
+RUN_TEST_STEP                 -1    CTestHandler        exportkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-113
+
+RUN_TEST_STEP                 -1    CTestHandler        compare                exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-114
+
+RUN_TEST_STEP                 -1    CTestHandler        compare                exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-115
+
+RUN_TEST_STEP                 -1    CTestHandler        deletekeys          
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-117
+
+RUN_TEST_STEP                 -1    CTestHandler        exportkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-118
+
+RUN_TEST_STEP                 -1    CTestHandler        exportkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-119
+
+RUN_TEST_STEP                 -1    CTestHandler        exportkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-120
+
+RUN_TEST_STEP                 -1    CTestHandler        exportkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-121
+
+RUN_TEST_STEP                 -1    CTestHandler        exportkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-122
+
+RUN_TEST_STEP                 -1    CTestHandler        exportkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-123
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-124
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-125
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-126
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-127
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-128
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-129
+
+RUN_TEST_STEP                 -1    CTestHandler        deletekeys          
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-131
+
+RUN_TEST_STEP                 -1    CTestHandler        getkeyinfo             exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-132
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-133
+
+RUN_TEST_STEP                 -1    CTestHandler        getkeyinfo             exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-134
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-135
+
+RUN_TEST_STEP                 -1    CTestHandler        getkeyinfo             exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-136
+
+RUN_TEST_STEP                 -1    CTestHandler        addkey                 exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-137
+
+RUN_TEST_STEP                 -1    CTestHandler        getkeyinfo             exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-138
+
+RUN_TEST_STEP                 -1    CTestHandler        addkey                 exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-139
+
+RUN_TEST_STEP                 -1    CTestHandler        getkeyinfo             exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-140
+
+RUN_TEST_STEP                 -1    CTestHandler        deletekeys          
+
+RUN_TEST_STEP                 -1    CTestHandler        delete              
+
+RUN_TEST_STEP                 -1    CTestHandler        sleep                  exportscript_useauth.ini   SEC-EXPORTSCRIPT_USEAUTH-0001-143
+
+RUN_TEST_STEP                 -1    CTestHandler        checkserverheaperror
+
+END_TESTCASE                  SEC-EXPORTSCRIPT_USEAUTH-0001
+
+
+
+
+

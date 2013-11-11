@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<relnotes name="USB Manager">
+  <purpose>
+    USB class support providing control for USB device e.g. whether the USB CSY, Mass Storage Class or Obex over USB can be activated.
+  </purpose>
+
+	<defect number="PDEF135395" title="Reference USB Charging plug-in improvement" revision="057">
+    Now the reference USB Charging plug-in implements classic state machine design pattern.
+  </defect>
+  
+  <defect number="DEF125883" title="Charging plugin reports incorrect values of PnS properties after HNP " revision="056">
+    Charging plugin reference code updated.
+  </defect>
+
+  <defect number="DEF130692" title="Shortlink USB MS Example Application shares deficiency of Base MS App " revision="055">
+    We now record the filesystem type when dismounting and remount the same type filesystem.
+  </defect>
+
+  <defect number="INC130119" title="MSFDC open interface without load driver" revision="054">
+    We now load USBDI when the number of attached devices goes from 0 to 1 and unload it when the number goes from 1 to 0.
+  </defect>
+
+  <defect number="DEF129123" title="Memory Leak Introduced Into Usbman" revision="053">
+    Remove two instances of memory leak.
+  </defect>
+
+  <preq number="1577" title="USB Host Mass Storage" revision="052"/>
+  
+  <defect number="DEF128204" title="errors in IM tagging in shortlink" revision="051">
+    Correct the IM tagging.
+  </defect>
+
+  <defect number="DEF128203" title="protoype APIs in Shortlink" revision="050">
+    Changed prototype APIs to released.
+  </defect>
+
+  <defect number="DEF127048" title="Incorrrect platform security check in USB Manager " revision="049">
+    Changed it to from ECapabilityNetworkControl to ECapabilityCommDD.
+  </defect>
+
+  <defect number="DEF125713" title="Improve fix for DEF124986" revision="048">
+    Changed the CFdfServer::NewLC to return void as the pointer returned is never used, this fixes the coverity problem.
+  </defect>
+
+  <defect number="PDEF125932" title="AppCert- USB - Phone freezes after running Chapter9 tests in PCSuite USB persona" revision="047">
+    Remove Bus Stall Notifier from ECACM.
+  </defect>
+
+  <defect number="DEF124986" title="[Coverity]UNUSED_VALUE failure in RunFdfL" revision="046">
+    Improved construction of the usb Fdf Server.
+  </defect>
+
+  <defect number="DEF124985" title="[Coverity]CHECKED_RETURN failure in USB CIniFile" revision="045">
+    Improve error handling in usb ini file reader.
+  </defect>
+
+  <defect number="DEF121787" title="Changes required to match fix made in Base USB Peripheral driver" revision="044">
+    Add indication that no control transfers are expected on the WHCM and one of the ACM interfaces.
+  </defect>
+  
+  <defect number="PDEF122289" title="T_ACM DataStress_SizeVary_TestL hangs forever when writing" revision="043">
+    Creating a temporary buffer so IPCRead reads the right amount..
+  </defect>    
+  
+  <defect number="DEF119243" title="Checksource problems in usbman" revision="042">
+    fixed checksource problems.
+  </defect> 
+
+  <defect number="DEF118932" title="USB charging plugin fails to negotiate with Odd CurrentValue" revision="041">
+    Mask the value read from the repository with 0xFFFE to make sure it is an even value.
+  </defect> 
+
+  <defect number="PDEF119427" title="ACM does not report terminal disconnection" revision="040">
+    The data members iHostChangeSlc and iHostChangeCls are removed from CdcAcmClass.
+  </defect> 
+
+  <defect number="PDEF119090" title="CDC interface names are not configurable" revision="039">
+    Added the ability to read interface names from the existing NumberOfAcmFunctions.ini file, defaulting the names if they are absent
+    from the file or the file itself is absent.
+  </defect> 
+  
+  <defect number="PDEF118256" title="USB Logger Cannot Display 16 Bit Descriptors" revision="038">
+    Changed macros arguments forcing USB Logger to use 16 Bit Descriptors (it can display them)
+  </defect> 
+  
+  <preq number="1782" title="USB Host and on-the-go for pre-installed drivers" revision="037"/>
+  
+  <defect number="INC114331" title="USB Manager iby file split" revision="036">
+    Split usbman.iby into usbmanrsc.iby and usbmanbin.iby, with the original usbman.iby file including both.
+  </defect> 
+
+  <defect number="INC115129" title="Phone freeze when remove USB cable right after the connected note" revision="035">
+    Recoded CActiveDataAvailableNotifier::RunL to avoid an infinite loop when the LDD errors the request.
+  </defect> 
+
+  <defect number="DEF107610" title="USB Subsystem: 9.5/Future UsbSvr Capability tests failing" revision="034">
+    Fixed USB Charging Plugin so that it doesn't leave on startup when the properties it uses have been already defined.
+  </defect> 
+
+  <defect number="INC114558" title="Usbman crashes under IPC attack" revision="033">
+   Stopped USBSVR panicking when under IPC attack.
+  </defect> 
+
+  <defect number="PDEF114508" title="Klocwork issues in ser-comms_usb" revision="032">
+   wLength field is populated in CdcControlInterface.cpp. Propagated from INC114069
+  </defect> 
+
+  <defect number="PDEF112491" title="USB Subsystem: Address code-review comments on INC105375 fix" revision="031">
+   a deletion of commented out code
+  </defect> 
+   
+  <defect number="PDEF110695" title="USB Subsystem 9.5: propagation of pdef107569" revision="030">
+   Propagation of pdef107569 for new usb directory structure, see pdef107569 for all the defect details. Also include fix for DEF109361
+  </defect>  
+  
+  <defect number="PDEF112318" title="USB Subsystem: ACM classes have incorrect CDC version number" revision="029">
+   changing CDC version number
+  </defect>  
+    
+  <defect number="DEF110192" title="USB Sub: Prop of: Publish and subscribe access is missing from ACM configuration " revision="028">
+   - Added AcmConfig.h to allow inclusion of a set of constants for accessing various fields in the publish and subscribe data, and to allow access to the publish and subscribe key.
+   - Updated the publish and subscribe data whenever a function is created or destroyed. And data is created and deleted during construction and deletion appropriately.
+  </defect>  
+  
+  <defect number="DEF109279" title="USB Subsyste Propagation of: Higher ACM bandwidth priority needed for USB dialup" revision="027">
+   The following bandwidth priority is needed :EUsbcBandwidthOUTPlus2 | EUsbcBandwidthINPlus2
+   The bigger buffer size helps the USB side to recover from high speed downloads by writing bigger bursts to PDD.
+   By setting it to maximum it also allows configurability for products to dynamically adjust the amount of bursting
+  </defect>
+    
+  <defect number="DEF105916" title="USB subsystem: 9.5 New USB branch: clarify how NumberOfAcmFunctions.ini works" revision="026">
+   clarification on how the NumberOfAcmFunctions works
+  </defect>
+    
+  <defect number="DEF106781" title="USB Subsystem- 9.5 USB reorg - requires DEF106011 changes in new subsystem" revision="025"> 
+   corrected the IM tag placement and tagged it as publishedPartner 
+  </defect>
+  
+  <defect number="DEF107255" title="USB Subsystem 9.5: USB MTP driver PID clashes with Base app" revision="024">  
+   Future personalities should only use PIDs >= 0x1113 thus MTP should use a PID of 0x1114 or greater because 0x1113 is already used
+  </defect>
+    
+  <defect number="DEF108236" title="USB Subsystem 9.5: Ser_comms test T_ACM Random number generation broken" revision="023"> 
+   The random generator was made of an integer division so the result was always 0.
+   Now it is made up by using the modulo of the integer division of the random number with 1001 to get a range within the following boundaries: [0-1000]
+  </defect>  
+    
+  <defect number="DEF108237" title="USB Subsystem: Ser_comms test T_USB test suite not found" revision="022"> 
+   - Changed the script files for the correct test suite name - i.e. changed "usb" to "t_usb"and renaming the dll to t_usb.dll
+   - Changed the config files for the correct configuration values    
+  </defect>  
+    
+  <defect number="DEF109361" title="USB Sub: Prop of:ACM server incorrectly allows arbitrary ACM function crea/destr" revision="021"> 
+   - Downgraded capabilites of acmserver.dll to prevent it being loaded by inappropriate programs.
+   - Added an policy check to ecacm.scy to ensure the connections received originate from usbsvr.  
+  </defect> 
+    
+  <defect number="DEF110133" title="USB Subsystem: Propagation of Update usb ms example app" revision="020"> 
+   Added descriptions of device states and driver states into display and debug output to aid usability   
+  </defect>  
+    
+  <defect number="DEF110475" title="USB Subsystem: Logical error in USB logger leaveiferror" revision="019"> 
+   Corrected the logical comparison of the error passed  
+  </defect>
+    
+  <defect number="DEF110472" title="USB SubsysteM: Prop'n of RComm::Write() with bigger than default receive buffer." revision="018"> 
+    - Removed some check from CAcmWriter::Write to ensure buffer was big enough for request
+    - Updated CAcmWriter::ReadDataFromClient to read as much as was possible and update an internal counter to indicate how much data remains to be read
+    - Updated CAcmWriter::IssueWrite to write only as much data as was read.
+    - Updated CAcmWriter::WriteCompleted to reissue ReadDataFromClient and IssueWrite calls as long as the is data remaining to be read.
+    - modification of LARGE_WRITE_ENABLE macro to include 9.5 and above  
+  </defect>
+
+  <defect number="DEF110342" title="[System Build]:GT, ROM and CBR errors and warnings related to usb_manager in M04309v9.4" revision="017">
+    CBR .mrp file changed to include the inifile source directory
+  </defect>
+
+  <defect number="INC108692" title="USB OTG: Error note '!USBman KERN-EXEC 0' is displayed in Idle state after start" revision="016">
+    Only call SetInitialConfigurationL if we're NOT running on the emulator and we're not running test code
+  </defect>
+
+  <defect number="DEF104722" title="USB OTG New USB branch: documentation renaming needed" revision="015">
+    Remove mention of ser-comms in USB documentation
+  </defect>
+
+  <defect number="DEF104720" title="USB OTG New USB branch: usblogger improvements" revision="014">
+    - Add logging to Leaves
+    - Add logging to RMessage panics
+    - Adjust LeaveIfError to only leave if there is an error (ie. -ve).
+    - Tweak non-logging builds to ensure safe behaviour in the case of a binary muddle
+  </defect>
+
+  <defect number="DEF104719" title="USB OTG New USB branch: acm CC mmp files has unused LIBRARY directive" revision="013">
+    Make the ACM build vairants depend only on the libraries they actually require
+  </defect>
+
+  <defect number="DEF104717" title="USB OTG New USB branch: remove template class controller" revision="012">
+    Remove the template class controller
+  </defect>
+
+  <defect number="DEF104715" title="USB OTG New USB branch: multiple inifile implementations not needed" revision="011">
+    Standardise on a single inifile reader implementation
+  </defect>
+
+  <defect number="DEF107691" title="USB OTG: USB binaries have been assigned unnecessary capabilities" revision="010">
+    Remove the unnecessary capabilities WriteDeviceData and ReadDeviceData
+  </defect>
+
+  <preq number="1576" title="State change plug-in interface to USB Manager (for charging)" revision="009"/>
+
+  <defect number="DEF101319" title="Filename case check failures in source build and test" revision="008">
+    Corrected filenames to enable building of Symbian OS in Linux
+  </defect>
+
+  <defect number="PDEF103765" title="CUsbDevice::ResourceFileNameL uses hard-coded drive letter" revision="007">
+    Changing so the location of resource files stored on the system drive, is determined on runtime, rather than to be hardcoded as c:
+  </defect>
+
+  <defect number="DEF103560" title="Usbman changes required for MTP" revision="006">
+    - Added new .rss file (usbmanmtp.rss) which contains additional personality definition for the MTP personality
+    - Extended usbsvrbase.mmp to build the new .rss file as usbmanmtp.rsc
+    - Added more definitions to the usbman*.rls localisation files to cover the new MTP personality
+    - Amended usbman.iby to choose the usbman.rsc file in the final ROM depending on the presence or absence of the __MTP_PROTOCOL_SUPPORT macro at ROM build time.
+  </defect>
+
+  <defect number="PDEF101314" title="NotifyDataAvailable() is not supported by CAcmPort" revision="005">
+    Implementing NotifyDataAvailable() in CAcmPort
+  </defect>
+
+  <defect number="PDEF095763" title="ECACM returns KErrNoMemory when a Read with a large buffer is posted" revision="004">
+    ECACM (CSY) now allows larger read than its internal buffer
+  </defect>
+
+  <defect number="DEF098774" title="USBServer session count can trigger an assert (instead of counter going to -1)" revision="003">
+    2nd phase construction reorganised and altered to prevent potential USB server panics.
+  </defect>
+
+  <defect number="DEF099478" title="Cannot output USB debug traces over UART" revision="002">
+    Enabling USB debug traces over UART
+  </defect>
+
+  <defect number="PDEF100579" title="Symbian USB Manager WHCM class controller does not allow composite device creati" revision="001">
+    USB Manager WHCM class controller now allows composite device creation.
+  </defect>
+</relnotes>

@@ -1,0 +1,53 @@
+<!--
+* ==============================================================================
+*  Name        : libcrypto_topenssltpkcs7d_blr_winsspd_component.xml
+*  Part of     : topenssl
+*
+*  Description : xml for winsspd
+*  Version:   0.5
+*
+*  Copyright (C) 2006 Nokia Corporation.
+*  This material, including documentation and any related 
+*  computer programs, is protected by copyright controlled by 
+*  Nokia Corporation. All rights are reserved. Copying, 
+*  including reproducing, storing,  adapting or translating, any 
+*  or all of this material requires the prior written consent of 
+*  Nokia Corporation. This material also contains confidential 
+*  information which may not be disclosed to others without the 
+*  prior written consent of Nokia Corporation.
+*
+* ============================================================================
+-->
+<component>
+		<name>libcrypto_topenssltpkcs7d_blr_winsspd_component</name>
+		
+		<testset>
+				<id>libcrypto_topenssltpkcs7d_blr</id>
+				<priority>High</priority>
+		
+		<install type="binary">
+				<src>openssl.exe</src>
+				<dst>z:\sys\bin\openssl.exe</dst>
+		</install>
+		<install type="data">
+                		<src>pkcs7-1.pem</src>
+                		<dst>c:\pkcs7-1.pem</dst>
+    </install>
+   
+   <install type="data">
+                		<src>tpkcs7d.txt</src>
+                		<dst>c:\tpkcs7d.txt</dst>
+    </install>
+    		
+		<execute>
+				<file>Z:\sys\bin\openssl.exe</file>
+				<parameters>c:/tpkcs7d.txt</parameters>
+        <result type="common">
+            <file>c:\spd_logs\xml\tpkcs7d(3_50_2_6736).xml</file>
+        </result>
+        <timeout>600</timeout>
+		</execute>
+		
+		</testset>
+		
+</component>

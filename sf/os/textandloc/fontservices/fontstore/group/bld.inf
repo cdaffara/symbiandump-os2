@@ -1,0 +1,151 @@
+/*
+* Copyright (c) 2006-2010 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* Font store
+*
+*/
+
+
+/**
+ @file
+*/
+
+
+
+PRJ_PLATFORMS
+
+DEFAULT
+
+PRJ_EXPORTS
+
+../inc/FNTSTORE.H SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(fntstore.h)
+../inc/OPENFONT.H SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(openfont.h)
+../inc/openfontconstants.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(graphics/openfontconstants.h)
+../inc/openfontrasterizer.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(graphics/openfontrasterizer.h)
+../inc/openfontlinkedtypefaceelementspec.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(openfontlinkedtypefaceelementspec.h)
+../inc/openfontlinkedtypefacespecification.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(graphics/openfontlinkedtypefacespecification.h)
+../inc/openfontlinkedtypefaceextension.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(graphics/openfontlinkedtypefaceextension.h)
+../inc/shaperparams.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(graphics/shaperparams.h)
+../inc/linkedfonts.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(linkedfonts.h)
+
+../group/fntstore.iby  /epoc32/rom/include/fntstore.iby
+
+PRJ_MMPFILES
+
+../group/FNTSTORE.MMP
+
+PRJ_TESTMMPFILES
+
+../group/TFntStoreServer.mmp  
+../group/tcachedeletionprocess.mmp 
+../group/T_WriteInvalidFontFile.mmp
+../group/T_RemoveInvalidFontFile.mmp
+../group/tfontsessioncacheproc.mmp 
+
+PRJ_TESTEXPORTS
+
+// batch file that runs all automatic fntstore tests on hardware
+../group/FntstoreTest.iby	/epoc32/rom/include/fntstoretest.iby
+../group/dummyfonts.iby		/epoc32/rom/include/dummyfonts.iby
+../group/FntStoreRebootTests.iby  /epoc32/rom/include/FntStoreRebootTests.iby
+
+../tfs/scripts/fntstoretest_run.bat				z:/fntstoretest/fntstoretest_run.bat
+../tfs/scripts/fntstoretest_run.bat				/epoc32/release/winscw/udeb/fntstoretest_run.bat
+../tfs/scripts/fntstoretest_run.bat				/epoc32/release/winscw/urel/fntstoretest_run.bat
+../tfs/scripts/fntstoretest.bat					z:/fntstoretest/fntstoretest.bat
+
+../tfs/scripts/fntstoretest_T_All.script						z:/fntstoretest/fntstoretest_t_all.script
+../tfs/scripts/fntstoretest_T_Fnt.script						z:/fntstoretest/fntstoretest_t_fnt.script
+../tfs/scripts/fntstoretest_T_Cache.script						z:/fntstoretest/fntstoretest_T_Cache.script
+../tfs/scripts/fntstoretest_T_FntMem.script						z:/fntstoretest/fntstoretest_t_fntmem.script
+../tfs/scripts/fntstoretest_T_FontBitmap.script					z:/fntstoretest/fntstoretest_t_fontbitmap.script
+../tfs/scripts/fntstoretest_T_FsOpen.script						z:/fntstoretest/fntstoretest_t_fsopen.script
+../tfs/scripts/fntstoretest_T_GlyphTreeDel.script				z:/fntstoretest/fntstoretest_t_glyphtreedel.script
+../tfs/scripts/fntstoretest_T_MatchFonts.script					z:/fntstoretest/fntstoretest_t_matchfonts.script
+../tfs/scripts/fntstoretest_T_OpenFontTypes.script				z:/fntstoretest/fntstoretest_t_openfonttypes.script
+../tfs/scripts/fntstoretest_T_FontMetrics.script				z:/fntstoretest/fntstoretest_t_fontmetrics.script
+../tfs/scripts/fntstoretest_T_GetNearestFont.script				z:/fntstoretest/fntstoretest_t_getnearestfont.script
+../tfs/scripts/fntstoretest_t_getnearestfontcapability.script	z:/fntstoretest/fntstoretest_t_getnearestfontcapability.script
+../tfs/scripts/fntstoretest_T_CorruptFonts.script				z:/fntstoretest/fntstoretest_t_corruptfonts.script
+../tfs/scripts/fntstoretest_T_ShaperCache.script				z:/fntstoretest/fntstoretest_t_shapercache.script
+../tfs/scripts/fntstoretest_T_LinkedFonts.script				z:/fntstoretest/fntstoretest_t_linkedfonts.script
+../tfs/scripts/fntstoretest_t_cachedeletion.script				z:/fntstoretest/fntstoretest_t_cachedeletion.script
+../tfs/scripts/fntstoretest_t_setdefaulttypefacename.script		z:/fntstoretest/fntstoretest_t_setdefaulttypefacename.script
+../tfs/scripts/fntstoretest_T_LinkedFontUpdateInitial.script	z:/fntstoretest/fntstoretest_T_LinkedFontUpdateInitial.script
+../tfs/scripts/fntstoretest_T_LinkedFontUpdateStage1.script		z:/fntstoretest/fntstoretest_T_LinkedFontUpdateStage1.script
+../tfs/scripts/fntstoretest_T_LinkedFontUpdateStage2.script		z:/fntstoretest/fntstoretest_T_LinkedFontUpdateStage2.script
+../tfs/scripts/fntstoretest_T_FontSessionCache.script 			z:/fntstoretest/fntstoretest_T_FontSessionCache.script
+
+../tfs/CEUROPE.GDR z:/resource/fonts/ceurope.gdr
+
+// dummy fonts for T_FSOPEN
+../tfs/dummy_fonts/dummy z:/plattest/graphics/testdata/dummy_fonts/dummy
+../tfs/dummy_fonts/dummy z:/plattest/graphics/testdata/dummy_fonts/dummy_b
+../tfs/dummy_fonts/dummy z:/plattest/graphics/testdata/dummy_fonts/dummy_i
+../tfs/dummy_fonts/dummy z:/plattest/graphics/testdata/dummy_fonts/dummy_bi
+
+// near-duplicate fonts for test  CTFntMem::TestDuplicateBitmapFontFileEntriesL
+../tfs/uniquified_fonts/XXeuro.gdr  z:/plattest/graphics/testdata/uniquified_fonts/xxeuro.gdr
+../tfs/uniquified_fonts/YYeuro.gdr  z:/plattest/graphics/testdata/uniquified_fonts/yyeuro.gdr
+
+
+// copy corrupt fonts to Z drive
+../tfs/corrupt_gdr_fonts/bad_streamid z:/plattest/graphics/testdata/corrupt_gdr_fonts/bad_streamid
+
+../tfs/corrupt_ttf_fonts/bad_entrysel z:/plattest/graphics/testdata/corrupt_ttf_fonts/bad_entrysel
+../tfs/corrupt_ttf_fonts/bad_length z:/plattest/graphics/testdata/corrupt_ttf_fonts/bad_length
+../tfs/corrupt_ttf_fonts/bad_numtables z:/plattest/graphics/testdata/corrupt_ttf_fonts/bad_numtables
+../tfs/corrupt_ttf_fonts/bad_offset z:/plattest/graphics/testdata/corrupt_ttf_fonts/bad_offset
+../tfs/corrupt_ttf_fonts/bad_rangeshift z:/plattest/graphics/testdata/corrupt_ttf_fonts/bad_rangeshift
+../tfs/corrupt_ttf_fonts/bad_searchrange z:/plattest/graphics/testdata/corrupt_ttf_fonts/bad_searchrange
+../tfs/corrupt_ttf_fonts/bad_tag_order z:/plattest/graphics/testdata/corrupt_ttf_fonts/bad_tag_order
+../tfs/corrupt_ttf_fonts/cvt_len z:/plattest/graphics/testdata/corrupt_ttf_fonts/cvt_len
+../tfs/corrupt_ttf_fonts/fpgm_len z:/plattest/graphics/testdata/corrupt_ttf_fonts/fpgm_len
+../tfs/corrupt_ttf_fonts/glyf_len z:/plattest/graphics/testdata/corrupt_ttf_fonts/glyf_len
+../tfs/corrupt_ttf_fonts/head_len z:/plattest/graphics/testdata/corrupt_ttf_fonts/head_len
+../tfs/corrupt_ttf_fonts/hhea_len z:/plattest/graphics/testdata/corrupt_ttf_fonts/hhea_len
+../tfs/corrupt_ttf_fonts/hmtx_len z:/plattest/graphics/testdata/corrupt_ttf_fonts/hmtx_len
+../tfs/corrupt_ttf_fonts/loca_len z:/plattest/graphics/testdata/corrupt_ttf_fonts/loca_len
+../tfs/corrupt_ttf_fonts/maxp_len z:/plattest/graphics/testdata/corrupt_ttf_fonts/maxp_len
+../tfs/corrupt_ttf_fonts/name_len z:/plattest/graphics/testdata/corrupt_ttf_fonts/name_len
+../tfs/corrupt_ttf_fonts/post_len z:/plattest/graphics/testdata/corrupt_ttf_fonts/post_len
+../tfs/corrupt_ttf_fonts/prep_len z:/plattest/graphics/testdata/corrupt_ttf_fonts/prep_len
+../tfs/corrupt_ttf_fonts/cmap_len z:/plattest/graphics/testdata/corrupt_ttf_fonts/cmap_len
+../tfs/corrupt_ttf_fonts/gdef_len z:/plattest/graphics/testdata/corrupt_ttf_fonts/gdef_len
+../tfs/corrupt_ttf_fonts/gpos_len z:/plattest/graphics/testdata/corrupt_ttf_fonts/gpos_len
+../tfs/corrupt_ttf_fonts/gsub_len z:/plattest/graphics/testdata/corrupt_ttf_fonts/gsub_len
+../tfs/corrupt_ttf_fonts/os2_len z:/plattest/graphics/testdata/corrupt_ttf_fonts/os2_len
+../tfs/corrupt_ttf_fonts/gasp_len z:/plattest/graphics/testdata/corrupt_ttf_fonts/gasp_len
+../tfs/corrupt_ttf_fonts/fftm_len z:/plattest/graphics/testdata/corrupt_ttf_fonts/fftm_len
+../tfs/corrupt_ttf_fonts/wrong_offset z:/plattest/graphics/testdata/corrupt_ttf_fonts/wrong_offset
+
+
+//exporting font files to epoc32
+../tfs/fntfiles/tsection.gdr		/epoc32/release/winscw/udeb/z/test/tsection.gdr
+../tfs/fntfiles/tsection.gdr		/epoc32/release/winscw/urel/z/test/tsection.gdr
+../tfs/fntfiles/tsection.gdr		/epoc32/data/z/system/test/tsection.gdr
+
+//hash file for linked fonts testing
+../tfs/scripts/tlinkedfontscomparison.ini z:/fntstoretest/tlinkedfontscomparison.ini
+../tfs/scripts/tlinkedfontscomparison_armv5.ini z:/fntstoretest/tlinkedfontscomparison_armv5.ini
+../tfs/scripts/tlinkedfontscomparison_armv5_itype.ini z:/fntstoretest/tlinkedfontscomparison_armv5_itype.ini
+
+//file for linked font capability testing
+../tfs/scripts/tlinkedfontscapability.ini z:/fntstoretest/tlinkedfontscapability.ini
+
+//file for setdefaulttypefacename panic testing
+../tfs/scripts/tsetdefaulttypefacename.ini z:/fntstoretest/tsetdefaulttypefacename.ini
+
+
+

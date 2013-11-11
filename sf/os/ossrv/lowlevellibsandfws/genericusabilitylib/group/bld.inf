@@ -1,0 +1,81 @@
+// Copyright (c) 2008-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// Generic usability library build information file.
+// 
+//
+
+/**
+@file
+
+@SYMPurpose Generic usability library build information file.
+*/
+
+//This library relies on Leave = Throw which is not implemented in the 
+//X86 platform.  As a result X86 is not supported
+PRJ_PLATFORMS
+DEFAULT GCCE -X86
+
+
+// To select the correct INF/MMP files for building EUserHL on Symbian OS v9.1 
+// the macro SYMBIAN_EUSERHL_BUILD91 needs to be defined in the variant HRH 
+// file found at: \epoc32\INCLUDE\variant\Symbian_OS_v9.1.hrh
+
+#ifdef SYMBIAN_EUSERHL_BUILD91
+
+PRJ_EXPORTS
+ 
+euserhl_91.iby \epoc32\rom\include\euserhl.iby
+
+
+..\inc\euserhl.h \epoc32\include\euserhl.h
+..\inc\estring.h \epoc32\include\estring.h
+..\inc\emanaged.h \epoc32\include\emanaged.h
+..\inc\emisc.h \epoc32\include\emisc.h
+..\inc\isbaseof.h \epoc32\include\isbaseof.h
+..\inc\issame.h \epoc32\include\issame.h
+..\inc\typerel.h \epoc32\include\typerel.h
+..\inc\swap.h \epoc32\include\swap.h
+
+PRJ_MMPFILES
+
+euserhl_build91.mmp
+
+//test and example bld.inf file
+#include "..\test\group\bld.inf"
+#include "..\example\group\bld.inf"
+#else // SYMBIAN_EUSERHL_BUILD91
+
+PRJ_EXPORTS
+ 
+euserhl.iby /epoc32/rom/include/euserhl.iby
+euserhl_stub.sis /epoc32/data/z/system/install/euserhl_stub.sis
+
+../inc/euserhl.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(euserhl.h)
+../inc/estring.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(estring.h)
+../inc/emanaged.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(emanaged.h)
+../inc/emisc.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(emisc.h)
+../inc/isbaseof.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(isbaseof.h)
+../inc/issame.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(issame.h)
+../inc/typerel.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(typerel.h)
+../inc/swap.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(swap.h)
+
+PRJ_MMPFILES
+
+euserhl.mmp
+
+//test and example bld.inf file
+#include "../test/group/bld.inf"
+#include "../example/group/bld.inf"
+
+#endif // SYMBIAN_EUSERHL_BUILD91

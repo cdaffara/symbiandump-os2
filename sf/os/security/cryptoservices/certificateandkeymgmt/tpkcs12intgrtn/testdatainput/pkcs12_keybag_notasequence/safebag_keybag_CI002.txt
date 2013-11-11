@@ -1,0 +1,32 @@
+// SafeContents
+// PARAM1: The filename of the DER encoded keyfile
+// PARAM2: The name of the associated certificate file
+// PARAM3: The 'friendly' name of the certificate
+// SafeBag
+SEQUENCE
+	OID=PKCS12_BAGTYPES_KEYBAG
+	EXPLICIT
+		INCLUDE_BINARY_FILE=$1
+	END
+	// Attributes
+	SET
+		SEQUENCE
+			OID=PKCS9_LOCAL_KEYID
+			SET				
+				OCTETSTRING
+					HASH=sha1
+						INCLUDE_BINARY_FILE=$2
+					END
+				END
+			END
+		END 
+		SEQUENCE
+			OID=PKCS9_FRIENDLY_NAME
+			SET
+				BMPSTRING=$3
+			END
+		END	
+	END
+END
+
+

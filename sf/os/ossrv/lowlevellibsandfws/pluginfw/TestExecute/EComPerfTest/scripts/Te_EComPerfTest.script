@@ -1,0 +1,120 @@
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+PRINT Run all Te_EComPerfTest Suite Tests
+
+LOAD_SUITE Te_EComPerfTest
+
+START_TESTCASE SYSLIB-ECOM-PT-1410
+//! Test case for Defect 	Deficient ECOM performance test 
+//! @SYMTestCaseID		SYSLIB-ECOM-PT-1410	
+//! @SYMTestCaseDesc		Test case to determine how much time ECom is spending servicing client requests, grouped by 
+//! 						the request type and the start-up stage
+//! @SYMTestPriority		High
+//! @SYMTestActions			Request Staged Startup performance data from ECOM Server.
+//! 						Ensure data returned is the expected state and within limits set.
+//! @SYMTestExpectedResults	The total time spent servicing client requests is less than the configured time.
+//! @SYMREQ					PREQ1192
+
+RUN_TEST_STEP 300	Te_EComPerfTest EComAccumulatedClientRequestsPerfTest
+PRINT Complete Te_EComPerfTest EComAccumulatedClientRequestsPerfTest
+
+END_TESTCASE SYSLIB-ECOM-PT-1410
+
+START_TESTCASE SYSLIB-ECOM-PT-1409
+//! Test case for Defect 	Deficient ECOM performance test 
+//! @SYMTestCaseID			SYSLIB-ECOM-PT-1409
+//! @SYMTestCaseDesc		Tests the performance of ECom client calls
+//! @SYMTestPriority		High
+//! @SYMTestActions			Time calls to ListImplementations using no resolver, default resolver and custom resolver for
+//!							when security information has and has not been cached.
+//! 						Time calls to create an implementation using no resolver, default resolver and custom resolver
+//!							for when security information has and has not been cached and also for when the DLL has and
+//!							has not been previously loaded.
+//! @SYMTestExpectedResults	The client calls take less than the configured time to complete.
+//! @SYMREQ					PREQ1192
+
+RUN_TEST_STEP 1200	Te_EComPerfTest EComClientRequestsPerfTest
+PRINT Complete Te_EComPerfTest EComClientRequestsPerfTest
+END_TESTCASE SYSLIB-ECOM-PT-1409
+
+START_TESTCASE SYSLIB-ECOM-CT-1366
+//! Test case for Defect 	Deficient ECOM performance test 
+//! @SYMTestCaseID			SYSLIB-ECOM-CT-1366
+//! @SYMTestCaseDesc		Test case for defect number DEF063054  Deficient ECOM performance test
+//! @SYMTestPriority		High
+//! @SYMTestActions			Request Staged Startup performance data from ECOM Server.
+//!							Ensure data returned is the expected state and within limits set.
+//! @SYMTestExpectedResults	The test must not fail.
+//! @SYMDEF					DEF063054
+
+RUN_TEST_STEP 300	Te_EComPerfTest EComStartupStatePerfTest
+PRINT Complete Te_EComPerfTest EComStartupStatePerfTest
+END_TESTCASE SYSLIB-ECOM-CT-1366
+ 
+START_TESTCASE SYSLIB-ECOM-CT-01367
+//! Test case for Defect 	Deficient ECOM performance test 
+//! @SYMTestCaseID			SYSLIB-ECOM-CT-01367
+//! @SYMTestCaseDesc		Test case for defect number DEF063054  Deficient ECOM performance test
+//! @SYMTestPriority		High
+//! @SYMTestActions			Request Staged Startup performance data from ECOM Server.
+//!							Log results.
+//! @SYMTestExpectedResults	The test must not fail.
+//! @SYMDEF					DEF063054
+
+RUN_TEST_STEP 300	Te_EComPerfTest EComPerfLogger
+PRINT Complete Te_EComPerfTest EComPerfLogger
+END_TESTCASE SYSLIB-ECOM-CT-01367
+
+START_TESTCASE SYSLIB-ECOM-PT-1709 //EcomRArrayGranularityTest
+//! Test case for Defect 	Deficient ECOM performance test 
+//! @SYMTestCaseID			SYSLIB-ECOM-PT-1709
+//! @SYMTestCaseDesc		Measure discovery time as we vary granularity of iInterfaceImplIndex and iImplIndex
+//! @SYMTestPriority		High
+//! @SYMTestActions			Instantiate CRegistryData with different granularities and measure the discovery time.
+//! @SYMTestExpectedResults	Print out a table of discovery time at different granularity settings for reference.
+//! @SYMDEF					INC080992
+LOAD_SUITE TE_EcomGranularityTestServer
+    RUN_TEST_STEP 600	TE_EcomGranularityTestServer EComImplIndexPerfTest z:\TEF_ECOM\EcomGranularityTest.ini Granularity3To47Step4
+    RUN_TEST_STEP 600	TE_EcomGranularityTestServer EComImplIndexPerfTest z:\TEF_ECOM\EcomGranularityTest.ini Granularity4To48Step4
+    RUN_TEST_STEP 600	TE_EcomGranularityTestServer EComImplIndexPerfTest z:\TEF_ECOM\EcomGranularityTest.ini Granularity5To49Step4
+    RUN_TEST_STEP 600	TE_EcomGranularityTestServer EComImplIndexPerfTest z:\TEF_ECOM\EcomGranularityTest.ini Granularity6To50Step4
+END_TESTCASE SYSLIB-ECOM-PT-1709 //EcomRArrayGranularityTest
+PRINT Complete EcomRArrayGranularityTest
+
+START_TESTCASE SYSLIB-ECOM-PT-1681
+//! Test case for CR629 	ECOM performance test 
+//! @SYMTestCaseID			SYSLIB-ECOM-PT-1681
+//! @SYMTestCaseDesc		Test case for CR number CR629  and defect number DEF088454
+//!							Retrieves the time spent for RunL of CDiscoverer's notifiers and timer when 
+//!							rediscovery occurs. Also retrieves the relative information (e.g. drive numbers) of 
+//!							them to check functionality.
+//! @SYMTestPriority		High
+//! @SYMTestActions			Test cases included:
+//!							1. Multiple notification processing on single drive (C:)
+//!							2. Multiple notification processing on multiple drives (C: and X: or C: and E:)
+//!							3. MMC Remounting tests on drive E:
+//!							On these events, check against:
+//!							Performance of Notifier RunL
+//!							Functionality of Notifier RunL
+//!							Performance of Timer RunL
+//!							Functionality of RediscoveryScanDirectoryL
+//!	@pre 					For hardware test, MMC (E:) drive should be available.
+//! @SYMTestExpectedResults	The test must not fail.
+//! @SYMDEF					DEF088454 (this test case was created in CR629, then rewritten by defect fixing)
+
+RUN_TEST_STEP 600	Te_EComPerfTest EComPluginReDiscoverPerfTest
+PRINT Complete Te_EComPerfTest EComPluginReDiscoverPerfTest
+END_TESTCASE SYSLIB-ECOM-PT-1681

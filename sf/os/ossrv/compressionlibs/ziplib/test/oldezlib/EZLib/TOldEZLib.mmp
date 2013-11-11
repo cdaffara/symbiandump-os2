@@ -1,0 +1,53 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// OldEZLib.MMP
+// oldezlib.dll Zlib compression library
+// 
+//
+
+/**
+ @file
+*/
+
+
+TARGET			oldezlib.dll
+CAPABILITY All -Tcb
+
+TARGETTYPE		dll
+ 
+UID      0x1000008d 0x10005706
+VENDORID 0x70000001
+
+
+SOURCEPATH	.
+
+SOURCE			deflate.cpp trees.cpp adler32.cpp zutil.cpp inflate.cpp infblock.cpp inftrees.cpp
+SOURCE			infutil.cpp infcodes.cpp inffast.cpp compress.cpp uncompr.cpp crc32.cpp zstream.cpp 
+SOURCE			compressor.cpp decompressor.cpp FileBuffer.cpp gzip.cpp
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN 
+USERINCLUDE ../inc
+
+
+#ifdef EABI
+// this is used to ensure "best perfomance" compilation options
+ALWAYS_BUILD_AS_ARM
+OPTION ARMCC -Otime
+OPTION_REPLACE ARMCC -O2 -O3
+#endif
+
+LIBRARY			euser.lib efsrv.lib
+
+
+
+SMPSAFE

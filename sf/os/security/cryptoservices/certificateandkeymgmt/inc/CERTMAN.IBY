@@ -1,0 +1,66 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+#ifndef __CERTMAN_IBY__
+#define __CERTMAN_IBY__
+
+// depends upon lower level crypto libraries
+#include <crypto.iby>
+
+#ifdef __INCLUDE_SW_KEYSTORE__
+#include "filetokens.iby"
+#include "asnpkcs.iby"
+#endif
+
+#include "secutil.iby"
+#include "sectcbutil.iby"
+#include "secsettings.iby"
+#include "ocspcenrep.iby"
+
+REM Certificate management libraries
+
+file=ABI_DIR\BUILD_DIR\asn1.dll		System\Libs\asn1.dll
+file=ABI_DIR\BUILD_DIR\certstore.dll	System\Libs\CertStore.dll
+file=ABI_DIR\BUILD_DIR\crypto.dll	System\Libs\crypto.dll
+file=ABI_DIR\BUILD_DIR\pkixcert.dll	System\Libs\PKIXCert.dll
+file=ABI_DIR\BUILD_DIR\x500.dll		System\Libs\x500.dll
+file=ABI_DIR\BUILD_DIR\x509.dll		System\Libs\x509.dll
+file=ABI_DIR\BUILD_DIR\wtlscert.dll 	System\Libs\wtlscert.dll
+file=ABI_DIR\BUILD_DIR\ctframework.dll		System\Libs\ctframework.dll
+
+file=ABI_DIR\BUILD_DIR\pkixcertbase.dll	System\Libs\PKIXCertBase.dll
+file=ABI_DIR\BUILD_DIR\ctfinder.dll		System\Libs\ctfinder.dll
+file=ABI_DIR\BUILD_DIR\swicertstore.dll	System\Libs\swicertstore.dll
+#ifndef __SECURITY_TEST_ROM__
+ECOM_PLUGIN(swicertstoreplugin.dll, 1020430C.rsc)
+#endif
+
+
+REM Add certificate recogniser 
+ECOM_PLUGIN(reccert.dll, 000047EB.rsc)
+ECOM_PLUGIN(pkcs8recog.dll, 1020361A.rsc)
+ECOM_PLUGIN(pkcs12recog.dll, 2000151f.rsc)
+
+
+REM Certificate management libraries, extra DLL for Cedar builds
+file=ABI_DIR\BUILD_DIR\pkcs10.dll	System\Libs\pkcs10.dll
+
+#ifdef AGGREGATE_CERTSTORE
+patchdata swicertstore.dll@KAggregateCertStore  0x01
+#endif
+
+#endif

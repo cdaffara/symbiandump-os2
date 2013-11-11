@@ -1,0 +1,80 @@
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// @file
+// 
+//
+
+//! @SYMTestSuiteName PDS-TEF-CENTREP-SWISUITE
+//! @SYMScriptTestEnvironment TEF
+//! @internalComponent
+//! @test
+
+PRINT Run PU (partial upgrade) installation te_centrep_SWI Suite Tests
+
+LOAD_SUITE te_centrep_SWISuite
+
+RUN_UTILS MkDir c:\private\
+
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551551.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551552.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551553.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551554.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551555.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\5155155F.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551551.txt
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551552.txt
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551553.txt
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551554.txt
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551555.txt
+RUN_UTILS DeleteFile c:\private\10202be9\persists\5155155F.txt
+
+START_TESTCASE SYSLIB-CENTRALREPOSITORY-SWI-CIT-PU-NOTIFY1
+//! @SYMTestCaseID SYSLIB-CENTRALREPOSITORY-SWI-CIT-PU-NOTIFY1
+//! @SYMTestCaseDesc  Verify that a ROM supplied keyspace, K1, with
+//!                  NotifyRequests pending generate the appropriate events on
+//!                  install and uninstall.
+//! @SYMTestPriority  High
+//! @SYMTestActions   Some ‘NotifyRequests’ are set up against the ROM
+//!                  repository K1. The ‘KP12s.sis’ ROM repository upgrade
+//!                  package is installed, and then uninstalled (this second
+//!                  step requires the SP ‘KPS14s.sis’ to be installed first).
+//!                  NOTE: A known problem is that a setting created on install
+//!                  cannot have a NotifyRequest placed on it in the
+//!                  expectation that notification will be received if the
+//!                  package (and therefore the new setting) is removed
+//!                  (deleted).
+//! @SYMTestExpectedResults
+//!                  Notify requests setup before the installation and
+//!                  uninstall are satisfied when checked after the
+//!                  install/uninstall.
+//! @SYMDEF           INC068075
+
+	RUN_TEST_STEP 300 te_centrep_SWISuite RepositoryCheck z:\TEF_CentralRepository\SWI-PU-notify.ini BeforeWeStart_1
+	RUN_TEST_STEP 100 te_centrep_SWISuite InstallStep z:\TEF_CentralRepository\SWI-PU-notify.ini Install_KP12
+	RUN_TEST_STEP 100 te_centrep_SWISuite InstallStep z:\TEF_CentralRepository\SWI-PU-notify.ini Install_KPS14
+	RUN_TEST_STEP 100 te_centrep_SWISuite UninstallAugStep z:\TEF_CentralRepository\SWI-PU-notify.ini UnInstallKPS14
+END_TESTCASE SYSLIB-CENTRALREPOSITORY-SWI-CIT-PU-NOTIFY1
+
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551551.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551552.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551553.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551554.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551555.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\5155155F.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551551.txt
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551552.txt
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551553.txt
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551554.txt
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551555.txt
+RUN_UTILS DeleteFile c:\private\10202be9\persists\5155155F.txt

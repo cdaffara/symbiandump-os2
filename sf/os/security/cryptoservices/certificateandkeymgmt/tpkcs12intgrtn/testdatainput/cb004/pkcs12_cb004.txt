@@ -1,0 +1,58 @@
+// A simple PKCS#12 file containing a certificate and a private key.
+
+SEQUENCE
+	// Version
+	INTEGER=3
+
+	// authSafe - PFX
+	SEQUENCE
+		OID=PKCS7_DATA
+		EXPLICIT		
+			OCTETSTRING
+				OUTPUT_BINARY_FILE=authsafecontents.der,1
+					// First PDU
+					SEQUENCE
+
+INCLUDE=encrypted_contentinfo.txt,07:EE:43:28:2E:FF:F9:D4,1024,PKCS12_PBEIDS_SHAAND40BITRC2CBC,rc2-40-cbc,928fc8bcc6,f59b7405f41d3314,../safecontents.txt,safebag_cb004.txt,07:EE:43:28:2E:FF:F9:D4,1024,PKCS12_PBEIDS_SHAAND3KEYTRIPLEDESCBC,des-ede3-cbc,928fc8bcc6185ddabda211f3c6d2728afbb3239a8c95208d,f59b7405f41d3314,../root5ca_key.pk8,../root5ca.der,symbian
+
+INCLUDE=encrypted_contentinfo.txt,07:EE:43:28:2E:FF:F9:D4,1024,PKCS12_PBEIDS_SHAAND40BITRC2CBC,rc2-40-cbc,928fc8bcc6,f59b7405f41d3314,../safecontents.txt,safebag_cb004_2.txt,07:EE:43:28:2E:FF:F9:D4,1024,PKCS12_PBEIDS_SHAAND3KEYTRIPLEDESCBC,des-ede3-cbc,928fc8bcc6185ddabda211f3c6d2728afbb3239a8c95208d,f59b7405f41d3314,../root5ca_key.pk8,../root5ca.der,symbian
+
+
+INCLUDE=encrypted_contentinfo.txt,07:EE:43:28:2E:FF:F9:D4,1024,PKCS12_PBEIDS_SHAAND40BITRC2CBC,rc2-40-cbc,928fc8bcc6,f59b7405f41d3314,../safecontents.txt,safebag_cb004_1.txt,07:EE:43:28:2E:FF:F9:D4,1024,PKCS12_PBEIDS_SHAAND3KEYTRIPLEDESCBC,des-ede3-cbc,928fc8bcc6185ddabda211f3c6d2728afbb3239a8c95208d,f59b7405f41d3314,../root5ca_key.pk8,../root5ca.der,symbian
+	
+					
+
+						
+					END
+				END
+			END
+		END
+	END
+
+	// macData
+	SEQUENCE
+		// DigestInfo
+		SEQUENCE
+			SEQUENCE
+				OID=SHA1
+				NULL
+			END
+			// DIGEST		
+			OCTETSTRING
+				OUTPUT_BINARY_FILE=cb004_mac,1
+					HMAC=SHA1,9e8a4371cc39d5d0ab89e80e1f796e44f9aa07d0
+						INCLUDE_BINARY_FILE=authsafecontents.der
+					END
+				END
+			END		
+		END		
+		// macSalt
+		OCTETSTRING
+			OUTPUT_BINARY_FILE=cb004_macsalt,1
+				RAW=6F:85:5D:15:3C:61:8D:4C
+			END
+		END
+		// iterations
+		INTEGER=2048	
+	END
+END

@@ -1,0 +1,43 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SERVER te_RegBlockTestSuite -SharedData
+
+START_TESTCASE DT-TEF-TestBlock-0006
+//! @SYMTestCaseID          DT-TEF-TestBlock-0006
+//! @SYMCreationDate        03-07-2008
+//! @SYMAuthor              DavidZhang
+//! @SYMTestType            CT
+//! @SYMTestPriority        Medium
+//! @SYMTestCaseDesc        STORE/RESORE_OBJECT test.
+//! @SYMTestExpectedResults See actions.
+//! @SYMTestActions         1. In the first test block create a data wrapper, call a command that creates wrapped object
+//!                         and sets a value to it, store the object persistently and call a command one more time
+//!                         to make sure that the object is still available.
+//!                         2. In the second block call RESTORE_OBJECT to restore the object stored in the first test block
+//!                         and call a command to make sure the wrapper is available and the object's value is correct.
+	START_TEST_BLOCK	100 te_RegBlockTestSuite ${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini
+		CREATE_OBJECT	te_RegBlockTestWrapper	TestCase004_obj
+		COMMAND		TestCase004_obj			New				TestCase004_obj
+		COMMAND		TestCase004_obj			GetDataObject			TestCase004_obj
+		STORE		TestCase004_obj
+		COMMAND		TestCase004_obj			DummyFunction
+	END_TEST_BLOCK
+	START_TEST_BLOCK	100 te_RegBlockTestSuite ${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini
+		RESTORE_OBJECT	te_RegBlockTestWrapper	TestCase004_obj
+		COMMAND		TestCase004_obj			GetDataObject			TestCase004_obj
+	END_TEST_BLOCK
+END_TESTCASE DT-TEF-TestBlock-0006

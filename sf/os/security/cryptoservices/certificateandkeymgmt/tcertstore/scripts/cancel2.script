@@ -1,0 +1,374 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+START_TESTCASE                SEC-CERTMAN-CANCEL2-0001
+
+//! @SYMTestCaseID            SEC-CERTMAN-CANCEL2-0001
+
+//! @SYMTestCaseDesc          Cancel2.txt
+
+//!                           Cancellation tests for the certificate addition, deletion, trust&application setting with notification
+
+//!                           to the client process.
+
+//!                           
+
+//!                           Note: The in-source test tag is only added to the new tests for PREQ226. The tests without test tag is the existing tests
+
+//!                           in the certstore component, which are used to set up the environment needed by the PREQ226 tests.
+
+//!                           
+
+//!                           Setup ///////////////////////////////////////////////////////////////////////
+
+//! @SYMTestActions           1) No Test,Opening a CertificateAppInfoManager
+
+//!                           2) No Test,Adding client A1
+
+//!                           3) No Test,Adding client A2
+
+//!                           4) No Test,Adding client A3
+
+//!                           5) No Test,Adding client A4
+
+//!                           6) No Test,Deleting the CertificateAppInfoManager
+
+//!                           7) Import a RSA key rsacertkey1
+
+//!                           8) Opening a writable certificate store manager
+
+//!                           9) Deleting all certs
+
+//!                           10) Deleting the writable certificate store manager
+
+//!                           11) Enabling cancellation testing
+
+RUN_TEST_STEP                 -1    CTestHandler        initappmanager      
+
+RUN_TEST_STEP                 -1    CTestHandler        addclient              cancel2.ini   SEC-CERTMAN-CANCEL2-0001-002
+
+RUN_TEST_STEP                 -1    CTestHandler        addclient              cancel2.ini   SEC-CERTMAN-CANCEL2-0001-003
+
+RUN_TEST_STEP                 -1    CTestHandler        addclient              cancel2.ini   SEC-CERTMAN-CANCEL2-0001-004
+
+RUN_TEST_STEP                 -1    CTestHandler        addclient              cancel2.ini   SEC-CERTMAN-CANCEL2-0001-005
+
+RUN_TEST_STEP                 -1    CTestHandler        deleteappmanager    
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              cancel2.ini   SEC-CERTMAN-CANCEL2-0001-007
+
+RUN_TEST_STEP                 -1    CTestHandler        init                   cancel2.ini   SEC-CERTMAN-CANCEL2-0001-008
+
+RUN_TEST_STEP                 -1    CTestHandler        deletecert             cancel2.ini   SEC-CERTMAN-CANCEL2-0001-009
+
+RUN_TEST_STEP                 -1    CTestHandler        delete              
+
+RUN_TEST_STEP                 -1    CTestHandler        startcancellation   
+
+END_TESTCASE                  SEC-CERTMAN-CANCEL2-0001
+
+
+
+
+
+START_TESTCASE                SEC-CERTMAN-CANCEL2-0002
+
+//! @SYMTestCaseID            SEC-CERTMAN-CANCEL2-0002
+
+//! @SYMTestCaseDesc          Initialisation //////////////////////////////////////////////////////////////
+
+//! @SYMTestActions           1) Opening a writable certificate store manager
+
+RUN_TEST_STEP                 -1    CTestHandler        init                   cancel2.ini   SEC-CERTMAN-CANCEL2-0002-001
+
+END_TESTCASE                  SEC-CERTMAN-CANCEL2-0002
+
+
+
+
+
+// Add certs ///////////////////////////////////////////////////////////////////
+
+
+
+START_TESTCASE                UCTSSEC-CT-WMODEUCTADDCCANCELWN1.1
+
+//! @SYMTestCaseID            UCTSSEC-CT-WMODEUCTADDCCANCELWN1.1
+
+//! @file                     
+
+//! @SYMTestCaseDesc          The test is to test cancellation of X509 CA certificate addition with notification.
+
+//! @SYMPREQ                  226
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 1.1, Cancel X509 CA certificate CAX1 addition with notification
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                cancel2.ini   UCTSSEC-CT-WMODEUCTADDCCANCELWN1.1-001
+
+END_TESTCASE                  UCTSSEC-CT-WMODEUCTADDCCANCELWN1.1
+
+
+
+
+
+START_TESTCASE                UCTSSEC-CT-WMODEUCTADDCCANCELWN1.2
+
+//! @SYMTestCaseID            UCTSSEC-CT-WMODEUCTADDCCANCELWN1.2
+
+//! @file                     
+
+//! @SYMTestCaseDesc          The test is to test cancellation of WTLS CA certificate addition with notification.
+
+//! @SYMPREQ                  226
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 1.2, Cancel WTLS CA certificate CAW1 addition with notification
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                cancel2.ini   UCTSSEC-CT-WMODEUCTADDCCANCELWN1.2-001
+
+END_TESTCASE                  UCTSSEC-CT-WMODEUCTADDCCANCELWN1.2
+
+
+
+
+
+START_TESTCASE                UCTSSEC-CT-WMODEUCTADDCCANCELWN1.3
+
+//! @SYMTestCaseID            UCTSSEC-CT-WMODEUCTADDCCANCELWN1.3
+
+//! @file                     
+
+//! @SYMTestCaseDesc          The test is to test cancellation of X509 user certificate addition with notification.
+
+//! @SYMPREQ                  226
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 1.3, Cancel X509 user certificate rsacert1 addition with notification
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                cancel2.ini   UCTSSEC-CT-WMODEUCTADDCCANCELWN1.3-001
+
+END_TESTCASE                  UCTSSEC-CT-WMODEUCTADDCCANCELWN1.3
+
+
+
+
+
+START_TESTCASE                SEC-CERTMAN-CANCEL2-0006
+
+//! @SYMTestCaseID            SEC-CERTMAN-CANCEL2-0006
+
+//! @SYMTestCaseDesc          List certs //////////////////////////////////////////////////////////////////
+
+//! @SYMTestActions           1) List CA certificates
+
+//!                           2) List user certificates
+
+//!                           3) List user certificates filtered by key usage
+
+//!                           4) List user certificates filtered by key usage
+
+//!                           5) List certificates filtered by Issuer DN
+
+//!                           6) List certificates filtered by Issuer DN
+
+//!                           7) List certificates filtered by Issuer DN
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               cancel2.ini   SEC-CERTMAN-CANCEL2-0006-001
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               cancel2.ini   SEC-CERTMAN-CANCEL2-0006-002
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               cancel2.ini   SEC-CERTMAN-CANCEL2-0006-003
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               cancel2.ini   SEC-CERTMAN-CANCEL2-0006-004
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               cancel2.ini   SEC-CERTMAN-CANCEL2-0006-005
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               cancel2.ini   SEC-CERTMAN-CANCEL2-0006-006
+
+RUN_TEST_STEP                 -1    CTestHandler        listcacert             cancel2.ini   SEC-CERTMAN-CANCEL2-0006-007
+
+END_TESTCASE                  SEC-CERTMAN-CANCEL2-0006
+
+
+
+
+
+START_TESTCASE                SEC-CERTMAN-CANCEL2-0007
+
+//! @SYMTestCaseID            SEC-CERTMAN-CANCEL2-0007
+
+//! @SYMTestCaseDesc          Retrieve certs
+
+//! @SYMTestActions           1) Retrieve CAX1 cert
+
+//!                           2) Retrieve CAW1 cert
+
+RUN_TEST_STEP                 -1    CTestHandler        retrieve               cancel2.ini   SEC-CERTMAN-CANCEL2-0007-001
+
+RUN_TEST_STEP                 -1    CTestHandler        retrieve               cancel2.ini   SEC-CERTMAN-CANCEL2-0007-002
+
+END_TESTCASE                  SEC-CERTMAN-CANCEL2-0007
+
+
+
+
+
+// Applications and trust //////////////////////////////////////////////////////
+
+
+
+START_TESTCASE                UCTSSEC-CT-WMODEUCTSAPPCCANCELWN4.1
+
+//! @SYMTestCaseID            UCTSSEC-CT-WMODEUCTSAPPCCANCELWN4.1
+
+//! @file                     
+
+//! @SYMTestCaseDesc          The test is to test cancellation of setting X509 CA certificate application with notification.
+
+//! @SYMPREQ                  226
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 4.1 Cancel applications setting to the CAX1 certificate with notification
+
+//!                           2) Get applications for CAX1
+
+RUN_TEST_STEP                 -1    CTestHandler        setapplications        cancel2.ini   UCTSSEC-CT-WMODEUCTSAPPCCANCELWN4.1-001
+
+RUN_TEST_STEP                 -1    CTestHandler        getapplications        cancel2.ini   UCTSSEC-CT-WMODEUCTSAPPCCANCELWN4.1-002
+
+END_TESTCASE                  UCTSSEC-CT-WMODEUCTSAPPCCANCELWN4.1
+
+
+
+
+
+START_TESTCASE                UCTSSEC-CT-WMODEUCTSTRUSTCCANCELWN3.1
+
+//! @SYMTestCaseID            UCTSSEC-CT-WMODEUCTSTRUSTCCANCELWN3.1
+
+//! @file                     
+
+//! @SYMTestCaseDesc          The test is to test cancellation of setting X509 CA certificates trust with notification.
+
+//! @SYMPREQ                  226
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 3.1, Cancel the trust setting for CAX1 with notification
+
+//!                           2) Get the trust for CAX1
+
+RUN_TEST_STEP                 -1    CTestHandler        settrust               cancel2.ini   UCTSSEC-CT-WMODEUCTSTRUSTCCANCELWN3.1-001
+
+RUN_TEST_STEP                 -1    CTestHandler        gettrusters            cancel2.ini   UCTSSEC-CT-WMODEUCTSTRUSTCCANCELWN3.1-002
+
+END_TESTCASE                  UCTSSEC-CT-WMODEUCTSTRUSTCCANCELWN3.1
+
+
+
+
+
+// Delete certs ////////////////////////////////////////////////////////////////
+
+
+
+START_TESTCASE                UCTSSEC-CT-WMODEUCTDELCCANCELWN2.1
+
+//! @SYMTestCaseID            UCTSSEC-CT-WMODEUCTDELCCANCELWN2.1
+
+//! @file                     
+
+//! @SYMTestCaseDesc          The test is to test cancellation of X509 CA certificates deletion with notification.
+
+//! @SYMPREQ                  226
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 2.1, Cancel CAX1 certs deletion with notification
+
+RUN_TEST_STEP                 -1    CTestHandler        deletecert             cancel2.ini   UCTSSEC-CT-WMODEUCTDELCCANCELWN2.1-001
+
+END_TESTCASE                  UCTSSEC-CT-WMODEUCTDELCCANCELWN2.1
+
+
+
+
+
+START_TESTCASE                SEC-CERTMAN-CANCEL2-0011
+
+//! @SYMTestCaseID            SEC-CERTMAN-CANCEL2-0011
+
+//! @SYMTestCaseDesc          Cleanup /////////////////////////////////////////////////////////////////////
+
+//! @SYMTestActions           1) Disabling cancellation testing
+
+//!                           2) Deleting all certs
+
+//!                           3) Deleting the writable certificate store manager
+
+//!                           4) No Test,Opening a CertificateAppInfoManager
+
+//!                           5) No Test,Deleting the client A1
+
+//!                           6) No Test,Deleting the client A2
+
+//!                           7) No Test,Deleting the client A3
+
+//!                           8) No Test,Deleting the client A4
+
+//!                           9) No Test,Deleting the CertificateAppInfoManager
+
+RUN_TEST_STEP                 -1    CTestHandler        stopcancellation    
+
+RUN_TEST_STEP                 -1    CTestHandler        deletecert             cancel2.ini   SEC-CERTMAN-CANCEL2-0011-002
+
+RUN_TEST_STEP                 -1    CTestHandler        delete              
+
+RUN_TEST_STEP                 -1    CTestHandler        initappmanager      
+
+RUN_TEST_STEP                 -1    CTestHandler        removeclient           cancel2.ini   SEC-CERTMAN-CANCEL2-0011-005
+
+RUN_TEST_STEP                 -1    CTestHandler        removeclient           cancel2.ini   SEC-CERTMAN-CANCEL2-0011-006
+
+RUN_TEST_STEP                 -1    CTestHandler        removeclient           cancel2.ini   SEC-CERTMAN-CANCEL2-0011-007
+
+RUN_TEST_STEP                 -1    CTestHandler        removeclient           cancel2.ini   SEC-CERTMAN-CANCEL2-0011-008
+
+RUN_TEST_STEP                 -1    CTestHandler        deleteappmanager    
+
+END_TESTCASE                  SEC-CERTMAN-CANCEL2-0011
+
+
+
+
+

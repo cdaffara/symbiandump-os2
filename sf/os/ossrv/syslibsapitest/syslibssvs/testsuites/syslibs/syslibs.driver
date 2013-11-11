@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<driver:driver xmlns:driver="http://www.symbian.com/TestDriver">
+	<task name="syslibs" timeout="100000">
+		<transferToSymbian>
+			<transfer move="false" PCPath="${epocroot}\epoc32\data\z\syslibs\${platform}\t_syslibs.ini" SymbianPath="$:\syslibs\t_syslibs.ini"/>
+		</transferToSymbian>
+		<task name="ecom">
+			<executeOnPC>
+				<build testBuild="true" URI="${sourceroot}\group\">
+					<componentName>t_ecom</componentName>
+				</build>
+			</executeOnPC>
+			<task name="SYSLIB-ECOM-PublicAPI-suite" timeout="1000">
+				<transferToSymbian>
+					<transfer move="false" PCPath="${epocroot}\epoc32\release\${platform}\${build}\TPCopyFileUtility.exe" SymbianPath="$:\sys\bin\TPCopyFileUtility.exe"/>
+					<transfer move="false" PCPath="${epocroot}\epoc32\release\${platform}\${build}\TPDeleteFileUtility.exe" SymbianPath="$:\sys\bin\TPDeleteFileUtility.exe"/>
+					<transfer move="false" PCPath="${epocroot}\epoc32\release\${platform}\${build}\TestProduct_PlugIn.dll" SymbianPath="$:\ecom\TestProduct_PlugIn.dll"/>
+					<transfer move="false" PCPath="${epocroot}\epoc32\data\z\ecom\TestProduct_PlugIn.rsc" SymbianPath="$:\ecom\TestProduct_PlugIn.rsc"/>
+					<transfer move="false" PCPath="${epocroot}\epoc32\data\z\ecom\SYSLIB-ECOM-PublicAPI.ini" SymbianPath="$:\ecom\SYSLIB-ECOM-PublicAPI.ini"/>
+				</transferToSymbian>
+				<executeOnSymbian>
+					<testExecuteScript PCPath="${epocroot}\epoc32\data\z\ecom\SYSLIB-ECOM-PublicAPI.script" SymbianPath="$:\ecom\SYSLIB-ECOM-PublicAPI.script">
+						<testCasesList operator="exclude">
+							<testCase target="${epocroot}\epoc32\data\z\syslibs\t_syslibs.tcs"/>
+						</testCasesList>
+					</testExecuteScript>
+				</executeOnSymbian>
+			</task>
+		</task>
+	</task>
+</driver:driver>

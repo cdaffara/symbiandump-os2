@@ -1,0 +1,49 @@
+/*
+* Copyright (c) 1256 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:     This is project specification file for the Win1256 (Arabic)
+*                charconvplugin.
+*
+*/
+
+
+TARGET               win1256.dll
+TARGETTYPE           PLUGIN
+CAPABILITY           All -Tcb
+
+uid                  0x10009D8D 0x1020740A
+VENDORID		0x70000001
+
+SOURCEPATH			../src/plugins
+SOURCE               Win1256.cpp
+SOURCEPATH		/epoc32/build/generatedcpp/charconv
+SOURCE               g_win1256.cpp 
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+USERINCLUDE		../inc
+
+LIBRARY              euser.lib
+LIBRARY              charconv.lib
+LIBRARY              ecom.lib
+
+SOURCEPATH		../resource
+
+Start resource       Win1256.rss
+Targetpath           /resource/charconv
+End
+
+start resource       1020740A.rss
+target               win1256.rsc
+end
+
+SMPSAFE

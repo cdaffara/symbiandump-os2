@@ -1,0 +1,32 @@
+/** @file  ../inc/pls.h
+@internalComponent
+*/
+
+/** @fn  Pls(const TUid& aLibraryUid, TInt (*aInitFunc)(T*) = 0)
+@return Pls() will always return a non-NULL value.
+If Pls() fails to allocate memory, it will panic rather than returning NULL. 
+The risk of such a panic is minimal due to the allocation of Windows OS memory for the Pls object (which is effectively unlimited) rather than memory from the Emulator.
+
+A templated function that is used by a library (DLL) that requires to use
+WSD on the emulator.
+The function returns the PLS (Process Local Storage) object of the specified library, 
+for the current process. If the PLS object doesn't yet exist then it is allocated, 
+initialised, stored and returned.
+The template type T is the type of the PLS object, and is supplied by the caller.
+
+Takes as a parameter the TUid of the library DLL whose PLS is to be returned for the 
+current process. It also takes as a parameter a pointer to a (non-leaving, non-panicing) 
+initialisation function defined by the caller which takes a pointer to T (i.e. the 
+PLS object) as a parameter and returns one of the system wide error codes as a TInt.
+This parameter is optional but it should be used when necessary to ensure that if Pls() 
+requires to create a PLS object then the object is completely initialised on its return. 
+The initialisation function is called after the PLS object has been allocated and its 
+constructor called if it is an instance of a class - neither the constructor nor the 
+initialisation function should call Pls().
+
+Returns a pointer to the PLS object		
+
+
+@publishedAll
+@released
+*/

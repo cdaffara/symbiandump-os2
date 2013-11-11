@@ -1,0 +1,93 @@
+/*
+* Copyright (c) 1997-1999 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+NAME TFRM
+
+CHARACTER_SET UTF8
+
+#include <eikon.rh>
+#include <eikcore.rsg>
+#include <appinfo.rh>
+
+#include "TForm18030.hrh"
+
+RESOURCE RSS_SIGNATURE { }
+
+RESOURCE TBUF { buf=""; }
+
+RESOURCE EIK_APP_INFO
+	{
+	hotkeys=r_TForm18030_hotkeys;
+	menubar=r_TForm18030_menubar;
+	}
+
+RESOURCE HOTKEYS r_TForm18030_hotkeys
+    {
+    control=
+        {
+        HOTKEY { command=EEikCmdExit; key='e'; }
+        };
+    }
+
+RESOURCE MENU_BAR r_TForm18030_menubar
+    {
+    titles=
+        {
+        MENU_TITLE { menu_pane=r_tform18030_first_menu; txt="Unicode 5.0"; }
+		};
+    }
+
+RESOURCE MENU_PANE r_tform18030_first_menu
+	{
+	items=
+		{
+		MENU_ITEM { command=ETForm18030Item0; txt="Surrogate Positive"; },
+		MENU_ITEM { command=ETForm18030Item1; txt="Surrogate Negative"; },
+		MENU_ITEM { command=ETForm18030Item2; txt="Unicode 5.0 New Character"; },
+		MENU_ITEM { command=ETForm18030Item3; txt="Unicode 5.0 Negative"; },
+		MENU_ITEM { command=ETForm18030Item4; txt="Unicode 5.0 Performance"; },
+		MENU_ITEM { command=ETForm18030Item5; txt="Unicode 5.0 Performance 2"; },
+		MENU_ITEM { command=ETForm18030Item6; txt="Unicode 5.0 Random"; },
+		MENU_ITEM { command=EEikCmdExit; txt="Close"; }
+        };
+    }
+
+
+RESOURCE TBUF r_TForm18030_text_Hello { buf=""; }
+
+RESOURCE RTXTED r_output_view_rtexted
+    {
+    numlines = 65535;
+    textlimit= 65535;
+    fontcontrolflags = EGulFontControlAll;
+    fontnameflags = EGulNoSymbolFonts;
+    }
+
+RESOURCE LOCALISABLE_APP_INFO r_lai
+	{
+	short_caption = "TForm";
+	caption_and_icon =
+		{
+		CAPTION_AND_ICON_INFO
+			{
+			caption = "TForm18030";
+			number_of_icons = 3; // each icon must be a bitmap/mask pair
+			icon_file = "z:\\resource\\apps\\TForm18030.mbm";
+			}
+		};							
+	}

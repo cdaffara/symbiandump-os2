@@ -1,0 +1,572 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+START_TESTCASE                SEC-TASYMMETRICTESTS-0001
+
+//! @SYMTestCaseID            SEC-TASYMMETRICTESTS-0001
+
+//! @SYMTestCaseDesc          
+
+//! @SYMTestActions           1) RSA CRT test vector 1 (RSAEncryptVector)
+
+//!                           2) RSA CRT test vector 2 (RSADecryptVectorCRT)
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptVector       tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0001-001
+
+RUN_TEST_STEP                 -1    CTestHandler        RSADecryptVectorCRT    tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0001-002
+
+END_TESTCASE                  SEC-TASYMMETRICTESTS-0001
+
+
+
+
+
+START_TESTCASE                SEC-TASYMMETRICTESTS-0002
+
+//! @SYMTestCaseID            SEC-TASYMMETRICTESTS-0002
+
+//! @SYMTestCaseDesc          /	Not a valid test now CRT is correct. Checked this with cryptopp test case (see exponentiate project for details).
+
+//!                           <!action>
+
+//!                           <!actionname>RSA CRT test vector 2 (RSADecryptVectorCRT) (test a failure)</actionname>
+
+//!                           <!actiontype>RSADecryptVectorCRT</actiontype>
+
+//!                           <!actionbody>
+
+//!                           <!modulus>EF6419DC54EC49B7D0524BA675727F6D895A66A9940F3C76B6220A5B9073357D70702C9FC2D6ECA41448356CE562F7FFAF1DA64BA947274BA0D372F5866B69CB</modulus>
+
+//!                           <!P>FB4F79F4E8C816B816A817120901AED45D0FD72F3DC4BA6946F790776E8A5845</P>
+
+//!                           <!Q>F3DBAF51B232E334964581AE27DE17BFF90A66AE84C2BE95574082880BFF82CF</Q>
+
+//!                           <!dP>63D8A1C5B22EBD080AC861D2228DEE9E251344155ADF2C88E34F3CB096D49459</dP>
+
+//!                           <!dQ>F145A87EC23B0B059AB08690132DF07DA61F9E5C894A4D5A610B989A9694658D</dQ>
+
+//!                           <!qInv>4B8869676360EDC92F0B02F0B93580A570686E7EA3C7D39A5E572AB79314CCBD</qInv>
+
+//!                           <!ciphertext>2EAEAE1F07AAD1D3A14C2178397DFECD91C92E963511BE5CDDE8BCA79B47ECEF68F8DD2F8240DE2E05E90E2A75FAA6495CE903DE413D332CFDD2DD83BC8244C5</ciphertext>
+
+//!                           <!plaintext>123456789ABCDEF123456789ABCDEF123456789ABCDEF123456789ABCDEF</plaintext>
+
+//!                           <!/actionbody>
+
+//!                           <!actionresult>
+
+//!                           <!return>KErrCorrupt</return>
+
+//!                           <!result>EFalse</result>
+
+//!                           <!/actionresult>
+
+//!                           <!/action>
+
+//! @SYMTestActions           1) 512 bit rsa key, self encrypt test 1
+
+//!                           2) 512 bit rsa key, self encrypt test 2
+
+//!                           3) 512 bit rsa key, self encrypt test 3
+
+//!                           4) RSA CRT test vector 3 (RSADecryptVectorCRT) m2 larger than m1 which tests negative division/modulus handling
+
+//!                           5) 512 bit rsa key, self encrypt test 1 (CRT)
+
+//!                           6) 512 bit rsa key, self encrypt test 2 (CRT)
+
+//!                           7) 512 bit rsa key, self encrypt test 3 (CRT)
+
+//!                           8) 512 bit rsa key, self sign test 1
+
+//!                           9) ***NEW*** CRT self sign 512 bit rsa key, test 1
+
+//!                           10) ***NEW*** CRT self sign 512 bit rsa key, test 2
+
+//!                           11) ***NEW*** CRT self sign 512 bit rsa key, test 3
+
+//!                           12) ***NEW*** CRT self sign 512 bit rsa key, test 4
+
+//!                           13) RSA test vector 1 (RSAEncryptVector)
+
+//!                           14) RSA test vector 2 (RSADecryptVector)
+
+//!                           15) RSA test vector 3 (RSAEncryptVector)
+
+//!                           16) RSA test vector 4 (RSADecryptVector)
+
+//!                           17) RSA test vector 5 (RSAEncryptVector)
+
+//!                           18) RSA test vector 6 (RSADecryptVector)
+
+//!                           19) RSA test vector 7 (RSAEncryptVector)
+
+//!                           20) RSA test vector 8 (RSADecryptVector)
+
+//!                           21) RSA test vector 9 (RSAEncryptVector)
+
+//!                           22) RSA test vector 10 (RSADecryptVector)
+
+//!                           23) RSA test vector 11 (RSAEncryptVector)
+
+//!                           24) RSA test vector 12 (RSADecryptVector)
+
+//!                           25) RSA test vector 13 (RSAEncryptVector)
+
+//!                           26) RSA test vector 14 (RSADecryptVector)
+
+//!                           27) RSA test vector 15 (RSAEncryptVector)
+
+//!                           28) RSA test vector 16 (RSADecryptVector)
+
+//!                           29) RSA test vector 17 (RSAEncryptVector)
+
+//!                           30) RSA test vector 18 (RSADecryptVector)
+
+//!                           31) RSA test vector 19 (RSAEncryptVector)
+
+//!                           32) RSA test vector 20 (RSADecryptVector)
+
+//!                           33) RSA test vector 21 (RSAEncryptVector)
+
+//!                           34) RSA test vector 22 (RSADecryptVector)
+
+//!                           35) RSA test vector 23 (RSAEncryptVector)
+
+//!                           36) RSA test vector 24 (RSADecryptVector)
+
+//!                           37) RSA test vector 25 (RSAEncryptVector)
+
+//!                           38) RSA test vector 26 (RSADecryptVector)
+
+//!                           39) RSA test vector 27 (RSAEncryptVector)
+
+//!                           40) RSA test vector 28 (RSADecryptVector)
+
+//!                           41) RSA test vector 29 (RSAEncryptVector)
+
+//!                           42) RSA test vector 30 (RSADecryptVector)
+
+//!                           43) RSA test vector 31 (test a failure) (RSAEncryptVector)
+
+//!                           44) RSA test vector 32 (test a failure) (RSADecryptVector)
+
+//!                           45) RSA test vector 33 (test a failure) (RSAEncryptVector)
+
+//!                           46) RSA test vector 34 (test a failure) (RSADecryptVector)
+
+//!                           47) RSA test vector 35 (test a failure) (RSAEncryptVector)
+
+//!                           48) RSA test vector 36 (test a failure) (RSADecryptVector)
+
+//!                           49) RSA test vector 37 (RSASignVector)
+
+//!                           50) RSA test vector 38 (RSAVerifyVector)
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptStandardAndCRTFB   tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-001
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptStandardAndCRTFB   tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-002
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptStandardAndCRTFB   tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-003
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignVectorCRT       tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-004
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptStandardAndCRTFB   tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-005
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptStandardAndCRTFB   tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-006
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptStandardAndCRTFB   tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-007
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignStandardAndCRTFB   tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-008
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignStandardAndCRTFB   tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-009
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignStandardAndCRTFB   tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-010
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignStandardAndCRTFB   tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-011
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignStandardAndCRTFB   tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-012
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptVector       tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-013
+
+RUN_TEST_STEP                 -1    CTestHandler        RSADecryptVector       tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-014
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptVector       tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-015
+
+RUN_TEST_STEP                 -1    CTestHandler        RSADecryptVector       tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-016
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptVector       tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-017
+
+RUN_TEST_STEP                 -1    CTestHandler        RSADecryptVector       tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-018
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptVector       tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-019
+
+RUN_TEST_STEP                 -1    CTestHandler        RSADecryptVector       tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-020
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptVector       tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-021
+
+RUN_TEST_STEP                 -1    CTestHandler        RSADecryptVector       tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-022
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptVector       tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-023
+
+RUN_TEST_STEP                 -1    CTestHandler        RSADecryptVector       tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-024
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptVector       tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-025
+
+RUN_TEST_STEP                 -1    CTestHandler        RSADecryptVector       tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-026
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptVector       tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-027
+
+RUN_TEST_STEP                 -1    CTestHandler        RSADecryptVector       tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-028
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptVector       tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-029
+
+RUN_TEST_STEP                 -1    CTestHandler        RSADecryptVector       tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-030
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptVector       tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-031
+
+RUN_TEST_STEP                 -1    CTestHandler        RSADecryptVector       tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-032
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptVector       tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-033
+
+RUN_TEST_STEP                 -1    CTestHandler        RSADecryptVector       tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-034
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptVector       tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-035
+
+RUN_TEST_STEP                 -1    CTestHandler        RSADecryptVector       tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-036
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptVector       tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-037
+
+RUN_TEST_STEP                 -1    CTestHandler        RSADecryptVector       tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-038
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptVector       tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-039
+
+RUN_TEST_STEP                 -1    CTestHandler        RSADecryptVector       tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-040
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptVector       tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-041
+
+RUN_TEST_STEP                 -1    CTestHandler        RSADecryptVector       tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-042
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptVector       tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-043
+
+RUN_TEST_STEP                 -1    CTestHandler        RSADecryptVector       tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-044
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptVector       tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-045
+
+RUN_TEST_STEP                 -1    CTestHandler        RSADecryptVector       tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-046
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptVector       tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-047
+
+RUN_TEST_STEP                 -1    CTestHandler        RSADecryptVector       tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-048
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignVector          tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-049
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAVerifyVector        tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0002-050
+
+END_TESTCASE                  SEC-TASYMMETRICTESTS-0002
+
+
+
+
+
+START_TESTCASE                SEC-TASYMMETRICTESTS-0003
+
+//! @SYMTestCaseID            SEC-TASYMMETRICTESTS-0003
+
+//! @SYMTestCaseDesc          Test vector from cryptopp "Everybody gets Friday off"
+
+//! @SYMTestActions           1) ***NEW*** CRT sign test RSA test vector 37A (RSASignVector)
+
+//!                           2) ***NEW*** verify CRT sign RSA test vector 37B (RSAVerifyVector)
+
+//!                           3) ***NEW*** RSA test vector 38A (RSASignVector)
+
+//!                           4) ***NEW*** RSA test vector 38B (RSAVerifyVector)
+
+//!                           5) RSA test vector 40 (RSAVerifyVector)
+
+//!                           6) RSA test vector 41 (RSASignVector)
+
+//!                           7) RSA test vector 42 (RSAVerifyVector)
+
+//!                           8) RSA test vector 43 (RSASignVector)
+
+//!                           9) RSA test vector 44 (RSAVerifyVector)
+
+//!                           10) RSA test vector 45 (RSASignVector)
+
+//!                           11) RSA test vector 46 (RSAVerifyVector)
+
+//!                           12) RSA test vector 47 (RSASignVector)
+
+//!                           13) RSA test vector 48 (RSAVerifyVector)
+
+//!                           14) RSA test vector 49 (RSASignVector)
+
+//!                           15) RSA test vector 50 (RSAVerifyVector)
+
+//!                           16) RSA test vector 51 (RSASignVector)
+
+//!                           17) RSA test vector 52 (RSAVerifyVector)
+
+//!                           18) RSA test vector 53 (RSASignVector)
+
+//!                           19) RSA test vector 54 (RSAVerifyVector)
+
+//!                           20) RSA test vector 55 (RSASignVector)
+
+//!                           21) RSA test vector 56 (RSAVerifyVector)
+
+//!                           22) RSA test vector 57 (RSASignVector)
+
+//!                           23) RSA test vector 58 (RSAVerifyVector)
+
+//!                           24) RSA test vector 59 (RSASignVector)
+
+//!                           25) RSA test vector 60 (RSAVerifyVector)
+
+//!                           26) RSA test vector 61 (RSASignVector)
+
+//!                           27) RSA test vector 62 (RSAVerifyVector)
+
+//!                           28) RSA test vector 63 (RSASignVector)
+
+//!                           29) RSA test vector 64 (RSAVerifyVector)
+
+//!                           30) RSA test vector 65 (RSASignVector)
+
+//!                           31) RSA test vector 66 (RSAVerifyVector)
+
+//!                           32) RSA test vector 67 (test a failure) (RSASignVector)
+
+//!                           33) RSA test vector 68 (test a failure) (RSAVerifyVector)
+
+//!                           34) RSA test vector 69 (test a failure) (RSASignVector)
+
+//!                           35) RSA test vector 70 (test a failure) (RSAVerifyVector)
+
+//!                           36) RSA test vector 71 (test a failure) (RSASignVector)
+
+//!                           37) RSA test vector 72 (test a failure) (RSAVerifyVector)
+
+//!                           38) 1024 bit dsa key, self sign test 1
+
+//!                           39) 512 bit dsa key, self sign test 2
+
+//!                           40) DSA Prime Generation test (from DSS appendix 5)
+
+//!                           41) DSA Prime Generation test 1
+
+//!                           42) DSA test vector 1 (DSASignVector)
+
+//!                           43) DSA test vector 2 (DSAVerifyVector)
+
+//!                           44) DSA test vector 3 (test a failure) (DSASignVector) first byte in r changed from 8B to 9B
+
+//!                           45) DSA test vector 4 (test a failure) (DSAVerifyVector) message changed from "abc" to "abcd"
+
+//!                           46) DSA Verify - test a failure
+
+//!                           47) DSA Verify - test a failure
+
+//!                           48) DH key agreement - 1
+
+//!                           49) DH key agreement - 2
+
+//!                           50) DH key agreement - 3
+
+//!                           51) DH key agreement - 4
+
+//!                           52) DH key agreement - 5
+
+//!                           53) DH key agreement - 6
+
+//!                           54) DH key agreement - 7
+
+//!                           55) DH key agreement - 8
+
+//!                           56) RSA Parameter Test 1 (RSAPublicKeyParams)
+
+//!                           57) RSA Parameter Test 2 (RSAPublicKeyParams)
+
+//!                           58) RSA Parameter Test 3 (RSAPublicKeyParams)
+
+//!                           59) RSA Parameter Test 4 (RSAPrivateKeyParams)
+
+//!                           60) RSA Parameter Test 5 (RSAPrivateKeyParams)
+
+//!                           61) RSA Parameter Test 6 (RSAPrivateKeyParams)
+
+//!                           62) RSA Parameter Test 7 (RSAPrivateKeyCRTParams)
+
+//!                           63) RSA Parameter Test 8 (RSAPrivateKeyCRTParams)
+
+//!                           64) RSA Parameter Test 9 (RSAPrivateKeyCRTParams)
+
+//!                           65) RSA Parameter Test 10 (RSAPrivateKeyCRTParams)
+
+//!                           66) RSA Parameter Test 11 (RSAPrivateKeyCRTParams)
+
+//!                           67) Asymmetric Miscellaneous Test - 1
+
+//!                           68) Asymmetric Miscellaneous Test - 2
+
+//!                           69) Asymmetric Miscellaneous Test - 3
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignVectorCRT       tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-001
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAVerifyVector        tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-002
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignVector          tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-003
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAVerifyVector        tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-004
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAVerifyVector        tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-005
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignVector          tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-006
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAVerifyVector        tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-007
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignVector          tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-008
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAVerifyVector        tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-009
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignVector          tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-010
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAVerifyVector        tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-011
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignVector          tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-012
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAVerifyVector        tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-013
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignVector          tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-014
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAVerifyVector        tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-015
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignVector          tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-016
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAVerifyVector        tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-017
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignVector          tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-018
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAVerifyVector        tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-019
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignVector          tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-020
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAVerifyVector        tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-021
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignVector          tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-022
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAVerifyVector        tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-023
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignVector          tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-024
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAVerifyVector        tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-025
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignVector          tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-026
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAVerifyVector        tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-027
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignVector          tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-028
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAVerifyVector        tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-029
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignVector          tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-030
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAVerifyVector        tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-031
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignVector          tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-032
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAVerifyVector        tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-033
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignVector          tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-034
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAVerifyVector        tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-035
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignVector          tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-036
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAVerifyVector        tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-037
+
+RUN_TEST_STEP                 -1    CTestHandler        DSASignFB              tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-038
+
+RUN_TEST_STEP                 -1    CTestHandler        DSASignFB              tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-039
+
+RUN_TEST_STEP                 -1    CTestHandler        DSAPrimeGen            tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-040
+
+RUN_TEST_STEP                 -1    CTestHandler        DSAPrimeGen            tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-041
+
+RUN_TEST_STEP                 -1    CTestHandler        DSASignVector          tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-042
+
+RUN_TEST_STEP                 -1    CTestHandler        DSAVerifyVector        tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-043
+
+RUN_TEST_STEP                 -1    CTestHandler        DSASignVector          tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-044
+
+RUN_TEST_STEP                 -1    CTestHandler        DSAVerifyVector        tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-045
+
+RUN_TEST_STEP                 -1    CTestHandler        DSAVerifyVector        tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-046
+
+RUN_TEST_STEP                 -1    CTestHandler        DSAVerifyVector        tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-047
+
+RUN_TEST_STEP                 -1    CTestHandler        DHVector               tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-048
+
+RUN_TEST_STEP                 -1    CTestHandler        DHVector               tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-049
+
+RUN_TEST_STEP                 -1    CTestHandler        DHVector               tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-050
+
+RUN_TEST_STEP                 -1    CTestHandler        DHVector               tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-051
+
+RUN_TEST_STEP                 -1    CTestHandler        DHVector               tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-052
+
+RUN_TEST_STEP                 -1    CTestHandler        DHVector               tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-053
+
+RUN_TEST_STEP                 -1    CTestHandler        DHVector               tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-054
+
+RUN_TEST_STEP                 -1    CTestHandler        DHVector               tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-055
+
+RUN_TEST_STEP !Error=-6       -1    CTestHandler        RSAPublicKeyParams     tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-056
+
+RUN_TEST_STEP !Error=-6       -1    CTestHandler        RSAPublicKeyParams     tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-057
+
+RUN_TEST_STEP !Error=-6       -1    CTestHandler        RSAPublicKeyParams     tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-058
+
+RUN_TEST_STEP !Error=-6       -1    CTestHandler        RSAPrivateKeyParams    tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-059
+
+RUN_TEST_STEP !Error=-6       -1    CTestHandler        RSAPrivateKeyParams    tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-060
+
+RUN_TEST_STEP !Error=-6       -1    CTestHandler        RSAPrivateKeyParams    tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-061
+
+RUN_TEST_STEP !Error=-6       -1    CTestHandler        RSAPrivateKeyCRTParams   tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-062
+
+RUN_TEST_STEP !Error=-6       -1    CTestHandler        RSAPrivateKeyCRTParams   tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-063
+
+RUN_TEST_STEP !Error=-6       -1    CTestHandler        RSAPrivateKeyCRTParams   tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-064
+
+RUN_TEST_STEP !Error=-6       -1    CTestHandler        RSAPrivateKeyCRTParams   tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-065
+
+RUN_TEST_STEP !Error=-6       -1    CTestHandler        RSAPrivateKeyCRTParams   tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-066
+
+RUN_TEST_STEP                 -1    CTestHandler        AsymmetricMiscellaneous   tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-067
+
+RUN_TEST_STEP                 -1    CTestHandler        AsymmetricMiscellaneous   tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-068
+
+RUN_TEST_STEP                 -1    CTestHandler        AsymmetricMiscellaneous   tasymmetrictests.ini   SEC-TASYMMETRICTESTS-0003-069
+
+END_TESTCASE                  SEC-TASYMMETRICTESTS-0003
+
+
+
+
+

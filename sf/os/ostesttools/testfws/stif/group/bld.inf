@@ -1,0 +1,89 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+* 
+* Description:
+*
+*	bld.inf Toplevel build information for STIF Test Framework
+*/
+
+#include <platform_paths.hrh>
+
+
+PRJ_PLATFORMS
+
+	DEFAULT
+
+
+PRJ_EXPORTS
+
+	TestFramework.ini +/wins/c/TestFramework/TestFramework.ini
+	TestFramework.ini +/winscw/c/TestFramework/TestFramework.ini
+	TestFramework.ini +/data/z/system/data/TestFramework.ini
+	
+	// This is added in order to export iby files automaticly in 5.0 env
+	../rom/Stif.iby     CORE_IBY_EXPORT_PATH(tools,Stif.iby) 
+	
+	../rom/Stif_rom.iby CORE_IBY_EXPORT_PATH(tools/rom,Stif_rom.iby)
+	
+	:zip ../TestModuleTemplates/TestModuleTemplates.zip +/tools/s60rndtools/stif
+	
+PRJ_TESTEXPORTS
+	
+PRJ_MMPFILES	
+
+	// Stif API
+	#include "../stif_plat/group/bld.inf"
+
+	// Test Interface
+	#include "../TestInterface/group/bld.inf"
+	
+	// Test Server
+	#include "../TestServer/group/bld.inf"
+	
+	// Test Engine
+	#include "../TestEngine/group/bld.inf"
+	
+	// Test Server Starter
+	#include "../TestServerStarter/group/bld.inf"
+	
+	// StifTFwIf
+	#include "../StifTFwIf/group/bld.inf"
+	
+	// Console UI
+	#include "../ConsoleUI/group/bld.inf"
+
+	// Test Combiner
+	#include "../TestCombiner/group/bld.inf"
+	
+	// Demomodule
+	#include "../DemoModule/group/bld.inf"
+	
+	// ATS logger
+	#include "../ATSLogger/group/bld.inf"
+	
+	// ATS interface
+	#include "../ATSInterface/group/bld.inf"
+	
+	// Test Scripter
+	#include "../TestScripter/group/bld.inf"
+	
+	// SU Event
+	#include "../SUEvent/group/bld.inf"
+	
+	#if defined(__S60_)
+		// StifKernelTestClassBase
+		#include "../StifKernelTestClassBase/group/bld.inf"
+	#endif // __S60_
+
+
+// End of File

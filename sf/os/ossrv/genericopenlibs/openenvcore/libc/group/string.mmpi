@@ -1,0 +1,64 @@
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// Name        : string.mmpi
+// Part of     : string project specific include MMP file
+// This is a project specific include file for building the 
+// stdio as part of libc library.
+// Version     : 1.0
+// This material, including documentation and any related
+// computer programs, is protected by copyright controlled by
+// Nokia. All rights are reserved. Copying, including
+// reproducing, storing, adapting or translating, any
+// or all of this material requires the prior written consent of
+// Nokia. This material also contains confidential
+// information which may not be disclosed to others without the
+// prior written consent of Nokia.
+//
+
+
+
+SOURCEPATH		../src/string
+
+SOURCE		stringfuncs_private.cpp bcmp.c bcopy.c bzero.c 	ffs.c ffsl.c fls.c flsl.c index.c memccpy.c memchr.c memcmp.c \
+			memcpy.c memmem.c memmove.c memset.c rindex.c \
+			stpcpy.c strcasecmp.c strcasestr.c strcat.c \
+			strchr.c strcmp.c strcpy.c strcspn.c \
+			strdup.c strerror.c strlcat.c strlcpy.c strlen.c strmode.c strncat.c strncmp.c strncpy.c strndup.c strnlen.c strnstr.c strpbrk.c strrchr.c strsep.c \
+			strspn.c strstr.c strtok.c strtok_r.c    \
+			strtold.c swab.c 
+
+
+
+SOURCEPATH		../src/stdlib
+SOURCE			strfmon.c strtoimax.c strtoll.c strtoq.c strtoull.c strtoumax.c strtouq.c 
+
+SOURCEPATH		../src/stdtime
+SOURCE			strftime.c strptime.c
+
+SOURCEPATH		../src
+SOURCE			strtof.cpp strcoll.cpp strxfrm.cpp
+/*strtof.c*/ 
+
+//strptime.c Duplicates
+//__strdup(strdup) strerror_r(in strerror.c)
+//strncasecmp(in strcasecmp.c )
+//__stpcpy __strtok_r __strtof_internal __strtold_internal
+//__strtod_internal(strtod) __strtol_internal(strtol) __strtoul_internal(strtoul) - part of libc-std
+//__strtoll_internal __strtoull_internal
+
+
+//memrchr, stpncpy, __mempcpy, __rawmemchr - not in FreeBSD, but in glibc
+
+//strsignal.c - can't be supported unless there is signals support
+

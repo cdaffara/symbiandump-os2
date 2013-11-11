@@ -1,0 +1,588 @@
+/** @file  ../include/sys/msg.h
+@internalComponent
+*/
+
+/** @fn  msgget(key_t key, int msgflg)
+@param key
+@param msgflg
+@return   Upon successful completion a positive message queue identifier is returned.
+Otherwise, -1 is returned and the global variable errno is set to indicate the error.
+
+  The msgget function
+returns the message queue identifier associated with key. A message queue identifier is a unique integer greater than zero.
+
+ A message queue is created if either key is equal to IPC_PRIVATE, or key does not have a message queue identifier associated with it and 
+  the IPC_CREAT bit is set in msgflg.
+
+ If a new message queue is created, the data structure associated with it (the msqid_ds structure, see msgctl is initialized as follows: msg_perm.cuid and msg_perm.uid are set to the effective uid of the calling process.
+In the current implementation, uid is set to root. msg_perm.gid and msg_perm.cgid are set to the effective gid of the calling process.
+In the current implementation, gid is set to root. msg_perm.mode is set to the lower 9 bits of msgflg. msg_cbytes, msg_qnum, msg_lspid, msg_lrpid, msg_rtime, and msg_stime are set to 0. msg_qbytes is set to the system wide maximum value for the number of bytes in a queue (Dv MSGMNB). msg_ctime is set to the current time.
+
+Examples:
+
+ Example code to create a message queue using msgget
+ 
+@code
+#include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/msg.h>
+#include <stdio.h>
+#include <string.h>
+#include <errno.h>
+
+#define MESSAGE_Q_KEY 1000
+
+int main(void)
+{
+   int msq_id, len;
+   struct {
+       long mtype;
+       char mtext[128];
+   } msg_buf;
+   /*
+    * Create a message queue with a given key
+    */
+    if ((msq_id = msgget(MESSAGE_Q_KEY, IPC_CREAT | IPC_EXCL | 0666)) == -1) {
+       printf("Message Q create failed with errno %d
+", errno);
+       return -1;
+    }
+    msg_buf.mtype = 1; /* message identifier */
+    strcpy(msg_buf.mtext, "some_data_to_send"); /* data */
+    len = strlen(msg_buf.mtext)+1;
+    /*
+     * Put the message in the queue
+     */
+    if (msgsnd(msq_id, (struct msgbuf *)&msg;_buf, len, 0) == -1) {
+        printf("Message Q send failed with errno %d
+", errno);
+    }
+    return 0;
+}
+
+@endcode
+ Example code to return an existing message queue with msgget
+@code
+#include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/msg.h>
+#include <stdio.h>
+#include <string.h>
+#include <errno.h>
+
+#define MESSAGE_Q_KEY 1000
+
+int main(void)
+{
+   int msq_id;
+   int msg_len = 128;
+   int msg_type = 0; /* Any type of message */
+   struct {
+       long mtype;
+       char mtext[128];
+   } msg_buf;
+   /*
+    * Get the message queue id for the given key
+    */
+    if ((msq_id = msgget(MESSAGE_Q_KEY, 0)) == -1) {
+       printf("Message Q  get id failed with errno %d
+", errno);
+       return -1;
+    }
+    /*
+     * Get the message from the queue
+     */
+    if (msgrcv(msq_id, (struct msgbuf *)&msg;_buf, msg_len, msg_type, 0) == -1) {
+        printf("Message Q recv failed with errno %d
+", errno);
+    }
+    /*
+     * Remove the message queue
+     */
+     if (msgctl(msq_id, IPC_RMID, NULL) == -1) {
+       printf("Message Q  delete failed with errno %d
+", errno);
+       return -1;
+     }
+     return 0;
+}
+
+@endcode
+@see msgctl()
+@see msgrcv()
+@see msgsnd()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  msgsnd(int msqid, const void *msgp, size_t msgsz, int msgflg)
+@param msqid
+@param msgp
+@param msgsz
+@param msgflg
+
+@return   The msgsnd function returns the value 0 if successful; otherwise the
+value -1 is returned and errno is set to indicate the error.
+
+The msgsnd function sends a message to the message queue specified in msqid. The msgp argument points to a structure containing the message. This structure should consist of the following members: 
+@code
+long mtype;    /* message type */
+char mtext[1]; /* body of message */
+@endcode
+
+mtype is an integer greater than 0 that can be used for selecting messages (see msgrcv mtext is an array of bytes, with a size up to that of the system limit (Dv MSGMAX). 
+
+If the number of bytes already on the message queue plus msgsz is bigger than the maximum number of bytes on the message queue (Va msg_qbytes, see msgctl or the number of messages on all queues system-wide is already equal to the system limit, msgflg determines the action of msgsnd. If msgflg has IPC_NOWAIT mask set in it, the call will return immediately. If msgflg does not have IPC_NOWAIT set in it, the call will block until: 
+
+The condition which caused the call to block does no longer exist. The message will be sent. 
+The message queue is removed, in which case -1 will be returned, and errno is set to EINVAL. 
+After a successful call, the data structure associated with the message queue is updated in the following way: 
+
+msg_cbytes is incremented by the size of the message. 
+msg_qnum is incremented by 1. 
+msg_lspid is set to the pid of the calling process. 
+msg_stime is set to the current time.   
+  
+  
+Examples:
+@code
+#include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/msg.h>
+#include <stdio.h>
+#include <string.h>
+#include <errno.h>
+
+#define MESSAGE_Q_KEY 1000
+
+int main(void)
+{
+   int msq_id, len;
+   struct {
+       long mtype;
+       char mtext[128];
+   } msg_buf;
+   /*
+    * Create a message queue with the given key
+    */
+    if ((msq_id = msgget(MESSAGE_Q_KEY, IPC_CREAT | IPC_EXCL | 0666)) == -1) {
+       printf("Message Q create failed with errno %d
+", errno);
+       return -1;
+    }
+    msg_buf.mtype = 1; /* message identifier */
+    strcpy(msg_buf.mtext, "some_data_to_send"); /* data */
+    len = strlen(msg_buf.mtext)+1;
+    /*
+     * Put the message in the queue
+     */
+    if (msgsnd(msq_id, (struct msgbuf *)&msg;_buf, len, 0) == -1) {
+        printf("Message Q send failed with errno %d
+", errno);
+    }
+    return 0;
+}
+
+@endcode
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  msgrcv(int msqid, void *msgp, size_t msgsz, long msgtyp, int msgflg)
+@param msqid
+@param msgp
+@param msgsz
+@param msgtyp
+@param msgflg
+@return   Upon successful completion, msgrcv returns the number of bytes received into the mtext field of the structure pointed to by msgp. Otherwise, -1 is returned, and errno set to indicate the error.
+
+  The msgrcv function receives a message from the message queue specified 
+in msqid and places it into the structure pointed to by msgp. This structure should consist of the following members: 
+@code
+long mtype;    /* message type */
+char mtext[1]; /* body of message */
+@endcode
+
+ mtype is an integer greater than 0 that can be used for selecting messages, mtext is an array of bytes with a size up to that of the system limit (Dv MSGMAX).
+
+ The value of msgtyp has one of the following meanings: The msgtyp argument
+is greater than 0.
+The first message of type msgtyp will be received. The msgtyp argument
+is equal to 0.
+The first message on the queue (of any message type) will be received. The msgtyp argument
+is less than 0.
+The first message of the lowest message type that is
+less than or equal to the absolute value of msgtyp will be received.
+
+ The msgsz argument
+specifies the maximum length of the requested message.
+If the received
+message has a length greater than msgsz it will be silently truncated if the MSG_NOERROR flag is set in msgflg, otherwise an error will be returned.
+
+ If no matching message is present on the message queue specified by msqid, the behavior of msgrcv depends on whether the IPC_NOWAIT flag is set in msgflg or not. If IPC_NOWAIT is set, msgrcv will immediately return a value of -1 and set errno to ENOMSG. If IPC_NOWAIT is not set, the calling process will be blocked until: A message of the requested type becomes available on the message queue. The message queue is removed, in which case -1 will be returned and errno set to EINVAL.
+
+ If a message is successfully received, the data structure associated with msqid is updated as follows: msg_cbytes is decremented by the size of the message. msg_lrpid is set to the pid of the caller. msg_lrtime is set to the current time. msg_qnum is decremented by 1.
+
+Examples:
+
+ Receive a message from the queue
+ 
+@code
+#include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/msg.h>
+#include <stdio.h>
+#include <string.h>
+#include <errno.h>
+
+#define MESSAGE_Q_KEY 1000
+
+int main(void)
+{
+   int msq_id;
+   int msg_len = 128;
+   int msg_type = 0; /* Any type of message */
+   struct {
+       long mtype;
+       char mtext[128];
+   } msg_buf;
+   int ret_val = -1;
+   /*
+    * Get the message queue id for the given key
+    */
+    if ((msq_id = msgget(MESSAGE_Q_KEY, IPC_CREAT)) == -1) {
+       printf("Message Q  get id failed with errno %d
+", errno);
+       return -1;
+    }
+    /*
+     * Get the message from the queue
+     */
+    if ((ret_val = msgrcv(msq_id, (struct msgbuf *)&msg;_buf, msg_len, msg_type, 0)) == -1) {
+        printf("Message Q recv failed with errno %d
+", errno);
+    }
+    /*
+     * Remove the message queue
+     */
+     if (msgctl(msq_id, IPC_RMID, NULL) == -1) {
+       printf("Message Q  delete failed with errno %d
+", errno);
+       return -1;
+     }
+     return ret_val;
+}
+
+
+ Send a message to the queue
+
+#include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/msg.h>
+#include <stdio.h>
+#include <string.h>
+#include <errno.h>
+
+#define MESSAGE_Q_KEY 1000
+
+int main(void)
+{
+   int msq_id, len;
+   struct {
+       long mtype;
+       char mtext[128];
+   } msg_buf;
+   /*
+    * Create a message queue with the given key
+    */
+    if ((msq_id = msgget(MESSAGE_Q_KEY, IPC_CREAT | IPC_EXCL | 0666)) == -1) {
+       printf("Message Q create failed with errno %d0, errno);
+       return -1;
+    }
+    msg_buf.mtype = 1; /* message identifier */
+    strcpy(msg_buf.mtext, "some_data_to_send"); /* data */
+    len = strlen(msg_buf.mtext)+1;
+    /*
+     * Put the message in the queue
+     */
+    if (msgsnd(msq_id, (struct msgbuf *)&msg;_buf, len, 0) == -1) {
+        printf("Message Q send failed with errno %d
+", errno);
+    }
+    return 0;
+}
+
+@endcode
+@see msgctl()
+@see msgget()
+@see msgsnd()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  msgctl(int msqid, int cmd, struct msqid_ds *buf)
+@param msqid
+@param cmd
+@param buf
+@return   The msgctl function returns the value 0 if successful; otherwise the
+value -1 is returned and errno is set to indicate the error.
+
+The msgctl system call performs some control operations on the message queue specified by msqid. 
+Each message queue has a data structure associated with it, parts of which may be altered by msgctl and parts of which determine the actions of msgctl. The data structure is defined in \<sys/msg.h\> and contains (amongst others) the following members: 
+
+@code
+struct msqid_ds {
+        struct  ipc_perm msg_perm;      /* msg queue permission bits */
+        struct  msg *msg_first; /* first message in the queue */
+        struct  msg *msg_last;  /* last message in the queue */
+        u_long  msg_cbytes;     /* number of bytes in use on the queue */
+        u_long  msg_qnum;       /* number of msgs in the queue */
+        u_long  msg_qbytes;     /* max # of bytes on the queue */
+        pid_t   msg_lspid;      /* pid of last msgsnd() */
+        pid_t   msg_lrpid;      /* pid of last msgrcv() */
+        time_t  msg_stime;      /* time of last msgsnd() */
+        long    msg_pad1;
+        time_t  msg_rtime;      /* time of last msgrcv() */
+        long    msg_pad2;
+        time_t  msg_ctime;      /* time of last msgctl() */
+        long    msg_pad3;
+        long    msg_pad4[4];
+};
+@endcode
+
+The ipc_perm structure used inside the shmid_ds structure is defined in \<sys/ipc.h\> and looks like this: 
+@code
+struct ipc_perm {
+        ushort  cuid;   /* creator user id */
+        ushort  cgid;   /* creator group id */
+        ushort  uid;    /* user id */
+        ushort  gid;    /* group id */
+        ushort  mode;   /* r/w permission */
+        ushort  seq;    /* sequence # (to generate unique msg/sem/shm id) */
+        key_t   key;    /* user specified msg/sem/shm key */
+};
+@endcode
+
+
+
+The operation to be performed by msgctl is specified in cmd and is one of: IPC_STAT  Gather information about the message queue and place it in the structure pointed to by buf.  
+IPC_SET  Set the value of the msg_perm.uid, msg_perm.gid, msg_perm.mode and msg_qbytes fields in the structure associated with msqid. The values are taken from the corresponding fields in the structure pointed to by buf. Values for msg_qbytes that exceed the system limit (MSGMNB from \<sys/msg.h\>) are silently truncated to that limit.  
+IPC_RMID  Remove the message queue specified by msqid and destroy the data associated with it.  
+
+
+
+The permission to read from or write to a message queue (see msgsnd and msgrcv is determined by the msg_perm.mode field in the same way as is done with files (see chmod) 
+
+
+
+Examples:
+@code
+#include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/msg.h>
+#include <stdio.h>
+#include <string.h>
+#include <errno.h>
+
+#define MESSAGE_Q_KEY 1000
+
+int main(void)
+{
+   int msq_id, len;
+   struct {
+       long mtype;
+       char mtext[128];
+   } msg_buf;
+   /*
+    * Create a message queue with a given key
+    */
+    if ((msq_id = msgget(MESSAGE_Q_KEY, IPC_CREAT | IPC_EXCL | 0666)) == -1) {
+       printf("Message Q create failed with errno %d
+", errno);
+       return -1;
+    }
+    msg_buf.mtype = 1; /* message identifier */
+    strcpy(msg_buf.mtext, "some_data_to_send"); /* data */
+    len = strlen(msg_buf.mtext)+1;
+    /*
+     * Put the message in the queue
+     */
+    if (msgsnd(msq_id, (struct msgbuf *)&msg;_buf, len, 0) == -1) {
+        printf("Message Q send failed with errno %d
+", errno);
+    }
+    return 0;
+}
+
+@endcode
+@code
+#include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/msg.h>
+#include <stdio.h>
+#include <string.h>
+#include <errno.h>
+
+#define MESSAGE_Q_KEY 1000
+
+int main(void)
+{
+   int msq_id;
+   int msg_len = 128;
+   int msg_type = 0; /* Any type of message */
+   struct {
+       long mtype;
+       char mtext[128];
+   } msg_buf;
+   /*
+    * Get the message queue id for the given key
+    */
+    if ((msq_id = msgget(MESSAGE_Q_KEY, 0)) == -1) {
+       printf("Message Q  get id failed with errno %d
+", errno);
+       return -1;
+    }
+    /*
+     * Get the message from the queue
+     */
+    if (msgrcv(msq_id, (struct msgbuf *)&msg;_buf, msg_len, msg_type, 0) == -1) {
+        printf("Message Q recv failed with errno %d
+", errno);
+    }
+    /*
+     * Remove the message queue
+     */
+     if (msgctl(msq_id, IPC_RMID, NULL) == -1) {
+       printf("Message Q  delete failed with errno %d
+", errno);
+       return -1;
+     }
+     return 0;
+}
+
+@endcode
+
+Note :The below data members of the structure  msqid_ds are internal components.
+@code
+	struct  msg *msg_first
+	struct  msg *msg_last; 
+	long    msg_pad1;
+	long    msg_pad2;
+	long    msg_pad3;
+	long    msg_pad4[4];
+@endcode
+and are not filled if msgctl is called with the flag IPC_STAT.
+
+@see msgget()
+@see msgrcv()
+@see msgsnd()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @struct msqid_ds
+
+The msqid_ds structure defines a message queue associated with a message queue ID. There is one queue per message queue ID. 
+Collectively, the queues are stored as an array, with message queue IDs serving as an index into the array.
+Contains the following members,
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @var msqid_ds::msg_perm
+msg queue permission bits
+*/
+
+/** @var msqid_ds::msg_first
+first message in the queue
+@internalComponent
+*/
+
+/** @var msqid_ds::msg_last
+last message in the queue
+@internalComponent
+*/
+
+/** @var msqid_ds::msg_cbytes
+number of bytes in use on the queue
+*/
+
+/** @var msqid_ds::msg_qnum
+number of msgs in the queue 
+*/
+
+/** @var msqid_ds::msg_qbytes
+max n of bytes on the queue
+*/
+
+/** @var msqid_ds::msg_lspid
+pid of last msgsnd() 
+*/
+
+/** @var msqid_ds::msg_lrpid
+pid of last msgrcv()
+*/
+
+/** @var msqid_ds::msg_stime
+time of last msgsnd()
+*/
+
+/** @var msqid_ds::msg_pad1
+time of last msgsnd()
+@internalComponent
+*/
+
+/** @var msqid_ds::msg_rtime
+time of last msgrcv()
+*/
+
+/** @var msqid_ds::msg_pad2
+time of last msgrcv()
+@internalComponent
+*/
+
+/** @var msqid_ds::msg_ctime
+time of last msgctl()
+*/
+
+/** @var msqid_ds::msg_pad3
+time of last msgctl()
+@internalComponent
+*/
+
+/** @var msqid_ds::msg_pad4
+time of last msgctl()
+@internalComponent
+*/
+
+
+
+/** @def MSG_NOERROR
+
+The MSG_NOERROR identifier value, the msqid_ds struct and the msg struct are as defined by the SV API Intel 386 Processor Supplement.
+don't complain about too long msgs.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+
+

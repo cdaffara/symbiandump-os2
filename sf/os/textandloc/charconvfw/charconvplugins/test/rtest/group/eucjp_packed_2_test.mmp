@@ -1,0 +1,48 @@
+/*
+* Copyright (c) 2008-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+TARGET			eucjp_packed_2_test.dll
+TARGETTYPE		PLUGIN
+
+CAPABILITY		All -Tcb
+
+MACRO	S60_TEST
+
+UID				0x10009D8D 0x01000004
+VENDORID		0x70000001
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+USERINCLUDE		../../../src/shared
+USERINCLUDE		../../../inc
+SOURCEPATH		../../../src/plugins
+SOURCE			eucjp_packed_2.cpp
+
+SOURCEPATH		../tsrc/main
+START RESOURCE	01000004.rss
+TARGET			eucjp_packed_2_test.rsc
+END
+
+LIBRARY			euser.lib
+LIBRARY			convutils.lib
+LIBRARY			jisx0201_2.lib
+LIBRARY			jisx0208_2.lib
+LIBRARY			jisx0212.lib
+LIBRARY			ecom.lib
+library         CnvPictographShared.lib
+LIBRARY         FeatMgr.lib
+
+SMPSAFE

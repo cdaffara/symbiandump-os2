@@ -1,0 +1,49 @@
+/*
+* Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+* reffdc.dll Reference FDC plugin for FDF.
+* reffdc.rsc Resource file for ref FDC plugin.
+*
+*/
+
+/**
+ @file
+ @internalComponent
+*/
+
+TARGET			reffdc.dll
+TARGETTYPE		PLUGIN
+// UID2 = 0x10009d8d for ECOM plugins.
+// UID3 = the 'DLL UID' (see resource file)
+UID 			0x10009d8d 0x10282B51
+VENDORID		0x70000001
+
+SOURCEPATH		..\src
+SOURCE			reffdc.cpp
+SOURCE			reffdcmain.cpp
+
+RESOURCE		reffdc.rss
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+USERINCLUDE		..\inc
+USERINCLUDE		..\traces
+
+LIBRARY 		euser.lib
+LIBRARY			fdcbase.lib
+
+NOEXPORTLIBRARY
+
+#include <usbhost/internal/fdfcaps.mmh>
+

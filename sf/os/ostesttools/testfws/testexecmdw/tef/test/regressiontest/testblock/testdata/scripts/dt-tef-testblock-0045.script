@@ -1,0 +1,33 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SERVER te_RegBlockTestSuite 
+
+START_TESTCASE DT-TEF-TestBlock-0045
+//! @SYMTestCaseID          DT-TEF-TestBlock-0045
+//! @SYMCreationDate        03-07-2008
+//! @SYMAuthor              DavidZhang
+//! @SYMTestType            CT
+//! @SYMTestPriority        Medium
+//! @SYMTestCaseDesc        A passing block with !Result expected to be TestSuiteError
+//! @SYMTestExpectedResults The test case result must be FAIL.
+//! @SYMTestActions         Use a test block that expects !Result to be TestSuiteError but the test itself doesn't cause any problems (passes).
+	PRINT This test case will be failed.
+	START_TEST_BLOCK	100 te_RegBlockTestSuite ${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini
+		CREATE_OBJECT	te_RegBlockTestWrapper	DummyObj
+		COMMAND		DummyObj		DummyFunction
+	END_TEST_BLOCK		!Result=TestSuiteError
+END_TESTCASE DT-TEF-TestBlock-0045

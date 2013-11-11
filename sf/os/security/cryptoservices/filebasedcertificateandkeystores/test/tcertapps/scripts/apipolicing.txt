@@ -1,0 +1,370 @@
+// apipolicing.txt
+//
+// Test API policing of filetokens cert apps store
+
+//! @file
+//! @SYMTestCaseID Sec-tcertapps-apipolicing-1
+//! @SYMTestCaseDesc Initialise
+//! @SYMREQ REQ3466
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Initialise</actionname>
+	<actiontype>InitManager</actiontype>
+	<actionbody>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertapps-apipolicing-2
+//! @SYMTestCaseDesc Clearing existing applications
+//! @SYMREQ REQ3466
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Clearing existing applications</actionname>
+	<actiontype>ClearAllApps</actiontype>
+	<actionbody>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertapps-apipolicing-3
+//! @SYMTestCaseDesc Destroy the manager
+//! @SYMREQ REQ3466
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Destroy the manager</actionname>
+	<actiontype>DestroyManager</actiontype>
+	<actionbody>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertapps-apipolicing-4
+//! @SYMTestCaseDesc Test add protected by WriteDeviceData
+//! @SYMREQ REQ3466
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Test add protected by WriteDeviceData</actionname>
+	<actiontype>policytest</actiontype>
+	<actionbody>
+		<testexe>t_certapps.exe</testexe>
+		<excludedcapabilities>
+			<capability>TCB</capability>
+		</excludedcapabilities>
+		<policy>
+			<capability>WriteDeviceData</capability>
+		</policy>
+
+		<preactions>
+			<action>
+				<actionname>Initialise</actionname>
+				<actiontype>InitManager</actiontype>
+				<actionbody>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</preactions>
+
+		<passactions>
+			<action>
+				<actionname>Add applications</actionname>
+				<actiontype>AddApp</actiontype>
+				<actionbody>
+					<uid>24601</uid><appname>My application 1</appname>
+					<uid>642828</uid><appname>My application 2</appname>
+					<uid>12345</uid><appname>My application 3</appname>
+					<uid>10</uid><appname>My application 4</appname>
+					<uid>12</uid><appname>My application 5</appname>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>Getting the application list</actionname>
+				<actiontype>GetApplications</actiontype>
+				<actionbody>
+					<uid>24601</uid><appname>My application 1</appname>
+					<uid>642828</uid><appname>My application 2</appname>
+					<uid>12345</uid><appname>My application 3</appname>
+					<uid>10</uid><appname>My application 4</appname>
+					<uid>12</uid><appname>My application 5</appname>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</passactions>
+
+		<failactions>
+			<action>
+				<actionname>Add applications</actionname>
+				<actiontype>AddApp</actiontype>
+				<actionbody>
+					<uid>24601</uid><appname>My application 1</appname>
+					<uid>642828</uid><appname>My application 2</appname>
+					<uid>12345</uid><appname>My application 3</appname>
+					<uid>10</uid><appname>My application 4</appname>
+					<uid>12</uid><appname>My application 5</appname>
+				</actionbody>
+				<actionresult>
+					<return>KErrPermissionDenied</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>Getting the application list</actionname>
+				<actiontype>GetApplications</actiontype>
+				<actionbody>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</failactions>
+
+		<postactions>
+			<action>
+				<actionname>Destroy the manager</actionname>
+				<actiontype>DestroyManager</actiontype>
+				<actionbody></actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</postactions>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertapps-apipolicing-5
+//! @SYMTestCaseDesc Test list not protected
+//! @SYMREQ REQ3466
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Test list not protected</actionname>
+	<actiontype>policytest</actiontype>
+	<actionbody>
+		<testexe>t_certapps.exe</testexe>
+		<excludedcapabilities>
+			<capability>TCB</capability>
+		</excludedcapabilities>
+		<policy>
+		</policy>
+
+		<preactions>
+			<action>
+				<actionname>Initialise</actionname>
+				<actiontype>InitManager</actiontype>
+				<actionbody>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</preactions>
+
+		<passactions>
+			<action>
+				<actionname>Getting the application list</actionname>
+				<actiontype>GetApplications</actiontype>
+				<actionbody>
+					<uid>24601</uid><appname>My application 1</appname>
+					<uid>642828</uid><appname>My application 2</appname>
+					<uid>12345</uid><appname>My application 3</appname>
+					<uid>10</uid><appname>My application 4</appname>
+					<uid>12</uid><appname>My application 5</appname>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</passactions>
+
+		<failactions>
+		</failactions>
+
+		<postactions>
+			<action>
+				<actionname>Destroy the manager</actionname>
+				<actiontype>DestroyManager</actiontype>
+				<actionbody></actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</postactions>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertapps-apipolicing-6
+//! @SYMTestCaseDesc Test remove protected by WriteDeviceData
+//! @SYMREQ REQ3466
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Test remove protected by WriteDeviceData</actionname>
+	<actiontype>policytest</actiontype>
+	<actionbody>
+		<testexe>t_certapps.exe</testexe>
+		<excludedcapabilities>
+			<capability>TCB</capability>
+		</excludedcapabilities>
+		<policy>
+			<capability>WriteDeviceData</capability>
+		</policy>
+
+		<preactions>
+			<action>
+				<actionname>Initialise</actionname>
+				<actiontype>InitManager</actiontype>
+				<actionbody>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</preactions>
+
+		<passactions>
+			<action>
+				<actionname>Remove application UID 24601</actionname>
+				<actiontype>RemoveApp</actiontype>
+				<actionbody>
+					<uid>24601</uid>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>Getting the application list</actionname>
+				<actiontype>GetApplications</actiontype>
+				<actionbody>
+					<uid>642828</uid><appname>My application 2</appname>
+					<uid>12345</uid><appname>My application 3</appname>
+					<uid>10</uid><appname>My application 4</appname>
+					<uid>12</uid><appname>My application 5</appname>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</passactions>
+
+		<failactions>
+			<action>
+				<actionname>Remove application UID 24601</actionname>
+				<actiontype>RemoveApp</actiontype>
+				<actionbody>
+					<uid>24601</uid>
+				</actionbody>
+				<actionresult>
+					<return>KErrPermissionDenied</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>Getting the application list</actionname>
+				<actiontype>GetApplications</actiontype>
+				<actionbody>
+					<uid>24601</uid><appname>My application 1</appname>
+					<uid>642828</uid><appname>My application 2</appname>
+					<uid>12345</uid><appname>My application 3</appname>
+					<uid>10</uid><appname>My application 4</appname>
+					<uid>12</uid><appname>My application 5</appname>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</failactions>
+
+		<postactions>
+			<action>
+				<actionname>Destroy the manager</actionname>
+				<actiontype>DestroyManager</actiontype>
+				<actionbody></actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</postactions>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertapps-apipolicing-7
+//! @SYMTestCaseDesc Initialise
+//! @SYMREQ REQ3466
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Initialise</actionname>
+	<actiontype>InitManager</actiontype>
+	<actionbody>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertapps-apipolicing-8
+//! @SYMTestCaseDesc Clearing existing applications
+//! @SYMREQ REQ3466
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Clearing existing applications</actionname>
+	<actiontype>ClearAllApps</actiontype>
+	<actionbody>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertapps-apipolicing-9
+//! @SYMTestCaseDesc Destroy the manager
+//! @SYMREQ REQ3466
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Destroy the manager</actionname>
+	<actiontype>DestroyManager</actiontype>
+	<actionbody>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>

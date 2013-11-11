@@ -1,0 +1,50 @@
+// Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// $servername.mmp
+// 
+//
+
+TARGET		uloggersysstarttest.exe
+TARGETTYPE	exe
+UID			0x1000007A 0x101F777C
+VENDORID 	0x70000001
+MACRO __ULOGGER_SYSTEMSTART_UNIT_TEST
+
+OS_LAYER_SYSTEMINCLUDE
+
+USERINCLUDE ../te-sysstart
+USERINCLUDE ../../inc
+USERINCLUDE ../../src/sysstarter
+
+SOURCEPATH  ../../src/sysstarter
+SOURCE		uloggersysstarter.cpp
+
+SOURCEPATH	../te-sysstart
+SOURCE		uloggersysstarttest.cpp
+SOURCE		te_sysstartersuiteserver.cpp
+SOURCE		te_sysstartersuitestepbase.cpp
+
+STATICLIBRARY	tefunit.lib
+LIBRARY		euser.lib
+LIBRARY		efsrv.lib
+LIBRARY		testexecuteutils.lib
+LIBRARY		testexecutelogclient.lib
+LIBRARY		rfileloggerclient.lib
+LIBRARY		uloggerclient.lib
+
+#if (!defined WINS)
+LIBRARY		estlib.lib
+#endif
+
+SMPSAFE

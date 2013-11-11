@@ -1,0 +1,43 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SERVER TEF_LoggerTestBlock -SharedData
+
+START_TESTCASE DT-TEF-Logger-0035
+//! @SYMTestCaseID          DT-TEF-Logger-0035
+//! @SYMCreationDate        09-07-2008
+//! @SYMAuthor              extshuohuang
+//! @SYMTestCaseDesc        Test the unused function, these functions are not called in existing codes.
+//!                         The tool Coverty found these apis are not called.
+//!                         Include:
+//!                         Write(const TDesC&amp; aLogBuffer)
+//!                         Write(const TDesC8&amp; aLogBuffer)
+//!                         WriteFormat(TRefByValue&lt;const TDesC&gt; aFmt,...)
+//!                         WriteFormat(TRefByValue&lt;const TDesC8&gt; aFmt,...)
+//!                         Logger().LogToXml()
+//!                         
+//!                         HTML, XML log test
+//! @SYMTestExpectedResults This command will call the unused function.
+//!                         The information will be logged.
+//!                         Allways pass
+
+
+	START_TEST_BLOCK TEF_LoggerTestBlock 100 ${SYSDRIVE}\TestData\configs\loggerTest.ini
+	CREATE_OBJECT	TEFLoggerTestWrapper	TLogSeverity
+	COMMAND		TLogSeverity			UnCoveredFuntions				whateveriwantdo_What_A_Wonderful_World_Louis_Armstrong
+	END_TEST_BLOCK
+END_TESTCASE DT-TEF-Logger-0035
+

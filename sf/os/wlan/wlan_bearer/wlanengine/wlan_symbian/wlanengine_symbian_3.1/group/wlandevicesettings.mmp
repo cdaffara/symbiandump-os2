@@ -1,0 +1,46 @@
+/*
+* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  project specification file for wlandevicesettings.
+*
+*/
+
+
+#include <platform_paths.hrh>
+
+TARGET          wlandevicesettings.dll
+TARGETTYPE      dll
+UID             0x1000008d 0x101f8e44
+
+CAPABILITY      CAP_GENERAL_DLL
+VENDORID        VID_DEFAULT
+
+SOURCEPATH      ../src
+SOURCE          wlandevicesettings.cpp
+
+#if defined( ARMCC )
+DEFFILE         ../eabi/ 
+#else
+DEFFILE         ../bwinscw/ 
+#endif
+
+USERINCLUDE     ../inc
+USERINCLUDE     ../../../../inc
+OS_LAYER_SYSTEMINCLUDE
+
+LIBRARY         euser.lib
+LIBRARY         commdb.lib
+LIBRARY         edbms.lib
+DEBUGLIBRARY    flogger.lib
+LIBRARY         centralrepository.lib
+LIBRARY         commsdat.lib

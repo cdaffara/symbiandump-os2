@@ -1,0 +1,155 @@
+/** @file  ../include/sys/ipc.h
+@internalComponent
+*/
+
+/** @fn  ftok(const char *pathname, int proj_id)
+@param pathname
+@param proj_id
+@return   The ftok function will return -1 if pathname does not exist or if it cannot be accessed by the calling process.
+On  success  the  generated key_t value is returned.
+
+  The ftok function attempts to create a unique key suitable for use with the msgget , semget and shmget functions given the pathname of an existing file and a user-selectable id.
+
+ The specified pathname must specify an existing file that is accessible to the calling process
+or the call will fail.
+Also, note that links to files will return the
+same key, given the same id.
+
+Examples:
+@code
+#include <sys/types.h>
+#include <sys/ipc.h>
+#include <stdio.h>
+
+int main(void)
+{
+    char *pathame = "C:\XXX";
+    int proj_id = 100;
+    key_t fkey;
+    if ((fkey = ftok(pathame, proj_id)) == -1) {
+        printf("ftok() failed
+");
+    }
+    return 0;
+}
+
+@endcode
+@see semget()
+@see shmget()
+@see msgget()
+
+
+
+@capability Deferred @ref RFs::Entry(const TDesC16&, TEntry&)
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @struct ipc_perm
+
+To store information needed in determining  permissions  to  perform  an  ipc  operation.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @var ipc_perm::cuid
+creator user id
+*/
+
+/** @var ipc_perm::cgid
+creator group id 
+*/
+
+/** @var ipc_perm::uid
+user id
+*/
+
+/** @var ipc_perm::gid
+group id 
+*/
+
+/** @var ipc_perm::mode
+rw permission
+*/
+
+/** @var ipc_perm::seq
+sequence X (to generate unique ipcid)
+*/
+
+/** @var ipc_perm::key
+user specified msg or sem or shm key
+*/
+
+
+/** @def IPC_CREAT
+
+SVID required constants (same values as system 5). create entry if key does not exist.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def IPC_EXCL
+
+SVID required constants (same values as system 5). fail if key exists.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def IPC_NOWAIT
+
+SVID required constants (same values as system 5). error if request must wait.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def IPC_PRIVATE	
+
+private key 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def IPC_RMID
+
+remove identifier
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def IPC_SET
+
+set options
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def IPC_STAT
+
+get options
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+

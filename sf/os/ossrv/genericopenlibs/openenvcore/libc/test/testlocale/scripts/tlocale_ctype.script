@@ -1,0 +1,109 @@
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+PRINT Run all tlocale
+LOAD_SUITE tlocale
+
+CONSECUTIVE
+
+//
+//! @SYMTestCaseID				OPENENV-LIBC-CIT-TLOCALE-0006 
+//! @SYMPREQ 					PREQ 1440
+//! @SYMTestCaseDesc 			Case 0 Call isalpha(int) with the ascii value from 0 to 127 set as parameter after changing the programs current locale using setlocale() with different possible option.
+//!								Case1 Call isalnum(int) with the ascii value from 0 to 127 set as parameter after changing the programs current locale using setlocale() with different possible option.
+//!								Case2 Call isdigit(int) with the ascii value from 0 to 127 set as parameter after changing the programs current locale using setlocale() with different possible option.
+//!								Case3 Call ispunct(int) with the ascii value from 0 to 127 set as parameter after changing the programs current locale using setlocale() with different possible option.
+//!								Case4 Call isupper(int) with the ascii value from 0 to 127 set as parameter after changing the programs current locale using setlocale() with different possible option.
+//!								Case5 Call islower(int) with the ascii value from 0 to 127 set as parameter after changing the programs current locale using setlocale() with different possible option.
+//!								Case6 Call isxdigit(int) with the ascii value from 0 to 127 set as parameter after changing the programs current locale using setlocale() with different possible option.
+//!								Case7 Call toupper(int) with the ascii value from 0 to 127 set as parameter after changing the programs current locale using setlocale() with different possible option.
+//!								Case8 Call tolower(int) with the ascii value from 0 to 127 set as parameter after changing the programs current locale using setlocale() with different possible option.
+//!								Case9 Call isspace(int) with the ascii value from 0 to 127 set as parameter after changing the programs current locale using setlocale() with different possible option.
+//!								Case10 Call iscntrl(int) with the ascii value from 0 to 127 set as parameter after changing the programs current locale using setlocale() with different possible option.
+//!								Case11 Call isprint(int) with the ascii value from 0 to 127 set as parameter after changing the programs current locale using setlocale() with different possible option.
+//!								Case12 Call isgraph(int) with the ascii value from 0 to 127 set as parameter after changing the programs current locale using setlocale() with different possible option.
+//! @SYMTestPriority 			High 
+//! @SYMTestStatus 				Implemented   			  
+//! @SYMTestActions     		1.Call setlocale(category,locale) where as category ="LC_CTYPE" and locale = "en_US","ja_JP".
+//!								2.Call each api in the above case list.
+//!								3.Check the return value for each.
+//! @SYMTestExpectedResults   	Case0 Should return  zero if the parameter  is not a alphabet in the programs current locale else it should return a non zero value.
+//!								Case1 Should return  zero if the parameter  is not a alphanumeric character in the programs current locale else it should return a non zero value.
+//!								Case2 Should return non-zero value if the parameter is treated as numeric in programs current locale else it returns zero.
+//!								Case3 Should return non-zero if the parameter is  treated as a punctuation in the programs current locale.
+//!								Case4 Should return non-zero  if the parameter is a uppercase letter in programs current locale else it returns zero.
+//!								Case5 Should return non-zero  if the parameter is a lowercase letter in programs current locale else it returns zero.
+//!								Case6 Should return non-zero if the parameter is treated as a hexa decimal no in the programs current locale.
+//!								Case7 Should return  non-zero if the parameter is lower case  character in the current locale.
+//!								Case8 Should return the correponding lower case letter if the argument is treated as a upper case letter in the programs current locale else it should return the argument unchanged.
+//!								Case9 Should return non-zero if the parameter used in isspace() introduces a space in the programs current locale.
+//!								Case10 Should return  zero if the parameter  is not a control character in the programs current locale.
+//!								Case11 Should return non-zero if the parameter is a printable character in the programs current locale.
+//!								Case12 Should return zero  if the parameter is not a visible representation in programs current locale else it returns non-zero.
+//
+
+START_TESTCASE OPENENV-LIBC-CIT-TLOCALE-0006
+RUN_TEST_STEP !Result=0 5 tlocale TestctypeApi \tstdapis\tlocale.ini Section_isalpha
+RUN_TEST_STEP !Result=0 5 tlocale TestctypeApi \tstdapis\tlocale.ini Section_isalnum
+RUN_TEST_STEP !Result=0 5 tlocale TestctypeApi \tstdapis\tlocale.ini Section_isdigit
+RUN_TEST_STEP !Result=0 5 tlocale TestctypeApi \tstdapis\tlocale.ini Section_ispunct
+RUN_TEST_STEP !Result=0 5 tlocale TestctypeApi \tstdapis\tlocale.ini Section_isupper
+RUN_TEST_STEP !Result=0 5 tlocale TestctypeApi \tstdapis\tlocale.ini Section_islower
+RUN_TEST_STEP !Result=0 5 tlocale TestctypeApi \tstdapis\tlocale.ini Section_isxdigit
+RUN_TEST_STEP !Result=0 5 tlocale TestctypeApi \tstdapis\tlocale.ini Section_toupper
+RUN_TEST_STEP !Result=0 5 tlocale TestctypeApi \tstdapis\tlocale.ini Section_tolower
+RUN_TEST_STEP !Result=0 5 tlocale TestctypeApi \tstdapis\tlocale.ini Section_isspace
+RUN_TEST_STEP !Result=0 5 tlocale TestctypeApi \tstdapis\tlocale.ini Section_iscntrl
+RUN_TEST_STEP !Result=0 5 tlocale TestctypeApi \tstdapis\tlocale.ini Section_isprint
+RUN_TEST_STEP !Result=0 5 tlocale TestctypeApi \tstdapis\tlocale.ini Section_isgraph
+END_TESTCASE OPENENV-LIBC-CIT-TLOCALE-0006
+
+
+//
+//! @SYMTestCaseID				OPENENV-LIBC-CIT-TLOCALE-0007
+//! @SYMPREQ 					PREQ 1440
+//! @SYMTestCaseDesc 			Testing the behaviour of isascii() for ascii values 0-127 and some bad parameter.
+//! @SYMTestPriority 			High 
+//! @SYMTestStatus 				Implemented   			  
+//! @SYMTestActions     		1.Call setlocale(category,locale) where as category ="LC_CTYPE" and locale = "en_US","ja_JP".
+//!								2.Call isascii(int c) where c = 0 to 127(Ascii value) and some bad parameter.
+//!								3.Should return  non-zero if the parameter is a ascii value in the current locale.
+//! @SYMTestExpectedResults   	The isascii() function shall return non-zero if c is a 7-bit US-ASCII character code between 0 and octal 0177 inclusive; otherwise, it shall return 0.
+//
+
+START_TESTCASE OPENENV-LIBC-CIT-TLOCALE-0007
+RUN_TEST_STEP !Result=0 5 tlocale Testisascii \tstdapis\tlocale.ini Section_isascii
+END_TESTCASE OPENENV-LIBC-CIT-TLOCALE-0007
+
+
+//
+//! @SYMTestCaseID				OPENENV-LIBC-CIT-TLOCALE-0008
+//! @SYMPREQ 					PREQ 1440
+//! @SYMTestCaseDesc 			Testing the behaviour of toascii() for ascii values 0-127 and some bad parameter.
+//! @SYMTestPriority 			High 
+//! @SYMTestStatus 				Implemented   			  
+//! @SYMTestActions     		1.Call setlocale(category,locale) where as category ="LC_CTYPE" and locale = "en_US","ja_JP".
+//!								2.Call toascii(int c) where c = 0 to 127(Ascii value) and some bad parameter.
+//!								3.Should return the value (c &0x7f).
+//! @SYMTestExpectedResults   	Should return the value (c &0x7f).
+//
+
+START_TESTCASE OPENENV-LIBC-CIT-TLOCALE-0008
+RUN_TEST_STEP !Result=0 5 tlocale Testtoascii \tstdapis\tlocale.ini Section_toascii
+END_TESTCASE OPENENV-LIBC-CIT-TLOCALE-0008
+
+
+
+

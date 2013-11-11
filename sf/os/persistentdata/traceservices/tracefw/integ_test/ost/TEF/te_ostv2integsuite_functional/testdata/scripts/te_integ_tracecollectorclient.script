@@ -1,0 +1,69 @@
+// Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+//! @file
+//! @SYMTestSuiteName           te-integ-tracecollectorclient.script
+//! @SYMScriptTestEnvironment   TEF
+
+
+RUN_SCRIPT z:\testdata\scripts\te_integ_tracecollectorclient_enabled.script
+RUN_SCRIPT z:\testdata\scripts\te_integ_tracecollectorclient_disabled.script
+
+
+LOAD_SUITE te_ostv2integsuite_enabled
+
+PRINT Reset TraceControl config file
+
+START_TEST_BLOCK    20000       te_ostv2integsuite_enabled              \testdata\configs\te_integ_tracecollectorconfigfile.ini
+    CREATE_OBJECT               DefaultTraceControlConfig               DefaultTraceControlConfig
+    COMMAND                     DefaultTraceControlConfig               doTest
+END_TEST_BLOCK
+
+
+PRINT Run OstTrace dupliate group id tests
+
+START_TEST_BLOCK    20000       te_ostv2integsuite_enabled              \testdata\configs\te_integ_tracecollectorclient.ini
+	CREATE_OBJECT               OstTraceTestWrapper               		OstTraceTestWrapper
+	COMMAND                     OstTraceTestWrapper               		TestDuplicates
+END_TEST_BLOCK
+
+PRINT Run OstTrace OST_DEBUG_ONLY wrapped trace points
+
+START_TEST_BLOCK    20000       te_ostv2integsuite_enabled              \testdata\configs\te_integ_tracecollectorclient.ini
+    CREATE_OBJECT               OstTraceTestWrapper                     OstTraceTestWrapper
+    COMMAND                     OstTraceTestWrapper                     TestOstDebugOnlyWrap
+END_TEST_BLOCK
+
+
+
+START_TESTCASE                  DT-DEBUG-TRACE-OSTv2-TraceControlCompileTimeSelector-0001
+//! @SYMTestCaseID              DT-DEBUG-TRACE-OSTv2-TraceControlCompileTimeSelector-0001
+//! @SYMTestCaseDesc            Test DEBUG only compile time selector using OST_TRACE_CATEGORY_DEBUG
+//! @SYMTestPriority            Critical
+//! @SYMTestActions             
+//! @SYMTestExpectedResults     Verify that the errors returned are as expected
+//! @SYMTestType                CT
+//! @SYMTestStatus              Implemented
+//! @SYMPREQ                    PREQ2390
+//! @SYMREQ      
+
+PRINT Run OstTrace with OST_TRACE_CATEGORY_DEBUG compile time Macro               
+START_TEST_BLOCK    20000       te_ostv2integsuite_enabled              \testdata\configs\te_integ_tracecollectorclient.ini
+    CREATE_OBJECT               OstTraceTestWrapper                     OstTraceTestWrapper
+    COMMAND                     OstTraceTestWrapper                     TestOstCompileTimeMacro
+END_TEST_BLOCK
+END_TESTCASE                    DT-DEBUG-TRACE-OSTv2-TraceControlCompileTimeSelector-0001
+
+

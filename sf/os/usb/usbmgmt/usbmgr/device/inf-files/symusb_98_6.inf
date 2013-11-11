@@ -1,0 +1,73 @@
+; Copyright (c) 2003-2009 Nokia Corporation and/or its subsidiary(-ies).
+; All rights reserved.
+; This component and the accompanying materials are made available
+; under the terms of "Eclipse Public License v1.0"
+; which accompanies this distribution, and is available
+; at the URL "http://www.eclipse.org/legal/epl-v10.html".
+;
+; Initial Contributors:
+; Nokia Corporation - initial contribution.
+;
+; Contributors:
+;
+; Description:
+; Windows Device Setup File
+;
+; USB Modem installer for Windows 98, Part 1/2
+; This file is for the 'USB Composite Device' which is detected by
+; Windows 98. The modem installation takes places afterwards (see
+; symb_98_7.inf).
+;
+;
+
+
+[Version]
+Signature  = $WINDOWS NT$
+Class      = USB
+ClassGuid  = {36FC9E60-C465-11CF-8056-444553540000}
+Provider   = %String0%
+LayoutFile = layout.inf
+
+[DestinationDirs]
+Files.usbser   = 10, SYSTEM32\DRIVERS   ; 10 = %windir%
+Files.ccport   = 10, SYSTEM32\DRIVERS
+Files.wdmmdmld = 11                     ; 11 = %windir%\system (on Win98)
+
+[PreCopySection]
+HKR, , NoSetupUI, , 1
+
+[Manufacturer]
+%String1% = Models
+
+[Models]
+%String2% = SYMUSB, USB\VID_0E22&PID_000B
+
+[SYMUSB]
+CopyFiles = Files.usbser, Files.ccport, Files.wdmmdmld
+AddReg    = SYMUSB.AddReg
+
+[SYMUSB.AddReg]
+HKR, , DevLoader, , *ntkern
+HKR, , NTMPDriver, , "usbser.sys,ccport.sys"
+
+[SYMUSB.HW]
+AddReg = SYMUSBAddReg.HW
+
+[SYMUSBAddReg.HW]
+HKR, , ChildID, , USB\SYMBIAN
+
+[Files.usbser]
+usbser.sys
+
+[Files.ccport]
+ccport.sys
+
+[Files.wdmmdmld]
+wdmmdmld.vxd
+
+[Strings]
+String0 = "Symbian Ltd"
+String1 = "Symbian Ltd, London (UK)"
+String2 = "Lubbock USB Modem Test Driver"
+
+; --- eof ---

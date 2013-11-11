@@ -1,0 +1,2148 @@
+/** @file ../inc/pthread.h
+@internalComponent
+*/
+
+/** @def POSIX_THREAD_KEYS_MAX
+
+Represents maximum value
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def PTHREAD_STACK_MIN  
+
+Minimum supported stack size for a thread
+                 
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def POSIX_THREAD_THREADS_MAX            
+
+Thread max. Value is 64
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def PTHREAD_THREADS_MAX
+
+Maximum number of threads supported per process. Value is 1024
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def SEM_VALUE_MAX
+
+Semaphores have a maximum value past which they cannot be incremented. The macro SEM_VALUE_MAX is defined to be this maximum value.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def PTHREAD_COND_INITIALIZER
+
+Value is 4. Describes condition initializer.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def SEM_NSEMS_MAX          
+
+The maximum number of semaphores a process can have.value is 1024
+             
+@publishedAll
+@released
+*/
+
+/** @def POSIX_SEM_NSEMS_MAX       
+
+Number of semaphores a process can have. 
+          
+@publishedAll
+@released
+*/
+
+/** @def POSIX_THREAD_DESTRUCTOR_ITERATIONS  
+
+Controlling the iterations of destructors for thread-specific data.
+
+@publishedAll
+@released
+*/
+
+/** @typedef typedef int pthread_once_t
+
+Used for dynamic package initialization.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @typedef typedef struct _pthread_condattr_t*   pthread_condattr_t
+
+Used to identify a condition attribute object
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @struct pthread_mutex_t 
+
+Thread mutex type. Used for mutexes.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @struct pthread_mutexattr_t
+
+Used to identify a mutex attribute object. 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @struct pthread_cond_t
+
+Used for condition variables. 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  pthread_create(pthread_t *threadhdl, pthread_attr_t *attrib, thread_begin_routine begin_routine, void *param)
+@param threadhdl
+@param attrib
+@param begin_routine
+@param *param
+@return   If successful, the pthread_create function will return zero.
+Otherwise an error number will be returned to
+indicate the error.
+
+  The pthread_create function is used to create a new thread, with attributes specified by attrib ,
+within a process.
+If attrib is NULL ,
+the default attributes are used.
+If the attributes specified by attrib are modified later, the thread's attributes are not affected.
+Upon
+successful completion pthread_create will store the ID of the created thread in the location specified by threadhdl .
+
+ The thread is created executing begin_routine with param as its sole argument.
+If the begin_routine returns, the effect is as if there was an implicit call to pthread_exit using the return value of start_routine as the exit status.
+Note that the thread in which main was originally invoked differs from this.
+When it returns from main ,
+the effect is as if there was an implicit call to exit using the return value of main as the exit status.
+
+
+
+Examples:
+@code
+void *a_thread_func_1_1(void*)
+{
+ return NULL;
+}
+int XYZ()
+{
+ pthread_t new_th;
+ if(pthread_create(&new;_th, NULL, a_thread_func_1_1, NULL) != 0)
+ {
+  perror("Error creating thread
+");
+  return -1;
+ }
+}
+
+@endcode
+@see pthread_exit()
+@see pthread_join()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/ 
+
+/** @fn  pthread_self(void)
+
+@return   The pthread_self function returns the thread ID of the calling thread.
+
+  The pthread_self function returns the thread ID of the calling thread.
+
+
+
+Examples:
+@code
+pthread_t new_th2;
+new_th2=pthread_self();
+
+@endcode
+@see pthread_create()
+@see pthread_equal()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/                    
+
+/** @fn  pthread_equal(pthread_t t1, pthread_t t2)
+@param t1
+@param t2
+@return   The pthread_equal function will return non-zero if the thread IDs t1 and t2 correspond to the same thread, otherwise it will return zero.
+
+  The pthread_equal function compares the thread IDs t1 and t2 .
+
+Examples:
+@code
+void *a_thread_func_1_2(void*)
+{
+ pthread_exit(0);
+ return NULL;
+}
+void XYZ()
+{
+pthread_t new_th1, new_th2;
+ /* Create a new thread. */
+ if(pthread_create(&new;_th1, NULL, a_thread_func_1_2, NULL) != 0)
+ {
+  perror("Error creating thread
+");
+  return -1;
+ }
+ /* Create another new thread. */
+ if(pthread_create(&new;_th2, NULL, a_thread_func_1_2, NULL) != 0)
+ {
+  perror("Error creating thread
+");
+  return -1;
+ }
+ /* Call pthread_equal() and pass to it the 2 new threads.
+  * It should return a zero value, indicating that
+  * they are not equal. */
+ if(pthread_equal(new_th1, new_th2) != 0)
+ {
+  printf("pthread_equal FAILED
+");
+  return -1;
+ }
+}
+
+@endcode
+@see pthread_create()
+@see pthread_exit()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  pthread_join(pthread_t thrHandle, void **retValPtr)
+@param thrHandle
+@param retValPtr
+@return   If successful, the pthread_join function will return zero.
+Otherwise an error number will be returned to
+indicate the error.
+
+  The pthread_join function suspends execution of the calling thread until the target thrHandle terminates unless the target thrHandle has already terminated.
+
+ On return from a successful pthread_join call with a non-NULL retValPtr argument, the value passed to pthread_exit by the terminating thread is stored in the location referenced by retValPtr .
+When a pthread_join returns successfully, the target thread has been terminated.
+The results
+of multiple simultaneous calls to pthread_join specifying the same target thread are undefined.
+
+
+
+Examples:
+@code
+/* Thread's function. */
+void *a_thread_func_1_1(void*)
+{
+ int i;
+ printf("Wait for 3 seconds for thread to finish execution:0);
+ for(i=1;i<4;i++)
+ {
+  printf("Waited (%d) second0, i);
+  sleep(1);
+ }
+ return NULL;
+}
+int XYZ()
+{
+ pthread_t new_th;
+ /* Create a new thread. */
+ if(pthread_create(&new;_th, NULL, a_thread_func_1_1, NULL) != 0)
+ {
+  perror("Error creating thread
+");
+  return -1;
+ }
+ /* Wait for thread to return */
+ if(pthread_join(new_th, NULL) != 0)
+ {
+  perror("Error in pthread_join()
+");
+  return -1;
+ }
+
+@endcode
+@see wait()
+@see pthread_create()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  pthread_detach(pthread_t thrHandle)
+@param thrHandle
+@return   If successful, the pthread_detach function will return zero.
+Otherwise an error number will be returned to
+indicate the error.
+
+  The pthread_detach function is used to indicate to the implementation that storage for the
+thread thrHandle can be reclaimed when the thread terminates.
+If thrHandle has not terminated, pthread_detach will not cause it to terminate.
+The effect of multiple pthread_detach calls on the same target thread is unspecified.
+
+Examples:
+@code
+void *a_thread_func_1_1(void*)
+{
+ sleep(10);
+ return NULL;
+}
+int main_1_1()
+{
+ pthread_attr_t new_attr;
+ pthread_t new_th;
+ int ret;
+ /* Initialize attribute */
+ if(pthread_attr_init(&new;_attr) != 0)
+ {
+  perror("Cannot initialize attribute object
+");
+  return -1;
+ }
+ /* Set the attribute object to be joinable */
+ if(pthread_attr_setdetachstate(&new;_attr, PTHREAD_CREATE_JOINABLE) != 0)
+ {
+  perror("Error in pthread_attr_setdetachstate()
+");
+  return -1;
+ }
+ /* Create the thread */
+ if(pthread_create(&new;_th, &new;_attr, a_thread_func_1_1, NULL) != 0)
+ {
+  perror("Error creating thread
+");
+  return -1;
+ }
+ /* Detach the thread. */
+ if(pthread_detach(new_th) != 0)
+ {
+  printf("Error detaching thread
+");
+  return -1;
+ }
+
+@endcode
+@see pthread_join()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  pthread_exit(void *retValPtr)
+@param retValPtr
+@return   The pthread_exit function cannot return to its caller.
+
+  The pthread_exit function terminates the calling thread and makes the value retValPtr available to any successful join with the terminating thread.
+Thread termination does not release any application
+visible process resources, including, but not limited to, mutexes and
+file descriptors, nor does it perform any process level cleanup
+actions, including, but not limited to, calling atexit routines that may exist.
+
+ An implicit call to pthread_exit is made when a thread other than the thread in which main was first invoked returns from the start routine that was used to create
+it.
+The function's return value serves as the thread's exit status.
+
+ The behavior of pthread_exit is undefined if called from a cancellation handler or destructor function
+that was invoked as the result of an implicit or explicit call to pthread_exit .
+
+ After a thread has terminated, the result of access to local (auto)
+variables of the thread is undefined.
+Thus, references to local variables
+of the exiting thread should not be used for the pthread_exit retValPtr parameter value.
+
+ The process will exit with an exit status of 0 after the last thread has
+been terminated.
+The behavior is as if the implementation called exit with a zero argument at thread termination time.
+
+Examples:
+@code
+/* Thread's function. */
+void *a_thread_func_1_1(void*)
+{
+ /* .. Do some thing .. */
+ pthread_exit((void*)RETURN_CODE);
+}
+
+@endcode
+@see _exit()
+@see exit()
+@see pthread_create()
+@see pthread_join()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+ 
+/** @fn  pthread_attr_init(pthread_attr_t *attrib)
+@param attrib
+
+Note: This description also covers the following functions -
+ pthread_attr_destroy()  pthread_attr_setstacksize()  pthread_attr_getstacksize()  pthread_attr_setdetachstate()  pthread_attr_getdetachstate()  pthread_attr_setschedparam()  pthread_attr_getschedparam()  pthread_attr_setschedpolicy()  pthread_attr_getschedpolicy()  pthread_attr_setscope()  pthread_attr_getscope() 
+
+@return   If successful, these functions return 0.
+Otherwise, an error number is returned to indicate the error.
+
+  Thread attributes are used to specify parameters to pthread_create .
+One attribute object can be used in multiple calls to pthread_create ,
+with or without modifications between calls.
+
+ The pthread_attr_init function initializes attrib with all the default thread attributes.
+
+ The pthread_attr_destroy function destroys attrib .
+
+ The pthread_attr_set* functions set the attribute that corresponds to each function name.
+
+ The pthread_attr_get* functions copy the value of the attribute that corresponds to each function name
+to the location pointed to by the second function parameter.
+
+Examples:
+@code
+/* ***************************************************** */
+/* Example for pthread_attr_init & pthread_attr_destroy  */
+/* ***************************************************** */
+pthread_attr_t new_attr;
+/* Initialize attribute */
+if(pthread_attr_init(&new;_attr) != 0)
+{
+  printf("Cannot initialize attribute object
+");
+  return -1; /* or exit */
+}
+/* Create thread */
+/* Destroy attribute */
+if(pthread_attr_destroy(&new;_attr) != 0)
+{
+  perror("Cannot destroy the attribute object
+");
+  return -1; /* or exit*/
+}
+
+@endcode
+@code
+/* ***************************************************** */
+/* Example for pthread_attr_getdetachstate               */
+/* ***************************************************** */
+pthread_attr_t new_attr;
+int detach_state;
+/* Initialize attribute */
+if(pthread_attr_init(&new;_attr) != 0)
+{
+  printf("Cannot initialize attribute object
+");
+  return -1;
+}
+if(pthread_attr_getdetachstate(&new;_attr, &detach;_state) != 0)
+{
+  printf("Cannot get the state
+");
+  return -1;
+}
+if(detach_state == PTHREAD_CREATE_JOINABLE)
+{
+  printf("State is joinable 
+");
+}
+else
+{
+  printf("State is detached 
+");
+}
+/* Create thread */
+/* Destroy attribute */
+
+@endcode
+@code
+/* ***************************************************** */
+/* Example for pthread_attr_getschedpolicy               */
+/* ***************************************************** */
+pthread_attr_t new_attr;
+int rc;
+int policy;
+/* Initialize attribute */
+if(pthread_attr_init(&new;_attr) != 0)
+{
+  printf("Cannot initialize attribute object
+");
+  return -1; /* or exit */
+}
+rc = pthread_attr_getschedpolicy(new_attr, &policy;);
+if( rc != 0) {
+  printf("pthread_attr_getschedpolicy failed
+");
+  return -1;
+}
+switch(policy) {
+ case SCHED_FIFO:
+       printf("Scheduling policy: SCHED_FIFO 0);
+       break;
+ case SCHED_RR:
+       printf("Scheduling policy: SCHED_RR 
+");
+       break;
+ case SCHED_OTHER:
+       printf("Scheduling policy: SCHED_OTHER 
+");
+       break;
+}
+/* Create thread */
+/* Destroy attribute */
+
+@endcode
+@code
+/* ***************************************************** */
+/* Example for pthread_attr_getscope                     */
+/* ***************************************************** */
+pthread_attr_t new_attr;
+int rc;
+int scope;
+/* Initialize attribute */
+if(pthread_attr_init(&new;_attr) != 0)
+{
+  printf("Cannot initialize attribute object
+");
+  return -1; /* or exit */
+}
+rc = pthread_attr_getscope(new_attr, &scope;);
+if( rc != 0) {
+  printf("pthread_attr_getscope failed");
+  return -1;
+}
+switch(scope) {
+ case SYSTEMSCOPE:
+       printf("scope: System 
+ ");
+       break;
+ case PROCESSSCOPE:
+       printf("scope: Process 
+ ");
+       break;
+}
+/* Create thread */
+/* Destroy attribute */
+
+@endcode
+@code
+/* ***************************************************** */
+/* Example for pthread_attr_getstacksize                 */
+/* ***************************************************** */
+pthread_attr_t new_attr;
+size_t ssize;
+int rc;
+/* Initialize attribute */
+if(pthread_attr_init(&new;_attr) != 0)
+{
+  printf("Cannot initialize attribute object
+");
+  return -1; /* or exit */
+}
+/* Get the default stack_size value */
+rc = pthread_attr_getstacksize(&new;_attr, &stack;_size); 
+if( rc != 0) {
+  printf("pthread_attr_getstacksize failed");
+  return -1;
+}
+printf("ssize = %lu
+", stack_size);
+/* Create thread */
+/* Destroy attribute */
+
+@endcode
+@code
+/* ***************************************************** */
+/* Example for pthread_attr_getschedparam               */
+/* ***************************************************** */
+pthread_attr_t         attr;
+int                    rc=0;
+struct sched_param     param;
+struct sched_param     param2;
+rc = pthread_attr_init(&attr;);
+if(rc != 0) {
+  printf("pthread_attr_init failed
+");
+  return -1;
+}
+param.sched_priority = 50;
+rc = pthread_attr_setschedparam(&attr;, & param);
+if(rc != 0) {
+  printf("pthread_attr_setschedparam failed
+");
+  return -1;
+}
+rc = pthread_attr_getschedparam(&attr;, & param2);
+if(rc != 0) {
+  printf("pthread_attr_getschedparam failed
+");
+  return -1;
+}
+/* priority will be stored in param2.sched_priority */
+/* Create thread */
+/* Destroy attribute */
+
+@endcode
+@code
+/* ***************************************************** */
+/* Example for pthread_attr_setdetachstate               */
+/* ***************************************************** */
+pthread_attr_t new_attr;
+int detach_state;
+/* Initialize attribute */
+if(pthread_attr_init(&new;_attr) != 0)
+{
+  perror("Cannot initialize attribute object
+");
+  return -1;
+}
+/* Set the attribute object to PTHREAD_CREATE_JOINABLE. */
+if(pthread_attr_setdetachstate(&new;_attr, PTHREAD_CREATE_JOINABLE) != 0)
+{
+  perror("Error in pthread_attr_setdetachstate()
+");
+  return -1;
+}
+/* Create thread */
+/* Destroy attribute */
+
+@endcode
+@code
+/* ***************************************************** */
+/* Example for pthread_attr_setschedparam               */
+/* ***************************************************** */
+pthread_attr_t         attr;
+int                    rc=0;
+struct sched_param     param;
+rc = pthread_attr_init(&attr;);
+if(rc != 0) {
+  printf("pthread_attr_init failed
+");
+  return -1;
+}
+param.sched_priority = 50;
+rc = pthread_attr_setschedparam(&attr;, & param);
+if(rc != 0) {
+  printf("pthread_attr_setschedparam failed
+");
+  return -1;
+}
+/* Create thread */
+/* Destroy attribute */
+
+@endcode
+@code
+/* ***************************************************** */
+/* Example for pthread_attr_setschedpolicy               */
+/* ***************************************************** */
+pthread_attr_t attr;
+int rc;
+int policy = SCHED_RR;
+if(pthread_attr_init(&attr;) != 0) {
+  printf("Error on pthread_attr_init()
+");
+  return -1;
+}
+ 
+if((rc=pthread_attr_setschedpolicy(&attr;,policy)) != 0) {
+      printf("Error on pthread_attr_setschedpolicy()	 rc=%d
+", rc);
+      return -1;
+}
+/* Create thread */
+/* Destroy attribute */
+
+@endcode
+@code
+/* ***************************************************** */
+/* Example for pthread_attr_setstacksize                 */
+/* ***************************************************** */
+pthread_attr_t attr;
+int rc;
+int policy = SCHED_RR;
+if(pthread_attr_init(&attr;) != 0) {
+  printf("Error on pthread_attr_init()
+");
+  return -1;
+}
+ 
+if((rc=pthread_attr_setstacksize(&attr;,8192)) != 0) {
+      printf("Error on pthread_attr_setstacksize()	 rc=%d
+", rc);
+      return -1;
+}
+/* Create thread */
+/* Destroy attribute */
+
+@endcode
+@code
+/* ***************************************************** */
+/* Example for pthread_attr_setscope                     */
+/* ***************************************************** */
+pthread_attr_t attr;
+int rc;
+/* Initialize attr */
+rc = pthread_attr_init(&attr;);
+if( rc != 0) {
+  perror("pthread_attr_init failed");
+  return -1;
+}
+rc = pthread_attr_setscope(&attr;, PTHREAD_SCOPE_SYSTEM); 
+if (rc != 0 ) {
+  perror("PTHREAD_SCOPE_SYSTEM is not supported");
+  return -1;
+}
+/* Create thread */
+/* Destroy attribute */
+
+@endcode
+@see pthread_create()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  pthread_attr_destroy(pthread_attr_t *attrib)
+@param attrib
+Refer  pthread_attr_init() for the documentation
+@see pthread_create()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  pthread_attr_getdetachstate(const pthread_attr_t *attrib, int *detState)
+@param attrib
+@param detState
+Refer  pthread_attr_init() for the documentation
+@see pthread_create()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  pthread_attr_setdetachstate(pthread_attr_t *attrib, int detState)
+@param attrib
+@param detState
+Refer  pthread_attr_init() for the documentation
+@see pthread_create()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/               
+                          
+/** @fn  pthread_attr_getstacksize(const pthread_attr_t *attrib, size_t *stkSize)
+@param attrib
+@param stkSize
+Refer  pthread_attr_init() for the documentation
+@see pthread_create()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  pthread_attr_setstacksize(pthread_attr_t *attrib, size_t stkSize)
+@param attrib
+@param stkSize
+Refer  pthread_attr_init() for the documentation
+@see pthread_create()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/                                                                              
+
+/** @fn  pthread_once(pthread_once_t *once_control, thread_init_routine init_routine)
+@param once_control
+@param init_routine
+@return   If successful, the pthread_once function will return zero.
+Otherwise an error number will be returned to
+indicate the error.
+
+  The first call to pthread_once by any thread in a process, with a given once_control ,
+will call the init_routine with no arguments.
+Subsequent calls to pthread_once with the same once_control will not call the init_routine .
+On return from pthread_once ,
+it is guaranteed that init_routine has completed.
+The once_control parameter is used to determine whether the associated initialization
+routine has been called.
+
+ The constant PTHREAD_ONCE_INIT is defined by header \#include \<pthread.h\> .
+
+ The behavior of pthread_once is undefined if once_control has automatic storage duration or is not initialized by PTHREAD_ONCE_INIT .
+
+Examples:
+@code
+/* The init function that pthread_once calls */
+void an_init_func_1_1()
+{
+printf (" Initialized ..
+");
+}
+int XYZ()
+{
+ pthread_once_t once_control = PTHREAD_ONCE_INIT;
+ /* Call pthread_once, passing it the once_control */
+ pthread_once(&once;_control, an_init_func_1_1);
+ /* Call pthread_once again. The init function should not be
+  * called. */
+ pthread_once(&once;_control, an_init_func_1_1);
+}
+
+@endcode
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  pthread_mutexattr_init(pthread_mutexattr_t *attr)
+@param attr
+Note: This description also covers the following functions -
+ pthread_mutexattr_destroy()  pthread_mutexattr_settype()  pthread_mutexattr_gettype()  pthread_mutexattr_getpshared()  pthread_mutexattr_setpshared() 
+
+@return   If successful, these functions return 0.
+Otherwise, an error number is returned to indicate the error.
+
+  Mutex attributes are used to specify parameters to pthread_mutex_init .
+One attribute object can be used in multiple calls to pthread_mutex_init ,
+with or without modifications between calls.
+
+ The pthread_mutexattr_init function initializes attr with all the default mutex attributes.
+
+ The pthread_mutexattr_destroy function destroys attr .
+
+ The pthread_mutexattr_set* functions set the attribute that corresponds to each function name.
+
+ The pthread_mutexattr_get* functions copy the value of the attribute that corresponds to each function name
+to the location pointed to by the second function parameter.
+
+Examples:
+@code
+pthread_mutexattr_t mta;
+ int rc;
+ /* Initialize a mutex attributes object */
+ if((rc=pthread_mutexattr_init(&mta;)) != 0)
+ {
+  fprintf(stderr,"Cannot initialize mutex attributes object
+");
+  return -1;
+ }
+ /* Destroy the mutex attributes object */
+ if(pthread_mutexattr_destroy(&mta;) != 0)
+ {
+  fprintf(stderr,"Error at pthread_mutexattr_destroy(), rc=%d
+", rc);
+  return -1;
+ }
+
+@endcode
+@code
+ pthread_mutexattr_t mta;
+ int pshared;
+ /* Initialize a mutex attributes object */
+ if(pthread_mutexattr_init(&mta;) != 0)
+ {
+  perror("Error at pthread_mutexattr_init()
+");
+  return -1;
+ }
+  /* The default 'pshared' attribute is PTHREAD_PROCESS_PRIVATE  */
+ if(pthread_mutexattr_getpshared(&mta;, &pshared;) != 0)
+ {
+  fprintf(stderr,"Error obtaining the attribute process-shared
+");
+  return -1;
+ }
+if (pshared != PTHREAD_PROCESS_PRIVATE)
+     printf (" pshared is NOT PTHREAD_PROCESS_PRIVATE
+");
+
+@endcode
+@code
+ pthread_mutexattr_t mta;
+ int type;
+ /* Initialize a mutex attributes object */
+ if(pthread_mutexattr_init(&mta;) != 0)
+ {
+  perror("Error at pthread_mutexattr_init()
+");
+  return -1;
+ }
+  /* The default 'type' attribute  is PTHREAD_MUTEX_DEFAULT  */
+ if(pthread_mutexattr_gettype(&mta;, &type;) != 0)
+ {
+  fprintf(stderr,"pthread_mutexattr_gettype(): Error obtaining the attribute 'type'
+");
+  return -1;
+ }
+ if(type != PTHREAD_MUTEX_DEFAULT)
+ {
+  printf("FAILED: Incorrect default mutexattr 'type' value: %d
+", type);
+  return -1;
+ }
+
+@endcode
+@code
+pthread_mutexattr_t mta;
+ int rc;
+ /* Initialize a mutex attributes object */
+ if((rc=pthread_mutexattr_init(&mta;)) != 0)
+ {
+  fprintf(stderr,"Cannot initialize mutex attributes object
+");
+  return -1;
+ }
+ /* Destroy the mutex attributes object */
+ if(pthread_mutexattr_destroy(&mta;) != 0)
+ {
+  fprintf(stderr,"Error at pthread_mutexattr_destroy(), rc=%d
+", rc);
+  return -1;
+ }
+
+@endcode
+@code
+pthread_mutexattr_t mta;
+ int ret;
+ /* Initialize a mutex attributes object */
+ if(pthread_mutexattr_init(&mta;) != 0)
+ {
+  perror("Error at pthread_mutexattr_init()
+");
+  return -1;
+ }
+ /* Set the 'pshared' attribute to PTHREAD_PROCESS_PRIVATE */
+ if((ret=pthread_mutexattr_setpshared(&mta;, PTHREAD_PROCESS_PRIVATE)) != 0)
+ {
+  printf("FAILED: Cannot set pshared attribute to PTHREAD_PROCESS_PRIVATE. Error: %d
+", ret);
+  return -1;
+ }
+
+@endcode
+@code
+ pthread_mutexattr_t mta;
+ int type;
+ /* Initialize a mutex attributes object */
+ if(pthread_mutexattr_init(&mta;) != 0)
+ {
+  perror("Error at pthread_mutexattr_init()
+");
+  return -1;
+ }
+ if(pthread_mutexattr_gettype(&mta;, &type;) != 0)
+ {
+  printf("Error getting the attribute 'type'
+");
+  return -1;
+ }
+ if(type != PTHREAD_MUTEX_DEFAULT)
+ {
+  printf("FAILED: Default value of the 'type' attribute is not PTHREAD_MUTEX_DEFAULT 
+");
+  return -1; 
+ }
+ if(pthread_mutexattr_settype(&mta;, PTHREAD_MUTEX_NORMAL) != 0)
+ {
+  printf("FAILED: Error setting the attribute 'type'
+");
+  return -1;
+ }
+
+@endcode
+@see pthread_mutex_init()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  pthread_mutexattr_destroy(pthread_mutexattr_t *attr)
+@param attr
+Refer  pthread_mutexattr_init() for the documentation
+@see pthread_mutex_init()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  pthread_mutexattr_getpshared(const pthread_mutexattr_t *attr, int *pshared)
+@param attr
+@param pshared
+Refer  pthread_mutexattr_init() for the documentation
+@see pthread_mutex_init()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  pthread_mutexattr_gettype(pthread_mutexattr_t *attr, int *type)
+@param attr
+@param type
+Refer  pthread_mutexattr_init() for the documentation
+@see pthread_mutex_init()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  pthread_mutexattr_settype(pthread_mutexattr_t *attr, int type)
+@param attr
+@param type # use integer valuses between 1 and 10
+Refer  pthread_mutexattr_init() for the documentation
+@see pthread_mutex_init()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  pthread_mutex_init(pthread_mutex_t *mutex, const pthread_mutexattr_t *attr)
+@param mutex
+@param attr
+@return   If successful, pthread_mutex_init will return zero and put the new mutex id into mutex ,
+otherwise an error number will be returned to indicate the error.
+
+  The pthread_mutex_init function creates a new mutex, with attributes specified with attr .
+If attr is NULL the default attributes are used.
+
+Examples:
+@code
+pthread_mutex_t  mutex;
+int XYZ()
+{
+ int rc;
+ /* Initialize a mutex object with the default mutex attributes */
+ if((rc=pthread_mutex_init(&mutex;,NULL)) != 0)
+        {
+        fprintf(stderr,"Error at pthread_mutex_init(), rc=%d0,rc);
+        return -1;
+        }
+}
+
+@endcode
+@see pthread_mutex_destroy()
+@see pthread_mutex_lock()
+@see pthread_mutex_trylock()
+@see pthread_mutex_unlock()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  pthread_mutex_destroy(pthread_mutex_t *mutex)
+@param mutex
+@return   If successful, pthread_mutex_destroy will return zero, otherwise an error number will be returned to
+indicate the error.
+
+  The pthread_mutex_destroy function frees the resources allocated for mutex .
+
+Examples:
+@code
+ pthread_mutexattr_t mta;
+ int rc;
+ /* Initialize a mutex attributes object */
+ if((rc=pthread_mutexattr_init(&mta;)) != 0) {
+  fprintf(stderr,"Error at pthread_mutexattr_init(), rc=%d
+",rc);
+  return -1;
+ }
+ /* Destroy the mutex attributes object */
+ if((rc=pthread_mutexattr_destroy(&mta;)) != 0) {
+  fprintf(stderr,"Error at pthread_mutexattr_destroy(), rc=%d
+",rc);
+  return -1;
+ }
+
+@endcode
+@see pthread_mutex_init()
+@see pthread_mutex_lock()
+@see pthread_mutex_trylock()
+@see pthread_mutex_unlock()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  pthread_mutex_lock(pthread_mutex_t *mutex)
+@param mutex
+@return   If successful, pthread_mutex_lock will return zero, otherwise an error number will be returned to
+indicate the error.
+
+  The pthread_mutex_lock function locks mutex .
+If the mutex is already locked, the calling thread will block until the
+mutex becomes available.
+
+Examples:
+@code
+pthread_mutex_t  mutex;
+int XYZ()
+{
+ int rc;
+ /* Initialize a mutex object with the default mutex attributes */
+ if((rc=pthread_mutex_init(&mutex;,NULL)) != 0) {
+  fprintf(stderr,"Error at pthread_mutex_init(), rc=%d
+",rc);
+  return -1;
+ }
+ /* Lock the mutex using pthread_mutex_lock() */
+ if((rc=pthread_mutex_lock(&mutex;)) == 0) {
+  printf(" lock is successful
+");
+ }
+}
+
+@endcode
+@see pthread_mutex_destroy()
+@see pthread_mutex_init()
+@see pthread_mutex_trylock()
+@see pthread_mutex_unlock()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  pthread_mutex_timedlock(pthread_mutex_t *mutex, const struct timespec *abstime)
+@param mutex
+@param abstime
+@return   If successful, pthread_mutex_timedlock will return zero, otherwise an error number will be returned to
+indicate the error.
+
+  The pthread_mutex_timedlock function will lock mutex .
+If it is already locked the calling thread will block until
+the mutex becomes available or
+the timeout,
+specified by abstime,
+expires.
+The time of the timeout is an absolute time and
+is not relative to the current time.
+
+Examples:
+@code
+#include <sys/time.h>
+#define TIMEOUT 3    
+/* 3 seconds of timeout time for  pthread_mutex_timedlock(). */
+struct timespec timeout;
+struct timeval currsec1;
+int rc;
+pthread_mutex_t  mutex;
+
+
+/* Get the current time before the mutex locked. */
+gettimeofday(&currsec1;, NULL);
+/* Absolute time, not relative. */
+timeout.tv_sec = currsec1.tv_sec + TIMEOUT;
+timeout.tv_nsec = currsec1.tv_usec * 1000;
+printf("Timed mutex lock will block for %d seconds starting from: %ld.%06ld
+", TIMEOUT, (long)currsec1.tv_sec, (long)currsec1.tv_usec);
+rc = pthread_mutex_timedlock(&mutex;, &timeout;);
+if(rc != 0) {
+  if (rc == ETIMEDOUT) {
+   fprintf(stderr,"Thread stops waiting when time is out
+");
+  }
+  else {
+   fprintf(stderr,"pthread_mutex_timedwait return %d
+", rc);
+  }
+}
+fprintf(stderr,"Thread wakened up
+");
+
+@endcode
+@see pthread_mutex_destroy()
+@see pthread_mutex_init()
+@see pthread_mutex_lock()
+@see pthread_mutex_trylock()
+@see pthread_mutex_unlock()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  pthread_mutex_trylock(pthread_mutex_t *mutex)
+@param mutex
+@return   If successful, pthread_mutex_trylock will return zero, otherwise an error number will be returned to
+indicate the error.
+
+  The pthread_mutex_trylock function locks mutex .
+If the mutex is already locked, pthread_mutex_trylock will not block waiting for the mutex, but will return an error condition.
+
+Examples:
+@code
+int rc;
+pthread_mutex_t  mutex;
+rc = pthread_mutex_trylock(&mutex;);
+switch (rc)
+{
+   case 0:
+       printf ("Locked successfully
+");
+       break;
+   case EAGAIN:
+       printf ("could not lock, try later.....
+");
+       break;
+}
+
+@endcode
+@see pthread_mutex_destroy()
+@see pthread_mutex_init()
+@see pthread_mutex_lock()
+@see pthread_mutex_unlock()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  pthread_mutex_unlock(pthread_mutex_t *mutex)
+@param mutex
+@return   If successful, pthread_mutex_unlock will return zero, otherwise an error number will be returned to
+indicate the error.
+
+  If the current thread holds the lock on mutex ,
+then the pthread_mutex_unlock function unlocks mutex .
+
+Examples:
+@code
+static pthread_mutex_t    mutex = PTHREAD_MUTEX_INITIALIZER;
+int XYZ()
+{
+   int  rc;
+ /* Get the mutex using pthread_mutex_lock() */
+ if((rc=pthread_mutex_lock(&mutex;)) != 0) {
+  fprintf(stderr,"Error at pthread_mutex_lock(), rc=%d
+",rc);
+  return -1;
+ }
+ /* Release the mutex using pthread_mutex_unlock() */
+ if((rc=pthread_mutex_unlock(&mutex;)) != 0) {
+  printf("unlock failed 
+");
+  return -1;
+ }  
+
+@endcode
+@see pthread_mutex_destroy()
+@see pthread_mutex_init()
+@see pthread_mutex_lock()
+@see pthread_mutex_trylock()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  pthread_condattr_init(pthread_condattr_t *)
+
+Note: This description also covers the following functions -
+ pthread_condattr_destroy() 
+
+@return   If successful, these functions return 0.
+Otherwise, an error number is returned to indicate the error.
+
+  Condition attribute objects are used to specify parameters to pthread_cond_init .
+Current implementation of conditional variables does not support any
+attributes, so these functions are not very useful.
+
+ The pthread_condattr_init function initializes a condition attribute object with the default
+attributes.(As of now None)
+
+ The pthread_condattr_destroy function destroys a condition attribute object.
+
+Examples:
+@code
+ pthread_condattr_t condattr;
+ int rc;
+ /* Initialize a condition variable attributes object */
+ if((rc=pthread_condattr_init(&condattr;)) != 0)
+ {
+  fprintf(stderr,"Cannot initialize condition variable attributes object
+");
+  return -1;
+ }
+ /* Destroy the condition variable attributes object */
+ if(pthread_condattr_destroy(&condattr;) != 0)
+ {
+  fprintf(stderr,"Error at pthread_condattr_destroy(), rc=%d
+", rc);
+  return -1;
+ }
+
+@endcode
+@see pthread_cond_init()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  pthread_condattr_destroy(pthread_condattr_t *)
+
+Refer  pthread_condattr_init() for the documentation
+@see pthread_cond_init()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  pthread_cond_init(pthread_cond_t *cond, const pthread_condattr_t *)
+@param cond
+@param # represents the parameter attr
+@return   If successful, the pthread_cond_init function will return zero and put the new condition variable id into cond ,
+otherwise an error number will be returned to indicate the error.
+
+  The pthread_cond_init function creates a new condition variable referenced 
+by cond with attributes referenced by attr. If attr is NULL, the default condition variable attributes will be used. 
+Upon successful initialization, the state of the condition variable will be initialized.
+
+Examples:
+@code
+int rc;
+struct testdata
+{
+ pthread_mutex_t mutex;
+ pthread_cond_t  cond;
+};
+static struct testdata td;
+int function1()
+{
+ /* Initialize a condition variable object */
+ if (pthread_cond_init(&td.cond;, NULL) != 0) {
+  fprintf(stderr,"Fail to initialize cond
+");
+  return -1;
+ }
+ /* ... Use it for wait, signal, broadcast */
+ /* Destroy the condition variable object */
+ if((rc=pthread_cond_destroy(&td.cond;)) != 0)
+ {
+   fprintf(stderr,"Error at pthread_cond_destroy(), rc=%d
+",rc);
+   return -1;
+ }
+}
+
+@endcode
+@see pthread_cond_broadcast()
+@see pthread_cond_destroy()
+@see pthread_cond_signal()
+@see pthread_cond_timedwait()
+@see pthread_cond_wait()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  pthread_cond_destroy(pthread_cond_t *cond)
+@param cond
+@return   If successful, the pthread_cond_destroy function will return zero, otherwise an error number will be returned
+to indicate the error.
+
+  The pthread_cond_destroy function frees the resources allocated by the condition variable cond .
+
+Examples:
+@code
+int rc;
+struct testdata
+{
+ pthread_mutex_t mutex;
+ pthread_cond_t  cond;
+};
+static struct testdata td;
+int function1()
+{
+ /* Initialize a condition variable object */
+ if (pthread_cond_init(&td.cond;, NULL) != 0) {
+  fprintf(stderr,"Fail to initialize cond
+");
+  return -1;
+ }
+ /* ... Use it for wait, signal, broadcast */
+ /* Destroy the condition variable object */
+ if((rc=pthread_cond_destroy(&td.cond;)) != 0)
+ {
+   fprintf(stderr,"Error at pthread_cond_destroy(), rc=%d
+",rc);
+   return -1;
+ }
+}
+
+@endcode
+@see pthread_cond_broadcast()
+@see pthread_cond_init()
+@see pthread_cond_signal()
+@see pthread_cond_timedwait()
+@see pthread_cond_wait()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  pthread_cond_destroy(pthread_cond_t *cond)
+@param cond
+@return   If successful, the pthread_cond_destroy function will return zero, otherwise an error number will be returned
+to indicate the error.
+
+  The pthread_cond_destroy function frees the resources allocated by the condition variable cond .
+
+Examples:
+@code
+int rc;
+struct testdata
+{
+ pthread_mutex_t mutex;
+ pthread_cond_t  cond;
+};
+static struct testdata td;
+int function1()
+{
+ /* Initialize a condition variable object */
+ if (pthread_cond_init(&td.cond;, NULL) != 0) {
+  fprintf(stderr,"Fail to initialize cond
+");
+  return -1;
+ }
+ /* ... Use it for wait, signal, broadcast */
+ /* Destroy the condition variable object */
+ if((rc=pthread_cond_destroy(&td.cond;)) != 0)
+ {
+   fprintf(stderr,"Error at pthread_cond_destroy(), rc=%d
+",rc);
+   return -1;
+ }
+}
+
+@endcode
+@see pthread_cond_broadcast()
+@see pthread_cond_init()
+@see pthread_cond_signal()
+@see pthread_cond_timedwait()
+@see pthread_cond_wait()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  pthread_cond_wait(pthread_cond_t *cond, pthread_mutex_t *mutex)
+@param cond
+@param mutex
+@return   If successful, the pthread_cond_wait function will return zero.
+Otherwise an error number will be returned to
+indicate the error.
+
+  The pthread_cond_wait function atomically blocks the current thread waiting on the condition
+variable specified by cond ,
+and unblocks the mutex specified by mutex .
+The waiting thread unblocks only after another thread calls pthread_cond_signal ,
+or pthread_cond_broadcast with the same condition variable, and the current thread reacquires the lock
+on mutex .
+
+Examples:
+@code
+struct testdata
+{
+ pthread_mutex_t mutex;
+ pthread_cond_t  cond;
+};
+static struct testdata td;
+int rc;
+/* mutex and conditional variable must be initialized */
+if (pthread_mutex_lock(&td.mutex;) != 0) {
+  fprintf(stderr,"Thread failed to acquire mutex
+");
+  return -1;
+ }
+fprintf(stderr,"Thread started
+");
+fprintf(stderr,"Thread is waiting for the cond
+");
+rc = pthread_cond_wait(&td.cond;, &td.mutex;);
+if (rc != 0) {
+  fprintf(stderr,"pthread_cond_wait return %d
+", rc);
+  return -1;
+}
+fprintf(stderr,"Thread wakened
+");
+pthread_mutex_unlock(&td.mutex;);
+
+@endcode
+@see pthread_cond_broadcast()
+@see pthread_cond_destroy()
+@see pthread_cond_init()
+@see pthread_cond_signal()
+@see pthread_cond_timedwait()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  pthread_cond_signal(pthread_cond_t *cond)
+@param cond
+@return   If successful, the pthread_cond_signal function will return zero, otherwise an error number will be returned
+to indicate the error.
+
+  The pthread_cond_signal function unblocks one thread waiting for the condition variable cond .
+
+Examples:
+@code
+ int rc;
+struct testdata
+{
+ pthread_mutex_t mutex;
+ pthread_cond_t  cond;
+};
+static struct testdata td;
+int function1()
+{
+ if (pthread_mutex_init(&td.mutex;, NULL) != 0) {
+  fprintf(stderr,"Fail to initialize mutex
+");
+  return -1;
+ }
+ if (pthread_cond_init(&td.cond;, NULL) != 0) {
+  fprintf(stderr,"Fail to initialize cond
+");
+  return -1;
+ }
+ /* ....... other thread wait for signal */
+ /* Acquire the mutex to make sure that all waiters are currently 
+    blocked on pthread_cond_wait */
+ if (pthread_mutex_lock(&td.mutex;) != 0) {
+  fprintf(stderr,"Main: Fail to acquire mutex
+");
+  return -1;
+ }
+ if (pthread_mutex_unlock(&td.mutex;) != 0) {
+  fprintf(stderr,"Main: Fail to release mutex
+");
+  return -1;
+ }
+ /* signal the condition to wake up all waiters */
+ fprintf(stderr," signal the condition
+");
+ rc = pthread_cond_signal(&td.cond;);
+ if (rc != 0) {
+  fprintf(stderr," failed to signal the condition
+");
+  return -1;
+ }
+}
+
+@endcode
+@see pthread_cond_broadcast()
+@see pthread_cond_destroy()
+@see pthread_cond_init()
+@see pthread_cond_timedwait()
+@see pthread_cond_wait()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  pthread_cond_broadcast(pthread_cond_t *cond)
+@param cond
+@return   If successful, the pthread_cond_broadcast function will return zero, otherwise an error number will be returned
+to indicate the error.
+
+  The pthread_cond_broadcast function unblocks all threads waiting for the condition variable cond .
+
+Examples:
+@code
+ int rc;
+struct testdata
+{
+ pthread_mutex_t mutex;
+ pthread_cond_t  cond;
+};
+static struct testdata td;
+ if (pthread_mutex_init(&td.mutex;, NULL) != 0) {
+  fprintf(stderr,"Fail to initialize mutex
+");
+  return -1;
+ }
+ if (pthread_cond_init(&td.cond;, NULL) != 0) {
+  fprintf(stderr,"Fail to initialize cond
+");
+  return -1;
+ }
+/* ....... other thread wait for signal */
+ /* Acquire the mutex to make sure that all waiters are currently 
+    blocked on pthread_cond_wait */
+ if (pthread_mutex_lock(&td.mutex;) != 0) {
+  fprintf(stderr,"Main: Fail to acquire mutex
+");
+  return -1;
+ }
+ if (pthread_mutex_unlock(&td.mutex;) != 0) {
+  fprintf(stderr,"Main: Fail to release mutex
+");
+  return -1;
+ }
+ /* signal the condition to wake up all waiters */
+ fprintf(stderr," signal the condition0);
+ rc = pthread_cond_broadcast(&td.cond;);
+ if (rc != 0) {
+  fprintf(stderr," failed to signal the condition
+");
+  return -1;
+ }
+
+@endcode
+@see pthread_cond_destroy()
+@see pthread_cond_init()
+@see pthread_cond_signal()
+@see pthread_cond_timedwait()
+@see pthread_cond_wait()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  pthread_key_create(pthread_key_t *key, destructor_routine dest)
+@param key
+@param dest
+@return   If successful, the pthread_key_create function will store the newly created key value at the location specified by key and returns zero.
+Otherwise an error number will be returned to indicate
+the error.
+
+  The pthread_key_create function creates a thread-specific data key visible to all threads in the
+process.
+Key values provided by pthread_key_create are opaque objects used to locate thread-specific data.
+Although the same
+key value may be used by different threads, the values bound to the key
+by pthread_setspecific are maintained on a per-thread basis and persist for the life of the calling
+thread.
+
+ Upon key creation, the value NULL is associated with the new key in all
+active threads.
+Upon thread creation, the value NULL is associated with all
+defined keys in the new thread.
+
+ An optional destructor function dest may be associated with each key value.
+At
+thread exit, if a key value has a non-NULL destructor pointer, and the
+thread has a non-NULL value associated with the key, the function pointed
+to is called with the current associated value as its sole argument.
+The
+order of destructor calls is unspecified if more than one destructor exists
+for a thread when it exits.
+
+ If, after all the destructors have been called for all non-NULL values
+with associated destructors, there are still some non-NULL values with
+associated destructors, then the process is repeated.
+If, after at least
+[PTHREAD_DESTRUCTOR_ITERATIONS] iterations of destructor calls for
+outstanding non-NULL values, there are still some non-NULL values with
+associated destructors, the implementation stops calling destructors.
+
+Examples:
+@code
+pthread_key_t keys;
+if(pthread_key_create(&keys;, NULL) != 0)
+{
+   printf("Error: pthread_key_create() failed
+");
+   return -1;
+}
+
+@endcode
+@see pthread_getspecific()
+@see pthread_key_delete()
+@see pthread_setspecific()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  pthread_key_delete(pthread_key_t key)
+@param key
+@return   If successful, the pthread_key_delete function will return zero.
+Otherwise an error number will be returned to
+indicate the error.
+
+  The pthread_key_delete function deletes a thread-specific data key previously returned by pthread_key_create .
+The thread-specific data values associated with key need not be NULL at the time that pthread_key_delete is called.
+It is the responsibility of the application to free any
+application storage or perform any cleanup actions for data structures
+related to the deleted key or associated thread-specific data in any threads;
+this cleanup can be done either before or after pthread_key_delete is called.
+Any attempt to use key following the call to pthread_key_delete results in undefined behavior.
+
+ The pthread_key_delete function is callable from within destructor functions.
+Destructor functions
+are not invoked by pthread_key_delete .
+Any destructor function that may have been associated with key will no longer be called upon thread exit.
+
+Examples:
+@code
+pthread_key_t keys;
+if(pthread_key_create(&keys;, NULL) != 0)
+{
+   printf("Error: pthread_key_create() failed
+");
+   return -1;
+}
+if(pthread_key_delete(keys) != 0)
+{
+  printf("Error: pthread_key_delete() failed
+");
+  return -1;  
+}
+
+@endcode
+@see pthread_getspecific()
+@see pthread_key_create()
+@see pthread_setspecific()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  pthread_setspecific(pthread_key_t key, const void *value)
+@param key
+@param value
+@return   If successful, the pthread_setspecific function will return zero.
+Otherwise an error number will be returned to
+indicate the error.
+
+  The pthread_setspecific function associates a thread-specific value with a key obtained via a previous call to pthread_key_create .
+Different threads can bind different values to the same key.
+These values are
+typically pointers to blocks of dynamically allocated memory that have been
+reserved for use by the calling thread.
+
+ The effect of calling pthread_setspecific with a key value not obtained from pthread_key_create or after key has been deleted with pthread_key_delete is undefined.
+
+ The pthread_setspecific function may be called from a thread-specific data destructor function,
+however this may result in lost storage or infinite loops.
+
+Examples:
+@code
+ pthread_key_t keys;
+ void* rc;
+if(pthread_key_create(&keys;, NULL) != 0)
+{
+   printf("Error: pthread_key_create() failed
+");
+   return -1;
+} else
+{
+   if(pthread_setspecific(keys, (void *)(long)(100)) != 0)
+   {
+    printf("Error: pthread_setspecific() failed
+");
+    return -1;
+   }
+}
+
+@endcode
+@see pthread_getspecific()
+@see pthread_key_create()
+@see pthread_key_delete()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  pthread_getspecific(pthread_key_t key)
+@param key
+@return   The pthread_getspecific function will return the thread-specific data value associated with the given key .
+If no thread-specific data value is associated with key ,
+then the value NULL is returned.
+
+  The pthread_getspecific function returns the value currently bound to the specified key on behalf of the calling thread.
+
+ The effect of calling pthread_getspecific with a key value not obtained from pthread_key_create or after key has been deleted with pthread_key_delete is undefined.
+
+ The pthread_getspecific function may be called from a thread-specific data destructor function.
+
+Examples:
+@code
+pthread_key_t keys;
+ void* rc;
+if(pthread_key_create(&keys;, NULL) != 0)
+{
+   printf("Error: pthread_key_create() failed0);
+   return -1;
+} else
+{
+   if(pthread_setspecific(keys, (void *)(long)(100)) != 0)
+   {
+    printf("Error: pthread_setspecific() failed
+");
+    return -1;
+   }
+}
+rc = pthread_getspecific(keys);
+if(rc != (void *)(long)(100))
+{
+   printf("getspecific failed 
+");
+   return -1;
+}
+
+@endcode
+@see pthread_key_create()
+@see pthread_key_delete()
+@see pthread_setspecific()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  pthread_attr_getscope(const pthread_attr_t *attrib, int *scope)
+@param attrib
+@param scope
+Refer  pthread_attr_init() for the documentation
+@see pthread_create()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  pthread_attr_setscope(pthread_attr_t *attrib, int conscope)
+@param attrib
+@param conscope
+Refer  pthread_attr_init() for the documentation
+@see pthread_create()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  pthread_attr_setschedpolicy(pthread_attr_t *attrib, int policy)
+@param attrib
+@param policy
+Refer  pthread_attr_init() for the documentation
+@see pthread_create()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  pthread_attr_getschedpolicy(const pthread_attr_t *attrib, int *policy)
+@param attrib
+@param policy
+Refer  pthread_attr_init() for the documentation
+@see pthread_create()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  pthread_attr_getschedparam(const pthread_attr_t *attrib, struct sched_param *param)
+@param attrib
+@param param
+Refer  pthread_attr_init() for the documentation
+@see pthread_create()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  pthread_attr_setschedparam(pthread_attr_t *attrib, const struct sched_param *param)
+@param attrib
+@param param
+Refer  pthread_attr_init() for the documentation
+@see pthread_create()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/          
+                           
+/** @fn  pthread_getschedparam(pthread_t thr, int *policy, struct sched_param *param)
+@param thr
+@param policy
+@param param
+Refer  pthread_setschedparam() for the documentation
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/  
+                                      
+/** @fn  pthread_setschedparam(pthread_t thread, int policy, const struct sched_param *param)
+@param thread
+@param policy
+@param param
+Note: This description also covers the following functions -
+ pthread_getschedparam() 
+
+@return   If successful, these functions return 0.
+Otherwise, an error number is returned to indicate the error.
+
+  The pthread_setschedparam and pthread_getschedparam functions set and get the scheduling parameters of individual threads.
+The scheduling policy for a thread will be SCHED_RR (round-robin). ( SCHED_FIFO is not supported)
+The thread priority (accessed via param-\>sched_priority )
+must be at least PTHREAD_MIN_PRIORITY and no more than PTHREAD_MAX_PRIORITY(as returned by sched_get_priority_max() and sched_get_priority_min() APIs) .
+
+Examples:
+@code
+struct sched_param sparam;
+int policy, priority, policy_1;
+int rc;
+policy = SCHED_RR;
+priority = 50;
+sparam.sched_priority = priority;
+rc = pthread_setschedparam(pthread_self(), policy, &sparam;);
+if (rc != 0)
+{
+  printf("Error at pthread_setschedparam: rc=%d
+", rc);
+  return -1;
+}
+
+@endcode
+@code
+int e ;
+struct sched_param param;
+pthread_t thread; // Thread which will be assigned the scheduling priority and the policy.
+pthread_t thread = pthread_self();
+param.sched_priority = 100;
+ 
+e = pthread_setschedparam(thread,SCHED_RR, & param);
+if(e != 0)
+{
+   printf("setting scheduling policy and priority failed."));
+   return -1;
+}
+
+@endcode
+@code
+int e ;
+struct sched_param param;
+pthread_t thread; // Thread which will be assigned the scheduling priority and the policy.
+int policy;
+pthread_t thread = pthread_self();
+param.sched_priority = 100;
+ 
+e = pthread_setschedparam(thread,SCHED_RR, & param);
+if(e != 0)
+{
+   printf("setting scheduling policy and priority failed."));
+   return -1;
+}
+e = pthread_getschedparam(thread,&policy;,& param);
+if (e != 0)
+{
+   printf("getting scheduling policy and priority failed."));
+   return -1;
+}
+
+@endcode
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/                                   
+
+
+/** @fn  pthread_cond_timedwait(pthread_cond_t * cond,pthread_mutex_t * mutex,const struct timespec *abstime)
+@param cond
+@param mutex
+@param abstime
+@return   If successful, the pthread_cond_timedwait function will return zero.
+Otherwise an error number will be returned to
+indicate the error.
+
+  The pthread_cond_timedwait function atomically blocks the current thread waiting on the condition,
+specified by the cond,and unblocks the mutex specified by the mutex.
+
+ The waiting thread unblocks only after another thread calls pthread_cond_signal,pthread_cond_broadcast with the same condition variable,
+or if the system time reaches the time specified in abstime,and the current thread reacquires the lock on the mutex.
+
+
+
+Examples:
+@code
+struct testdata
+{
+pthread_mutex mutex;
+pthread_cond_t cond;
+};
+static struct testdata td;
+int rc;
+struct timespec timeout;
+struct timeval curtime;
+if(pthread_mutex_lock(&td.mutex)!=0)
+  {
+  fprintf(stderr,"fail");
+  return -1;
+  }
+if(gettimeofday(&curtime,NULL)!=0)
+  {
+  fprintf(stderr,"fail");
+  return -1;
+  }
+timeout.tv_sec=curtime.tv_sec;
+timeout.tv_nsec=curtime.tv_nsec;
+timeout.tv_sec+=TIMEOUT;
+fprintf(stderr,"thread is waiting on the cond");
+rc=pthread_cond_timedwait(&td.cond,&td.mutex,&timeout);
+if(rc!=0)
+  {
+  if(rc==ETIMEDOUT)
+    {
+    fprintf(stderr,"thread stops when time is out");
+    return -1;
+    }
+  else
+   {
+   fprintf(stderr,"pthread_cond_timedwait return");
+   return -1;
+   }
+  }
+fprintf(stderr,"thread wakened up");
+pthread_mutex_unlock(&td.mutex);
+@endcode
+@see pthread_exit()
+@see pthread_join()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/ 

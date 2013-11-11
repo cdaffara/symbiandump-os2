@@ -1,0 +1,47 @@
+/*
+* Copyright (c) 2004-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* testutilclient.dll test tool to perform file operations
+*
+*/
+
+
+/**
+ @file
+*/
+
+MACRO __SECURE_API__
+MACRO __DATA_CAGING__
+CAPABILITY ALL SurroundingsDD UserEnvironment
+
+TARGET		testutilclient.dll
+TARGETTYPE	dll
+
+UID			0x1000008d 0xFFFFFFFF
+VENDORID	0x70000001
+
+USERINCLUDE ../client 
+USERINCLUDE ../common
+
+SOURCEPATH	../client
+
+SOURCE		testutilclient.cpp
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+LIBRARY		euser.lib
+LIBRARY		efsrv.lib
+
+SMPSAFE
+

@@ -1,0 +1,54 @@
+/*
+* Copyright (c) 2000-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* gb12345.cpl GB12345 charset converter
+*
+*/
+
+
+/**
+ @file
+*/
+
+TARGET			gb12345.dll
+TARGETTYPE		PLUGIN
+
+CAPABILITY		All -Tcb
+
+UID				0x10009D8D 0x102044EC
+VENDORID		0x70000001
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+SOURCEPATH		../src/plugins
+SOURCE			gb12345.cpp
+
+SOURCEPATH		/epoc32/build/generatedcpp/charconv
+SOURCE			g_gb12345.cpp
+
+SOURCEPATH		../resource
+START RESOURCE	gb12345.rss
+TARGETPATH		/resource/charconv
+LANG			sc
+END
+
+START RESOURCE	102044ec.rss
+TARGET			gb12345.rsc
+END
+
+LIBRARY			euser.lib
+LIBRARY			charconv.lib
+LIBRARY			ecom.lib 
+
+SMPSAFE

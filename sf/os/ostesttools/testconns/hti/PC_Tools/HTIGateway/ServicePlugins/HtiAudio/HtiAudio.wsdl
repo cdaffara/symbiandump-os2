@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="HtiAudio"
+ targetNamespace="urn:hti"
+ xmlns:tns="urn:hti"
+ xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+ xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+ xmlns:ns1="urn:hti"
+ xmlns:SOAP="http://schemas.xmlsoap.org/wsdl/soap/"
+ xmlns:MIME="http://schemas.xmlsoap.org/wsdl/mime/"
+ xmlns:DIME="http://schemas.xmlsoap.org/ws/2002/04/dime/wsdl/"
+ xmlns:WSDL="http://schemas.xmlsoap.org/wsdl/"
+ xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+<types>
+
+ <schema targetNamespace="urn:hti"
+  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:ns1="urn:hti"
+  xmlns="http://www.w3.org/2001/XMLSchema"
+  elementFormDefault="unqualified"
+  attributeFormDefault="unqualified">
+  <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+  <complexType name="ArrayOfstring">
+   <complexContent>
+    <restriction base="SOAP-ENC:Array">
+     <sequence>
+      <element name="item" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+     </sequence>
+     <attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="xsd:string[]"/>
+    </restriction>
+   </complexContent>
+  </complexType>
+  <!-- operation request element -->
+  <element name="directory" type="xsd:string"/>
+  <!-- operation response element -->
+  <element name="audiofiles" type="ns1:ArrayOfstring"/>
+  <!-- operation request element -->
+  <element name="fileName" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="volume" type="xsd:unsignedByte"/>
+  <!-- operation request element -->
+  <element name="startPosition" type="xsd:int"/>
+  <!-- operation request element -->
+  <element name="stopPosition" type="xsd:int"/>
+  <!-- operation request element -->
+  <element name="nrOfRepeats" type="xsd:unsignedByte"/>
+  <!-- operation request element -->
+  <element name="silenceBetweenRepeats" type="xsd:int"/>
+  <!-- operation request element -->
+  <element name="audioSettings" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="timeout" type="xsd:int"/>
+  <!-- operation request element -->
+  <element name="frequency" type="xsd:unsignedShort"/>
+  <!-- operation request element -->
+  <element name="duration" type="xsd:int"/>
+  <!-- operation request element -->
+  <element name="dtmfString" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="toneLength" type="xsd:int"/>
+  <!-- operation request element -->
+  <element name="gapLength" type="xsd:int"/>
+  <!-- operation request element -->
+  <element name="type" type="xsd:string"/>
+  <!-- operation response element -->
+  <element name="status" type="xsd:string"/>
+  <!-- operation response element -->
+  <element name="volumeSet" type="xsd:unsignedByte"/>
+ </schema>
+
+</types>
+
+<message name="listAudioFilesRequest">
+ <part name="directory" element="ns1:directory"/>
+</message>
+
+<message name="listAudioFilesResponse">
+ <part name="audiofiles" element="ns1:audiofiles"/>
+</message>
+
+<message name="playAudioFile">
+ <part name="fileName" element="ns1:fileName"/>
+ <part name="volume" element="ns1:volume"/>
+ <part name="startPosition" element="ns1:startPosition"/>
+ <part name="stopPosition" element="ns1:stopPosition"/>
+ <part name="nrOfRepeats" element="ns1:nrOfRepeats"/>
+ <part name="silenceBetweenRepeats" element="ns1:silenceBetweenRepeats"/>
+ <part name="audioSettings" element="ns1:audioSettings"/>
+ <part name="timeout" element="ns1:timeout"/>
+</message>
+
+<message name="playAudioFileResponse">
+</message>
+
+<message name="startPlayAudioFile">
+ <part name="fileName" element="ns1:fileName"/>
+ <part name="volume" element="ns1:volume"/>
+ <part name="startPosition" element="ns1:startPosition"/>
+ <part name="stopPosition" element="ns1:stopPosition"/>
+ <part name="nrOfRepeats" element="ns1:nrOfRepeats"/>
+ <part name="silenceBetweenRepeats" element="ns1:silenceBetweenRepeats"/>
+ <part name="audioSettings" element="ns1:audioSettings"/>
+</message>
+
+<message name="startPlayAudioFileResponse">
+</message>
+
+<message name="playTone">
+ <part name="frequency" element="ns1:frequency"/>
+ <part name="duration" element="ns1:duration"/>
+ <part name="volume" element="ns1:volume"/>
+ <part name="nrOfRepeats" element="ns1:nrOfRepeats"/>
+ <part name="silenceBetweenRepeats" element="ns1:silenceBetweenRepeats"/>
+</message>
+
+<message name="playToneResponse">
+</message>
+
+<message name="startPlayTone">
+ <part name="frequency" element="ns1:frequency"/>
+ <part name="duration" element="ns1:duration"/>
+ <part name="volume" element="ns1:volume"/>
+ <part name="nrOfRepeats" element="ns1:nrOfRepeats"/>
+ <part name="silenceBetweenRepeats" element="ns1:silenceBetweenRepeats"/>
+</message>
+
+<message name="startPlayToneResponse">
+</message>
+
+<message name="playDtmf">
+ <part name="dtmfString" element="ns1:dtmfString"/>
+ <part name="toneLength" element="ns1:toneLength"/>
+ <part name="gapLength" element="ns1:gapLength"/>
+ <part name="volume" element="ns1:volume"/>
+ <part name="nrOfRepeats" element="ns1:nrOfRepeats"/>
+ <part name="silenceBetweenRepeats" element="ns1:silenceBetweenRepeats"/>
+</message>
+
+<message name="playDtmfResponse">
+</message>
+
+<message name="startPlayDtmf">
+ <part name="dtmfString" element="ns1:dtmfString"/>
+ <part name="toneLength" element="ns1:toneLength"/>
+ <part name="gapLength" element="ns1:gapLength"/>
+ <part name="volume" element="ns1:volume"/>
+ <part name="nrOfRepeats" element="ns1:nrOfRepeats"/>
+ <part name="silenceBetweenRepeats" element="ns1:silenceBetweenRepeats"/>
+</message>
+
+<message name="startPlayDtmfResponse">
+</message>
+
+<message name="getPlayStatusRequest">
+ <part name="type" element="ns1:type"/>
+</message>
+
+<message name="getPlayStatusResponse">
+ <part name="status" element="ns1:status"/>
+</message>
+
+<message name="stopPlayback">
+</message>
+
+<message name="stopPlaybackResponse">
+</message>
+
+<message name="getDurationRequest">
+ <part name="fileName" element="ns1:fileName"/>
+</message>
+
+<message name="getDurationResponse">
+ <part name="duration" element="ns1:duration"/>
+</message>
+
+<message name="getMaxVolumeRequest">
+ <part name="fileName" element="ns1:fileName"/>
+</message>
+
+<message name="getMaxVolumeResponse">
+ <part name="volume" element="ns1:volume"/>
+</message>
+
+<message name="setVolumeRequest">
+ <part name="volume" element="ns1:volume"/>
+</message>
+
+<message name="setVolumeResponse">
+ <part name="volumeSet" element="ns1:volumeSet"/>
+</message>
+
+<portType name="HtiAudioPortType">
+ <operation name="listAudioFiles">
+  <documentation>Service definition of function ns1__listAudioFiles</documentation>
+  <input message="tns:listAudioFilesRequest"/>
+  <output message="tns:listAudioFilesResponse"/>
+ </operation>
+ <operation name="playAudioFile">
+  <documentation>Service definition of function ns1__playAudioFile</documentation>
+  <input message="tns:playAudioFile"/>
+  <output message="tns:playAudioFileResponse"/>
+ </operation>
+ <operation name="startPlayAudioFile">
+  <documentation>Service definition of function ns1__startPlayAudioFile</documentation>
+  <input message="tns:startPlayAudioFile"/>
+  <output message="tns:startPlayAudioFileResponse"/>
+ </operation>
+ <operation name="playTone">
+  <documentation>Service definition of function ns1__playTone</documentation>
+  <input message="tns:playTone"/>
+  <output message="tns:playToneResponse"/>
+ </operation>
+ <operation name="startPlayTone">
+  <documentation>Service definition of function ns1__startPlayTone</documentation>
+  <input message="tns:startPlayTone"/>
+  <output message="tns:startPlayToneResponse"/>
+ </operation>
+ <operation name="playDtmf">
+  <documentation>Service definition of function ns1__playDtmf</documentation>
+  <input message="tns:playDtmf"/>
+  <output message="tns:playDtmfResponse"/>
+ </operation>
+ <operation name="startPlayDtmf">
+  <documentation>Service definition of function ns1__startPlayDtmf</documentation>
+  <input message="tns:startPlayDtmf"/>
+  <output message="tns:startPlayDtmfResponse"/>
+ </operation>
+ <operation name="getPlayStatus">
+  <documentation>Service definition of function ns1__getPlayStatus</documentation>
+  <input message="tns:getPlayStatusRequest"/>
+  <output message="tns:getPlayStatusResponse"/>
+ </operation>
+ <operation name="stopPlayback">
+  <documentation>Service definition of function ns1__stopPlayback</documentation>
+  <input message="tns:stopPlayback"/>
+  <output message="tns:stopPlaybackResponse"/>
+ </operation>
+ <operation name="getDuration">
+  <documentation>Service definition of function ns1__getDuration</documentation>
+  <input message="tns:getDurationRequest"/>
+  <output message="tns:getDurationResponse"/>
+ </operation>
+ <operation name="getMaxVolume">
+  <documentation>Service definition of function ns1__getMaxVolume</documentation>
+  <input message="tns:getMaxVolumeRequest"/>
+  <output message="tns:getMaxVolumeResponse"/>
+ </operation>
+ <operation name="setVolume">
+  <documentation>Service definition of function ns1__setVolume</documentation>
+  <input message="tns:setVolumeRequest"/>
+  <output message="tns:setVolumeResponse"/>
+ </operation>
+</portType>
+
+<binding name="HtiAudio" type="tns:HtiAudioPortType">
+ <SOAP:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+ <operation name="listAudioFiles">
+  <SOAP:operation style="rpc" soapAction="HtiAudio"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="playAudioFile">
+  <SOAP:operation style="rpc" soapAction="HtiAudio"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="startPlayAudioFile">
+  <SOAP:operation style="rpc" soapAction="HtiAudio"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="playTone">
+  <SOAP:operation style="rpc" soapAction="HtiAudio"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="startPlayTone">
+  <SOAP:operation style="rpc" soapAction="HtiAudio"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="playDtmf">
+  <SOAP:operation style="rpc" soapAction="HtiAudio"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="startPlayDtmf">
+  <SOAP:operation style="rpc" soapAction="HtiAudio"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="getPlayStatus">
+  <SOAP:operation style="rpc" soapAction="HtiAudio"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="stopPlayback">
+  <SOAP:operation style="rpc" soapAction="HtiAudio"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="getDuration">
+  <SOAP:operation style="rpc" soapAction="HtiAudio"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="getMaxVolume">
+  <SOAP:operation style="rpc" soapAction="HtiAudio"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="setVolume">
+  <SOAP:operation style="rpc" soapAction="HtiAudio"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+</binding>
+
+<service name="HtiAudio">
+ <documentation>gSOAP 2.7.6b generated service definition</documentation>
+ <port name="HtiAudio" binding="tns:HtiAudio">
+  <SOAP:address location="http://localhost:2000"/>
+ </port>
+</service>
+
+</definitions>

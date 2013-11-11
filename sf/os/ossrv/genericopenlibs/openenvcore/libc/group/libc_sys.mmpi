@@ -1,0 +1,40 @@
+/*
+* Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  This is a project specific include file for building the 
+*                sys module as part of libc library.
+*
+*/
+
+
+
+
+
+// Macro definitions
+
+//option
+
+// Module specific source files
+SOURCEPATH     ../src
+SOURCE  ftruncate.cpp  getdirentries.c getpid.cpp  access.c  opendir.cpp time.cpp sleep.cpp  utimes.c
+SOURCE  creat.cpp link.cpp  writev.c usleep.cpp readv.c sysconfig.c fchdir.cpp fdatasync.cpp getpagesize.cpp
+SOURCE	signal_stubs.c nanosleep.c
+#ifdef SYMBIAN_OE_POSIX_SIGNALS
+SOURCE  kill.c raise.c sigqueue.c
+SOURCE	sigsetops.c sigprocmask.c sigwait.c
+SOURCE  signal.c alarm.c sigpending.c psignal.c
+#endif
+SOURCE	getpriority.cpp setpriority.cpp nice.cpp pathconf.c uname.cpp
+
+// End of File
+

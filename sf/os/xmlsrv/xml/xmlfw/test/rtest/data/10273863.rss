@@ -1,0 +1,79 @@
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// Registry file for the XmlFramework Test Plugin parser
+// Pairs to t_testxmlparserplugin1.mmp
+// 
+//
+
+#include <ecom/registryinfo.rh>
+
+RESOURCE REGISTRY_INFO validatorInfo
+	{
+	dll_uid = 0x10273863;
+	interfaces = 
+		{
+		INTERFACE_INFO
+			{
+			interface_uid = 0x101FAA0B;
+			implementations = 
+				{
+				IMPLEMENTATION_INFO
+					{
+					implementation_uid = 0x10273864;
+					version_no = 2;
+					display_name = "XML Test1 Parser. Doesn’t provide any functionality";
+					default_data = "text/xml||text/wbxml";
+					opaque_data = "SymbianExtended";
+					},
+
+				IMPLEMENTATION_INFO
+					{
+					// Uid should be less than 0x101FAA0C (Symbian-Provided XML Parser) to cause the defect condition
+					implementation_uid = 0x101F9782; 
+					version_no = 1;
+					// Masquarading XML Test1 Parser in the dll 
+					display_name = "XML DefectTest Parser. Doesn’t provide any functionality";
+					default_data = "text/xml";
+					// opaque_data should be something that is NOT "Symbian"
+					opaque_data = "OtherPluginProvider";
+					},
+
+				IMPLEMENTATION_INFO
+					{
+					implementation_uid = 0x101faa00; 
+					version_no = 1;
+					// Masquarading XML Test1 Parser in the dll 
+					display_name = "Unique Parser";
+					// Should be a unique mime type
+					default_data = "text/unique";
+					// opaque_data should be something that is NOT "Symbian"
+					opaque_data = "OtherPluginProvider";
+					},
+
+				IMPLEMENTATION_INFO
+					{
+					implementation_uid = 0x101faa01; 
+					version_no = 1;
+					// Masquarading XML Test1 Parser in the dll 
+					display_name = "Same mime Parser";
+					default_data = "text/same";
+					// opaque_data should be something that is NOT "Symbian"
+					opaque_data = "AnOtherProvider";
+					}				};
+			}
+		};
+	}
+
+
+

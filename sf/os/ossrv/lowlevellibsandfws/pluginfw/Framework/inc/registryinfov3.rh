@@ -1,0 +1,66 @@
+// Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+/**
+ @file 
+ @publishedPartner
+ @released
+*/
+#include <ecom/registryinfoconst.hrh>
+
+
+// The maximum values specified in this file are recommended and 
+// tested values. Exceeding these limits will risk undefined behaviour
+// in the resource compilation.
+
+UID2 ECOM_RESOURCE_FILE
+
+STRUCT IMPLEMENTATION_INFO
+	{
+	BYTE		     info_format;		    // version 1
+	LONG   			 implementation_uid;
+	BYTE   			 version_no;
+	LTEXT  			 display_name;
+	LEN BYTE LTEXT8  default_data[];		// maximum 2 strings with 255 bytes each	
+	LEN BYTE LTEXT8  opaque_data[];			// maximum 2 strings with 255 bytes each
+	LONG   			 extended_interfaces[]; // maximum 8 extended interfaces 
+	BYTE			 flags;			
+	}
+
+STRUCT BINARY_IMPLEMENTATION_INFO
+	{
+	BYTE	  info_format;		        // version 2
+	LONG	  implementation_uid;
+	BYTE	  version_no;
+	LTEXT	  display_name;
+	BYTE      default_data[];			// maximum 512 bytes
+	BYTE 	  opaque_data[];			// maximum 512 bytes
+	LONG	  extended_interfaces[];	// maximum 8 extended interfaces 
+	BYTE	  flags;			
+	}
+
+STRUCT INTERFACE_INFO
+	{
+	LONG	instantiation_interface_uid;
+	STRUCT	implementations[];			// maximum 8 implementations for each interface
+	}
+
+STRUCT REGISTRY_INFO
+	{
+	LONG	resource_format_version;    // Use RESOURCE_FORMAT_VERSION_3
+	LONG	dll_uid;
+	STRUCT	interfaces[];				// maximum 4 interfaces
+	}
+

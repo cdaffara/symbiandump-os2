@@ -1,0 +1,32 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SUITE	TEFPlatSec
+
+PRINT Change the capabilites
+
+RUN_TEST_STEP 100 TEFPlatSec SetCapabilities ${SYSDRIVE}\platsec\CapabilityPolicing.ini MESSAGING_CAP
+DELAY 500
+
+//
+//Load the test suites after the required capabilites for testing are set 
+//
+LOAD_SUITE	PlatTest_Mess_Cap 
+
+RUN_TEST_STEP 10000 PlatTest_Mess_Cap CleanMessageFolder ${SYSDRIVE}\Platsec\CapabilityPolicing.ini RootFolder
+
+
+

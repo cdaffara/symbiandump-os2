@@ -1,0 +1,47 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+/**
+@file
+
+@SYMPurpose CTFinder.dll API to identify what tokens exist on the device.
+*/
+
+// ctfinder.mmp
+
+OPTION CW   -w off
+TARGET			ctfinder.dll
+CAPABILITY All -Tcb
+TARGETTYPE		dll
+DEFFILE 		CTFINDER_V2.DEF
+
+UID	0x1000008d 	0x102020E5
+VENDORID 0x70000001
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+USERINCLUDE 	../inc/ct
+SOURCEPATH		../source/ctfinder
+
+SOURCE			CCTTokenTypeFinder.cpp
+SOURCE			CCTTokenTypeInfo.cpp
+SOURCE 			TCTAllTokenTypes.cpp
+SOURCE			TCTFindTokenTypesByInterface.cpp
+SOURCE			TCTFindTokenTypesByInterfaceAndAttribute.cpp
+
+LIBRARY	euser.lib ecom.lib
+LIBRARY ctframework.lib
+SMPSAFE

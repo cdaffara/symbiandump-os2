@@ -1,0 +1,55 @@
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// xmlparser.dll XML parser
+// 
+//
+/**
+ @file
+*/
+
+TARGET			xmlparser.dll
+TARGETTYPE			dll
+
+CAPABILITY All -TCB
+UID				0x1000008d 0x101F9118
+VENDORID 0x70000001
+
+SOURCEPATH		../SRC
+SOURCE			GMXMLComposer.cpp
+SOURCE			GMXMLEntityConverter.cpp
+SOURCE			GMXMLParser.cpp
+SOURCE			GMXMLFileDataSource.cpp
+
+USERINCLUDE		../INC ../../XMLDom/INC
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+
+
+LIBRARY			euser.lib
+LIBRARY			efsrv.lib
+LIBRARY			charconv.lib     
+LIBRARY     	bafl.lib 
+LIBRARY 		xmldom.lib
+
+#ifdef WINSCW
+DEFFILE			V2_XMLPARSER.DEF
+#else
+DEFFILE			v2_xmlparser.DEF
+#endif
+
+SOURCEPATH	../STRINGS
+START STRINGTABLE XMLEntityReferences.st
+	EXPORTPATH	/epoc32/include
+END
+SMPSAFE

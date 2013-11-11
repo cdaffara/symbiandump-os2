@@ -1,0 +1,235 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+PRINT Run all te_ruleselection Suite Tests
+
+//
+LOAD_SUITE Te_CryptoSpi
+//
+
+RUN_PROGRAM cryptospisetup.exe 3
+
+//! @SYMTestCaseID          SEC-CRYPTOSPI-RULE-0007
+//! @SYMTestCaseDesc        RuleSelection_Interface  
+
+START_TESTCASE SEC-CRYPTOSPI-RULE-0007
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_interface.ini SymmetricCipherInterface
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_interface.ini AsymmetricCipherInterface
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_interface.ini HashInterface
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_interface.ini HashNewInterface
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_interface.ini RandomInterface
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_interface.ini SignerInterface
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_interface.ini VerifierInterface
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_interface.ini KeyPairGenInterface
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_interface.ini KeyAgreementInterface
+END_TESTCASE SEC-CRYPTOSPI-RULE-0007
+
+//! @SYMTestCaseID          SEC-CRYP005-RULES-MAC-0003
+//! @SYMTestCaseDesc        Tests the selection rule on common and non-common characteristics would  
+//!                         influence the framework when choosing KCryptoPluginAesXcbcPrf128 plug-in
+//!                         module.
+//!                         (RuleSelection_MacInterface)
+//! @SYMREQ                 REQ10620, REQ10621
+//! @SYMTestPriority        High
+//! @SYMTestType            CIT
+//! @SYMTestStatus          Implemented
+//! @SYMTestExpectedResults  The call to the MAC factory method should return KErrNone, 
+//!                          successfully create the implementation object, the Algorithm ID characteristic 
+//!                          should equal KCryptoPluginAesXcbcPrf128 and the Implementation ID should equal 
+//!                          KTestPlugin02XcbcPrf128. 
+
+START_TESTCASE SEC-CRYP005-RULES-MAC-0003
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_interface.ini MacInterface
+END_TESTCASE SEC-CRYP005-RULES-MAC-0003
+
+//**************************************************************************************
+
+//! @SYMTestCaseID          SEC-CRYPTOSPI-RULE-0008
+//! @SYMTestCaseDesc        RuleSelection_AllChars  
+
+START_TESTCASE SEC-CRYPTOSPI-RULE-0008
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_allchars.ini SymmetricCipherAllChars
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_allchars.ini AsymmetricCipherAllChars
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_allchars.ini HashAllChars
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_allchars.ini HashNewAllChars
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_allchars.ini RandomAllChars
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_allchars.ini SignerAllChars
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_allchars.ini VerifierAllChars
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_allchars.ini KeyPairGenAllChars
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_allchars.ini KeyAgreementAllChars
+END_TESTCASE SEC-CRYPTOSPI-RULE-0008
+
+//! @SYMTestCaseID          SEC-CRYP005-RULES-MAC-0001
+//! @SYMTestCaseDesc        Tests the selection rule on common and non-common characteristics
+//!                         would influence the framework when choosing KTestPlugin02XcbcMac96 
+//!                         plug-in module.
+//!                         (RuleSelection_MacAllChars)
+//! @SYMREQ                 REQ10616, REQ10618  
+//! @SYMTestPriority        High
+//! @SYMTestType            CIT
+//! @SYMTestStatus          Implemented
+//! @SYMTestExpectedResults  The call to the MAC factory method should return KErrNone, 
+//!                          successfully create the implementation object, the Algorithm ID 
+//!                          characteristic should equal KAlgorithmCipherAesXcbcMac96 and the 
+//!                          Implementation ID should equal KTestPlugin02XcbcMac96
+
+START_TESTCASE SEC-CRYP005-RULES-MAC-0001
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_allchars.ini MacAllChars
+END_TESTCASE SEC-CRYP005-RULES-MAC-0001
+
+//**************************************************************************************
+
+//! @SYMTestCaseID          SEC-CRYPTOSPI-RULE-0009
+//! @SYMTestCaseDesc        RuleSelection_Ascend
+
+START_TESTCASE SEC-CRYPTOSPI-RULE-0009
+
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_ascend.ini CreatorName
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_ascend.ini MaxConcurrency
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_ascend.ini Latency
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_ascend.ini Throughput
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_ascend.ini HashBlockSize
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_ascend.ini HashOutputSize
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_ascend.ini SymmetricCipherKeyLength
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_ascend.ini SymmetricCipherBlockSize
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_ascend.ini SymmetricCipherKeySupport
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_ascend.ini AsymmetricCipherKeyLength
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_ascend.ini AsymmetricCipherKeySupport
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_ascend.ini SignatureKeyLength
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_ascend.ini SignatureKeySupport
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_ascend.ini RandomBlockingMode
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_ascend.ini KeyPairGenKeyLength
+
+END_TESTCASE SEC-CRYPTOSPI-RULE-0009
+
+//**************************************************************************************
+
+//! @SYMTestCaseID          SEC-CRYPTOSPI-RULE-0010
+//! @SYMTestCaseDesc        RuleSelection_Descend
+
+START_TESTCASE SEC-CRYPTOSPI-RULE-0010
+
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_descend.ini CreatorName
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_descend.ini MaxConcurrency
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_descend.ini Latency
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_descend.ini Throughput
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_descend.ini HashBlockSize
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_descend.ini HashOutputSize
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_descend.ini SymmetricCipherKeyLength
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_descend.ini SymmetricCipherBlockSize
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_descend.ini SymmetricCipherKeySupport
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_descend.ini AsymmetricCipherKeyLength
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_descend.ini AsymmetricCipherKeySupport
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_descend.ini SignatureKeyLength
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_descend.ini SignatureKeySupport
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_descend.ini RandomBlockingMode
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_descend.ini KeyPairGenKeyLength
+
+END_TESTCASE SEC-CRYPTOSPI-RULE-0010
+
+//**************************************************************************************
+
+//! @SYMTestCaseID          SEC-CRYPTOSPI-RULE-0011
+//! @SYMTestCaseDesc        RuleSelection_Matrix
+
+START_TESTCASE SEC-CRYPTOSPI-RULE-0011
+
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_matrix.ini HashValid
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_matrix.ini HashValid2
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_matrix.ini RandomValid
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_matrix.ini SymmetricCipherValid
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_matrix.ini AsymmetricCipherValid
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_matrix.ini SignerValid
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_matrix.ini VerifierValid
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_matrix.ini KeyAgreementValid
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_matrix.ini KeyPairGeneratorValid
+RUN_TEST_STEP !Result=-5 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_matrix.ini HashInvalid
+RUN_TEST_STEP !Result=-5 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_matrix.ini HashInvalid2
+RUN_TEST_STEP !Result=-5 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_matrix.ini RandomInvalid
+RUN_TEST_STEP !Result=-5 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_matrix.ini SymmetricCipherInvalid
+RUN_TEST_STEP !Result=-5 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_matrix.ini AsymmetricCipherInvalid
+RUN_TEST_STEP !Result=-5 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_matrix.ini SignerInvalid
+RUN_TEST_STEP !Result=-5 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_matrix.ini VerifierInvalid
+RUN_TEST_STEP !Result=-5  100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_matrix.ini KeyAgreementInvalid
+RUN_TEST_STEP !Result=-5 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_matrix.ini KeyPairGeneratorInvalid
+RUN_TEST_STEP !Result=-6 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_matrix.ini RuleInvalid01
+RUN_TEST_STEP !Result=-6 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_matrix.ini RuleInvalid02
+RUN_TEST_STEP !Result=-6 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_matrix.ini RuleInvalid03
+RUN_TEST_STEP !Result=-6 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_matrix.ini RuleInvalid04
+RUN_TEST_STEP !Result=-6 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_matrix.ini RuleInvalid05
+RUN_TEST_STEP !Result=-6 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_matrix.ini RuleInvalid06
+RUN_TEST_STEP !Result=-6 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_matrix.ini RuleInvalid07
+END_TESTCASE SEC-CRYPTOSPI-RULE-0011
+
+
+//! @SYMTestCaseID 	SEC-CRYP002-PLUGIN-MAC-0001
+//! @SYMTestCaseDesc 	Tests the out of bound rule on common characteristics would not return a MAC plug-in module.
+//! @SYMTestPriority 	High
+//! @SYMTestType 	CIT
+//! @SYMTestStatus 	Implemented
+//! @SYMTestExpectedResults The call to the factory method should return KErrNotFound, 
+//!                         as the rules applied did not return any plug-in module.
+
+START_TESTCASE SEC-CRYP002-PLUGIN-MAC-0001
+RUN_TEST_STEP !Result=-5 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_matrix.ini MacInvalid01
+END_TESTCASE SEC-CRYP002-PLUGIN-MAC-0001
+
+
+//! @SYMTestCaseID 	SEC-CRYP002-PLUGIN-MAC-0002
+//! @SYMTestCaseDesc 	Tests the selection rule on out-of-bound non-common characteristics would not return a 
+//!                  	MAC plug-in module.
+//! @SYMTestPriority 	High
+//! @SYMTestType 	CIT
+//! @SYMTestStatus 	Implemented
+//! @SYMTestExpectedResults The call to the factory method should return KErrNotFound, 
+//!                         as the rules applied did not return any plug-in module.
+
+START_TESTCASE SEC-CRYP002-PLUGIN-MAC-0002
+RUN_TEST_STEP !Result=-5 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_matrix.ini MacInvalid02
+END_TESTCASE SEC-CRYP002-PLUGIN-MAC-0002
+
+//! @SYMTestCaseID 	SEC-CRYPTOSPI-RULE-0012
+//! @SYMTestCaseDesc	RuleSelection_Extended
+
+START_TESTCASE SEC-CRYPTOSPI-RULE-0012
+
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_extended.ini ExtendedAllChars1
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_extended.ini ExtendedAllChars2
+RUN_TEST_STEP !Result=-6 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_extended.ini ExtendedAscend
+RUN_TEST_STEP !Result=-6 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_extended.ini ExtendedDescend
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_extended.ini ExtendedGreaterThan
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_extended.ini ExtendedGreaterThanOrEqual
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_extended.ini ExtendedLessThan
+RUN_TEST_STEP 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_extended.ini ExtendedLessThanOrEqual
+RUN_TEST_STEP !Result=-5 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_extended.ini ExtendedInvalid1
+RUN_TEST_STEP !Result=-5 100 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_extended.ini ExtendedInvalid2
+
+END_TESTCASE SEC-CRYPTOSPI-RULE-0012
+
+//**************************************************************************************
+
+RUN_PROGRAM cryptospisetup.exe 1
+
+//! @SYMTestCaseID 	SEC-CRYPTOSPI-RULE-0013
+//! @SYMTestCaseDesc	RuleSelection_Matrix2
+
+START_TESTCASE SEC-CRYPTOSPI-RULE-0013
+RUN_TEST_STEP !Result=-5 Te_CryptoSpi RuleSelectCommonStep c:\testdata\tcryptospi\configs\ruleselection_interface.ini MacInterface
+END_TESTCASE SEC-CRYPTOSPI-RULE-0013
+
+RUN_PROGRAM cryptospisetup.exe
+
+PRINT Complete te_ruleselection_Tests

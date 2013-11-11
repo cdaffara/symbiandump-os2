@@ -1,0 +1,198 @@
+/** @file  ../include/ftw.h
+@internalComponent
+*/
+
+/** @fn  ftw(const char *path, int (*fn)(const char *, const struct stat *, int), int nfds)
+@param path
+@param fn
+@param nfds
+@return   If the tree is exhausted, ftw() shall return 0.
+If the function pointed to by fn returns a non-zero value, ftw() shall stop its tree traversal and 
+return whatever value was returned by the function pointed to by fn. 
+If ftw() detects an error, it shall return -1 and set errno to indicate the error.
+
+The ftw() function shall recursively descend the directory hierarchy rooted in path.
+For each object in the hierarchy, ftw() shall call the function pointed to by fn,
+passing it a pointer to a null-terminated character string containing the name of the object,
+a pointer to a stat structure containing information about the object, and an integer.Possible values of the integer are:
+FTW_D
+    For a directory.
+FTW_DNR
+    For a directory that cannot be read.
+FTW_F
+    For a file.
+FTW_SL
+    For a symbolic link (but see also FTW_NS below).
+FTW_NS
+    For an object other than a symbolic link on which stat() could not successfully be executed.
+    If the object is a symbolic link and stat() failed,
+    it is unspecified whether ftw() passes FTW_SL or FTW_NS to the user-supplied function. 
+    
+The argument nfds should be in the range [1, {OPEN_MAX}].
+
+Errors:
+[EACCES]
+    Search permission is denied for any component of path or read permission is denied for path.
+[ELOOP]
+    A loop exists in symbolic links encountered during resolution of the path argument.
+[ENAMETOOLONG]
+    The length of the path argument exceeds {PATH_MAX} or a pathname component is longer than {NAME_MAX}.
+[ENOENT]
+    A component of path does not name an existing file or path is an empty string.
+[ENOTDIR]
+    A component of path is not a directory.
+[EOVERFLOW]
+    A field in the stat structure cannot be represented correctly in the current programming environment
+    for one or more files found in the file hierarchy. 
+    
+Examples:
+@code
+/*  Detailed description:  Sample usage of ftw system call
+ *  Preconditions:  Function fn with the specified prototype should be defined and
+ *  should have atleast two objects in the current working directory. 
+ */
+#include <ftw.h>
+#include <stdlib.h>
+#include <stdio.h>
+
+if (ftw(".", fn, 2) != 0) {
+    perror("ftw"); exit(2);
+}
+else
+{
+	printf("ftw call succeded");
+}
+
+@endcode
+ Output
+@code
+ftw call succeded
+
+@endcode
+@see stat()
+
+
+@capability Deferred @ref RFs::Entry(const TDesC16&, TEntry&)
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  ftw64(const char *path, int (*fn)(const char *, const struct stat64 *, int), int nfds)
+@param path
+@param fn
+@param nfds
+@return   If the tree is exhausted, ftw64() shall return 0.
+If the function pointed to by fn returns a non-zero value, ftw64() shall stop its tree traversal and 
+return whatever value was returned by the function pointed to by fn. 
+If ftw64() detects an error, it shall return -1 and set errno to indicate the error.
+
+For full documentation see: http://www.unix.org/version2/whatsnew/lfs20mar.html#3.0
+
+@see ftw()
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def FTW_F
+
+Regular File. Valid flags for the 3rd argument to the function that is passed as the second argument to ftw(3) and nftw(3).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def FTW_D
+
+Valid flags for the 3rd argument to the function that is passed as the second argument to ftw(3) and nftw(3).
+Directory.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def FTW_DNR
+
+Valid flags for the 3rd argument to the function that is passed as the second argument to ftw(3) and nftw(3).
+Directory without read permission.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def FTW_DP
+
+Valid flags for the 3rd argument to the function that is passed as the second argument to ftw(3) and nftw(3).
+Directory with subdirectories visited. A file on which stat could not successfully be
+executed.
+
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def FTW_NS
+
+Valid flags for the 3rd argument to the function that is passed as the second argument to ftw(3) and nftw(3).
+A file on which stat could not successfully be executed.
+
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def FTW_SL
+
+Valid flags for the 3rd argument to the function that is passed as the second argument to ftw(3) and nftw(3).
+Symbolic link.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def FTW_SLN
+
+Valid flags for the 3rd argument to the function that is passed as the second argument to ftw(3) and nftw(3).
+Sym link that names a nonexistent file. 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def FTW_PHYS	
+
+Flags for use as the 4th argument to nftw(3).  These may be ORed together.
+Physical walk, don't follow sym links.
+		
+@publishedAll
+@released
+*/
+
+/** @def FTW_MOUNT			
+
+Flags for use as the 4th argument to nftw(3).  These may be ORed together.
+The walk does not cross a mount point.
+
+@publishedAll
+@released
+*/
+
+/** @def FTW_DEPTH			
+
+Flags for use as the 4th argument to nftw(3).  These may be ORed together.
+Subdirs visited before the dir itself. 
+
+@publishedAll
+@released
+*/
+
+/** @def FTW_CHDIR			
+
+Flags for use as the 4th argument to nftw(3).  These may be ORed together.
+Change to a directory before reading it.
+
+@publishedAll
+@released
+*/
+

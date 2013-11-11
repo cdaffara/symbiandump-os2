@@ -1,0 +1,51 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+* 
+* Description: Stif.iby file specifies needed components for ROM image
+*
+*/
+
+#ifndef __STIF_IBY__
+#define __STIF_IBY__
+
+file=ABI_DIR/BUILD_DIR/StifTestEngine.dll            SHARED_LIB_DIR/StifTestEngine.dll
+file=ABI_DIR/BUILD_DIR/StifTestServer.dll            SHARED_LIB_DIR/StifTestServer.dll
+file=ABI_DIR/BUILD_DIR/StifTestInterface.dll         SHARED_LIB_DIR/StifTestInterface.dll
+file=ABI_DIR/BUILD_DIR/ConsoleUI.exe                 SHARED_LIB_DIR/ConsoleUI.exe
+file=ABI_DIR/BUILD_DIR/testcombiner.dll              SHARED_LIB_DIR/testcombiner.dll
+file=ABI_DIR/BUILD_DIR/TestServerStarter.exe         SHARED_LIB_DIR/TestServerStarter.exe
+file=ABI_DIR/BUILD_DIR/Demomodule.dll                SHARED_LIB_DIR/Demomodule.dll
+file=ABI_DIR/BUILD_DIR/ATSInterface.exe              SHARED_LIB_DIR/ATSInterface.exe
+file=ABI_DIR/BUILD_DIR/atslogger.dll                 SHARED_LIB_DIR/atslogger.dll
+file=ABI_DIR/BUILD_DIR/testscripter.dll              SHARED_LIB_DIR/testscripter.dll
+file=ABI_DIR/BUILD_DIR/StifTFwIf.dll                 SHARED_LIB_DIR/StifTFwIf.dll
+file=ABI_DIR/BUILD_DIR/SUEvent.dll                   SHARED_LIB_DIR/SUEvent.dll
+
+// Touchconsoleui is a component that allows to work with touch screen devices in console mode.
+// It should be use only swith environments that do not supports S60 graphical user interface
+
+//file=ABI_DIR/BUILD_DIR/TouchConsoleUI.exe            SHARED_LIB_DIR/TouchConsoleUI.exe
+
+data=EPOCROOT##epoc32/data/z/system/data/TestFramework.ini    testframework/TestFramework.ini
+
+
+#if defined(__S60_)
+// Note: before creating image, copy Stif_31_Stub.sis from /stif/sis/ to /epoc32/data/Z/system/install/
+data=ZSYSTEM/install/Stif_31_Stub.SIS    System/Install/Stif_31_Stub.SIS
+#endif
+
+
+// For STIF UI support use Stifui.iby:
+
+#endif
+// End of File

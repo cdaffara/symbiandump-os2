@@ -1,0 +1,96 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* Tests Accessing: SEC-INTEG-UPS-E0024 (Platform Security Autorisation Tests)
+* Service: 1000A00E
+* Service: System Server 1 (0x101F7F1F)
+*
+*/
+
+
+#include <ups/policies.rh>
+
+UID2 KUidUpsPolicyResourceFile
+UID3 0x101F7F1F
+
+// Test policy file for WAP GPRS
+RESOURCE POLICIES testpolicies
+	{
+	header = POLICY_HEADER
+		{
+		// use default client config 
+		policyevaluator = 0xe1111e11;
+		dialogcreator = 0xe1111d11;
+		majorversion = 1;
+		minorversion = 1;
+		authorisationpolicy = ENeverCheck;
+		};
+	policies = 
+		{
+		POLICY
+			{
+			// Silently accepts redirection to "www.google.com" from client 0x101F7784
+			sid_list = {0x101F7784};
+			destination = "www.google.com";
+			options = KYes;
+			flags = 0x01;
+			},
+		POLICY
+			{
+			// Silently denies call to "*.xxx" for client *.xxx sites
+			sid_list = {0x101F7784};
+			destination = "*.xxx";
+			options = KNo;
+			flags = 0x02;
+			},
+		POLICY
+			{
+			// Allows dialog display to clients 0x101F7784,0x80001234 for redirection to www.youtube.com
+			sid_list = {0x101F7784,0x80001234};
+			destination = "www.youtube.com";
+			options = KYes | KNo | KSession;
+			policyevaluator = 0xe1111e31;
+			dialogcreator = 0xe1111d31;
+			flags = 0x04;
+			},
+		POLICY
+			{
+			// Allows dialog display to client 0x101F7784 to 192.168* IP Addresses
+			sid_classes = KProtectedSids;
+			destination = "192.168*";
+			options = KYes | KNo | KSession | KAlways | KNever;
+			flags = 0x05;
+			},				
+		POLICY
+			{
+			// Allows dialog display protected clients to ".mob" sites
+			sid_classes = KProtectedSids;
+			destination = "*.mob";
+			options = KYes | KNo | KAlways | KNever;
+			policyevaluator = 0xe1111e21;
+			dialogcreator = 0xe1111d21;
+			flags = 0x07;
+			},
+		POLICY
+			{
+			// Allows dialog display protected clients to ".com" sites
+			sid_classes = KAllSids;
+			destination = "*.com";
+			options = KYes | KNo | KSession;
+			flags = 0x08;
+			}
+		
+		};
+	}
+

@@ -1,0 +1,44 @@
+/*
+* Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+/**
+@file
+
+@SYMPurpose hash.dll Hash functions such as MD5, SHA1 and HMAC
+*/
+
+TARGET			hash.dll
+CAPABILITY All
+TARGETTYPE		DLL
+UNPAGED
+
+UID      0x1000008d 0x10005E11 
+VENDORID 0x70000001
+
+SOURCEPATH		../source/hash
+SOURCE          hash.cpp md2.cpp md5.cpp sha1.cpp hmac.cpp hashshim.cpp md4.cpp sha2.cpp
+
+OS_LAYER_SYSTEMINCLUDE
+
+LIBRARY         euser.lib cryptospi.lib
+
+START WINS
+BASEADDRESS     0x7b100000
+END
+
+SMPSAFE

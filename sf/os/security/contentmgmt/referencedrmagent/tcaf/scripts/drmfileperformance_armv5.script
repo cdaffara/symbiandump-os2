@@ -1,0 +1,63 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+// DRM file performance test cases for DEF119317.
+
+LOAD_SUITE tcaf
+
+START_TESTCASE 			SEC-CAF-DRMFP-0001
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-DRMFP-0001
+//! @SYMTestCaseDesc 		DRM File Open Performance Test.Checks if the time taken for opening a plaintext file falls within the value as specified in the INI file.
+//!				(FileOpenPerformance)
+//! @SYMDEF			DEF119317
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Attempt to obtain the time taken to open a plaintext ile.
+//! @SYMTestExpectedResults	Test fails if the time to open the plaintext file exceeds the value specified in the INI file.
+
+RUN_TEST_STEP 100 tcaf CAFDRMFileOpenPerformanceStep z:\tcaf\consumerstep.ini DRMFileOpenPerformance
+END_TESTCASE 			SEC-CAF-DRMFP-0001
+
+START_TESTCASE 			SEC-CAF-DRMFP-0002
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-DRMFP-0002
+//! @SYMTestCaseDesc 		DRM File Open Performance Test.Checks if the time taken for opening a file containing a single content object falls within the value as specified in the INI file.
+//!				(FileOpenPerformance)
+//! @SYMDEF			DEF119317
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Attempt to obtain the time taken to open a file containing single content object.
+//! @SYMTestExpectedResults	Test fails if the time to open a file containing single content object exceeds the value specified in the INI file.
+
+RUN_TEST_STEP 100 tcaf CAFDRMFileOpenPerformanceStep z:\tcaf\consumerstep.ini DRMFileOpenPerformance_SingleRTAObject
+END_TESTCASE 			SEC-CAF-DRMFP-0002
+
+START_TESTCASE 			SEC-CAF-DRMFP-0003
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-DRMFP-0003
+//! @SYMTestCaseDesc 		DRM File Open Performance Test.Checks if the time taken for opening a file containing multiple content objects falls within the value as specified in the INI file.
+//!				(FileOpenPerformance)
+//! @SYMDEF			DEF119317
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Attempt to obtain the time taken to open a file containing multiple content objects.
+//! @SYMTestExpectedResults	Test fails if the time to open a file containing multiple content objects exceeds the value specified in the INI file.
+
+RUN_TEST_STEP 100 tcaf CAFDRMFileOpenPerformanceStep z:\tcaf\consumerstep.ini DRMFileOpenPerformance_MultipleRTAObject
+END_TESTCASE 			SEC-CAF-DRMFP-0003
+
+

@@ -1,0 +1,66 @@
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+#ifndef __XMLFRAMEWORKTESTS_IBY__
+#define __XMLFRAMEWORKTESTS_IBY__
+
+REM XML Framework Tests
+
+#include <xmlframework.iby>
+#include <testbed.iby>
+#include <xmlcustomresolvertests.iby>
+
+// batch file that runs all automatic Framework tests
+data=CSYSTEM\test\xmlframeworktests.bat						test\xmlframeworktests.bat
+
+// Framework test exe
+file=ABI_DIR\BUILD_DIR\t_xmlcore.exe						sys\bin\t_xmlcore.exe
+
+// Framework components test exe
+file=ABI_DIR\BUILD_DIR\t_xmlmisc.exe						sys\bin\t_xmlmisc.exe
+
+// CMatchData unit test exe
+file=ABI_DIR\BUILD_DIR\tu_xmlcmatchdataunittests.exe		sys\bin\tu_xmlcmatchdataunittests.exe
+
+// API performance test exe
+file=ABI_DIR\BUILD_DIR\tp_xmlframeworkperftests.exe 		sys\bin\tp_xmlframeworkperftests.exe
+
+// Access to file system helper exe
+file=ABI_DIR\BUILD_DIR\t_xmlprocessfilemancopyfile.exe		sys\bin\t_xmlprocessfilemancopyfile.exe
+
+file=ABI_DIR\BUILD_DIR\t_parserucs4test.exe					sys\bin\t_parserucs4test.exe
+
+
+// Z: to C:
+data=DATAC\XmlRAMOnly\tu_xmlramparserplugins.dll	XmlRAMOnly\tu_xmlramparserplugins.dll
+data=DATAC\XmlRAMOnly\tu_xmlramparserplugins.rsc	XmlRAMOnly\tu_xmlramparserplugins.rsc
+
+// Test plugin
+
+// Test resources
+//
+// Test Validator
+ECOM_PLUGIN(t_validator.dll,101faa0f.rsc)
+
+// Test Parser
+ECOM_PLUGIN(t_parser.dll,101fadcd.rsc)
+
+// Test String Dictionary
+ECOM_PLUGIN(t_stringdictionary00.dll,101fcabf.rsc)
+
+// Unit test plugin pack - ROM only
+ECOM_PLUGIN(tu_xmlromparserplugins.dll,10273869.rsc)
+
+#endif

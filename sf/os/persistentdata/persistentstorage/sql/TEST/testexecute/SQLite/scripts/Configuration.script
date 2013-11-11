@@ -1,0 +1,69 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// @file
+// 
+//
+
+//! @SYMTestSuiteName PDS-TEF-SQL-SUITE
+//! @SYMScriptTestEnvironment TEF
+//! @internalComponent
+//! @test
+
+PRINT Run SQL Tests
+
+LOAD_SUITE te_SQL_Suite
+
+RUN_UTILS MkDir c:\private\
+
+START_TESTCASE SYSLIB-SQL-CIT-1700
+//! @SYMTestCaseID    SYSLIB-SQL-CIT-1700
+//! @SYMTestCaseDesc  Exercises configuration functionality.
+//! @SYMTestPriority  High
+//! @SYMTestActions   See description and the config file.
+//! @SYMTestExpectedResults
+//!                  This test checks the three configuration options
+//!                  (cache_size, page_size, encoding) default values. These
+//!                  are then overridden with configuration options on Open/
+//!                  Create and the correct overriding behaviour is checked
+//!                  using the 'pragma cache_size' (for instance) syntax.
+//!                  The second step checks that an open with bad config
+//!                  has failed and therefore PANICs when the next step is
+//!                  attempted.
+//! @SYMREQ           REQ5792
+
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLCDT z:\TEF_SQL\Configuration.ini CheckDefaults
+	RUN_PANIC_STEP_RESULT 2 SqlDb 100 te_SQL_Suite CSQLCDT z:\TEF_SQL\Configuration.ini CheckOverride1
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLCDT z:\TEF_SQL\Configuration.ini CheckOverride2
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLCDT z:\TEF_SQL\Configuration.ini CheckOverride3
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLCDT z:\TEF_SQL\Configuration.ini CheckOverride4
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLCDT z:\TEF_SQL\Configuration.ini CheckOverride5
+END_TESTCASE SYSLIB-SQL-CIT-1700
+
+
+START_TESTCASE SYSLIB-SQL-CIT-1701
+//! @SYMTestCaseID    SYSLIB-SQL-CIT-1701
+//! @SYMTestCaseDesc  Exercises configuration functionality.
+//! @SYMTestPriority  High
+//! @SYMTestActions   See description and the config file.
+//! @SYMTestExpectedResults
+//!                  This test creates a database within each step, the first
+//!                  is UTF-16, the second UTF-8. The test checks that the
+//!                  configuration that has been set has the desired effect.
+//! @SYMREQ           REQ5792
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLCDT z:\TEF_SQL\Configuration.ini WriteTextDB-16bit
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLCDT z:\TEF_SQL\Configuration.ini WriteTextDB-8bit
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLCDT z:\TEF_SQL\Configuration.ini FilesDiffer
+END_TESTCASE SYSLIB-SQL-CIT-1701
+
+

@@ -1,0 +1,52 @@
+/*
+* Copyright (c) 2004-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* pbe.dll Implements Password based Encryption
+*
+*/
+
+
+/**
+ @file
+*/
+
+TARGET        pbe.dll
+CAPABILITY All
+TARGETTYPE    DLL
+UNPAGED
+
+UID    0x1000008d 0x101F7F20
+VENDORID 0x70000001
+
+SOURCEPATH	../source/pbe
+SOURCE		pbe.cpp pbencryptor.cpp pbeset.cpp 
+SOURCE		pbedata.cpp pbencryptorset.cpp 
+SOURCE		pbesymmetricfactory.cpp
+
+SOURCEPATH	../source/pkcs5kdf
+SOURCE		pkcs5kdf.cpp
+
+SOURCEPATH		../source/pkcs12kdf
+SOURCE			pkcs12kdf.cpp
+
+USERINCLUDE   ../inc
+USERINCLUDE   ../source/symmetric
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+LIBRARY       euser.lib cryptography.lib hash.lib random.lib
+
+DEFFILE		PBE_v2.def
+
+SMPSAFE

@@ -1,0 +1,45 @@
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+TARGET          	tu_tsch_scheduledtasktest.exe		//RTEST
+
+// WDD capability required for RTz::SetTimeZoneL()
+CAPABILITY			WriteDeviceData
+
+TARGETTYPE			EXE
+
+SOURCEPATH			.
+SOURCE				TU_TSCH_ScheduledTaskTest.cpp
+
+SOURCEPATH			../../SCHSVR
+SOURCE				SCHINFO.CPP SCHTASK.CPP SCHTIME.CPP
+
+
+USERINCLUDE			../../INC
+USERINCLUDE			../TSUtils
+
+MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+library				euser.lib
+library				efsrv.lib
+library				estor.lib
+library				tzclient.lib
+library				tsutils_tsk.lib
+
+VENDORID 			0x70000001
+
+
+
+SMPSAFE

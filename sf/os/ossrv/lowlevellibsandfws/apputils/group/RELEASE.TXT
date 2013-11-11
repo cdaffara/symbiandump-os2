@@ -1,0 +1,2829 @@
+Version 1.00.103
+===================================
+Released into:	GT Mainline 578
+Built against:	GT Mainline 574b ALL VARIENTS 
+Released by:	Franco Bellu
+Uses:		EUSER ESOCK INSOCK IMUT INETPROTUTIL BAFL
+For debug, add: FLOGGER EFSRV
+For tests, add: HTTPTESTUTILS, C32
+Changelist:	xxx
+Website:	http://lon-wapbuild01.INTRA/HTTP_Project/ 
+
+
+Summary
+=======
+
+
+
+Defects Fixed
+=============
+* Fixed defect  SAM-54WFUN : " String pool does not return an error when a string cannot be found in a string table using StringF() method "
+* Fixed defect BEU-55CND8 "using the CStringPoolImplementation from an empty string causes an access violation "
+* Fixed defect CLE-536M4D "String pool comparison operators should ASSERT_DEBUG check for use of multiple table "
+
+API Changes
+===========
+None
+
+Other Significant Changes
+=========================
+None
+
+
+Known Issues
+============
+None
+
+
+-----------
+Version 1.00.102
+================
+Tim and Arun, 3 July 2001
+
+CR for BAFL and LocE32: allow customizable language downgrade paths to be specified as
+part of the locale.
+
+Version 1.00.101
+================
+Made by Kevin, 11 August 1999
+
+Requires RCOMP 318 because of the BC break in the handling of TEXT16 resources.
+
+Added TResourceReader::AlignCountedPtr16 which returns the counted string length and
+adjusts the pointer past both the length byte and any additional padding byte. The value 
+of the padding byte is checked with an __ASSERT_DEBUG(): the wrong value will cause a
+panic with code EBafPanicUnicodeTextPaddingError (=14).
+
+Added AlignCountedPtr16 calls to the functions which read a Unicode descriptor from 
+a resource.
+
+    TResourceReader::ReadHBufC16L()
+	TResourceReader::ReadTPtrC16()
+	TResourceReader::ReadTPtrC16(TInt aIndex,const TDesC8* aBuffer)
+
+Modified T_RSC.CPP to correct the r_text_signature check which discriminated between a Unicode
+resource file and an 8-bit resource file: the RCOMP padding algorithm puts in an additional
+padding byte, which is now checked. Used _LIT() for the resource file names and arranged to build
+the TRSC resource via the T_RSC.MMP file.
+
+Extended T_RSREAD.CPP to test resources and arrays which contains a mixture of 8 and 16 bit text, 
+organised to test zero-length strings and Unicode strings with both odd and even alignment. 
+Added the TRSC resource to the T_RSREAD.MMP file for good measure, and get the resource file name 
+from the shared T_RSC.H include file.
+
+Modified BLD.INF to mark T_CLINE as a manual test and T_LIBT as a supporting DLL.
+
+NB ALSO INCLUDES CHANGES MADE IN RELEASE 100 WHICH ARE NOT DOCUMENTED HERE
+
+
+Version 1.00.091
+================
+Made by DavidK, 27 May 1999
+
+Uses as 090. Identical release to 090 apart from wins urel and Marm variants also built.
+
+Version 1.00.090
+================
+Made By DavidK, 26 May 1999
+
+Uses E32/156, F32/122, STORE/050, E32UTILS/019, 
+	E32TOOLS/095, E32TOOLP/098, EIKTOOLS 133
+
+Renamed the class BaflFileSortTable to CBaflFileSortTable so source incompatible but BC with 089 
+(which was a frozen deffile version of 088)
+Intended for use with the first public release of Uikon.
+
+Version 1.00.088
+================
+Made by MarcoS, 29 April 1999
+
+	Uses E32/156, F32/122, STORE/050, E32UTILS/019, 
+	E32TOOLS/095, E32TOOLP/098, EIKTOOLS 128
+
+The sound staff has been moved from Bafl to form a new component: BaflSnd.
+
+Most of the utilities defined on EikUtils (Eikon) have been transferred
+to BaflUtils (Bafl).
+
+
+Version 1.00.087
+================
+Made by ChrisD, 4 December 1998
+
+	Uses E32/156, F32/122, STORE/050, E32UTILS/019, 
+	E32TOOLS/095, E32TOOLP/098, EIKTOOLS 128
+
+Minor source changes for boilerplating Symbian copyright text.
+MNT command changed to use new version of E32TOOLP (098) and 
+valid command modified to use new evalid command for validation.
+ROM building scripts updated so ROM could be built.
+
+Built using VC5 and Service Pack 3.  Release tested on the following
+variants:
+
+wins/deb        marm/deb
+wins/rel        marm/rel
+wins/udeb       marm/udeb
+wins/urel       marm/urel
+
+All tests passed on a PB rack.  Note that test code T_SNDDA will fail 
+under WINS on PC's without a soundcard.
+
+Version 1.00.086
+================
+Made by MattM 28 October 1998
+
+	Uses E32/156, F32/122, STORE/050, E32UTILS/019, 
+	E32TOOLS/095, E32TOOLS/096, EIKTOOLS 128
+
+Changed Unicode third UID on BAFL.DLL
+Changed Unicode second UID on clipboard file
+
+Version 1.00.085
+================
+(Made by SimonC, 29 September 1998)
+
+	Uses E32/125, F32/095, STORE/047, E32UTILS/019, 
+	E32TOOLS/092, E32TOOLS/091, EIKTOOLS 128
+
+Backwards but not forwards compatible with 078
+Built using VC5.  .PDBs are incompatible with VC4
+
+1) Changed RResourceFile::ConfirmSignatureL() to always confirm resource
+file signatures on the assumption that no-one can possibly be using version
+003 files any longer (they were superceded two years ago) and the existing 
+resource layout and structures are fixed now for as long as we support BC.
+
+2) Added RResourceFile::SignatureL() which returns the signature of the 
+resource file.  This shouldn't be required by anyone or anything other than 
+Eikon.
+
+3) Changed const TUint KBaflCharTruncation in BAUTILS.H to a const TUint to 
+prevent a VC5 warning.
+
+Note that test code T_SNDDA will fail in wins builds on pcs without a sound card
+
+
+
+Version 1.00.078
+================
+(Made by SimonC, 16 Mar 1998)
+
+	Uses E32/125, F32/095, STORE/047, E32UTILS/019, 
+	E32TOOLS/092, E32TOOLS/091, EIKTOOLS 125
+
+No source changes - rebuilt with E32 125 et al
+
+Changed *.IBY to support unicode ROMs and reflect recent E32 changes
+
+All WINS and MARM release releases entirely forward compatible
+MARM Debug releases are incompatible
+
+
+
+Version 1.00.077
+================
+(Made by SimonC, 9 Dec 1997)
+
+	Uses E32/107, F32/074, STORE/043, E32TOOLS/082, EIKTOOLS 123
+
+Backward but not forward compatible with 076
+
+From MartinT
+In bacline.*, class CCommandLineArguments(), which gives Count() and 
+Arg() functions whose purpose is similar to argv and argc parsing in 
+conventional C/C++ programming.  This class is mainly intended for WINC 
+programs which, unlike most regular EPOC32 programs, actively use their 
+command-line arguments.
+
+From SimonC
+Converted to MAKMAKE and moved building verbs from MNT.CMD to EBLD.BAT
+
+
+Version 1.00.076
+================
+(Made by DavidW, 28 May 1997)
+
+	Uses E32/107, F32/074, STORE/043, E32TOOLS/067
+
+Completely BC with 075
+
+Built with Platform 001 releases
+
+	Size of BAFL.DLL:       28,432 bytes (ARMREL)
+				35,568 bytes (ARMDEB)
+
+MNT VALID works on a clean drive
+
+1)  Upgraded to Platform 001 releases
+
+2)  Fixed SW3-868: Resource language file look-up fails to find a
+*.R01 file (though, as is often the cases with "simple fixes", the
+fix wasn't quite so simple after all!)
+
+3)  Fixed SW3-827 by adding MAP files to the releasable file lists
+
+4)  The advent of EChangesSystemTime in E32 106 had the side-effect
+of breaking a very restrictive test in Bafl test code T_CNTF.  This
+could be viewed as highlighting a non-BC feature in the E32 changes;
+but it's already been decided that we can live with this (no real app
+ought to be making a test like that in T_CNTF).  This test code has
+now been improved to avoid this problem (and, hopefully, to make it
+immune against any future additions to the TChanges enum)
+
+5)  Fixed a problem with building the test code in ARMDEB (shown up
+when there was no prior build of the test code in ARMREL)
+
+
+Version 1.00.075
+================
+(Made by DavidW, 8 May 1997)
+
+	Uses E32/101, F32/069, STORE/042, E32TOOLS/063
+
+	**Almost** completely compatible with 074
+
+	**IMPORTANT** See note about "descriptor arrays" below
+
+	WINS release, debug, unicode release and unicode debug
+	ARM release, debug, unicode release and unicode debug
+
+	Size of BAFL.DLL:       28,420 bytes (ARMREL)
+				35,556 bytes (ARMDEB)
+
+MartinB has pointed out that the API of the descriptor array classes
+has one real drawback to it: the MdcaPoint() functions were returning
+
+	const TDesC&
+
+whereas there are many advantages to them instead returning
+
+	TPtrC
+
+For example, this causes real problems for the Shell, and has in the
+past caused real problems with the printer model name array in Eikon
+
+After prolonged discussions with MartinB, Bill, and Geert and myself,
+we decided to "do the right thing" and *** break API compatibility
+*** to that extent.  This will avoid much lurking death in the
+future, to do with temporary variables disappearing as the stack
+unwinds, etc.
+
+All code that uses descriptor arrays - whether of the MDesCArray or
+CDesCArray or whatever type - should be recompiled.  That should be
+the only change necessary.
+
+Note however that if you previously assigned the result of an
+MdcaPoint operation to a
+
+	const TDesC&
+
+reference variable on the stack in some code, you should now change
+this code to assign it to a
+
+	TPtrC
+
+variable instead.
+
+*** Note that because the operator[] function of CDesCArray is
+defined as being equivalent to its MdcaPoint() function, you may need
+some care to find these cases.
+
+All EXPORTed functions retain their same ordinal values.
+
+
+Version 1.00.074
+================
+(Made by DavidW, 7 May 1997)
+
+	Uses E32/101, F32/069, STORE/042, E32TOOLS/063
+
+	Completely compatible with 073
+
+	WINS release, debug, unicode release and unicode debug
+	ARM release, debug, unicode release and unicode debug
+
+	Size of BAFL.DLL:       28,284 bytes (ARMREL)
+				35,440 bytes (ARMDEB)
+
+From AndrewT:
+-------------
+1.      Fixed a potential bug with "change leakage" in
+	CEnvironmentChangeNotifier, when a change happening between
+	the beginning and the end of a RunL could go undetected
+
+	Removed the source-code dependency on the EChangesAll enum,
+	which makes the source code build compatible with E32 105
+	(and with any further changes to this enum that E32 might
+	introduce in a future version)
+
+	Updated test code to match.
+
+
+Version 1.00.073
+================
+(Made by DavidW, 6 May 1997)
+
+	Uses E32/101, F32/069, STORE/042, E32TOOLS/063
+
+	Backwards binary compatible with 072, but not forwards
+
+	WINS release, debug, unicode release and unicode debug
+	ARM release, debug, unicode release and unicode debug
+
+	Size of BAFL.DLL:       28,284 bytes (ARMREL)
+				35,440 bytes (ARMDEB)
+
+1.      New header file BAERRHAN.H, defining the interface of an
+	abstract "error handler"
+
+	New function CBaActiveScheduler::LeaveForErrorHandler
+	which takes a const CBaErrorHandler* pointer
+
+	The implementor of the DisplayError function in the concrete
+	subclass of CBaActiveScheduler (or something to which that
+	delegates, eg the implementor of CEikonEnv::HandleError) must
+	follow the contract that -
+
+	- when the Leave has unwound, the CBaErrorHandler object gets
+	sent a HandleError() function.  This function is declared
+	pure virtual at the CBaErrorHandler level.
+
+	There are two parameters to this function - a reference to an
+	"error text" descriptor, and one to a "context text"
+	descriptor.  The function can fill these in with text that
+	the environment will then display.
+
+	The HandleError() function should return one of
+
+	    EAlertDisplay - use the standard alert dialog
+	    EInfoDisplay - use an info message
+			(context text will be ignored)
+	    ENoDisplay - no display required
+			(both text buffers will be ignored)
+	    EErrorNotHandled - fall back to standard processing
+
+	Some test code for CBaErrorHandler has been added to T_SCHED
+
+	** Note that this BAERRHAN.H is an enhancement to the copy of
+	this file provisionally contained in EIKON 183.  In order to
+	move up to BAFL 073, you must also move up to EIKON 184
+
+2.      Removed the last remaining scare comments from BAFL source code
+
+3.      Provided explicit enumeration for all the panics in BAFLPAN.H
+
+4.      Tweak to T_RSC test code to cope with the file copied from
+	ROM to RAM nowadays ending up as read-only (bad news if you
+	want to run the test more than once)
+
+*** Known limitation - the test code fails to build cleanly for
+Unicode (WINS) and so several of the test apps fail.  No problems
+with any of the Narrow builds or test code, though
+			
+
+
+Version 0.06.072
+================
+(Made by AjThoelke, 30 April 1997)
+
+1.      Uses E32/101, F32/069, STORE/042, E32TOOLS/063
+
+	Backwards binary compatible with 071, but not forwards:
+
+	Build against 072 only if you use CSoundPlayer::PlayTone() or
+		SoundUtilities::PlayTone()
+	Build against 071 if you use CClipboard::Clear()
+	Otherwise build against 069
+
+	WINS release, debug, unicode release and unicode debug
+	ARM release, debug, unicode release and unicode debug
+
+	Size of BAFL.DLL:       28,252 bytes (ARMREL)
+				35,392 bytes (ARMDEB)
+
+From Brendan
+
+1.      Fixed SW-4266. Incorrect assert in matcher code.
+
+From DavidW
+
+2.      Fixed SW-4477. KErrLeaveNoAlert is passed on to
+	CBaActiveScheduler::DisplayError() for EIKON to cancel busy messages.
+
+From AndrewT
+
+3.      Fixed SW-4619. Sound files are not assumed to have the default extension
+	".snd".
+
+	Note for ROM builders: Alarm samples in Z:\System\Alarms\ should not have
+	the extension ".snd" any more. They will still work, but the public
+	alarm name will be reported as "Soft Bells.snd" rather than "Soft Bells"
+	for example. (The files released as BAFL ALARMS have not changed their
+	names and still have a .snd extension)
+
+4.      Fixed SW-4610. Ensure that the sample is left in a valid state when
+	trying to complete the recording when in a Disk Full situation.
+
+5.      Implemented SW-4007. Two new services are provided by BAFL.
+
+	void CSoundPlayer::PlayTone(TInt aFrequency,TTimeIntervalMicroSeconds32 aDuration,TInt aAmplitude)
+
+	This makes the player play a sine-wave generated tone on the sound
+	device at the frequency and amplitude specified for aDuration.
+	Completion is notified via the observer as for other CSoundPlayer
+	Play... services.
+
+	TInt SoundUtilities::PlayTone(TInt aFrequency,TTimeIntervalMicroSeconds32 aDuration,
+							TInt aAmplitude,TDeviceVolume aVolume)
+
+	This service opens and configures the sound device and plays a sine-wave
+	generated tone as specified, then closes the device. The function only
+	returns after the tone has finished playing.
+	
+	The TDeviceVolume parameter maps onto the sound device volume settings.
+	Experimenting with the device volume and amplitude values is recommended
+	for getting a good tone volume...
+
+
+Version 0.06.071
+================
+(Made by AjThoelke, 24 April 1997)
+
+1.      Uses E32/099, F32/069, STORE/042, E32TOOLS/063
+
+	Backwards binary compatible with 070, but not forwards
+
+	WINS release, debug, unicode release and unicode debug
+	ARM release, debug, unicode release and unicode debug
+
+	Size of BAFL.DLL:       27,748 bytes (ARMREL)
+				34,844 bytes (ARMDEB)
+
+2.      Added new exported function
+
+	static TInt CClipboard::Clear(RFs&);
+
+	This will clear the clipboard of its contents. Initially it will
+	try to do this by truncating the file, if this fails then it will
+	attempt to delete the file. I the clipboard cannot be cleared the
+	error is returned
+
+
+Version 0.06.070
+================
+(Made by AjThoelke, 22 April 1997)
+
+1.      Uses E32/099, F32/069, STORE/042, E32TOOLS/063
+
+	Binary compatible with 069
+
+	WINS release, debug, unicode release and unicode debug
+	ARM release, debug, unicode release and unicode debug
+
+	Size of BAFL.DLL:       27,564 bytes (ARMREL)
+				34,656 bytes (ARMDEB)
+
+2.      Fixed SW-3879. Over-aggressive asserts have been modified to handle
+	abort states in CSoundData objects, and more graceful handling of
+	serious file server failures (i.e. not panicing).
+
+
+Version 0.06.069
+================
+(Made by AjThoelke, 16 April 1997)
+
+1.      Uses E32/098, F32/068, STORE/042, E32TOOLS/063
+
+	Binary compatible with 068
+
+	WINS release, debug, unicode release and unicode debug
+	ARM release, debug, unicode release and unicode debug
+
+	Size of BAFL.DLL:       27,504 bytes (ARMREL)
+				34,572 bytes (ARMDEB)
+
+2.      New Uid scheme adopted for MARM releasables. For MARM, requires
+	E32 098 for anything other than narrow release.
+
+3.      Refixed SW-2836. The relevant parties have been beaten into submission:
+
+	a)      F32 will not report changes when the first 16 bytes of a file
+		are touched.
+
+	b)      The clipboard has reverted to the 065 behaviour: try to open,
+		if that succeeds truncate the file and carry on, if it fails
+		replace the file.
+
+	c)      The Shell will hold off from scanning for a short delay
+		before checking what's happened to allow files to have their
+		header written before the Shell interrogates their type.
+
+	d)      Components which are too slow even for this should be using a
+		temporary file to write to in the first place, and rename it to
+		the final destination once it is good (and typed). Temporary
+		files do not cause change notification.
+
+4.      Revert following failure on CSoundData has been added to CommitHeaderL(),
+	ExternalizeL() and SaveL(). Previously a seek would have been required
+	to force it to revert.
+
+
+Version 0.06.068
+================
+(Made by AjThoelke, 14 April 1997)
+
+1.      Uses E32/097, F32/067, STORE/041
+
+	Binary compatible with 067
+
+	WINS release, debug, unicode release and unicode debug
+	ARM release, debug, unicode release and unicode debug
+
+	Size of BAFL.DLL:       27,364 bytes (ARMREL)
+				34,452 bytes (ARMDEB)
+
+2.      Fixed the T_SNDDA bug. I had been testing against BC test executables,
+	which did not pick up that the constant KSoundDataChunkLength had been
+	mangled (8 instead of 800). This would have also caused CSoundSampler
+	and CSoundPlayer to be broken.
+
+
+Version 0.06.067
+================
+(Made by DavidW, 13 April 1997)
+
+1.      Uses E32/097, F32/067, STORE/041
+
+	*Not* binary compatible with any previous version
+	(But source compatible with 065)
+
+	WINS release, debug, unicode release and unicode debug
+	ARM release, debug, unicode release and unicode debug
+
+	Size of BAFL.DLL:       27,364 bytes (ARMREL)
+				34,452 bytes (ARMDEB)
+
+2.      Consolidated some code from CONE's CCoeActiveScheduler into
+	BAFL's CBaActiveScheduler (shame it will never make it all
+	the way into CActiveScheduler)
+
+	Virtual function DisplayError() defined in CBaActiveScheduler
+	no implementation at BAFL level
+
+	The CActiveScheduler function Error() now has the following
+	implementation in BAFL:
+
+EXPORT_C void CBaActiveScheduler::Error(TInt aError) const
+	{
+	if (aError==KLeaveExit)
+		User::Leave(KLeaveExit);
+	if (aError==KLeaveWithoutAlert)
+		return;
+	DisplayError(aError);
+	}
+
+	New function DisplayExtendedError(), as follows
+
+EXPORT_C void CBaActiveScheduler::DisplayExtendedError(TUid aComponent,TInt aErrorNumber)
+	{ // static
+	CBaActiveScheduler* pS=((CBaActiveScheduler*)CActiveScheduler::Current());
+	pS->iExtendedError.iInformation=EFalse;
+	pS->iExtendedError.iComponent=aComponent;
+	pS->iExtendedError.iErrorNumber=aErrorNumber;
+	pS->DisplayError(KErrExtended);
+	}
+
+	The difference between DisplayExtendedError() and eg
+	ExtendedLeave() is that the former calls Leave first, and
+	relies on the Error() function being called later.
+	Whereas the former calls the Error() function directly,
+	and is then free eg to retry the current operation.
+
+	So, the assumption is that the Error() function will be
+	implemented "with wait".
+
+3.      New test app T_SCHED testing the CBaActiveScheduler class
+
+4.      Put two virtual Reserved_xxx() functions into CBaActiveScheduler
+
+5.      Changed KUidBaflDll from 0x10000043 to 0x100004e to avoid a clash
+
+6.      Fixed the MNT VALID verb
+
+7.      Known limitations
+
+	* the way DEF files get archived for WINS looks wrong
+
+	* test code T_SNDDA hangs under ARM (and runs horribly horribly
+	slowly under WINS) - note this is true in 066 too and isn't
+	anything I have introduced
+
+
+Version 0.06.066
+================
+(Made by AjThoelke, 11 April 1997)
+
+1.      Uses E32/097, F32/067, STORE/041
+
+	To all known purposes: Binary compatible with 065.
+
+	WINS release, debug, unicode release and unicode debug
+	ARM release, debug, unicode release and unicode debug
+
+2.      The protected interface of CSoundData, CSoundSampler and CSoundPlayer
+	has been privatised. This is for future BC purposes, and they couldn't
+	usefully be derived from anyway.
+
+3.      System file and path names within BAFL (e.g. the clipboard) now use
+	capitalised names.
+
+4.      CSoundSampler is now using a block length of 800 samples (previously
+	400). This means that samples recorded with BAFL 066 will not be
+	playable with 065, but older samples will play happily on 066.
+
+5.      CSoundSampler has gained TInt Volume() and void SetVolume(TInt).
+	These squeeze an extra bit of data into the persistent data of a sound
+	sample: the player/sampler do not utilise this information, it is
+	provided for the RECORD app.
+
+	The limitation is that the repeat count is limited to 65535 (big deal
+	eh?), and the volume stored must be in the range 0-65535.
+
+6.      Unfixed SW-2836. The file system now reports changes even if the header
+	of a file is re-written so the scheme in place was not effective.
+	Clipboard is still being replaced every time now.
+
+	
+Version 0.06.065
+================
+(Made by AjThoelke, 9 April 1997)
+
+1.      Uses E32/096, F32/065, STORE/040
+
+	Binary compatible with 064 except for one thing (see 2).
+
+	WINS release, debug, unicode release and unicode debug
+	ARM release, debug, unicode release and unicode debug
+
+2.      The two extended errors for clipboard use have been removed. This upsets
+	the enum ordering in BAERROR.H and introduces an incompatibility if you
+	use this enumeration. I understand this affects almost nobody: certainly
+	no-one who has yet built against BAFL 064, and so have been advised to
+	let this one slip in at this stage. So if you do include BAERROR.H, make
+	sure you compile against 065 not 064.
+
+3.      All MARM releasables are pre-PETRAN'd, so get rid of your obey file
+	UIDs for BAFL.
+
+4.      Sampled alarm sounds now live in \system\alarms\, previously
+	\system\sounds\, as this better reflects what this directory is used
+	for.
+
+5.      Fixed bug SW-2836. The clipboard now attempts to open the clipboard file
+	and truncate it, rather than always replace it, in order to prevent the
+	clipboard generate unecessary change notification.
+
+6.      Fixed bug SW-2721. If the clipboard store has no root stream when
+	destroyed, the clipboard file is deleted. This handles any case of
+	failure during copying to the clipboard. Note that the first thing that
+	happens during a paste operation is that the current contents of the
+	clipboard are discarded.
+
+7.      Modified the behaviour of the clipboard when trying to read when the
+	clipboard does not exist, is being copied to, is corrupt or otherwise
+	damaged. In all these situations an empty CClipboard object is returned
+	from CClipboard::NewForReadingL[C](). More serious errors (or OOM) are
+	reported as normal.
+
+	These situations are all considered to be equivalent to there being no
+	data to paste from the clipboard, and will therefore be handled already
+	by the code which attempts to find some suitable data type in the
+	clipboard stream dictionary.
+
+	This has resulted in the two clipboard extended errors being no longer
+	required.
+
+8.      New releasables:
+
+	WINSCPR contains DEF files for all WINS builds of compressor DLLs.
+	EMARMCPR contains FRZ files for all MARM builds of compressor DLLs.
+
+	They require that the DLLs exports a function with the prototype:
+
+	CCompressorBase* NewCompressorL();
+
+	See the dummy compressors which are part of the BAFL source for examples
+	of how to build them for WINS and ARM: WINS adds a /def option to the
+	linker command line, MARM uses freeze file technology.
+
+	These releaseables are extracted to \epoc32\release\wins and
+	epoc32\release\marm as part of MNT GETREL.
+
+
+Version 0.06.064
+================
+(Made by AjThoelke, 7 April 1997)
+
+1.      Uses E32/096, F32/065, STORE/040
+
+	Binary incompatible with 063.
+	Source compatible with 063 with the exception of the CFindFileByType
+	class.
+
+	WINS release, debug, unicode release and unicode debug
+	ARM release, debug, unicode release and unicode debug
+
+	Further review for the purposes of binary compatibility issues and
+	conversion from export to inline has resulted in more changes.
+
+2.      WINS builds are now link-by-ordinal.
+
+3.      MARM builds now incorporate type-safe linkage: BAFL's uid3 is 0x10000043.
+
+4.      Added CBaflUtils::NearestLanguageFile(RFs& aFs,TFileName& aFileName).
+	This has been taken from the EIKON utility of the same name. The last
+	two characters of the filename are replaced with the language code if
+	such a file exists, otherwise the name is left unchanged.
+
+5.      CFindFileByType now has the following API:
+
+	CFindFileByType(RFs& aFs);
+	~CFindFileByType();
+	TInt FindFirst(const TDesC& aName,const TDesC& aDir,const TUidType& aType);
+	TInt FindNext();
+	const TEntry& Entry() const;
+	const TParse& File() const;
+
+	Following construction, the object can be used for mulitple finding
+	sessions.
+
+	To initiate a find, call FindFirst(): the name can have wild
+	cards, any path information not in aName is taken from aDir. A file type
+	is also specified in aType. For any Uids in aType which are not KNullUid,
+	a matching file will have the same Uid in that position. i.e. to find
+	document files use TUidType(KNullUid,KUidAppDllDoc).
+
+	FindFirst() returns KErrNone if it has found a match, FindNext() will
+	continue to search for the next matching file. KErrNotFound is returned
+	when there are no more matches, any other return is an error code.
+
+	When a matching file has been found, Entry() returns the TEntry for that
+	file, and File() returns a TParse object containing the parsed full name
+	for the file.
+
+The following changes do not affect source compatibility:
+
+6.      CEnvironmentChangeNotifier now takes a const TCallback& in its NewL()
+	and Set() members. Previously took TCallBack&.
+
+7.      Various exported functions are now inline as befits their purpose.
+
+8.      CDesC8Array constuctor is now protected, CDesC8ArrayFlat has a exported
+	destructor to reduce extra vtable generation in any sub-classers. Ditto
+	for CDesC8ArraySeg, and the unicode variants.
+
+9.      TLibAssoc has a general base class TLibAssocBase, to hold the common
+	code, reducing the template generated code, and also removes the
+	templated assertion (now in TLibAssocBase).
+
+10.     Improved the performance of the TResourceReader class.
+
+11.     Factored common code in RIncrMatcherBase to reduce code volume.
+
+
+Version 0.06.063
+================
+(Made by AjThoelke, 2 April 1997)
+
+1.      Uses E32/095, F32/064, STORE/040
+
+	Binary compatible with 062
+
+	WINS release, debug, unicode release and unicode debug
+	ARM release and debug
+
+	Following full review of BAFL code, I have fixed some bugs (see below)
+	and tidied some other code resulting in some code savings. There are a
+	few outstanding binary-incompatible changes that are on the waiting list.
+
+2.      Fixed CEnvironmentChangeNotifier to close the RChangeNotifier when it is
+	destroyed.
+
+3.      Fixed RTextBuf to use the delete [] operator as it is using the new []
+	operator. Previously it was not using the array delete operator.
+
+4.      Major fixes to SoundUtilities: No non-leaving functions can now leave,
+	no alloc heaven following failures at any stage, private static members
+	are now local static to the source file and removed from the class
+	declaration.
+
+5.      Fixed SW-2001. Duplicate names in the list of alarm sounds or samples
+	are ignored. This matches the behaviour of CSoundPlayer: as soon as a
+	viable sound is found which matches the name, it is played.
+
+	Note that this means it though may be possible to save an sample as an
+	alarm called "Chimes", it'll never get played as an alarm while an
+	algorithmic sound of the same name exists.
+
+6.      Revised code for CFindFileByType to attempt a reduction in stack usage
+	by TFileName and TParse objects, to reduce code size, and to eliminate
+	problems when handling failures.
+
+7.      Removed unecessary (inline) copy constructors from TCellRef and
+	TRangeRef.
+
+8.      Included s32file.h into baclipb.h as CClipboard::Store() requires the
+	derivation relationship between CFileStore and CStreamStore.
+
+9.      CClipboard::CopyToL(const TReal&) now commits the stream it has written.
+
+10.     The clipboard has been moved from the very strangely named
+	c:\system\clipbd\main.sto to the somewhat more sensible sounding
+	c:\system\data\clipboard
+
+11.     Beefed up CSoundData's handling of in-place sample files being corrupt
+	or requiring truncation when opened or following (serious) failure.
+
+
+
+Version 0.06.062
+================
+(Made by AjThoelke, 26 March 1997)
+
+1.      Uses E32/094, F32/063, STORE/038
+
+	Binary compatible with 061
+
+	WINS release, debug, unicode release and unicode debug
+	ARM release and debug
+
+2.      Fixed a bug when recording to the end of a just-opened sample, which
+	resulted in data loss, and end of file errors.
+
+3.      Correctly update the current position during recording when a compressor
+	is in use.
+
+4.      Avoid a panic from CActive when abandoning the background indexing, and
+	ensure the sampler restores its active priority as necessary.
+
+5.      Allow UseSeekIndexL to be called any number of times without causing
+	stray signals, or other nasty problems.
+
+
+Version 0.06.061
+================
+(Made by AjThoelke, 26 March 1997)
+
+1.      Uses E32/094, F32/063, STORE/038
+
+	Binary compatible with 060 if you are not the RECORD app.
+
+	WINS release, debug, unicode release and unicode debug
+	ARM release and debug
+
+2.      Renamed CSoundPlayerRecorder to CSoundSampler, similarly for its
+	observer.
+
+3.      Fully construct the CTimer part of CSoundSampler, previously this
+	caused a panic when playing a sample.
+
+4.      Added CSoundSampler::TruncateL() to truncate the sample to the current
+	position.
+
+5.      Implemented a compressed sound data manager. This can use a temporary
+	index to enable fast random seeking in the sample.
+
+	The default is not to have one, as it is not needed for playing sounds,
+	enabling it will result in an index being built as the sound is
+	played (and so can cause OOM errors while playing). Compressed samples
+	do not allow random seeking without the index, only seeking to the
+	beginning or end of the sample.
+
+	CSoundSampler::UseSeekIndexL() will enable the indexing, and will cause
+	the sampler to build the index in the background, which is abandoned
+	whenever another operation is started.
+
+6.      Generally improved the robustness of the sampler when recording
+	terminates in resticted memory or disk space scenarios, and ordered the
+	file header re-writes to maintain document integrity in the presence of
+	failures.
+	
+	
+Version 0.06.060
+================
+(Made by AjThoelke, 25 March 1997)
+
+1.      Uses E32/094, F32/063, STORE/038
+
+	For most people: Binary compatible with 059.
+	Binary incompatible if you use any of the functions
+
+	CSoundData::NewL(CStreamStore&,TStreamId);
+	CSoundPlayerRecorder::NewL(MSoundPlayerRecorderObserver&,CStreamStore&,TStreamId);
+	CSoundData::SaveToL(RFile&);
+	CSoundPlayerRecorder::SaveToL(RFile&);
+
+	(This should only be the RECORD app).
+
+2.      The two NewL() functions above now take a const CStreamStore&.
+
+3.      The SaveTOL() functions have morphed into:
+
+	SaveL(RFile& aNewFile,TBool aUseNewFile=EFalse);
+
+	The sample is saved into the new file passed in. If aUseNewFile is true,
+	then the sampler starts using the new file, and closes the old file. If
+	false (the default) the new file is closed following this function.
+
+	On any failure, the new file is closed automatically.
+
+4.      Added CSoundPlayer::SoundType() returning TSoundType, which is one of
+	ESoundAlgorithmic and ESoundSample. This reports the type of sound
+	last played (or currently playing) using this object.
+
+5.      Exported SoundUtilities::SoundStreamIdL(CPersistentStore&) to extract
+	the sound stream id from the stream dictionary in sound samples.
+
+	
+Version 0.06.059
+================
+(Made by AjThoelke, 24 march 1997)
+
+1.      Uses E32/094, F32/063, STORE/038
+
+	Binary incompatible with 058.
+
+	WINS release, debug, unicode release and unicode debug
+	ARM release and debug
+
+	The main thrust of this release is to re-engineer the sound services to:
+
+	* enable in-place recording of sound samples
+	* modify the sound sample data format to improve seek performance
+	* remove the TRequestStatus asynchronous API.
+
+	Meanwhile I have totally revamped the API for the CSoundPlayer,
+	CSoundPlayerRecorder and CSoundData classes. Code which does not use any
+	of the sound classes or utilities will not need any modification to use
+	this new version of BAFL.
+
+	This release comes not entirely tested, and not entirely complete, in
+	order to freeze the API now, rather than later. Binary compatible
+	releases will be forth coming as the missing code is added and tested.
+
+From NeilD
+
+2.      Transferred the utility EikThread::ExtractAppNameFromFullName(...)
+	from EIKON to BAFL, now BaflUtils::ExtractAppNameFromFullName(...).
+	This will be removed from EIKON as and when appropriate.
+
+From AndrewT
+
+3.      CBulkData has been removed from the public API.
+
+4.      CSoundPlayer is similar to its previous API:
+
+	static CSoundPlayer* NewL(MSoundPlayerObserver& anObserver,RDevSound& aDev);
+	void PlaySoundL(const TDesC& aName,RFs& aFs);
+	void PlayFileL(const TDesC& aName,RFs& aFs);
+	void PlayAlarm(const TDesC& aName);
+	void PlayAlarm(TInt aAlarmIndex);
+	void PlayFallBackAlarm();
+	void Stop();
+	TBool IsPlaying() const;
+
+	To replace the I/O Semaphore API for notification of completion, an
+	MSoundPlayerObserver object is required. It's virtual PlayComplete(TInt)
+	member is invoked when the player has finished playing any sound,
+	passing any completion status as a parameter. Note that the player
+	still requires an active scheduler to be running to operate, but is no
+	longer itself an active object.
+
+	Playing alarm sounds is guaranteed to not fail. PlayAlarm(const TDesC&)
+	attempts to find an alarm of the given name and play it, otherwise the
+	fall-back alarm is played. PlayAlarm(TInt) is as before, playing the
+	alarm by index.
+
+	PlayFileL(...) will try to locate the named sound file and play it,
+	leaving on any error. PlaySoundL() will first try to find an alarm of
+	the given name, and if none is found will try to find the named sound
+	file, reporting an error if no such file exists.
+
+	Stop() will synchronously terminate the current sound playing, and will
+	not cause the observer to be notified.
+
+	IsPlaying() just reports whether a sound is currently being playing by
+	the object.
+
+5.      CSoundData API has totally changed. It supports embedded or in-place
+	sound samples. It no longer uses temporary file for temporary storage, but
+	a chunk instead. This means that spontaneous death will not eat up
+	precious disk (& memory) space.
+
+	The API is now expressed entirely in terms of byte positions within
+	the Alaw Sound sample, but provides conversion functions to and from
+	microseconds.
+	
+	Uncompressed sound data now supports immediate seeking to any position
+	in the sample. The compressed data manager has not been implemented yet,
+	and, selecting a compressor will currently result in uncompressed data.
+
+	Recovery on failure and truncation of the sample in the face of OOM or
+	DiskFull errors are still being worked on, and have yet to be tested.
+
+6.      CSoundPlayerRecorder has had its API changed as well. It also uses an
+	observer, rather than I/O semaphore to mark completion of its services.
+	This class has not been tested yet.
+
+7.      CCompressorList has had some of its members name's changed.
+	Functionality is unchanged and still obvious.
+
+
+Version 0.06.058
+================
+(Made by SteveG, 12-Mar-1997)
+
+Uses
+E32         (091)
+F32         (060)
+STORE       (037)
+
+1) Uses new sound driver functions for determining how many bytes have
+   been played, needed as the Record app now sets the sound drivers
+   buffer to 8000 bytes, and there will nearly always be 1 second of
+   sound remaining to be played when the end of the sample sound file
+   is reached
+
+Version 0.05.057
+================
+(Made by SteveG, 04-Mar-1997)
+
+Uses
+E32         (090)
+E32UTILS    (008)
+F32         (058)
+STORE       (036)
+E32TOOLS    (051)
+EIKTOOLS    (120)
+RCOMP       (313)
+
+1) Fixed panic when cancelling sounds played by PlaySoundFileByName. This
+   was not initialising the iDevSound property
+
+Version 0.05.056
+================
+(Made by SteveG, 03-Mar-1997)
+
+Uses
+E32         (090)
+E32UTILS    (008)
+F32         (058)
+STORE       (036)
+E32TOOLS    (051)
+EIKTOOLS    (120)
+RCOMP       (313)
+
+1) Altered the sound file format to store the uncompressed length of
+   each chunk, to speed up the seek functions. They no longer need
+   to read the chunk data in order to  work out the duration of the
+   decompressed chunk
+
+Version 0.05.055
+================
+(Made by DavidW, 02-Mar-1997)
+
+Uses
+E32         (090)
+E32UTILS    (008)
+F32         (058)
+STORE       (036)
+E32TOOLS    (051)
+EIKTOOLS    (120)
+RCOMP       (313)
+
+Not binary compatible with any predecessor
+
+Size of BAFL.DLL: ArmRel 28,596 bytes, ArmDeb 32,036 bytes
+
+1)  Upgraded to the latest releases of all upstream components
+
+2)  Removed the TBoundedArray classes (and their test code)
+
+3)  Removed the box layout classes (and their test code)
+
+4)  Removed the function BaflUtils::ExtractMnemonic()
+
+5)  Removed the function TResourceReader::SetJustBuffer()
+
+6)  Brought the contents of \bafl\src\empty.cpp up to date
+
+7)  Removed all reference to the #define __BAFL_B6__ and removed all
+code branches in which this macro was *not* defined
+
+8)  Added the class CBaActiveScheduler, containing code that ought to
+migrate shortly into CActiveScheduler (and User and DThread).  This
+contains support for a grown-up error number system for the first
+time.  For further details, see the discussion in the EPOC32 Software
+Design database on Notes
+
+9)  Moved the functions Exit() and LeaveNoAlert() from
+CCoeActiveScheduler to CBaActiveScheduler (and slightly changed their
+implementation, to avoid some theoretical problems)
+
+10) Added the header file BAERROR.H containing Bafl-specific error
+numbers, for the classes RResourceFile and CClipboard; improved the
+code in BARSC.* and BACLIPB.* by taking advantage of this new scheme
+
+11) Changed the TInt ConfirmSignature function of RResourceFile into
+a void ConfirmSignatureL function instead.  If the resource file
+fails to have the expected signature, this function now does a custom
+KUidBaflDll Leave with KErrBaflWrongResourceFileSignature
+
+12) Changed the CClipboard class to do a custom KUidBaflDll Leave
+with KErrBaflClipboardDoesNotExist in the case of (you guessed it)
+the clipboard not existing.  The Leave sets the "Information" bit, so
+that the UI (ie Eikon level) should display an info message rather
+than an alert dialog
+
+13) Modified the test code T_CLIPB in line with the above changes.
+
+Some limitations to report:
+
+The WINS UREL version of T_SPYRC intermittently crashes inside an
+ASSERT_DEBUG in the sound driver.
+
+T_CELL gets lines 33-38 marked as "Unreachable code" when compiling
+for Release mode under WINS.
+
+I suspect the class CFindFileByType ought to be removed too, being
+superseded by F32 functionality.
+
+The T_BAFL.IBY hard-wires the location of T_RSC.RSC to a REL
+directory, so it doesn't manage to build an ArmDeb ROM image unless
+you've already built the ArmRel one.
+
+I had real difficulties in persuading the NMAKE for the ArmDeb build
+to run at all, and only got it to run when I deleted all files on the
+drive and re-installed from the network.  Something needs
+investigating further here!
+
+
+Version 0.05.054
+================
+(Made by MartinB, 28-Feb-1997)
+
+Uses
+E32         (089)
+E32UTILS    (006)
+F32         (055)
+STORE       (035)
+E32TOOLS    (051)
+EIKTOOLS    (120)
+RCOMP       (313)
+
+1) Changed ReadALawData() and Read() to take a TBool to indicate
+   whether to read the data or just perform a seek to the file
+   position that would result if that read took place. This is
+   used to dramatically decrease the time taken when seeking to
+   a time in a sample. SeekToTime() now calls ReadALawData passing
+   in EFalse to indicate not to read the data. However, if a
+   compressor is in use, then the read must take place and the
+   TBool argument is ignored. (SteveG)
+
+2) Made some improvements to the TCellRef and TRangeRef classes. In
+particular:
+
+a) Inlined some functions
+b) Default constructors no longer initialize values to zero.
+c) Removed unnecessary operator=() functions.
+
+
+Version 0.05.053
+================
+(Made by Natasha, 07-Feb-1997)
+
+Uses
+E32         (086)
+E32UTILS    (005)
+F32         (050)
+STORE       (034)
+E32TOOLS    (051)
+EIKTOOLS    (119)
+RCOMP       (113)
+
+From Natascha:
+1) The new clipboard functions CopyToL(const TReal& aReal) and
+PasteFromL(TReal& aReal) were mistakenly declared as IMPORT_C in the
+source file - changed them to EXPORT_C.
+
+
+Version 0.05.052
+================
+(Made by SteveG, 03-Feb-1997)
+
+Uses
+E32         (086)
+E32UTILS    (005)
+F32         (050)
+STORE       (034)
+E32TOOLS    (051)
+EIKTOOLS    (119)
+RCOMP       (113)
+
+From SteveG:
+1) Changed ReadDataL() in BABUKDA.CPP to use the store functions
+   for copying to and from stores and files, rather than copying
+   256 bytes at a time in a tight loop. This increase dramatically
+   the speed of creating a temporary sample file and saving samples
+   (thanks to AndrewT for this)
+
+Version 0.04.051
+================
+(Made by PeterJ, 30-Jan-1997)
+
+Uses
+E32         (086)
+E32UTILS    (005)
+F32         (050)
+STORE       (034)
+E32TOOLS    (051)
+EIKTOOLS    (119)
+RCOMP       (113)
+
+NOT binary compatible with BAFL 050.
+
+
+BAFL.DLL is 36648 bytes long (release), 41164 (debug).
+
+
+The box layout test code T_BLO is temporarily removed from the
+rack list because it provokes an internal error in the current GCC
+compiler.
+
+
+
+
+From PeterJ:
+CLEAN verb added to the MNT command set.
+
+
+From NataschaK:
+
+CClipboard member functions to copy/paste real numbers.  These are included
+to provide common functionality.  There are architectural questions to answer
+here.  Is this the right place for such functionality?  Should there be provision
+for other low level data types?
+
+
+
+From Brendan:
+A.      Changes to CSoundData
+-------------------------
+
+1)      CSoundData::SeekToTime to take const reference argument (instead of const)
+2)      Added EBafPanicBulkDataNoDestination which is used rather than
+	EBafPanicBulkDataNoDataExist when no destination is specified in CopyDataToL()
+3)      Grouped similar functions in header for CBulkData
+4)      The function CBulkData::DeleteDataFromTheEnd(TInt aLength) now
+	checks for a -ve value of length. 
+	Added   TInt TruncateDataAt(TInt aPosition);
+	to delete data from a given offset from the start.
+5)      Added various private utility functions to CBulkData:
+	TBool DoesFileExist(const TDesC& aFullFileName) const;
+	void EnsurePathExistsL(const TDesC& aFullPath) const;
+	void MoveFileL(const TParseBase& aDest,const TParseBase& aSource);
+	TPtrC BulkDataTempFilePath() const;
+	TPtrC TemporaryFile() const;
+	void SetTemporaryFile(const TDesC& aName);
+	void InternalizeL(RReadStream& aStream);
+6)      CBulkData::SaveToNewStoreL now uses 1 TParse, instead of 2 TParses and a TFileName
+7)      CBulkData::SaveToNewStoreL renamed to MoveToNewStoreL()
+	It now deletes the old file if it was on the same drive as the new, 
+	as well as if on different drives. 
+	Note that this function will delete all data
+	under error circumstances.
+8)      Made internal use of CBulkData::IsReady... functions
+9)      CBulkData::DeleteDataFromTheEnd() and truncate now return KErrNotReady if 
+	there is no data, rather than KErrNotFound.
+
+B.      Changes to CSoundData
+-------------------------
+
+1)      Grouped similar functions in header for CSoundData
+2)      DataPlayTime renamed to SamplePlayLength
+	DataBeingreadTime renamed to CurrentPosition
+3)      Added TotalPlayLength which takes into account trailing silence and repeats
+4)      Added various private utility functions
+	TCompressorPtr DoCreateCompressorL(TUid aUid) const;
+	TTimeIntervalMicroSeconds AlawBytesToMicroSeconds(TInt aBytes) const;
+	TTimeIntervalMicroSeconds operator+(const TTimeIntervalMicroSeconds& aLeft,const TTimeIntervalMicroSeconds& aRight)
+5)      Set a maximum of KSoundDataMaxReadChunkPlayLengthBytes=10000000
+	for reading and writing chunks, to help check for corrupted data. This number should in fact never
+	exceed 1000.
+
+C.      Changes to CSoundPlayerRecorder
+-----------------------------------
+
+1)      Grouped similar functions in header for CSoundPlayerRecorder
+2)      Extensive renaming of functions to clarify their roles.
+	Removed most ...SoundData.. from function names since this class 
+	can no longer deals with any other kind of data.
+3)      Dropped IsSoundDataPresent since it was not being used anywhere
+4)      PrepareForUpdateL renamed PrepareForRecordL
+5)      SaveSoundDataTo becomes MoveSoundDataTo, since old data is deleted. Note that 
+	the new store still needs to be opened before it can be used.
+
+D.      Changes to CSoundPlayer
+---------------------------
+
+1)      Uses two new private functions
+	PlayAlarmSoundByName 
+	PlaySoundFileByName
+2)      inlined PlayFallBackAlarmSound to use PlayAlarmSound
+
+E.      Changes to SoundUtilities
+-----------------------------
+
+1)      SoundUtilities::Populate makes use the new CDescArray::InsertIsq functions
+2)      SoundUtilities::SoundFileByName no longer validates that a file contains
+	a sound data stream. This function is now provided separately. This is to 
+	help solve a problem in which corrupted files could not be deleted.
+3)      Added function DoesFileContainSoundDataL which returns true if a sound data
+	stream was found (It can leave when creating a store or the root stream).
+
+
+
+
+Version 0.04.050
+================
+(Made by PeterJ, January 1997)
+
+Uses 
+E32         (085)
+E32UTILS    (005)
+F32         (049)
+STORE       (033)
+E32TOOLS    (050)
+EIKTOOLS    (119)
+RCOMP       (113)
+
+NOT binary compatible with BAFL 049.
+
+This version was reput at 20:00 ish on 14-Jan-1997 with a bugfix
+in the RResource class that caused it to unpredictably reject
+a resource binary as corrupt.
+
+Size of BAFL.DLL release is 35,736 (40,072 in debug version).
+
+There remains an outstanding problem with the sound player that
+shows up in the test code running under WINS only.
+
+
+Changes
+-------
+
+From history:
+1) Remove the following RResourceFile member functions which have been
+   deprecated for some time but were left around for binary compatibility.
+   
+  TInt PositionToResourceL(TInt aResourceId,TInt &aDecodedLen) const;
+  void ReadResourceDataL(TDes8 &aDes,TInt aReadLen,TInt aDecodedLen) const;
+  (BARSC.H)
+
+From Brendan:
+2) template <class T>
+   inline TBool TLibAssoc<T>::IsNull()
+
+   is now a const function.  (BALIBA.H)
+
+3) added the following functions to CDesCArray (8 and 16 bit versions)
+
+IMPORT_C TInt InsertIsqL(const TDesC8& aPtr
+	      ,TKeyCmpText aTextComparisonType=ECmpFolded);
+IMPORT_C TInt InsertIsqAllowDuplicatesL(const TDesC8& aPtr
+	      ,TKeyCmpText aTextComparisonType=ECmpFolded);
+IMPORT_C TInt FindIsq(const TDesC8& aPtr,TInt& aPos
+	     ,TKeyCmpText aTextComparisonType=ECmpFolded) const;
+
+These allow the insertion in sequence of descriptors into an array,
+and for finding the descriptors from a sorted array. 
+
+Note that this functionailty is already available for CPtrCArray variants.
+The test T_PTRCA shows how this is done - it just requires that the user
+create and use a : TKeyArrayFix key(0,{sort method});
+
+
+T_DESCA has been modified to at call these functions and ensure that they
+work. It does not stress test them.
+
+T_PTRCA has been modified to show how to call the FindIsq and
+InsertIsq functions.
+
+
+From Simon Ch:
+4) Added CClipboard::NewForReadingL(RFs& aFsSession).  This is for use
+   by callers who don't know if the clipboard exists before they
+   attempt to paste. (BACLIPB.H) Test code added to T_CLIPB.
+
+
+From AndrewT:
+5) Modifications to allow resource data to be read out of ROM directly.
+   Affects BARSC and its test code and changes the RResourceFile class
+   signature slightly.
+
+
+From PNJ:
+6) Test code now compiles its own resources instead of using
+   stored resource objects.  Affects T_RSC and T_RSREAD.
+   MNT procedure modified to get an explicit resource compiler
+   version.  (may want to review the role of EIKTOOLS here).
+
+7) Resource file test code now deals with both 8 and 16-bit
+   text strings generated by RCOMP 3.13 or higher.
+
+
+
+
+
+
+Version 0.04.049
+================
+(Made by Brendan, 20 December 1996)
+
+Uses 
+E32                     (081)
+E32UTILS        (004)
+F32                     (045)
+STORE           (032)
+E32TOOLS        (049)
+EIKTOOLS        (119)
+
+1)      size            Arm release 
+	BAFL.DLL        35,000
+2)  Upgraded to new components. This release is not binary compatible, 
+	and introduces the following new classes:
+	CFindFileByType,TLibAssoc<>,CSoundPlayer,CPtrCArray (and variants)
+	There are likely to be more changes in the sound utilities. 
+3)      Incorporated a CSoundPlayer class from Julian, which is used to play sounds 
+	by name. CSoundPlayerRecorder now only deals with file based sounds and not 
+	algorithmic sounds.
+-       PlayByName() returns an error instead of leaving, to be consistent with the API
+	to algorithmic sounds.
+4)  Incorporate CFindFileByType from Julian, making some minor changes
+    to return the file name and extention of a found file and just the 
+    file name (in TPtrC's).
+5)  Took advantage of CFindFileByType in the CSoundUtilities
+6)  Added CPtrCArray arrays - these are similar to CDesCArrays
+    but store an array of TPtrC's rather than the actual data.
+-   There is a CopyL function to copy any MdcaArray to a CPtrCArray.
+-   It can be used instead of CDesCArray in listboxes etc to reduce
+    duplicating memory, but care should be taken since it can 
+    hold invalid data if the data that the TPtrC's point to, is deleted.
+7)  Added test code T_PTRCA for class CPtrCArray
+8)  TLibAssoc<T> class to be used synonomously with a pointer to the 
+    library associated class (ie a pluggable component). It contains a RLibrary 
+	and a pointer to the class that the library has created. When this 
+	pointer class is "deleted"(Unload()), the library is unloaded after the
+	the class has been deleted - ensuring that the destructor of the class is still 
+	around during the deletion. See the test code T_LIBA for examples of how 
+	it can be used.
+-   use a "TLibAssoc" instance instead of "CLibraryClass*",
+-   call "TLibAssoc.Unload()" instead of "delete(CLibraryClass*);"
+-   call "TLibAssoc.IsNull()" instead if "CLibraryClass*==NULL"
+-   TLibAssoc can be used with CleanupStack::PushL() and PopAndDestroy() etc.
+-   TLibAssoc is safe to use in applications because it does not rely on an
+    active object to unload the libraries.
+-   TLibAssoc should not be used to unload the Dll inwhich the TLibAssoc class
+    is defined, because the executed code must be in a different executable.
+9)  Dropped CLibUnloader
+10)     Changed sound utilities to compare alarm sound names with a fold comparison
+	since the file server wouldnt distinguish between the files.
+11)     Provided public SoundUtilities::PopulateAlgorithmicSoundsL()
+	and SoundUtilities::PopulateAlarmSoundFilesL()
+12) Minor changes to BASNDDA.CPP to prevent possible overlfow errors 
+    in calculations
+13) Minor changes to T_SNDUT.CPP to check that sound files correspond 
+    to their names
+14) Added TheSoundDev.FlushPlayBuffer() and TheSoundDev.FlushRecordBuffer()
+    to T_SNDDA to prevent it from failing with KErrInUse
+	From comments in the test code, it looks as though this test needs to be 
+	revisisted.
+
+Version 0.04.048
+================
+Made by Julian, 02-Dec-1996
+
+Uses    E32/079, E32UTILS/004, F32/044, STORE/032,
+	E32TOOLS/048, EIKTOOLS/119
+
+BAFL ARM DLL sizes: 33148 (release) 37140 (debug)
+
+Stay compatible with previous releases.
+
+Use new E32/079 and upward components
+
+From Julian:
+============
+
+1. Checking the drive of the saved file name is the same as the
+temporary file's drive name in CBulkData::SaveToNewStoreL() function.
+If they are not the same, the CFileMan's Copy() and Delete() functions
+will be usedinstead of the RFs::Replace() function as Replace() function
+couldn't replace files between different drives.
+
+
+Version 0.04.047
+================
+Made by PeterJ, 02-Dec-1996
+
+Uses    E32/075, E32UTILS/004, F32/042, STORE/030,
+	E32TOOLS/048, EIKTOOLS/118
+
+BAFL ARM DLL sizes: 32908 (release) 36908 (debug)
+
+Main modifications to stay compatible with baser releases.
+
+NB. The debug build test code tends to display some Store
+    notifier messages. This seems to be a common phenomenon.
+
+	The T_SNDDA test code seemed to hang once in the WINS release
+	build while supposedly playing a sound. Could not reproduce,
+	but the recent sound driver changes in E32/075 may be relevant.
+
+From PeterJ:
+============
+
+1. BAFLVER.H once again reflects the release version numbers.
+   (Thanks to Brendan for pointing this out)
+
+2. TRangeRef::TIter::InRange() is now declared const. (As pointed
+   out by Lane)
+
+3. Instances of KNotFound return values replaced with KErrNotFound
+   instead.  (In incremental matcher code)
+   Also instances of KErrDoesNotExist replaced with KErrNotFound.
+   (Bulk data code, sound player code)
+
+4. Obey include files BASE.IBY and EWSRV.IBY updated to reflect
+   UID3 values now defined in E32.  Note that the uid3 parameter
+   has to be in LOWER CASE before it can be recognised.
+
+From DW2:
+=========
+
+1. CClipboard::Store() now returns a CStreamStore instead of a
+   CFileStore reference.
+
+
+Version 0.04.046
+================
+Made by PeterJ, 23-Nov-1996
+
+Uses    E32/074, E32UTILS/003, F32/040, STORE/029,
+	E32TOOLS/045, EIKTOOLS/118
+
+This is not binary compatible with 045.
+
+Size of ARM BAFL.DLL: 32,896 (Release), 36,384 (Debug).
+
+From PeterJ:
+============
+
+General modifications required to support the wide-character
+build variant of BAFL.  This functions in the WINS release but
+not yet in the ARM release.
+
+Excruciating details can be found in
+
+file:////sentinel-main/upeterj/japan/notes/code_modifications.html#BAFL_046
+
+In summary:
+
+1) Base address of the WINS BAFL.DLL changed from 61000000 to
+   40100000 to conform with MartinB's new allocation scheme.
+
+2) Various minor corrections where generic descriptors were being
+   used to refer to non-text data.
+
+3) TResourceReader class member functions that were defined in terms
+   of generic descriptors have been extended to provide explicit
+   8 and 16-bit data member functions. The caller must decide which ones
+   to use depending on whether they are meant to be reading text or
+   binary data. Functions affected are:
+
+   ReadHBufCL, ReadTPtrC, ReadDesCArrayL.
+
+4) The CDesCArray and MDesCArray classes were defined in terms of 8-bit
+   buffers only.  This family now has explicit 8 and 16-bit variants:
+
+   CDesC8Array, CDesC16Array, MDesC8Array and MDesC16Array.
+
+5) Minor test code changes. T_RSC has a new compare function to allow it
+   to compare 8-bit resource strings with internally defined text descriptors.
+   T_RSREAD modified to use explicit 8-bit resource strings.  This will be
+   revisited when the resource compiler supports Unicode strings. UIDs for the
+   dummy compressor files are now assigned in the make file instead of in
+   the MNT command file.
+
+6) Changes to MNT.CMD to support Unicode variants of BAFL. Later versions
+   of BAFL should now be released with MNT BLDUREL and MNT BLDUDEB steps
+   and the test code exercised after building with MNT BTSTUREL and BTSTUDEB.
+
+
+
+Version 0.03.045
+================
+Made by DavidW, 11 Nov 1996
+
+Uses    E32/074, E32UTILS/003, F32/040, STORE/029,
+	E32TOOLS/045, EIKTOOLS/118
+
+Retains binary compatibility with 044
+
+Size of BAFL.DLL (ARM):
+	31,132 bytes (Release), 34,368 (Debug)
+
+Re-put at 11am 12th Nov, with:
+
+*) the class originally called CBaflChangeNotifier renamed to
+CEnvironmentChangeNotifier, on the suggestion of MartinT
+
+*) improved T_CNTF test code, from Brenda
+
+*) an update to use the latest version of all system components (not
+strictly necessary, except for MARMD ROMs on Proteas with 8Mb of RAM)
+    
+
+From DavidW:
+------------
+1)  Added some timing tests for resource file lookup in T_RSREAD
+
+2)  Altered the way the RResourceFile class reads resources, to do a
+seek-and-read together, rather than a seek followed by a separate
+read.  This resulted in a 30% speed improvement
+
+3)  The two functions ReadResourceDataL() and PositionToResourceL()
+of RResourceFile have been withdrawn from the public API (although
+empty implementations remain until the next API thaw)
+
+4)  Switched to EIKTOOLS/118 and therefore now default to doing a
+MARMD release as well as a MARM one (whereas previously the default
+was not to do one)
+
+5)  Simplified ..\tsrc\bld.cmd to use setwhat.cmd
+
+Note that the steps required to build and test a new version of
+Bafl are now
+
+    MNT BLD followed by BTST then RTST for the Ascii Debug variant
+
+    MNT BLDREL / BTSTREL / RTSTREL for the Ascii Release variant
+
+    MNT ARMREL / ATSTREL / BLDIMG / REPRO for Gcc Release
+
+    MNT ARMDEB / ATSTDEB / BLDIMD / REPROD for Gcc Debug
+
+Then MNT PUTREL as usual to release it.
+
+Note that if you are in a binary compatible phase, you need to rename
+
+    BAFL.DEF -> BAFL.FRZ  *and*  BAFLD.DEF -> BAFLD.FRZ
+
+before doing the PUTSRC.
+
+From Brendan:
+-------------
+6)  New class CEnvironmentChangeNotifier in the new module BACNTF.*;
+this is an active object that executes a TCallBack when a change in
+TLocale is detected through RChangeNotifier.  Midnight rollover is
+notified in the same way
+
+7)  New test code T_CNTF for the CEnvironmentChangeNotifier class,
+testing that the callback gets called when locale is changed and
+after midnight crossover.
+
+
+Version 0.01.044
+================
+Made by JulianL, 06 Nov 1996
+
+Uses    E32/072, E32UTILS/002, F32/038, STORE/028,
+	E32TOOLS/045, EIKTOOLS/114
+
+Completely binary compatible with 043
+
+From Julian:
+------------
+1) Fix bug in CSoundPlayerAndRecorder::PlaySoundByName() function
+so that it can play the same name again. Also the
+CSoundPlayerAndRecorder's Cancel() operation will close the store
+which holds the alarm sound opened by the above fountion.
+
+
+Version 0.01.043
+================
+Made by DavidW, 29 October 1996
+
+Uses    E32/072, E32UTILS/002, F32/038, STORE/028,
+	E32TOOLS/045, EIKTOOLS/114
+
+Upgraded to E32/072 et al.
+Note the dependency on E32UTILS for the first time.
+
+Size of BAFL.DLL (ARM):
+	30,660 bytes (Release), 33,764 (Debug)
+
+Re-put at 12:15pm 4/11/96 including MARMD releaseables; modest
+changes were required in the *.?BY and *.CMD files to support this:
+
+   *) the value of EXEUID now has to be passed in as a #define to
+PREP, rather than being hard-wired in the BAFL.OBY file)
+
+   *)  MNT GETE32UTILS needed some lines adding to it, to fetch the
+MARMD components too
+
+From DavidW:
+------------
+1)  Converted to the new WINS directory structure.  All INSTxxx verbs
+in the MNT.CMD are history
+
+2)  Removed the template class MArray<T> as over-complicated for what
+it achieved; replaced MArray<TDesC> with MArrayDesC, and renamed the
+header file MARRAY.H to BAMDESCA.H; recall that the role of the
+MArrayDesC class is to define an abstract interface whereby an "array"
+returns references to constant descriptors, without prejudice as to
+how these descriptors are stored
+
+3)  Renamed the functions of the above class to MdcaCount() and
+MdcaPoint(), to avoid name clashes when multiply inheriting from both
+a MArrayDesC and a "standard" array (see the example which has been
+added to T_DESCA to demonstrate this case)
+
+4)  Changed the implementation of CDesCArray to avoid the run-time
+alloc inefficiencies of the previous implementation, albeit at the
+cost of a thicker class (which publicly inherits functions from
+CArrayFixBase that, from a purist point of view, it ought not to);
+recall that the role of the CDesCArray classes are to provide an
+efficient storage of an array of variable length descriptors, which
+are passed into the array as TDesC& and retrieved as TDesC& (const in
+both cases); there are CDesCArrayFlat and CDesCArraySeg variants;
+whereas the MArrayDesC class only provides "read access" to that
+array, the CDesCArray classes additionally provide "write" functions
+such as AppendL, Delete, and InsertL
+
+5)  The Find() and Sort() functions of CDesCArray now support an
+optional TKeyCmpText parameter - which defaults in both cases to
+ECmpFolded, with the same behaviour as before
+
+6)  Based on some code from Duncan, added the class CClipboard to
+Bafl, to replace the classes CReadClipboard and CWriteClipboard that
+are currently in EText (but which are about to disappear); this new
+implementation utilizes the CStreamDictionary class
+
+Note that this change will *not* require software components like
+EText to become dependent on Bafl.  That's because EText will supply
+functions of the type
+    CopyToClipboardL(CStreamStore&,CStreamDictionary&,...)
+    PasteToClipboardL(CStreamStore&,CStreamDictionary&,...)
+which operate at a level below that of the CClipboard class itself. 
+There are Store() and StreamDictionary() accessor functions in
+CClipboard to return these components.  See the new module BACLIPB.*
+
+7)  New test code T_CLIPB which exercises CClipboard
+
+From Dan:
+---------
+8)  Fixed a bug in the InternalizeL() and ExternalizeL() functions of
+TCellRef, which were only streaming TInt16's as opposed to TInt32's
+
+9)  Added InternalizeL() and ExternalizeL() functions for TRangeRef
+
+10) For completeness, added operator!=() to TRangeRef
+
+11) Updated T_CELL test code to match the above
+
+From Julian:
+------------
+12) Altered TBulkData::OpenL() to Leave rather than Panic if
+incompatible data is found, to allow the application to take
+appropriate recovery action
+
+13) Took advantage of RFs::Replace() rather than Rename(), to allow a
+temporary bulk data storage file to be on a different drive from the
+file it is about to replace
+
+14) The SeekToTime function of CSoundPlayerAndRecorder has been
+altered to allow cancellation (eg during a lengthy seek operation).
+
+
+Version 0.01.042
+================
+Made by DavidW, 27 September 1996
+
+Uses E32 069, F32 035, STORE 024, E32TOOLS 042, EIKTOOLS 113
+
+Size of BAFL.DLL (ARM): 28,084 bytes (inside ROM)
+
+Second attempt at B2-platform release for Bafl
+
+No changes apart from going up to E32/069 et al
+
+
+Version 0.01.041
+================
+Made by DavidW, 25 September 1996
+
+Uses E32 068, F32 034, STORE 023, E32TOOLS 042, EIKTOOLS 113
+
+Size of BAFL.DLL (ARM): 28,084 bytes (inside ROM)
+
+1)  This is the B2 day release, built in synch with E32/068 et al
+
+2)  The API of Bafl will now remain frozen until some time after
+B2-day
+
+3)  From Julian: added a new function for CSoundPlayerAndRecorder to
+return the compressor UID used by the sound data
+
+4)  This is the first Bafl to support a Debug MARM ROM image.  To
+fetch the additional components necessary to build this, you have to
+set the environment variable need_marmd before invoking the GETBLD. 
+Then the verb MNT ARMDEB builds a debug Bafl.DLL for ARM, MNT ATSTDEB
+does the same thing for the test code, and MNT BLDIMD builds a debug
+ROM image file, BAF041P?.IMD
+
+5)  For reference, inside the ROM, the Debug BAFL.DLL is 31092 bytes
+long, compared to 28084 bytes in Release mode
+
+6)  So long as need_marmd remains set, the PUTREL puts a MARMD
+release component on the network, as well as the standard set.
+
+
+Version 0.01.040
+================
+Made by DavidW, 9 September 1996
+
+Uses E32 067, F32 032, STORE 021, E32TOOLS 040, EIKTOOLS 109
+
+Size of BAFL.DLL (ARM): 31,984 bytes
+
+"Binary compatible" re-release, with the changes to filepaths as
+required by the changes in F32/032:
+
+1)  The "temp" directory is now c:\system\temp in all builds
+
+2)  The path searched for sound compressor DLLs is now \system\libs
+in all builds
+
+3)  Added INST INSTDEB and INSTREL verbs to MNT
+
+4)  Call MNT INST inside MNT RTST and MNT INSTREL inside MNT RTSTREL
+
+5)  MNT MAKEDIR makes several more directories, as are now required
+in the emulation drives
+
+6)  Changes to the *.OBY files - partly as required by upgrading to
+E32TOOLS/040 - note that you now put in REPRO.EXE rather than
+REPRO.RAM, and all references to REPRO.RAM can be removed
+
+7)  Removed a whole lot of #ifdef Xxx variants code from the test
+code, since it can now be the same in all variants.
+
+
+Version 0.01.039
+================
+Made by DavidW, 4 September 1996
+
+Uses E32 066, F32 031, STORE 021, E32TOOLS 039, EIKTOOLS 109
+
+Size of BAFL.DLL (ARM): 31,984 bytes
+
+From Julian:
+------------
+1)  Added two new functions, each called SeekToTime(), to the sound
+services classes - one for CSoundData and the other for
+CSoundPlayerAndRecorder
+
+2)  Modified test code to match
+
+3)  Other minor internal changes to sound services code
+
+From DavidW:
+------------
+4)  Removed the last trace of *.INL files from \bafl
+
+5)  Moved some template code out of line, to avoid downstream
+compiler warnings
+
+6)  MNT TOOLS now presupposes that the tools should be fetched to
+\epoc32\tools on the local drive, ie any value of %drv% is ignored
+
+7)  The call to PREP in MNT BLDIMG is no longer preceded by a path to
+PREP (ie %drv%\tools\); ie I now assume that PREP (in t:\tools or
+c:\tools) is in your path and is high enough up it
+
+8)  Simplified parts of MNT.CMD by copying things from EIKON, ie the
+calls to _GETCOMP.CMD
+
+9)  Moved the dummy compressors out of the build of BAFL itself, into
+the build of its test code
+
+NB Some of the test code fails under WINS, due to a known defect in
+F32, but it all runs fine under GCC.
+
+
+Version 0.01.038
+================
+Made by DavidW, 28 August 1996
+
+Uses E32 V066, F32 V030, STORE V020, E32TOOLS V039
+
+Size of BAFL.DLL (ARM): 31,468 bytes
+
+1)  First Bafl release in the post E32/065 world (new directory
+structure and all that)
+
+2)  Completely rewrote large parts of MNT.CMD.  Changed over to the
+new sets of released components (but only release the WINS, WINSD and
+EMARM sets, together with the WINSDDB debugging files)
+
+3)  Re-did every *.MAK file, and removed every *.MDP file from the
+LI.PRJ source file listings
+
+4)  Took advantage of some of the new Store API to simplify some of
+the code and test code (the new way that the RLibrary::Load() et al
+functions work helps too!)
+
+5)  Another Great Step Forward is that "mnt getcomps" now takes
+*much* less time than before (because I no longer need to bother
+fetching all these obscure Greek Hebrew etc variants that the Base
+team used to package irretrievably bound up with the genuine
+articles, but which are now happily separated into their own released
+components
+
+6)  Got fed up with *.OBY files being so un-maintainable.  The
+contents of my BAFL.OBY is now
+
+    #define NOCALL nocallentrypoint
+
+    romname=baf##ROMVER##ROMVAR##.img
+    version=0.01(##ROMVER##)
+
+    #include "header.iby"       /* data definitions */
+    #include "base.iby"         /* standard Base components */
+    #include "ewsrv.iby"        /* text window server */
+
+    file=RELDIR\eshell.exe      system\libs\eshell.exe NOCALL
+    file=RELDIR\estor.dll       system\libs\estor.dll NOCALL
+
+    file=RELDIR\bafl.dll        system\libs\bafl.dll NOCALL
+
+    #include "t_bafl.iby"       /* Bafl test files */
+
+    file=RELDIR\d_exc.exe       system\progs\d_exc.exe
+
+    file=RELDIR\d_gdb.exe       system\progs\d_gdb.exe
+    data=RELDIR\repro.ram       system\progs\repro.exe
+
+which ought to improve maintainability.
+
+The files header.iby, base.iby ought in time to become standards,
+shared by all downstream components (I'll define other *.IBY files
+further down the set of software releases)
+
+7)  Note that you *still* need to PETRAN the released file REPRO.EXE
+into REPRO.RAM before you can expect to create a repro-able ROM
+
+8)  Watch out that you'll get lots of warnings, when compiling under
+Gcc, about the HShareBuf class from Store - you can safely ignore all
+these warnings, but you ought to pay attention to any others, as per
+usual
+
+9)  BAFL has a working MNT VALID verb for the first time ever.  It's
+
+    :valid
+    if not exist ..\valid\nul md ..\valid
+    cd ..\valid
+    call getrel %_vgroup% emarm %_par%
+    petran %_vgroup%.dll %_vgroup%.net
+    petran \epoc32\release\marm\rel\%_vgroup%.dll %_vgroup%.bld
+    pediff -e32 %_vgroup%.net %_vgroup%.bld
+    call cont %g% %p%
+    goto end
+
+which, as you can see, restricts itself to testing the built BAFL.DLL
+(Gcc REL version) against one prepared and released earlier.  So, go
+to a clean drive, type
+
+	pgetbld bafl group 038
+	[ mnt gete32tools ] 
+	mnt armrel
+	mnt valid
+
+and you should see the following reassuring message on the screen:
+
+    PEDIFF - PE file compare V0.01(039)
+    E32 image files are identical.
+
+
+Version 0.01.037
+================
+Made by DavidW, 15 August 1996
+
+Uses E32 V064, F32 V028, STORE V019, E32TOOLS V036
+
+Size of BAFL.DLL (ARM): 31,980 bytes
+
+From Julian:
+------------
+1)  Added two new functions to the sound services:
+
+	CSoundData::DataBeingReadTime() and
+	CSoundPlayerRecorder::SoundDataBeingReadTime()
+
+to assist applications to display their playing status
+
+2)  Other internal changes to the sound services code and test code
+
+From DavidW:
+------------
+3)  Altered the MNT.CMD and BAFL.OBY files of Bafl, bringing them
+closer to the model of Nokie's.  In particular, MNT BLDIMG now
+defaults to producing a P1 (reprogrammable) variant ROM image
+
+4)  Added REPRO and FIXREPRO verbs to MNT.
+
+
+Version 0.01.036
+================
+(Made by JulianL, 09 August 1996)
+
+Uses E32 V064, F32 V028, STORE V019, E32TOOLS V036
+
+Size of BAFL.DLL (ARM): 28,004 bytes (With the new Sound service, extra
+10K bytes are added).
+
+1) Added new class CBulkData which is an interface to streamed data
+that provides fast data manipulation within minimal overhead. The data
+is stored in temporary files, which may provide more storage space than
+RAM. Also the temporary file can be renamed to a proper saved file name.
+
+2) Added new class CSoundData which provides access to sound data. It is a
+specialization of CBulkData, which provides read/write access to the data
+and to the header information. The data has to be read as chunks and this
+class provides a mechanism for ensuring the chunks are kept in tact and keeps
+the total play time correct. The header of the sound data contains the
+compressor UID which is used to create relevant compressor to decode or
+encode the data.
+
+3) Added new class CCompressorBase which provides the generic interface for
+future compressors. The compressors will be used to compress the sound data.
+A new CCompressorList class is created to contain an array of names, capabilities
+and UIDs of the compressors in the list, which is useful for displaying
+informations of the compressors.
+
+4) Added new static class SoundUtilities which can populate a CDesCArray with
+alarm (algorithmic) sounds and sound files in the hardwired search path. The
+path is *:\SYSTEM\SOUNDS\*.SND. It can also return the full path file name of
+the sound data with a given name.
+
+5) The "SoundUtilites" can also populate the CCompressorList with the
+available compressors provided by the system. Each compressor appears as a DLL
+with the extension *.CPR. Two dummy compressors (DUMCM1 and DUMCM2) have been
+created to show the possibility of plugable compressors. Therefore, future
+compresssors can be pluged into the system easily. The SoundUtilities can also
+return the compressor by searching through the system directory on all drives
+with the specified UID. This is particular useful for CSoundData to create
+compressor. The MNT's "bld" and "bldrel" commands will automatically attach
+the correct UIDs for both dummy compressors. But if you compile the dummy
+compressors using MSVC (not MNT's "bld" or "bldrel" commands), you need to
+use the E32UID to attach the correct UIDs into their WINS release of DLL
+which are in \e32sys directory.
+(ie.    E32UID /a DUMCM1.cpr 290000001 268435539 299999001
+	E32UID /a DUMCM1D.cpr 290000002 268435539 299999001
+	E32UID /a DUMCM2.cpr 290000001 268435539 299999002
+	E32UID /a DUMCM2D.cpr 290000002 268435539 299999002,
+The first UID is temporary as later different builds will be put in different
+directorys. The second UID is the KSoundCompressionV1Uid specified in Notes,
+The third UID are dummy values set for the dummy compressors. In the future,
+the real compressor will put their UID (third Uid) into Notes.)
+
+
+6) Added new class CLibraryUnloader which is an active object for unloading a
+given library when the current activated active object finished. This is particular
+useful for the compressors to unload their librarys during destruction phase.
+If the library is closed before the destruction completed, an access violation
+will occur. Therefore, the compressor requires this library unloader to unload
+their librarys after their destruction completed.
+
+7) Added new class CSoundPlayerRecorder which can play and record sound data.
+It can also play the alarm (algorithmic) sound. This sound player and recorder
+allows user to cancel the play or recording at any time as it is an active object.
+
+8) Added new test codes to test the above new classes ie.
+T_BUKDA tests the CBulkData,
+T_SNDUT tests the SoundUtilities,
+T_SNDDA tests the CSoundData and the use of dummy compressors,
+T_SPYRC tests the CSoundPlayerRecorder.
+ 
+
+***Note that when running the test codes on the rack, you will experience crashes
+as there is a bug in F32's GetDir() function which cannot find the attached UID of
+a DLL. Jal has already found the bug and the next release of F32 will have the
+fix. For the time being, when you build the rom image, you copy the EFSRV.DLL,
+EFILE.EXE, ELOCAL.FSY and ESHELL.EXE files from r:\BAFL\TEMP directory to your
+\WORK\EMARM directory.***
+
+
+
+Version 0.01.035
+================
+(Made by DavidW, 31 July 1996)
+
+Uses E32 V064, F32 V028, STORE V019, E32TOOLS V036
+
+Size of BAFL.DLL (ARM): 18,876 bytes
+
+*** Re-put 12noon 1st Aug, binary compatible, with a tweak to
+BAMATCH.H to avoid Gcc compiler woes downstream ***
+
+Release in synch with E32/064 et al:
+
+1)  Changed the interface to the TBoundedArray class so that its
+Append function works by reference rather than by pointer, the same
+as the arrays in the base
+
+2)  Commented out some references to Hufman decompression, since this
+functionality no longer exists in TDes.
+
+
+Version 0.01.034
+================
+(Made by DavidW, 9 July 1996)
+
+Uses E32 V063, F32 V027, STORE V017, E32TOOLS V034
+
+Size of BAFL.DLL (ARM): 18,880 bytes
+
+1)  Changed the interface to CDesCArray to use const TDesC& rather
+than const TDesC*; as well as being "the right thing" to do, this
+also helps avoid some annoying Gcc compiler warnings (about taking
+the address of temporaries) downstream.
+
+
+Version 0.01.033
+================
+(Made by DavidW, 8 July 1996)
+
+Uses E32 V063, F32 V027, STORE V017, E32TOOLS V034
+
+Size of BAFL.DLL (ARM): 18,880 bytes
+
+The new compiler resulted in a 14.3% codesize reduction (11.7% due to
+the compiler improvements themselves, and the rest due to getting rid
+of explicit template instantiations)
+
+1)  Release compatible with E32/063 etc
+
+2)  I've now got -g-Wno-ctor-dtor-privacy after every call to maktran,
+to stop going mad on account of idiotic Gcc warning
+
+3)  OTOH the other "new" warning, about taking the address of a
+temporary, is "a good thing", and I rearranged some (test) code to
+avoid it
+
+
+Version 0.01.032
+================
+(Made by DavidW, 23 May 1996)
+
+Uses E32 V059, F32 V023, STORE V014, E32TOOLS V023
+
+Size of BAFL.DLL (ARM): 22,020 bytes
+
+*** Rebased using J-Day components, 4th June 1996 ***
+
+*** Modest changes to admin files, as required by new components ***
+
+From DavidW:
+------------
+1)  Rebuilt compatible with STORE 014.
+
+
+Version 0.01.031
+================
+(Made by DavidW, 20 May 1996)
+
+Uses E32 V059, F32 V023, STORE V013, E32TOOLS V023
+
+Size of BAFL.DLL (ARM): 22,020 bytes
+
+From MartinB:
+-------------
+1)  New Bafl module BACELL.* containing the classes TCellRef and
+TRangeRef which were previously duplicated between the Spreadsheet
+engine and the Grid test code
+
+(Note that this requires BAFL to be dependent on STORE, for the first
+time, which is a shame in a way, but too bad)
+
+2)  New test code T_CELL.CPP to test BACELL
+
+3)  New resource header file BADEF.RH containing a few definitions
+likely to be of use to users of resource files other than Eikon, eg
+the Sheet engine or the Opl translator
+
+
+Version 0.01.030
+================
+(Made by DavidW, 10 May 1996)
+
+Uses E32 V058, F32 V023, E32TOOLS V023
+
+Size of BAFL.DLL (ARM): 20,484 bytes
+
+From DavidW:
+------------
+1)  Rebuilt with latest E32(058) etc - on the rack, the test code now
+goes like a proverbial rocket
+
+
+Version 0.01.029
+================
+(Made by DavidW, 9 May 1996)
+
+Uses E32 V057, F32 V021, E32TOOLS V022
+
+Size of BAFL.DLL (ARM): 20,996 bytes
+
+From DavidW:
+------------
+1)  Changes to class definitions to allow downstream software
+components to meet the EMPTY.CPP test, and thereby cut down on
+code-bloat under GCC
+
+2)  Removed the function MArray::MaCBase() as not required (arising
+out of my lack of understanding of C++ casting rules)
+
+3)  Renamed TIncrMatcherXxx to RIncrMatcherXxx, since they need to
+have a destructor, and TXxx classes should never have a destructor
+
+(actually Colly says RXxx classes should never have a destructor
+either, but I'll leave things as they are for now)
+
+4)  Even more changes to the RIncrMatcherXxx class tree, eg to avoid
+copy constructors being generated on the fly
+
+
+Version 0.01.028
+================
+(Made by DavidW, 1 May 1996)
+
+Uses E32 V057, F32 V021, E32TOOLS V021
+
+Size of BAFL.DLL (ARM): 20,484 bytes
+
+From Brendan:
+-------------
+1)  New feature added to box layout engine to support a layout being
+reset and then recalculated with different parameters in force, eg
+allowing an application to determine the largest possible font that
+can be used for a set of controls inside a fixed region of screen:
+
+2)  Added virtual function ResetAll() to CBox and CBranchBox(), which
+recursively reset the sizes of the boxes
+
+3)  New test code T_BLO2 for the above features
+
+
+Version 0.01.027
+================
+(Made by DavidW, 26 April 1996)
+
+Uses E32 V057, F32 V021, E32TOOLS V021
+
+Size of BAFL.DLL (ARM): 20,484 bytes
+
+From DavidW:
+------------
+1)  Re-release compatible with E32(057) and F32(021): the only change
+required was in the *.OBY file, as per the E32 release notes
+
+
+Version 0.01.026
+================
+(Made by DavidW, 15 April 1996)
+
+Uses E32 V056, F32 V020, E32TOOLS V020
+
+Size of BAFL.DLL (ARM): 20,484 bytes
+
+From DavidW:
+------------
+1)  Fixed the resource reader class to handle mis-aligned
+sub-resources, eg reading a TInt32 following inline after a text
+string; added some tests to T_RSREAD to test this case
+
+2)  Made a few changes to BABLO.* to make it clean-compile, without
+any compiler warnings, in all build variants.
+
+
+Version 0.01.025
+================
+(Made by DavidW, 15 April 1996)
+
+Uses E32 V056, F32 V020, E32TOOLS V020
+
+Size of BAFL.DLL (ARM): 19,972 bytes
+
+Note that ideas on how MNT VALID might work (described in the
+previous release notes) now look a bit simplistic; more research in
+this area is required
+
+From DavidW:
+------------
+1)  Converted the CONE files LAYOUT.CPP, BLOMAIN.HRH and BLOMAIN.H to
+be part of BAFL instead, as the files BABLO.* ("Box LayOut" engine),
+making adjustments as required to run on ARM; likewise converted the
+CONE test code \cone\layout\tlayout to run as \bafl\tsrc\t_blo
+
+2)  Converted the CONE files COERSBUF.* to be part of BAFL instead,
+as the files BARSREAD.* ("ReSource READer"), making adjustments as
+required to run on ARM; wrote new test code T_RSREAD for this class,
+which reads resources from the same test file T_RSC.RSC that is used
+by test code T_RSC
+
+3)  Slimmed down some of the test code T_RSC, since it was boring and
+repetitive for little gain, and since T_RSREAD now provides an
+independent test of using RResourceFile
+
+4)  Added a batch file to run under the Text Shell on the rack,
+RACK.BTF (renamed to RACK.BAT in the ROM), with the intended effect
+of running all BAFL test programs one after the other; what actually
+happens is that they all get run simultaneously, which I suppose is
+less boring and exercises the O/S more thoroughly; so the way of
+running all test code under WINS is to CD to \bafl\tsrc and to type
+"RUN", and the way of running all test code on the rack is to CD to
+\test and to type "RACK.BAT".
+
+
+Version 0.01.024
+================
+(Made by DavidW, 12 April 1996)
+
+Uses E32 V056, F32 V020, E32TOOLS V020
+
+Size of BAFL.DLL (ARM): 8196 bytes
+
+From DavidW:
+------------
+1)  Added VALID verb to MNT.CMD as follows:
+
+    :valid
+    if not exist ..\valid\nul md ..\valid
+    cd ..\valid
+    call getrel %_vgroup% emarm %_par%
+    fc /b %_vgroup%.dll \work\emarm\%_vgroup%.dll > ..\valid.lis
+    call cont %g% %p%
+    type ..\valid.lis
+    goto end
+
+which can be used as a gauge of whether a BAFL.DLL built on one
+person's PC matches that built (under supposedly identical
+circumstances) on another person's PC.  It's only a "gauge" since
+there can be, in my experience so far, up to two blocks of four bytes
+each that vary, which are presumably embedded date-time stamps
+
+2)  Moved the following modules from CONE to BAFL: BNDARRAY (renamed
+to BABNDA), COEDESCA (renamed to BADESCA), and COEMATCH (renamed to
+BAMATCH); made alterations as required for an ARM build
+
+3)  Renamed CTextBuf to RTextBuf, and CIncrMatcherTextBuf to
+RIncrMatcherTextBuf, since whatever else these classes may be, they
+are *not* C's (as they do not inherit from CBase)
+
+4)  Wrote T_BND test code for TBoundedArray; this showed up the fact
+that recent E32 changes (to compress flat buffers when they are
+reset) have broken TBoundedArray; fixed this by overriding the
+Compress() function, to do nothing
+
+5)  Wrote T_DESCA test code for the CDesCArray family
+
+6)  Moved Brendan's TMATCH test code for the incremental matchers to
+Bafl, renaming it (Bafl style) to T_MATCH, and converting it as
+required for ARM
+
+(all four BAFL test programs run successfully on the rack)
+
+7)  Deleted the header file BAFLSTD.H as an anachronism - you should
+delete any copies you have, eg in \e32inc; in the modern standard,
+you should include individual header files like BARSC.H or BNDARRAY.H
+directly, as and when you need them
+
+8)  Outputting all errors from GCC builds to the same file CERR.TXT
+has got to be a mistake; I now output errors to %1.AER files (Arm
+ERror files), eg using the batch file \bafl\tsrc\doarm.cmd:
+
+    call maktran %1.mak %1.arm
+    call nmake -f %1.arm /x %1.aer
+
+9)  Some long-overdue TLC for files in the BAFL group generally.
+
+
+Version 0.01.023
+================
+(Made by DavidW, 9 April 1996)
+
+Uses E32 V056, F32 V020, E32TOOLS V019
+
+From DavidW:
+------------
+1)  Release compatible with E32(056) etc
+
+2)  Had to changed all KFileXxx file-open constants to EFileXxx; had
+to change EShareReadersOnly to EFileShareReadersOnly, etc
+
+3)  Found out that it was daft to set the "-v" flag in BLDIMG.CMD,
+since the verbose output seems to end up in a file E32ROM.LOG anyway;
+so my \bafl\tsrc\bldimg.cmd is now just
+
+	e32rom -gcc bafl.oby
+
+4)  Had to replace the line
+
+	secondary=\work\emarm\efsrv.exe sys\efsrv.exe
+
+in BAFL.OBY with the pair of lines
+
+	secondary=c:\work\emarm\efile.exe sys\efile.exe
+	file=c:\work\emarm\efsrv.dll sys\efsrv.dll
+
+
+Version 0.01.022
+================
+(Made by DavidW, 22 March 1996)
+
+Uses E32 V055, F32 V019, E32TOOLS V017
+
+From Bret:
+----------
+1)  This is the first release of BAFL that supports an ARM build, and
+whose test code runs on the rack
+
+2)  In order to build the ARM version of this code, you will need to
+have installed the GCC tools on your PC: if you haven't done so
+already, type
+    TOOLS GCC
+(invokes the t:\tools\tools.bat batch file)
+
+3)  You will also need a suitable version of the E32TOOLS: type
+    MNT GETE32TOOLS
+
+4)  Apart from this, the standard GETBLD (or MNT GETCOMPS) will fetch
+all the software components required to build BAFL in either WINS or
+ARM variants
+
+5)  Type MNT ARMREL to build the Release version of the ARM variant
+of BAFL.DLL, and MNT ATSTREL to build the Release version of the ARM
+variant of T_RSC.EXE
+
+(Inspect the text file CERR.TXT for any build errors; note that you
+can get lots of strange behaviour if you have failed to add \gcc\bin
+to your PATH)
+
+6)  In the ..\tsrc directory, type BLDIMG to build the file
+ARMROM.IMG (this follows instructions in the BAFL.OBY text file)
+
+7)  Use the network to transfer ARMROM.IMG to a RACK PC and type
+    PEIGER ARMROM.IMG
+to repro the rack with that ROM ...
+
+8)  As it happens very few changes to the BAFL code were required, to
+allow the compilation and linking under GCC
+
+From DavidW:
+------------
+9)  Renamed the WINS release components BAFL and BAFLPDB to EWINS and
+EWINSDB; following the practice from other software groups, the ARM
+release component is called EMARM
+
+10) Renamed the MDWORK verb of MNT to MAKEWORK (this makes all the
+ARM work directories as well as the EWINS work directories).
+
+
+Version 0.01.021
+================
+(Made by DavidW, 4 March 1996)
+
+Uses E32 V054, F32 V018
+
+1)  Re-release compatible with E32(054) and F32(018) (ie VC 4)
+
+2)  Removed "/FORCE" declarations in project settings, to allow
+incremental linking for debug builds.
+
+
+Version 0.01.020
+================
+(Made by DavidW, 26 February 1996)
+
+Uses E32 V053, F32 V017
+
+From DavidW:
+------------
+1)  RResourceFile now has an inline function Offset() returning the
+value of iOffset, as required in order for CONE/Eikon to properly
+support multiple application resource files being loaded in the same
+enivronment
+
+2)  Added a TCleanupItem() operator to RResourceFile, allowing
+RResourceFile objects to be placed on the cleanup stack; the contents
+of the associated Cleanup() function is to call Close()
+
+3)  Renamed the GETJBLD verb of MNT.CMD to GETCOMPS
+
+
+Version 0.01.019
+================
+(Made by DavidW, 21 February 1996)
+
+Uses E32 V053, F32 V017
+
+This build is binary compatible with BAFL 018; a downstream component
+that works with BAFL 018 should work equally well with BAFL 019,
+without any recompilation
+
+From MartinT:
+-------------
+1)  Fixed bug whereby, if a file contained n resources, behaviour
+when attempting to read resources n+1 and n+2 was unpredictable
+(diagnosed by Jal).  It is now possible to reliably read through all
+the resources in a file; attempting to read beyond the end results in
+a Leave.
+
+
+Version 0.01.018
+================
+(Made by DavidW, 19 February 1996)
+
+Uses E32 V053, F32 V017
+
+1)  Re-release compatible with E32(053) and F32(017)
+
+2)  Added EXPORT and DELWORK verbs to MNT.CMD doing the usual things
+
+3)  THIS BUILD WORKS IN RELEASE MODE TOO!  (Not that I changed
+anything; I guess that some bug fixes or other changes elsewhere in
+the system must have put right whatever was going wrong before)
+
+
+Version 0.01.017
+================
+(Made by DavidW, 15 February 1996)
+
+Uses E32 V052, F32 V016
+
+From MartinT:
+-------------
+1) Altered RResourceFile class to better encapsulate the
+20-bit offset generated by the NAME statement in resource
+files.  There is now an iOffset member which carries the
+offset corresponding to the name.  Initially this contains
+zero (set by OpenL()).  When ConfirmSignature() is called,
+the iOffset() is set from the top 20 bits of the second long in
+the signature record.
+
+2) There is a OwnsResourceId() function which returns ETrue
+if a resource id has top 20 bits the same as the iOffset's, or
+if its top 20 bits are zero.  This means that resources can be
+read in sequence 1, 2, 3 ..., or in sequence 0xabcde001,
+0xabcde002 ..., where 0xabcde000 is the offset.  The latter
+is intended for CONE application use.  The former can also
+be useful.
+
+3) Changed the class to allow it to be a value type
+rather than a reference type.  Also, changed from
+privately inheriting an RFile to owning one.  You now
+use OpenL() and Close() to open and close the resource
+file, and you can pass them around by value.
+
+
+Version 0.01.016
+================
+(Made by DavidW, 31 January 1996)
+
+Uses E32 V052, F32 V016
+
+1)  Re-release compatible with E32(052) and F32(016)
+
+
+Version 0.01.015
+================
+(Made by DavidW, 8 January 1996)
+
+Uses E32 V051, F32 V015
+
+1)  Re-release compatible with E32(051) and F32(015)
+
+
+Version 0.01.014
+================
+(Made by DavidW, 19 December 1995)
+
+Uses E32 V050, F32 V014
+
+1)  Re-release compatible with E32(050) and F32(014)
+
+
+Version 0.01.013
+================
+(Made by DavidW, 4 December 1995)
+
+Uses E32 V049, F32 V013
+
+1)  Re-release compatible with E32(049) and F32(013)
+
+
+Version 0.01.012
+================
+(Made by DavidW, 16 November 1995)
+
+Uses E32 V048, F32 V012
+
+1)  Re-release compatible with E32(048) and F32(012)
+
+
+Version 0.01.011
+================
+(Made by DavidW, 19 October 1995)
+
+Uses E32 V047, F32 V011
+
+1)  Added ConfirmSignature(TInt aSignature,TInt &aOffset) to
+RResourceFile, which can be called for resource files whose first
+resource consists of two 32-bit integers
+
+   *) the first being a signature, which must match the passed value
+exactly
+
+   *) the second having no special meaning as far as RResourceFile is
+concerned (but higher level software may interpret it eg as the
+"offset" value for the resource file); this gets written to aOffset
+
+The function returns either KErrNone, or an error value if the
+signature does not match.
+
+
+Version 0.01.010
+================
+(Made by DavidW, 9 October 1995)
+
+Uses E32 V047, F32 V011
+
+1)  Rebuilt to work with new E32 and F32
+
+Unfortunately the release mode code still fails to run (it still
+comes grinding to a halt in exactly the same place as before -
+somewhere deep inside F32).
+
+
+Version 0.01.009
+================
+(Made by DavidW, 6 September 1995)
+
+Uses E32 V045, F32 V009
+
+1)  Rebuilt to work with new E32 and F32
+
+
+Version 0.01.008
+================
+(Made by DavidW, 28 August 1995)
+
+Uses E32 V044, F32 V008
+
+1)  Added RResourceFile::AllocReadLC, which does the same as
+AllocRead but leaves the allocated cell (for the returned HBufC*
+pointer) on the cleanup list
+
+2)  Converted test resource file to use BUF instead of STR and so no
+longer need to go around removing terminating zeroes; also made the
+test resource file more independent from xwim's S_.RSC.
+
+
+Version 0.01.007
+================
+(Made by DavidW, 23 August 1995)
+
+Uses E32 V044, F32 V008
+
+1)  Converted to work with new E32 and F32
+
+2)  I've taken a policy decision that, wherever relevant, Bafl will
+presuppose that a trap handler has been installed by the caller. 
+This will always be the case in an Hcil application (as
+CHci::ExecuteD will install a trap handler), but other users of Bafl
+will have to take independent steps.  See code in T_RSC for an
+example
+
+3)  Thus CResourceFile::AllocReadL now presupposes that a trap
+handler has been installed (and that the caller is already inside a
+TRAP harness) - this allows the code to simplify (there's no longer
+any need for a local TRAP harness)
+
+
+Version 0.01.006
+================
+(Made by DavidW, 21 August 1995)
+
+Uses E32 V043, F32 V007
+
+1)  Converted to work with new E32 and F32
+
+2)  Added L's to the names of all functions that can leave
+
+3)  Moved BAFL.MAK from ..\src to ..\group for the usual reason (to
+make it easier for people debugging downstream to have the IDE know
+automatically where to load bafl source code from)
+
+
+Version 0.01.005
+================
+*** Re-made by DavidW, 28 July 1995, using the new versions of E32
+v041 and F32 v006 (as the old one was link-incompatible)
+
+(Made by DavidW, 26 July 1995)
+
+Available on R:
+
+Uses E32 V041, F32 V006 (from R:)
+
+1)  Converted to work with new E32 and F32
+
+2)  MNT.CMD improved, copying many ideas from Hcil
+
+3)  Converted to new-style no .LNK files CMD-line build system.
+
+
+Version 0.01.004
+================
+(Made by DavidW, 23 June 1995)
+
+Available on S:
+
+Uses E32 V039, F32 V005
+
+1)  Converted to work with new E32 and F32
+
+
+Version 0.01.003
+================
+(Made by DavidW, 22 May 1995)
+
+Uses E32 V038, F32 V003
+
+1)  RResourceFile::Read now tests to see if the resource will fit in
+the passed buffer, and if not, panics
+
+2)  Resource files are now opened with EShareReadersOnly
+
+
+Version 0.01.002
+================
+(Made by DavidW, 15 May 1995)
+
+Uses E32 V035, F32 V001
+
+NB There's currently only an ascii debug version; Unicode threatens a
+huge can of worms that will require a *lot* of attention to sort out.
+
+1)  Now uses F32 instead of home-brewed access to files
+
+2)  CResourceFile now exists as RResourceFile (a subclass of RFile
+from F32)
+
+3)  Provided the static RResourceFile::New as a convenience function
+
+4)  Simplified many of the function names
+
+5)  Provided an HBufC *AllocRead() function to match the void Read()
+function, but this is broken for two reasons:
+
+6)  First, the current implementation of HBufC::New is useless (it
+sets the iLength field to zero, but there's no useful way to change
+this later to something non-zero!)
+
+7)  Second, the current implementation of Hufman decoding often
+decodes one extra spurious character, which can overwrite the end of
+a supplied buffer
+
+
+Version 0.01.001
+================
+(Made by MartinB, 11 May 1995)
+
+Uses E32 V035
+
+First release.
+

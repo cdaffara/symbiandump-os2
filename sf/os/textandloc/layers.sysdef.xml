@@ -1,0 +1,190 @@
+<?xml version="1.0"?>
+<!DOCTYPE SystemDefinition [
+ <!ELEMENT SystemDefinition (systemModel?, build?)>
+ <!ATTLIST SystemDefinition
+  name CDATA #REQUIRED
+  schema CDATA #REQUIRED>
+ <!ELEMENT systemModel (layer+)>
+ <!ELEMENT layer (logicalset* | module*)*>
+ <!ATTLIST layer
+  name CDATA #REQUIRED
+  levels CDATA #IMPLIED
+  span CDATA #IMPLIED>
+ <!ELEMENT logicalset (logicalsubset* | module* | unit* | package* | prebuilt*)*>
+ <!ATTLIST logicalset 
+  name CDATA #REQUIRED
+  levels CDATA #IMPLIED  
+  span CDATA #IMPLIED
+  level CDATA #IMPLIED>
+ <!ELEMENT logicalsubset (module* | unit* | package* | prebuilt*)*>
+ <!ATTLIST logicalsubset name CDATA #REQUIRED>
+ <!ELEMENT module (component* | unit* | package* | prebuilt*)*>
+ <!ATTLIST module
+  name CDATA #REQUIRED
+  level CDATA #IMPLIED>
+ <!ELEMENT component (unit* | package* | prebuilt*)*>
+ <!ATTLIST component name CDATA #REQUIRED>
+ <!ELEMENT unit EMPTY>
+ <!ATTLIST unit
+  unitID ID #REQUIRED
+  name CDATA #REQUIRED
+  mrp CDATA #REQUIRED
+  filter CDATA #IMPLIED
+  bldFile CDATA #REQUIRED
+  priority CDATA #IMPLIED
+  contract CDATA #IMPLIED>
+ <!ELEMENT package EMPTY>
+ <!ATTLIST package
+  name CDATA #REQUIRED
+  mrp CDATA #REQUIRED
+  filter CDATA #IMPLIED
+  contract CDATA #IMPLIED>
+ <!ELEMENT prebuilt EMPTY>
+ <!ATTLIST prebuilt
+  name CDATA #REQUIRED
+  version CDATA #REQUIRED
+  late (Y|N) #IMPLIED
+  filter CDATA #IMPLIED
+  contract CDATA #IMPLIED>
+ <!ELEMENT build (option* | target+ | targetList+ | unitList+ | configuration+)*>
+ <!ELEMENT unitList (unitRef+)>
+ <!ATTLIST unitList
+  name ID #REQUIRED
+  description CDATA #REQUIRED>
+ <!ELEMENT unitRef EMPTY>
+ <!ATTLIST unitRef unit IDREF #REQUIRED>
+ <!ELEMENT targetList EMPTY>
+ <!ATTLIST targetList
+  name ID #REQUIRED
+  description CDATA #REQUIRED
+  target IDREFS #REQUIRED>
+ <!ELEMENT target EMPTY>
+ <!ATTLIST target
+  name ID #REQUIRED
+  abldTarget CDATA #REQUIRED
+  description CDATA #REQUIRED>
+ <!ELEMENT option EMPTY>
+ <!ATTLIST option
+  name ID #REQUIRED
+  abldOption CDATA #REQUIRED
+  description CDATA #REQUIRED
+  enable (Y | N | y | n) #REQUIRED>
+ <!ELEMENT configuration (unitListRef+ | layerRef+ | task+)*>
+ <!ATTLIST configuration
+  name ID #REQUIRED
+  description CDATA #REQUIRED
+  filter CDATA #REQUIRED>
+ <!ELEMENT task ( unitListRef* , (buildLayer | specialInstructions))>
+ <!ELEMENT unitListRef EMPTY>
+ <!ATTLIST unitListRef unitList IDREF #REQUIRED>
+ <!ELEMENT layerRef EMPTY>
+ <!ATTLIST layerRef layerName CDATA #REQUIRED>
+ <!ELEMENT buildLayer EMPTY>
+ <!ATTLIST buildLayer
+  command CDATA #REQUIRED
+  targetList IDREFS #IMPLIED
+  unitParallel (Y | N | y | n) #REQUIRED
+  targetParallel (Y | N | y | n) #IMPLIED>
+ <!ELEMENT specialInstructions EMPTY>
+ <!ATTLIST specialInstructions
+  name CDATA #REQUIRED
+  cwd CDATA #REQUIRED
+  command CDATA #REQUIRED>
+ <!ENTITY layer_real_source_path "/sf/os/textandloc" >
+]>
+
+<SystemDefinition name="textandloc_build" schema="1.4.0">
+  <systemModel>
+    <layer name="os_layer">
+      <module name="freetype">
+        <unit name="freetype" unitID="tls.freetype"  bldFile="sf\os\textandloc\fontservices\freetypefontrasteriser\group" mrp="sf\os\textandloc\fontservices\freetypefontrasteriser\group\graphics_freetype.mrp" filter="!dfs_build"/>
+      </module>
+      <module name="app-framework_etext">
+        <unit name="etext" unitID="tls.etext"  bldFile="sf\os\textandloc\textrendering\texthandling\group" mrp="sf\os\textandloc\textrendering\texthandling\group\app-framework_etext.mrp"/>
+      </module>
+      <module name="app-framework_form">
+        <unit name="form" unitID="tls.form"  bldFile="sf\os\textandloc\textrendering\textformatting\group" mrp="sf\os\textandloc\textrendering\textformatting\group\app-framework_form.mrp"/>
+      </module>
+      <!--module name="app-framework_word">
+        <unit name="word" unitID="tls.word"  bldFile="sf\os\textandloc\textrendering\word\group" mrp="sf\os\textandloc\textrendering\word\group\app-framework_word.mrp"/>
+      </module-->
+      <!-- GDI is only required for Shapper test -->
+      <!--module name="graphics_gdi">
+        <unit name="graphicsgdi" unitID="tls.graphicsgdi"  bldFile="sf\os\graphics\graphicsdeviceinterface\gdi\group" mrp="sf\os\graphics\graphicsdeviceinterface\gdi\group\graphics_gdi.mrp"/>
+      </module-->
+      <module name="graphics_fntstore">
+        <unit name="fntstore" unitID="tls.fntstore"  bldFile="sf\os\textandloc\fontservices\fontstore\group" mrp="sf\os\textandloc\fontservices\fontstore\group\graphics_fntstore.mrp"/>
+      </module>
+      <!-- no need to build itype -->
+      <!-- module name="graphics_itype">
+        <unit name="itype" unitID="tls.itype"  bldFile="sf\os\graphics\fbs\itypefontrasteriser\group" mrp="sf\os\graphics\fbs\itypefontrasteriser\group\graphics_itype.mrp"/>
+      </module -->
+      <module name="iculayoutengine">
+        <unit name="iculayout" unitID="tls.iculayout"  bldFile="sf\os\textandloc\fontservices\textshaperplugin\group" mrp="sf\os\textandloc\fontservices\textshaperplugin\group\graphics_iculayoutengine.mrp"/>
+      </module>
+      <module name="referencefonts">
+        <unit name="reffonts" unitID="tls.reffonts"  bldFile="sf\os\textandloc\fontservices\referencefonts\group" mrp="sf\os\textandloc\fontservices\referencefonts\group\graphics_fonts.mrp"/>
+      </module>
+      <module name="app-framework_numberconversion">
+        <unit name="numberconv" unitID="tls.numberconv"  bldFile="sf\os\textandloc\textrendering\numberformatting\group" mrp="sf\os\textandloc\textrendering\numberformatting\group\app-framework_numberconversion.mrp"/>
+      </module>
+      <module name="base_loce32">
+        <unit name="loce32" unitID="tls.loce32"  bldFile="sf\os\textandloc\localisation\localesupport" mrp="sf\os\textandloc\localisation\localesupport\mmpfiles\base_loce32.mrp"/>
+      </module>
+      <module name="syslibs_charconv">
+        <unit name="charconv" unitID="tls.charconv"  bldFile="sf\os\textandloc\charconvfw\charconv_fw\group" mrp="sf\os\textandloc\charconvfw\charconv_fw\group\syslibs_charconv.mrp"/>
+      </module>
+      <module name="syslibs_charconv_plugins">
+        <unit name="charconvplugin" unitID="tls.charconvplugin"  bldFile="sf\os\textandloc\charconvfw\charconvplugins\group" mrp="sf\os\textandloc\charconvfw\charconvplugins\group\syslibs_charconv_plugins.mrp"/>
+      </module>
+      <module name="syslibs_fatcharsetconv">
+        <unit name="fatcharsetconv" unitID="tls.fatcharsetconv"  bldFile="sf\os\textandloc\charconvfw\fatfilenameconversionplugins\group" mrp="sf\os\textandloc\charconvfw\fatfilenameconversionplugins\group\syslibs_fatcharsetconv.mrp"/>
+      </module>
+      <module name="nearestlangutils">
+        <unit name="nearestlangutils" unitID="tls.nearestlangutils"  bldFile="sf\os\textandloc\textandlocutils\nearestlangutils\group" mrp="sf\os\textandloc\textandlocutils\nearestlangutils\group\langutils.mrp"/>
+      </module>
+    </layer>
+    <layer name="api_test_layer">
+      <!--module name="test.app-framework_etext">
+        <unit name="test.etext" unitID="test.tls.etext"  bldFile="sf\os\textandloc\textrendering\texthandling\group" mrp=""/>
+      </module>
+      <module name="test.app-framework_form">
+        <unit name="test.form" unitID="test.tls.form"  bldFile="sf\os\textandloc\textrendering\textformatting\group" mrp=""/>
+      </module-->
+      <module name="test.graphics_testharness">
+        <unit name="test.graphicstestharness" unitID="test.tls.graphicstestharness"  bldFile="sf\os\graphics\graphicstest\graphicstestharness\group" mrp=""/>
+      </module>
+      <!-- seems font files can not be exported -->
+      <!--
+      <module name="test.graphics_internaltestfonts">
+        <unit name="test.graphicsinternaltestfonts" unitID="test.tls.graphicsinternaltestfonts"  bldFile="sf\os\textandloc\fontservices\graphicstestfonts\group" mrp=""/>
+      </module>
+      -->
+      <module name="test.graphics_fntstore">
+        <unit name="test.fntstore" unitID="test.tls.fntstore"  bldFile="sf\os\textandloc\fontservices\fontstore\group" mrp=""/>
+      </module>
+      <module name="test.syslibs_charconv">
+        <unit name="test.charconv" unitID="test.tls.charconv"  bldFile="sf\os\textandloc\charconvfw\charconv_fw\group" mrp="" />
+      </module>
+	  <!-- turn off hindidemo -->
+      <!--module name="test.iculayoutengine">
+        <unit name="test.iculayout" unitID="test.tls.iculayout"  bldFile="sf\os\textandloc\fontservices\textshaperplugin\group" mrp=""/>
+      </module-->
+      <!--module name="test.freetype">
+        <unit name="test.freetype" unitID="test.tls.freetype"  bldFile="sf\os\textandloc\fontservices\freetypefontrasteriser\group" mrp=""/>
+      </module-->
+      <module name="test.syslibs_charconv_plugins">
+        <unit name="test.charconvplugin" unitID="test.tls.charconvplugin"  bldFile="sf\os\textandloc\charconvfw\charconvplugins\group" mrp=""/>
+      </module>
+      <module name="test.syslibs_fatcharsetconv">
+        <unit name="test.fatcharsetconv" unitID="test.tls.fatcharsetconv"  bldFile="sf\os\textandloc\charconvfw\fatfilenameconversionplugins\group" mrp=""/>
+      </module>
+      <!--module name="test.app-framework_numberconversion">
+        <unit name="test.numberconv" unitID="test.tls.numberconv"  bldFile="sf\os\textandloc\textrendering\numberformatting\group" mrp=""/>
+      </module>
+      <module name="test.base_loce32">
+        <unit name="test.loce32" unitID="test.tls.loce32"  bldFile="sf\os\textandloc\localisation\localesupport" mrp=""/>
+      </module-->
+    </layer>
+  </systemModel>  
+</SystemDefinition>

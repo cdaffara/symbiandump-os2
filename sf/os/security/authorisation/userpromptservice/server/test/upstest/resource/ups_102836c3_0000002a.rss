@@ -1,0 +1,89 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+#include <ups/policies.rh>
+
+UID2 KUidUpsPolicyResourceFile
+UID3 0x01100002
+
+// Test policy file for MMS messages
+RESOURCE POLICIES testpolicies
+	{
+	header = POLICY_HEADER
+		{
+		authorisationpolicy = ECheckIfFailed;
+		policyevaluator = 0x10283698;
+		dialogcreator = 0x10283694;
+		majorversion = 30;
+		minorversion = 3;
+		};
+	policies = 
+		{
+		POLICY
+			{
+			// Silently accept this SID for any destination
+			sid_list = {0x102836c3};
+			destination = "dest*";
+			options = KAlways|KNever;
+			flags = 1;
+			},			
+		POLICY
+			{
+			// Silently accept this SID for any destination
+			sid_list = {0x01000030};
+			destination = "*";
+			options = KYes;
+			flags = 1;
+			},			
+		POLICY
+			{
+			// Silently accept this destination for upstest.exe SID
+			sid_list = {0x10283559};
+			destination = "SayYes";
+			options = KYes;
+			flags = 1;
+			},			
+		POLICY
+			{
+			// Silently accept these SIDs for a specific destination
+			sid_list = {0x01000031,0x01000032};
+			destination = "+441223719800";
+			options = KYes;
+			flags = 2;
+			},			
+		POLICY
+			{
+			// For protected SIDs enable the Always and Never options
+			sid_classes = KProtectedSids;
+			destination = "*";
+//			options = KYes|KNo|KAlways|KNever;
+			options = KNo|KNever;
+			flags = 3;
+			},
+		POLICY
+			{
+			// Unprotected SIDs may only get one-shot permissions
+			sid_classes = KUnprotectedSids;
+			destination = "*";
+//			options = KYes|KNo|KNever;
+			options = KNo|KNever;
+			flags = 4; 
+			}
+		};
+	}
+

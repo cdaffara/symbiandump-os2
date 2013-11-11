@@ -1,0 +1,52 @@
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// CentRepConv - convert CentRep text initialization files to
+// binary to speed up access.
+// 
+//
+
+/**
+ @file
+*/
+MACRO CENTREP_CONV_TOOL
+
+TARGET			centrepconv.exe
+TARGETTYPE		EXE
+
+UID				0 0x1027431B // Allocated UID
+VENDORID		0x70000001		
+
+SMPSAFE
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+USERINCLUDE		../src
+USERINCLUDE		../../cenrepsrv
+USERINCLUDE		../../common/inc
+
+SOURCEPATH		../src
+SOURCE			main.cpp CentRepConvTool.cpp consoleprint.cpp
+
+SOURCEPATH		../../cenrepsrv
+SOURCE			shrepos.cpp
+SOURCE 			cachemgr.cpp obsrvr_noc.cpp srvrepos_noc.cpp srvres.cpp
+
+SOURCEPATH 		../../common/src
+SOURCE 			cregen.cpp datatype.cpp inifile.cpp panic.cpp heaprepos.cpp 
+
+LIBRARY			euser.lib efsrv.lib estor.lib bafl.lib charconv.lib
+LIBRARY			bsulinifile.lib
+#ifdef SYMBIAN_BAFL_SYSUTIL
+LIBRARY sysutil.lib
+#endif
+

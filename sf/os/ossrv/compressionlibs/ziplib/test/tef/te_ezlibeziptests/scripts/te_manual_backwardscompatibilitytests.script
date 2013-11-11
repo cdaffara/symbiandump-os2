@@ -1,0 +1,76 @@
+// Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+PRINT Run all Backwards Compatibility Tests
+LOAD_SUITE Te_EZlibEZip
+
+RUN_UTILS MkDir c:\test\
+RUN_UTILS MkDir c:\test\ezlibeziptest_data\
+RUN_UTILS CopyFile e:\BigSize.doc 			c:\test\ezlibeziptest_data\BigSize.doc
+
+START_TESTCASE SYSLIB-EZLIB2-CT-4301-0001
+//!@SYMTestCaseID 			SYSLIB-EZLIB2-CT-4301-0001
+	RUN_TEST_STEP !Result=Pass 500 Te_EZlibEZip TestDeflateOldInflateNewCompatibitlityL \tef_ezlib2\te_manual_backwardscompatibilitytests.ini Section_TestDeflateOldInflateNewCompatibitlityL_01
+END_TESTCASE SYSLIB-EZLIB2-CT-4301-0001
+
+//RUN_UTILS DeleteFile C:\test\ezlibeziptest_data\bctest_BigSize1.doc
+RUN_UTILS DeleteDirectory C:\test\ezlibeziptest_data
+
+RUN_UTILS MkDir c:\test\
+RUN_UTILS MkDir c:\test\ezlibeziptest_data\
+RUN_UTILS CopyFile e:\BigSize.doc 			c:\test\ezlibeziptest_data\BigSize.doc
+
+START_TESTCASE SYSLIB-EZLIB2-CT-4302-0001
+//!@SYMTestCaseID 			SYSLIB-EZLIB2-CT-4302-0001
+	RUN_TEST_STEP !Result=Pass 500 Te_EZlibEZip TestDeflateNewInflateOldCompatibitlityL \tef_ezlib2\te_manual_backwardscompatibilitytests.ini Section_TestDeflateNewInflateOldCompatibitlityL_01
+END_TESTCASE SYSLIB-EZLIB2-CT-4302-0001
+
+//RUN_UTILS DeleteFile C:\test\ezlibeziptest_data\bctest_BigSize1.doc
+RUN_UTILS DeleteDirectory C:\test\ezlibeziptest_data
+
+RUN_UTILS MkDir c:\test\
+RUN_UTILS MkDir c:\test\ezlibeziptest_data\
+RUN_UTILS CopyFile e:\BigSize.doc 			c:\test\ezlibeziptest_data\BigSize.doc
+
+START_TESTCASE SYSLIB-EZLIB2-CT-4308-0001
+//!@SYMTestCaseID 			SYSLIB-EZLIB2-CT-4308-0001
+	RUN_TEST_STEP !Result=Pass 500 Te_EZlibEZip TestGZipDeflateOldInflateNewCompatibitlityL \tef_ezlib2\te_manual_backwardscompatibilitytests.ini Section_TestGZipDeflateOldInflateNewCompatibitlityL_01
+END_TESTCASE SYSLIB-EZLIB2-CT-4308-0001
+
+//RUN_UTILS DeleteFile C:\test\ezlibeziptest_data\bctest_BigSize1.doc
+RUN_UTILS DeleteDirectory C:\test\ezlibeziptest_data
+
+RUN_UTILS MkDir c:\test\
+RUN_UTILS MkDir c:\test\ezlibeziptest_data\
+RUN_UTILS CopyFile e:\BigSize.doc 			c:\test\ezlibeziptest_data\BigSize.doc
+
+START_TESTCASE SYSLIB-EZLIB2-CT-4309-0001
+//!@SYMTestCaseID 			SYSLIB-EZLIB2-CT-4309-0001
+	RUN_TEST_STEP !Result=Pass 500 Te_EZlibEZip TestGZipDeflateNewInflateOldCompatibitlityL \tef_ezlib2\te_manual_backwardscompatibilitytests.ini Section_TestGZipDeflateNewInflateOldCompatibitlityL_01
+END_TESTCASE SYSLIB-EZLIB2-CT-4309-0001
+
+//RUN_UTILS DeleteFile C:\test\ezlibeziptest_data\bctest_BigSize1.doc
+RUN_UTILS DeleteDirectory C:\test\ezlibeziptest_data
+
+RUN_UTILS MkDir c:\test\
+RUN_UTILS MkDir c:\test\ezlibeziptest_data\
+RUN_UTILS CopyFile e:\ZipArchive1.zip 			c:\test\ezlibeziptest_data\ZipArchive1.zip
+
+START_TESTCASE SYSLIB-EZLIB2-CT-4310-0001
+//!@SYMTestCaseID 			SYSLIB-EZLIB2-CT-4310-0001
+	RUN_TEST_STEP !Result=Pass 500 Te_EZlibEZip TestZipArchiveDecompressCompatibitlityL \tef_ezlib2\te_manual_backwardscompatibilitytests.ini Section_TestZipArchiveDecompressCompatibitlityL_01
+END_TESTCASE SYSLIB-EZLIB2-CT-4310-0001
+
+RUN_UTILS DeleteDirectory C:\test\ezlibeziptest_data

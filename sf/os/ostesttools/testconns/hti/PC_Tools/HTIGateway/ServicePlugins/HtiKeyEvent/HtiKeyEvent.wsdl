@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="HtiKeyEvent"
+ targetNamespace="urn:hti"
+ xmlns:tns="urn:hti"
+ xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+ xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+ xmlns:ns1="urn:hti"
+ xmlns:SOAP="http://schemas.xmlsoap.org/wsdl/soap/"
+ xmlns:MIME="http://schemas.xmlsoap.org/wsdl/mime/"
+ xmlns:DIME="http://schemas.xmlsoap.org/ws/2002/04/dime/wsdl/"
+ xmlns:WSDL="http://schemas.xmlsoap.org/wsdl/"
+ xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+<types>
+
+ <schema targetNamespace="urn:hti"
+  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:ns1="urn:hti"
+  xmlns="http://www.w3.org/2001/XMLSchema"
+  elementFormDefault="unqualified"
+  attributeFormDefault="unqualified">
+  <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+  <complexType name="HtiPoint">
+   <sequence>
+     <element name="xCoordinate" type="xsd:short" minOccurs="1" maxOccurs="1"/>
+     <element name="yCoordinate" type="xsd:short" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="arrayOfKeyCodes">
+   <sequence>
+    <element name="KeyCode" type="xsd:short" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+   </sequence>
+  </complexType>
+  <complexType name="arrayOfPoints">
+   <sequence>
+    <element name="Point" type="ns1:HtiPoint" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+   </sequence>
+  </complexType>
+  <complexType name="arrayOfLines">
+   <sequence>
+    <element name="Line" type="ns1:arrayOfPoints" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+   </sequence>
+  </complexType>
+  <!-- operation request element -->
+  <element name="key" type="xsd:short"/>
+  <!-- operation request element -->
+  <element name="time" type="xsd:short"/>
+  <!-- operation request element -->
+  <element name="text" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="interval" type="xsd:short"/>
+  <!-- operation request element -->
+  <element name="keyCodes" type="ns1:arrayOfKeyCodes"/>
+  <!-- operation request element -->
+  <element name="tapPoint" type="ns1:HtiPoint"/>
+  <!-- operation request element -->
+  <element name="timeToHold" type="xsd:short"/>
+  <!-- operation request element -->
+  <element name="tapCount" type="xsd:short"/>
+  <!-- operation request element -->
+  <element name="pauseBetweenTaps" type="xsd:short"/>
+  <!-- operation request element -->
+  <element name="pointDown" type="ns1:HtiPoint"/>
+  <!-- operation request element -->
+  <element name="pointUp" type="ns1:HtiPoint"/>
+  <!-- operation request element -->
+  <element name="dragTime" type="xsd:short"/>
+  <!-- operation request element -->
+  <element name="timeBetweenPoints" type="xsd:short"/>
+  <!-- operation request element -->
+  <element name="timeBetweenLines" type="xsd:short"/>
+  <!-- operation request element -->
+  <element name="lines" type="ns1:arrayOfLines"/>
+ </schema>
+
+</types>
+
+<message name="pressKey">
+ <part name="key" element="ns1:key"/>
+</message>
+
+<message name="pressKeyResponse">
+</message>
+
+<message name="holdKey">
+ <part name="key" element="ns1:key"/>
+</message>
+
+<message name="holdKeyResponse">
+</message>
+
+<message name="releaseKey">
+ <part name="key" element="ns1:key"/>
+</message>
+
+<message name="releaseKeyResponse">
+</message>
+
+<message name="longKeyPress">
+ <part name="key" element="ns1:key"/>
+ <part name="time" element="ns1:time"/>
+</message>
+
+<message name="longKeyPressResponse">
+</message>
+
+<message name="typeText">
+ <part name="text" element="ns1:text"/>
+</message>
+
+<message name="typeTextResponse">
+</message>
+
+<message name="typeTextPassword">
+ <part name="text" element="ns1:text"/>
+</message>
+
+<message name="typeTextPasswordResponse">
+</message>
+
+<message name="keyPressSequence">
+ <part name="time" element="ns1:time"/>
+ <part name="interval" element="ns1:interval"/>
+ <part name="keyCodes" element="ns1:keyCodes"/>
+</message>
+
+<message name="keyPressSequenceResponse">
+</message>
+
+<message name="tapScreen">
+ <part name="tapPoint" element="ns1:tapPoint"/>
+ <part name="timeToHold" element="ns1:timeToHold"/>
+ <part name="tapCount" element="ns1:tapCount"/>
+ <part name="pauseBetweenTaps" element="ns1:pauseBetweenTaps"/>
+</message>
+
+<message name="tapScreenResponse">
+</message>
+
+<message name="tapAndDrag">
+ <part name="pointDown" element="ns1:pointDown"/>
+ <part name="pointUp" element="ns1:pointUp"/>
+ <part name="dragTime" element="ns1:dragTime"/>
+</message>
+
+<message name="tapAndDragResponse">
+</message>
+
+<message name="tapAndDragMultipoint">
+ <part name="timeBetweenPoints" element="ns1:timeBetweenPoints"/>
+ <part name="timeBetweenLines" element="ns1:timeBetweenLines"/>
+ <part name="lines" element="ns1:lines"/>
+</message>
+
+<message name="tapAndDragMultipointResponse">
+</message>
+
+<message name="pointerDown">
+ <part name="pointDown" element="ns1:pointDown"/>
+</message>
+
+<message name="pointerDownResponse">
+</message>
+
+<message name="pointerUp">
+ <part name="pointUp" element="ns1:pointUp"/>
+</message>
+
+<message name="pointerUpResponse">
+</message>
+
+<portType name="HtiKeyEventPortType">
+ <operation name="pressKey">
+  <documentation>Service definition of function ns1__pressKey</documentation>
+  <input message="tns:pressKey"/>
+  <output message="tns:pressKeyResponse"/>
+ </operation>
+ <operation name="holdKey">
+  <documentation>Service definition of function ns1__holdKey</documentation>
+  <input message="tns:holdKey"/>
+  <output message="tns:holdKeyResponse"/>
+ </operation>
+ <operation name="releaseKey">
+  <documentation>Service definition of function ns1__releaseKey</documentation>
+  <input message="tns:releaseKey"/>
+  <output message="tns:releaseKeyResponse"/>
+ </operation>
+ <operation name="longKeyPress">
+  <documentation>Service definition of function ns1__longKeyPress</documentation>
+  <input message="tns:longKeyPress"/>
+  <output message="tns:longKeyPressResponse"/>
+ </operation>
+ <operation name="typeText">
+  <documentation>Service definition of function ns1__typeText</documentation>
+  <input message="tns:typeText"/>
+  <output message="tns:typeTextResponse"/>
+ </operation>
+ <operation name="typeTextPassword">
+  <documentation>Service definition of function ns1__typeTextPassword</documentation>
+  <input message="tns:typeTextPassword"/>
+  <output message="tns:typeTextPasswordResponse"/>
+ </operation>
+ <operation name="keyPressSequence">
+  <documentation>Service definition of function ns1__keyPressSequence</documentation>
+  <input message="tns:keyPressSequence"/>
+  <output message="tns:keyPressSequenceResponse"/>
+ </operation>
+ <operation name="tapScreen">
+  <documentation>Service definition of function ns1__tapScreen</documentation>
+  <input message="tns:tapScreen"/>
+  <output message="tns:tapScreenResponse"/>
+ </operation>
+ <operation name="tapAndDrag">
+  <documentation>Service definition of function ns1__tapAndDrag</documentation>
+  <input message="tns:tapAndDrag"/>
+  <output message="tns:tapAndDragResponse"/>
+ </operation>
+ <operation name="tapAndDragMultipoint">
+  <documentation>Service definition of function ns1__tapAndDragMultipoint</documentation>
+  <input message="tns:tapAndDragMultipoint"/>
+  <output message="tns:tapAndDragMultipointResponse"/>
+ </operation>
+ <operation name="pointerDown">
+  <documentation>Service definition of function ns1__pointerDown</documentation>
+  <input message="tns:pointerDown"/>
+  <output message="tns:pointerDownResponse"/>
+ </operation>
+ <operation name="pointerUp">
+  <documentation>Service definition of function ns1__pointerUp</documentation>
+  <input message="tns:pointerUp"/>
+  <output message="tns:pointerUpResponse"/>
+ </operation>
+</portType>
+
+<binding name="HtiKeyEvent" type="tns:HtiKeyEventPortType">
+ <SOAP:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+ <operation name="pressKey">
+  <SOAP:operation style="rpc" soapAction="HtiKeyEvent"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="holdKey">
+  <SOAP:operation style="rpc" soapAction="HtiKeyEvent"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="releaseKey">
+  <SOAP:operation style="rpc" soapAction="HtiKeyEvent"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="longKeyPress">
+  <SOAP:operation style="rpc" soapAction="HtiKeyEvent"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="typeText">
+  <SOAP:operation style="rpc" soapAction="HtiKeyEvent"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="typeTextPassword">
+  <SOAP:operation style="rpc" soapAction="HtiKeyEvent"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="keyPressSequence">
+  <SOAP:operation style="rpc" soapAction="HtiKeyEvent"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="tapScreen">
+  <SOAP:operation style="rpc" soapAction="HtiKeyEvent"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="tapAndDrag">
+  <SOAP:operation style="rpc" soapAction="HtiKeyEvent"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="tapAndDragMultipoint">
+  <SOAP:operation style="rpc" soapAction="HtiKeyEvent"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="pointerDown">
+  <SOAP:operation style="rpc" soapAction="HtiKeyEvent"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="pointerUp">
+  <SOAP:operation style="rpc" soapAction="HtiKeyEvent"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+</binding>
+
+<service name="HtiKeyEvent">
+ <documentation>gSOAP 2.7.6b generated service definition</documentation>
+ <port name="HtiKeyEvent" binding="tns:HtiKeyEvent">
+  <SOAP:address location="http://localhost:2000"/>
+ </port>
+</service>
+
+</definitions>

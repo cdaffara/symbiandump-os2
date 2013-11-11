@@ -1,0 +1,215 @@
+Changes to 112009 on 2001/07/27 by TimBa@lon-timba
+==================================================
+
+	Added two new colours to the System Color list: Selection highlight foreground
+	and selection highlight background.
+
+Change 98797 on 2001/05/15 by TimBa@lon-timba
+=============================================
+	Removed artefacts of old build system
+
+Changes to 94389 on 2001/04/18 by TimBa@lon-timba
+=================================================
+
+        Fixed a warning in t_style test
+        Fix for CHM-4VGRNH: Editing Styles that are in use in Word files converted from .txt files causes a Panic: integrated from 6.1 release branch. Added some test code to exercise this bug and its fix.
+
+Change 63973 on 2000/11/07 by TimBa@lon-timba
+=============================================
+        Fix for EDNEMUA-4QQFUG: Application panic, when deleting lines in edwin with selection and del-key
+
+Change 61851 on 2000/10/24 by TimBa@lon-timba
+=============================================
+Added a makefile to the test build that moves the test data onto the emulated C drive.
+
+Release 158 made by Tim Band on 17th April 2000
+===============================================
+
+Added reserved virtual functions and spare data members to:
+	CEditableText  - 1 virtual function,  0 data members
+	CPlainText     - 1 virtual function,  1 data member
+	CGlobalText    - 0 virtual functions, 1 data member
+	CRichText      - 0 virtual functions, 1 data member
+	MLayDoc        - 1 virtual function,  0 data members
+	MParser        - 2 virtual functions, 0 data members
+
+Release 145 made by Graham Asher on 7th October 1999
+====================================================
+
+This release is intended for Text 6.0.
+
+Fixed the following defects reported in Symbian Defect Tracking:
+
+EDNGASR-4BWKHA: ETEXT test code ought not to depend on the text window server
+EDNGASR-4CFD6Q: Import and export of Unicode plain text doesn't conform to the Unicode standard
+
+Release 144 made by Graham Asher on 27th September 1999
+=======================================================
+
+This release is intended for Text 6.0.
+
+Removed ancient history from this file (release.txt). You can still look at it by getting older versions.
+
+Fixed the following defects reported in Symbian Defect Tracking:
+
+EDNGASR-4C2EHD: ETEXT should build for WINC platform
+EDNGASR-4C2EE5: CParaFormat::CopyL uses the heap unnecessarily.
+EDNGASR-4C2ECH: TBullet's character code ought to be initialised to a bullet
+
+While fixing the problem with CParaFormat::CopyL I was able to tidy up the construction and freeing of heap-based attributes: tabs, bullets and borders. I also removed or corrected many redundant and misleading comments.
+
+
+Release 105 made by Graham Asher on 3rd March 1999
+==================================================
+
+This version is intended for ER5u.
+
+Removed Standard Unicode Compression Scheme code. This is now in STORE 061. Changed txtetext.cpp to use the STORE version. Made ETEXT dependent on STORE 061.
+
+Release 104 made by Lane Roberts on 28th January 1999
+=====================================================
+
+- Changed copyright messages to refer to Symbian.
+- Upgraded MNT VALID to use EVALID.
+- Binaries (.dll, .lib & .map) validate against 103.
+
+Release 103 made by Graham Asher on 27th January 1999
+=====================================================
+Fixed the following bug (see 'ER5 defects'):
+
+EDN952697: Invalid assertion in CPlainText::Extract()
+
+Release 102 made by Graham Asher on 19th January 1999
+=====================================================
+Fixed the following bugs (see 'ER5 defects'):
+
+EDN108721: Unicode byte order mark is the wrong value
+EDN724804: CRichText::RemoveSpecificParaFormatL fails in debug mode if aLength is zero
+EDN342775: mnt file problems (gets pdb files for release versions & getrel doesn't work)
+
+Release 101 made by Graham Asher on 11th January 1999
+=====================================================
+
+Fixed the following bugs (see 'ER5 defects'):
+
+EDN642121: Panic when deleting an unused, user-defined style
+EDN700414: CBase 21 panic, Word (ETEXT internalising a corrupt file)
+EDN815855: Corrupt file
+EDN211326: CStyleList::Remove fails to nullify iStyleForNextPara and iBasedOn pointers
+EDN458446: Category() is not used and should be removed
+EDN533608: Export as text doesn't output a BOM marker
+
+Release 100 made by Graham Asher on 30th November 1998
+======================================================
+
+Two important bug fixes (see the 'ER5 defects' database on Notes)
+
+ETEXT appears to store text on the clipboard differently to older roms
+Word panic USER-CBase 21 importing text files
+
+Release 099 made by David Batchelor on 12th November 1998
+=========================================================
+
+* Backwards compatible with 098
+* WINS built with VC5
+* Now dependent on BRDCST and FEPBASE
+
+- Support for front-end-processor inline editing added in CEditableText. This
+  consists of 6 new exported functions in that class:
+	~CEditableText // calls CancelFepInlineEdit
+	StartFepInlineEditL // cannot be called more than once without an intervening CommitFepInlineEditL or CancelFepInlineEdit
+	UpdateFepInlineTextL // can only be called once StartFepInlineEditL has been called
+	CommitFepInlineEditL // can only be called once StartFepInlineEditL has been called
+	CancelFepInlineEdit // can be called regardless of whether StartFepInlineEditL has been called
+	OverrideFormatOfInlineTextIfApplicable // (protected) to be called by MLayDoc-deriving classes at the end of their GetChars implementations
+  Unfortunately, ETEXT clients won't call the new destructor without
+  rebuilding :-(. Not much can be done about that. It shouldn't be very
+  problematic if it's not called though. (In fact it should never need to
+  be called if front-end processors do what their supposed to.)
+
+- In order to add new member data to CEditableText in a binary-compatible
+  way, I had to do a bit of awkward coding using thread-local storage. This
+  is in TXTFEP.H and TXTFEP.CPP.
+
+- Added a number of bug-fixes as advised by Graham Asher and Andrew Thoelke
+  (defect-numbers are from the "EPOC Software Defects" database): SW1-267,
+  SW1-316, SW1-323 and SW1-347.
+
+- Added a cast at line 296 of TXTPLAIN.CPP to prevent a compiler warning.
+
+- Fixed a bug where "mnt gete32" and "mnt getf32" were both getting WINC
+  releasables without the necessary directories having been created in the
+  epoc32 directory tree. This was causing all the WINC stuff to overwrite the
+  contents of \epoc32\release\wins\udeb :-(.
+
+- Rearranged "mnt getbld" to a more standard order, and passed the version
+  number on to "getsrc". Thus doing a "pgetbld" on versions before the tip
+  revision should now work.
+
+- Commented out the initial "ebld cleantest" call inside "ebld testall".
+
+- "ebld makeworkdir" now creates \epoc32\include before calling makmake's
+  "makework" to prevent makmake errors.
+
+- No changes were made to the test-code other than getting it to build
+  without errors/warnings (well, very nearly without warnings). In order to
+  get over the problem of the name clashes of EGray4 etc, it is necessary to
+  hack the values of TVideoMode in \epoc32\include\e32twin.h to something
+  else (e.g. add an initial '_'). (Test-code for the front-end-processor
+  inline editing stuff is planned to be added at a later date.) All the
+  WINS DEB and WINS REL test-code completes. However, a fair bit of
+  WINS UDEB fails, and I haven't got time to look into this for this release.
+  No MARM test-code was run (again, to speed up the release).
+
+
+Release 097 made by Graham Asher on 7th September 1998
+======================================================
+
+The main change, and the reason for this release, is to compress externalized text in the Unicode
+build to allay the fears of licensees about the size of stored text. The compression method is
+the Standard Compression Scheme for Unicode, described in the Unicode Consortium's web site
+at http://www.unicode.org/unicode/reports/tr6.html. It is relatively easy to implement, fast,
+and compresses even very short pieces of text significantly. Text mainly in small alphabetic scripts
+(Latin, Greek, Cyrillic, Hebrew, Arabic, Devanagari, Thai, etc.) is compressed to about half its
+original size, while pure Chinese text, which is probably the most difficult case, is expanded by
+the single byte required to switch to plain uncompressed Unicode.
+
+I have made some other small changes, mainly to allow the ARM version to buld cleanly.
+
+Major changes in detail:
+
+Added UNICOMP.CPP and UNICODE.H to the ETEXT source files; these implement Unicode
+compression. All their code is #ifdef'd out in the narrow build.
+
+Added TXTPLAIN.CPP and TXTPLAIN.H to the ETEXT source files; they replace TXTTRAN.CPP and TXTTRAN.H,
+which is no longer exported (it was exported erroneously).
+
+TXTETEXT.CPP: changed CPlainText::InternalizePlainTextL(RReadStream& aStream),
+CPlainText::InternalizePlainTextL(RReadStream& aStream,TInt aLength),
+and CPlainText::PasteFromStreamL(RReadStream& aStream,TInt aPos) to expand Unicode text according
+to the compression scheme;
+changed CPlainText::ExternalizePlainTextL(RWriteStream& aStream) const,
+CPlainText::ExternalizePlainTextNoLengthCountL(RWriteStream& aStream) const,
+and CPlainText::CopyToStreamL(RWriteStream& aStream,TInt aPos,TInt aLength) const
+to compress Unicode text according to the compression scheme.
+
+Added new exported functions, CPlainText::ImportTextL and CPlainText::ExportTextL, to import and export text in
+CR-LF-delimited form. The existing functions work only with files; the new functions work with arbitrary streams.
+
+TXTETEXT.H: added declarations for CPlainText::ImportTextL and CPlainText::ExportTextL.
+
+Added a missing DEF file entry to the WINS debug builds: CRichTextStoreMap<CParagraphStyle>::__DbgTestInvariant.
+
+------------------------------------------------------
+
+Release 096 - 27/8/98
+
+Re-released with changes to mnt.cmd file
+
+Release 093 - 9/2/98
+
+Added support for copying / pasting of style information
+
+
+
+

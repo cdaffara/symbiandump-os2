@@ -1,0 +1,67 @@
+// Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// Name          : localsdpcodec is a local copy of the sdpcodec.dll added here to avoid mw dependency
+// Part of       : Local SDP Codec
+// Version       : SIP/5.0
+//
+
+
+
+TARGET        localsdpcodec.dll
+TARGETTYPE    dll
+UID           0x1000008d 0x200305C5
+
+SOURCEPATH    ../src
+SOURCE        sdpattributefield.cpp
+SOURCE        sdpattributefieldptrs.cpp
+SOURCE        sdpbandwidthfield.cpp
+SOURCE        sdprepeatfield.cpp
+SOURCE        sdptimefield.cpp
+SOURCE        sdptypedtime.cpp
+SOURCE        sdpconnectionfield.cpp
+SOURCE        sdpdocument.cpp
+SOURCE        sdpfmtattributefield.cpp
+SOURCE        sdpkeyfield.cpp
+SOURCE        sdpmediafield.cpp
+SOURCE        sdporiginfield.cpp
+SOURCE        sdporiginfieldptrs.cpp
+SOURCE        sdprtpmapvalue.cpp
+SOURCE        sdputil.cpp
+SOURCE        sdpcodecstringpool.cpp
+SOURCE        csdpcodecstringpool.cpp
+SOURCE        sdpcodecparseutil.cpp
+
+ SOURCEPATH ../strings
+ START STRINGTABLE localsdpcodecstringconstants.st
+ 	  EXPORTPATH  /epoc32/include
+ END
+
+USERINCLUDE   ../api
+USERINCLUDE   ../inc
+USERINCLUDE   ../src
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+LIBRARY       euser.lib
+LIBRARY       insock.lib
+LIBRARY       esock.lib
+LIBRARY       estor.lib
+LIBRARY       bafl.lib
+LIBRARY       inetprotutil.lib 
+
+VENDORID 0x70000001
+
+CAPABILITY All -Tcb
+
+SMPSAFE

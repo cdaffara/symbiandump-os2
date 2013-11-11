@@ -1,0 +1,293 @@
+<?xml version="1.0"?>
+<relnotes schema="1.0.0" name="Application Utilities" purpose="" type="component">
+  <purpose>
+    Assorted basic system-level utilities including system sounds, clipboard, command-line parsing, descriptor arrays, resource file handling. Used by higher level frameworks and services and available directly to applications.
+  </purpose>
+  <minorchange revision="082">
+    SMP safe validation and tagging for Multipartparser
+  </minorchange>
+  <defect number="DEF143027" title="Emulator leaves resource file open after an application has been run " revision="081">
+    Rectified by treating the resource file as if being read-in from a non-ROM device when run on the emulator
+  </defect>
+  <defect number="DEF142843" title="Public headers include platform headers " revision="080">
+    Rectified the header classifications wherever necessary, either including it in .cpp or promoting it
+  </defect>
+<deliverystep number="1462" name="PREQ2475: Splitting Mixed Header files for Base Services API" osproject="SymTB9.2"   revision="001">
+    <milestone project="GT0494" number="3.9"/>
+    <preq number="2475" title="Splitting Mixed header">
+    Splitting Mixed Header files for Base Services API
+  </preq>
+  </deliverystep>
+  <defect number="VPOL-7WZDD7" title="syslibs_bafl has middleware dependencies and useincludes" revision="078">
+  Changed the userinclude path to OS layer
+  </defect>
+  <defect number="DEF137895" title="PREQ2498: BAFLUtils calls an internal function to obtain TEntry size..." revision="077">
+  Added a local copy of the function EntrySize
+  </defect>
+  <defect number="DEF131578" title="10205056.cre file not being exported in production code by sysutil component" revision="076">
+  Added patchdata for naviengine and H6 platforms to sysutil.iby
+  </defect>
+  <defect number="DEF133261" title="[System Build]: Elf2e32: Warning in Application utilities M04816 vFuture." revision="075">
+  Added EXPORT_C for the functions declared using IMPORT_C and modified def file accordingly.
+  </defect>
+  <defect number="INC130430" title="INC130430:  revision70 caused a build break" revision="074">
+    Added 3 new overloaded APIs to cater to 64 bit wide aBytesToWrite input. Changed the names of the APIs accepting 32 bit wide integers to maintain BC
+  </defect>
+  <defect number="DEF134333" title="[WDP]{WDP} BAFL RTest case 't_cacheddriveinfo' fails when WDP enabled." revision="073">
+  Added conditions to the test code for making the test code suited to WDP enabled configuration.
+  </defect>
+  <defect number="DEF133527" title="[Coverity]-DEADCODE -syslibs/stdlib,syslibs/bafl" revision="072">
+  Removed deadcode from clientmessage.cpp in bsul.
+  </defect>
+  <defect number="DEF132541" title="CClipboard::NewForWritingLC(RFs ) panics when it is called" revision="071">
+    Reverted changes done as part of DEF130848. It was a false positive.
+  </defect>
+  <defect number="INC130430" title="INC130430:  DiskSpaceBelowCriticalLevelL, MMCSpaceBelowCriticalLevelL and FSSSpaceBelowCriticalLevelL behave inconsistently for extreamly large aBytesToWrite input" revision="070">
+    Added 3 new overloaded APIs to cater to 64 bit wide aBytesToWrite input
+  </defect>
+  <defect number="DEF130663" title="DEF130663: TBitFlagsT::IsSet(TInt aFlagIndex) extreme values sometimes wrongly reported" revision="069">
+    Added Check for out of bound values inside IsSet Api.
+  </defect>
+ <defect number="DEF131137" title="IPR category for \syslibs\bafl\sysutil\test ? " revision="068">
+ IPR category for \syslibs\bafl\sysutil\test assigned t
+ </defect> 
+ <defect number="DEF130848" title="DEF130848:[Coverity]-MISSING_BREAK,UNINIT -syslibs/bafl,syslibs/ecom3" revision="067">
+    Added Break Statement in CClipboard::NewForWritingLC().
+  </defect>
+  <defect number="DEF130107" title="DEF130107: T_FILEUTILS test fails on ONB on 9.5" revision="066">
+    Corrected EntrySize() method called in InsertL() due to changes made in 64bit file server implementation of EntrySize().
+  </defect>
+  <defect number="DEF128200" title="DEF128200: SysUtil::GetSWVersion change of return code behaviour on 9.5" revision="065">
+    Corrected SysUtil legacy API behaviour to not cache in PnS and to set test mode in WINSCW to off by default.
+  </defect>
+  <defect number="DEF127618" title="Section values not persisted correctly with BSUL::CIniDocument8->Externalise" revision="064">
+    Updated the function GetBufferL() to append newline character if newline is not present in the config file after the last section.
+  </defect>
+  <defect number="DEF128122" title="BAFL: sysutilsetup including header from wrong location and test info needs update" revision="063">
+    Added the bafl system include path to the sysutilsetup.mmp and updated the How To FAQ to reflect the use of a macro to enable test mode.
+  </defect>
+  <defect number="DEF125501" title="CClientMessage::CompleteRequestL may panic Client" revision="062">
+    Provided the server with an option to configure the Panic behaviour.
+  </defect>
+  <deliverystep number="1283" name="SysUtil API to return Device Identification and Version Information" osproject="Sphinx" revision="061">
+    <milestone project="GT0334" number="3.25" />
+    <cr number="1328" title="SysUtil API to return Device Identification and Version Information">
+      The SysUtil API has been extended to include the caching and retrieval of device type information from INI files and/or a plugin DLL. In addition, the option to cache the version data has been added.
+    </cr>
+  </deliverystep>
+  <deliverystep number="1128" name="Base Services: LibXML2 CoreOS2 transfer" osproject="Diran" revision="060">
+    <milestone project="GT0428" number="3.2"/>
+    <preq number="2051" title="XML DOM parser based on libxml2">
+      The Symbian OS XML services subsystem shall be extended with a new DOM API, the open source libxml2 library and a new libxml2-based SAX plug-in for the existing XML Parser Framework.
+    </preq>
+  </deliverystep>
+  <defect number="PDEF118221" title="Secure Clock: Syslibs change needed to persist nonsecure offset" revision="059">
+    Add the processing to EChangesSystemTime notification.
+  </defect>
+  <defect number="DEF124065" title="BSUL, CIniSecIter::Next returns KErrNone and KErrNotFound instead of a TBool" revision="058">
+     Changed return values to ETrue and EFalse which are the expected return values.
+  </defect>
+  <defect number="PDEF121575" title="BAFL Backup System Multiple Simultaneous Call Problema" revision="057">
+     Updated server side functions and the corresponding documentation
+  </defect>
+  <defect number="DEF123024" title="bafl header file problems" revision="056">
+    Replaced #include "sysutildomaincrkeys.h"
+  </defect>
+  <defect number="DEF125391" title="BSUL::clientmessage dereferences a null pointer" revision="055">
+    When a PanicClient call is made from within server code, this will cause a dereference on a NULL pointer in library code. 
+  </defect>
+  <defect number="PDEF123583" title="ECOM heap contains a very large free heap cell" revision="054">
+     Large heap allocation does not occur unless it had tried to create a chunk to store the large data of the plugins.
+  </defect>
+  <defect number="PDEF122830" title="t_bafldefect sometimes fails in Syslibs ONB..." revision="053">
+    The test case is now more robust.
+  </defect>
+  <defect number="DEF124739" title="Filename case check errors in BAFL" revision="052">
+    Making the path and file references case consistent.
+  </defect>
+  <defect number="PDEF120241" title="CIniDocument8 class does not support comments" revision="051">
+    PPreserve comment lines when reading in .ini files then externalising them back to store. 
+  </defect>
+  <defect number="PDEF122325" title="BackupServer crashes under IPC fuzzing and freezes phone" revision="050">
+    Removed message 28 (BakOpCodeCloseServer) from server code. This means when message 28 is requested KErrNotSupported is returned.
+  </defect>
+  <defect number="DEF112045" title="Development artefacts missing from BAFL (PREQ1802)" revision="049">
+    Customer and engineering documentation completed and submitted for ActivityMgr and SysUtil libraries.
+  </defect>
+  <defect number="DEF121555" title="Bafl ActivityManager Tef Test Failure in ONB" revision="048">
+    Use OUTSTANDING to wait for inactivity timeout, not ASYNC_DELAY.
+  </defect>
+  <defect number="PDEF121272" title="BAFL: Application resource files get locked" revision="047">
+    Do ESeekAddress only on hw, i.e. #ifndef __WINSCW__
+  </defect>
+  <defect number="INC121403" title="initialiselocale.exe does not use standard Symbian OS VID" revision="046">
+    Added VendorID for initialiselocale.exe.
+  </defect>
+  <defect number="PDEF120553" title="sbs build on Linux fails if EPOCROOT path contains uppercase letters" revision="045">
+    Stopped paths and file names being converted to lowercase.
+  </defect>
+  <defect number="DEF121003" title="Syslibs BAFL's CUserActivityManager panic string is too long for RThread::Panic" revision="044">
+    The CUserActivityManager string has been concatenated to CUserActivityMan as it is limited to length of 16.
+  </defect>
+  <defect number="DEF117390" title="SysUtils::GetTextFromFile method doesn't check encoding on target file" revision="043">
+    Files are checked to see if they are encoded using Unicode.
+  </defect>
+  <defect number="DEF112028" title="Bafl - Sysutil has low code coverage" revision="043">
+    Existing test cases have been updated and new test cases have also been added to test Sysutil production code.
+  </defect>
+  <defect number="DEF120322" title="Unplanned break for new CBaActiveScheduler constructors/desctrucotrs" revision="042">
+    Have changed BASCHED.CPP lines on 15 and 22 to @publishedAll to required.
+  </defect>
+  <defect number="PDEF119731" title="BAFL Backup System Potential Security Vulnerability" revision="041">
+    Have changed the capabilities for CloseAll, CloseFileL, RestartAll, RestartFile and NotifyBackupOperationL. Have removed the CloseServer API.
+  </defect>
+  <defect number="PDEF118944" title="Bafl Backup Server should use Bsull.dll version of CClientMessage" revision="041">
+    Modified BakSrv to use Bsul dll to access CClientMessage framework.
+  </defect>
+  <defect number="DEF114523" title="Sysutil - possible inconsistency in which drive is selected as the FFS drive" revision="040">
+    A new API has been added; takes out the part of the code that chooses the drive letter. 
+  </defect>	
+  <minorchange revision="039">
+    Added concrete (empty) constructors and destructors to replace implicit constructors for CBaActiveScheduler and CBaServBackupScheduler to support GCC compilation for the X86 platform.
+  </minorchange>    
+  <defect number="PDEF117739" title="BackupServer crashes under IPC attack and freezes phone " revision="038">
+    BackupServer now checks for valid IPC call and constraint for each IPC argument
+  </defect>
+  <defect number="DEF117893" title="bafl contains case issue which prevents build on Linux with Raptor" revision="037">
+    Upper-case extension ".MMP" has been added into the bld.inf file to prevent the parser from defaulting to the lower case extension.
+  </defect>
+  <defect number="DEF114519" title="Sysutil - RFs parameter is not checked for connection status" revision="036">
+    Checks introduced to verify that RFs session is established, and a panic is raised if there is no valid connection.
+  </defect>
+  <defect number="PDEF117257" title="RResourceReader, HBufC8, HBufC16 documentation is incorrect" revision="035">
+    Corrected leave codes of in-source documentation tags for the RResourceReader's functions.
+  </defect>
+  <defect number="DEF113872" title="Sysutil - error code not checked when reading from file" revision="034">
+    Updated code to handle KErrTooBig error code, documented error codes.
+  </defect>
+  <defect number="DEF109839" title="Algorithm to search for default MMC drive in Sysutil should be moved to BSUL" revision="033">
+    Moved algorithm to BSUL.
+  </defect>
+  <defect number="DEF111750" title="Add test case to test dummy API methods in Activity Manager" revision="033">
+    Added dummy test case.
+  </defect>  
+  <defect number="DEF112043" title="Test tagging of Sysutils are wrong and in wrong place" revision="033">
+    Corrected test tags.
+  </defect>  
+  <defect number="DEF112053" title="Test code missing for test cases identified by DEF111963" revision="033">
+    Added missing test cases, fixed non-running tests.
+  </defect>  
+  <defect number="DEF114271" title="syslib_charconv component needs porting to work with Linux and Bash shell" revision="032">
+    Remove whitespaces in the generated comments in stringtable.pl
+  </defect>
+  <defect number="DEF114584" title="problem with bafl mrp file" revision="031">
+    Corrected location of stringexample code in mrp file.
+  </defect>
+  <defect number="DEF112272" title="CResourceFile::UidType() documentation is bobbins" revision="030">
+    Removed a comment that made the CResourceFile::UidType() documentation incorrect.
+  </defect>
+  <defect number="DEF110553" title="INI-file parser provided by SysLibs' BAFL component panics when passed an ill-fo" revision="029">
+    Added a condition check to prevent out of bound on the Descriptors to prevent the Panic
+  </defect>
+  <defect number="DEF109928" title="BaflUtils::NextLanguage should be removed or extended" revision="028">
+    Added some default fallbacks in the NextLanguage().
+  </defect>
+  <deliverystep number="685" name="Base Services: Base Services Convenience Functions (Full)" osproject="Sphinx" revision="027">
+    <milestone project="GT0334" number="3.5"/>
+    <preq number="1802" title="Base Services Convenience Functions">
+      Completion of the new ActivityManger and SysUtil binaries in BAFL.
+    </preq>
+  </deliverystep>
+  <deliverystep number="684" name="Base Services: Base Services Convenience Functions (Prototype)" osproject="Sphinx" revision="026">
+    <milestone project="GT0334" number="3.1"/>
+    <preq number="1802" title="Base Services Convenience Functions">
+      Introducing early prototypes of new components activitymanger and sysutil.
+    </preq>
+  </deliverystep>
+  <defect number="DEF108808" title="ONB: 2 Charconv tests (TREALUT8 and TREALUNI) are failing in WINSCW" revision="025">
+    Removing a file deletion required by a subsequent charconv test.
+  </defect>
+  <defect number="PDEF102492" title="CBaBackupSessionWrapper::CloseAll does not work as assumed" revision="024">
+    Corrected issues that allowed backup to start before all file lock changes were completed
+  </defect>
+  <defect number="DEF108601" title="locale code needed in bafl test for INC045160L to automate" revision="023">
+    Added automation code to t_bafldefect
+  </defect>
+  <defect number="DEF108359" title="[System Build]: CBR errors for Syslibs component while exporting files" revision="022">
+    DEF108359 System Build CBR errors for Syslibs component while exporting files
+  </defect>
+  <defect number="DEF107381" title="CIniFile in BAFL should handle both 8 and 16 bit files" revision="021">
+    Modify CIniFile16 to handle 8 bit files.
+  </defect>
+  <defect number="PDEF107115" title="Update bafl to use new Hal attribute ECustomResourceDrive" revision="020">
+    Bafl is updated to use a new HAL attribute ECustomResourceDrive in the search algorithm for language resource files.
+  </defect>
+  <defect number="DEF107103" title="T_bafldefect test problems" revision="019">
+    t_bafldefect test has been updated to not use the deprecated HAL attribute ESystemDrive
+  </defect>
+  <defect number="DEF106194" title="string constants header file cannot have any IM tagging" revision="018">
+    Modify stringtable.pl to allow header comments.
+  </defect>
+  <defect number="DEF105972" title="CResourceArchiveImpl::ProcessEntryL() should not be case sensitive" revision="017">
+    Updated CResourceArchiveImpl to use case insensitive compares when parsing resource file names in SPI files.
+  </defect>
+  <deliverystep number="558" name="Extension makefile changes" osproject="Oghma" revision="016">
+    <milestone project="GT0329" number="3.13"/>
+    <preq number="1182" title="GNU Make-based build system">
+    Migrating the makefiles to Template Extension Makefiles.
+  </preq>
+  </deliverystep>
+  <defect number="DEF103175" title="InitialiseLocale CPP layout is all over the place" revision="015">
+    Tidied up cpp file, removed duplicate code, cleaned up error handling
+  </defect>
+  <defect number="DEF105365" title="BAFL test code should use MMP file syntax to handle stringtables" revision="014">
+    BAFL : POOLSTRING USE: The stringtables handling is moved from makefiles into the mmp files.
+  </defect>
+  <defect number="DEF095280" title="System Sounds are vulnerable to attack from malicious software" revision="013">
+    Store sound settings in CentRep instead of C:\system\data\syssnd.dat
+    Enforce callers of BaSystemSound::SetSoundL to have WriteDeviceData capability
+  </defect>
+  <defect number="DEF101927" title="T_BaflUtilsImp's dependency on __DLL__ is incompatible with DevLib" revision="012">
+    Removed T_BaflUtilsImp's dependency on __DLL__
+  </defect>
+  <deliverystep number="557" name="Filename policy changes" osproject="Oghma" revision="011">
+    <milestone project="GT0329" number="3.11"/>
+    <preq number="1182" title="GNU Make-based build system">
+    Updating the component source files to comply with the Symbian filename policy.
+  </preq>
+  </deliverystep>
+  <defect number="PDEF102477" title="TBitFlagsT - default constructor wrongly assumes integer type" revision="010">
+    Updated various methods in TBitFlagsT template class so that implementation is consistent throughout
+  </defect>
+  <minorchange revision="009">
+    Symbian OS v9.3 component branched from common codeline
+  </minorchange>
+  <defect number="DEF101753" title="T_NamedPlugins tests are incorrect and should use its own resource" revision="008">
+    Fix and extend tests for CBaNamedPlugins class.
+  </defect>
+  <defect number="DEF096421" title="Documentation for NearestLanguageFile is confusing" revision="007">
+    Changed NearestLanguageFile() so that the default (Z) drive is searched if no drive letter is supplied in the input path
+  </defect>
+  <minorchange revision="006">
+    Added baflpan.h to list of exports in bld.inf
+  </minorchange>
+  <defect number="DEF100840" title="InitLocale contains unguarded RDebug::Print()" revision="005">
+    Only use RDebug::Print in UDEB build in initialiseLocale(compiled out for UREL)
+  </defect>
+  <defect number="DEF095062" title="RResourceFile error code documentation is incomplete" revision="004">
+    Updated BAFL panic code reference and provided links from RResourceFile
+  </defect>
+  <minorchange revision="003">
+    Fixed GCCE compiler error related to unsupported assert macro.
+  </minorchange>
+  <defect number="DEF096508" title="Removal of depreciated IBY file (and where it is included)" revision="002">
+    Removal of deprecated IBY file: initLocale.iby and where it is included: techview_base.iby.
+    This was happening via BAFL.iby -&gt; initLocale.iby.
+  </defect>
+  <minorchange revision="001">
+    Added Enterprise Architect model for BAFL System Sounds
+  </minorchange>
+</relnotes>
+
+
+

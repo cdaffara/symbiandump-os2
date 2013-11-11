@@ -1,0 +1,83 @@
+/*
+* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* rtaParser.dll Parses and encapsulates a pretend DRM file used by the reference test agent
+*
+*/
+
+
+/**
+ @file
+*/
+
+// Need new UID
+TARGET		rtaparser.dll
+CAPABILITY	All -Tcb
+TARGETTYPE	DLL
+
+UID			0x10009D8D 0x10206016
+VENDORID	0x70000001
+
+UNPAGED
+
+#ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+deffile     rtaparser_v3.def
+#else
+deffile		rtaparser_v2.def
+#endif
+#else
+deffile		rtaparser.def
+#endif
+
+SOURCEPATH	../RTAParser
+SOURCE		parsehandlerbase.cpp
+SOURCE		attributeparser.cpp
+SOURCE		stringattributeparser.cpp
+SOURCE		containerparser.cpp 
+SOURCE		contentparser.cpp
+SOURCE		stringparser.cpp
+SOURCE		drmfilesparser.cpp
+SOURCE		rightsparser.cpp
+SOURCE		intentparser.cpp
+SOURCE		expiryparser.cpp
+SOURCE		drmrightsparser.cpp
+SOURCE		drmfilecontent.cpp
+SOURCE		drmfilecontainer.cpp
+SOURCE		drmfiles.cpp
+SOURCE		drmrights.cpp
+SOURCE		rightsobject.cpp
+SOURCE		intent.cpp
+SOURCE		rightscriteriacount.cpp
+SOURCE		rightscriteriaexpiry.cpp
+
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT 
+SOURCE          wmdrmcontentparser.cpp 
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT 
+
+USERINCLUDE		../RTAParser
+USERINCLUDE		../inc
+
+MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+LIBRARY		euser.lib
+LIBRARY		estor.lib
+LIBRARY		efsrv.lib
+LIBRARY		bafl.lib
+LIBRARY		xmlframework.lib
+LIBRARY		caf.lib
+LIBRARY		cafutils.lib
+LIBRARY		rtavirtualfile.lib
+LIBRARY		flogger.lib
+SMPSAFE

@@ -1,0 +1,228 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+START_TESTCASE                SEC-FILETOKENS-RELOAD-0001
+
+//! @SYMTestCaseID            SEC-FILETOKENS-RELOAD-0001
+
+//! @SYMTestCaseDesc          
+
+//! @SYMTestActions           1) 1.0.0.0,Opening key store in manager mode
+
+//!                           2) 1.0 Delete everything * Test keystore close & reload consistency *
+
+//!                           3) 1.1.2 Import a RSA key
+
+//!                           4) 1.1.3 Set passphrase timeout to "don't cache"
+
+//!                           5) 1.1.4 Import a DSA key
+
+//!                           6) 1.1.5 List everything (TEST ID: GT0140-KEY001)
+
+//!                           7) 1.1.6 Closing key store
+
+//!                           8) 1.1.7 Sleep 5 seconds
+
+//!                           9) 1.1.8 Opening key store in manager mode
+
+//!                           10) 1.1.9 List everything (TEST ID: GT0140-KEY001)
+
+RUN_TEST_STEP                 -1    CTestHandler        init                   reload.ini   SEC-FILETOKENS-RELOAD-0001-001
+
+RUN_TEST_STEP                 -1    CTestHandler        deletekeys          
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              reload.ini   SEC-FILETOKENS-RELOAD-0001-003
+
+RUN_TEST_STEP                 -1    CTestHandler        settimeout             reload.ini   SEC-FILETOKENS-RELOAD-0001-004
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              reload.ini   SEC-FILETOKENS-RELOAD-0001-005
+
+RUN_TEST_STEP                 -1    CTestHandler        listkeys               reload.ini   SEC-FILETOKENS-RELOAD-0001-006
+
+RUN_TEST_STEP                 -1    CTestHandler        delete              
+
+RUN_TEST_STEP                 -1    CTestHandler        sleep                  reload.ini   SEC-FILETOKENS-RELOAD-0001-008
+
+RUN_TEST_STEP                 -1    CTestHandler        init                   reload.ini   SEC-FILETOKENS-RELOAD-0001-009
+
+RUN_TEST_STEP                 -1    CTestHandler        listkeys               reload.ini   SEC-FILETOKENS-RELOAD-0001-010
+
+END_TESTCASE                  SEC-FILETOKENS-RELOAD-0001
+
+
+
+
+
+START_TESTCASE                SEC-FILETOKENS-RELOAD-0002
+
+//! @SYMTestCaseID            SEC-FILETOKENS-RELOAD-0002
+
+//! @SYMTestCaseDesc          Test keys still work ok
+
+//! @SYMTestActions           1) 1.1.10.0,Get it again
+
+//!                           2) 1.1.10.1,Open it
+
+//!                           3) 1.1.10.2,Open a gm0_rsa for decrypt
+
+//!                           4) Decrypt
+
+//!                           5) 1.1.10.2.1, Sign with a gm0_rsa, 20 char text
+
+//!                           6) 1.1.10.2.2, Sign with a gm0_rsa, 32 char text
+
+//!                           7) 1.1.10.2.2.1, Sign digest with a gm0_rsa
+
+//!                           8) 1.1.10.2.3, Sign digest with a gm0_rsa, text too large
+
+//!                           9) 1.1.10.3,Open a gm0_rsa as a DSA key
+
+//!                           10) 1.1.10.4,Open a gm0_rsa as a DH key
+
+//!                           11) 1.1.11,Get it again
+
+//!                           12) 1.1.11.1, Sign with a gm1_dsa, 20 char text
+
+//!                           13) 1.1.11.2, Sign with gm1_dsa, text too long (21 chars)
+
+//!                           14) 1.1.11.2, Sign digest with gm1_dsa
+
+//!                           15) 1.1.11.3, Sign digest with a gm1_dsa, fail hash
+
+RUN_TEST_STEP                 -1    CTestHandler        getkeyinfo             reload.ini   SEC-FILETOKENS-RELOAD-0002-001
+
+RUN_TEST_STEP                 -1    CTestHandler        open                   reload.ini   SEC-FILETOKENS-RELOAD-0002-002
+
+RUN_TEST_STEP                 -1    CTestHandler        open                   reload.ini   SEC-FILETOKENS-RELOAD-0002-003
+
+RUN_TEST_STEP                 -1    CTestHandler        decrypt                reload.ini   SEC-FILETOKENS-RELOAD-0002-004
+
+RUN_TEST_STEP                 -1    CTestHandler        sign                   reload.ini   SEC-FILETOKENS-RELOAD-0002-005
+
+RUN_TEST_STEP                 -1    CTestHandler        sign                   reload.ini   SEC-FILETOKENS-RELOAD-0002-006
+
+RUN_TEST_STEP                 -1    CTestHandler        sign                   reload.ini   SEC-FILETOKENS-RELOAD-0002-007
+
+RUN_TEST_STEP !Error=-9       -1    CTestHandler        sign                   reload.ini   SEC-FILETOKENS-RELOAD-0002-008
+
+RUN_TEST_STEP !Error=-11006   -1    CTestHandler        open                   reload.ini   SEC-FILETOKENS-RELOAD-0002-009
+
+RUN_TEST_STEP !Error=-11006   -1    CTestHandler        open                   reload.ini   SEC-FILETOKENS-RELOAD-0002-010
+
+RUN_TEST_STEP                 -1    CTestHandler        getkeyinfo             reload.ini   SEC-FILETOKENS-RELOAD-0002-011
+
+RUN_TEST_STEP                 -1    CTestHandler        sign                   reload.ini   SEC-FILETOKENS-RELOAD-0002-012
+
+RUN_TEST_STEP !Error=-9       -1    CTestHandler        sign                   reload.ini   SEC-FILETOKENS-RELOAD-0002-013
+
+RUN_TEST_STEP                 -1    CTestHandler        sign                   reload.ini   SEC-FILETOKENS-RELOAD-0002-014
+
+RUN_TEST_STEP !Error=-2       -1    CTestHandler        sign                   reload.ini   SEC-FILETOKENS-RELOAD-0002-015
+
+END_TESTCASE                  SEC-FILETOKENS-RELOAD-0002
+
+
+
+
+
+START_TESTCASE                SEC-FILETOKENS-RELOAD-0003
+
+//! @SYMTestCaseID            SEC-FILETOKENS-RELOAD-0003
+
+//! @SYMTestCaseDesc          
+
+//! @SYMTestActions           1) 1.2.0.0 Test keystore copy-from-rom-if-not-found behaviour
+
+//!                           2) 1.2.0.1 Closing key store
+
+//!                           3) 1.2.0.2 Sleep 5 seconds, when we wake up keys.dat is not in use anymore
+
+//!                           4) 1.2.1 Delete keystore data file
+
+//!                           5) 1.2.2 Opening key store in manager mode
+
+//!                           6) 1.2.3 List everything (rom keystore contains 2 keys)
+
+//!                           7) 1.2.4 Import a DSA key
+
+//!                           8) 1.2.5 List everything
+
+//!                           9) 1.3.0 Test keystore copy-from-rom-if-corrupt behaviour (store open, canot corrupt)
+
+//!                           10) 1.2.5 List everything
+
+//!                           11) 1.2.6 Closing key store
+
+//!                           12) 1.2.7 Sleep 5 seconds, when we wake up keys.dat is not in use anymore
+
+//!                           13) 1.2.8 Test keystore copy-from-rom-if-corrupt behaviour
+
+//!                           14) 1.2.2 Opening key store in manager mode
+
+//!                           15) 1.2.9 List everything (rom keystore contains 2 keys)
+
+//!                           16) 1.2.10 Delete everything
+
+//!                           17) 1.2.11 Closing key store
+
+//!                           18) 1.2.12, Sleep 5 seconds
+
+//!                           19) 1.2.13, Check for server heap error
+
+RUN_TEST_STEP                 -1    CTestHandler        deletekeys          
+
+RUN_TEST_STEP                 -1    CTestHandler        delete              
+
+RUN_TEST_STEP                 -1    CTestHandler        sleep                  reload.ini   SEC-FILETOKENS-RELOAD-0003-003
+
+RUN_TEST_STEP                 -1    CTestHandler        deletekeystoredata  
+
+RUN_TEST_STEP                 -1    CTestHandler        init                   reload.ini   SEC-FILETOKENS-RELOAD-0003-005
+
+RUN_TEST_STEP                 -1    CTestHandler        listkeys               reload.ini   SEC-FILETOKENS-RELOAD-0003-006
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              reload.ini   SEC-FILETOKENS-RELOAD-0003-007
+
+RUN_TEST_STEP                 -1    CTestHandler        listkeys               reload.ini   SEC-FILETOKENS-RELOAD-0003-008
+
+RUN_TEST_STEP !Error=-14      -1    CTestHandler        corrupt                reload.ini   SEC-FILETOKENS-RELOAD-0003-009
+
+RUN_TEST_STEP                 -1    CTestHandler        listkeys               reload.ini   SEC-FILETOKENS-RELOAD-0003-010
+
+RUN_TEST_STEP                 -1    CTestHandler        delete              
+
+RUN_TEST_STEP                 -1    CTestHandler        sleep                  reload.ini   SEC-FILETOKENS-RELOAD-0003-012
+
+RUN_TEST_STEP                 -1    CTestHandler        corrupt                reload.ini   SEC-FILETOKENS-RELOAD-0003-013
+
+RUN_TEST_STEP                 -1    CTestHandler        init                   reload.ini   SEC-FILETOKENS-RELOAD-0003-014
+
+RUN_TEST_STEP                 -1    CTestHandler        listkeys               reload.ini   SEC-FILETOKENS-RELOAD-0003-015
+
+RUN_TEST_STEP                 -1    CTestHandler        deletekeys          
+
+RUN_TEST_STEP                 -1    CTestHandler        delete              
+
+RUN_TEST_STEP                 -1    CTestHandler        sleep                  reload.ini   SEC-FILETOKENS-RELOAD-0003-018
+
+RUN_TEST_STEP                 -1    CTestHandler        checkserverheaperror
+
+END_TESTCASE                  SEC-FILETOKENS-RELOAD-0003
+
+
+
+
+

@@ -1,0 +1,1 @@
+Unsupported H4 crypto device driver - see readme.txt in parent directory.

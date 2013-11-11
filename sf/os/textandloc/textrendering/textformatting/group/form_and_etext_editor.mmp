@@ -1,0 +1,43 @@
+/*
+* Copyright (c) 2000-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* form_and_etext_editor.dll High-level text editor wrapper
+*
+*/
+
+
+/**
+ @file
+*/
+
+
+target form_and_etext_editor.dll
+CAPABILITY All -Tcb
+targettype dll
+UID 0x1000008D 0x1000907E
+VENDORID 0x70000001
+
+
+SOURCEPATH ../form_and_etext_editor
+userinclude ../inc
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+source form_and_etext_editor.cpp
+library euser.lib estor.lib form.lib tagma.lib etext.lib
+
+deffile form_and_etext_editor2.def
+
+//+ we need a base address for WINS to make loading faster by preventing relocation
+
+SMPSAFE

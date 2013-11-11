@@ -1,0 +1,169 @@
+/*
+* Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* This file contains all build information which is not depending on whether WPX exists or not.
+*/
+
+/*
+* %version: 11 %
+*/
+
+TARGETTYPE      dll
+UID             0x1000008d 0x101f8ec4
+CAPABILITY      CAP_GENERAL_DLL
+VENDORID        VID_DEFAULT
+
+#if defined( ARMCC )
+DEFFILE         ../eabi/wlmserversrv.def
+#else
+DEFFILE         ../bwinscw/wlmserversrv.def
+#endif
+
+SOURCEPATH      ../../../wlan_common/wlanengine_common_3.1/src
+SOURCE          core_server.cpp
+SOURCE          core_server_factory.cpp
+SOURCE          core_operation_base.cpp
+SOURCE          core_operation_update_device_settings.cpp
+SOURCE          core_operation_update_power_mode.cpp
+SOURCE          core_operation_update_rxtx_parameters.cpp
+SOURCE          core_operation_update_tx_rate_policies.cpp
+SOURCE          core_operation_scan.cpp
+SOURCE          core_operation_get_available_iaps.cpp
+SOURCE          core_operation_connect.cpp
+SOURCE          core_operation_release.cpp
+SOURCE          core_operation_unload_drivers.cpp
+SOURCE          core_operation_configure_multicast_group.cpp
+SOURCE          core_operation_roam.cpp
+SOURCE          core_operation_check_rcpi.cpp
+SOURCE          core_operation_handle_bss_lost.cpp
+SOURCE          core_operation_handle_frame.cpp
+SOURCE          core_operation_handle_delete_ts.cpp
+SOURCE          core_operation_handle_measurement_request.cpp
+SOURCE          core_operation_handle_neighbor_response.cpp
+SOURCE          core_operation_null.cpp
+SOURCE          core_operation_get_rcpi.cpp
+SOURCE          core_operation_ibss_merge.cpp
+SOURCE          core_operation_get_statistics.cpp
+SOURCE          core_operation_set_uapsd_settings.cpp
+SOURCE          core_operation_set_power_save_settings.cpp
+SOURCE          core_operation_create_ts.cpp
+SOURCE          core_operation_delete_ts.cpp
+SOURCE          core_operation_protected_setup.cpp
+SOURCE          core_operation_power_save_test.cpp
+SOURCE          core_operation_set_arp_filter.cpp
+SOURCE          core_operation_directed_roam.cpp
+SOURCE          core_sub_operation_echo_test.cpp
+SOURCE          core_sub_operation_load_drivers.cpp
+SOURCE          core_sub_operation_connect.cpp
+SOURCE          core_sub_operation_adhoc.cpp
+SOURCE          core_sub_operation_wpa_connect.cpp
+SOURCE          core_sub_operation_set_static_wep.cpp
+SOURCE          core_sub_operation_roam_scan.cpp
+SOURCE          core_sub_operation_roam_update_ts.cpp
+SOURCE          core_sub_operation_create_ts.cpp
+SOURCE          core_sub_operation_wep_connect.cpp
+SOURCE          core_settings.cpp
+SOURCE          core_ap_data.cpp
+SOURCE          core_connection_data.cpp
+SOURCE          core_iap_data.cpp
+SOURCE          core_tools.cpp
+SOURCE          core_tools_parser.cpp
+SOURCE          core_eapol_handler.cpp
+SOURCE          core_timer_counter_measures.cpp
+SOURCE          core_frame_action.cpp
+SOURCE          core_frame_action_rm.cpp
+SOURCE          core_frame_action_nr.cpp
+SOURCE          core_frame_action_wmm.cpp
+SOURCE          core_frame_radio_measurement_action.cpp
+SOURCE          core_frame_assoc_resp.cpp
+SOURCE          core_frame_dot11.cpp
+SOURCE          core_frame_dot11_ie.cpp
+SOURCE          core_frame_mgmt_ie.cpp
+SOURCE          core_frame_rm_ie.cpp
+SOURCE          core_frame_rm_ie_beacon_report.cpp
+SOURCE          core_frame_rm_ie_beacon_report_ie.cpp
+SOURCE          core_frame_rm_ie_beacon_report_frame_body_ie.cpp
+SOURCE          core_frame_rm_ie_beacon_request.cpp
+SOURCE          core_frame_rm_ie_beacon_request_ie.cpp
+SOURCE          core_frame_rm_ie_beacon_request_detail_ie.cpp
+SOURCE          core_frame_nr_ie.cpp
+SOURCE          core_frame_rsn_ie.cpp
+SOURCE          core_frame_wpa_ie.cpp
+SOURCE          core_frame_wmm_ie.cpp
+SOURCE          core_frame_wmm_ie_tspec.cpp
+SOURCE          core_frame_wsc_ie.cpp
+SOURCE          core_frame_qbss_load_ie.cpp
+SOURCE          core_frame_tim_ie.cpp
+SOURCE          core_frame_beacon.cpp
+SOURCE          core_frame_echo_test.cpp
+SOURCE          core_frame_ethernet.cpp
+SOURCE          core_frame_wapi_ie.cpp
+SOURCE          core_scan_list.cpp
+SOURCE          core_scan_list_iterator.cpp
+SOURCE          core_scan_channels.cpp
+SOURCE          core_traffic_stream.cpp
+SOURCE          core_traffic_stream_list.cpp
+SOURCE          core_traffic_stream_list_iter.cpp
+SOURCE          core_virtual_traffic_stream.cpp
+SOURCE          core_virtual_traffic_stream_list.cpp
+SOURCE          core_virtual_traffic_stream_list_iter.cpp
+SOURCE          core_roam_metrics.cpp
+SOURCE          core_wlan_eapol_interface.cpp
+SOURCE          core_wlan_eapol_if_message.cpp
+
+SOURCEPATH      ../src
+SOURCE          wlmtimer.cpp
+SOURCE          wlmtimerfactory.cpp
+SOURCE          wlmnotification.cpp
+SOURCE          wlmserver.cpp
+SOURCE          wlmsession.cpp
+SOURCE          wlmdriverif.cpp
+SOURCE          wlanmgmtcommandhandler.cpp
+SOURCE          wlannotificationhandler.cpp
+SOURCE          wlanmgmtframehandler.cpp
+SOURCE          wlanscanresultcache.cpp
+SOURCE          wlanconversionutil.cpp
+SOURCE          wlmtools.cpp
+SOURCE          wlangenericplugin.cpp
+SOURCE          wlanssidlist.cpp
+SOURCE          wlanssidlistdb.cpp
+SOURCE          wlanbgscan.cpp
+SOURCE          wlanbgscanawscomms.cpp
+SOURCE          wlanbgscancommand.cpp
+SOURCE          wlanbgscanstates.cpp
+SOURCE          wlantimerservices.cpp
+SOURCE          wlantimer.cpp
+SOURCE          wlanticktimer.cpp
+
+USERINCLUDE     ../inc
+USERINCLUDE     ../../../../inc
+USERINCLUDE     ../../../wlan_common/wlanengine_common_3.1/inc
+OS_LAYER_SYSTEMINCLUDE
+
+LIBRARY         euser.lib
+LIBRARY         esock.lib
+LIBRARY         insock.lib
+LIBRARY         ecom.lib
+LIBRARY         efsrv.lib
+LIBRARY         estor.lib
+
+LIBRARY         wlandevicesettings.lib
+LIBRARY         wlmplatform.lib
+LIBRARY         wlanhwinit.lib
+LIBRARY         wlandbif.lib
+LIBRARY         featmgr.lib
+LIBRARY         commsdat.lib
+LIBRARY         hal.lib
+
+STATICLIBRARY   wlanscanlist.lib

@@ -1,0 +1,61 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SUITE	Te_RegConcurrentTestSuite1
+LOAD_SUITE	Te_RegConcurrentTestSuite2
+LOAD_SUITE	Te_RegConcurrentTestSuite3 -SharedData
+PRINT
+
+CONCURRENT
+START_TESTCASE DT-TEF-Concurrent-0013
+//! @SYMTestCaseID          DT-TEF-Concurrent-0013
+//! @SYMCreationDate        03-09-2008
+//! @SYMAuthor              extjasonzhou
+//! @SYMTestType            CT
+//! @SYMTestPriority        Medium
+//! @SYMTestCaseDesc        Test Concurrent functionalities of TEF steps with 3 servers two of them not shared data and the other one shared data. (Negetive test)
+//! @SYMTestExpectedResults Test cases should behave as expected.
+//! @SYMTestActions         1. Load 3 servers servers two of them not shared data and the other one shared data.
+//!                         2. Call CONCURRENT.
+//!                         4. Run some steps in a test case (both shared data and non-shared data servers) with some bad command syntax and/or some bad server/step names.
+//!                         5. Call CONSECUTIVE.
+//!                         6. Run some more steps in another test case (steps of both non-shared data servers and shared data server).
+	PRINT This test case will be failed.
+	RUN_TEST_STEP 100 Te_RegConcurrentTestSuite1 Te_RegWaitStep ${SYSDRIVE}\testdata\configs\te_regconcurrenttestsuite.ini WaitStep0
+	RUN_TEST_STEP 100 Te_RegConcurrentTestSuite2
+	RUN_TEST_STEP 100 Te_RegConcurrentTestSuite2 Te_RegLoopStep ${SYSDRIVE}\testdata\configs\te_regconcurrenttestsuite.ini LoopStep0
+	RUN_TEST_STEP 100 Te_RegConcurrentTestSuite3 Te_RegLoopStep ${SYSDRIVE}\testdata\configs\te_regconcurrenttestsuite.ini LoopStep0
+	RUN_TEST_STEP 100 Te_RegConcurrentTestSuiteNotExist Te_RegAccessStaticVarStep
+	RUN_TEST_STEP 100 Te_RegConcurrentTestSuite2 Te_RegAccessStaticVarStep ${SYSDRIVE}\testdata\configs\te_regconcurrenttestsuite.ini AccessStaticVarStep0
+END_TESTCASE DT-TEF-Concurrent-0013
+CONSECUTIVE
+START_TESTCASE DT-TEF-Concurrent-0013-1
+//! @SYMTestCaseID          DT-TEF-Concurrent-0013-1
+//! @SYMCreationDate        03-09-2008
+//! @SYMAuthor              extjasonzhou
+//! @SYMTestType            CT
+//! @SYMTestPriority        Medium
+//! @SYMTestCaseDesc        Test Concurrent functionalities of TEF steps with 3 servers two of them not shared data and the other one shared data. (Negetive test)
+//! @SYMTestExpectedResults Test cases should behave as expected.
+//! @SYMTestActions         1. Load 3 servers servers two of them not shared data and the other one shared data.
+//!                         2. Call CONCURRENT.
+//!                         4. Run some steps in a test case (both shared data and non-shared data servers) with some bad command syntax and/or some bad server/step names.
+//!                         5. Call CONSECUTIVE.
+//!                         6. Run some more steps in another test case (steps of both non-shared data servers and shared data server).
+	RUN_TEST_STEP 100 Te_RegConcurrentTestSuite1 Te_RegCheckTestResultStep ${SYSDRIVE}\testdata\configs\te_regconcurrenttestsuite.ini 0
+	RUN_TEST_STEP 100 Te_RegConcurrentTestSuite2 Te_RegCheckTestResultStep ${SYSDRIVE}\testdata\configs\te_regconcurrenttestsuite.ini 10
+	RUN_TEST_STEP 100 Te_RegConcurrentTestSuite3 Te_RegCheckTestResultStep ${SYSDRIVE}\testdata\configs\te_regconcurrenttestsuite.ini 0
+END_TESTCASE DT-TEF-Concurrent-0013-1

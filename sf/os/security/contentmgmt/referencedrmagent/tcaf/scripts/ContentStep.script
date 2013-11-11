@@ -1,0 +1,411 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+
+LOAD_SUITE tcaf
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONT-0001
+//! @SYMTestCaseDesc 		Get an attribute for a content object within a file
+//! 				(Attribute)
+//! @SYMREQ			REQ3679
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Get a single attribute for a content object within a file
+//! @SYMTestExpectedResults	Should return KErrNone
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONT-0001
+RUN_TEST_STEP 100 tcaf CAFContentAttributeStep c:\tcaf\attributes.ini Attribute
+END_TESTCASE SEC-CAF-CONT-0001
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONT-0002
+//! @SYMTestCaseDesc 		Get a set of attributes for a content object within a file
+//! 				(AttributeSet)
+//! @SYMREQ			REQ3679
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Get a set of attributes for a content object within a file
+//! @SYMTestExpectedResults	Should return KErrNone
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONT-0002
+RUN_TEST_STEP 100 tcaf CAFContentAttributeSetStep c:\tcaf\attributes.ini AttributeSet
+END_TESTCASE SEC-CAF-CONT-0002
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONT-0003
+//! @SYMTestCaseDesc 		Get a string attribute for a content object within a file
+//! 				(String_Attribute)
+//! @SYMREQ			REQ3679
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Get a single string attribute for a content object within a file
+//! @SYMTestExpectedResults	Should return KErrNone
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONT-0003
+RUN_TEST_STEP 100 tcaf CAFContentStringAttributeStep c:\tcaf\attributes.ini StringAttribute
+END_TESTCASE SEC-CAF-CONT-0003
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONT-3447
+//! @SYMTestCaseDesc 		Get a string attribute for a content object within a valid gif file
+//! @SYMDEF			PDEF104571
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Get a single string attribute for a content object within a valid gif file
+//! @SYMTestExpectedResults	A string attribute should successfully be returned
+//! @SYMTestType		CT
+START_TESTCASE SEC-CAF-CONT-3447
+RUN_TEST_STEP 100 tcaf CAFContentStringAttributeStep c:\tcaf\attributes.ini StringAttributeGoodGif
+END_TESTCASE SEC-CAF-CONT-3447
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONT-3448
+//! @SYMTestCaseDesc 		Failure to return a string attribute for a content object within
+//! 				an invalid gif file
+//! @SYMDEF			PDEF104571
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Attempt to get a single string attribute for a content object within an invalid gif file
+//! @SYMTestExpectedResults	An  error should be returned
+//! @SYMTestType		CT
+START_TESTCASE SEC-CAF-CONT-3448
+RUN_TEST_STEP 100 tcaf CAFContentStringAttributeStep c:\tcaf\attributes.ini StringAttributeErrorGif
+END_TESTCASE SEC-CAF-CONT-3448
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONT-0004
+//! @SYMTestCaseDesc 		Get a set of string attributes for a content object within a file
+//! 				(String_AttributeSet)
+//! @SYMREQ			REQ3679
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Get a set of string attributes for a content object within a file
+//! @SYMTestExpectedResults	Should return KErrNone
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONT-0004
+RUN_TEST_STEP 100 tcaf CAFContentStringAttributeSetStep c:\tcaf\attributes.ini StringAttributeSet
+END_TESTCASE SEC-CAF-CONT-0004
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONT-3449
+//! @SYMTestCaseDesc 		Get a set of string attributes for a content object within a valid gif file
+//! @SYMDEF			PDEF104571
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Get a set of string attributes for a content object within a valid gif file
+//! @SYMTestExpectedResults	A set of string attributes should successfully be returned
+//! @SYMTestType		CT
+START_TESTCASE SEC-CAF-CONT-3449
+RUN_TEST_STEP 100 tcaf CAFContentStringAttributeSetStep c:\tcaf\attributes.ini StringAttributeSetGoodGif
+END_TESTCASE SEC-CAF-CONT-3449
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONT-3450
+//! @SYMTestCaseDesc 		Get a set of string attributes for a content object within an invalid gif file
+//! @SYMDEF			PDEF104571
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Get a set of string attributes for a content object within an invalid gif file
+//! @SYMTestExpectedResults	An  error should be returned for the invalid gif file within the set
+//! @SYMTestType		CT
+START_TESTCASE SEC-CAF-CONT-3450
+RUN_TEST_STEP 100 tcaf CAFContentStringAttributeSetStep c:\tcaf\attributes.ini StringAttributeSetErrorGif
+END_TESTCASE SEC-CAF-CONT-3450
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONT-0005
+//! @SYMTestCaseDesc 		Check attributes of a DRM file
+//! 				(DRM_Attributes)
+//! @SYMREQ			REQ3679
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Check CAF attributes are the values expected
+//! @SYMTestExpectedResults	Attributes should match expected values in INI file
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONT-0005
+RUN_TEST_STEP 100 tcaf CAFAttributesStep c:\tcaf\attributes.ini CAF1Attributes
+END_TESTCASE SEC-CAF-CONT-0005
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONT-0006
+//! @SYMTestCaseDesc 		Check for notification of a status change
+//! 				(NotifyStatusChange)
+//! @SYMPREQ			PREQ783
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Check status returned matches expected value
+//! @SYMTestExpectedResults	Status changes should match expected result
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONT-0006
+RUN_TEST_STEP 100 tcaf CAFContentNotifyStep c:\tcaf\ContentStep.ini NotifyStatusChange
+END_TESTCASE SEC-CAF-CONT-0006
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONT-0007
+//! @SYMTestCaseDesc 		Set a property within the test agent
+//! 				(SetProperty_TestAgent)
+//! @SYMPREQ			PREQ780
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Check error returned matches expected value
+//! @SYMTestExpectedResults	The property should be set correctly
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONT-0007
+RUN_TEST_STEP 100 tcaf CAFContentSetPropertyStep c:\tcaf\ContentStep.ini SetPropertyDrm
+END_TESTCASE SEC-CAF-CONT-0007
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONT-0008
+//! @SYMTestCaseDesc 		Set a property within the agent
+//! 				(SetProperty_F32Agent)
+//! @SYMPREQ			PREQ780
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Check error returned matches expected value
+//! @SYMTestExpectedResults	The property should be set correctly
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONT-0008
+RUN_TEST_STEP 100 tcaf CAFContentSetPropertyStep c:\tcaf\ContentStep.ini SetPropertyPlainText
+END_TESTCASE SEC-CAF-CONT-0008
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONT-0009
+//! @SYMTestCaseDesc 		Ask the agent to display information related to a content object
+//! 				(DisplayInfo)
+//! @SYMREQ			REQ3692
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Agent should display information or return an error if it doesn't support that API
+//! @SYMTestExpectedResults	Agent should return an error since information display is not supported
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONT-0009
+RUN_TEST_STEP 100 tcaf CAFContentDisplayInfoStep c:\tcaf\ContentStep.ini DisplayInfo
+END_TESTCASE SEC-CAF-CONT-0009
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONT-0010
+//! @SYMTestCaseDesc 		Attempt to perform an extended function on a particular CAF agent
+//! 				(AgentSpecific_Ok)
+//! @SYMPREQ			PREQ780
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Check error returned matches expected value
+//! @SYMTestExpectedResults	Error returned matches expected value
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONT-0010
+RUN_TEST_STEP 100 tcaf CAFContentAgentSpecificStep c:\tcaf\ContentStep.ini AgentSpecificDrm
+END_TESTCASE SEC-CAF-CONT-0010
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONT-0011
+//! @SYMTestCaseDesc 		Attempt to perform an extended function on the F32 Agent
+//! 				(AgentSpecific_Fails)
+//! @SYMPREQ			PREQ780
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Check error returned matches expected value
+//! @SYMTestExpectedResults	Error returned matches expected value
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONT-0011
+RUN_TEST_STEP 100 tcaf CAFContentAgentSpecificStep c:\tcaf\ContentStep.ini AgentSpecificPlainText
+END_TESTCASE SEC-CAF-CONT-0011
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONT-0012
+//! @SYMTestCaseDesc 		Request rights for a given content object
+//! 				(RequestRights)
+//! @SYMPREQ			PREQ783
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Check status returned matches expected value
+//! @SYMTestExpectedResults	Status changes should match expected result
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONT-0012
+RUN_TEST_STEP 100 tcaf CAFContentRequestRightsStep c:\tcaf\ContentStep.ini RequestRights
+END_TESTCASE SEC-CAF-CONT-0012
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONT-0013
+//! @SYMTestCaseDesc 		Find the embedded objects within a container in the file
+//! 				(EmbeddedObjects)
+//! @SYMREQ			REQ3679
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		List the embedded content objects within the file
+//! @SYMTestExpectedResults	Number of embedded objects found matches expected number
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONT-0013
+RUN_TEST_STEP 100 tcaf CAFContentEmbeddedObjectsStep c:\tcaf\ContentStep.ini EmbeddedObjects
+END_TESTCASE SEC-CAF-CONT-0013
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONT-3451
+//! @SYMTestCaseDesc 		Find the embedded objects within a valid gif file
+//! @SYMDEF			PDEF104571
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		List the embedded content objects within a valid gif file.
+//! @SYMTestExpectedResults	Returned error code matches that expected.
+//! 				Number of embedded objects found matches the expected number.
+//! @SYMTestType		CT
+START_TESTCASE SEC-CAF-CONT-3451
+RUN_TEST_STEP 100 tcaf CAFContentEmbeddedObjectsStep c:\tcaf\ContentStep.ini EmbeddedObjectsGoodGif
+END_TESTCASE SEC-CAF-CONT-3451
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONT-3452
+//! @SYMTestCaseDesc 		Find the embedded objects within an invalid gif file
+//! @SYMDEF			PDEF104571
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		List the embedded content objects within an invalid gif file.
+//! @SYMTestExpectedResults	Returned error code matches that expected.
+//! 				Number of embedded objects found matches the expected number.
+//! @SYMTestType		CT
+START_TESTCASE SEC-CAF-CONT-3452
+RUN_TEST_STEP 100 tcaf CAFContentEmbeddedObjectsStep c:\tcaf\ContentStep.ini EmbeddedObjectsErrorGif
+END_TESTCASE SEC-CAF-CONT-3452
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONT-0014
+//! @SYMTestCaseDesc 		List all embedded objects of a particular type
+//! 				(EmbeddedObjectType)
+//! @SYMREQ			REQ3679
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		List the embedded objects within a container that are of a certain type (content, containers etc)
+//! @SYMTestExpectedResults	Number of embedded objects found matches the expected number
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONT-0014
+RUN_TEST_STEP 100 tcaf CAFContentEmbeddedObjectTypeStep c:\tcaf\ContentStep.ini EmbeddedObjectType
+END_TESTCASE SEC-CAF-CONT-0014
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONT-3453
+//! @SYMTestCaseDesc 		List all embedded objects of a particular type for a valid gif file
+//! @SYMDEF			PDEF104571
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		List the embedded objects within a container that are of a certain type (content, containers etc)
+//! 				for a valid gif file.
+//! @SYMTestExpectedResults	Returned error code matches that expected.
+//! 				Number of embedded objects found matches the expected number.
+//! @SYMTestType		CT
+START_TESTCASE SEC-CAF-CONT-3453
+RUN_TEST_STEP 100 tcaf CAFContentEmbeddedObjectTypeStep c:\tcaf\ContentStep.ini EmbeddedObjectTypeGoodGif
+END_TESTCASE SEC-CAF-CONT-3453
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONT-3454
+//! @SYMTestCaseDesc 		List all embedded objects of a particular type for an invalid gif file
+//! @SYMDEF			PDEF104571
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		List the embedded objects within a container that are of a certain type (content, containers etc)
+//! 				for an invalid gif file.
+//! @SYMTestExpectedResults	Returned error code matches that expected.
+//! 				Number of embedded objects found matches the expected number.
+//! @SYMTestType		CT
+START_TESTCASE SEC-CAF-CONT-3454
+RUN_TEST_STEP 100 tcaf CAFContentEmbeddedObjectTypeStep c:\tcaf\ContentStep.ini EmbeddedObjectTypeErrorGif
+END_TESTCASE SEC-CAF-CONT-3454
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONT-0015
+//! @SYMTestCaseDesc 		Search for content objects of a particular type within the file
+//! 				(Search_TestAgent)
+//! @SYMREQ			REQ3679
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Search for content objects of a particular type within the file
+//! @SYMTestExpectedResults	Number of content objects found matches expected number
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONT-0015
+RUN_TEST_STEP 100 tcaf CAFContentSearchStep c:\tcaf\ContentStep.ini SearchTestAgent
+END_TESTCASE SEC-CAF-CONT-0015
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONT-0016
+//! @SYMTestCaseDesc 		Search for content objects of a particular type within the file
+//! 				(Search_F32Agent)
+//! @SYMREQ			REQ3679
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Search for content objects of a particular type within the file
+//! @SYMTestExpectedResults	Number of content objects found matches expected number
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONT-0016
+RUN_TEST_STEP 100 tcaf CAFContentSearchStep c:\tcaf\ContentStep.ini SearchF32Agent
+END_TESTCASE SEC-CAF-CONT-0016
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONT-3455
+//! @SYMTestCaseDesc 		Search for content objects of a particular type within a valid gif file
+//! @SYMDEF			PDEF104571
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Search for content objects of a particular type within the file
+//! @SYMTestExpectedResults	Number of content objects found matches expected number
+//! @SYMTestType		CT
+START_TESTCASE SEC-CAF-CONT-3455
+RUN_TEST_STEP 100 tcaf CAFContentSearchStep c:\tcaf\ContentStep.ini SearchF32AgentGoodGif
+END_TESTCASE SEC-CAF-CONT-3455
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONT-3456
+//! @SYMTestCaseDesc 		Search for content objects of a particular type within an invalid gif file
+//! @SYMDEF			PDEF104571
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Search for content objects of a particular type within the file
+//! @SYMTestExpectedResults	Number of content objects found matches expected number
+//! @SYMTestType		CT
+START_TESTCASE SEC-CAF-CONT-3456
+RUN_TEST_STEP 100 tcaf CAFContentSearchStep c:\tcaf\ContentStep.ini SearchF32AgentErrorGif
+END_TESTCASE SEC-CAF-CONT-3456
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONT-0017
+//! @SYMTestCaseDesc 		Open a container within a file
+//! 				(Container_Ok)
+//! @SYMREQ			REQ3679
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Open a container within a file
+//! @SYMTestExpectedResults	The container is opened successfully
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONT-0017
+RUN_TEST_STEP 100 tcaf CAFContentContainerStep c:\tcaf\ContentStep.ini ContainerDrm
+END_TESTCASE SEC-CAF-CONT-0017
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONT-0018
+//! @SYMTestCaseDesc 		Attempt to open and close a container that does not exist
+//! 				(Container_NotFound)
+//! @SYMREQ			REQ3679
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Open a container that does not exist
+//! @SYMTestExpectedResults	Returns with KErrNotFound
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONT-0018
+RUN_TEST_STEP 100 tcaf CAFContentContainerStep c:\tcaf\ContentStep.ini ContainerPlainText
+END_TESTCASE SEC-CAF-CONT-0018
+
+
+
+

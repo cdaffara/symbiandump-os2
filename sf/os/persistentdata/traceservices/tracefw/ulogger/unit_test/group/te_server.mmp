@@ -1,0 +1,67 @@
+// Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// Te_UloggerServerTestSuite.mmp
+// 
+//
+
+TARGET      te_uloggerservertestsuite.exe
+TARGETTYPE  exe
+UID         0x1000007A 0x10273881
+CAPABILITY  CommDD NetworkControl LocalServices ProtServ
+
+MACRO __ULOGGER_SERVER_UNIT_TEST
+
+OS_LAYER_SYSTEMINCLUDE
+
+USERINCLUDE   ../te-server
+USERINCLUDE   ../../inc
+USERINCLUDE  ../../src/pluginframework
+USERINCLUDE   ../../src/uloggerserver
+
+SOURCEPATH  ../te-server
+SOURCE	       te_uloggerservertestsuiteserver.cpp
+SOURCE	       te_uloggerservertestsuitestepbase.cpp
+SOURCE         uloggerservertest0step.cpp
+SOURCE         uloggerservertest1step.cpp
+SOURCE         uloggerservertest2step.cpp
+SOURCE		   uloggerservertest3step.cpp
+SOURCE		   uloggerservertest4step.cpp
+SOURCE		   uloggerservertest5step.cpp
+SOURCE		   uloggerservertest6step.cpp
+
+SOURCEPATH  ../../src/uloggerserver
+SOURCE			uloggerwatcher.cpp
+SOURCE			uloggersrvsession.cpp
+SOURCE			uloggerserver.cpp
+
+SOURCEPATH	../../src/pluginframework
+SOURCE			pluginallocator.cpp
+SOURCE			inputframework.cpp
+SOURCE			outputframework.cpp
+SOURCE			inputdata.cpp
+
+SOURCEPATH  ../../src/command
+SOURCE			uloggercommands.cpp
+
+LIBRARY		euser.lib 
+LIBRARY     estor.lib 
+LIBRARY     bafl.lib 
+LIBRARY     hal.lib 
+LIBRARY     efsrv.lib 
+LIBRARY     btracec.lib 
+LIBRARY     uloggersysconfig.lib
+LIBRARY		testexecuteutils.lib 
+LIBRARY		testexecutelogclient.lib ecom.lib
+
+SMPSAFE

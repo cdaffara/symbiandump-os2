@@ -1,0 +1,109 @@
+<action>
+	<actionname>Opening a certificate store manager</actionname>
+	<actiontype>init</actiontype>
+	<actionbody>
+		<mode>write</mode>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>No Test, Deleting all certs ***NEW***</actionname>
+	<actiontype>deletecert</actiontype>
+	<actionbody>
+		<label>*.*</label>
+		<deleteallcerts>1</deleteallcerts>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Add the certificate DSA</actionname>
+	<actiontype>addcert</actiontype>
+	<actionbody>
+		<format>X509</format>
+		<label>DSA</label>
+		<issuerkey></issuerkey>
+		<subjectkey></subjectkey>
+		<certstore>0</certstore>
+		<certfile>c:\unifiedcertstore2\CAX1.cer</certfile>
+		<certowner>ca</certowner>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Get the list of certificates</actionname>
+	<actiontype>listcert</actiontype>
+	<actionbody>
+		<filter>
+		<ownertype>ca</ownertype>
+		</filter>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<CCTCertInfo><label>DSA</label></CCTCertInfo>
+		</actionresult>
+</action>
+
+<action>
+	<actionname>Deleting the certificate CAX1</actionname>
+	<actiontype>deletecert</actiontype>
+	<actionbody>
+		<certtype>ca</certtype>
+		<label>DSA</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<action>
+<actionname>1.1.0.6 Import a DSA key</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>pkcs8dsa1.001</ImportData>
+		<keyusage>DSAUsage</keyusage>
+		<keysize>512</keysize>
+		<keylabel>*IMPORTED* DSA key</keylabel>
+		<keyalgorithm>DSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Add the certificate DSA</actionname>
+	<actiontype>addcert</actiontype>
+	<actionbody>
+		<format>X509</format>
+		<label>userDSA</label>
+		<issuerkey></issuerkey>
+		<certstore>0</certstore>
+		<certfile>c:\tcertstore\data\cert_dsa1.der</certfile>
+		<certowner>user</certowner>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<action>
+	<actionname>Deleting the certificate store manager</actionname>
+	<actiontype>delete</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>

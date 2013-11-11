@@ -1,0 +1,57 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+*
+*/
+// ECOM.IBY
+//
+// Obey file for GT 103 Plug-in Architecture project
+// components
+
+#ifndef __ECOM_IBY__
+#define __ECOM_IBY__
+
+// Make sure the error strings appear in the ROM
+data=MULTI_LINGUIFY(RSC ZRESOURCE\errors\ecomerr	Resource\Errors\ecomerr)
+
+// Framework Components
+file=ABI_DIR\BUILD_DIR\ecom.dll				System\Libs\ECom.dll
+file=ABI_DIR\BUILD_DIR\ecomserver.exe		System\Libs\EComServer.exe
+file=ABI_DIR\BUILD_DIR\ecompatchdata.dll				System\Libs\EComPatchData.dll
+
+//
+// ECOM uses a custom scheme to do patchable constants. Licensees are instructed to
+// edit EPOCROOT##epoc32\rom\include\ecompatchconstants.hby if they want to patch anyone of
+// the patchable constants below. Direct use of the patchdata command outside here
+// is not supported because ECOM may change which binaries need the patches.
+//
+#include <ecompatchconstants.hby>
+
+#ifdef ECOM_PATCHDATA_KLISTIMPLBUFFERSIZE
+    patchdata ecompatchdata.dll@KListImplBufferSize ECOM_PATCHDATA_KLISTIMPLBUFFERSIZE
+#endif
+
+#ifdef ECOM_PATCHDATA_KDISCOVERYDISABLEDDRIVELIST
+    patchdata ecomserver.exe@KDiscoveryDisabledDriveList ECOM_PATCHDATA_KDISCOVERYDISABLEDDRIVELIST
+#endif
+
+#ifdef ECOM_PATCHDATA_KCUSTOMRESOLVERCACHESIZE
+    patchdata ecomserver.exe@KCustomResolverCacheSize ECOM_PATCHDATA_KCUSTOMRESOLVERCACHESIZE
+#endif
+
+#ifdef ECOM_PATCHDATA_KCUSTOMRESOLVERCACHETIMEOUT
+    patchdata ecomserver.exe@KCustomResolverCacheTimeout ECOM_PATCHDATA_KCUSTOMRESOLVERCACHETIMEOUT
+#endif
+
+#endif

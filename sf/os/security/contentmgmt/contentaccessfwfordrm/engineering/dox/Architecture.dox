@@ -1,0 +1,87 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// <hr>
+// The Content Access Framework provides a common interface for applications to access content.
+// In effect it behaves as a switch between different agents, known as Content Access Agents.
+// Each agent is an ECOM plugin, which implements the Content Access Agent interface <code>0x10204740</code>. 
+// This interface should be a static function that creates and returns an instance of a class derived 
+// from <code>ContentAccess::CAgentFactory</code> (e.g. <code>ContentAccess::CF32AgentFactory</code>).
+// <code>static CAgentFactory* AgentImplementationFunction();</code>
+// for reading unprotected content files. If no other agent recognizes a file the F32 agent will be used
+// to read it. In effect, this is the same as opening the file using an <code>RFile</code>, but allows the application
+// to use the same code to read protected and unprotected content.
+// The following diagram illustrates the implementation of CAF with two fictitious agents (OMA and MPEG).
+// <hr>
+// The problem with this implementation is that all three agents are loaded into the application's process space,
+// which represents a security risk. The application could potentially access the key used to decrypt protected
+// content.
+// A better solution is to implement the parts of the agent that require access to encryption/decryption keys or
+// rights in a separate server process. When platform security is enabled the server implementation also allows 
+// the APIs to be policed by the agent server DLL to ensure only applcations with the right capabilities will 
+// have access to the content.
+// To improve performance any functionality that does not require access to keys or rights should be implemented
+// in the client side DLL. Client side functionality reduces the number of context switches the processor needs 
+// to perform resulting in improved performance from the agent.
+// There is no need to implement the F32 agent in a server process since it is only used to access unprotected content.
+// <hr>
+// The following guidelines are suggested for implementing Client/Server agents, but may not be appropriate
+// for all agents.
+// <b> Client Side Functionality </b>
+// - Implement the Content Access Agent ECOM interface
+// - Browse the contents of files
+// - Retrieve attributes or meta-data from a file
+// - All functions requiring the agent to display a user interface or dialog
+// - File recognition (for client applications and Apparc MIME types)
+// - Marshall calls to the server side
+// <b> Server Side Functionality </b>
+// - Content Encryption (protecting plaintext)
+// - Content Decryption (reading DRM content)
+// - Manage, protect and store Rights
+// - Any potentially destructive operation such as deleting content or rights
+// - Notifications
+// - Capability Enforcement
+// <hr>
+// The APIs provided in this document indicate the functions that are likely to require a client
+// process to have DRM capability in order to use the functionality. The client process will only 
+// need DRM capability if it attempts to read DRM content using an CAF agent that implements a DRM
+// protection scheme. 
+// The capability can only be enforced by the CAF agent running in a separate server process, so it is the responsibility
+// of the agent to ensure the client process has the required capabilities.
+// <b>There are no capabilities required to use unprotected content.</b>
+// <hr>
+// CAF is used to read unprotected or DRM protected content. It is a client side DLL that must be linked with
+// the process using CAF. 
+// The agents may run in separate processes and will not have the correct capabilities to open files in TCB or 
+// server private directories using just a file name. These files must be opened by the process that owns the 
+// file and an open \c RFile handle passed to CAF in order to read them.
+// <hr>
+// 
+//
+
+/**
+ @page CAFArchitecture Architecture
+ - @ref ArchOverview
+ - @ref CAFClientServer
+ - @ref ClientServerImplementation 
+ - @ref CAFCapability
+ - @ref UsingCAF
+ @section ArchOverview Overview
+ There is a special agent supplied by Symbian known as the @ref AboutF32Agent "F32Agent". This agent is used as a fallback 
+ @image html Architecture1.gif
+ @section CAFClientServer Client / Server Agents
+ @image html Architecture2.gif
+ @section ClientServerImplementation Client / Server implementation guidelines
+ @section CAFCapability DRM Capability
+ @section UsingCAF Using CAF to read from other server private directories
+*/

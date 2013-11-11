@@ -1,0 +1,188 @@
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+// @file
+
+//! @SYMTestSuiteName SYSLIB-FEATREG-TE_FEATREG
+//! @SYMScriptTestEnvironment This script can be run in both Techview and Textshell. Please see "SGL.TS0017.257 Feature Registry Design.doc" for details about how build the required image.
+//! @internalComponent
+//! @test
+
+PRINT Run Feature Registry general tests
+PRINT
+
+LOAD_SUITE te_featreg
+
+START_TESTCASE   SYSLIB-FEATREG-CT-1394 //CorruptFeatRegConfigs
+//!@SYMTestCaseID SYSLIB-FEATREG-CT-1394
+//!@SYMTestCaseDesc Test response of setup exe and featreg API to corrupt / missing config files
+//!@SYMTestPriority High
+//!@SYMTestActions Run setup executable sourcing corrupt config files from C-data cage, confirm panic in debug/KErrCorrupt in release. Confirm API returns KErrCorrupt in all cases.
+//!@SYMTestExpectedResults The test must not fail
+//!@SYMPREQ PREQ1086
+
+	RUN_PROGRAM 100 featreg_maketestconfig.exe corrupt_missing
+	RUN_TEST_STEP !PanicString=FeatReg !PanicCode=1 100 te_featreg QueryAnyFeatureCorrupt
+	RUN_TEST_STEP 100 te_featreg RunFeatRegSetupCorrupt
+
+	RUN_PROGRAM 100 featreg_maketestconfig.exe corrupt_noheader
+	RUN_TEST_STEP !PanicString=FeatReg !PanicCode=1 100 te_featreg QueryAnyFeatureCorrupt
+	RUN_TEST_STEP 100 te_featreg RunFeatRegSetupCorrupt
+
+	RUN_PROGRAM 100 featreg_maketestconfig.exe corrupt_incompleteheader
+	RUN_TEST_STEP !PanicString=FeatReg !PanicCode=1 100 te_featreg QueryAnyFeatureCorrupt
+	RUN_TEST_STEP 100 te_featreg RunFeatRegSetupCorrupt
+
+	RUN_PROGRAM 100 featreg_maketestconfig.exe corrupt_invalidtypeprefix
+	RUN_TEST_STEP !PanicString=FeatReg !PanicCode=1 100 te_featreg QueryAnyFeatureCorrupt
+	RUN_TEST_STEP 100 te_featreg RunFeatRegSetupCorrupt
+
+	RUN_PROGRAM 100 featreg_maketestconfig.exe corrupt_badversionnumber
+	RUN_TEST_STEP !PanicString=FeatReg !PanicCode=1 100 te_featreg QueryAnyFeatureCorrupt
+	RUN_TEST_STEP 100 te_featreg RunFeatRegSetupCorrupt
+
+	RUN_PROGRAM 100 featreg_maketestconfig.exe corrupt_toomuchdata
+	RUN_TEST_STEP !PanicString=FeatReg !PanicCode=1 100 te_featreg QueryAnyFeatureCorrupt
+	RUN_TEST_STEP 100 te_featreg RunFeatRegSetupCorrupt
+
+	RUN_PROGRAM 100 featreg_maketestconfig.exe corrupt_toolittledata
+	RUN_TEST_STEP !PanicString=FeatReg !PanicCode=1 100 te_featreg QueryAnyFeatureCorrupt
+	RUN_TEST_STEP 100 te_featreg RunFeatRegSetupCorrupt
+
+	RUN_PROGRAM 100 featreg_maketestconfig.exe corrupt_entryoutoforder
+	RUN_TEST_STEP !PanicString=FeatReg !PanicCode=1 100 te_featreg QueryAnyFeatureCorrupt
+	RUN_TEST_STEP 100 te_featreg RunFeatRegSetupCorrupt
+
+	RUN_PROGRAM 100 featreg_maketestconfig.exe corrupt_entryrepeated
+	RUN_TEST_STEP !PanicString=FeatReg !PanicCode=1 100 te_featreg QueryAnyFeatureCorrupt
+	RUN_TEST_STEP 100 te_featreg RunFeatRegSetupCorrupt
+
+	RUN_PROGRAM 100 featreg_maketestconfig.exe corrupt_badrange
+	RUN_TEST_STEP !PanicString=FeatReg !PanicCode=1 100 te_featreg QueryAnyFeatureCorrupt
+	RUN_TEST_STEP 100 te_featreg RunFeatRegSetupCorrupt
+END_TESTCASE   SYSLIB-FEATREG-CT-1394 //CorruptFeatRegConfigs
+
+START_TESTCASE   SYSLIB-FEATREG-CT-1395 //ValidFeatRegConfigs
+//!@SYMTestCaseID SYSLIB-FEATREG-CT-1395
+//!@SYMTestCaseDesc Test API response for valid config files, including out-of-memory tests
+//!@SYMTestPriority High
+//!@SYMTestActions Run setup executable sourcing config files from C-data cage. Confirm correct API response.
+//!@SYMTestExpectedResults The test must not fail
+//!@SYMPREQ PREQ1086
+
+	RUN_PROGRAM 100 featreg_maketestconfig.exe valid_small
+	RUN_TEST_STEP 100 te_featreg QueryFeaturesValidSmall
+	RUN_TEST_STEP !OOM 100 te_featreg QueryFeaturesValidSmall
+
+	RUN_PROGRAM 100 featreg_maketestconfig.exe valid_nofeatures
+	RUN_TEST_STEP 100 te_featreg QueryFeaturesNotSupported
+	RUN_TEST_STEP !OOM 100 te_featreg QueryFeaturesNotSupported
+
+	RUN_PROGRAM 100 featreg_maketestconfig.exe valid_large
+	RUN_TEST_STEP 100 te_featreg QueryFeaturesValidLarge
+	RUN_TEST_STEP !OOM 100 te_featreg QueryFeaturesValidLarge
+END_TESTCASE   SYSLIB-FEATREG-CT-1395 //ValidFeatRegConfigs
+
+START_TESTCASE    SYSLIB-FEATREG-CT-1396 //FeatRegNotify
+//!@SYMTestCaseID SYSLIB-FEATREG-CT-1396
+//!@SYMTestCaseDesc Test Notify API works, including out-of-memory tests
+//!@SYMTestPriority High
+//!@SYMTestActions Subscribe for notification of feature changes, run setup exe, confirm notified. Also test notify cancel. Confirm no false notification. Confirm Close() cancels outstanding subscription.
+//!@SYMTestExpectedResults The test must not fail
+//!@SYMPREQ PREQ1086
+
+	RUN_PROGRAM 100 featreg_maketestconfig.exe valid_small
+	RUN_TEST_STEP 100 te_featreg FeatRegNotify
+	RUN_TEST_STEP !OOM 100 te_featreg FeatRegNotify
+END_TESTCASE   SYSLIB-FEATREG-CT-1396 //FeatRegNotify
+
+START_TESTCASE   SYSLIB-FEATREG-CT-1397 //FeatRegPanics
+//!@SYMTestCaseID SYSLIB-FEATREG-CT-1397
+//!@SYMTestCaseDesc Test invalid-use panics that are part of the API
+//!@SYMTestPriority High
+//!@SYMTestActions Call Open() twice, check for panic; make non-static feature query without Open(), check for panic. Do similar with Notify API.
+//!@SYMTestExpectedResults The test must not fail - both test steps expect to panic
+//!@SYMPREQ PREQ1086
+
+	RUN_PROGRAM 100 featreg_maketestconfig.exe valid_small
+	RUN_TEST_STEP !PanicString=FeatReg !PanicCode=2 100 te_featreg InvalidUseQueryNotOpen
+	RUN_TEST_STEP !PanicString=FeatReg !PanicCode=2 100 te_featreg InvalidUseSubscribeNotOpen
+	RUN_TEST_STEP !PanicString=FeatReg !PanicCode=2 100 te_featreg InvalidUseCancelNotOpen
+END_TESTCASE   SYSLIB-FEATREG-CT-1397  //FeatRegPanics
+
+START_TESTCASE   SYSLIB-FEATREG-CT-1398 //FeatRegPropertyPlatsec
+//!@SYMTestCaseID SYSLIB-FEATREG-CT-1398
+//!@SYMTestCaseDesc Check write policy of feature property prevents others from publishing it.
+//!@SYMTestPriority High
+//!@SYMTestActions Check cannot publish feature property even with all capabilities, but different SID from setup exe (= category of feature property), but having no caps but the SID of the setup exe allows publish.
+//!@SYMTestExpectedResults Should not be able to publish property (returns KErrPermissionDenied) unless passes write policy (returns KErrNone)
+//!@SYMPREQ PREQ1086
+
+	RUN_PROGRAM 100 featreg_maketestconfig.exe valid_small
+// following ensures property is already published as needed by featreg_testpublish.exe
+	RUN_TEST_STEP 100 te_featreg QueryAnyFeature
+	RUN_PROGRAM 100 z:\sys\bin\featreg_testpublish.exe KErrPermissionDenied
+// Create a version of featreg_testpublish.exe on c: with all capabilities but different SID from setup exe. Should fail with KErrPermissionDenied.
+	RUN_PROGRAM z:\sys\bin\setcap.exe z:\sys\bin\featreg_testpublish.exe FFFFFFFF -SID 102744CD c:\sys\bin\featreg_testpublish.exe
+	RUN_PROGRAM 100 c:\sys\bin\featreg_testpublish.exe KErrPermissionDenied
+// Create a version of featreg_testpublish.exe on c: with no capabilities but same SID from setup exe. Should succeed in setting feature property.
+	RUN_PROGRAM z:\sys\bin\setcap.exe z:\sys\bin\featreg_testpublish.exe 00000000 -SID 102744CA c:\sys\bin\featreg_testpublish.exe
+	RUN_PROGRAM 100 c:\sys\bin\featreg_testpublish.exe KErrNone
+// featreg_testpublish.exe will have cleared contents of feature property. Check API is self-correcting from this state:
+	RUN_TEST_STEP 100 te_featreg QueryAnyFeature
+// make sure c:\sys\bin\featreg_testpublish is left harmless
+	RUN_PROGRAM z:\sys\bin\setcap.exe z:\sys\bin\featreg_testpublish.exe 0 -SID 102744CD c:\sys\bin\featreg_testpublish.exe
+	RUN_PROGRAM 100 z:\sys\bin\featreg_testpublish.exe KErrPermissionDenied
+END_TESTCASE    SYSLIB-FEATREG-CT-1398 //FeatRegPropertyPlatsec
+
+START_TESTCASE    SYSLIB-FEATREG-CIT-1400 //CapabilityLinkCheck
+//!@SYMTestCaseID SYSLIB-FEATREG-CIT-1400
+//!@SYMTestCaseDesc Ensure an executable with All -Tcb capabilities can link with featreg.dll.
+//!@SYMTestPriority High
+//!@SYMTestActions Run featreg_maxcapability.exe, which has All -Tcb caps. It also queries the registry, which must not return an error.
+//!@SYMTestExpectedResults The test must not fail
+//!@SYMPREQ PREQ1086
+
+	RUN_PROGRAM 100 featreg_maketestconfig.exe valid_nofeatures
+	RUN_PROGRAM 100 featreg_maxcapability.exe
+END_TESTCASE   SYSLIB-FEATREG-CIT-1400 // CapabilityLinkCheck
+
+// reset to ensure featreg uses true device feature config file after test ends
+RUN_PROGRAM 100 featreg_maketestconfig.exe reset
+
+//START_TESTCASE    SYSLIB-FEATREG-CIT-1403 //QueryAnyFeatureTrueRegistry
+//!@SYMTestCaseID SYSLIB-FEATREG-CIT-1403
+//!@SYMTestCaseDesc Check a feature can be queried using the true config information.
+//!@SYMTestPriority High
+//!@SYMTestActions Ensure true feature configuration file is to be used (done above). Query any Feature UID - passes on any non-negative (i.e. non-error) response
+//!@SYMTestExpectedResults The test must not fail
+//!@SYMPREQ PREQ1086
+
+//	RUN_TEST_STEP 100 te_featreg QueryAnyFeature
+//END_TESTCASE    SYSLIB-FEATREG-CIT-1403 //QueryAnyFeatureTrueRegistry
+
+START_TESTCASE    SYSLIB-FEATREG-UT-3685 //FeatRegOpenClose
+//!@SYMTestCaseID SYSLIB-FEATREG-UT-3685
+//!@SYMTestCaseDesc Check for any memory leak on deallocation of data member iImpl RFeatureRegistry::Close().
+//!@SYMTestPriority High
+//!@SYMTestActions Open RFeatureRegistry and query support for USB and Bluetooth for testing and close RFeatureRegistry object
+			 Ensure proper deallocation of RFeatureRegistry data member iImpl in RFeatureRegistry::Close()
+//!@SYMTestExpectedResults OOM test must pass and deallocation of iImpl in RFeatureRegistry::Close() must not cause memory leak
+//!@SYMDEF 109756
+
+	RUN_TEST_STEP !OOM 100 te_featreg FeatRegOpenClose
+END_TESTCASE    SYSLIB-FEATREG-UT-3685 //FeatRegOpenClose
+
+PRINT
+PRINT All Feature Registry general tests complete

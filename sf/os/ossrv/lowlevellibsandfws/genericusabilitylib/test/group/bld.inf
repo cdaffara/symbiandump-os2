@@ -1,0 +1,55 @@
+// Copyright (c) 2008-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// Generic usability library test build information file.
+// 
+//
+
+/**
+@file
+
+@SYMPurpose Generic usability library test build information file.
+*/
+
+//This library relies on Leave = Throw which is not implemented in the 
+//X86 platform.  As a result X86 is not supported
+PRJ_PLATFORMS
+DEFAULT GCCE -X86
+
+
+#ifdef SYMBIAN_EUSERHL_BUILD91
+PRJ_TESTEXPORTS
+euserhltests.bat   /epoc32/data/z/system/test/euserhltests.bat 
+euserhltest.iby   /epoc32/rom/include/euserhltest.iby
+
+#else // SYMBIAN_EUSERHL_BUILD91
+PRJ_TESTEXPORTS
+euserhltests.bat   /epoc32/data/z/system/test/euserhltests.bat 
+euserhltest.iby   /epoc32/rom/include/euserhltest.iby
+
+#endif // SYMBIAN_EUSERHL_BUILD91
+
+
+PRJ_TESTMMPFILES
+#ifdef SYMBIAN_EUSERHL_BUILD91
+t_lstring_build91.mmp
+t_lsformat_build91.mmp  
+t_emanaged_build91.mmp
+
+#else // SYMBIAN_EUSERHL_BUILD91
+t_lstring.mmp
+t_lsformat.mmp  
+t_emanaged.mmp
+
+#endif // SYMBIAN_EUSERHL_BUILD91
+

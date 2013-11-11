@@ -1,0 +1,47 @@
+// Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// Name        : tzlib.mmp
+// 
+//
+
+TARGET      	tzlib.exe
+
+CAPABILITY		All -TCB
+TARGETTYPE  	exe
+UID         	0x1000008D 0x1028308C
+
+EPOCSTACKSIZE   65536
+
+USERINCLUDE     ../tlibz/src
+USERINCLUDE		../../../src/zlib
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_LIBC_SYSTEMINCLUDE
+
+SOURCEPATH		../tlibz/src
+SOURCE			tzlibserver.cpp
+SOURCE			tzlib.cpp
+SOURCE			tzlibcases.cpp
+SOURCE			tzlib_auto.cpp
+SOURCE 			tzlibblocks.cpp
+SOURCE 			tzlibadvanced.cpp
+
+LIBRARY			libz.lib
+LIBRARY 		euser.lib efsrv.lib c32.lib
+LIBRARY			testexecuteutils.lib
+LIBRARY			testexecutelogclient.lib
+LIBRARY         libc.lib
+
+STATICLIBRARY	libcrt0.lib
+
+SMPSAFE

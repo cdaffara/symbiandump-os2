@@ -1,0 +1,83 @@
+// Copyright (c) 1999-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+PRJ_PLATFORMS
+
+PRJ_EXPORTS
+../INC/CSCH_CLI.H 		SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(csch_cli.h)
+../INC/SCHTASK.H	 	SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(schtask.h)
+../INC/SCHINFO.H 		SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(schinfo.h)
+../INC/SCHTIME.H 		SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(schtime.h)
+../INC/SCHINFOINTERNAL.H 	SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(schinfointernal.h)
+
+
+backup_registration.xml z:/private/10005399/backup_registration.xml
+
+schsvr.iby						/epoc32/rom/include/schsvr.iby
+
+PRJ_TESTEXPORTS
+// batch file that runs all automatic schsvr tests on hardware
+../group/schsvrtests.bat		/epoc32/data/z/system/test/schsvrtests.bat
+../group/SchsvrTest.iby			/epoc32/rom/include/schsvrtest.iby
+
+PRJ_MMPFILES
+../group/SCHSVR.MMP
+../group/SCHEXE.MMP
+
+
+PRJ_TESTMMPFILES
+../Test/bootupperformance/TC_TSCH_STARTUP_PERF.mmp
+../Test/Conditions/TC_TSCH_CONDITION.mmp
+../Test/Conditions/TC_TSCH_CONDITION_HOMETIME.mmp
+../Test/Conditions/TC_TSCH_CONDITION_UTC.mmp
+../Test/Scheduling/TC_TSCH_SCHEDULING2.mmp
+../Test/Scheduling/TC_TSCH_SCHEDULING2_HOMETIME.mmp
+../Test/Scheduling/TC_TSCH_SCHEDULING2_UTC.mmp
+../Test/TTsTimeUnitTests/TU_TSCH_tstime.mmp
+../Test/TSCheduleEntryInfo2/TU_TSCH_ScheduleEntryInfo2.mmp
+../Test/TSCheduleState2/TU_TSCH_ScheduleState2.mmp
+../Test/ScheduledTaskTest/TU_TSCH_ScheduledTaskTest.mmp	
+../Test/OOM/TC_TSCH_SCHSVR_OOM.mmp
+../Test/OOM/TC_TSCH_SCHSVR_OOM_HOMETIME.mmp
+../Test/OOM/TC_TSCH_SCHSVR_OOM_UTC.mmp
+../Test/Year2k/TC_TSCH_YEAR2000.mmp
+../Test/Year2k/TC_TSCH_YEAR2000_HOMETIME.mmp
+../Test/Year2k/TC_TSCH_YEAR2000_UTC.mmp
+../Test/Scheduling/TC_TSCH_SCHEDULING1.mmp
+../Test/Scheduling/TC_TSCH_SCHEDULING1_HOMETIME.mmp
+../Test/Scheduling/TC_TSCH_SCHEDULING1_UTC.mmp
+../Test/PlatSec/TC_TSCH_PLATSEC.mmp 
+../Test/Robustness/TC_TSCH_ROBUSTNESS.mmp 
+../Test/Robustness/TC_TSCH_IPC.mmp 
+../Test/LongRunning/T_TSLongRunning.mmp 			manual
+../Test/TSUtils/tsutils_tsk.mmp 						support
+../Test/MinimalTaskHandler/minimaltaskhandler.mmp	support
+../Test/MinimalTaskHandler/faultyminimaltaskhandler.mmp	support
+../Test/PlatSec/tschsvrclient1.mmp 					support
+../Test/PlatSec/tschsvrclient2.mmp 					support
+../Test/PlatSec/tschsvrclient3.mmp 					support
+../Test/PlatSec/platsectaskhandler.mmp				support
+../Test/PlatSec/migrationtaskhandler.mmp			support
+../Test/TSUtils/TProcessKiller.mmp 					support
+../Test/TSUtils/TScheduleDeleter.mmp 				support
+../Test/TSUtils/TTaskFileChecker.mmp				support
+../Test/TSUtils/TTaskFileCreator.mmp				support
+../Test/TSUtils/TSetHomeTime.mmp					support
+../Test/TSUtils/TSetUTCTime.mmp						support
+../Test/TSUtils/TPropertyDefine.mmp					support
+../Test/TSUtils/TTaskSchedulerLauncher.mmp			support
+
+// TestExecute test binaries
+#include "../Test/Testexecute/group/bld.inf"

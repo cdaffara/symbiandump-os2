@@ -1,0 +1,40 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SERVER te_RegBlockTestSuite -SharedData
+
+START_TESTCASE DT-TEF-TestBlock-0001
+//! @SYMTestCaseID          DT-TEF-TestBlock-0001
+//! @SYMCreationDate        03-07-2008
+//! @SYMAuthor              DavidZhang
+//! @SYMTestType            CT
+//! @SYMTestPriority        Medium
+//! @SYMTestCaseDesc        Try to restore an object in the same block where it was stored.
+//! @SYMTestExpectedResults The test case must fail.
+//! @SYMTestActions         1. Create a wrapper object.
+//!                         2. Call the object's command.
+//!                         3. Store the data wrapper.
+//!                         4. Use RESTORE_OBJECT instruction to restore the object.
+	PRINT This test case will be failed.
+	START_TEST_BLOCK	100 te_RegBlockTestSuite ${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini
+		CREATE_OBJECT	te_RegBlockTestWrapper	TestCase004_obja
+		COMMAND		TestCase004_obja		DummyFunction
+		STORE		TestCase004_obja
+		COMMAND		TestCase004_obja		DummyFunction
+		RESTORE_OBJECT	te_RegBlockTestWrapper	TestCase004_obja
+		COMMAND		TestCase004_obja		DummyFunction
+	END_TEST_BLOCK
+END_TESTCASE DT-TEF-TestBlock-0001

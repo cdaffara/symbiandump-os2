@@ -1,0 +1,52 @@
+// Copyright (c) 2008-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+#include "OSTOMXILFrameworkTrace.mmh"
+#include "../src/core/omxiluids.hrh"
+
+TARGET			omxilcoreclient.dll
+TARGETTYPE		dll
+UID			KSharedLibraryUidDefine KUidOmxILCoreClientDll
+
+VENDORID		0x70000001
+CAPABILITY	        ALL -TCB
+
+MACRO		        __OMX_EXPORTS
+
+SOURCEPATH		../src/omxilcoreclient
+SOURCE			omxilcoreclientsession.cpp
+
+USERINCLUDE		../src/omxilcoreserver
+USERINCLUDE		../src/core
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+LIBRARY			euser.lib
+LIBRARY			estor.lib
+LIBRARY			omxilcoreserver.lib
+
+#ifdef WINS
+LIBRARY 		ewsd.lib	// For Process Local Storage on Emulator only
+#else
+EPOCALLOWDLLDATA
+#endif
+
+
+// MACRO                   _OMXIL_CORECLIENT_DEBUG_TRACING_ON
+
+DEFFILE			omxilcoreclient.def
+NOSTRICTDEF
+
+SMPSAFE

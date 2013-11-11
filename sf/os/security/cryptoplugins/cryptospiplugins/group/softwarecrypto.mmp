@@ -1,0 +1,69 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* softwarecryptoplugin.mmp
+* softwarecrypto.dll is the software cryptography implementation.
+*
+*/
+
+
+/**
+ @file
+*/
+
+
+
+TARGET		softwarecrypto.dll
+TARGETTYPE      dll
+UNPAGED
+UID		0x1000008d 0x102835C2
+VENDORID 	0x70000001
+
+CAPABILITY	All
+
+
+USERINCLUDE		.
+USERINCLUDE		../../../crypto/weakcryptospi/inc
+USERINCLUDE		../../../crypto/weakcryptospi/source
+USERINCLUDE		../../../crypto/weakcryptospi/source/bigint
+USERINCLUDE		../../../crypto/weakcryptospi/inc/spi
+USERINCLUDE		../../../cryptomgmtlibs/securityutils/inc
+OS_LAYER_SYSTEMINCLUDE
+
+SOURCEPATH	../source/softwarecrypto
+SOURCE		pluginentry.cpp
+SOURCE		md2impl.cpp md5impl.cpp sha1impl.cpp  softwarehashbase.cpp md4impl.cpp 
+SOURCE		sha224and256impl.cpp sha384and512impl.cpp sha2impl.cpp hmacimpl.cpp
+SOURCE		3desimpl.cpp desimpl.cpp rc2impl.cpp rijndaelimpl.cpp arc4impl.cpp symmetriccipherimpl.cpp
+SOURCE		randomimpl.cpp dsasignerimpl.cpp dsaverifyimpl.cpp rsaimpl.cpp rsafunction.cpp
+SOURCE		signerimpl.cpp verifierimpl.cpp asymmetriccipherimpl.cpp
+SOURCE		keypairgenimpl.cpp dhimpl.cpp rsasignerimpl.cpp rsaverifyimpl.cpp
+SOURCE		keyagreementimpl.cpp dhkeypairgenimpl.cpp
+SOURCE		rsakeypairgenimpl.cpp dsakeypairgenimpl.cpp
+
+#ifdef SYMBIAN_SDP_IPSEC_VOIP_SUPPORT	
+SOURCE	    cmacimpl.cpp macimpl.cpp
+DEFFILE		softwarecrypto_v2.def
+#else
+DEFFILE		softwarecrypto.def
+#endif
+
+
+LIBRARY		euser.lib cryptospi.lib
+
+// Depends on bigint and padding code
+LIBRARY		cryptography.lib
+LIBRARY		random.lib
+
+SMPSAFE

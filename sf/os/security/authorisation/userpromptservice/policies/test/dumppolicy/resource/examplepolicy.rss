@@ -1,0 +1,74 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+#include <ups/policies.rh>
+
+UID2 KUidUpsPolicyResourceFile
+UID3 0x01100001					
+
+RESOURCE POLICIES testpolicies
+	{
+	header = POLICY_HEADER
+		{
+		// Built-in (protected SID and loaded from Z drive) client applications
+		// do not require authorisation from the UPS if the client has the correct
+		// capabilities.
+		authorisationpolicy = ECheckPostManufacture;
+		dialogcreator = 0x10283694;
+		policyevaluator = 0x10283698;
+		};
+	policies = 
+		{
+		POLICY
+			{
+			// sid_list defined so this field will be ignored
+			sid_classes = KSidClassF;				
+			// Silently accept this SID
+			sid_list = {0x01000030};
+			destination = "*";
+			options = KYes;
+			},			
+		POLICY
+			{
+			// Silently these SIDs for a specific destination
+			sid_list = {0x01000031,0x01000032};
+			destination = "*WLAN*";
+			options = KYes;
+			},			
+		POLICY
+			{
+			// For protected SIDs enable the Always and Never options
+            // if the client has the correct capability.
+			sid_classes = KProtectedSids;
+			systemserversecurity = ESystemServerSecurityPassed;
+			destination = "*";
+			options = KYes|KNo|KAlways|KNever;
+			policyevaluator = 0x01000020;
+			dialogcreator = 0x01000021;
+			},
+		POLICY
+			{
+			// Unprotected SIDs may only get one-shot permissions            
+			sid_classes = KUnprotectedSids;
+			destination = "*";
+			options = KYes|KNo;
+			flags = 42; 		// Flags specific to policy evaluator 0x10283698
+			}
+		};
+	}
+

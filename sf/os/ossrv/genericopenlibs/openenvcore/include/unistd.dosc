@@ -1,0 +1,4091 @@
+/** @file  ../include/unistd.h
+@internalComponent
+*/
+
+/** @fn  access(const char *fn, int flags)
+@param fn
+@param flags
+
+@return   Upon successful completion, the value 0 is returned; otherwise the
+value -1 is returned and the global variable errno is set to indicate the
+error.
+
+  The access system calls check the accessibility of the file named in the fn argument for the access permissions indicated by the flags argument.
+ The value of flags is either the bitwise-inclusive OR of the access permissions to be 
+checked (R_OK for read permission, W_OK for write permission, and X_OK for execute/search permission), or the existence test ( F_OK. )
+
+ For additional information on file access permissions see File Access Permissions.
+
+Examples:
+@code
+/* Detailed description: This sample code checks read-ok accessibility of file Example.c
+ *
+ * Precondtions: Example.txt file should be present in working directory.
+ */
+#include <unistd.h>
+int main()
+{
+  if(access("Example.c" ,R_OK)  < 0)  
+  {
+    printf("Read operation on the file is not permitted") ;
+    return -1 ;
+  }
+  printf("Read operation permitted on Example.c file") ;
+  return 0 ;
+}
+
+@endcode
+ Output
+@code
+Read operation permitted on Example.c file
+
+@endcode
+
+Limitations:
+
+The fn parameter should not exceed 256 characters in length. 
+
+KErrNotReady of Symbian error code is mapped to ENOENT, which typically means drive
+not found or filesystem not mounted on the drive.
+
+@see chmod()
+@see stat()
+
+
+
+@capability Deferred @ref RFs::Entry(const TDesC16&, TEntry&)
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  chdir(const char *_path)
+@param _path
+
+Note: This description also covers the following functions -
+ fchdir() 
+
+@return   Upon successful completion, the value 0 is returned; otherwise the
+value -1 is returned and the global variable errno is set to indicate the
+error.
+
+  The path argument points to the pathname of a directory.
+The chdir system call
+causes the named directory
+to become the current working directory, that is,
+the starting point for path searches of pathnames not beginning with a slash, ‘/.’
+
+ The fchdir system call causes the directory referenced by the file descriptor fd to become the current working directory, the starting point for path 
+  searches of pathnames not beginning with a slash, ‘/.’
+
+
+
+Examples:
+@code
+/*
+ *  Detailed description   : This test code demonstrates usage of chdir system call
+ *
+ *  Preconditions : "Example" directory should be present in current working
+   directory.
+ */
+#include <unistd.h>
+int main()
+{
+  if(chdir("Example") < 0 )  
+  {
+     printf("Failed to change working directory");
+     return -1 ;
+  }
+  printf("Working directory changed");
+  return 0 ;
+}
+
+@endcode
+ Output
+@code
+Working directory changed
+
+@endcode
+@code
+#include<unistd.h>
+#include<stdio.h>
+int test_fchdir()
+{
+   int retVal;
+   int rmdr;
+   int mkdr = mkdir("test_dir", S_IWUSR);
+   if( !mkdr )
+   {
+     int opn = open("test_dir", O_RDONLY);
+     if( opn != -1 )
+     {
+       retVal = fchdir( opn );
+       if( !retVal )
+       {
+         printf("Fchdir passed");
+       }
+       else
+       {
+         printf("Failed");
+       }
+       int cls = close(opn);
+     }
+     else
+     {
+       printf("Failed");
+     }
+     rmdr = rmdir("test_dir");  
+   }
+   else
+   {
+     printf("Failed");
+   }
+}
+
+@endcode
+ Output
+@code
+Fchdir passed
+
+@endcode
+
+Limitations:
+
+The path parameter should not exceed 256 characters in length. 
+KErrNotReady of Symbian error code is mapped to ENOENT, which typically means drive
+not found or filesystem not mounted on the drive.
+
+@capability Deferred @ref RFs::SetSessionPath(const TDesC16&)
+@capability Deferred @ref RFs::Att(const TDesC16&, unsigned&)
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  chown(const char *path, uid_t owner, gid_t group)
+@param path
+@param owner
+@param group
+
+Note: This description also covers the following functions -
+ lchown() 
+
+@return   These functions always return 0.
+
+ 
+
+ The chown and lchown functions are build supported but not available functionally.
+
+ Symbian OS does not support the concepts of multiple users and groups.
+
+Limitations:
+
+KErrNotReady of symbian error code is mapped to ENOENT, which typically means drive
+not found or filesystem not mounted on the drive.
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  close(int fd)
+@param fd
+@return   The close() function returns the value 0 if successful; otherwise it returns 
+the value -1 and sets the global variable errno to indicate the error.
+
+  The close system call deletes a descriptor from the per-process object reference 
+table. If this is the last reference to the underlying object the object will 
+be deactivated. For example, on the last close of a file the current seek pointer associated with the file is lost; on the last close of a socket any file descriptor for that file is closed by that process.
+
+If 'fd' refers to a shared memory object that is still referenced at the last close, the 
+contents of the memory object persists till it is unreferenced. 
+If this is the last close of the shared memory object and the close results in unreferencing of the memory 
+object and the memory object is unlinked, (only in this scenario) the memory object is removed.
+
+ When a process exits all associated file descriptors are freed. As there is 
+  a limit on active descriptors per processes the close system call is useful when a large quantity of file descriptors 
+  are being handled.
+
+
+
+Examples:
+@code
+/* Detailed description   : This test code demonstrates usage of close  system call
+ *
+ * Preconditions :  None.
+ */
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <fcntl.h>
+int main()
+{
+  int fd = 0;
+  fd = open("Example.txt" , O_CREAT | O_RDWR , 0666);
+  if(fd < 0 ) 
+  {
+    printf("Failed to open file Example.txt");
+    return -1;
+  }
+ if(close(fd) < 0 )
+ {
+   printf("Failed to close  file Example.txt");
+   return -1;
+ }
+ printf("File Example.txt closed" );
+ return 0;
+}
+
+@endcode
+ Output
+@code
+File Example.txt closed
+
+@endcode
+@see accept()
+@see fcntl()
+@see flock()
+@see open()
+@see pipe()
+@see socket()
+@see shm_open()
+@see shm_unlink()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  dup(int aFid)
+@param aFid
+
+Note: This description also covers the following functions -
+ dup2() 
+
+@return   The value -1 is returned if an error occurs in either call.
+The external variable errno indicates the cause of the error.
+
+  The dup system call
+duplicates an existing object descriptor and returns its value to
+the calling process ( newd = dup (aFid, ).); The argument aFid is a small non-negative integer index in
+the per-process descriptor table.
+
+ The new descriptor returned by the call
+is the lowest numbered descriptor
+currently not in use by the process.
+
+ The object referenced by the descriptor does not distinguish
+between aFid and newd in any way.
+Thus if newd and aFid are duplicate references to an open
+file, read , write and lseek calls all move a single pointer into the file,
+and append mode, non-blocking I/O and asynchronous I/O options
+are shared between the references.
+If a separate pointer into the file is desired, a different
+object reference to the file must be obtained by issuing an
+additional open system call.
+
+ In dup2, the value of the new descriptor newd is specified.
+If this descriptor is already in use and oldd != newd, the descriptor is first deallocated as if the close system call had been used.
+If aFid is not a valid descriptor, then newd is not closed.
+If aFid == newd and aFid is a valid descriptor, then dup2 is successful, and does nothing.
+
+ Limitation: 
+ 
+@code
+dup2(int oldfd, int newfd); 
+@endcode
+The return value of dup2 can be different 
+  from the one user expected to be (newfd). Users of dup2 must therefor use the 
+  return value of dup2 as the new allocated fd rather than the one passed in (newfd). 
+  As described above, if dup2 is successful the newfd and return values are the 
+  same, .
+
+Examples:
+@code
+/*
+ *Detailed description : Sample usage of dup system call
+ */
+#include <unistd.h>
+#include <fcntl.h>
+#include <stdio.h>
+int main()
+{
+  int fd;
+  FILE *Fil;
+  int Newfd;
+  fd = open("Example.txt" , O_CREAT | O_RDWR , 0666);
+  if(fd < 0 )  {
+     printf("Failed to open file Example.txt");
+     return -1;
+  }
+  Newfd  = dup(fd );
+  if(Newfd < 0 ) 
+  {
+    printf("Failed to duplicate file descriptor");
+    return -1 ;
+  }
+  close(fd);
+  close(Newfd);
+  printf("New Duped fd is %d" , Newfd);
+  return 0;
+}
+
+@endcode
+ Output
+@code
+New Duped fd is 4
+
+@endcode
+@code
+/*
+ *Detailed description : Sample usage of dup system call
+ */
+#include <unistd.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <stdio.h>
+int main()
+{
+  int fd;
+  FILE *Fil;
+  int Newfd;
+  fd = open("Example.txt" , O_CREAT | O_RDWR , 0666);
+  if(fd < 0 )  {
+     printf("Failed to open file Example.txt");
+     return -1;
+  }
+  Newfd  = dup2(fd  , 4);
+  if(Newfd < 0 )  {
+    printf("Failed to duplicate file descriptor");
+    return -1;
+  }
+  close(fd);
+  close(Newfd);
+  printf("New Duped fd is %d" , Newfd);
+  return 0;
+}
+
+@endcode
+ Output
+@code
+New Duped fd is 4
+
+@endcode
+@see accept()
+@see close()
+@see fcntl()
+@see getdtablesize()
+@see open()
+@see pipe()
+@see socket()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  dup2(int aFid1, int aFid2)
+@param aFid1
+@param aFid2
+
+Refer to  dup() for the documentation
+@see accept()
+@see close()
+@see fcntl()
+@see getdtablesize()
+@see open()
+@see pipe()
+@see socket()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fpathconf(int fd, int name)
+@param fd
+@param name
+
+Refer to  pathconf() for the documentation
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  getcwd(char *_buf, size_t _size)
+@param _buf
+@param _size
+@return   Upon successful completion a pointer to the pathname is returned. Otherwise 
+a NULL pointer is returned and the global variable errno is set to indicate the error. In addition, getwd copies the error message associated with errno into the memory referenced by buf.
+
+  The getcwd function copies the absolute pathname of the current working directory
+into the memory referenced by buf and returns a pointer to buf. The size argument is the _size, in bytes, of the array referenced by buf.
+
+ If _buf is NULL, space is allocated as indicated by size to store the pathname and the current working directory is
+returned as long as the _size bytes are sufficient to hold the working directory name.
+This space may later be free’d.
+
+ This routine has traditionally been used by programs to save the
+name of a working directory for the purpose of returning to it.
+A much faster and less error-prone method of accomplishing this is to
+open the current directory ((‘.’) and use the fchdir function to return.
+
+Examples:
+@code
+#include<unistd.h>
+#include<stdio.h>
+#include <stdlib.h>
+#define BUF_SIZE 100
+  
+int main()
+{
+ //change directory to c:
+ int c;
+ long size = BUF_SIZE;
+ char *buf = NULL;
+ char *ptr = NULL;
+  
+ c = chdir("c:\");
+  
+ buf = (char *)malloc((size_t)size);
+  
+ if (buf != NULL && c == 0)
+ {
+  //call getcwd to fetch teh current directory
+  ptr = getcwd(buf, (size_t)size);
+  printf("getcwd returned: %s", ptr);
+ }
+   
+ return 0;
+}
+
+@endcode
+ Output
+@code
+getcwd returned: c:
+
+@endcode
+
+Notes:
+
+ The getcwd function
+returns the default working directory as c:\\private\\XXXXXXXX (where XXXXXXXX is the UID of the process) as the default session path is
+initialised to c:\\private\\current_process'_UID, in case of Symbian OS.
+@see chdir()
+@see malloc()
+@see strerror()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  getegid(void)
+Refer to  getgid() for the documentation
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  geteuid(void)
+Refer to  getuid() for the documentation
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  getgid(void)
+
+
+Note: This description also covers the following functions -
+ getegid() 
+
+@return   These functions always return 0.
+
+  getgid and getegid are build supported but not available functionally. Symbian OS 
+does not support multiple users and groups.
+
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @fn  getgroups(int size, gid_t grouplist[])
+@param size
+@param grouplist
+@return   These functions always return 0.
+
+  The getgroups function build supported but not available functionally. Symbian 
+OS does not support multiple users and groups.
+
+
+
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  getpgrp(void)
+Note: This description also covers the following functions -
+ getpgid() 
+
+@return   These functions always return 0.
+
+  getpgrp and getpgid are build supported but not available functionally. Symbian OS 
+does not support multiple users and groups.
+
+
+
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  getpid(void)
+
+Note: This description also covers the following functions -
+ getppid() 
+
+  The getpid system call returns the process ID of the calling process. Though 
+the ID is guaranteed to be unique it should NOT be used for constructing temporary file names for security reasons; 
+see mkstemp instead.
+
+ The getppid system call
+returns the process ID of the parent
+of the calling process.
+
+Examples:
+@code
+/*
+ * Detailed description : Sample usage of getpid system call
+ */
+#include <unistd.h>
+int main() 
+{
+  pid_t pid ;
+  if((pid = getpid()) < 0 ) 
+  {
+     printf("getpid system call failed") ;
+     return -1 ;
+  }
+  printf("pid of this process is %d " , pid) ;
+  return 0 ;
+}
+
+@endcode
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  getppid(void)
+Refer to  getpid() for the documentation
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  getuid(void)
+Note: This description also covers the following functions -
+ geteuid() 
+
+@return   These functions always return 0.
+
+  getuid and geteuid are build supported but not available functionally. Symbian OS 
+does not support multiple users and groups.
+
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  isatty(int fd)
+@param fd
+@return   The isatty returns 1 if fd is an open descriptor connected to a terminal; returns 0 otherwise.
+
+  This function operate on the system file descriptors for character special devices.
+
+ The isatty function
+determines if the file descriptor fd refers to a valid
+terminal type device.
+
+Examples:
+@code
+#include<unistd.h>
+#include<stdio.h>
+#include<fcntl.h> //O_APPEND
+ 
+int main()
+{
+ int x = isatty(0); //stdin (fd = 0)
+ int y = isatty(1); //stdout (fd = 1)
+ int z = isatty(2); //stderr (fd = 2)
+ 
+ printf("{Expected: 1 1 1} %d %d %d", x, y, z);
+ 
+ int i = isatty(5); //some invalid fd
+  
+ int fd_file = open("c:\some.txt", O_APPEND);
+  
+ int j = isatty(fd_file); //valid fd of a text file
+  
+ int fd_pipe[3];
+ int p = pipe(fd_pipe);
+  
+ int k = isatty(fd_pipe[1]); //valid fd of a pipe
+       
+ close(fd_file);         
+ close(fd_pipe[0]);      
+ close(fd_pipe[1]);
+      
+ printf("{Expected: 0 0 0} %d %d %d", i, j, k);
+ 
+ unlink("c:\some.txt");
+ 
+ return 0;
+}
+
+@endcode
+ Output
+@code
+{Expected: 1 1 1} 1 1 1
+{Expected: 0 0 0} 0 0 0
+
+@endcode
+@see ioctl()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  link(const char *oldpath, const char *newpath)
+@param oldpath
+@param newpath
+@return   Returns 0 on successful completion. Otherwise returns -1 and sets errno to indicate the error.
+
+  The link system call atomically creates the specified directory entry (hard 
+link) newpath with the attributes of the underlying object pointed at by oldpath. Note that if the link is successful the link count of the underlying 
+object is not incremented: On Symbian OS link functionality is simulated and the 
+underlying object is not aware of a existing link. Link is supported only on regular files and fifos. It is not on directories. Creation 
+of link on a existing link file is not supported.
+
+ If oldpath is removed, the file newpath is also deleted as the platform recognizes the underlying object only by oldpath.
+
+ The object pointed at by the oldpath argument must exist for the hard link to succeed and both oldpath and newpath must be in the same file system. The oldpath argument may not be a directory. Creation time stamp of the file 
+  is not supported and access time stamp is equal to modification time stamp. 
+  A newly created file will not alter the time stamp of parent directory.
+
+Examples:
+@code
+/*
+ * Detailed description  : Example to create link to a file
+ * Precondition : "Parent.txt" should exist in c: drive
+ *
+ */
+#include <unistd.h>
+#include <stdio.h>
+int main(void)
+ {
+    if(link("C:\Parent.txt","C:\Link") < 0)
+    {
+         printf("Link creation to parent file failed");
+         return -1;
+    }
+    printf("Link to parent file created");
+    return 0;
+ }
+
+@endcode
+ Output
+@code
+Link to parent file created.
+
+@endcode
+
+Limitations:
+
+- The oldpath and newpath parameters of the link() function should not exceed 256 characters in length. 
+- P.I.P.S. only simulates link files and does not distinguish between hard and symbolic links.
+
+- KErrNotReady of Symbian error code is mapped to ENOENT, which typically means drive
+not found or filesystem not mounted on the drive.
+
+@see readlink()
+@see symlink()
+@see unlink()
+
+
+
+@capability Deferred @ref RFs::Delete(const TDesC16&)
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn lseek(int fd, off_t pos, int whence)
+@param fd
+@param pos
+@param whence
+@return Upon successful completion,  lseek returns the resulting offset location as measured in bytes from the beginning of the file. Otherwise, a value of -1 is returned and  errno is set to indicate the error.
+
+The  lseek system call repositions the offset of the file descriptor  fildes to the argument  offset according to the directive  whence. The argument  fildes must be an open file descriptor. The  lseek system call repositions the file position pointer associated with the file descriptor  fildes as follows:
+	If whence is SEEK_SET, the offset is set to offset bytes.
+	If whence is SEEK_CUR, the offset is set to its current location plus offset bytes.
+	If whence is SEEK_END, the offset is set to the size of the file plus offset bytes.
+Some devices are incapable of seeking. The value of the pointer associated with such a device is undefined.
+
+If 'fd' refers to a shared memory object then lseek() on the shared memory object is supported by the current implementation.
+
+Note : lseek function allows the file offset to be set beyond the existing end-of-file, data in the seeked slot is undefined, and hence the read operation in seeked slot is undefined untill data is actually written into it. lseek beyond existing end-of-file increases the file size accordingly.
+
+Errors:
+
+The  lseek system call will fail and the file position pointer will remain unchanged if:
+[EBADF]	The fildes argument is not an open file descriptor.
+[EINVAL] 	The whence argument is not a proper value or the resulting file offset would be negative for a non-character special file.
+[EOVERFLOW]	The resulting file offset would be a value which cannot be represented correctly in an object of type off_t(Not supported).
+[ESPIPE] 	The fildes argument is associated with a pipe, socket, or FIFO.
+
+Examples:
+@code
+/*
+ * Detailed description  : Example for lseek usage.
+ */
+#include <stdio.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <sys/types.h>
+int main()
+{
+int fd = 0;
+ fd = open("lseek.txt"  , O_CREAT | O_RDWR , 0666);
+  if(lseek(fd , 0 , SEEK_SET) < 0 ) {
+     printf("Lseek on file lseek.txt failed \n");
+      return -1;
+  }
+  printf("Lseek on lseek.txt passed ");
+ return 0;
+}
+
+@endcode
+Output
+@code
+Lseek on lseek.txt passed
+@endcode
+
+@see dup()
+@see open()
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  lseek64(int fildes, off64_t offset, int whence)
+@param fildes
+@param offset
+@param whence
+@return   Upon successful completion, lseek64 returns the resulting offset location as measured in bytes from the
+beginning of the file.
+Otherwise,
+a value of -1 is returned and errno is set to indicate
+the error.
+
+For full documentation see: http://www.unix.org/version2/whatsnew/lfs20mar.html#3.0
+
+@see lseek()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  pathconf(const char *path, int name)
+@param path
+@param name
+
+Note: This description also covers the following functions -
+ fpathconf() 
+
+@return   If the call to pathconf or fpathconf is not successful, -1 is returned and errno is set appropriately.
+Otherwise, if the variable is associated with functionality that does
+not have a limit in the system, -1 is returned and errno is not modified.
+Otherwise, the current variable value is returned.
+
+The pathconf and fpathconf system calls provide a method for applications to determine the current
+value of a configurable system limit or option variable associated
+with a pathname or file descriptor.
+
+For pathconf, the path argument is the name of a file or directory.
+For fpathconf, the fd argument is an open file descriptor.
+The name argument specifies the system variable to be queried.
+Symbolic constants for each name value are found in the include file \<unistd.h\>.
+
+ The available values are as follows:
+@code
+ _PC_LINK_MAX
+ 	The maximum file link count.
+_PC_MAX_CANON
+ 	The maximum number of bytes in terminal canonical input line.
+_PC_MAX_INPUT
+ 	The minimum maximum number of bytes for which space is available in a terminal input queue.
+_PC_NAME_MAX
+ 	The maximum number of bytes in a file name.
+_PC_PATH_MAX
+ 	The maximum number of bytes in a pathname.
+_PC_PIPE_BUF
+ 	The maximum number of bytes which will be written atomically to a pipe.
+_PC_CHOWN_RESTRICTED
+ 	Return 1 if appropriate privilege is required for the chown system call, otherwise 0. -p1003.1-2001 requires appropriate privilege in all cases, but this behavior was optional in prior editions of the standard.
+_PC_NO_TRUNC
+ 	Return greater than zero if attempts to use pathname components longer than
+.Brq Dv NAME_MAX will result in an [ENAMETOOLONG] error; otherwise, such components will be truncated to
+.Brq Dv NAME_MAX. -p1003.1-2001 requires the error in all cases, but this behavior was optional in prior editions of the standard, and some non- POSIX -compliant file systems do not support this behavior.
+_PC_VDISABLE
+ 	Returns the terminal character disabling value.
+_PC_ASYNC_IO
+ 	Return 1 if asynchronous I/O is supported, otherwise 0.
+_PC_PRIO_IO
+ 	Returns 1 if prioritised I/O is supported for this file, otherwise 0.
+_PC_SYNC_IO
+ 	Returns 1 if synchronised I/O is supported for this file, otherwise 0.
+_PC_ALLOC_SIZE_MIN
+ 	Minimum number of bytes of storage allocated for any portion of a file.
+_PC_FILESIZEBITS
+ 	Number of bits needed to represent the maximum file size.
+_PC_REC_INCR_XFER_SIZE
+ 	Recommended increment for file transfer sizes between _PC_REC_MIN_XFER_SIZE and _PC_REC_MAX_XFER_SIZE.
+_PC_REC_MAX_XFER_SIZE
+ 	Maximum recommended file transfer size.
+_PC_REC_MIN_XFER_SIZE
+ 	Minimum recommended file transfer size.
+_PC_REC_XFER_ALIGN
+ 	Recommended file transfer buffer alignment.
+_PC_SYMLINK_MAX
+ 	Maximum number of bytes in a symbolic link.
+_PC_ACL_EXTENDED
+ 	Returns 1 if an Access Control List (ACL) can be set on the specified file, otherwise 0.
+_PC_ACL_PATH_MAX
+ 	Maximum number of ACL entries per file.
+_PC_CAP_PRESENT
+ 	Returns 1 if a capability state can be set on the specified file, otherwise 0.
+_PC_INF_PRESENT
+ 	Returns 1 if an information label can be set on the specified file, otherwise 0.
+_PC_MAC_PRESENT
+ 	Returns 1 if a Mandatory Access Control (MAC) label can be set on the specified file, otherwise 0.
+@endcode
+  
+Errors:
+
+If any of the following conditions occur, the  pathconf and  fpathconf system calls shall return -1 and set  errno to the corresponding value.
+[EINVAL]	The value of the name argument is invalid.
+[EINVAL] 	The implementation does not support an association of the variable name with the associated file.
+The pathconf system call will fail if:
+[ENOTDIR] 	A component of the path prefix is not a directory.
+[ENAMETOOLONG] 	A component of a pathname exceeded
+.Brq Dv NAME_MAX characters (but see _PC_NO_TRUNC above), or an entire path name exceeded
+.Brq Dv PATH_MAX characters.
+[ENOENT] 	The named file does not exist.
+[EACCES] 	Search permission is denied for a component of the path prefix.
+[ELOOP] 	Too many symbolic links were encountered in translating the pathname.
+[EIO] 	An I/O error occurred while reading from or writing to the file system.
+The fpathconf system call will fail if:
+[EBADF] 	The fd argument is not a valid open file descriptor.
+[EIO] 	An I/O error occurred while reading from or writing to the file system.
+
+Examples:
+@code
+#include<unistd.h>
+#include<stdio.h>
+int test_pathconf()
+{
+   int fp = open("test_pathconf1.txt", O_RDWR|O_CREAT);
+   if(fp != -1)
+   {
+     int n = pathconf("test_pathconf1.txt", _PC_LINK_MAX);
+     if( n < _POSIX_LINK_MAX )
+     {
+       return -1;
+     }
+     else
+     {
+       printf("_PC_LINK_MAX value: %d", n);
+       printf("Pathconf passed");
+       return 0;
+     }
+   }
+   else
+   {
+     printf("failed");
+     return -1;
+   }    
+}               
+
+@endcode
+ Output
+@code
+_PC_LINK_MAX value: 1
+Pathconf passed
+
+@endcode
+
+
+Note:
+
+@code
+ The current implementation of the functions pathconf and fpathconf considers only the following configurable variables. _PC_LINK_MAX _PC_MAX_CANON _PC_MAX_INPUT _PC_NAME_MAX _PC_PATH_MAX _PC_PIPE_BUF _PC_CHOWN_RESTRICTED _PC_NO_TRUNC _PC_VDISABLE   Also, these functions return the limits as required by the POSIX
+standard instead of the actual system limits determined on the run. 
+@endcode
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  pipe(int *fildes)
+@param fildes
+@return   The pipe function returns the value 0 if successful; otherwise the
+value -1 is returned and errno is set to indicate the error.
+
+  The pipe system call
+creates a pipe, which is an object allowing
+bidirectional data flow,
+and allocates a pair of file descriptors.
+
+ By convention, the first descriptor is normally used as the read end of the pipe, and the second is normally the write end, so that data written to fildes[1] appears on (i.e. can be read from) fildes[0]. This allows the output of one thread to be sent to another 
+  thread: the source's standard output is set up to be the write end of the 
+  pipe and the sink's standard input is set up to be the read end of the 
+  pipe. The pipe itself persists until all its associated descriptors are closed.
+
+ A pipe that has had an end closed is considered widowed. Writing on such a pipe causes the writing process to fail and errno is set to EPIPE . Widowing a pipe is the only way to deliver end-of-file to a 
+  reader: After the reader consumes any buffered data, reading a widowed pipe 
+  returns a zero count.
+
+Examples:
+@code
+#include <unistd.h>
+#include <stdio.h>
+
+int main(void)
+{
+    int fds[2];
+    if (pipe(fds) == -1) {
+       printf("Pipe creation failed");
+    }
+    /* fds[0] - opened for read */
+    /* fds[1] - opened for write */
+    close(fds[0]);
+    close(fds[1]);
+    return 0;
+}
+
+@endcode
+@see read()
+@see write()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  read(int fd, void *buf, size_t cnt)
+@param fd
+@param buf
+@param cnt
+
+Note: This description also covers the following functions -
+ readv() 
+
+@return   If successful, the number of bytes actually read is returned. Upon reading 
+end-of-file, zero is returned. Otherwise, -1 is returned and the global variable errno is set to indicate the error.
+
+  The read system call
+attempts to read cnt bytes of data from the object referenced by the descriptor fd into the buffer pointed to by buf. The readv system call
+performs the same action, but scatters the input data
+into the iovcnt buffers specified by the members of the iov array: iov[0], iov[1], ..., iov[iovcnt-1].
+
+ For readv the iovec structure is defined as:
+
+ struct iovec {
+void   *iov_base;  // Base address. 
+size_t iov_len;    // Length. 
+};
+
+ Each iovec entry specifies the base address and length of an area
+in memory where data should be placed.
+The readv system call
+will always fill an area completely before proceeding
+to the next.
+
+ On objects capable of seeking, the read starts at a position
+given by the pointer associated with fd (see lseek )
+Upon return from read, the pointer is incremented by the number of bytes actually read.
+
+If 'fd' refers to a shared memory object then read() on the shared memory object is supported by the current implementation.
+
+ Objects that are not capable of seeking always read from the current
+position.
+The value of the pointer associated with such an
+object is undefined.
+
+ Upon successful completion, read, and readv return the number of bytes actually read and placed in the buffer.
+The system guarantees to read the number of bytes requested if
+the descriptor references a normal file that has that many bytes left
+before the end-of-file, but in no other case.
+
+Errors:
+
+The  read, and  readv system calls will succeed unless:
+[EBADF] 	The d argument is not a valid file or socket descriptor open for reading.
+[ECONNRESET]The d argument refers to a socket, and the remote socket end is forcibly closed.
+[EFAULT] 	The buf argument points outside the allocated address space(Not supported).
+[EIO] 	An I/O error occurred while reading from the file system(Not supported).
+[EINTR] 	A read from a slow device was interrupted before any data arrived by the delivery of a signal(Not supported).
+[EINVAL] 	The pointer associated with d was negative.
+[EAGAIN] 	The file was marked for non-blocking I/O, and no data were ready to be read.
+[EISDIR] 	The file descriptor is associated with a directory residing on a file system that does not allow regular read operations on directories (e.g. NFS)(Not supported).
+[EOPNOTSUPP] 	The file descriptor is associated with a file system and file type that do not allow regular read operations on it(Not supported).
+[EOVERFLOW] 	The file descriptor is associated with a regular file, nbytes is greater than 0, offset is before the end-of-file, and offset is greater than or equal to the offset maximum established for this file system(Not supported).
+[EINVAL] 	The value nbytes is greater than INT_MAX.
+In addition, readv and preadv may return one of the following errors:
+[EINVAL] 	The iovcnt argument was less than or equal to 0, or greater than IOV_MAX.
+[EINVAL] 	One of the iov_len values in the iov array was negative.
+[EINVAL] 	The sum of the iov_len values in the iov array overflowed a 32-bit integer.
+[EFAULT] 	Part of the iov array points outside the process’s allocated address space.
+
+Examples:
+@code
+/* Detailed description :This example demonstrates usage of read-system call, this
+ * Example reads 10 bytes from a file specified
+ *
+ * Preconditions: Example.txt file should be present in C: and should contain
+ * string Hello World.
+ *
+ */  
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+int main()
+{
+  int fd = 0;
+  char Buff[12] = {0};
+ 
+  fd = open("C:\Example.txt" , O_RDONLY );
+ 
+  if(fd < 0 )  {
+     printf("Failed to open C:\Example.txt file");
+     return -1;
+  }
+ 
+  if(read(fd , Buff , 11) < 11)   {
+     printf("Failed to read specified number of bytes from file");
+     return -1;
+  }
+ 
+  printf("file contains %s 
+" , Buff);
+  return 0;
+}
+
+@endcode
+ Output
+@code
+file contains Hello World
+
+@endcode
+@code
+/*
+ * Detailed description: Sample usage of readv system call
+ * Preconditions: Example.txt file should be present in working directory containing  Hello world   in it
+ *
+ */
+#include <stdio.h>
+#include <sys/types.h>
+#include <sys/uio.h>
+#include <fcntl.h>
+int main()
+{
+  int fd = 0;
+  struct iovec io_vec[1];
+  char Buf[12] = { 0 };
+  io_vec[0].iov_base  = Buf;
+  io_vec[0].iov_len = 11;
+  fd = open("Example.txt" , O_RDONLY );
+  if(fd < 0 )  {
+    printf("File open failed");
+    return -1;
+  }
+  if(readv(fd , io_vec , 1) <  11 )   {
+    printf("Failed to read fron Example.txt file");
+    return -1;
+  }
+  printf("Read succes %s"  , io_vec[0].iov_base);
+  return 0;
+}
+
+@endcode
+ Output
+@code
+Read succes Hello World
+
+@endcode
+@see dup()
+@see fcntl()
+@see getdirentries()
+@see open()
+@see pipe()
+@see select()
+@see socket()
+@see socketpair()
+@see fread()
+@see readdir()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  rmdir(const char *_path)
+@param _path
+@return   The rmdir() function returns the value 0 if successful; otherwise the
+value -1 is returned and the global variable errno is set to indicate the
+error.
+
+The rmdir system call removes a directory file whose name is given by path. 
+The directory must not have any entries other than '.' and '..'.
+Examples:
+@code
+/*
+ *  Detailed description: This test code demonstrates usage of rmdir systemcall, it removes directory
+ *  Example from the current working directory.
+ *
+ *  Preconditions: Expects empty directory "Example" in current working directory.
+ */
+#include  <unistd.h>
+int main()
+{
+  if(rmdir("Example") < 0 )  
+  {
+     printf("Rmdir failed");
+     return -1;
+  }
+  printf("Directory Example removed");
+  return 0;
+}
+
+@endcode
+ Output
+Directory Example removed
+@code
+
+@endcode
+
+Limitations:
+
+The _path parameter of the rmdir() function should not exceed 256 characters in length. 
+
+KErrNotReady of Symbian error code is mapped to ENOENT, which typically means drive
+not found or filesystem not mounted on the drive.
+
+@capability Deferred @ref RFs::RmDir(const TDesC16&)
+@capability Deferred @ref RFs::Att(const TDesC16&, unsigned&)
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  setgid(gid_t gid)
+@param gid
+
+Refer to  setuid() for the documentation
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  setpgid(pid_t pid, pid_t pgid)
+@param pid
+@param pgid
+
+Note: This description also covers the following functions -
+ setpgrp() 
+
+@return   These functions always return 0.
+
+  These functions are build supported but not available functionally. Symbian 
+OS does not support multiple users and groups.
+
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  setsid(void)
+
+@return   These functions always return 0.
+
+  These functions are build supported but not available functionally. Symbian 
+OS does not support multiple users and groups.
+
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  setuid(uid_t uid)
+@param uid
+
+Note: This description also covers the following functions -
+ seteuid()  setgid()  setegid() 
+
+@return   These functions always return 0.
+
+  These functions are build supported but not available functionally. Symbian 
+OS does not support multiple users and groups.
+
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  sleep(unsigned int secs)
+@param secs
+@return   If the sleep function returns because the requested time has elapsed, the value
+returned will be zero.
+
+  The sleep function suspends execution of the calling process until seconds seconds have elapse
+
+ Time interval is internally represented using 32 bit value(range +-2147483647). 
+  Any time interval greater 2147483647 returns 0 without sleeping. Hence Maximum 
+  sleep time supported here is 35 minutes, 47 seconds.
+
+
+
+Examples:
+@code
+/*
+ * Detailed description: This test code shows usage of sleep system call , here sample code
+ * sleeps for 2 seconds.
+ */
+#include <unistd.h>
+int main()
+{
+  if(sleep(2) < 0 )  
+  {
+    printf("Sleep failed");
+    return -1;
+  }
+  printf("Sleep successful");
+  return 0;
+}
+
+@endcode
+ Output
+@code
+Sleep successful
+
+@endcode
+@see nanosleep()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  sysconf(int name)
+@param name
+@return   If the call to sysconf is not successful, -1 is returned and errno is set appropriately.
+Otherwise, if the variable is associated with functionality that is not
+supported, -1 is returned and errno is not modified.
+Otherwise, the current variable value is returned.
+
+This interface is defined by -p1003.1-88 .A far more complete interface is available using sysctl.
+
+
+The sysconf function provides a method for applications to determine the 
+  current value of a configurable system limit or option variable. The name argument specifies the system variable to be queried. Symbolic 
+  constants for each name value are found in the include file \#include \<unistd.h\> . Shell programmers who need access 
+  to these parameters should use the getconf utility.
+
+The available values are as follows:
+@code
+ _SC_ARG_MAX
+  The maximum number of argument to execve.
+ _SC_CHILD_MAX
+  The maximum number of simultaneous processes per user id.(Not supported)
+ _SC_CLK_TCK
+  The frequency of the statistics clock in ticks per second.
+ _SC_IOV_MAX
+  The maximum number of elements in the I/O vector used by readv , writev , recvmsg ,
+ and sendmsg .
+ _SC_NGROUPS_MAX
+  The maximum number of supplemental groups.(Not supported)
+ _SC_NPROCESSORS_CONF
+  The number of processors configured.(Not supported)
+ _SC_NPROCESSORS_ONLN
+  The number of processors currently online.(Not supported)
+ _SC_OPEN_MAX
+  The maximum number of open files per user id.(Not supported)
+ _SC_STREAM_MAX
+  The minimum maximum number of streams that a process may have open( Not supported)
+ at any one time.
+ _SC_TZNAME_MAX
+  The minimum maximum number of types supported for the name of a
+ timezone.(Not supported)
+ _SC_JOB_CONTROL
+  Return 1 if job control is available on this system, otherwise -1.
+ _SC_SAVED_IDS
+  Returns 1 if saved set-group and saved set-user ID is available,
+ otherwise -1.(Not supported)
+ _SC_VERSION
+  The version of -p1003.1 with which the system
+ attempts to comply.(Not supported)
+ _SC_BC_BASE_MAX
+  The maximum ibase/obase values in the bc utility.(Not supported)
+ _SC_BC_DIM_MAX
+  The maximum array size in the bc utility.(Not supported)
+ _SC_BC_SCALE_MAX
+  The maximum scale value in the bc utility.(Not supported)
+ _SC_BC_STRING_MAX
+  The maximum string length in the bc utility.(Not supported)
+ _SC_COLL_WEIGHTS_MAX
+  The maximum number of weights that can be assigned to any entry of
+ the LC_COLLATE order keyword in the locale definition file.(Not supported)
+ _SC_EXPR_NEST_MAX
+  The maximum number of expressions that can be nested within
+ parenthesis by the expr utility.(Not supported)
+ _SC_LINE_MAX
+  The maximum length in bytes of a text-processing utility's input
+ line.(Not supported)
+ _SC_RE_DUP_MAX
+  The maximum number of repeated occurrences of a regular expression
+ permitted when using interval notation.(Not supported)
+ _SC_2_VERSION
+  The version of -p1003.2 with which the system attempts to comply.( Not supported)
+ _SC_2_C_BIND
+  Return 1 if the system's C-language development facilities support the
+ C-Language Bindings Option, otherwise -1.
+ _SC_2_C_DEV
+  Return 1 if the system supports the C-Language Development Utilities Option,
+ otherwise -1.
+ _SC_2_CHAR_TERM
+  Return 1 if the system supports at least one terminal type capable of
+ all operations described in -p1003.2 ,
+ otherwise -1.
+ _SC_2_FORT_DEV
+  Return 1 if the system supports the FORTRAN Development Utilities Option,
+ otherwise -1.
+ _SC_2_FORT_RUN
+  Return 1 if the system supports the FORTRAN Runtime Utilities Option,
+ otherwise -1.
+ _SC_2_LOCALEDEF
+  Return 1 if the system supports the creation of locales, otherwise -1.
+ _SC_2_SW_DEV
+  Return 1 if the system supports the Software Development Utilities Option,
+ otherwise -1.
+ _SC_2_UPE
+  Return 1 if the system supports the User Portability Utilities Option,
+ otherwise -1.
+ _SC_PAGESIZE
+  Returns size of a page in bytes.  (Some systems use PAGE_SIZE instead.)
+@endcode
+
+ Note: Some of the  return values may not be posix compliant.
+
+Examples:
+@code
+/*
+ *  Detailed description  : This test code demonstrates usage of sysconf system call , here it get max command
+    line arguments that can be passed to process.
+*/
+#include <unistd.h>
+int main()
+{
+  int ret = 0 ;
+  ret = sysconf(_SC_ARG_MAX) ;
+  if(ret < 0 )  {
+    printf("Sysconf call failed") ;
+    return -1 ;
+ }
+ printf("Max command line arguments = %d" , ret) ;
+ return 0 ;
+}
+
+@endcode
+ Output
+@code
+max-number of commandline args supproted by system.
+
+@endcode
+@see pathconf()
+@see confstr()
+
+
+Bugs:
+
+ The value for _SC_STREAM_MAX is a minimum maximum, and is required to be 
+the same as ANSI C's FOPEN_MAX, so the returned value is a ridiculously small 
+and misleading number. 
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  unlink(const char *pathname)
+@param pathname
+@return   Upon successful completion, 0 is returned. Otherwise, -1 is returned and errno is set to indicate the error.
+
+ 
+ The unlink system call removes the link named by pathname from its file system.
+
+ Symbian OS simulates links so there is no reference count and files are unaware 
+  of links. Calling unlink on a file will always close the file, regardless of 
+  whether there is another link.
+
+ The pathname argument may not be a directory.
+
+Examples:
+@code
+/*
+ * Detailed description  : Example to unlink a link file
+ * Precondition : A link file by name "Link" should exist in
+ *                c: drive.
+ */
+#include <unistd.h>
+#include <stdio.h>
+int main(void)
+{
+    char rdbuff[25];
+    if(unlink("C:\Link"))
+    {
+         printf("unlink on link file failed");
+    }
+    printf("Unlink on link file succeeded");
+}
+
+@endcode
+ Output
+@code
+Unlink on link file succeeded.
+
+@endcode
+
+Limitations:
+
+- The path parameter of the unlink() function should not exceed 256 characters in length. 
+- P.I.P.S. only simulates link files and does not distinguish between hard and symbolic links.
+- KErrNotReady of Symbian error code is mapped to ENOENT, which typically means drive
+not found or filesystem not mounted on the drive.
+
+@see close()
+@see link()
+@see rmdir()
+@see symlink()
+
+
+
+@capability Deferred @ref RFs::Att(const TDesC16&, unsigned&)
+@capability Deferred @ref RFs::SetAtt(const TDesC16&, unsigned, unsigned)
+@capability Deferred @ref RFs::Delete(const TDesC16&)
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  write(int fd, const void *buf, size_t cnt)
+@param fd
+@param buf
+@param cnt
+
+@return   Upon successful completion the number of bytes which were written
+is returned.
+Otherwise a -1 is returned and the global variable errno is set to indicate the error.
+
+The write system call attempts to write cnt bytes of data to the object referenced by the descriptor fd from the buffer pointed to by buf .
+The writev system call performs the same action, but gathers the output data from the iovcnt buffers specified by the members of the iov array: iov[0], iov[1], ..., iov[iovcnt-1].
+The pwrite and pwritev system calls perform the same functions, but write to the specified position in the file without modifying the file pointer.
+
+Notes: 
+
+1. This description also covers the pwrite(), writev() and pwritev() functions.
+ 
+2. An attempt to write on a broken pipe generates the SIGPIPE signal, which may cause termination of the process, if it is not handled.
+
+ For writev and pwritev, the iovec structure is defined as:
+
+@code
+ struct iovec {
+void   *iov_base;  //Base address.
+size_t iov_len;    // Length.
+};
+@endcode
+
+ Each iovec entry specifies the base address and length of an area
+in memory from which data should be written.
+The writev system call
+will always write a complete area before proceeding
+to the next.
+
+ On objects capable of seeking, the write starts at a position
+given by the pointer associated with fd ,
+see lseek .
+Upon return from write ,
+the pointer is incremented by the number of bytes which were written.
+
+If 'fd' refers to a shared memory object then write() on the shared memory object is supported by the current implementation.
+
+ Objects that are not capable of seeking always write from the current
+position.
+The value of the pointer associated with such an object
+is undefined.
+
+ When using non-blocking I/O on objects such as sockets that are subject
+to flow control, write and writev may write fewer bytes than requested;
+the return value must be noted,
+and the remainder of the operation should be retried when possible.
+
+Examples:
+@code
+/* Detailed description: This sample code creates an Example.txt file in the current working
+ * directory(if file existes then it is truncated) and writes "Hello World" string
+ * to the file.
+ *
+ * Preconditions: Example.txt if present, it should not be read-only.
+ */
+int main()
+{
+ int fd = 0 ;
+ char Buf[] = "Hello World" ;
+ fd = open("Example.txt" , O_CREAT | O_TRUNC | O_RDWR  ,0666) ;
+ if(fd < 0 )
+ {
+    printf("Failed to open file Example.txt") ;
+    return -1 ;
+ }
+ if(write(fd , Buf , sizeof(Buf)) < sizeof(Buf))
+  {
+    printf("Failed to write string %s to file" , Buf) ;
+    return -1 ;
+  }
+  printf("String %s written to file 
+" , Buf) ;
+  return 0 ;
+ }
+
+@endcode
+ Output
+@code
+String Hello World written to file
+
+@endcode
+@code
+/*
+ * Detailed description  : Sample usage of readv system call
+ */
+#include <stdio.h>
+#include <sys/types.h>
+#include <sys/uio.h>
+#include <fcntl.h>
+int main()
+{
+  int fd = 0 ;
+  struct iovec io_vec[1] ;
+  char Buf[12] = "Hello world" ;
+  io_vec[0].iov_base  = Buf ;
+  io_vec[0].iov_len = 11 ;
+  fd = open("Example.txt" , O_CREAT | O_RDWR , 0666 ) ;
+  if(fd < 0 )  {
+    printf("File open failed") ;
+    return -1 ;
+  }
+  if(writev(fd , io_vec , 1) <  11 )   {
+    printf("Failed to read fron Example.txt file") ;
+    return -1 ;
+  }
+  printf("writev succes %s written"  , io_vec[0].iov_base) ;
+  return 0 ; }
+
+@endcode
+ Output
+@code
+writev succes Hello world written
+
+@endcode
+@see fcntl()
+@see lseek()
+@see open()
+@see pipe()
+@see select()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  confstr(int name, char *buf, size_t len)
+@param name
+@param buf
+@param len
+@return   If the call to confstr is not successful, 0 is returned and errno is set appropriately.
+Otherwise, if the variable does not have a configuration defined value,
+0 is returned and errno is not modified.
+Otherwise, the buffer size needed to hold the entire configuration-defined
+value is returned.
+If this size is greater than the argument len, the string in buf was truncated.
+
+  The confstr function provides a method for applications to get configuration
+defined string values.
+
+The name argument specifies the system variable to be queried. Symbolic 
+  constants for each name value are found in the include file \#include \<unistd.h.\> The len argument specifies the size of the buffer referenced by the argument buf. If len is non-zero, buf is a non-null pointer, and name has a value, up to len - 1 bytes of the value are copied into the buffer buf. The copied value is always null terminated.
+ The available values are as follows:
+
+@code
+ _CS_PATH
+  Return a value for the PATH environment variable that finds all the standard utilities.
+
+@endcode
+
+Examples:
+@code
+#include<unistd.h>
+#include<stdio.h>
+#include <stdlib.h>
+ 
+int main()
+{
+ int n = 0;
+ char *buf = NULL;
+ int len = 0;
+   
+ n = confstr(_CS_PATH, NULL, 0);
+    
+ printf("{Expected: 31} %d", n);
+       
+ if( n == 0 )
+    return -1;
+                    
+ buf = (char *)malloc(n);
+  
+ if ( buf == NULL )
+ {
+    printf("malloc failed!!");
+    return -1;
+ }
+             
+ len = confstr(_CS_PATH, buf, n);
+                
+ printf("PATH in buffer: \n%s", buf);
+ printf("length: %d", len);
+ free(buf);
+ 
+ return 0;
+}
+
+@endcode
+ Output
+@code
+PATH in buffer:
+/usr/bin:/bin:/usr/sbin:/sbin:
+length: 31
+
+@endcode
+@see pathconf()
+@see sysconf()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn getopt(int nargc, char * const nargv[], const char *ostr)
+@param nargc
+@param nargv
+@param ostr
+@return The  getopt function returns the next known option character in  optstring. If  getopt encounters a character not found in  optstring or if it detects a missing option argument, it returns ‘?’ (question mark. If  optstring has a leading ‘:’ then a missing option argument causes ‘:’ to be returned instead of ‘?.’ In either case, the variable  optopt is set to the character that caused the error. The  getopt function returns -1 when the argument list is exhausted.
+
+The  getopt function incrementally parses a command line argument list  argv and returns the next  known option character. An option character is  known if it has been specified in the string of accepted option characters,  optstring.
+
+The option string optstring may contain the following elements: individual characters, and characters followed by a colon to indicate an option argument is to follow. For example, an option string x recognizes an option "-x", and an option string x: recognizes an option and argument "-x argument." It does not matter to getopt if a following argument has leading white space.
+
+On return from getopt, optarg points to an option argument, if it is anticipated, and the variable optind contains the index to the next argv argument for a subsequent call to getopt. The variable optopt saves the last known option character returned by getopt.
+
+The variables opterr and optind are both initialized to 1. The optind variable may be set to another value before a set of calls to getopt in order to skip over more or less argv entries.
+
+In order to use getopt to evaluate multiple sets of arguments, or to evaluate a single set of arguments multiple times, the variable optreset must be set to 1 before the second and each additional set of calls to getopt, and the variable optind must be reinitialized.
+
+The getopt function returns -1 when the argument list is exhausted. The interpretation of options in the argument list may be cancelled by the option ‘--’ (double dash) which causes getopt to signal the end of argument processing and return -1. When all options have been processed (i.e., up to the first non-option argument), getopt returns -1. 
+
+Examples:
+@code
+#include <unistd.h>
+#include <stdio.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <string.h>
+ 
+int main()
+{
+        int argc = 3;
+         
+        char *argv[] =
+         {
+                 "getopt","-f","hi"
+         };
+        
+        int bflag, ch, fd;
+        bflag = 0;
+         
+        while ((ch = getopt(argc, argv, "bf:")) != -1) {
+        
+        switch (ch) {
+        case 'b':
+                bflag = 1;
+                printf("option is 'b' \n");
+                break;
+        case 'f':
+                printf("option is 'f' \n");
+                if ((fd = open(optarg, O_RDONLY, 0)) != 0) {
+                        (void)fprintf(stderr,
+                           "myname: %s: %s\n", optarg, strerror(errno));                
+                }                             
+                break;
+        case '?':
+                printf("missing option!");
+        default:
+                printf("unknown option!");
+        }
+       
+}
+argc -= optind;
+return 0;
+}
+
+@endcode
+ Output
+@code
+option is ’f’
+myname: hi: No such file or directory
+@endcode
+@see getopt_long()
+
+Bugs:
+
+The  getopt function was once specified to return  EOF instead of -1. This was changed by  -p1003.2-92 to decouple  getopt from
+ 	\#include \<stdio.h\>
+
+A single dash "-" may be specified as a character in optstring, however it should never have an argument associated with it. This allows getopt to be used with programs that expect "-" as an option flag. This practice is wrong, and should not be used in any current development. It is provided for backward compatibility only. Care should be taken not to use ‘-’ as the first character in optstring to avoid a semantic conflict with GNU getopt, which assigns different meaning to an optstring that begins with a ‘-.’ By default, a single dash causes getopt to return -1.
+
+It is also possible to handle digits as option letters. This allows getopt to be used with programs that expect a number ("-3") as an option. This practice is wrong, and should not be used in any current development. It is provided for backward compatibility only. The following code fragment works in most cases.
+
+@code
+int ch;
+long length;
+char *p, *ep;
+while ((ch = getopt(argc, argv, "0123456789")) != -1)
+        switch (ch) {
+        case ’0’: case ’1’: case ’2’: case ’3’: case ’4’:
+        case ’5’: case ’6’: case ’7’: case ’8’: case ’9’:
+                p = argv[optind - 1];
+                if (p[0] == ’-’ Am]Am] p[1] == ch Am]Am] !p[2]) {
+                        length = ch - ’0’;
+                        ep = "";
+                } else if (argv[optind] Am]Am] argv[optind][1] == ch) {
+                        length = strtol((p = argv[optind] + 1),
+                            Am]ep, 10);
+                        optind++;
+                        optreset = 1;
+                } else
+                        usage();
+                if (*ep != ’\0’)
+                        errx(EX_USAGE, "illegal number -- %s", p);
+                break;
+        }
+@endcode
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fsync(int fd)
+@param fd
+@return   Upon successful completion, fsync() returns 0. Otherwise, it returns -1 and sets 
+errno to indicate the error. If the fsync() function fails, outstanding I/O operations 
+are not guaranteed to have been completed.
+
+  The fsync system call
+causes all modified data and attributes of fd to be moved to a permanent storage device.
+This normally results in all in-core modified copies
+of buffers for the associated file to be written to a disk.
+
+ The fsync system call should be used by programs that require a file to 
+  be in a known state, for example, when building a simple transaction facility.
+
+Examples:
+@code
+/*
+ * Detailed description : Simple usage of fsync system call.
+ * Preconditions : Example.txt if present should not a ready-only file
+ */
+#include <unistd.h>
+#include <fcntl.h>
+int main()
+{
+  int fd = 0;
+  fd = open("Example.txt" , O_CREAT | O_RDWR , 0666);
+  if(fd < 0 )  
+  {
+     printf("Failed to open file Example.txt");
+     return -1;
+  }
+  if(fsync(fd) < 0 )  
+  {
+     printf("fsync system call failed");
+     return -1;
+  }
+  close(fd);
+  printf("fsync system call succeeded");
+  return 0;
+}
+
+@endcode
+ Output
+@code
+fsync system call succeeded
+
+@endcode
+@see fsync()
+@see sync()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fdatasync(int filedesc)
+@param filedesc
+@return   If successful the function returns 0, otherwise it returns (-1) and sets errno 
+  to indicate the error.
+
+  The fdatasync system call
+causes all modified data and attributes of fd to be moved to a permanent storage device.
+This normally results in all in-core modified copies
+of buffers for the associated file to be written to a disk.
+The fdatasync() function forces all the queued I/O operations associated that
+file, as indicated by the file descriptor fd, to the synchronized I/O completion
+state.
+
+ The functionality shall be equivalent to fsync() with the symbol _POSIX_SYNCHRONIZED_IO 
+  defined. This has an exception that all I/O operations shall be completed before 
+  the call.
+
+
+
+ The fdatasync should be used by programs that require a file to be in 
+  a known state, for example when building a simple transaction facility.
+
+
+
+Examples:
+@code
+#include<unistd.h>
+#include<stdio.h>
+#define KMAXCHARS 100
+int test_fdatasync()
+{
+   char* array = "abcdefghijklmnopqrstuvwxyz";
+   struct stat buf;
+   if((fd = open(file , O_CREAT | O_RDWR , 0666))  < 0)
+   {
+      printf("Failed  to create file");
+   }
+   size_t size = write(fd,array, KMAXCHARS);
+   if(fdatasync(fd) < 0)
+   {
+     printf("Fdatasync failed");
+     int retrn = remove(file);
+     return -1;
+   }
+  int retVal2 = fstat( fp, &buf; );
+  if(!retVal2)
+  {
+    size_t bufsize = buf.st_size;
+    if (bufsize == size)
+    {
+      printf("file size = %d", size);
+      printf("Fdatasync passed");
+      int retrn = remove(file);
+      return 0;
+    }
+  }
+}
+
+@endcode
+ Output
+@code
+file size = 50
+Fdatasync passed
+
+@endcode
+@see sync()
+@see fsync()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn ftruncate(int filedesc, off_t length)
+@param filedesc
+@param length
+
+Refer to truncate() for documentation
+
+@see open()
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn ftruncate64(int filedesc, off64_t length)
+@param filedesc
+@param length
+
+For full documentation see: http://www.unix.org/version2/whatsnew/lfs20mar.html#3.0
+
+@see ftruncate()
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  readlink(const char *path, char *buf, int bufsize)
+@param path
+@param buf
+@param bufsize
+@return   The call returns the count of characters placed in the buffer
+if it succeeds, or a -1 if an error occurs, placing the error
+code in the global variable errno.
+
+  The readlink system call
+places the contents of the symbolic link path in the buffer buf, which has size bufsize. The readlink system call does not append a NULL character to buf.
+
+Examples:
+@code
+/*
+* Detailed description: Example to read a link file
+* Precondition: "Parent.txt" should exist in c: drive with some contents
+*                of length atleast 25 characters.  And a link file by name           
+*                "C:\Link" pointing to parent file should exist.
+*
+*/
+#include <unistd.h>
+#include <stdio.h>
+int main(void)
+{
+    char rdbuff[25];
+    int retval;
+   if((retval = (readlink("C:\Link", rdbuff, (sizeof(char)*25)))) < 0)
+    {
+       printf("Read through link file failed");
+       perror(" ");
+       return -1;
+    }
+    printf("Read through link file succeeded");
+}
+
+@endcode
+ Output
+@code
+Read through link file succeeded.
+
+@endcode
+
+Limitations:
+
+The path parameter of the readlink() function should not exceed 256 characters in length. 
+
+@see lstat()
+@see stat()
+@see symlink()
+@see symlink()
+
+
+
+@capability Deferred @ref RFs::Entry(const TDesC16&, TEntry&)
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn gethostname(char *name, size_t size)
+@param name
+@param size
+@return On successful completion, 0 is returned. Otherwise, -1 is returned
+
+The gethostname() function returns the standard host name for the current machine. The size argument specifies the size of the array pointed to by the name argument. The returned name is null-terminated, except that if size is an insufficient length to hold the host name, then the returned name is truncated and it is unspecified whether the returned name is null-terminated. 
+Host names are limited to 255 bytes
+
+@see uname()
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  setegid(gid_t gid)
+@param gid
+
+Refer to  setuid() for the documentation
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  seteuid(uid_t uid)
+@param uid
+
+Refer to  setuid() for the documentation
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  symlink(const char *oldpath, const char *newpath)
+@param oldpath
+@param newpath
+@return   Upon successful completion, 0 is returned. Otherwise, -1 is returned and errno set to indicate the error.
+
+ 
+
+ A symbolic link newpath is created to oldpath (newpath is the name of the file created, oldpath is the string used in creating the symbolic link). Either name 
+  may be an arbitrary path name. 
+
+ The creation time stamp is not supported, only access and modification time 
+  stamps. Creating a link in a directory will not alter the time stamps of the 
+  directory itself.
+
+ 
+
+Examples:
+@code
+/*
+* Detailed description  : Example to create symlink to a file.
+* Precondition : "Parent.txt" should exist in c: drive.
+* Remarks      : Symlink behaviour is exactly similar to link api.
+*/
+#include <unistd.h>
+#include <stdio.h>
+int main(void)
+ {
+    if(symlink("C:\Parent.txt","C:\Link") < 0)
+    {
+         printf("simulated link creation to parent file failed");
+         return -1  ;
+    }
+    printf("simulated link to parent file created");
+    return 0 ;
+ }
+
+@endcode
+ Output
+@code
+simulated link to parent file created.
+
+@endcode
+
+Limitations:
+
+- The oldpath and newpath parameters of the symlink() function should not exceed 256 characters in length. 
+- P.I.P.S. does not support links across file systems.
+- P.I.P.S. does not support symlink on directories or existing link files.
+- P.I.P.S. only simulates link files and does not distinguish between hard and symbolic links so link() and symlink() on P.I.P.S. are identical.
+- KErrNotReady of Symbian error code is mapped to ENOENT, which typically means drive
+not found or filesystem not mounted on the drive.
+
+@see link()
+@see lstat()
+@see readlink()
+@see unlink()
+@see symlink()
+
+
+
+@capability Deferred @ref RFs::Delete(const TDesC16&)
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fchdir(int filedesc)
+@param filedesc
+
+Refer to  chdir() for the documentation
+
+
+
+@capability Deferred @ref RFs::SetSessionPath(const TDesC16&)
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  getpgid(pid_t pid)
+@param pid
+
+Refer to  getpgrp() for the documentation
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  lchown(const char *path, uid_t owner, gid_t group)
+@param path
+@param owner
+@param group
+
+Refer to  chown() for the documentation
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  nice(int incr)
+@param incr
+ 
+
+ The nice function obtains the scheduling priority of the process from 
+  the system and sets it to the priority value specified in incr. The priority is a value in the range -20 to 20. The default priority 
+  is 0. Lower priorities cause more favorable scheduling.
+
+
+
+Examples:
+@code
+#include<unistd.h>
+#include<stdio.h>
+int test_nice()
+{
+   int retVal;
+   errno = 0;
+   int i = -10;
+   int ret_get1 = getpriority(PRIO_PROCESS,0);
+   retVal = nice(i);
+   int ret_get2 = getpriority(PRIO_PROCESS,0);
+   if((retVal == -1)&&(errno))
+   {
+      printf("failed");
+      return -1;
+   }
+   else
+   {
+     if(!(i - (ret_get2 - retget1)))
+     printf("Nice value: %d", i)
+     printf("nice passed");
+   }
+   return 0;
+}       
+
+@endcode
+ Output
+@code
+Nice value: -10
+nice passed
+
+@endcode
+@see getpriority()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  setpgrp(pid_t _pid, pid_t _pgrp)
+@param _pid
+@param _pgrp
+
+Refer to  setpgid() for the documentation
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  setregid(gid_t rgid, gid_t egid)
+@param rgid
+@param egid
+@return   These functions always return 0.
+
+  These functions are build supported but not available functionally. Symbian 
+OS does not support multiple users and groups.
+
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  setreuid(uid_t ruid, uid_t euid)
+@param ruid
+@param euid
+@return   These functions always return 0.
+
+  These functions are build supported but not available functionally. Symbian 
+OS does not support multiple users and groups.
+
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn swab(const void *from, void *to, ssize_t len)
+@param from
+@param to
+@param len
+
+The function  swab copies  len bytes from the location referenced by  from to the location referenced by  to, swapping adjacent bytes.
+
+The argument len must be an even number.
+
+Examples
+@code
+#include <string.h>
+#include <stdio.h>
+int main()
+{
+    int i=0x00003366,j=0x0;
+    swab((void *)&i,(void *)&j,2);
+    if(j==0x6633)
+       printf("Ouput val = %#x\n",j);
+    return 0;
+}
+@endcode
+
+output
+@code
+Ouput val = 0x6633
+@endcode
+@see bzero()
+@see memset()
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  usleep(useconds_t microseconds)
+@param microseconds
+@return   The usleep function returns the value 0 if successful; otherwise the value -1 is
+returned and the global variable errno is set to indicate the error.
+
+  The usleep function suspends execution of the calling process until either microseconds microseconds have elapsed or a signal is delivered to the process and its
+action is to invoke a signal-catching function or to terminate the
+process.
+System activity may lengthen the sleep by an indeterminate amount.
+
+ This function is implemented using nanosleep by pausing for microseconds microseconds or until a signal occurs.
+Consequently, in this implementation,
+sleeping has no effect on the state of process timers,
+and there is no special handling for SIGALRM.
+
+Limitations:
+
+The signal related functionaities aren’t applicable to the symbian implementation as there is no support for signals from symbian.
+
+Examples:
+@code
+#include<unistd.h>
+#include<stdio.h>
+ 
+int main()
+{
+ unsigned long t = 2; 
+ int i;
+  
+ i = usleep(t);
+ printf("Expected: 0 usleep returned: %d", i);
+  
+ return 0;
+}
+
+@endcode
+ Output
+@code
+Expected: 0 usleep returned: 0
+
+@endcode
+@see nanosleep()
+@see sleep()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn truncate(const char *file, off_t length)
+@param file
+@param length
+@return   Upon successful completion, both truncate() and ftruncate() shall return 0; otherwise, -1 shall be returned and errno set to indicate the error.
+
+
+The  truncate system call causes the file named by  file or referenced by  filedesc to be truncated to  length bytes in size. If the file was larger than this size, the extra data is lost. If the file was smaller than this size, it will be extended as if by writing bytes with the value zero. With  ftruncate, the file must be open for writing.
+
+Examples:
+@code
+//example for truncate
+#include<unistd.h>
+#include<stdio.h>
+#include <sys/stat.h>
+int test_truncate()
+{
+        int retVal, retVal2, retSize, retSize2;
+        struct stat buf;
+        ssize_t size;
+        char *buffer = "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwx";
+        int fp = open("c:\test.txt", O_RDWR|O_CREAT);
+        size = write(fp,buffer,50);
+        close(fp);
+        retVal2 = stat("c:\test.txt", &buf );
+        if ( !retVal2 )
+        {
+        retSize = buf.st_size;
+        printf("Size before: %d", retSize);
+        retVal = truncate("c:\test.txt", retSize/2 );
+        }
+        else
+        {
+        printf("Failed");
+        }
+        retVal2 = stat( "c:\test.txt", &buf );
+        if ( !retVal2 )
+                {
+                retSize2 = buf.st_size;
+                if( retSize2 == (retSize/2 ) )
+                        {
+                        printf("\nSize after: %d\n", retSize2);
+                        printf("Truncate passed");
+                        return 0;
+                        }
+                else
+                        {
+                        printf("Failed");
+                        return -1;
+                        }
+                }
+        else
+                {
+                printf("Failed");
+                return -1;
+                }
+}
+@endcode
+ Output
+@code
+Size before: 50
+Size after: 25
+Ttruncate Passed
+@endcode
+
+Errors:
+
+The truncate and ftruncate succeed unless:
+[EBADF] The filedesc argument is not a valid descriptor for a regular file.
+[EINVAL] The filedesc argument references to an object other than a file. 
+[EINVAL] The filedesc descriptor is not open for writing.
+
+
+Bugs:
+
+These calls should be generalized to allow ranges of bytes in a file to be discarded.
+Use of truncate to extend a file is not portable. 
+@see open()
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn truncate64(const char *file, off64_t length)
+@param file
+@param length
+@return   Upon successful completion, both truncate64() and ftruncate64() shall return 0; otherwise, -1 shall be returned and errno set to indicate the error.
+
+For full documentation see: http://www.unix.org/version2/whatsnew/lfs20mar.html#3.0
+
+@see truncate()
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  brk(const void*)
+
+@return   Function always returns 0.
+
+  The brk function is used to change the amount of memory allocated in a
+process's data segment.It does this by moving the location of the "break".
+This functionality is not supported by the Symbian OS platform and hence
+is only build supported.
+
+
+
+@see mmap()
+@see free()
+@see malloc()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  getdtablesize(void)
+@return  
+
+  Each process has a fixed size descriptor table,
+which is guaranteed to have at least 20 slots.
+The entries in
+the descriptor table are numbered with small integers starting at 0.
+The getdtablesize system call returns the size of this table.
+
+Examples:
+@code
+#include <stdio.h>
+int main()
+{
+        printf("maximum number of files that can be opened by a process is %d",getdtablesize());
+}
+
+@endcode
+ Output
+@code
+maximum number of files that can be opened by a process is 1024
+
+@endcode
+@see close()
+@see dup()
+@see open()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  getpagesize(void)
+  The getpagesize function
+returns the number of bytes in a page.
+Page granularity is the granularity of many of the memory
+management calls.
+
+ The page size is a system
+page size and may not be the same as the underlying
+hardware page size.
+
+Examples:
+@code
+#include<unistd.h>
+#include<stdio.h>
+int test_getpagesize()
+{
+   int retVal = 0;
+   retVal = getpagesize();
+   if( retVal >= 0)
+   {
+      printf("getpagesize passed");
+      printf("
+ retVal  = %d " retVal);
+      return retVal;
+   }
+   else
+   {
+   printf("Failed");
+   return -1;
+   }
+}       
+
+@endcode
+ Output
+@code
+getpagesize passed
+retVal = 4096
+
+@endcode
+@see sbrk()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  initgroups(const char *, gid_t)
+
+@return   These functions always return 0.
+
+ 
+
+ The getgroups function is build supported but not available functionally. 
+  Symbian OS does not support multiple users and groups.
+
+
+
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn issetugid(void)
+@return  The issetugid() function returns 1 if the process  was  made setuid  or  setgid  as  the result of the last or a previous call to execve(). Otherwise it returns 0
+
+The issetugid() function enables library functions (in  lib-termlib,   libc,  or  other  libraries)  to  guarantee  safe behavior when  used  in  setuid  or  setgid  programs.  Some library  functions  might be passed insufficient informationand not know whether the current program was started  setuidor  setgid  because  a  higher level calling code might have made changes to the uid, euid, gid, or egid. These low-levellibrary  functions are therefore unable to determine if theyare being run with elevated or normal privileges.
+
+Errors:
+
+The issetugid() function is  always  successful.  No  return value is reserved to indicate an error.
+g
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn mkstemp(char *template)
+@param template
+@return The  mkstemp function returns -1 if no suitable file could be created and an error code is placed in the global variable.  errno.
+
+The  mkstemp function takes the given file name template and overwrites a portion of it to create a file with that name and returns a file descriptor opened for reading and writing. This file name is guaranteed not to exist at the time of function invocation and is suitable for use by the application. The template may be any file name with some number of ‘X s’ appended to it, for example  /tmp/temp.XXXXXX. The trailing ‘X s’ are replaced with a unique alphanumeric combination. The number of unique file names  mkstemp can return depends on the number of ‘X s’ provided; six ‘X s’ will result in  mkstemp selecting one of 56800235584 (62 ** 6) possible temporary file names.
+
+Errors:
+
+The  mkstemp function may set  errno to one of the following values:
+[ENOTDIR]	The pathname portion of the template is not an existing directory.
+The mkstemp function may also set errno to any value specified by the stat function.
+The mkstemp function may also set errno to any value specified by the open function.
+
+Examples:
+@code
+#include <stdlib.h>
+#include <stdio.h> //printf, SEEK_SET
+#include <unistd.h>
+ 
+int main( void )
+{
+ char arr[] = "c:\\someXXXXXXXX";
+ char buf[10];
+  
+ //create a temporary file using mkstemp()
+ int fd = mkstemp(arr);
+  
+ if(fd != -1)
+ {
+    //write to the file
+    write(fd, "hello", 5);
+    //seek to the beginning of the file
+    lseek(fd, 0, SEEK_SET); //beg of the file
+    //read from the file
+    read(fd, buf, 5);
+    buf[5] = '\0';
+    //close the file
+    close(fd);
+ }
+ 
+ printf("buf read: %s", buf);
+ return 0;
+}
+@endcode
+
+Output
+@code
+buf read: hello
+@endcode
+
+Limitations:
+
+The template parameter of the mkstemp() function should not exceed 256 characters in length. 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  mkstemp64(char *template)
+@param template
+@return   The mkstemp64 function
+returns -1 if no suitable file could be created
+and an error code is placed in the global variable. errno.
+
+The mkstemp64() function generates a unique temporary file name from template. The last six characters of template must be XXXXXX and these are replaced with a string that makes the filename unique.
+
+The mkstemp64() function is a 64-bit version of mkstemp.
+
+@see mkstemp()
+ 
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  select(int maxfd, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *tvptr)
+@param maxfd
+@param readfds
+@param writefds
+@param exceptfds
+@param tvptr
+@return   The select system call
+returns the number of ready descriptors that are contained in
+the descriptor sets,
+or -1 if an error occurred.
+If the time limit expires, select returns 0.
+If select returns with an error,
+the descriptor sets will be unmodified.
+
+  The select system call
+examines the I/O descriptor sets whose addresses are passed in readfds, writefds, and exceptfds to see if some of their descriptors
+are ready for reading, are ready for writing, or have an exceptional
+condition pending, respectively.
+The only exceptional condition detectable is out-of-band
+data received on a socket.
+The first maxfd descriptors are checked in each set;
+i.e., the descriptors from 0 through maxfd -1 in the descriptor sets are examined.
+On return, select replaces the given descriptor sets
+with subsets consisting of those descriptors that are ready
+for the requested operation.
+The select system call
+returns the total number of ready descriptors in all the sets.
+
+ The descriptor sets are stored as bit fields in arrays of integers.
+The following macros are provided for manipulating such descriptor sets: 
+
+@code
+FD_ZERO (&fdset;); initializes a descriptor set fdset to the null set. 
+FD_SET (fd, &fdset;); includes a particular descriptor fd in fdset. 
+FD_CLR (fd, &fdset;); removes fd from fdset. 
+FD_ISSET (fd, &fdset;); is non-zero if fd is a member of fdset, zero otherwise.
+@endcode
+
+The behavior of these macros is undefined if
+a descriptor value is less than zero or greater than or equal to FD_SETSIZE, which is normally at least equal
+to the maximum number of descriptors supported by the system.
+
+ If tvptr is not a null pointer, it specifies the maximum interval to wait for the
+selection to complete.
+System activity can lengthen the interval by
+an indeterminate amount.
+
+ To effect a poll, the tvptr argument should not be a null pointer,
+but it should point to a zero-valued timeval structure.
+
+ Any of readfds, writefds, and exceptfds may be given as null pointers if no descriptors are of interest.
+
+Errors:
+
+An error return from  select indicates:
+[EBADF] 	One of the descriptor sets specified an invalid descriptor.
+[EFAULT] 	One of the arguments readfds, writefds, exceptfds, or tvptr points to an invalid address.
+[EINVAL] 	The specified time limit is invalid. One of its components is negative or too large.
+[EINVAL] 	The maxfd argument was invalid.
+
+Limitations:
+
+select is not interrupted by signals, as signals are not supported by 
+Symbian OS. If tvptr is set to null, select does not block forever, but waits for a maximum of 10 seconds 
+and returns. select cannot be called a second time on the same socket descriptor 
+before the first select operation on the same socket descriptor completes. (i.e) Only 
+one select operation can be outstanding on a Socket. This is because of 
+the limitation of the underlying Ioctl operation. Only one Ioctl operation may be outstanding for each socket.
+Examples:
+@code
+#include <sys/select.h>
+#include <unistd.h>
+/*
+* A simple example of testing a single FD for readability
+* This example returns 1 when the fd is ready for reading.
+*/
+#include <sys/select.h>
+#include <unistd.h>
+/*
+* A simple example of testing a single FD for readability
+* This example returns 1 when the fd is ready for reading.
+*/
+int isready(int fd)
+{
+    int rc;
+    fd_set fds;
+    struct timeval tv;
+   
+    /*
+     * FD_ZERO() clears out the fd_set called fds, so that
+     * it doesn’t contain any file descriptors.
+     */
+    FD_ZERO(&fds);
+    /*
+     * FD_SET() adds the file descriptor "fd" to the fd_set,
+     * so that select() will return if fd is readable
+     */
+    FD_SET(fd,&fds);
+    tv.tv_sec = tv.tv_usec = 0;
+    /*
+     * The first argument to select is the highest file
+     * descriptor value plus 1.
+     */
+                        
+     /* The second argument to select() is the address of
+      * the fd_set that contains fd’s we’re waiting
+      * to be readable.
+      */
+                        
+     /* The third parameter is an fd_set that you want to
+      * know if you can write on -- this example doesn’t
+      * use it, so it passes 0, or NULL.
+      */
+     /* The fourth parameter is sockets you’re waiting for
+      * out-of-band data for.
+      */
+                
+     /* The last parameter to select() is a time-out of how
+      * long select() should block.
+      */
+     rc = select(fd+1, &fds, NULL, NULL, &tv);
+     /* select() returns the number of fd’s that are ready       
+      * Once select() returns, the original fd_set has been
+      * modified so it now reflects the state of why select()
+      * woke up. i.e. If file descriptor 4 was originally in
+      * the fd_set, and then it became readable, the fd_set
+      * contains file descriptor 4 in it.
+      */
+     if (rc < 0)
+       return -1;
+     return FD_ISSET(fd,&fds) ? 1 : 0;
+}
+@endcode
+@see accept()
+@see connect()
+@see getdtablesize()
+@see gettimeofday()
+@see read()
+@see recv()
+@see send()
+@see write()
+
+
+Notes:
+
+ The default size of FD_SETSIZE is currently set to 1024.
+In order to accommodate programs which might potentially
+use a larger number of open files with select, it is possible
+to increase this size by having the program define FD_SETSIZE before the inclusion of any header which includes 
+
+\#include \< sys/types.h \> 
+
+If maxfd is greater than the number of open files, select is not guaranteed to examine the unused file descriptors. For 
+  historical reasons, select will always examine the first 256 descriptors. 
+
+The select system call appeared in BSD 4.2.
+
+Bugs:
+
+<code> -susv2 </code> allows systems to modify the original tvptr in place.
+Thus, it is unwise to assume that the tvptr value will be unmodified
+by the select system call.
+ 
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  setgroups(int, const gid_t *)
+
+Refer to  getgrent() for the documentation
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @fn  alarm(unsigned int seconds)
+@param seconds -
+@return -
+
+For full documentation see: http://www.opengroup.org/onlinepubs/009695399/functions/alarm.html
+
+The Symbian implementation of this API fully supports POSIX functionality.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def environ	
+
+Environment variable.
+  
+@publishedAll
+@released
+*/
+
+/** @def STDIN_FILENO
+
+standard input file descriptor 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def STDOUT_FILENO
+
+standard output file descriptor
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def STDERR_FILENO
+
+standard error file descriptor
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def F_ULOCK
+
+unlock locked section
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def F_LOCK
+
+lock a section for exclusive use
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def F_TLOCK
+
+test and lock a section for exclusive use
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def F_TEST
+
+test a section for locks by other procs
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_ARG_MAX
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_CHILD_MAX		
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+ 
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_CLK_TCK	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+	 
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_NGROUPS_MAX
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+		 
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_OPEN_MAX	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+	 
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_JOB_CONTROL
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+		 
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_SAVED_IDS	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+	 
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_VERSION	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+	 
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_BC_BASE_MAX	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+	 
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_BC_DIM_MAX	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+	
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_BC_SCALE_MAX
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+	
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_BC_STRING_MAX
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+	
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_COLL_WEIGHTS_MAX	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_EXPR_NEST_MAX	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_LINE_MAX		
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_RE_DUP_MAX		
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_2_VERSION	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+	
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_2_C_BIND		
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_2_C_DEV		
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_2_CHAR_TERM	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+	
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_2_FORT_DEV		
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_2_FORT_RUN		
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_2_LOCALEDEF	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+	
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_2_SW_DEV		
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_2_UPE		
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_STREAM_MAX		
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_TZNAME_MAX		
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_ASYNCHRONOUS_IO	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_MAPPED_FILES	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_MEMLOCK		
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_MEMLOCK_RANGE	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_MEMORY_PROTECTION	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_MESSAGE_PASSING	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_PRIORITIZED_IO	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_PRIORITY_SCHEDULING
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+	
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_REALTIME_SIGNALS	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_SEMAPHORES	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+	
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_FSYNC	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+	
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_SHARED_MEMORY_OBJECTS 
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_SYNCHRONIZED_IO	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_TIMERS		
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_AIO_LISTIO_MAX	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_AIO_MAX		
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_AIO_PRIO_DELTA_MAX	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_DELAYTIMER_MAX
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+	
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_MQ_OPEN_MAX	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+	
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_PAGESIZE		
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_RTSIG_MAX		
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_SEM_NSEMS_MAX	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_SEM_VALUE_MAX	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_SIGQUEUE_MAX	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_TIMER_MAX		
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_2_PBS		
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_2_PBS_ACCOUNTING	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_2_PBS_CHECKPOINT	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_2_PBS_LOCATE	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/ 
+
+/** @def _SC_2_PBS_MESSAGE	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_2_PBS_TRACK	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+	
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_ADVISORY_INFO	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_BARRIERS		
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_CLOCK_SELECTION	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_CPUTIME		
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_FILE_LOCKING	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_GETGR_R_SIZE_MAX	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_GETPW_R_SIZE_MAX	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_HOST_NAME_MAX	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_LOGIN_NAME_MAX	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_MONOTONIC_CLOCK	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_MQ_PRIO_MAX	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+	
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_READER_WRITER_LOCKS	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_REGEXP		
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_SHELL		
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_SPAWN		
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_SPIN_LOCKS		
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_SPORADIC_SERVER	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_THREAD_ATTR_STACKADDR 
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_THREAD_ATTR_STACKSIZE 
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_THREAD_CPUTIME	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_THREAD_DESTRUCTOR_ITERATIONS 
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_THREAD_KEYS_MAX	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_THREAD_PRIO_INHERIT	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_THREAD_PRIO_PROTECT	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_THREAD_PRIORITY_SCHEDULING 
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_THREAD_PROCESS_SHARED 
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_THREAD_SAFE_FUNCTIONS 
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_THREAD_SPORADIC_SERVER 
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_THREAD_STACK_MIN	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_THREAD_THREADS_MAX	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_TIMEOUTS		
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_THREADS	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+	
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_TRACE	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+	
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_TRACE_EVENT_FILTER	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_TRACE_INHERIT	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_TRACE_LOG		
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_TTY_NAME_MAX	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_TYPED_MEMORY_OBJECTS 
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_V6_ILP32_OFF32	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_V6_ILP32_OFFBIG	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_V6_LP64_OFF64	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_V6_LPBIG_OFFBIG	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_IPV6		
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_RAW_SOCKETS	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+	
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_SYMLOOP_MAX	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+	
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_ATEXIT_MAX		
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_IOV_MAX		
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_PAGE_SIZE		
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_XOPEN_CRYPT	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+	
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_XOPEN_ENH_I18N	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_XOPEN_LEGACY	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_XOPEN_REALTIME	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_XOPEN_REALTIME_THREADS 
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_XOPEN_SHM		
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_XOPEN_STREAMS	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_XOPEN_UNIX		
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_XOPEN_VERSION	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _SC_XOPEN_XCU_VERSION	
+
+POSIX-style system configuration variable accessors (for the sysconf function).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _CS_PATH
+
+Keys for the confstr(3) function.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _CS_POSIX_V6_ILP32_OFF32_CFLAGS		
+
+Keys for the confstr(3) function.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _CS_POSIX_V6_ILP32_OFF32_LDFLAGS	
+
+Keys for the confstr(3) function.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _CS_POSIX_V6_ILP32_OFF32_LIBS		
+
+Keys for the confstr(3) function.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _CS_POSIX_V6_ILP32_OFFBIG_CFLAGS	
+
+Keys for the confstr(3) function.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _CS_POSIX_V6_ILP32_OFFBIG_LDFLAGS	
+
+Keys for the confstr(3) function.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _CS_POSIX_V6_LP64_OFF64_CFLAGS		
+
+Keys for the confstr(3) function.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _CS_POSIX_V6_LP64_OFF64_CFLAGS		
+
+Keys for the confstr(3) function.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _CS_POSIX_V6_LP64_OFF64_LDFLAGS		
+
+Keys for the confstr(3) function.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _CS_POSIX_V6_LP64_OFF64_LIBS		
+
+Keys for the confstr(3) function.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _CS_POSIX_V6_LPBIG_OFFBIG_CFLAGS	
+
+Keys for the confstr(3) function.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def optopt
+
+character checked for validity
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def opterr
+
+if error message should be printed
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def optind
+
+index into parent argv vector
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def optarg
+
+argument associated with option
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def optreset
+
+reset getopt
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @typedef typedef __off_t off_t
+
+Used for file sizes.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @typedef typedef __gid_t gid_t
+
+Used for group IDs.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @typedef typedef __pid_t pid_t
+
+Used for process IDs and process group IDs.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @typedef typedef __size_t	size_t	
+
+Used for sizes of objects.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @typedef typedef __uid_t	 uid_t
+
+Used for user IDs.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @typedef typedef __useconds_t  useconds_t	
+
+Used for time in microseconds.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+
+

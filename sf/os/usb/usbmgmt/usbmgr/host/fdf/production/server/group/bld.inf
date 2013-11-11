@@ -1,0 +1,39 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+*
+*/
+
+/**
+ @file
+ @internalComponent
+*/
+
+#if !defined(WINS)
+
+PRJ_PLATFORMS
+ARMV5
+
+PRJ_MMPFILES
+fdf.mmp // production version
+
+PRJ_EXPORTS
+// Utility for everything running in the FDF's process.
+../public/fdfcaps.mmh					/epoc32/include/usbhost/internal/fdfcaps.mmh
+
+PRJ_TESTEXPORTS
+// Interface to the client side DLL.
+../public/fdfapi.h						SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(usbhost/internal/fdfapi.h)
+
+#endif

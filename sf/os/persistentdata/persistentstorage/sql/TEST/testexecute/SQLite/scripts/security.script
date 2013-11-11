@@ -1,0 +1,225 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// @file
+// 
+//
+
+//! @SYMTestSuiteName PDS-TEF-SQL-SUITE
+//! @SYMScriptTestEnvironment TEF
+//! @internalComponent
+//! @test
+
+PRINT Run SQL Tests
+
+LOAD_SUITE te_SQL_Suite
+LOAD_SUITE te_SQL_Suite_cap1
+LOAD_SUITE te_SQL_Suite_cap2
+
+RUN_UTILS MkDir c:\private\
+RUN_UTILS MkDir c:\private\102827c7\
+RUN_UTILS MkDir c:\private\102827c8\
+RUN_UTILS MkDir c:\private\10281e17\
+
+RUN_UTILS DeleteFile c:\private\10281e17\[102827c7]sec.db
+RUN_UTILS DeleteFile c:\private\10281e17\[102827c7]sec1.db
+RUN_UTILS DeleteFile c:\private\10281e17\[102827c7]sec2.db
+RUN_UTILS DeleteFile c:\private\10281e17\[102827c7]sec4.db
+RUN_UTILS DeleteFile c:\private\10281e17\[102827c8]sec.db
+RUN_UTILS DeleteFile c:\private\102827c7\sec.db
+RUN_UTILS DeleteFile c:\private\102827c8\sec.db
+RUN_UTILS DeleteFile c:\private\102827c8\sec3.db
+RUN_UTILS DeleteFile c:\private\10281e17\[102827c7]sec_copy.db
+RUN_UTILS DeleteFile c:\private\10281e17\[102827c7]secpol.db
+
+
+START_TESTCASE SYSLIB-SQL-CIT-1839
+//! @SYMTestCaseID    SYSLIB-SQL-CIT-1839
+//! @SYMTestCaseDesc  PlatSec tests creating databases
+//! @SYMTestPriority  High
+//! @SYMTestActions   See description and the config file.
+//! @SYMTestExpectedResults
+//!                  The test looks for errors and content
+//!                  within the database. If these are not seen test errors
+//!                  will be generated.
+//!                  
+//! @SYMREQ           REQ5794
+
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\security.ini create1
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\security.ini create1a
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\security.ini create1b
+	RUN_TEST_STEP 100 te_SQL_Suite_cap1 CSQLDDT z:\TEF_SQL\security.ini create2
+	RUN_TEST_STEP 100 te_SQL_Suite_cap1 CSQLDDT z:\TEF_SQL\security.ini create3
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\security.ini create4
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\security.ini create5
+	RUN_PANIC_STEP_RESULT 2 SqlDb 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\security.ini create6
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\security.ini create7
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\security.ini create8
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\security.ini create9
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\security.ini create10
+	RUN_TEST_STEP 100 te_SQL_Suite_cap2 CSQLDDT z:\TEF_SQL\security.ini create11
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\security.ini create12
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\security.ini create12a
+	RUN_TEST_STEP 100 te_SQL_Suite_cap2 CSQLDDT z:\TEF_SQL\security.ini create12b
+END_TESTCASE SYSLIB-SQL-CIT-1839
+
+START_TESTCASE SYSLIB-SQL-CIT-1840
+//! @SYMTestCaseID    SYSLIB-SQL-CIT-1840
+//! @SYMTestCaseDesc  PlatSec tests reading databases
+//! @SYMTestPriority  High
+//! @SYMTestActions   See description and the config file.
+//! @SYMTestExpectedResults
+//!                  The test looks for errors and content
+//!                  within the database. If these are not seen test errors
+//!                  will be generated.
+//!                  
+//! @SYMREQ           REQ5794
+
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\security.ini read1
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\security.ini read2
+	RUN_TEST_STEP 100 te_SQL_Suite_cap1 CSQLDDT z:\TEF_SQL\security.ini read3
+	RUN_TEST_STEP 100 te_SQL_Suite_cap1 CSQLDDT z:\TEF_SQL\security.ini read4
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\security.ini read4
+END_TESTCASE SYSLIB-SQL-CIT-1840
+
+
+START_TESTCASE SYSLIB-SQL-CIT-1841
+//! @SYMTestCaseID    SYSLIB-SQL-CIT-1841
+//! @SYMTestCaseDesc  PlatSec tests writing to databases
+//! @SYMTestPriority  High
+//! @SYMTestActions   See description and the config file.
+//! @SYMTestExpectedResults
+//!                  The test looks for errors and content
+//!                  within the database. If these are not seen test errors
+//!                  will be generated.
+//!                  
+//! @SYMREQ           REQ5794
+	RUN_TEST_STEP 100 te_SQL_Suite_cap1 CSQLDDT z:\TEF_SQL\security.ini write1
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\security.ini write2
+END_TESTCASE SYSLIB-SQL-CIT-1841
+
+START_TESTCASE SYSLIB-SQL-CIT-1842
+//! @SYMTestCaseID    SYSLIB-SQL-CIT-1842
+//! @SYMTestCaseDesc  PlatSec tests changing the schema of databases
+//! @SYMTestPriority  High
+//! @SYMTestActions   See description and the config file.
+//! @SYMTestExpectedResults
+//!                  The test looks for errors and content
+//!                  within the database. If these are not seen test errors
+//!                  will be generated.
+//!                  
+//! @SYMREQ           REQ5794
+
+	RUN_TEST_STEP 100 te_SQL_Suite_cap1 CSQLDDT z:\TEF_SQL\security.ini schema1
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\security.ini schema2
+END_TESTCASE SYSLIB-SQL-CIT-1842
+
+START_TESTCASE SYSLIB-SQL-CIT-1843
+//! @SYMTestCaseID    SYSLIB-SQL-CIT-1843
+//! @SYMTestCaseDesc  PlatSec tests checking the enforcement of security during attach operations
+//! @SYMTestPriority  High
+//! @SYMTestActions   See description and the config file.
+//! @SYMTestExpectedResults
+//!                  The test looks for errors and content
+//!                  within the database. If these are not seen test errors
+//!                  will be generated.
+//!                  
+//! @SYMREQ           REQ5794
+
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\security.ini attach1
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\security.ini attach2
+	RUN_TEST_STEP -1 te_SQL_Suite_cap1 CSQLDDT z:\TEF_SQL\security.ini attach3
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\security.ini attach4
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\security.ini attach5
+//	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\security.ini attach6
+END_TESTCASE SYSLIB-SQL-CIT-1843
+
+START_TESTCASE SYSLIB-SQL-CIT-1844
+//! @SYMTestCaseID    SYSLIB-SQL-CIT-1844
+//! @SYMTestCaseDesc  PlatSec tests checking the DB Copy operations within the security constraints
+//! @SYMTestPriority  High
+//! @SYMTestActions   See description and the config file.
+//! @SYMTestExpectedResults
+//!                  The test looks for errors and content
+//!                  within the database. If these are not seen test errors
+//!                  will be generated.
+//!                  
+//! @SYMREQ           REQ5794
+
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\security.ini copy1
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\security.ini copy2
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\security.ini copy3
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\security.ini copy4
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\security.ini copy5
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\security.ini copy6
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\security.ini copy7
+END_TESTCASE SYSLIB-SQL-CIT-1844
+
+START_TESTCASE SYSLIB-SQL-CIT-1845
+//! @SYMTestCaseID    SYSLIB-SQL-CIT-1845
+//! @SYMTestCaseDesc  PlatSec tests checking that the table level policy has no effect 
+//!		     as it's not supported yet
+//! @SYMTestPriority  High
+//! @SYMTestActions   See description and the config file.
+//! @SYMTestExpectedResults
+//!                  The test looks for errors and content
+//!                  within the database. If these are not seen test errors
+//!                  will be generated.
+//!                  
+//! @SYMREQ           REQ5794
+
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLCDT z:\TEF_SQL\security.ini policy1
+	RUN_TEST_STEP 100 te_SQL_Suite_cap1 CSQLCDT z:\TEF_SQL\security.ini policy2
+END_TESTCASE SYSLIB-SQL-CIT-1845
+
+RUN_UTILS DeleteFile c:\ext.pol
+
+START_TESTCASE SYSLIB-SQL-CIT-1846
+//! @SYMTestCaseID    SYSLIB-SQL-CIT-1846
+//! @SYMTestCaseDesc  PlatSec tests for RSalSecurity::Externalize and Internalize methods
+//! @SYMTestPriority  High
+//! @SYMTestActions   See description and the config file.
+//! @SYMTestExpectedResults
+//!                  The test looks for errors and content
+//!                  within the database. If these are not seen test errors
+//!                  will be generated.
+//!                  
+//! @SYMREQ           REQ5794
+
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\security.ini External1
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\security.ini External2
+	RUN_TEST_STEP 100 te_SQL_Suite_cap1 CSQLDDT z:\TEF_SQL\security.ini External3
+	RUN_UTILS MakeReadWrite c:\ext.pol
+	RUN_UTILS DeleteFile c:\ext.pol
+	RUN_UTILS CopyFile z:\TEF_SQL\TestData\ext.pol c:\ext.pol
+	RUN_UTILS MakeReadWrite c:\ext.pol
+	RUN_UTILS DeleteFile c:\private\10281e17\[102827c7]ext.db
+	RUN_PANIC_STEP_RESULT 4 SqlDb 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\security.ini External2
+END_TESTCASE SYSLIB-SQL-CIT-1846
+
+RUN_UTILS DeleteFile c:\ext.pol
+RUN_UTILS DeleteFile c:\private\10281e17\[102827c7]sec.db
+RUN_UTILS DeleteFile c:\private\10281e17\[102827c7]sec1.db
+RUN_UTILS DeleteFile c:\private\10281e17\[102827c7]sec2.db
+RUN_UTILS DeleteFile c:\private\10281e17\[102827c7]sec4.db
+RUN_UTILS DeleteFile c:\private\10281e17\[102827c8]sec.db
+RUN_UTILS DeleteFile c:\private\102827c7\sec.db
+RUN_UTILS DeleteFile c:\private\102827c8\sec.db
+RUN_UTILS DeleteFile c:\private\102827c8\sec3.db
+RUN_UTILS DeleteFile c:\private\10281e17\[102827c7]sec_copy.db
+RUN_UTILS DeleteFile c:\private\10281e17\[102827c7]secpol.db
+
+//cleanup
+RUN_UTILS DeleteDirectory c:\private\102827c7\
+RUN_UTILS DeleteDirectory c:\private\102827c8\
+

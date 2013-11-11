@@ -1,0 +1,1764 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+//
+//! @file
+//! @SYMTestSuiteName		SYSLIB-ECOM-PublicAPI
+//! @SYMScriptTestEnvironment	This test script requires a basic ROM.
+/////////////////////////////////////////////////////////////////////
+// SYSLIB-ECOM-PublicAPI.script
+//
+// Tests all public elements of the CImplementationInformation, REComSession and TEComResolverParams
+// classes as a means of confidence that the APIs work as expected.
+//
+// The purpose is to provide a regression test suite of PublishedAll APIs for CImplementationInformation,
+// REComSession and TEComResolverParams.  The tests are fully automated.
+/////////////////////////////////////////////////////////////////////
+
+LOAD_SUITE	T_ECOM
+
+
+/////////////////////////////////////////////////////////////////////
+// REComSession class
+/////////////////////////////////////////////////////////////////////
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0001
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0001
+//! @SYMAPI			REComSession
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		10/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try to register for notification messages and recieve the sent message (new UID added to registry)
+//!				Uses API elements: OpenL(), NotifyOnChange(), Close(), FinalClose().
+//! @SYMTestActions    		1. Open connection. 2. Register for notification messages. 3. Send message (install new plug-in). 4. Recieve message. 5. Close connection. 6. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	Message recieved with no errors
+//! @SYMTestType		CIT
+RUN_PROGRAM			10		TPCopyFileUtility	\ecom\TestProduct_PlugIn.dll|\sys\bin\TestProduct_PlugIn.dll
+RUN_PROGRAM			10		TPCopyFileUtility	\ecom\TestProduct_PlugIn.rsc|\resource\plugins\TestProduct_PlugIn.rsc
+	START_TEST_BLOCK	10		T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	REComSession	session1
+		COMMAND		session1	OpenL		 
+		COMMAND		session1	NotifyOnChange		SYSLIB-ECOM-PublicAPI-0001-001-NotifyOnChange_command02
+		OUTSTANDING
+		COMMAND		session1	CancelNotifyOnChange		 
+		OUTSTANDING
+		COMMAND		session1	Close		 
+		COMMAND		session1	FinalClose		 
+		COMMAND		session1	~		
+	END_TEST_BLOCK	
+END_TESTCASE 			SYSLIB-ECOM-PublicAPI-0001
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0002
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0002
+//! @SYMAPI			REComSession
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		10/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try open connection to ECom server, then close connection and close session without memory leaks
+//!				Uses API elements: OpenL(), Close(), FinalClose().
+//! @SYMTestActions    		1. Open connection. 2. Close connection. 3. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	Connection closed with no errors
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3		T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	REComSession	session1
+		COMMAND		session1	OpenL		 
+		COMMAND		session1	Close		 
+		COMMAND		session1	FinalClose		 
+		COMMAND		session1	~		
+	END_TEST_BLOCK	
+END_TESTCASE 			SYSLIB-ECOM-PublicAPI-0002
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0003
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0003
+//! @SYMAPI			REComSession
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		22/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try close created, but not initialized session
+//!				Uses API elements: Clolse(), FinalClose().
+//! @SYMTestActions		1. Close session. 2. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	Session closed with no errors
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3		T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	REComSession	session1
+		COMMAND		session1	Close		 
+		COMMAND		session1	FinalClose		 
+		COMMAND		session1	~		
+	END_TEST_BLOCK	
+END_TESTCASE                    SYSLIB-ECOM-PublicAPI-0003
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0004
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0004
+//! @SYMAPI			REComSession
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		10/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try finish using ECOM
+//!				Uses API elements: FinalClose().
+//! @SYMTestActions    		1. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	ECOM using finished with no errors
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3		T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	REComSession	session1
+		COMMAND		session1	FinalClose		 
+		COMMAND		session1	~		
+	END_TEST_BLOCK	
+END_TESTCASE 			SYSLIB-ECOM-PublicAPI-0004
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0005
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0005
+//! @SYMAPI			REComSession
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		10/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try de-register for notification messages
+//!				Uses API elements: OpenL(), NotifyOnChange(), CancelNotifyOnChange(), Close(), FinalClose().
+//! @SYMTestActions    		1. Open connection. 2. Register for notification messages. 3. De-register for notification messages.
+//!				4. Close connection. 5. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	De-reistration for notification messages ends with no errors
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3		T_ECOM					\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT			REComSession	session1
+		COMMAND				session1	OpenL		 
+		COMMAND		!AsyncError=-3	session1	NotifyOnChange		 
+		ASYNC_DELAY	10
+		COMMAND				session1	CancelNotifyOnChange		 
+		OUTSTANDING
+		COMMAND				session1	Close		 
+		COMMAND				session1	FinalClose		 
+		COMMAND				session1	~		
+	END_TEST_BLOCK	
+END_TESTCASE 			SYSLIB-ECOM-PublicAPI-0005
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0006
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0006
+//! @SYMAPI			REComSession, TEComResolverParams
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		10/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try retrieve a list of all the implementations(1) which satisfy the specified interface with
+//!				selection restriction to the specified parameters
+//!				Uses API elements: ListImplementationsL(), FinalClose().
+//! @SYMTestActions    		1. Retrieve a list of existing implementations. 2. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	List retrieved with no errors
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	TEComResolverParams	resolver1
+		CREATE_OBJECT	REComSession		session1
+		COMMAND		resolver1		SetGenericMatch		SYSLIB-ECOM-PublicAPI-0006-001-SetGenericMatch_command01
+		COMMAND		resolver1		SetWildcardMatch	SYSLIB-ECOM-PublicAPI-0006-001-SetWildcardMatch_command02
+		COMMAND		resolver1		SetDataType		SYSLIB-ECOM-PublicAPI-0006-001-SetDataType_command03
+		COMMAND		session1		OpenL		
+		COMMAND		session1		ListImplementationsL	SYSLIB-ECOM-PublicAPI-0006-001-ListImplementationsL_command06
+		COMMAND		session1		Close		
+		COMMAND		session1		FinalClose		
+		COMMAND		session1		~		
+	END_TEST_BLOCK	
+END_TESTCASE 			SYSLIB-ECOM-PublicAPI-0006
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0007
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0007
+//! @SYMAPI			REComSession
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		10/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try retrieve a list of all the implementations(2) which satisfy the specified interface
+//!				Uses API elements: ListImplementationsL(), FinalClose().
+//! @SYMTestActions    		1. Retrieve a list of existing implementations. 2. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	List retrieved with no errors
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3		T_ECOM				\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	REComSession	session1
+		COMMAND		session1	OpenL		
+		COMMAND		session1	ListImplementationsL		SYSLIB-ECOM-PublicAPI-0007-001-ListImplementationsL_command02
+		COMMAND		session1	Close		
+		COMMAND		session1	FinalClose		
+		COMMAND		session1	~		
+	END_TEST_BLOCK	
+END_TESTCASE 			SYSLIB-ECOM-PublicAPI-0007
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0008
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0008
+//! @SYMAPI			REComSession, TEComResolverParams
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		10/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try retrieve a list of all the implementations(3) which satisfy the specified interface with
+//!				selection restriction to the specified parameters and overload with a client provided CResolver
+//!				Uses API elements: ListImplementationsL(), FinalClose().
+//! @SYMTestActions    		1. Retrieve a list of existing implementations. 2. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	List retrieved with no errors
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	TEComResolverParams	resolver1
+		CREATE_OBJECT	REComSession		session1
+		COMMAND		resolver1		SetGenericMatch		SYSLIB-ECOM-PublicAPI-0008-001-SetGenericMatch_command01
+		COMMAND		resolver1		SetWildcardMatch	SYSLIB-ECOM-PublicAPI-0008-001-SetWildcardMatch_command02
+		COMMAND		resolver1		SetDataType		SYSLIB-ECOM-PublicAPI-0008-001-SetDataType_command03
+		COMMAND		session1		OpenL		
+		COMMAND		session1		ListImplementationsL	SYSLIB-ECOM-PublicAPI-0008-001-ListImplementationsL_command06
+		COMMAND		session1		Close		
+		COMMAND		session1		FinalClose		
+		COMMAND		session1		~		
+	END_TEST_BLOCK	
+END_TESTCASE 			SYSLIB-ECOM-PublicAPI-0008
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0009
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0009
+//! @SYMAPI			REComSession
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		10/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try instantiate an interface implementation to satisfy the specified interface (1)
+//!				(TUid aImplementationUid, TUid \&aDtorIDKey)
+//!				Uses API elements: CreateImplementationL(), DestroyedImplementation(), FinalClose().
+//! @SYMTestActions    		1. Create implementation with correct arguments. 2. Destroy implementation. 3. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	Implementation created with no errors
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3		T_ECOM				\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	REComSession	session1
+		COMMAND		session1	OpenL		
+		COMMAND		session1	CreateImplementationL		SYSLIB-ECOM-PublicAPI-0009-001-CreateImplementationL_command02
+		COMMAND		session1	DestroyedImplementation		
+		COMMAND		session1	Close		
+		COMMAND		session1	FinalClose		
+		COMMAND		session1	~		
+	END_TEST_BLOCK	
+END_TESTCASE 			SYSLIB-ECOM-PublicAPI-0009
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0010
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0010
+//! @SYMAPI			REComSession
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		10/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try instantiate an interface implementation to satisfy the specified interface (2)
+//!				(TUid aImplementationUid, TInt32 aKeyOffset)
+//!				Uses API elements: CreateImplementationL(), DestroyedImplementation(), FinalClose().
+//! @SYMTestActions    		1. Create implementation with correct arguments. 2. Destroy implementation. 3. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	Implementation created with no errors
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3		T_ECOM				\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	REComSession	session1
+		COMMAND		session1	OpenL		
+		COMMAND		session1	CreateImplementationL		SYSLIB-ECOM-PublicAPI-0010-001-CreateImplementationL_command02
+		COMMAND		session1	DestroyedImplementation		
+		COMMAND		session1	Close		
+		COMMAND		session1	FinalClose		
+		COMMAND		session1	~		
+	END_TEST_BLOCK	
+END_TESTCASE 			SYSLIB-ECOM-PublicAPI-0010
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0011
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0011
+//! @SYMAPI			REComSession
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		10/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try instantiate an interface implementation to satisfy the specified interface (3)
+//!				(TUid aImplementationUid, TUid \&aDtorIDKey, TAny *aConstructionParameters)
+//!				Uses API elements: CreateImplementationL(), DestroyedImplementation(), FinalClose().
+//! @SYMTestActions    		1. Create implementation with correct arguments. 2. Destroy implementation. 3. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	Implementation created with no errors
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3		T_ECOM				\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	REComSession	session1
+		COMMAND		session1	OpenL		
+		COMMAND		session1	CreateImplementationL		SYSLIB-ECOM-PublicAPI-0011-001-CreateImplementationL_command02
+		COMMAND		session1	DestroyedImplementation		
+		COMMAND		session1	Close		
+		COMMAND		session1	FinalClose		
+		COMMAND		session1	~		
+	END_TEST_BLOCK	
+END_TESTCASE 			SYSLIB-ECOM-PublicAPI-0011
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0012
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0012
+//! @SYMAPI			REComSession
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		10/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try instantiate an interface implementation to satisfy the specified interface (4)
+//!				(TUid aImplementationUid, TInt32 aKeyOffset, TAny *aConstructionParameters)
+//!				Uses API elements: CreateImplementationL(), DestroyedImplementation(), FinalClose().
+//! @SYMTestActions    		1. Create implementation with correct arguments. 2. Destroy implementation. 3. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	Implementation created with no errors
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3		T_ECOM				\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	REComSession	session1
+		COMMAND		session1	OpenL		
+		COMMAND		session1	CreateImplementationL		SYSLIB-ECOM-PublicAPI-0012-001-CreateImplementationL_command02
+		COMMAND		session1	DestroyedImplementation		
+		COMMAND		session1	Close		
+		COMMAND		session1	FinalClose		
+		COMMAND		session1	~		
+	END_TEST_BLOCK	
+END_TESTCASE 			SYSLIB-ECOM-PublicAPI-0012
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0013
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0013
+//! @SYMAPI			REComSession, TEComResolverParams
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		10/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try instantiate an interface implementation to satisfy the specified interface (5)
+//!				(TUid aInterfaceUid, TUid \&aDtorIDKey, const TEComResolverParams \&aResolutionParameters)
+//!				Uses API elements: CreateImplementationL(), DestroyedImplementation(), FinalClose().
+//! @SYMTestActions    		1. Create implementation with correct arguments. 2. Destroy implementation. 3. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	Implementation created with no errors
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	TEComResolverParams	resolver1
+		CREATE_OBJECT	REComSession		session1
+		COMMAND		resolver1		SetGenericMatch		SYSLIB-ECOM-PublicAPI-0013-001-SetGenericMatch_command01
+		COMMAND		resolver1		SetWildcardMatch	SYSLIB-ECOM-PublicAPI-0013-001-SetWildcardMatch_command02
+		COMMAND		resolver1		SetDataType		SYSLIB-ECOM-PublicAPI-0013-001-SetDataType_command03
+		COMMAND		session1		OpenL		
+		COMMAND		session1		CreateImplementationL	SYSLIB-ECOM-PublicAPI-0013-001-CreateImplementationL_command06
+		COMMAND		session1		DestroyedImplementation		
+		COMMAND		session1		Close		
+		COMMAND		session1		FinalClose		
+		COMMAND		session1		~		
+	END_TEST_BLOCK	
+END_TESTCASE 			SYSLIB-ECOM-PublicAPI-0013
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0014
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0014
+//! @SYMAPI			REComSession, TEComResolverParams
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		10/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try instantiate an interface implementation to satisfy the specified interface (6)
+//!				(TUid aInterfaceUid, TInt32 aKeyOffset, const TEComResolverParams \&aResolutionParameters)
+//!				Uses API elements: CreateImplementationL(), DestroyedImplementation(), FinalClose().
+//! @SYMTestActions    		1. Create implementation with correct arguments. 2. Destroy implementation. 3. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	Implementation created with no errors
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	TEComResolverParams	resolver1
+		CREATE_OBJECT	REComSession		session1
+		COMMAND		resolver1		SetGenericMatch		SYSLIB-ECOM-PublicAPI-0014-001-SetGenericMatch_command01
+		COMMAND		resolver1		SetWildcardMatch	SYSLIB-ECOM-PublicAPI-0014-001-SetWildcardMatch_command02
+		COMMAND		resolver1		SetDataType		SYSLIB-ECOM-PublicAPI-0014-001-SetDataType_command03
+		COMMAND		session1		OpenL		
+		COMMAND		session1		CreateImplementationL	SYSLIB-ECOM-PublicAPI-0014-001-CreateImplementationL_command06
+		COMMAND		session1		DestroyedImplementation		
+		COMMAND		session1		Close		
+		COMMAND		session1		FinalClose		
+		COMMAND		session1		~		
+	END_TEST_BLOCK	
+END_TESTCASE 			SYSLIB-ECOM-PublicAPI-0014
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0015
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0015
+//! @SYMAPI			REComSession, TEComResolverParams
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		10/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try instantiate an interface implementation to satisfy the specified interface (7)
+//!				(TUid aInterfaceUid, TUid \&aDtorIDKey, TAny *aConstructionParameters, const TEComResolverParams \&aResolutionParameters)(TUid aInterfaceUid, TInt32 aKeyOffset, TAny *aConstructionParameters, const TEComResolverParams \&aResolutionParameters)
+//!				Uses API elements: CreateImplementationL(), DestroyedImplementation(), FinalClose().
+//! @SYMTestActions    		1. Create implementation with correct arguments. 2. Destroy implementation. 3. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	Implementation created with no errors
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	TEComResolverParams	resolver1
+		CREATE_OBJECT	REComSession		session1
+		COMMAND		resolver1		SetGenericMatch		SYSLIB-ECOM-PublicAPI-0015-001-SetGenericMatch_command01
+		COMMAND		resolver1		SetWildcardMatch	SYSLIB-ECOM-PublicAPI-0015-001-SetWildcardMatch_command02
+		COMMAND		resolver1		SetDataType		SYSLIB-ECOM-PublicAPI-0015-001-SetDataType_command03
+		COMMAND		session1		OpenL		
+		COMMAND		session1		CreateImplementationL	SYSLIB-ECOM-PublicAPI-0015-001-CreateImplementationL_command06
+		COMMAND		session1		DestroyedImplementation		
+		COMMAND		session1		Close		
+		COMMAND		session1		FinalClose		
+		COMMAND		session1		~		
+	END_TEST_BLOCK	
+END_TESTCASE 			SYSLIB-ECOM-PublicAPI-0015
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0016
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0016
+//! @SYMAPI			REComSession, TEComResolverParams
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		10/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try instantiate an interface implementation to satisfy the specified interface (8)
+//!				(TUid aInterfaceUid, TInt32 aKeyOffset, TAny *aConstructionParameters, const TEComResolverParams \&aResolutionParameters)
+//!				Uses API elements: CreateImplementationL(), DestroyedImplementation(), FinalClose().
+//! @SYMTestActions    		1. Create implementation with correct arguments. 2. Destroy implementation. 3. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	Implementation created with no errors
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	TEComResolverParams	resolver1
+		CREATE_OBJECT	REComSession		session1
+		COMMAND		resolver1		SetGenericMatch		SYSLIB-ECOM-PublicAPI-0016-001-SetGenericMatch_command01
+		COMMAND		resolver1		SetWildcardMatch	SYSLIB-ECOM-PublicAPI-0016-001-SetWildcardMatch_command02
+		COMMAND		resolver1		SetDataType		SYSLIB-ECOM-PublicAPI-0016-001-SetDataType_command03
+		COMMAND		session1		OpenL		
+		COMMAND		session1		CreateImplementationL	SYSLIB-ECOM-PublicAPI-0016-001-CreateImplementationL_command06
+		COMMAND		session1		DestroyedImplementation		
+		COMMAND		session1		Close		
+		COMMAND		session1		FinalClose		
+		COMMAND		session1		~		
+	END_TEST_BLOCK	
+END_TESTCASE 			SYSLIB-ECOM-PublicAPI-0016
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0017
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0017
+//! @SYMAPI			REComSession, TEComResolverParams
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		10/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try instantiate an interface implementation to satisfy the specified interface (9)
+//!				(TUid aInterfaceUid, TUid \&aDtorIDKey, const TEComResolverParams \&aResolutionParameters, TUid aResolverUid)
+//!				Uses API elements: CreateImplementationL(), DestroyedImplementation(), FinalClose().
+//! @SYMTestActions    		1. Create implementation with correct arguments. 2. Destroy implementation. 3. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	Implementation created with no errors
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	TEComResolverParams	resolver1
+		CREATE_OBJECT	REComSession		session1
+		COMMAND		resolver1		SetGenericMatch		SYSLIB-ECOM-PublicAPI-0017-001-SetGenericMatch_command01
+		COMMAND		resolver1		SetWildcardMatch	SYSLIB-ECOM-PublicAPI-0017-001-SetWildcardMatch_command02
+		COMMAND		resolver1		SetDataType		SYSLIB-ECOM-PublicAPI-0017-001-SetDataType_command03
+		COMMAND		session1		OpenL		
+		COMMAND		session1		CreateImplementationL	SYSLIB-ECOM-PublicAPI-0017-001-CreateImplementationL_command06
+		COMMAND		session1		DestroyedImplementation		
+		COMMAND		session1		Close		
+		COMMAND		session1		FinalClose		
+		COMMAND		session1		~		
+	END_TEST_BLOCK	
+END_TESTCASE 			SYSLIB-ECOM-PublicAPI-0017
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0018
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0018
+//! @SYMAPI			REComSession, TEComResolverParams
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		10/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try instantiate an interface implementation to satisfy the specified interface (10)
+//!				(TUid aInterfaceUid, TInt32 aKeyOffset, const TEComResolverParams \&aResolutionParameters, TUid aResolverUid)
+//!				Uses API elements: CreateImplementationL(), DestroyedImplementation(), FinalClose().
+//! @SYMTestActions    		1. Create implementation with correct arguments. 2. Destroy implementation. 3. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	Implementation created with no errors
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	TEComResolverParams	resolver1
+		CREATE_OBJECT	REComSession		session1
+		COMMAND		resolver1		SetGenericMatch		SYSLIB-ECOM-PublicAPI-0018-001-SetGenericMatch_command01
+		COMMAND		resolver1		SetWildcardMatch	SYSLIB-ECOM-PublicAPI-0018-001-SetWildcardMatch_command02
+		COMMAND		resolver1		SetDataType		SYSLIB-ECOM-PublicAPI-0018-001-SetDataType_command03
+		COMMAND		session1		OpenL		
+		COMMAND		session1		CreateImplementationL	SYSLIB-ECOM-PublicAPI-0018-001-CreateImplementationL_command06
+		COMMAND		session1		DestroyedImplementation		
+		COMMAND		session1		Close		
+		COMMAND		session1		FinalClose		
+		COMMAND		session1		~		
+	END_TEST_BLOCK	
+END_TESTCASE 			SYSLIB-ECOM-PublicAPI-0018
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0019
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0019
+//! @SYMAPI			REComSession, TEComResolverParams
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		10/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try instantiate an interface implementation to satisfy the specified interface (11)
+//!				(TUid aInterfaceUid, TUid \&aDtorIDKey, TAny *aConstructionParameters, const TEComResolverParams \&aResolutionParameters, TUid aResolverUid)
+//!				Uses API elements: CreateImplementationL(), DestroyedImplementation(), FinalClose().
+//! @SYMTestActions    		1. Create implementation with correct arguments. 2. Destroy implementation. 3. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	Implementation created with no errors
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	TEComResolverParams	resolver1
+		CREATE_OBJECT	REComSession	session1
+		COMMAND		resolver1	SetGenericMatch		SYSLIB-ECOM-PublicAPI-0019-001-SetGenericMatch_command01
+		COMMAND		resolver1	SetWildcardMatch		SYSLIB-ECOM-PublicAPI-0019-001-SetWildcardMatch_command02
+		COMMAND		resolver1	SetDataType		SYSLIB-ECOM-PublicAPI-0019-001-SetDataType_command03
+		COMMAND		session1	OpenL		
+		COMMAND		session1	CreateImplementationL		SYSLIB-ECOM-PublicAPI-0019-001-CreateImplementationL_command06
+		COMMAND		session1	DestroyedImplementation		
+		COMMAND		session1	Close		
+		COMMAND		session1	FinalClose		
+		COMMAND		session1	~		
+	END_TEST_BLOCK	
+END_TESTCASE 			SYSLIB-ECOM-PublicAPI-0019
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0020
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0020
+//! @SYMAPI			REComSession, TEComResolverParams
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		10/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try instantiate an interface implementation to satisfy the specified interface (12)
+//!				(TUid aInterfaceUid, TInt32 aKeyOffset, TAny *aConstructionParameters, const TEComResolverParams \&aResolutionParameters, TUid aResolverUid)
+//!				Uses API elements: CreateImplementationL(), DestroyedImplementation(), FinalClose().
+//! @SYMTestActions    		1. Create implementation with correct arguments. 2. Destroy implementation. 3. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	Implementation created with no errors
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	TEComResolverParams	resolver1
+		CREATE_OBJECT	REComSession	session1
+		COMMAND		resolver1	SetGenericMatch		SYSLIB-ECOM-PublicAPI-0020-001-SetGenericMatch_command01
+		COMMAND		resolver1	SetWildcardMatch		SYSLIB-ECOM-PublicAPI-0020-001-SetWildcardMatch_command02
+		COMMAND		resolver1	SetDataType		SYSLIB-ECOM-PublicAPI-0020-001-SetDataType_command03
+		COMMAND		session1	OpenL		
+		COMMAND		session1	CreateImplementationL		SYSLIB-ECOM-PublicAPI-0020-001-CreateImplementationL_command06
+		COMMAND		session1	DestroyedImplementation		
+		COMMAND		session1	Close		
+		COMMAND		session1	FinalClose		
+		COMMAND		session1	~		
+	END_TEST_BLOCK	
+END_TESTCASE 			SYSLIB-ECOM-PublicAPI-0020
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0021
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0021
+//! @SYMAPI			REComSession, TEComResolverParams
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		22/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try retrieve a list of all the implementations(1) with wrong interface uid
+//!				Uses API elements: ListImplementationsL(), FinalClose().
+//! @SYMTestActions		1. Retrieve a list of implementations with  wrong interface uid. 2. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	KErrArgument. The implementations list isn't returned and aImplInfoArray isn't initialised.
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	TEComResolverParams	resolver1
+		CREATE_OBJECT	REComSession	session1
+		COMMAND			resolver1	SetGenericMatch		SYSLIB-ECOM-PublicAPI-0021-001-SetGenericMatch_command01
+		COMMAND			resolver1	SetWildcardMatch		SYSLIB-ECOM-PublicAPI-0021-001-SetWildcardMatch_command02
+		COMMAND			resolver1	SetDataType		SYSLIB-ECOM-PublicAPI-0021-001-SetDataType_command03
+		COMMAND			session1	OpenL		
+		COMMAND	!Error=-6	session1	ListImplementationsL		SYSLIB-ECOM-PublicAPI-0021-001-ListImplementationsL_command06
+		COMMAND			session1	Close		
+		COMMAND			session1	FinalClose		
+		COMMAND			session1	~		
+	END_TEST_BLOCK	
+END_TESTCASE                    SYSLIB-ECOM-PublicAPI-0021
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0022
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0022
+//! @SYMAPI			REComSession, TEComResolverParams
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		22/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try retrieve a list of all the implementations(1) with impossible parameter conditions
+//!				Uses API elements: ListImplementationsL(), FinalClose().
+//! @SYMTestActions		1. Retrieve a list of implementations with impossible parameter conditions. 2. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	KErrArgument. The implementations list isn't returned and aImplInfoArray isn't initialised.
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	TEComResolverParams	resolver1
+		CREATE_OBJECT	REComSession	session1
+		COMMAND			resolver1	SetGenericMatch		SYSLIB-ECOM-PublicAPI-0022-001-SetGenericMatch_command01
+		COMMAND			resolver1	SetWildcardMatch		SYSLIB-ECOM-PublicAPI-0022-001-SetWildcardMatch_command02
+		COMMAND			resolver1	SetDataType		SYSLIB-ECOM-PublicAPI-0022-001-SetDataType_command03
+		COMMAND			session1	OpenL		
+		COMMAND	!Error=-6	session1	ListImplementationsL		SYSLIB-ECOM-PublicAPI-0022-001-ListImplementationsL_command06
+		COMMAND			session1	Close		
+		COMMAND			session1	FinalClose		
+		COMMAND			session1	~		
+	END_TEST_BLOCK	
+END_TESTCASE			SYSLIB-ECOM-PublicAPI-0022
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0023
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0023
+//! @SYMAPI			REComSession
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		22/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try retrieve a list of all the implementations(2) with wrong interface uid
+//!				Uses API elements: ListImplementationsL(), FinalClose().
+//! @SYMTestActions		1. Retrieve a list of implementations with wrong interface uid. 2. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	KErrArgument. The implementations list isn't returned and aImplInfoArray isn't initialised.
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	REComSession	session1
+		COMMAND			session1	OpenL		
+		COMMAND	!Error=-6	session1	ListImplementationsL		SYSLIB-ECOM-PublicAPI-0023-001-ListImplementationsL_command02
+		COMMAND			session1	Close		
+		COMMAND			session1	FinalClose		
+		COMMAND			session1	~		
+	END_TEST_BLOCK	
+END_TESTCASE                    SYSLIB-ECOM-PublicAPI-0023
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0024
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0024
+//! @SYMAPI			REComSession, TEComResolverParams
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		22/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try retrieve a list of all the implementations(3) with wrong interface uid
+//!				Uses API elements: ListImplementationsL(), FinalClose().
+//! @SYMTestActions		1. Retrieve a list of implementations with wrong interface uid. 2. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	KErrArgument. The implementations list isn't returned and aImplInfoArray isn't initialised.
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	TEComResolverParams	resolver1
+		CREATE_OBJECT	REComSession	session1
+		COMMAND			resolver1	SetGenericMatch		SYSLIB-ECOM-PublicAPI-0024-001-SetGenericMatch_command01
+		COMMAND			resolver1	SetWildcardMatch		SYSLIB-ECOM-PublicAPI-0024-001-SetWildcardMatch_command02
+		COMMAND			resolver1	SetDataType		SYSLIB-ECOM-PublicAPI-0024-001-SetDataType_command03
+		COMMAND			session1	OpenL		
+		COMMAND	!Error=-6	session1	ListImplementationsL		SYSLIB-ECOM-PublicAPI-0024-001-ListImplementationsL_command06
+		COMMAND			session1	Close		
+		COMMAND			session1	FinalClose		
+		COMMAND			session1	~		
+	END_TEST_BLOCK	
+END_TESTCASE                    SYSLIB-ECOM-PublicAPI-0024
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0025
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0025
+//! @SYMAPI			REComSession, TEComResolverParams
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		22/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try retrieve a list of all the implementations(3) with impossible parameter conditions
+//!				Uses API elements: ListImplementationsL(), FinalClose().
+//! @SYMTestActions		1. Retrieve a list of implementations with impossible parameter conditions. 2. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	KErrArgument. The implementations list isn't returned and aImplInfoArray isn't initialised.
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	TEComResolverParams	resolver1
+		CREATE_OBJECT	REComSession	session1
+		COMMAND			resolver1	SetGenericMatch		SYSLIB-ECOM-PublicAPI-0025-001-SetGenericMatch_command01
+		COMMAND			resolver1	SetWildcardMatch		SYSLIB-ECOM-PublicAPI-0025-001-SetWildcardMatch_command02
+		COMMAND			resolver1	SetDataType		SYSLIB-ECOM-PublicAPI-0025-001-SetDataType_command03
+		COMMAND			session1	OpenL		
+		COMMAND	!Error=-6	session1	ListImplementationsL		SYSLIB-ECOM-PublicAPI-0025-001-ListImplementationsL_command06
+		COMMAND			session1	Close		
+		COMMAND			session1	FinalClose		
+		COMMAND			session1	~		
+	END_TEST_BLOCK	
+END_TESTCASE			SYSLIB-ECOM-PublicAPI-0025
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0026
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0026
+//! @SYMAPI			REComSession, TEComResolverParams
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		22/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try retrieve a list of all the implementations(3) with wrong resolver uid
+//!				Uses API elements: ListImplementationsL(), FinalClose().
+//! @SYMTestActions		1. Retrieve a list of implementations with wrong resolver uid. 2. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	KErrArgument. The implementations list isn't returned and aImplInfoArray isn't initialised.
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	TEComResolverParams	resolver1
+		CREATE_OBJECT	REComSession	session1
+		COMMAND			resolver1	SetGenericMatch		SYSLIB-ECOM-PublicAPI-0026-001-SetGenericMatch_command01
+		COMMAND			resolver1	SetWildcardMatch		SYSLIB-ECOM-PublicAPI-0026-001-SetWildcardMatch_command02
+		COMMAND			resolver1	SetDataType		SYSLIB-ECOM-PublicAPI-0026-001-SetDataType_command03
+		COMMAND			session1	OpenL		
+		COMMAND	!Error=-6	session1	ListImplementationsL		SYSLIB-ECOM-PublicAPI-0026-001-ListImplementationsL_command06
+		COMMAND			session1	Close		
+		COMMAND			session1	FinalClose		
+		COMMAND			session1	~		
+	END_TEST_BLOCK	
+END_TESTCASE                    SYSLIB-ECOM-PublicAPI-0026
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0027
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0027
+//! @SYMAPI			REComSession
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		22/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try instantiate an interface implementation(1) with wrong interface uid
+//!				Uses API elements: CreateImplementationL(), FinalClose().
+//! @SYMTestActions		1. Create implementation with wrong interface uid. 2. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	KErrArgument. Creation of interface implementation has failed.
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	REComSession	session1
+		COMMAND			session1	OpenL		
+		COMMAND	!Error=-6	session1	CreateImplementationL		SYSLIB-ECOM-PublicAPI-0027-001-CreateImplementationL_command02
+		COMMAND			session1	Close		
+		COMMAND			session1	FinalClose		
+		COMMAND			session1	~		
+	END_TEST_BLOCK	
+END_TESTCASE                    SYSLIB-ECOM-PublicAPI-0027
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0028
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0028
+//! @SYMAPI			REComSession
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		22/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try instantiate an interface implementation(2) with wrong interface uid
+//!				Uses API elements: CreateImplementationL(), FinalClose().
+//! @SYMTestActions		1. Create implementation with wrong interface uid. 2. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	KErrArgument. Creation of interface implementation has failed.
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	REComSession	session1
+		COMMAND			session1	OpenL		
+		COMMAND	!Error=-6	session1	CreateImplementationL		SYSLIB-ECOM-PublicAPI-0028-001-CreateImplementationL_command02
+		COMMAND			session1	DestroyedImplementation		SYSLIB-ECOM-PublicAPI-0028-001-DestroyedImplementation_command03
+		COMMAND			session1	Close		
+		COMMAND			session1	FinalClose		
+		COMMAND			session1	~		
+	END_TEST_BLOCK	
+END_TESTCASE                    SYSLIB-ECOM-PublicAPI-0028
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0030
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0030
+//! @SYMAPI			REComSession
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		22/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try instantiate an interface implementation(3) with wrong
+//!				interface uid
+//!				Uses API elements: CreateImplementationL(), FinalClose().
+//! @SYMTestActions		1. Create implementation with wrong interface uid. 2. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	KErrArgument. Creation of interface implementation has failed.
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	REComSession	session1
+		COMMAND			session1	OpenL		
+		COMMAND	!Error=-6	session1	CreateImplementationL		SYSLIB-ECOM-PublicAPI-0030-001-CreateImplementationL_command02
+		COMMAND			session1	Close		
+		COMMAND			session1	FinalClose		
+		COMMAND			session1	~		
+	END_TEST_BLOCK	
+END_TESTCASE                    SYSLIB-ECOM-PublicAPI-0030
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0031
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0031
+//! @SYMAPI			REComSession
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		22/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try instantiate an interface implementation(4) with wrong
+//!				interface uid
+//!				Uses API elements: CreateImplementationL(), FinalClose().
+//! @SYMTestActions		1. Create implementation with wrong interface uid. 2. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	KErrArgument. Creation of interface implementation has failed.
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	REComSession	session1
+		COMMAND			session1	OpenL		
+		COMMAND	!Error=-6	session1	CreateImplementationL		SYSLIB-ECOM-PublicAPI-0031-001-CreateImplementationL_command02
+		COMMAND			session1	Close		
+		COMMAND			session1	FinalClose		
+		COMMAND			session1	~		
+	END_TEST_BLOCK	
+END_TESTCASE                    SYSLIB-ECOM-PublicAPI-0031
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0033
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0033
+//! @SYMAPI			REComSession, TEComResolverParams
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		22/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try instantiate an interface implementation(5) with wrong
+//!				interface uid
+//!				Uses API elements: CreateImplementationL(), FinalClose().
+//! @SYMTestActions		1. Create implementation with wrong interface uid. 2. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	KErrArgument. Creation of interface implementation has failed.
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	TEComResolverParams	resolver1
+		CREATE_OBJECT	REComSession	session1
+		COMMAND			resolver1	SetGenericMatch		SYSLIB-ECOM-PublicAPI-0033-001-SetGenericMatch_command01
+		COMMAND			resolver1	SetWildcardMatch		SYSLIB-ECOM-PublicAPI-0033-001-SetWildcardMatch_command02
+		COMMAND			resolver1	SetDataType		SYSLIB-ECOM-PublicAPI-0033-001-SetDataType_command03
+		COMMAND			session1	OpenL		
+		COMMAND	!Error=-6	session1	CreateImplementationL		SYSLIB-ECOM-PublicAPI-0033-001-CreateImplementationL_command06
+		COMMAND			session1	Close		
+		COMMAND			session1	FinalClose		
+		COMMAND			session1	~		
+	END_TEST_BLOCK	
+END_TESTCASE                    SYSLIB-ECOM-PublicAPI-0033
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0034
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0034
+//! @SYMAPI			REComSession, TEComResolverParams
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		22/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try instantiate an interface implementation(5) with impossible
+//!				parameter conditions
+//!				Uses API elements: CreateImplementationL(), FinalClose().
+//! @SYMTestActions		1. Create implementation with impossible parameter conditions. 2. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	KErrArgument. Creation of interface implementation has failed.
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	TEComResolverParams	resolver1
+		CREATE_OBJECT	REComSession	session1
+		COMMAND			resolver1	SetGenericMatch		SYSLIB-ECOM-PublicAPI-0034-001-SetGenericMatch_command01
+		COMMAND			resolver1	SetWildcardMatch		SYSLIB-ECOM-PublicAPI-0034-001-SetWildcardMatch_command02
+		COMMAND			resolver1	SetDataType		SYSLIB-ECOM-PublicAPI-0034-001-SetDataType_command03
+		COMMAND			session1	OpenL		
+		COMMAND	!Error=-6	session1	CreateImplementationL		SYSLIB-ECOM-PublicAPI-0034-001-CreateImplementationL_command06
+		COMMAND			session1	Close		
+		COMMAND			session1	FinalClose		
+		COMMAND			session1	~		
+	END_TEST_BLOCK	
+END_TESTCASE                    SYSLIB-ECOM-PublicAPI-0034
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0035
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0035
+//! @SYMAPI			REComSession, TEComResolverParams
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		22/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try instantiate an interface implementation(6) with wrong
+//!				interface uid
+//!				Uses API elements: CreateImplementationL(), FinalClose().
+//! @SYMTestActions		1. Create implementation with wrong interface uid. 2. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	KErrArgument. Creation of interface implementation has failed.
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	TEComResolverParams	resolver1
+		CREATE_OBJECT	REComSession	session1
+		COMMAND			resolver1	SetGenericMatch		SYSLIB-ECOM-PublicAPI-0035-001-SetGenericMatch_command01
+		COMMAND			resolver1	SetWildcardMatch		SYSLIB-ECOM-PublicAPI-0035-001-SetWildcardMatch_command02
+		COMMAND			resolver1	SetDataType		SYSLIB-ECOM-PublicAPI-0035-001-SetDataType_command03
+		COMMAND			session1	OpenL		
+		COMMAND	!Error=-6	session1	CreateImplementationL		SYSLIB-ECOM-PublicAPI-0035-001-CreateImplementationL_command06
+		COMMAND			session1	Close		
+		COMMAND			session1	FinalClose		
+		COMMAND			session1	~		
+	END_TEST_BLOCK	
+END_TESTCASE                    SYSLIB-ECOM-PublicAPI-0035
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0037
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0037
+//! @SYMAPI			REComSession, TEComResolverParams
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		22/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try instantiate an interface implementation(6) with non discoverable
+//!				parameter conditions
+//!				Uses API elements: CreateImplementationL(), FinalClose().
+//! @SYMTestActions		1. Create implementation with non discoverable parameter conditions. 2. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	KErrNotFOund
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	TEComResolverParams	resolver1
+		CREATE_OBJECT	REComSession	session1
+		COMMAND			resolver1	SetGenericMatch		SYSLIB-ECOM-PublicAPI-0037-001-SetGenericMatch_command01
+		COMMAND			resolver1	SetWildcardMatch		SYSLIB-ECOM-PublicAPI-0037-001-SetWildcardMatch_command02
+		COMMAND			resolver1	SetDataType		SYSLIB-ECOM-PublicAPI-0037-001-SetDataType_command03
+		COMMAND			session1	OpenL		
+		COMMAND	!Error=-1	session1	CreateImplementationL		SYSLIB-ECOM-PublicAPI-0037-001-CreateImplementationL_command06
+		COMMAND			session1	Close		
+		COMMAND			session1	FinalClose		
+		COMMAND			session1	~		
+	END_TEST_BLOCK	
+END_TESTCASE                    SYSLIB-ECOM-PublicAPI-0037
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0038
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0038
+//! @SYMAPI			REComSession, TEComResolverParams
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		22/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try instantiate an interface implementation(7) with wrong
+//!				interface uid
+//!				Uses API elements: CreateImplementationL(), FinalClose(), FinalClose().
+//! @SYMTestActions		1. Create implementation with wrong interface uid.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	KErrArgument. Creation of interface implementation has failed. 2. Finish using ECOM.
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	TEComResolverParams	resolver1
+		CREATE_OBJECT	REComSession	session1
+		COMMAND			resolver1	SetGenericMatch		SYSLIB-ECOM-PublicAPI-0038-001-SetGenericMatch_command01
+		COMMAND			resolver1	SetWildcardMatch		SYSLIB-ECOM-PublicAPI-0038-001-SetWildcardMatch_command02
+		COMMAND			resolver1	SetDataType		SYSLIB-ECOM-PublicAPI-0038-001-SetDataType_command03
+		COMMAND			session1	OpenL		
+		COMMAND	!Error=-6	session1	CreateImplementationL		SYSLIB-ECOM-PublicAPI-0038-001-CreateImplementationL_command06
+		COMMAND			session1	Close		
+		COMMAND			session1	FinalClose		
+		COMMAND			session1	~		
+	END_TEST_BLOCK	
+END_TESTCASE                    SYSLIB-ECOM-PublicAPI-0038
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0039
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0039
+//! @SYMAPI			REComSession, TEComResolverParams
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		22/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try instantiate an interface implementation(7) with non discoverable
+//!				parameter conditions
+//!				Uses API elements: CreateImplementationL(), FinalClose().
+//! @SYMTestActions		1. Create implementation with non discoverable parameter conditions. 2. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	KErrNotFOund
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	TEComResolverParams	resolver1
+		CREATE_OBJECT	REComSession	session1
+		COMMAND			resolver1	SetGenericMatch		SYSLIB-ECOM-PublicAPI-0039-001-SetGenericMatch_command01
+		COMMAND			resolver1	SetWildcardMatch		SYSLIB-ECOM-PublicAPI-0039-001-SetWildcardMatch_command02
+		COMMAND			resolver1	SetDataType		SYSLIB-ECOM-PublicAPI-0039-001-SetDataType_command03
+		COMMAND			session1	OpenL		
+		COMMAND	!Error=-1	session1	CreateImplementationL		SYSLIB-ECOM-PublicAPI-0039-001-CreateImplementationL_command06
+		COMMAND			session1	Close		
+		COMMAND			session1	FinalClose		
+		COMMAND			session1	~		
+	END_TEST_BLOCK	
+END_TESTCASE                    SYSLIB-ECOM-PublicAPI-0039
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0040
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0040
+//! @SYMAPI			REComSession, TEComResolverParams
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		22/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try instantiate an interface implementation(8) with wrong
+//!				interface uid
+//!				Uses API elements: CreateImplementationL(), FinalClose().
+//! @SYMTestActions		1. Create implementation with wrong interface uid. 2. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	KErrArgument. Creation of interface implementation has failed.
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	TEComResolverParams	resolver1
+		CREATE_OBJECT	REComSession	session1
+		COMMAND			resolver1	SetGenericMatch		SYSLIB-ECOM-PublicAPI-0040-001-SetGenericMatch_command01
+		COMMAND			resolver1	SetWildcardMatch		SYSLIB-ECOM-PublicAPI-0040-001-SetWildcardMatch_command02
+		COMMAND			resolver1	SetDataType		SYSLIB-ECOM-PublicAPI-0040-001-SetDataType_command03
+		COMMAND			session1	OpenL		
+		COMMAND	!Error=-6	session1	CreateImplementationL		SYSLIB-ECOM-PublicAPI-0040-001-CreateImplementationL_command06
+		COMMAND			session1	Close		
+		COMMAND			session1	FinalClose		
+		COMMAND			session1	~		
+	END_TEST_BLOCK	
+END_TESTCASE                    SYSLIB-ECOM-PublicAPI-0040
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0042
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0042
+//! @SYMAPI			REComSession, TEComResolverParams
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		22/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try instantiate an interface implementation(8) with non discoverable
+//!				parameter conditions
+//!				Uses API elements: CreateImplementationL(), FinalClose().
+//! @SYMTestActions		1. Create implementation with non discoverable parameter conditions. 2. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	KErrNotFound
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	TEComResolverParams	resolver1
+		CREATE_OBJECT	REComSession	session1
+		COMMAND			resolver1	SetGenericMatch		SYSLIB-ECOM-PublicAPI-0042-001-SetGenericMatch_command01
+		COMMAND			resolver1	SetWildcardMatch		SYSLIB-ECOM-PublicAPI-0042-001-SetWildcardMatch_command02
+		COMMAND			resolver1	SetDataType		SYSLIB-ECOM-PublicAPI-0042-001-SetDataType_command03
+		COMMAND			session1	OpenL		
+		COMMAND	!Error=-1	session1	CreateImplementationL		SYSLIB-ECOM-PublicAPI-0042-001-CreateImplementationL_command06
+		COMMAND			session1	Close		
+		COMMAND			session1	FinalClose		
+		COMMAND			session1	~		
+	END_TEST_BLOCK	
+END_TESTCASE                    SYSLIB-ECOM-PublicAPI-0042
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0043
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0043
+//! @SYMAPI			REComSession, TEComResolverParams
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		22/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try instantiate an interface implementation(9) with wrong
+//!				interface uid
+//!				Uses API elements: CreateImplementationL(), FinalClose().
+//! @SYMTestActions		1. Create implementation with wrong interface uid. 2. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	KErrArgument. Creation of interface implementation has failed.
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	TEComResolverParams	resolver1
+		CREATE_OBJECT	REComSession	session1
+		COMMAND			resolver1	SetGenericMatch		SYSLIB-ECOM-PublicAPI-0043-001-SetGenericMatch_command01
+		COMMAND			resolver1	SetWildcardMatch		SYSLIB-ECOM-PublicAPI-0043-001-SetWildcardMatch_command02
+		COMMAND			resolver1	SetDataType		SYSLIB-ECOM-PublicAPI-0043-001-SetDataType_command03
+		COMMAND			session1	OpenL		
+		COMMAND	!Error=-6	session1	CreateImplementationL		SYSLIB-ECOM-PublicAPI-0043-001-CreateImplementationL_command06
+		COMMAND			session1	Close		
+		COMMAND			session1	FinalClose		
+		COMMAND			session1	~		
+	END_TEST_BLOCK	
+END_TESTCASE                    SYSLIB-ECOM-PublicAPI-0043
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0044
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0044
+//! @SYMAPI			REComSession, TEComResolverParams
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		22/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try instantiate an interface implementation(9) with non discoverable
+//!				parameter conditions
+//!				Uses API elements: CreateImplementationL(), FinalClose().
+//! @SYMTestActions		1. Create implementation with non discoverable parameter conditions. 2. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	KErrNotFound
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	TEComResolverParams	resolver1
+		CREATE_OBJECT	REComSession	session1
+		COMMAND			resolver1	SetGenericMatch		SYSLIB-ECOM-PublicAPI-0044-001-SetGenericMatch_command01
+		COMMAND			resolver1	SetWildcardMatch		SYSLIB-ECOM-PublicAPI-0044-001-SetWildcardMatch_command02
+		COMMAND			resolver1	SetDataType		SYSLIB-ECOM-PublicAPI-0044-001-SetDataType_command03
+		COMMAND			session1	OpenL		
+		COMMAND	!Error=-1	session1	CreateImplementationL		SYSLIB-ECOM-PublicAPI-0044-001-CreateImplementationL_command06
+		COMMAND			session1	Close		
+		COMMAND			session1	FinalClose		
+		COMMAND			session1	~		
+	END_TEST_BLOCK	
+END_TESTCASE                    SYSLIB-ECOM-PublicAPI-0044
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0045
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0045
+//! @SYMAPI			REComSession, TEComResolverParams
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		22/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try instantiate an interface implementation(9) with wrong
+//!				resolver uid
+//!				Uses API elements: CreateImplementationL(), FinalClose().
+//! @SYMTestActions		1. Create implementation with wrong resolver uid. 2. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	KErrArgument. Creation of interface implementation has failed.
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	TEComResolverParams	resolver1
+		CREATE_OBJECT	REComSession	session1
+		COMMAND			resolver1	SetGenericMatch		SYSLIB-ECOM-PublicAPI-0045-001-SetGenericMatch_command01
+		COMMAND			resolver1	SetWildcardMatch		SYSLIB-ECOM-PublicAPI-0045-001-SetWildcardMatch_command02
+		COMMAND			resolver1	SetDataType		SYSLIB-ECOM-PublicAPI-0045-001-SetDataType_command03
+		COMMAND			session1	OpenL		
+		COMMAND	!Error=-6	session1	CreateImplementationL		SYSLIB-ECOM-PublicAPI-0045-001-CreateImplementationL_command06
+		COMMAND			session1	Close		
+		COMMAND			session1	FinalClose		
+		COMMAND			session1	~		
+	END_TEST_BLOCK	
+END_TESTCASE                    SYSLIB-ECOM-PublicAPI-0045
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0046
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0046
+//! @SYMAPI			REComSession, TEComResolverParams
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		22/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try instantiate an interface implementation(10) with wrong
+//!				interface uid
+//!				Uses API elements: CreateImplementationL(), FinalClose().
+//! @SYMTestActions		1. Create implementation with wrong interface uid. 2. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	KErrArgument. Creation of interface implementation has failed.
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	TEComResolverParams	resolver1
+		CREATE_OBJECT	REComSession	session1
+		COMMAND			resolver1	SetGenericMatch		SYSLIB-ECOM-PublicAPI-0046-001-SetGenericMatch_command01
+		COMMAND			resolver1	SetWildcardMatch		SYSLIB-ECOM-PublicAPI-0046-001-SetWildcardMatch_command02
+		COMMAND			resolver1	SetDataType		SYSLIB-ECOM-PublicAPI-0046-001-SetDataType_command03
+		COMMAND			session1	OpenL		
+		COMMAND	!Error=-6	session1	CreateImplementationL		SYSLIB-ECOM-PublicAPI-0046-001-CreateImplementationL_command06
+		COMMAND			session1	Close		
+		COMMAND			session1	FinalClose		
+		COMMAND			session1	~		
+	END_TEST_BLOCK	
+END_TESTCASE                    SYSLIB-ECOM-PublicAPI-0046
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0048
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0048
+//! @SYMAPI			REComSession, TEComResolverParams
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		22/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try instantiate an interface implementation(10) with non discoverable
+//!				parameter conditions
+//!				Uses API elements: CreateImplementationL(), FinalClose().
+//! @SYMTestActions		1. Create implementation with non discoverable parameter conditions. 2. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	KErrNotFound
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	TEComResolverParams	resolver1
+		CREATE_OBJECT	REComSession	session1
+		COMMAND			resolver1	SetGenericMatch		SYSLIB-ECOM-PublicAPI-0048-001-SetGenericMatch_command01
+		COMMAND			resolver1	SetWildcardMatch		SYSLIB-ECOM-PublicAPI-0048-001-SetWildcardMatch_command02
+		COMMAND			resolver1	SetDataType		SYSLIB-ECOM-PublicAPI-0048-001-SetDataType_command03
+		COMMAND			session1	OpenL		
+		COMMAND	!Error=-1	session1	CreateImplementationL		SYSLIB-ECOM-PublicAPI-0048-001-CreateImplementationL_command06
+		COMMAND			session1	Close		
+		COMMAND			session1	FinalClose		
+		COMMAND			session1	~		
+	END_TEST_BLOCK	
+END_TESTCASE                    SYSLIB-ECOM-PublicAPI-0048
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0049
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0049
+//! @SYMAPI			REComSession, TEComResolverParams
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		22/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try instantiate an interface implementation(10) with wrong
+//!				resolver uid
+//!				Uses API elements: CreateImplementationL(), FinalClose().
+//! @SYMTestActions		1. Create implementation with wrong resolver uid. 2. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	KErrArgument. Creation of interface implementation has failed.
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	TEComResolverParams	resolver1
+		CREATE_OBJECT	REComSession	session1
+		COMMAND			resolver1	SetGenericMatch		SYSLIB-ECOM-PublicAPI-0049-001-SetGenericMatch_command01
+		COMMAND			resolver1	SetWildcardMatch		SYSLIB-ECOM-PublicAPI-0049-001-SetWildcardMatch_command02
+		COMMAND			resolver1	SetDataType		SYSLIB-ECOM-PublicAPI-0049-001-SetDataType_command03
+		COMMAND			session1	OpenL		
+		COMMAND	!Error=-6	session1	CreateImplementationL		SYSLIB-ECOM-PublicAPI-0049-001-CreateImplementationL_command06
+		COMMAND			session1	Close		
+		COMMAND			session1	FinalClose		
+		COMMAND			session1	~		
+	END_TEST_BLOCK	
+END_TESTCASE                    SYSLIB-ECOM-PublicAPI-0049
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0050
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0050
+//! @SYMAPI			REComSession, TEComResolverParams
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		22/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try instantiate an interface implementation(11) with wrong
+//!				interface uid
+//!				Uses API elements: CreateImplementationL(), FinalClose().
+//! @SYMTestActions		1. Create implementation with wrong interface uid. 2. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	KErrArgument. Creation of interface implementation has failed.
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	TEComResolverParams	resolver1
+		CREATE_OBJECT	REComSession	session1
+		COMMAND			resolver1	SetGenericMatch		SYSLIB-ECOM-PublicAPI-0050-001-SetGenericMatch_command01
+		COMMAND			resolver1	SetWildcardMatch		SYSLIB-ECOM-PublicAPI-0050-001-SetWildcardMatch_command02
+		COMMAND			resolver1	SetDataType		SYSLIB-ECOM-PublicAPI-0050-001-SetDataType_command03
+		COMMAND			session1	OpenL		
+		COMMAND	!Error=-6	session1	CreateImplementationL		SYSLIB-ECOM-PublicAPI-0050-001-CreateImplementationL_command06
+		COMMAND			session1	Close		
+		COMMAND			session1	FinalClose		
+		COMMAND			session1	~		
+	END_TEST_BLOCK	
+END_TESTCASE                    SYSLIB-ECOM-PublicAPI-0050
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0051
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0051
+//! @SYMAPI			REComSession, TEComResolverParams
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		22/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try instantiate an interface implementation(11) with non discoverable
+//!				parameter conditions
+//!				Uses API elements: CreateImplementationL(), FinalClose().
+//! @SYMTestActions		1. Create implementation with non discoverable parameter conditions. 2. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	KErrNotFound
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	TEComResolverParams	resolver1
+		CREATE_OBJECT	REComSession	session1
+		COMMAND			resolver1	SetGenericMatch		SYSLIB-ECOM-PublicAPI-0051-001-SetGenericMatch_command01
+		COMMAND			resolver1	SetWildcardMatch		SYSLIB-ECOM-PublicAPI-0051-001-SetWildcardMatch_command02
+		COMMAND			resolver1	SetDataType		SYSLIB-ECOM-PublicAPI-0051-001-SetDataType_command03
+		COMMAND			session1	OpenL		
+		COMMAND	!Error=-1	session1	CreateImplementationL		SYSLIB-ECOM-PublicAPI-0051-001-CreateImplementationL_command06
+		COMMAND			session1	Close		
+		COMMAND			session1	FinalClose		
+		COMMAND			session1	~		
+	END_TEST_BLOCK	
+END_TESTCASE                    SYSLIB-ECOM-PublicAPI-0051
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0052
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0052
+//! @SYMAPI			REComSession, TEComResolverParams
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		22/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try instantiate an interface implementation(11) with wrong
+//!				resolver uid
+//!				Uses API elements: CreateImplementationL(), FinalClose().
+//! @SYMTestActions		1. Create implementation with wrong resolver uid. 2. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	KErrArgument. Creation of interface implementation has failed.
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	TEComResolverParams	resolver1
+		CREATE_OBJECT	REComSession	session1
+		COMMAND			resolver1	SetGenericMatch		SYSLIB-ECOM-PublicAPI-0052-001-SetGenericMatch_command01
+		COMMAND			resolver1	SetWildcardMatch		SYSLIB-ECOM-PublicAPI-0052-001-SetWildcardMatch_command02
+		COMMAND			resolver1	SetDataType		SYSLIB-ECOM-PublicAPI-0052-001-SetDataType_command03
+		COMMAND			session1	OpenL		
+		COMMAND	!Error=-6	session1	CreateImplementationL		SYSLIB-ECOM-PublicAPI-0052-001-CreateImplementationL_command06
+		COMMAND			session1	Close		
+		COMMAND			session1	FinalClose		
+		COMMAND			session1	~		 
+	END_TEST_BLOCK	
+END_TESTCASE                    SYSLIB-ECOM-PublicAPI-0052
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0053
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0053
+//! @SYMAPI			REComSession, TEComResolverParams
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		22/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try instantiate an interface implementation(12) with wrong
+//!				interface uid
+//!				Uses API elements: CreateImplementationL(), FinalClose().
+//! @SYMTestActions		1. Create implementation with wrong interface uid. 2. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	KErrArgument. Creation of interface implementation has failed.
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	TEComResolverParams	resolver1
+		CREATE_OBJECT	REComSession	session1
+		COMMAND			resolver1	SetGenericMatch		SYSLIB-ECOM-PublicAPI-0053-001-SetGenericMatch_command01
+		COMMAND			resolver1	SetWildcardMatch		SYSLIB-ECOM-PublicAPI-0053-001-SetWildcardMatch_command02
+		COMMAND			resolver1	SetDataType		SYSLIB-ECOM-PublicAPI-0053-001-SetDataType_command03
+		COMMAND			session1	OpenL		
+		COMMAND	!Error=-6	session1	CreateImplementationL		SYSLIB-ECOM-PublicAPI-0053-001-CreateImplementationL_command06
+		COMMAND			session1	Close		
+		COMMAND			session1	FinalClose		
+		COMMAND			session1	~		
+	END_TEST_BLOCK	
+END_TESTCASE                    SYSLIB-ECOM-PublicAPI-0053
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0055
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0055
+//! @SYMAPI			REComSession, TEComResolverParams
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		22/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try instantiate an interface implementation(12) with non discoverable
+//!				parameter conditions
+//!				Uses API elements: CreateImplementationL(), FinalClose().
+//! @SYMTestActions		1. Create implementation with non discoverable parameter conditions. 2. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	KErrNotFound
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	TEComResolverParams	resolver1
+		CREATE_OBJECT	REComSession	session1
+		COMMAND			resolver1	SetGenericMatch		SYSLIB-ECOM-PublicAPI-0055-001-SetGenericMatch_command01
+		COMMAND			resolver1	SetWildcardMatch		SYSLIB-ECOM-PublicAPI-0055-001-SetWildcardMatch_command02
+		COMMAND			resolver1	SetDataType		SYSLIB-ECOM-PublicAPI-0055-001-SetDataType_command03
+		COMMAND			session1	OpenL		
+		COMMAND	!Error=-1	session1	CreateImplementationL		SYSLIB-ECOM-PublicAPI-0055-001-CreateImplementationL_command06
+		COMMAND			session1	Close		
+		COMMAND			session1	FinalClose		
+		COMMAND			session1	~		
+	END_TEST_BLOCK	
+END_TESTCASE                    SYSLIB-ECOM-PublicAPI-0055
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0056
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0056
+//! @SYMAPI			REComSession, TEComResolverParams
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		22/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try instantiate an interface implementation(12) with wrong
+//!				resolver uid
+//!				Uses API elements: CreateImplementationL(), FinalClose().
+//! @SYMTestActions		1. Create implementation with wrong resolver uid. 2. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	KErrArgument. Creation of interface implementation has failed.
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	TEComResolverParams	resolver1
+		CREATE_OBJECT	REComSession	session1
+		COMMAND			resolver1	SetGenericMatch		SYSLIB-ECOM-PublicAPI-0056-001-SetGenericMatch_command01
+		COMMAND			resolver1	SetWildcardMatch		SYSLIB-ECOM-PublicAPI-0056-001-SetWildcardMatch_command02
+		COMMAND			resolver1	SetDataType		SYSLIB-ECOM-PublicAPI-0056-001-SetDataType_command03
+		COMMAND			session1	OpenL		
+		COMMAND	!Error=-6	session1	CreateImplementationL		SYSLIB-ECOM-PublicAPI-0056-001-CreateImplementationL_command06
+		COMMAND			session1	Close		
+		COMMAND			session1	FinalClose		
+		COMMAND			session1	~		
+	END_TEST_BLOCK	
+END_TESTCASE                    SYSLIB-ECOM-PublicAPI-0056
+
+
+/////////////////////////////////////////////////////////////////////
+// TEComResolverParams class
+/////////////////////////////////////////////////////////////////////
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0072
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0072
+//! @SYMAPI			TEComResolverParams
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		10/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try set the Interface Implementation plugin 'datatype' match pattern
+//!				Uses API elements: SetDataType().
+//! @SYMTestActions    		Set data type.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	Impementation's data type set with no errors
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	TEComResolverParams	params1
+		COMMAND		params1	SetDataType		SYSLIB-ECOM-PublicAPI-0072-001-SetDataType_command01
+	END_TEST_BLOCK	
+END_TESTCASE 			SYSLIB-ECOM-PublicAPI-0072
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0073
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0073
+//! @SYMAPI			TEComResolverParams
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		10/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try get the Interface Implementation plugin 'datatype' match pattern
+//!				Uses API elements: SetDataType(), GetDataType().
+//! @SYMTestActions    		1. Set data type. 2. Get data type.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	Impementation's data type returned with no errors
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	TEComResolverParams	params1
+		COMMAND		params1	SetDataType		SYSLIB-ECOM-PublicAPI-0073-001-SetDataType_command01
+		COMMAND		params1	DataType		SYSLIB-ECOM-PublicAPI-0073-001-DataType_command02
+	END_TEST_BLOCK	
+END_TESTCASE 			SYSLIB-ECOM-PublicAPI-0073
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0074
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0074
+//! @SYMAPI			TEComResolverParams
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		10/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try set indicator that a 'generic' match is required
+//!				Uses API elements: SetGenericMatch().
+//! @SYMTestActions    		Set indicator.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	Indicator set with no errors
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	TEComResolverParams	params1
+		COMMAND		params1			SetGenericMatch		SYSLIB-ECOM-PublicAPI-0074-001-SetGenericMatch_command01
+	END_TEST_BLOCK	
+END_TESTCASE 			SYSLIB-ECOM-PublicAPI-0074
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0075
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0075
+//! @SYMAPI			TEComResolverParams
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		10/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try check if 'generic' matching is allowed
+//!				Uses API elements: SetGenericMatch(), IsGenericMatch().
+//! @SYMTestActions    		1. Set ingicator. 2. Check indicator.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	Indicator state returned with no errors
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	TEComResolverParams	params1
+		COMMAND		params1			SetGenericMatch		SYSLIB-ECOM-PublicAPI-0075-001-SetGenericMatch_command01
+		COMMAND		params1			IsGenericMatch		SYSLIB-ECOM-PublicAPI-0075-001-IsGenericMatch_command02
+	END_TEST_BLOCK	
+END_TESTCASE 			SYSLIB-ECOM-PublicAPI-0075
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0076
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0076
+//! @SYMAPI			TEComResolverParams
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		10/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try set indicator that a 'generic' match is required
+//!				Uses API elements: SetWildcardMatch().
+//!				Deprecated method!
+//! @SYMTestActions    		Set indicator.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	Indicator set with no errors
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	TEComResolverParams	params1
+		COMMAND		params1			SetWildcardMatch	SYSLIB-ECOM-PublicAPI-0076-001-SetWildcardMatch_command01
+	END_TEST_BLOCK	
+END_TESTCASE 			SYSLIB-ECOM-PublicAPI-0076
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0077
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0077
+//! @SYMAPI			TEComResolverParams
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		10/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try check if 'generic' matching is allowed
+//!				Uses API elements: SetWildcardMatch(), IsWildcardMatch().
+//!				Deprecated method!
+//! @SYMTestActions    		1. Set ingicator. 2. Check indicator.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	Indicator state returned with no errors
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3			T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	TEComResolverParams	params1
+		COMMAND		params1			SetWildcardMatch	SYSLIB-ECOM-PublicAPI-0077-001-SetWildcardMatch_command01
+		COMMAND		params1			IsWildcardMatch		SYSLIB-ECOM-PublicAPI-0077-001-IsWildcardMatch_command02
+	END_TEST_BLOCK	
+END_TESTCASE 			SYSLIB-ECOM-PublicAPI-0077
+
+/////////////////////////////////////////////////////////////////////
+// CImplementationInformation class
+/////////////////////////////////////////////////////////////////////
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0078
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0078
+//! @SYMAPI			CImplementationInformation, REComSession
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		09/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try get for this implementation's human readable name
+//!				Uses API elements: DisplayName().
+//! @SYMTestActions    		1. Get interface implementation's array from REComSession::ListImplementationsL. 2. Select implementation. 3. Get name. 4. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	Implementation's name returned with no errors
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3				T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	REComSession			session1
+		CREATE_OBJECT	CImplementationInformation	impl1
+		COMMAND		session1			OpenL		
+		COMMAND		session1			ListImplementationsL	SYSLIB-ECOM-PublicAPI-0078-001-ListImplementationsL_command02
+		COMMAND		impl1				DisplayName		SYSLIB-ECOM-PublicAPI-0078-001-DisplayName_command04
+		COMMAND		session1			Close		
+		COMMAND		session1			FinalClose		
+		COMMAND		session1			~		
+	END_TEST_BLOCK	
+END_TESTCASE 			SYSLIB-ECOM-PublicAPI-0078
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0079
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0079
+//! @SYMAPI			CImplementationInformation, REComSession
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		08/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try get for this implementation's default binary data type
+//!				Uses API elements: DataType().
+//! @SYMTestActions    		1. Get interface implementation's array from REComSession::ListImplementationsL. 2. Select implementation. 3. Get data type. 4. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	Implementation's default binary data type returned with no errors
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3				T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	REComSession			session1
+		CREATE_OBJECT	CImplementationInformation	impl1
+		COMMAND		session1			OpenL		
+		COMMAND		session1			ListImplementationsL	SYSLIB-ECOM-PublicAPI-0079-001-ListImplementationsL_command02
+		COMMAND		impl1				DataType		SYSLIB-ECOM-PublicAPI-0079-001-DataType_command04
+		COMMAND		session1			Close		
+		COMMAND		session1			FinalClose		
+		COMMAND		session1			~		
+	END_TEST_BLOCK	
+END_TESTCASE 			SYSLIB-ECOM-PublicAPI-0079
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0080
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0080
+//! @SYMAPI			CImplementationInformation, REComSession
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		08/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try get for this implementation's opaque binary data
+//!				Uses API elements: OpaqueData().
+//! @SYMTestActions    		1. Get interface implementation's array from REComSession::ListImplementationsL. 2. Select implementation. 3. Get opaque data. 4. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	Implementation's opaque binary data returned with no errors
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3				T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	REComSession			session1
+		CREATE_OBJECT	CImplementationInformation	impl1
+		COMMAND		session1			OpenL		
+		COMMAND		session1			ListImplementationsL	SYSLIB-ECOM-PublicAPI-0080-001-ListImplementationsL_command02
+		COMMAND		impl1				OpaqueData		SYSLIB-ECOM-PublicAPI-0080-001-OpaqueData_command04
+		COMMAND		session1			Close		
+		COMMAND		session1			FinalClose		
+		COMMAND		session1			~		
+	END_TEST_BLOCK	
+END_TESTCASE 			SYSLIB-ECOM-PublicAPI-0080
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0081
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0081
+//! @SYMAPI			CImplementationInformation, REComSession
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		08/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try get for this implementation's UID
+//!				Uses API elements: ImplementationUid().
+//! @SYMTestActions    		1. Get interface implementation's array from REComSession::ListImplementationsL. 2. Select implementation. 3. Get UID. 4. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	Implementation's UID returned with no errors
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3				T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	REComSession			session1
+		CREATE_OBJECT	CImplementationInformation	impl1
+		COMMAND		session1			OpenL		
+		COMMAND		session1			ListImplementationsL	SYSLIB-ECOM-PublicAPI-0081-001-ListImplementationsL_command02
+		COMMAND		impl1				ImplementationUid	SYSLIB-ECOM-PublicAPI-0081-001-ImplementationUid_command04
+		COMMAND		session1			Close		
+		COMMAND		session1			FinalClose		
+		COMMAND		session1			~		
+	END_TEST_BLOCK	
+END_TESTCASE 			SYSLIB-ECOM-PublicAPI-0081
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0082
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0082
+//! @SYMAPI			CImplementationInformation, REComSession
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		08/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try get for this implementation's version number
+//!				Uses API elements: Version().
+//! @SYMTestActions    		1. Get interface implementation's array from REComSession::ListImplementationsL. 2. Select implementation. 3. Get version number. 4. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	Implementation's version number returned with no errors
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3				T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	REComSession			session1
+		CREATE_OBJECT	CImplementationInformation	impl1
+		COMMAND		session1			OpenL		
+		COMMAND		session1			ListImplementationsL	SYSLIB-ECOM-PublicAPI-0082-001-ListImplementationsL_command02
+		COMMAND		impl1				Version			SYSLIB-ECOM-PublicAPI-0082-001-Version_command04
+		COMMAND		session1			Close		
+		COMMAND		session1			FinalClose		
+		COMMAND		session1			~		
+	END_TEST_BLOCK	
+END_TESTCASE 			SYSLIB-ECOM-PublicAPI-0082
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0083
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0083
+//! @SYMAPI			CImplementationInformation, REComSession
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		08/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try disable/enable current implementation
+//!				Uses API elements: Disabled(), SetDisabled().
+//! @SYMTestActions    		1. Get interface implementation's array from REComSession::ListImplementationsL. 2. Select implementation.
+//!				3. Get current status. 4. Set new status. 5. Get implementation's status. 6. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	Implementation's current status returned with no errors
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3				T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	REComSession			session1
+		CREATE_OBJECT	CImplementationInformation	impl1
+		COMMAND		session1			OpenL		
+		COMMAND		session1			ListImplementationsL	SYSLIB-ECOM-PublicAPI-0083-001-ListImplementationsL_command02
+		COMMAND		impl1				Disabled		SYSLIB-ECOM-PublicAPI-0083-001-Disabled_command04
+		COMMAND		impl1				SetDisabled		SYSLIB-ECOM-PublicAPI-0083-001-SetDisabled_command05
+		COMMAND		impl1				Disabled		SYSLIB-ECOM-PublicAPI-0083-001-Disabled_command06
+		COMMAND		session1			Close		
+		COMMAND		session1			FinalClose		
+		COMMAND		session1			~		
+	END_TEST_BLOCK	
+END_TESTCASE 			SYSLIB-ECOM-PublicAPI-0083
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0084
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0084
+//! @SYMAPI			CImplementationInformation, REComSession
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		09/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try get the drive that this implementation is installed
+//!				Uses API elements: Drive().
+//! @SYMTestActions    		1. Get interface implementation's array from REComSession::ListImplementationsL. 2. Select implementation.
+//!				3. Get implementation's drive. 4. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	Implementation's installation drive returned with no errors
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3				T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	REComSession			session1
+		CREATE_OBJECT	CImplementationInformation	impl1
+		COMMAND		session1			OpenL		
+		COMMAND		session1			ListImplementationsL	SYSLIB-ECOM-PublicAPI-0084-001-ListImplementationsL_command02
+		COMMAND		impl1				Drive			SYSLIB-ECOM-PublicAPI-0084-001-Drive_command04
+		COMMAND		session1			Close		
+		COMMAND		session1			FinalClose		
+		COMMAND		session1			~		
+	END_TEST_BLOCK	
+END_TESTCASE 			SYSLIB-ECOM-PublicAPI-0084
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0085
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0085
+//! @SYMAPI			CImplementationInformation, REComSession
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		09/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try whether this implementation is to be loaded from ROM only
+//!				Uses API elements: RomOnly().
+//! @SYMTestActions    		1. Get interface implementation's array from REComSession::ListImplementationsL. 2. Select implementation.
+//!				3. Get whether this implementation is to be loaded from ROM only. 4. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	Implementation's ROM-only loading mode returned with no errors
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3				T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	REComSession			session1
+		CREATE_OBJECT	CImplementationInformation	impl1
+		COMMAND		session1			OpenL		
+		COMMAND		session1			ListImplementationsL	SYSLIB-ECOM-PublicAPI-0085-001-ListImplementationsL_command02
+		COMMAND		impl1				RomOnly			SYSLIB-ECOM-PublicAPI-0085-001-RomOnly_command04
+		COMMAND		session1			Close		
+		COMMAND		session1			FinalClose		
+		COMMAND		session1			~		
+	END_TEST_BLOCK	
+END_TESTCASE 			SYSLIB-ECOM-PublicAPI-0085
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0086
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0086
+//! @SYMAPI			CImplementationInformation, REComSession
+//! @SYMAuthor			Vassili Tsvetkov
+//! @SYMCreationDate		09/03/2006
+//! @SYMTestCaseDependencies	setup-SYSLIB-ECOM-PublicAPI.script
+//! @SYMTestCaseDesc		Try whether this implementation is on ROM or is a later version of one on ROM
+//!				Uses API elements: RomBased().
+//! @SYMTestActions    		1. Get interface implementation's array from REComSession::ListImplementationsL. 2. Select implementation.
+//!				3. Get ROM-based mode. 4. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	Implementation's RAM-based location returned with no errors
+//! @SYMTestType		CIT
+	START_TEST_BLOCK	3				T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	REComSession			session1
+		CREATE_OBJECT	CImplementationInformation	impl1
+		COMMAND		session1			OpenL		
+		COMMAND		session1			ListImplementationsL	SYSLIB-ECOM-PublicAPI-0086-001-ListImplementationsL_command02
+		COMMAND		impl1				RomBased		SYSLIB-ECOM-PublicAPI-0086-001-RomBased_command04
+		COMMAND		session1			Close		
+		COMMAND		session1			FinalClose		
+		COMMAND		session1			~		
+	END_TEST_BLOCK	
+END_TESTCASE 			SYSLIB-ECOM-PublicAPI-0086
+
+START_TESTCASE 			SYSLIB-ECOM-PublicAPI-0999
+//! @SYMTestCaseID		SYSLIB-ECOM-PublicAPI-0999
+//! @SYMAPI			REComSession
+//! @SYMAuthor			Louis Henry Nayegon
+//! @SYMCreationDate		10/06/2006
+//! @SYMTestCaseDependencies	SYSLIB-ECOM-PublicAPI-0001
+//! @SYMTestCaseDesc		Try to register for notification messages and recieve the sent message (UID removed from registry)
+//!				Uses API elements: OpenL(), NotifyOnChange(), Close(), FinalClose().
+//! @SYMTestActions    		1. Open connection. 2. Register for notification messages. 3. Send notification message (remove plug-in). 4. Recieve a message. 5. Close connection. 6. Finish using ECOM.
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		High
+//! @SYMTestExpectedResults  	Registered for notification messages with no errors
+//! @SYMTestType		CIT
+RUN_PROGRAM			10		TPDeleteFileUtility	\resource\plugins\TestProduct_PlugIn.rsc
+RUN_PROGRAM			10		TPDeleteFileUtility	\sys\bin\TestProduct_PlugIn.dll
+	START_TEST_BLOCK	3		T_ECOM			\ecom\SYSLIB-ECOM-PublicAPI.ini 
+		CREATE_OBJECT	REComSession	session1
+		COMMAND		session1	OpenL		
+		COMMAND		session1	NotifyOnChange		SYSLIB-ECOM-PublicAPI-0999-001-NotifyOnChange_command02
+		OUTSTANDING
+		COMMAND		session1	CancelNotifyOnChange	SYSLIB-ECOM-PublicAPI-0999-001-CancelNotifyOnChange_command03
+		OUTSTANDING
+		COMMAND		session1	Close		
+		COMMAND		session1	FinalClose		
+		COMMAND		session1	~		
+	END_TEST_BLOCK	
+END_TESTCASE 			SYSLIB-ECOM-PublicAPI-0999

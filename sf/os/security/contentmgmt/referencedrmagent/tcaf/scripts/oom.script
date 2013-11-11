@@ -1,0 +1,47 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+
+LOAD_SUITE tcaf
+
+START_TESTCASE 			SEC-CAF-OOM-0001
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-OOM-0001
+//! @SYMTestCaseDesc 		Check the OOM case for reading from a CAF file
+//!				(Consumer_OOM)
+//! @SYMPREQ			PREQ1951
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Check that no memory leaks occur
+//! @SYMTestExpectedResults	No memory leaks occur
+//! @SYMTestType		Unit
+RUN_TEST_STEP 200 tcaf CAFOomStep c:\tcaf\oom.ini OomRead
+END_TESTCASE 			SEC-CAF-OOM-0001
+
+START_TESTCASE 			SEC-CAF-OOM-0002
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-OOM-0002
+//! @SYMTestCaseDesc 		Check the OOM case for supplying a file to CAF 
+//!				(Supplier_OOM)
+//! @SYMPREQ			PREQ1951
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Check that no memory leaks occur
+//! @SYMTestExpectedResults	No memory leaks occur
+//! @SYMTestType		Unit
+RUN_UTILS Delete c:\supplied.drm 
+RUN_TEST_STEP 200 tcaf CAFOomStep c:\tcaf\oom.ini OomSupply
+END_TESTCASE 			SEC-CAF-OOM-0002

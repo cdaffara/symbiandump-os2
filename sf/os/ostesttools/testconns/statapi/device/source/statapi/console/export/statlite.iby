@@ -1,0 +1,51 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+#ifndef __STATLITE_IBY__
+#define __STATLITE_IBY__
+
+REM StatLite
+
+#define STAT_LITE
+#include <statcommon.iby>
+
+//file=ABI_DIR\DEBUG_DIR\SerialDriver.DLL	Sys\Bin\SerialDriver.DLL
+
+#if defined(__H2_OBY__) || defined(__H4HRP_OBY__) || defined(__34XX_SDP_OBY__)
+ECHO StatLite.iby is including the H2/H4 stat.ini file
+data=ZSYSTEM\data\stat_H2.ini		System\data\stat.ini
+#else // def __H2_OBY__
+ECHO StatLite.iby is including the default stat.ini file
+data=ZSYSTEM\data\stat.ini		System\data\stat.ini
+#endif // def __H2_OBY__
+
+#ifdef __TECHVIEWBASE_IBY__
+// Override the Techview Start.rsc file with one that launches 
+// statauto.exe as well.
+
+#ifdef _NOSYSSTART 
+
+#ifdef _NAND
+rename resource\apps\Start.rsc resource\Apps\Techview_Start.rsc
+#else
+hide resource\Apps\Start.rsc
+#endif
+
+data=ZRESOURCE\Apps\Statauto_Start.rsc	resource\Apps\Start.rsc
+#endif
+#endif
+
+#endif __STATLITE_IBY__

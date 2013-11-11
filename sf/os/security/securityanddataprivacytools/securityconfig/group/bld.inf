@@ -1,0 +1,56 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* Security configuration
+*
+*/
+
+
+/**
+ @file
+*/
+
+PRJ_PLATFORMS
+DEFAULT
+
+#include "../ups/romstub/bld.inf"
+
+PRJ_EXPORTS
+../filetokens/filetokensconfig.iby /epoc32/rom/include/filetokensconfig.iby
+
+../ocsp/2002b28b.txt               z:/private/10202be9/2002b28b.txt
+../ocsp/ocspcenrep.iby             /epoc32/rom/include/ocspcenrep.iby
+
+// Optional Replaceable files for UPS
+../ups/backup/backup_registration.xml		z:/private/10283558/backup_registration.xml
+
+#ifdef SYMBIAN_AUTH_SERVER
+// AuthServer cenrep file.
+// NOTE: this is required for emulator and target hardware testing only. It is not used in production.
+../authserver/2001ea7f.txt					z:/private/10202be9/2001ea7f.txt
+
+#endif // SYMBIAN_AUTH_SERVER
+// ConfML Files
+../conf/ci_securityconfig.confml            OS_LAYER_EXPORTS_CONFML(ci_securityconfig.confml)
+../conf/securityconfig.confml            OS_LAYER_EXPORTS_CONFML(securityconfig.confml)
+../conf/securityconfig_2002b28b.crml	 OS_LAYER_EXPORTS_CRML(securityconfig_2002b28b.crml)
+
+PRJ_TESTEXPORTS
+
+PRJ_MMPFILES
+#ifndef TOOLS
+#ifndef TOOLS2
+securityconfig.mmp
+#endif // TOOLS2
+#endif // TOOLS

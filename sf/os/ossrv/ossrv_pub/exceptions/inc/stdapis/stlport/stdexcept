@@ -1,0 +1,290 @@
+/*
+ * © Portions copyright (c) 2006-2007 Nokia Corporation.  All rights reserved.
+ *
+ * Copyright (c) 1996,1997
+ * Silicon Graphics Computer Systems, Inc.
+ *
+ * Copyright (c) 1999 
+ * Boris Fomitchev
+ *
+ * This material is provided "as is", with absolutely no warranty expressed
+ * or implied. Any use is at your own risk.
+ *
+ * Permission to use or copy this software for any purpose is hereby granted 
+ * without fee, provided the above notices are retained on all copies.
+ * Permission to modify the code and to distribute modified code is granted,
+ * provided the above notices are retained, and a notice that the code was
+ * modified is included with the above copyright notice.
+ *
+ */
+
+
+# if !defined (_STLP_OUTERMOST_HEADER_ID)
+#  define _STLP_OUTERMOST_HEADER_ID 0x63
+#  include <stl/_prolog.h>
+# elif (_STLP_OUTERMOST_HEADER_ID == 0x63) && ! defined (_STLP_DONT_POP_0x63)
+#  define _STLP_DONT_POP_0x63
+# endif
+
+#ifndef _STLP_STDEXCEPT
+#define _STLP_STDEXCEPT 1
+
+# ifdef _STLP_PRAGMA_ONCE
+#  pragma once
+# endif
+
+#if defined (_STLP_USE_TRAP_LEAVE)
+
+enum {
+  STDEX_bad_alloc			= -10000,
+  STDEX_logic_error			= -10001,
+  STDEX_runtime_error		= -10002,
+  STDEX_domain_error		= -10003,
+  STDEX_invalid_argument	= -10004,
+  STDEX_length_error		= -10005,
+  STDEX_out_of_range		= -10006,
+  STDEX_range_error			= -10007,
+  STDEX_overflow_error		= -10008,
+  STDEX_underflow_error		= -10009
+};
+
+// User may override this
+#ifndef STDEX_REPORT_EXCEPTION
+# define STDEX_REPORT_EXCEPTION(x) 
+#endif
+
+#endif
+
+# if !defined(_STLP_STDEXCEPT_SEEN) && \
+   (!defined (_STLP_USE_NATIVE_STDEXCEPT) || defined (_STLP_USE_OWN_NAMESPACE))
+
+#  define _STLP_STDEXCEPT_SEEN 1
+
+#  include <exception>
+
+#if defined(_STLP_USE_EXCEPTIONS) || \
+    !(defined(_MIPS_SIM) && defined(_ABIO32) && _MIPS_SIM == _ABIO32)
+
+# include <cstring>
+
+#ifndef _STLP_INTERNAL_ALLOC_H
+# include <stl/_alloc.h>
+#endif
+
+#ifndef _STLP_STRING_FWD_H
+# include <stl/_string_fwd.h>
+#endif
+
+# define _STLP_OWN_STDEXCEPT 1
+
+_STLP_BEGIN_NAMESPACE
+
+# if   ! defined (_STLP_NO_EXCEPTION_HEADER)
+# if !defined(_STLP_EXCEPTION_BASE) && !defined(_STLP_BROKEN_EXCEPTION_CLASS) && defined (_STLP_USE_NAMESPACES) && defined (_STLP_USE_OWN_NAMESPACE)
+using _STLP_VENDOR_EXCEPT_STD::exception;
+# endif
+# endif
+#  define _STLP_EXCEPTION_BASE exception
+
+#ifdef __SYMBIAN32__
+class __Named_exception : public _STLP_EXCEPTION_BASE {
+#else
+class _STLP_CLASS_DECLSPEC __Named_exception : public _STLP_EXCEPTION_BASE {
+#endif //__SYMBIAN32__
+public:
+  _STLP_DECLSPEC __Named_exception(const string& __str) 
+# ifdef _STLP_OWN_IOSTREAMS
+    ;
+  _STLP_DECLSPEC const char* what() const _STLP_NOTHROW_INHERENTLY;
+  _STLP_DECLSPEC ~__Named_exception() _STLP_NOTHROW_INHERENTLY;
+# else
+  {
+    strncpy(_M_name, __get_c_string(__str), _S_bufsize);
+    _M_name[_S_bufsize - 1] = '\0';
+  }
+  const char* what() const _STLP_NOTHROW_INHERENTLY { return _M_name; }
+# endif
+
+private:
+  enum { _S_bufsize = 256 };
+  char _M_name[_S_bufsize];
+};
+
+#ifdef __SYMBIAN32__
+class logic_error : public __Named_exception {
+#else
+class _STLP_CLASS_DECLSPEC logic_error : public __Named_exception {
+#endif
+public:
+  _STLP_DECLSPEC logic_error(const string& __s)
+#ifdef __SYMBIAN32__
+    ;
+#else
+   : __Named_exception(__s) {}
+#endif
+# ifdef _STLP_OWN_IOSTREAMS
+  _STLP_DECLSPEC ~logic_error() _STLP_NOTHROW_INHERENTLY;
+# endif
+};
+
+#ifdef __SYMBIAN32__
+class runtime_error : public __Named_exception {
+#else
+class _STLP_CLASS_DECLSPEC runtime_error : public __Named_exception {
+#endif
+public:
+  _STLP_DECLSPEC runtime_error(const string& __s)
+#ifdef __SYMBIAN32__
+    ;
+#else
+   : __Named_exception(__s) {}
+#endif
+# ifdef _STLP_OWN_IOSTREAMS
+  _STLP_DECLSPEC ~runtime_error() _STLP_NOTHROW_INHERENTLY;
+# endif
+};
+
+#ifdef __SYMBIAN32__
+class domain_error : public logic_error {
+#else
+class _STLP_CLASS_DECLSPEC domain_error : public logic_error {
+#endif
+public:
+  _STLP_DECLSPEC domain_error(const string& __arg)
+#ifdef __SYMBIAN32__
+    ;
+#else
+   : logic_error(__arg) {}
+#endif
+# ifdef _STLP_OWN_IOSTREAMS
+  _STLP_DECLSPEC ~domain_error() _STLP_NOTHROW_INHERENTLY;
+# endif
+};
+
+#ifdef __SYMBIAN32__
+class invalid_argument : public logic_error {
+#else
+class _STLP_CLASS_DECLSPEC invalid_argument : public logic_error {
+#endif
+public:
+  _STLP_DECLSPEC invalid_argument(const string& __arg)
+#ifdef __SYMBIAN32__
+    ;
+#else
+   : logic_error(__arg) {}
+#endif
+# ifdef _STLP_OWN_IOSTREAMS
+  _STLP_DECLSPEC ~invalid_argument() _STLP_NOTHROW_INHERENTLY;
+# endif
+};
+
+#ifdef __SYMBIAN32__
+class length_error : public logic_error {
+#else
+class _STLP_CLASS_DECLSPEC length_error : public logic_error {
+#endif
+public:
+  _STLP_DECLSPEC length_error(const string& __arg)
+#ifdef __SYMBIAN32__
+    ;
+#else
+   : logic_error(__arg) {}
+#endif
+# ifdef _STLP_OWN_IOSTREAMS
+  _STLP_DECLSPEC ~length_error() _STLP_NOTHROW_INHERENTLY;
+# endif
+};
+
+#ifdef __SYMBIAN32__
+class out_of_range : public logic_error {
+#else
+class _STLP_CLASS_DECLSPEC out_of_range : public logic_error {
+#endif
+public:
+  _STLP_DECLSPEC out_of_range(const string& __arg)
+#ifdef __SYMBIAN32__
+    ;
+#else
+   : logic_error(__arg) {}
+#endif
+# ifdef _STLP_OWN_IOSTREAMS
+  _STLP_DECLSPEC ~out_of_range() _STLP_NOTHROW_INHERENTLY;
+# endif
+};
+
+#ifdef __SYMBIAN32__
+class range_error : public runtime_error {
+#else
+class _STLP_CLASS_DECLSPEC range_error : public runtime_error {
+#endif
+public:
+  _STLP_DECLSPEC range_error(const string& __arg)
+#ifdef __SYMBIAN32__
+    ;
+#else
+   : runtime_error(__arg) {}
+#endif
+# ifdef _STLP_OWN_IOSTREAMS
+  _STLP_DECLSPEC ~range_error() _STLP_NOTHROW_INHERENTLY;
+# endif
+};
+
+#ifdef __SYMBIAN32__
+class overflow_error : public runtime_error {
+#else
+class _STLP_CLASS_DECLSPEC overflow_error : public runtime_error {
+#endif
+public:
+  _STLP_DECLSPEC overflow_error(const string& __arg)
+#ifdef __SYMBIAN32__
+    ;
+#else
+   : runtime_error(__arg) {}
+#endif
+# ifdef _STLP_OWN_IOSTREAMS
+  _STLP_DECLSPEC ~overflow_error() _STLP_NOTHROW_INHERENTLY;
+# endif
+};
+
+#ifdef __SYMBIAN32__
+class underflow_error : public runtime_error {
+#else
+class _STLP_CLASS_DECLSPEC underflow_error : public runtime_error {
+#endif
+public:
+  _STLP_DECLSPEC underflow_error(const string& __arg)
+#ifdef __SYMBIAN32__
+    ;
+#else
+   : runtime_error(__arg) {}
+#endif
+# ifdef _STLP_OWN_IOSTREAMS
+  _STLP_DECLSPEC ~underflow_error() _STLP_NOTHROW_INHERENTLY;
+# endif
+};
+
+_STLP_END_NAMESPACE
+
+#endif /* Not o32, and no exceptions */
+# endif /* _STLP_STDEXCEPT_SEEN */
+
+
+#if defined (_STLP_USE_NATIVE_STDEXCEPT)
+#  include _STLP_NATIVE_HEADER(stdexcept)
+# endif
+
+#endif /* _STLP_STDEXCEPT */
+
+# if (_STLP_OUTERMOST_HEADER_ID == 0x63)
+#  if ! defined (_STLP_DONT_POP_0x63)
+#   include <stl/_epilog.h>
+#   undef  _STLP_OUTERMOST_HEADER_ID
+#   endif
+#   undef  _STLP_DONT_POP_0x63
+# endif
+
+
+// Local Variables:
+// mode:C++
+// End:
+

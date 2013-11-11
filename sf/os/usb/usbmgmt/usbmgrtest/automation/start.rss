@@ -1,0 +1,119 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+#include <techview/eikon.rh>
+#include "start.hrh"
+
+STRUCT STUBPARAMS
+	{
+	LTEXT splash_exe = "";	// No translation
+	LLINK apps_list_id;
+	LLINK exe_list_id;
+	}
+
+STRUCT STARTUP_ITEM
+	{
+	LONG uid = 0;
+	LTEXT path ="";	// No translation
+	LTEXT winspath ="";			// Only used with ECmdLnArgExecutableType on WINS
+	LTEXT args =""; // Command line arguments, Only used with ECmdLnArgExecutableType
+	LONG stackSize = 0;			// Only used with ECmdLnArgExecutableType on WINS (0=default)
+	LONG minHeapSize = 0;		// Only used with ECmdLnArgExecutableType on WINS (0=default)
+	LONG maxHeapSize = 0x400000;// Only used with ECmdLnArgExecutableType on WINS
+	WORD monitored = 0;
+	WORD semaphore = 0;
+	WORD viewless = 0; // 1 would start this app in viewless mode
+	WORD boot_type = EBothBootType;
+	}
+
+STRUCT STARTUP_EXTRAS_ITEM
+	{
+	LONG uid = 0;
+	LTEXT path ="";	// No translation
+	LTEXT winspath ="";			// Only used with ECmdLnArgExecutableType on WINS
+	LTEXT args =""; // Command line arguments, Only used with ECmdLnArgExecutableType
+	LONG stackSize = 0;			// Only used with ECmdLnArgExecutableType on WINS (0=default)
+	LONG minHeapSize = 0;		// Only used with ECmdLnArgExecutableType on WINS (0=default)
+	LONG maxHeapSize = 0x400000;// Only used with ECmdLnArgExecutableType on WINS
+	WORD monitored = 0;
+	WORD viewless = 0; // 1 would start this app in viewless mode
+	WORD boot_type = EBothBootType;
+	}
+
+RESOURCE STUBPARAMS r_app_start_params
+	{
+	splash_exe = "Z:\\SYSTEM\\PROGRAMS\\SPLASH";	// No translation of path
+	apps_list_id = r_startup_list;
+	exe_list_id = r_start_extras_list; 
+	}
+
+RESOURCE ARRAY r_startup_list //Needed before the splashscreen is removed
+	{
+	items=
+		{
+		STARTUP_ITEM
+			{
+			path = "Z:\\System\\Libs\\InstRec";	// No translation of path
+			boot_type = EExecutableType;
+			},
+		STARTUP_ITEM
+			{ // Shell
+			uid = 0x10003A5D;	// No translation of uid
+			monitored = 1;
+			semaphore = 1;
+			boot_type = EApplicationType;
+			},
+		STARTUP_ITEM
+			{
+			path = "Z:\\System\\Libs\\watcher";	// No translation of path
+			boot_type = EExecutableType;
+			}
+		};
+	}
+
+RESOURCE ARRAY r_start_extras_list
+	{
+	items=
+		{
+		STARTUP_EXTRAS_ITEM
+			{
+			path = "Z:\\System\\Programs\\statauto";
+			boot_type = EExecutableType;
+			},
+		STARTUP_EXTRAS_ITEM
+			{
+			path = "Z:\\System\\Programs\\DefaultFileInit";	// No translation of path
+			boot_type = EExecutableType;
+ 			},
+		STARTUP_EXTRAS_ITEM
+			{
+			path = "SystemAMS";
+			winspath = "JavaAMS";
+			boot_type = ECmdLnArgExecutableType;
+			args="-boot";
+			}	
+/*		
+#ifndef __MINI_BUILD__
+		,STARTUP_EXTRAS_ITEM
+			{	// IR default listener (Beamer)
+			uid = 0x10005fd5;	// No translation of uid
+			monitored = 1;
+			viewless = 1;
+			boot_type = EApplicationType;
+			}
+#endif
+This is left as an example how applications are added in startup list of extra applications.
+*/		};
+	}

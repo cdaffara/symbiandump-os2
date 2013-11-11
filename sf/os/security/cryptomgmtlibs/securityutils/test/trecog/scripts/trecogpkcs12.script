@@ -1,0 +1,103 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+//! @file
+// Recog unit (integration) tests
+PRINT Run PKCS12 Recog test
+
+LOAD_SUITE trecogserver
+
+START_TESTCASE SEC-PKCS12RECOG-PKCS12-0001
+//! @SYMTestCaseID SEC-PKCS12RECOG-PKCS12-0001
+//! @SYMTestCaseDesc Recognize a PKCS#12 object passed by File Name
+//! @SYMREQ REQ5728
+//! @SYMTestPriority Critical
+//! @SYMTestActions recognize a PKCS#12 object passed by file name using difference extensions
+//! @SYMTestExpectedResults application/x-pkc12
+//! @SYMDevelopedForRelease Argus
+RUN_TEST_STEP 100 trecogserver RecogStep c:\trecog\trecogpkcs12.ini PassByNameP12
+RUN_TEST_STEP 100 trecogserver RecogStep c:\trecog\trecogpkcs12.ini PassByNamePfx
+RUN_TEST_STEP 100 trecogserver RecogStep c:\trecog\trecogpkcs12.ini PassByNameXyz
+END_TESTCASE SEC-PKCS12RECOG-PKCS12-0001
+
+START_TESTCASE SEC-PKCS12RECOG-PKCS12-0002
+//! @SYMTestCaseID SEC-PKCS12RECOG-PKCS12-0002
+//! @SYMTestCaseDesc Recognize a PKCS#12 object passed by file handle
+//! @SYMREQ REQ5728
+//! @SYMTestPriority Critical
+//! @SYMTestActions recognize a PKCS#12 object passed by file handle
+//! @SYMTestExpectedResults application/x-pkc12
+//! @SYMDevelopedForRelease Argus
+RUN_TEST_STEP 100 trecogserver RecogStep c:\trecog\trecogpkcs12.ini PassByHandleP12
+RUN_TEST_STEP 100 trecogserver RecogStep c:\trecog\trecogpkcs12.ini PassByHandlePfx
+RUN_TEST_STEP 100 trecogserver RecogStep c:\trecog\trecogpkcs12.ini PassByHandleXyz
+END_TESTCASE SEC-PKCS12RECOG-PKCS12-0002
+
+START_TESTCASE SEC-PKCS12RECOG-PKCS12-0003
+//! @SYMTestCaseID SEC-PKCS12RECOG-PKCS12-0003
+//! @SYMTestCaseDesc Recognize a PKCS#12 object passed by file handle where
+//!                  the file is in a private directory.
+//! @SYMREQ REQ5728
+//! @SYMTestPriority Critical
+//! @SYMTestActions recognize a PKCS#12 object passed by file handle
+//! @SYMTestExpectedResults application/x-pkc12
+//! @SYMDevelopedForRelease Argus
+RUN_TEST_STEP 100 trecogserver RecogStep c:\trecog\trecogpkcs12.ini PassByHandlePrivateP12
+RUN_TEST_STEP 100 trecogserver RecogStep c:\trecog\trecogpkcs12.ini PassByHandlePrivatePfx
+RUN_TEST_STEP 100 trecogserver RecogStep c:\trecog\trecogpkcs12.ini PassByHandlePrivateXyz
+END_TESTCASE SEC-PKCS12RECOG-PKCS12-0003
+
+START_TESTCASE SEC-PKCS12RECOG-PKCS12-0004
+//! @SYMTestCaseID SEC-PKCS12RECOG-PKCS12-0004
+//! @SYMTestCaseDesc Recognize a PKCS#12 object passed by buffer
+//! @SYMREQ REQ5728
+//! @SYMTestPriority Critical
+//! @SYMTestActions recognize a PKCS#12 object passed by buffer
+//! @SYMTestExpectedResults application/x-pkc12
+//! @SYMDevelopedForRelease Argus
+RUN_TEST_STEP 100 trecogserver RecogStep c:\trecog\trecogpkcs12.ini PassByBufferP12
+RUN_TEST_STEP 100 trecogserver RecogStep c:\trecog\trecogpkcs12.ini PassByBufferPfx
+RUN_TEST_STEP 100 trecogserver RecogStep c:\trecog\trecogpkcs12.ini PassByBufferXyz
+END_TESTCASE SEC-PKCS12RECOG-PKCS12-0004
+
+START_TESTCASE SEC-PKCS12RECOG-PKCS12-0005
+//! @SYMTestCaseID SEC-PKCS12RECOG-PKCS12-0005
+//! @SYMTestCaseDesc Recognize a PKCS#12 object passed by file name in a private directory
+//! @SYMREQ REQ5728
+//! @SYMTestPriority Critical
+//! @SYMTestActions Recognize a file by name in a private directory that is not 
+//!	accessible by the plugin.
+//! @SYMTestExpectedResults not recognized.
+//! @SYMDevelopedForRelease Argus
+RUN_TEST_STEP 100 trecogserver RecogStep c:\trecog\trecogpkcs12.ini PassByNamePrivateP12
+RUN_TEST_STEP 100 trecogserver RecogStep c:\trecog\trecogpkcs12.ini PassByNamePrivatePfx
+RUN_TEST_STEP 100 trecogserver RecogStep c:\trecog\trecogpkcs12.ini PassByNamePrivateXyz
+END_TESTCASE SEC-PKCS12RECOG-PKCS12-0005
+
+START_TESTCASE SEC-PKCS12RECOG-PKCS12-0006
+//! @SYMTestCaseID SEC-PKCS12RECOG-PKCS12-0006
+//! @SYMTestCaseDesc Check for false positives by supplying non PKCS#12 files
+//! @SYMREQ REQ5728
+//! @SYMTestPriority Critical
+//! @SYMTestActions Supply a set of non PKCS#12 files including DER encoded data including a file
+//!                 that is smaller than the minimum required header size.
+//! @SYMTestExpectedResults not recognized.
+//! @SYMDevelopedForRelease Argus
+RUN_TEST_STEP_RESULT 106 100 trecogserver RecogStep c:\trecog\trecogpkcs12.ini CheckSpecificX509v1
+RUN_TEST_STEP_RESULT 106 100 trecogserver RecogStep c:\trecog\trecogpkcs12.ini CheckSpecificCA
+RUN_TEST_STEP_RESULT 106 100 trecogserver RecogStep c:\trecog\trecogpkcs12.ini CheckSpecificRoot5CA_key
+RUN_TEST_STEP_RESULT 106 100 trecogserver RecogStep c:\trecog\trecogpkcs12.ini CheckSpecificSmall
+RUN_TEST_STEP 100 trecogserver RecogStep c:\trecog\trecogpkcs12.ini CheckSpecificP12
+END_TESTCASE SEC-PKCS12RECOG-PKCS12-0006

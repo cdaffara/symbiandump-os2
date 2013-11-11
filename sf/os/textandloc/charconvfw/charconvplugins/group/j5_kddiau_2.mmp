@@ -1,0 +1,65 @@
+/*
+* Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* Character conversion method that can convert from any of the following:
+* character sets: Windows-31J (Microsoft code page 932), JIS (ISO-2022-JP-1), 
+* EUC, UTF8, and UCS2. Uses KDDI/AU version of Shiftjis converter.
+* j5_kddiau_2.dll converter for wrapper, S60 version
+*
+*/
+
+
+/**
+ @file
+*/
+
+TARGET			j5_kddiau_2.dll
+TARGETTYPE		PLUGIN
+
+CAPABILITY		All -Tcb
+
+UID				0x10009D8D 0x1020D409
+VENDORID		0x70000001
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+USERINCLUDE 	../src/inc
+USERINCLUDE 	../inc
+
+SOURCEPATH		../src/plugins
+SOURCE			j5.cpp
+SOURCE			j5eucjp.cpp
+
+SOURCEPATH		../resource
+START RESOURCE	j5.rss
+TARGETPATH		/resource/charconv
+LANG			sc
+END
+
+START RESOURCE	1020d409.rss
+TARGET			j5_kddiau_2.rsc
+END
+
+LIBRARY			euser.lib
+LIBRARY			ecom.lib
+LIBRARY			convutils.lib 
+LIBRARY			shiftjis_kddiau_shared_2.lib
+LIBRARY			jisbase_shared_2.lib
+LIBRARY			charconv.lib 
+LIBRARY         jisx0201_2.lib
+LIBRARY			jisx0208_2.lib
+LIBRARY			jisx0212.lib 
+LIBRARY			featmgr.lib
+
+SMPSAFE

@@ -1,0 +1,53 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+//! @file
+//! @SYMTestCaseID		API-APPFWK-T-MimeStep-testScanningMimeTheRecognizerL-0001
+//! @SYMTestCaseDesc 		Tests the Scanning File-Recognizer
+//! @SYMTestPriority 		High
+//! @SYMTestStatus 		3. Released
+//! @SYMTestActions  		The test verifies the Scannig File-Recognizer by testing
+//!				the getter and setter functions. It creates a temporal list of recognizers to
+//!				check the getter function, and then goes through the whole list of recognizers 
+//!				testing each one.
+//!				Also, the setter function is checked, by adding a recognizer that's already
+//!				added, and adding one that doesn't exist, and verifying that correct return 
+//!				value. Finally, it is checked if specific recognizers are loaded or not.
+//!				This test Also checks for the functionality of the Locking and Unlocking 
+//!				Mechanism of the recognizer and checks that the When the recognizers are not 
+//!				added in CAPARecognizertype class , The properties of the Recognizer will be 
+//!				the defaulted.
+//!				API Calls:
+//!				CApaScanningDataRecognizer::NewL(RFs& aFs);
+//!				CApaScanningDataRecognizer::TRecognizer(HBufC* aName);
+//!				CApaScanningDataRecognizer::RecognizerListLC();
+//!				CApaScanningDataRecognizer::RecognizerCount();
+//!				CApaScanningDataRecognizer::UpdateCounter() const;
+//!				CApaScanningDataRecognizer::SetRecognizerL();
+//!				CApaScanningDataRecognizer::SetEcomRecognizerL();
+//!				CApaDataRecognizerType::MimeType();
+//!				CApaDataRecognizerType::Confidence();
+//!				CApaDataRecognizerType::Lock();
+//!				CApaDataRecognizerType::Unlock();
+//! @SYMTestExpectedResults 	Test should complete without any panic.
+
+START_TESTCASE API-APPFWK-T-MimeStep-testScanningMimeTheRecognizerL-0001
+
+PRINT Run T_Mime Emime test
+//
+LOAD_SUITE TEmimeTestServer
+RUN_TEST_STEP 100 TEmimeTestServer T_Mime
+
+END_TESTCASE API-APPFWK-T-MimeStep-testScanningMimeTheRecognizerL-0001

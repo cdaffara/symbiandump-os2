@@ -1,0 +1,41 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+//! @file
+//! @SYMTestCaseID		API-APPFWK-T-Maps-testTMappingDataTypeToAppL-0001
+//! @SYMTestCaseDesc 		Tests TMappingDataTypeToApp class   
+//! @SYMTestPriority 		High  
+//! @SYMTestStatus 		3. Released   
+//! @SYMTestActions  		The test creates 3 different mappings, identified by a TUid, TDataType
+//!				and TDataTypePriority, verifying that they are correctly created. The consitency of these 
+//!				mappings through the process of writing and reading to and from a stream is also checked.
+//!				Also, a store of mappings is created, verifying the insertion, and the insertion depending
+//!				on the TDataTypePriority, checking that it handles the insertion in accordance.
+//!				API Calls:
+//!				TMappingDataTypeToApp::TMappingDataTypeToApp(const TDataType& aDataType, TDataTypePriority aPriority, TUid aUid);
+//!				CTypeStoreManager::NewL(RFs& aFs);
+//!				CTypeStoreManager::InsertDataMappingL(const TDataType& aDataType, TDataTypePriority aPriority, TUid aUid);
+//!				CTypeStoreManager::GetAppByDataType(const TDataType& aDataType, TUid& aUid) const;
+//!				CTypeStoreManager::InsertIfHigherL(const TDataType& aDataType, TDataTypePriority aPriority, TUid aUid);
+//! @SYMTestExpectedResults 	Test should complete without any panic.
+
+START_TESTCASE API-APPFWK-T-Maps-testTMappingDataTypeToAppL-0001
+
+PRINT Run T_Maps Emime test
+//
+LOAD_SUITE TEmimeTestServer
+RUN_TEST_STEP 100 TEmimeTestServer T_Maps
+
+END_TESTCASE API-APPFWK-T-Maps-testTMappingDataTypeToAppL-0001

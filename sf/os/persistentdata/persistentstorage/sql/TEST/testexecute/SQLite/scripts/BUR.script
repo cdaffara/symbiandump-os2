@@ -1,0 +1,227 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// @file
+// 
+//
+
+//! @SYMTestSuiteName PDS-TEF-SQL-SUITE
+//! @SYMScriptTestEnvironment TEF
+//! @internalComponent
+//! @test
+
+PRINT Run SQL Tests
+
+LOAD_SUITE te_SQL_Suite
+LOAD_SUITE te_SQL_Suite_cap2
+LOAD_SUITE BURTestServer
+
+RUN_UTILS MkDir c:\private\
+RUN_UTILS MkDir c:\private\102827c7\
+RUN_UTILS MkDir c:\private\102827c8\
+RUN_UTILS CopyFile z:\TEF_SQL\TestData\backup_registration.xml c:\private\102827c7\backup_registration.xml
+RUN_UTILS CopyFile z:\TEF_SQL\TestData\backup_registration.xml c:\private\102827c8\backup_registration.xml
+
+RUN_UTILS DeleteFile c:\private\10281e17\[102827c7]bur.db
+RUN_UTILS DeleteFile c:\private\10281e17\[102827c8]bur.db
+
+START_TESTCASE SYSLIB-SQL-CIT-1834
+//! @SYMTestCaseID    SYSLIB-SQL-CIT-1834
+//! @SYMTestCaseDesc  Backup and restore with no change
+//! @SYMTestPriority  High
+//! @SYMTestActions   See description and the config file.
+//! @SYMTestExpectedResults
+//!                  The test looks for errors and content
+//!                  within the database. If these are not seen test errors
+//!                  will be generated.
+//!                  
+//! @SYMREQ           REQ5906
+
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\BUR.ini setup
+	RUN_TEST_STEP -1 BURTestServer TestBackup z:\TEF_SQL\BUR.ini bur
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\BUR.ini wait
+	RUN_TEST_STEP -1 BURTestServer TestRestore z:\TEF_SQL\BUR.ini bur
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\BUR.ini wait
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\BUR.ini check
+END_TESTCASE SYSLIB-SQL-CIT-1834
+
+RUN_UTILS DeleteFile c:\private\10281e17\[102827c7]bur.db
+RUN_UTILS DeleteDirectory c:\BackupArchive\
+
+START_TESTCASE SYSLIB-SQL-CIT-1835
+//! @SYMTestCaseID    SYSLIB-SQL-CIT-1835
+//! @SYMTestCaseDesc  Backup and restore with database file deleted
+//! @SYMTestPriority  High
+//! @SYMTestActions   See description and the config file.
+//! @SYMTestExpectedResults
+//!                  The test looks for errors and content
+//!                  within the database. If these are not seen test errors
+//!                  will be generated.
+//!                  
+//! @SYMREQ           REQ5906
+	
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\BUR.ini setup	
+	RUN_TEST_STEP -1 BURTestServer TestBackup z:\TEF_SQL\BUR.ini bur
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\BUR.ini wait
+	RUN_UTILS DeleteFile c:\private\10281e17\[102827c7]bur.db
+	RUN_TEST_STEP -1 BURTestServer TestRestore z:\TEF_SQL\BUR.ini bur
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\BUR.ini wait
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\BUR.ini check
+END_TESTCASE SYSLIB-SQL-CIT-1835
+
+RUN_UTILS DeleteFile c:\private\10281e17\[102827c7]bur.db
+RUN_UTILS DeleteDirectory c:\BackupArchive\
+
+START_TESTCASE SYSLIB-SQL-CIT-1836
+//! @SYMTestCaseID    SYSLIB-SQL-CIT-1836
+//! @SYMTestCaseDesc  Backup and restore with database file modified
+//! @SYMTestPriority  High
+//! @SYMTestActions   See description and the config file.
+//! @SYMTestExpectedResults
+//!                  The test looks for errors and content
+//!                  within the database. If these are not seen test errors
+//!                  will be generated.
+//!                  
+//! @SYMREQ           REQ5906
+
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\BUR.ini setup
+	RUN_TEST_STEP -1 BURTestServer TestBackup z:\TEF_SQL\BUR.ini bur
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\BUR.ini wait
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\BUR.ini modify
+	RUN_TEST_STEP -1 BURTestServer TestRestore z:\TEF_SQL\BUR.ini bur
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\BUR.ini wait
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\BUR.ini check
+END_TESTCASE SYSLIB-SQL-CIT-1836
+
+RUN_UTILS DeleteFile c:\private\10281e17\[102827c7]bur.db
+RUN_UTILS DeleteDirectory c:\BackupArchive\
+
+START_TESTCASE SYSLIB-SQL-CIT-1837
+//! @SYMTestCaseID    SYSLIB-SQL-CIT-1837
+//! @SYMTestCaseDesc  Backup and restore with database file corrupted
+//! @SYMTestPriority  High
+//! @SYMTestActions   See description and the config file.
+//! @SYMTestExpectedResults
+//!                  The test looks for errors and content
+//!                  within the database. If these are not seen test errors
+//!                  will be generated.
+//!                  
+//! @SYMREQ           REQ5906
+
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\BUR.ini setup
+	RUN_TEST_STEP -1 BURTestServer TestBackup z:\TEF_SQL\BUR.ini bur
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\BUR.ini wait
+	RUN_UTILS DeleteFile c:\private\10281e17\[102827c7]bur.db	
+	RUN_UTILS CopyFile z:\TEF_SQL\TestData\[102827c7]corrupt.db c:\private\10281e17\[102827c7]bur.db
+	RUN_UTILS MakeReadWrite c:\private\10281e17\[102827c7]bur.db
+	RUN_TEST_STEP -1 BURTestServer TestRestore z:\TEF_SQL\BUR.ini bur
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\BUR.ini wait
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\BUR.ini check
+END_TESTCASE SYSLIB-SQL-CIT-1837
+
+RUN_UTILS DeleteFile c:\private\10281e17\[102827c7]bur.db
+RUN_UTILS DeleteDirectory c:\BackupArchive\
+
+START_TESTCASE SYSLIB-SQL-CIT-1838
+//! @SYMTestCaseID    SYSLIB-SQL-CIT-1838
+//! @SYMTestCaseDesc  Backup and restore with database file from 2 data owners
+//! @SYMTestPriority  High
+//! @SYMTestActions   See description and the config file.
+//! @SYMTestExpectedResults
+//!                  The test looks for errors and content
+//!                  within the database. If these are not seen test errors
+//!                  will be generated.
+//!                  
+//! @SYMREQ           REQ5906
+
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\BUR.ini setup
+	RUN_TEST_STEP 100 te_SQL_Suite_cap2 CSQLDDT z:\TEF_SQL\BUR.ini setup2
+	RUN_TEST_STEP -1 BURTestServer TestBackup z:\TEF_SQL\BUR.ini bur2
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\BUR.ini wait
+	RUN_UTILS DeleteFile c:\private\10281e17\[102827c7]bur.db
+	RUN_UTILS DeleteFile c:\private\10281e17\[102827c8]bur.db
+	RUN_TEST_STEP -1 BURTestServer TestRestore z:\TEF_SQL\BUR.ini bur2
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\BUR.ini wait
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\BUR.ini check
+	RUN_TEST_STEP 100 te_SQL_Suite_cap2 CSQLDDT z:\TEF_SQL\BUR.ini check2
+END_TESTCASE SYSLIB-SQL-CIT-1838
+
+RUN_UTILS DeleteFile c:\private\10281e17\[102827c7]bur.db
+RUN_UTILS DeleteFile c:\private\10281e17\[102827c8]bur.db
+RUN_UTILS DeleteDirectory c:\BackupArchive\
+
+START_TESTCASE SYSLIB-SQL-CIT-1839-0001
+//! @SYMTestCaseID    SYSLIB-SQL-CIT-1839-0001
+//! @SYMTestCaseDesc  Backup and restore with 3 database files
+//! @SYMTestPriority  High
+//! @SYMTestActions   See description and the config file.
+//! @SYMTestExpectedResults
+//!                  The test looks for errors and content
+//!                  within the database. If these are not seen test errors
+//!                  will be generated.
+//!                  
+//! @SYMREQ           REQ5906
+
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\BUR.ini setup3
+	RUN_TEST_STEP -1 BURTestServer TestBackup z:\TEF_SQL\BUR.ini bur
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\BUR.ini wait
+	RUN_UTILS DeleteFile c:\private\10281e17\[102827c7]bur1.db
+	RUN_UTILS DeleteFile c:\private\10281e17\[102827c7]bur2.db
+	RUN_UTILS DeleteFile c:\private\10281e17\[102827c7]bur3.db
+	RUN_TEST_STEP -1 BURTestServer TestRestore z:\TEF_SQL\BUR.ini bur
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\BUR.ini wait
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\BUR.ini check3
+END_TESTCASE SYSLIB-SQL-CIT-1839-0001
+
+RUN_UTILS DeleteFile c:\private\10281e17\[102827c7]bur1.db
+RUN_UTILS DeleteFile c:\private\10281e17\[102827c7]bur2.db
+RUN_UTILS DeleteFile c:\private\10281e17\[102827c7]bur3.db
+
+START_TESTCASE SYSLIB-SQL-CIT-4026
+//! @SYMTestCaseID    SYSLIB-SQL-CIT-4026
+//! @SYMTestCaseDesc  Backup and restore a database file (with no extension)
+//! @SYMTestPriority  High
+//! @SYMTestActions   See description and the config file.
+//! @SYMTestExpectedResults
+//!                  The test looks for errors and content
+//!                  within the database. If these are not seen test errors
+//!                  will be generated.
+//!                  
+//! @SYMDEF	     INC118192
+//!              PDEF118675
+//!              PDEF118676
+
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\BUR.ini setup4
+	RUN_TEST_STEP -1 BURTestServer TestBackup z:\TEF_SQL\BUR.ini bur
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\BUR.ini wait
+	RUN_UTILS DeleteFile c:\private\10281e17\[102827c7]118192
+	RUN_TEST_STEP -1 BURTestServer TestRestore z:\TEF_SQL\BUR.ini bur
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\BUR.ini wait
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\BUR.ini check4
+END_TESTCASE SYSLIB-SQL-CIT-4026
+
+RUN_UTILS DeleteFile c:\private\10281e17\[102827c7]118192
+RUN_UTILS DeleteDirectory c:\BackupArchive
+
+//cleanup
+RUN_UTILS DeleteFile c:\private\10281e17\[102827c7]bur.db
+RUN_UTILS DeleteFile c:\private\10281e17\[102827c8]bur.db
+RUN_UTILS MakeReadWrite c:\private\102827c7\backup_registration.xml
+RUN_UTILS MakeReadWrite c:\private\102827c8\backup_registration.xml
+RUN_UTILS DeleteFile c:\private\102827c7\backup_registration.xml
+RUN_UTILS DeleteFile c:\private\102827c8\backup_registration.xml
+RUN_UTILS DeleteDirectory c:\BackupArchive\
+RUN_UTILS DeleteDirectory c:\private\102827c7\
+RUN_UTILS DeleteDirectory c:\private\102827c8\
+
+

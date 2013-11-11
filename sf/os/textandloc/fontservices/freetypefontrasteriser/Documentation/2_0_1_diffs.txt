@@ -1,0 +1,75 @@
+==== //EPOC/development/syslibs/7.0s/graphics/freetype/freetype2/src/base/ftobjs.c#3 - q:\dev\graphics\freetype\freetype2\src\base\ftobjs.c ====
+@@ -814,7 +814,7 @@
+     FT_Memory         memory;
+     FT_Driver_Class  clazz;
+     FT_Face           face = 0;
+-    FT_Error          error, error2;
++    FT_Error          error = 0, error2 = 0;
+     FT_Face_Internal  internal;
+ 
+ 
+@@ -823,10 +823,17 @@
+ 
+     /* allocate the face object and perform basic initialization */
+     if ( FT_ALLOC( face, clazz->face_object_size ) )
++    {
++      error = FT_Err_Out_Of_Memory;
+       goto Fail;
++    }
+ 
+     if ( FT_NEW( internal ) )
++    {
++      face->internal = NULL;
++      error = FT_Err_Out_Of_Memory;
+       goto Fail;
++    }
+ 
+     face->internal = internal;
+ 
+@@ -874,9 +881,15 @@
+   Fail:
+     if ( error )
+     {
+-      clazz->done_face( face );
+-      FT_FREE( face->internal );
+-      FT_FREE( face );
++      if ( face )
++      {
++        if ( face->internal )
++        { // Object was fully created so init_face() was run and must be undone
++          clazz->done_face( face );
++	      FT_FREE( face->internal );
++        }
++    	FT_FREE( face );
++      }
+       *aface = 0;
+     }
+ 
+==== //EPOC/development/personal/alexander01/syslibs/MCL/freetype/freetype2/src/sfnt/sfobjs.c#1 - p:\personal\freetype\freetype2\src\sfnt\sfobjs.c ====
+@@ -711,24 +711,24 @@
+         if ( face->horizontal.Line_Gap == 0 )
+           root->height = (FT_Short)( ( root->height * 115 + 50 ) / 100 );
+ 
+-#if 0
++//#if 0 - This line commented out by Chris Cooper - Symbian
+ 
+         /* some fonts have the OS/2 "sTypoAscender", "sTypoDescender" & */
+         /* "sTypoLineGap" fields set to 0, like ARIALNB.TTF             */
+-        if ( face->os2.version != 0xFFFF && root->ascender )
++//        if ( face->os2.version != 0xFFFF && root->ascender ) - Symbian change
+         {
+           FT_Int  height;
+ 
+ 
+           root->ascender  =  face->os2.sTypoAscender;
+-          root->descender = -face->os2.sTypoDescender;
++          root->descender = (FT_Short)(-face->os2.sTypoDescender);
+ 
+           height = root->ascender + root->descender + face->os2.sTypoLineGap;
+           if ( height > root->height )
+-            root->height = height;
++            root->height = (FT_Short)height;
+         }
+ 
+-#endif /* 0 */
++//#endif /* 0 */ - Symbian change

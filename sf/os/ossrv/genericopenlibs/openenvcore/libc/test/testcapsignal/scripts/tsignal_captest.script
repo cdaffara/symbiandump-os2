@@ -1,0 +1,55 @@
+// Copyright (c) 2008-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+CONSECUTIVE
+START_TESTCASE  OPENENV-LIBC-CIT-TESTCAPSIGNAL-OE-0001
+RUN_PROGRAM -1 setcap.exe tcapsignal.exe 000000  tcapsignal1.exe
+LOAD_SUITE tcapsignal1
+//! @SYMTestCaseID OPENENV-LIBC-CIT-TESTCAPSIGNAL-OE-0001
+//! @SYMTestStatus 	3.Released
+RUN_TEST_STEP   !Result=13 tcapsignal1 captestonkill1
+END_TESTCASE  OPENENV-LIBC-CIT-TESTCAPSIGNAL-OE-0001
+
+
+START_TESTCASE  OPENENV-LIBC-CIT-TESTCAPSIGNAL-OE-0002
+RUN_PROGRAM -1 setcap.exe tcapsignal.exe 000004  tcapsignal2.exe
+LOAD_SUITE tcapsignal2
+//! @SYMTestCaseID OPENENV-LIBC-CIT-TESTCAPSIGNAL-OE-0002
+//! @SYMTestStatus 	3.Released
+RUN_TEST_STEP   !Result=0 tcapsignal2 captestonkill1
+END_TESTCASE  OPENENV-LIBC-CIT-TESTCAPSIGNAL-OE-0002
+
+
+START_TESTCASE  OPENENV-LIBC-CIT-TESTCAPSIGNAL-OE-0003
+RUN_PROGRAM -1 setcap.exe tcapsignal.exe 000000  tcapsignal3.exe
+LOAD_SUITE tcapsignal3
+//! @SYMTestCaseID OPENENV-LIBC-CIT-TESTCAPSIGNAL-OE-0003
+//! @SYMTestStatus 	3.Released
+RUN_TEST_STEP   !Result=13 tcapsignal3 captestonkill2
+END_TESTCASE  OPENENV-LIBC-CIT-TESTCAPSIGNAL-OE-0003
+
+
+START_TESTCASE  OPENENV-LIBC-CIT-TESTCAPSIGNAL-OE-0004
+RUN_PROGRAM -1 setcap.exe tcapsignal.exe 000004  tcapsignal4.exe
+LOAD_SUITE tcapsignal4
+//! @SYMTestCaseID OPENENV-LIBC-CIT-TESTCAPSIGNAL-OE-0004
+//! @SYMTestStatus 	3.Released
+RUN_TEST_STEP   !Result=0 tcapsignal4 captestonkill2
+END_TESTCASE  OPENENV-LIBC-CIT-TESTCAPSIGNAL-OE-0004
+
+
+
+
+

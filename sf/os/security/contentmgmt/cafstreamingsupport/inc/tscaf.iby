@@ -1,0 +1,60 @@
+// Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+
+#ifndef __TSCAF_IBY__
+#define __TSCAF_IBY__
+
+#include <testexecute.iby>
+#include "scs.iby"
+
+define ZDRIVE \epoc32\data\Z
+
+REM Streaming CAF Tests
+
+// Test Streaming CAF Agent binaries
+file=ABI_DIR\BUILD_DIR\tscaf.exe				\sys\bin\tscaf.exe
+file=ABI_DIR\BUILD_DIR\staserver.exe				\sys\bin\staserver.exe
+file=ABI_DIR\BUILD_DIR\staclient.dll				\sys\bin\staclient.dll
+file=ABI_DIR\BUILD_DIR\stashared.dll				\sys\bin\stashared.dll
+
+// Test Streaming CAF Agent plugin
+ECOM_PLUGIN(tscaf_streamagent01.dll, tscaf_streamagent01.rsc)
+ECOM_PLUGIN(tscaf_streamagent02.dll, tscaf_streamagent02.rsc)
+ECOM_PLUGIN(tscaf_singleprocess_streamagent.dll, tscaf_singleprocess_streamagent.rsc)
+
+// Test Streaming CAF Agent scripts
+data = ZDRIVE\tcaf\tscaf\tscaf.ini				\tcaf\tscaf\tscaf.ini
+data = ZDRIVE\tcaf\tscaf\tscaf.script				\tcaf\tscaf\tscaf.script
+data = ZDRIVE\tcaf\tscaf\tscafipsec.script			\tcaf\tscaf\tscafipsec.script
+data = ZDRIVE\tcaf\tscaf\tscafipsecmanual.script		\tcaf\tscaf\tscafipsecmanual.script
+
+// Test Streaming CAF Agent data
+data = ZDRIVE\tcaf\tscaf\data\rosimple.dr				\tcaf\tscaf\data\rosimple.dr
+data = ZDRIVE\tcaf\tscaf\data\roexpired.dr			\tcaf\tscaf\data\roexpired.dr
+data = ZDRIVE\tcaf\tscaf\data\roprogramprotected.dr		\tcaf\tscaf\data\roprogramprotected.dr
+data = ZDRIVE\tcaf\tscaf\data\roserviceprotected.dr		\tcaf\tscaf\data\roserviceprotected.dr
+data = ZDRIVE\tcaf\tscaf\data\rorecordable.dr			\tcaf\tscaf\data\rorecordable.dr
+data = ZDRIVE\tcaf\tscaf\data\postacquisitiontest.dr		\tcaf\tscaf\data\postacquisitiontest.dr
+
+data = ZDRIVE\tcaf\tscaf\data\tscaf_rights_programprotect01.dr	\tcaf\tscaf\data\tscaf_rights_programprotect01.dr
+data = ZDRIVE\tcaf\tscaf\data\tscaf_rights_programprotect02.dr	\tcaf\tscaf\data\tscaf_rights_programprotect02.dr
+data = ZDRIVE\tcaf\tscaf\data\tscaf_rights_programprotect03.dr	\tcaf\tscaf\data\tscaf_rights_programprotect03.dr
+data = ZDRIVE\tcaf\tscaf\data\tscaf_rights_serviceprotect01.dr	\tcaf\tscaf\data\tscaf_rights_serviceprotect01.dr
+data = ZDRIVE\tcaf\tscaf\data\tscaf_rights_serviceprotect02.dr	\tcaf\tscaf\data\tscaf_rights_serviceprotect02.dr
+data = ZDRIVE\tcaf\tscaf\data\tscaf_rights_serviceprotect03.dr	\tcaf\tscaf\data\tscaf_rights_serviceprotect03.dr
+data = ZDRIVE\tcaf\tscaf\data\tscaf_rights_expired01.dr		\tcaf\tscaf\data\tscaf_rights_expired01.dr
+
+#endif

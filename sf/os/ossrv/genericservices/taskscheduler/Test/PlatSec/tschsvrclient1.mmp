@@ -1,0 +1,38 @@
+// Copyright (c) 2004-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+TARGET          tschsvrclient1.exe		//RTEST
+TARGETTYPE      exe
+
+UID 0 0x10203632
+
+// This is a powerful client but should still fail to modify schedules, etc.
+// owned by a different SID as it doesn't have WriteDeviceData (or TCB).
+CAPABILITY ALL -TCB -WriteDeviceData
+
+VENDORID 0x70000001
+
+SOURCEPATH      .
+SOURCE          tschsvrclient.cpp
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+USERINCLUDE  ../TSUtils
+USERINCLUDE     ../../INC
+
+LIBRARY         euser.lib schsvr.lib efsrv.lib tsutils_tsk.lib
+
+
+
+SMPSAFE

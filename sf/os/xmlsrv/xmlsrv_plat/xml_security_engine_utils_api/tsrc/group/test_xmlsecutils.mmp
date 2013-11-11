@@ -1,0 +1,53 @@
+/*
+* Copyright (c) 2004 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:     Project specification file for test_xmlsecutils of xml_security_engine_utils_api test component
+*
+*/
+
+#include <platform_paths.hrh>
+
+
+TARGET          test_xmlsecutils.dll
+TARGETTYPE      dll
+//TARGETPATH      /z/sys/bin
+UID             0x1000af5a 0x01700000
+
+#if defined(ARMCC)
+  DEFFILE ../eabi/test_xmlsecutils.def
+#elif defined(WINSCW) || defined(WINS)
+DEFFILE ../bwinscw/test_xmlsecutils.def
+#endif
+
+CAPABILITY     CAP_GENERAL_DLL
+
+SOURCEPATH              ../src
+SOURCE                  xmlsecutilstester.cpp
+SOURCE                  xmlsecutilstesterblocks.cpp
+
+OS_LAYER_SYSTEMINCLUDE
+SYSTEMINCLUDE /epoc32/include/libc
+USERINCLUDE   ../inc
+
+LIBRARY                 stiftestinterface.lib
+LIBRARY                 charconv.lib
+LIBRARY                 efsrv.lib
+LIBRARY                 estlib.lib
+LIBRARY                 euser.lib
+LIBRARY                 InetProtUtil.lib
+LIBRARY                 SysUtil.lib
+LIBRARY                 XmlSecWrapper.lib
+
+nostrictdef
+epocallowdlldata
+SMPSAFE

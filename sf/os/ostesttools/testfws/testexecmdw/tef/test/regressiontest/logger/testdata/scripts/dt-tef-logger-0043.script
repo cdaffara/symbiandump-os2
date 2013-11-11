@@ -1,0 +1,35 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SUITE TEF_LoggerTestStep
+
+START_TESTCASE DT-TEF-Logger-0043
+//! @SYMTestCaseID          DT-TEF-Logger-0043
+//! @SYMCreationDate        09-07-2008
+//! @SYMAuthor              extShuoHuang
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        This test logger compare panic related information.
+//!                         This scripts grammar are wrong! So result is unexecute
+//!                         
+//!                         HTML, XML log test
+//! @SYMTestExpectedResults Test Step should Unexecuted. Because every steps have grammar errors.
+//!                         Test case shoud Fail.
+  PRINT should unexecute
+  RUN_TEST_STEP 1000 !PanicCode=10 !PanicString=FSCLIENT TEF_LoggerTestStep TEFPanicSomeThingStep
+  RUN_TEST_STEP 1000 !PanicCode=10 !PanicString="h sh" TEF_LoggerTestStep TEFPanicSomeThingStep 
+  RUN_TEST_STEP 1000 TEF_LoggerTestStep TEFIgnoreStep 
+  RUN_TEST_STEP 1000 !PanicCode=10 !PanicString= TEF_LoggerTestStep TEFPanicSomeThingStep 
+END_TESTCASE DT-TEF-Logger-0043

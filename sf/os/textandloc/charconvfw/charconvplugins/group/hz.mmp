@@ -1,0 +1,54 @@
+/*
+* Copyright (c) 2000-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* hz.cpl HZ converter wrapper
+*
+*/
+
+
+/**
+ @file
+*/
+
+TARGET			hz.dll
+TARGETTYPE		PLUGIN
+
+CAPABILITY		All -Tcb
+
+UID				0x10009D8D 0x102044F2
+VENDORID		0x70000001
+
+SOURCEPATH		../src/plugins
+SOURCE			hz.cpp
+
+USERINCLUDE ../inc
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+SOURCEPATH		../resource
+START RESOURCE	hz.rss
+TARGETPATH		/resource/charconv
+LANG			sc
+END
+
+START RESOURCE	102044f2.rss
+TARGET			hz.rsc
+END
+
+LIBRARY			euser.lib
+LIBRARY			charconv.lib
+LIBRARY			gb2312_shared.lib
+LIBRARY			ecom.lib
+
+SMPSAFE

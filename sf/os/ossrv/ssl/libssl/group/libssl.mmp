@@ -1,0 +1,151 @@
+/*
+Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). All rights reserved.
+
+Redistribution and use in source and binary forms, with or without 
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this 
+  list of conditions and the following disclaimer.
+* Redistributions in binary form must reproduce the above copyright notice, 
+  this list of conditions and the following disclaimer in the documentation 
+  and/or other materials provided with the distribution.
+* Neither the name of Nokia Corporation nor the names of its contributors 
+  may be used to endorse or promote products derived from this software 
+  without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE 
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, 
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+Description:  
+*/
+
+#include <platform_paths.hrh>
+
+
+/**
+@file
+
+@SYMPurpose libssl C standard library
+*/
+
+// using relative paths for sourcepath and user includes
+// exports are unfrozen
+
+OPTION CW   -w off
+OPTION MSVC /W0
+OPTION GCC  -w
+
+// Insignificant warnings in this FreeBSD library code are suppressed
+OPTION ARMCC --diag_suppress 111
+OPTION ARMCC --diag_suppress 1293
+
+
+TARGET        libssl.dll
+
+CAPABILITY   All -Tcb
+VENDORID 	0x101FB657
+VERSION 				0.10
+
+//START WINS
+//WIN32_LIBRARY   kernel32.lib
+//END // wins
+
+start wins
+win32_headers
+end
+
+#ifdef WINSCW
+OPTION CW -stdinc
+#else
+EPOCALLOWDLLDATA
+#endif
+
+TARGETTYPE    dll
+UID           0x1000008d 0x10281F34
+
+#ifdef EKA2
+DEFFILE			libssl.def
+#else
+DEFFILE			libssl.def
+#endif
+
+MACRO SYMBIAN
+MACRO OPENSSL_THREADS
+MACRO _REENTRANT 
+
+USERINCLUDE   ..
+USERINCLUDE   ../inc
+USERINCLUDE   ../../include
+USERINCLUDE		../../../genericopenlibs/openenvcore/ewsd/inc
+
+
+
+SYSTEMINCLUDE  ../inc
+
+OS_LAYER_SYSTEMINCLUDE
+OS_LAYER_LIBC_SYSTEMINCLUDE
+OS_LAYER_SSL_SYSTEMINCLUDE
+
+
+SOURCEPATH		../src
+
+SOURCE		bio_ssl.c d1_both.c d1_clnt.c d1_enc.c d1_lib.c d1_meth.c d1_pkt.c d1_srvr.c
+//SOURCE				kssl.c
+SOURCE				s23_clnt.c
+SOURCE				s23_lib.c
+SOURCE				s23_meth.c
+SOURCE				s23_pkt.c
+SOURCE				s23_srvr.c
+SOURCE				s2_clnt.c
+SOURCE				s2_enc.c
+SOURCE				s2_lib.c
+SOURCE				s2_meth.c
+SOURCE				s2_pkt.c
+SOURCE				s2_srvr.c
+SOURCE				s3_both.c
+SOURCE				s3_clnt.c
+SOURCE				s3_enc.c
+SOURCE				s3_lib.c
+SOURCE				s3_meth.c
+SOURCE				s3_pkt.c
+SOURCE				s3_srvr.c
+SOURCE				ssl_algs.c
+SOURCE				ssl_asn1.c
+SOURCE				ssl_cert.c
+SOURCE				ssl_ciph.c
+SOURCE				ssl_err2.c
+SOURCE				ssl_err.c	
+SOURCE				ssl_lib.c
+SOURCE				ssl_rsa.c
+SOURCE			ssl_sess.c
+SOURCE			ssl_stat.c
+SOURCE			ssl_txt.c
+SOURCE			t1_clnt.c
+SOURCE			t1_enc.c
+SOURCE			t1_lib.c
+SOURCE			t1_meth.c
+SOURCE			t1_srvr.c
+SOURCE			libssl_wsd.cpp
+//SOURCE          wsd_solution.cpp
+
+LIBRARY     euser.lib
+LIBRARY			libc.lib
+LIBRARY			libcrypto.lib
+#ifdef WINSCW 
+LIBRARY			ewsd.lib
+#endif
+START MARM
+END
+
+
+
+SMPSAFE
+PAGED

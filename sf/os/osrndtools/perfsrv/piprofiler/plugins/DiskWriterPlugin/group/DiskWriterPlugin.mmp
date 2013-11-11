@@ -1,0 +1,50 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  
+*
+*/
+
+
+#include <platform_paths.hrh>
+
+
+TARGET        PIProfilerDiskWriter.dll
+TARGETTYPE    PLUGIN
+UID           0x10009D8D 0x2001E5BB
+#ifdef WINSCW
+VENDORID      0
+#else
+VENDORID      VID_DEFAULT
+#endif
+CAPABILITY    ALL -TCB // AllFiles ReadDeviceData ReadUserData UserEnvironment WriteDeviceData WriteUserData
+SMPSAFE
+
+OS_LAYER_SYSTEMINCLUDE
+USERINCLUDE     ../inc
+SOURCEPATH      ../src
+
+START RESOURCE ../data/2001E5BB.rss
+TARGET piprofilerdiskwriter.rsc
+END
+
+SOURCE          DiskWriterPlugin.cpp
+SOURCE          DiskWriterPluginImplementationTable.cpp
+
+LIBRARY			sysutil.lib 
+LIBRARY         euser.lib
+LIBRARY         ecom.lib
+LIBRARY         efsrv.lib
+LIBRARY         CommonEngine.lib
+LIBRARY			flogger.lib
+

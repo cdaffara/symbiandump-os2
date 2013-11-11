@@ -1,0 +1,62 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+
+PRINT Run all te_pluginload Test Cases
+//
+
+//
+LOAD_SUITE Te_CryptoSpi
+//
+
+//! @SYMTestCaseID          SEC-CRYPTOSPI-PLUGINLOAD-0001
+//! @SYMTestCaseDesc        PluginLoad
+
+START_TESTCASE SEC-CRYPTOSPI-PLUGINLOAD-0001
+
+RUN_PROGRAM cryptospisetup.exe
+RUN_TEST_STEP 100 Te_CryptoSpi PluginLoadStep c:\testdata\tcryptospi\configs\pluginload.ini PositiveLoad
+RUN_TEST_STEP 100 Te_CryptoSpi PluginLoadStep c:\testdata\tcryptospi\configs\pluginload.ini PositiveLoad_RuleSelector
+
+//RUN_PROGRAM cryptospisetup.exe
+//RUN_TEST_STEP 100 Te_CryptoSpi PluginLoadStep c:\testdata\tcryptospi\configs\pluginload.ini NoConfig
+//RUN_TEST_STEP 100 Te_CryptoSpi PluginLoadStep c:\testdata\tcryptospi\configs\pluginload.ini NoConfig_RuleSelector
+
+//RUN_PROGRAM cryptospisetup.exe 
+//RUN_TEST_STEP 100 Te_CryptoSpi PluginLoadStep c:\testdata\tcryptospi\configs\pluginload.ini NoPlugin
+//RUN_TEST_STEP 100 Te_CryptoSpi PluginLoadStep c:\testdata\tcryptospi\configs\pluginload.ini NoPlugin_RuleSelector
+
+//RUN_PROGRAM cryptospisetup.exe 5
+//RUN_TEST_STEP 100 Te_CryptoSpi PluginLoadStep c:\testdata\tcryptospi\configs\pluginload.ini NoReferences
+//RUN_TEST_STEP 100 Te_CryptoSpi PluginLoadStep c:\testdata\tcryptospi\configs\pluginload.ini NoReferences_RuleSelector
+
+RUN_PROGRAM cryptospisetup.exe 6
+RUN_TEST_STEP 100 Te_CryptoSpi PluginLoadStep c:\testdata\tcryptospi\configs\pluginload.ini TestPositiveLoad
+RUN_TEST_STEP 100 Te_CryptoSpi PluginLoadStep c:\testdata\tcryptospi\configs\pluginload.ini TestPositiveLoad_RuleSelector
+
+RUN_PROGRAM cryptospisetup.exe 1
+RUN_TEST_STEP 100 Te_CryptoSpi PluginLoadStep c:\testdata\tcryptospi\configs\pluginload.ini TestExclusiveLoad
+RUN_TEST_STEP 100 Te_CryptoSpi PluginLoadStep c:\testdata\tcryptospi\configs\pluginload.ini TestExclusiveLoad_RuleSelector
+
+RUN_PROGRAM cryptospisetup.exe 7
+RUN_TEST_STEP 100 Te_CryptoSpi PluginLoadStep c:\testdata\tcryptospi\configs\pluginload.ini TestFirstPosition
+RUN_TEST_STEP 100 Te_CryptoSpi PluginLoadStep c:\testdata\tcryptospi\configs\pluginload.ini TestFirstPosition_RuleSelector
+
+END_TESTCASE SEC-CRYPTOSPI-PLUGINLOAD-0001
+
+RUN_PROGRAM cryptospisetup.exe
+
+PRINT te_pluginload Test Cases Complete

@@ -1,0 +1,101 @@
+/*
+* Copyright (c) 1999-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* Character Conversion Library Framework
+*
+*/
+
+
+/**
+ @file
+*/
+
+PRJ_PLATFORMS
+
+	DEFAULT WINC TOOLS TOOLS2
+
+PRJ_EXPORTS
+
+	../inc/utf.h							SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(utf.h)
+	../inc/convdata.h						SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(convdata.h)
+	../inc/convutils.h						SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(convutils.h)
+	../inc/convnames.h						SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(convnames.h)
+	../inc/charconv.h						SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(charconv.h)
+	../inc/charactersetconverter.h			SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(charactersetconverter.h)
+
+	../documentation/charconv_exe.ipr		/epoc32/engdoc/tools/charconv_exe.ipr
+	../documentation/charconv_perltools.ipr	/epoc32/engdoc/tools/charconv_perltools.ipr
+	../documentation/cnvapi.rtf				/epoc32/engdoc/charconv/cnvapi.rtf
+	../documentation/autodetect.rtf			/epoc32/engdoc/charconv/autodetect.rtf
+	../documentation/snmtool.rtf			/epoc32/engdoc/charconv/snmtool.rtf
+
+	../tools/snmtool.bat					/epoc32/tools/snmtool.bat
+	../tools/snmtool.pl						/epoc32/tools/snmtool.pl
+	../tools/PARSER.PM						/epoc32/tools/PARSER.pm
+	../tools/WRITER.PM						/epoc32/tools/WRITER.pm
+
+
+	charconv.iby							/epoc32/rom/include/charconv.iby
+
+PRJ_MMPFILES
+
+#if defined(TOOLS) || defined(TOOLS2)
+
+	convtool.mmp
+
+#else
+
+	charconv.mmp			// charconv.dll
+	convnames.mmp
+	convutils.mmp
+
+PRJ_EXTENSIONS
+
+	start extension syslibs/generate_snm
+		TARGET	basic.snm
+		SOURCES	../tools/basic.txt
+	end
+
+PRJ_TESTEXPORTS
+
+	../test/data/ethiopic.ut8					/epoc32/wins/c/system/data/ethiopic.ut8
+	../test/data/daxue.uni						/epoc32/wins/c/system/data/daxue.uni
+	../test/data/ethiopic.ut8					/epoc32/winscw/c/system/data/ethiopic.ut8
+	../test/data/daxue.uni						/epoc32/winscw/c/system/data/daxue.uni
+
+	../test/T_All_charcovfw.bat				z:/test/T_All_charcovfw.bat
+	../test/T_All_charcovfw.script			z:/test/T_All_charcovfw.script
+	../test/T_MEMORY.script			     	z:/test/T_MEMORY.script
+	../test/T_SIMPLE7.script				z:/test/T_SIMPLE7.script
+	../test/T_SIMPLE8.script				z:/test/T_SIMPLE8.script
+	../test/T_RFC1642.script				z:/test/T_RFC1642.script	
+	../test/T_COMP7.script					z:/test/T_COMP7.script
+	../test/T_COMP8.script					z:/test/T_COMP8.script
+	../test/T_REALUT8.script				z:/test/T_REALUT8.script
+	../test/T_REALUNI.script				z:/test/T_REALUNI.script
+	../test/T_ERROR.script					z:/test/T_ERROR.script
+	../test/T_NEWLIN7.script				z:/test/T_NEWLIN7.script
+	../test/T_JAVA.script					z:/test/T_JAVA.script
+	../test/T_PARTIAL.script				z:/test/T_PARTIAL.script
+	../test/T_IMAP.script					z:/test/T_IMAP.script
+
+	../test/rtest/group/charconvtests.iby		/epoc32/rom/include/charconvtests.iby
+
+PRJ_TESTMMPFILES
+
+	../test/rtest/group/utf7.mmp				support			// used by tcomp7
+	../test/rtest/group/utf8.mmp				support			// used by tcomp8
+	../group/T_CharConvFWServer.mmp
+
+#endif

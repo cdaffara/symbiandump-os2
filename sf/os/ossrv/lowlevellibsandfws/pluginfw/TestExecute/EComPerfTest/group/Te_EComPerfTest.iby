@@ -1,0 +1,54 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+#ifndef TE_ECOMPERFTEST_IBY
+#define TE_ECOMPERFTEST_IBY
+
+#include <testexecute.iby>
+#include <ecomtestutils.iby>
+
+// Example plug-in that must be in ROM
+//
+ECOM_PLUGIN(EComPerfTestDllOne.dll,EComPerfTestDllOne.rsc)
+ECOM_PLUGIN(EComPerfTestDllTwo.dll,EComPerfTestDllTwo.rsc)
+ECOM_PLUGIN(EComClientRequestPerfTestResolver.dll,EComClientRequestPerfTestResolver.rsc)
+ECOM_PLUGIN(EComExample10.dll,ECOMExample10.rsc)
+
+//add more dlls and exe for CR629 performance test
+// Helper processes to move files around when data caging enforced.
+file=ABI_DIR\BUILD_DIR\t_processfilemancopyfile.exe 	System\Programs\t_processfilemancopyfile.exe
+file=ABI_DIR\BUILD_DIR\t_processfilemanrename.exe 		System\Programs\t_processfilemanrename.exe
+file=ABI_DIR\BUILD_DIR\t_processfilemandeletefile.exe	System\Programs\t_processfilemandeletefile.exe
+file=ABI_DIR\BUILD_DIR\t_processfilemandeletedir.exe	System\Programs\t_processfilemandeletedir.exe
+file=ABI_DIR\BUILD_DIR\t_processrfsreplacefile.exe		System\Programs\t_processrfsreplacefile.exe
+file=ABI_DIR\BUILD_DIR\t_processrfsdeletefile.exe		System\Programs\t_processrfsdeletefile.exe	
+file=ABI_DIR\BUILD_DIR\t_makefilewriteable.exe			System\Programs\t_makefilewriteable.exe
+file=ABI_DIR\BUILD_DIR\t_processkillprocess.exe			System\Programs\t_processkillprocess.exe
+
+//add more RSCs files for CR629 performance test
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComCR629Example1.rsc	RAMOnly\EComCR629Example1.rsc
+//data=EPOCROOT##epoc32\data\z\RAMOnly\EComCR629Example1.dll	RAMOnly\EComCR629Example1.dll
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComCR629Example2.rsc	RAMOnly\EComCR629Example2.rsc
+//data=EPOCROOT##epoc32\data\z\RAMOnly\EComCR629Example2.dll	RAMOnly\EComCR629Example2.dll
+
+//add more RSCS files for EC43 performance test
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComExample12.rsc	RAMOnly\EComExample12.rsc
+
+file=ABI_DIR\BUILD_DIR\Te_EComPerfTest.exe						System\bin\Te_EComPerfTest.exe
+file=ABI_DIR\BUILD_DIR\TE_EcomGranularityTestServer.exe			System\bin\TE_EcomGranularityTestServer.exe
+data=EPOCROOT##epoc32\data\z\TEF_Ecom\Te_EComPerfTest.script 	TEF_Ecom\Te_EComPerfTest.script 
+data=EPOCROOT##epoc32\data\z\TEF_Ecom\EcomGranularityTest.ini 	TEF_Ecom\EcomGranularityTest.ini
+
+#endif //TE_ECOMPERFTEST_IBY

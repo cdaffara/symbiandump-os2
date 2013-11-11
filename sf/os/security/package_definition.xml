@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SystemDefinition schema="3.0.0">
+  <package id="security" name="OS Security" levels="physical-abstraction plugins libraries management services utilities">
+    <collection id="authorisation" name="Authorisation" level="utilities">
+      <component id="userpromptservice" name="User Prompt Service" introduced="^3" purpose="mandatory">
+        <unit bldFile="authorisation/userpromptservice/group" mrp="authorisation/userpromptservice/group/security_ups.mrp"/>
+      </component>
+      <component id="userpromptutils" name="User Prompt Utils" introduced="^3" purpose="optional">
+        <unit bldFile="authorisation/userpromptutils/group" mrp="authorisation/userpromptutils/group/security_ups_utils.mrp"/>
+      </component>
+    </collection>
+    <collection id="contentmgmt" name="Content Management" level="utilities">
+      <component id="contentaccessfwfordrm" name="Content Access Framework for DRM" introduced="9.1" purpose="mandatory">
+        <unit bldFile="contentmgmt/contentaccessfwfordrm/group" mrp="contentmgmt/contentaccessfwfordrm/group/security_caf2.mrp"/>
+      </component>
+      <component id="cafrecogniserconfig" name="CAF Recogniser Config" introduced="9.1" purpose="mandatory">
+        <unit bldFile="contentmgmt/cafrecogniserconfig" mrp="contentmgmt/cafrecogniserconfig/security_reccafconfig.mrp"/>
+      </component>
+      <component id="referencedrmagent" name="Reference DRM Agent" introduced="8.0" purpose="development">      
+        <unit bldFile="contentmgmt/referencedrmagent/RefTestAgent/group" mrp="contentmgmt/referencedrmagent/RefTestAgent/group/security_rta.mrp"/>
+      </component>
+      <component id="cafstreamingsupport" name="CAF Streaming Support" introduced="^3" purpose="optional">
+        <unit bldFile="contentmgmt/cafstreamingsupport/group" mrp="contentmgmt/cafstreamingsupport/group/security_streamingcaf.mrp"/>
+      </component>      
+    </collection>
+    <collection id="crypto" name="Crypto Libraries" level="libraries">
+      <component id="weakcryptospi" name="Weak Crypto SPI" filter="gt" introduced="^3" purpose="optional">
+        <unit bldFile="crypto/weakcryptospi/group" mrp="crypto/weakcryptospi/group/security_cryptospi_weak.mrp"/>
+      </component>
+      <component id="strongcryptospi" name="Strong Crypto SPI" filter="gt" introduced="^3" purpose="optional">
+        <unit bldFile="crypto/weakcryptospi/strong" mrp="crypto/weakcryptospi/group/security_cryptospi_strong.mrp"/>
+      </component>
+    </collection>
+    <collection id="cryptomgmtlibs" name="Crypto Management Libraries" level="management">
+      <component id="securityutils" name="Security Utils" introduced="8.0" purpose="optional">
+        <unit bldFile="cryptomgmtlibs/securityutils/group" mrp="cryptomgmtlibs/securityutils/group/security_common.mrp"/>
+      </component>
+      <component id="securitytestfw" name="Security Test Framework" deprecated="^3" introduced="7.0" purpose="development" filter="test">
+        <unit mrp="cryptomgmtlibs/securitytestfw/group/security_testframework.mrp" bldFile="cryptomgmtlibs/securitytestfw/group"/>
+      </component>
+      <component id="cryptotokenfw" name="Crypto Token Framework" introduced="7.0" purpose="optional">
+        <unit bldFile="cryptomgmtlibs/cryptotokenfw/group" mrp="cryptomgmtlibs/cryptotokenfw/group/security_cryptotokens.mrp"/>
+      </component>
+      <component id="securitycommonutils" name="Security Common Utils" introduced="8.0" purpose="mandatory">
+        <unit bldFile="cryptomgmtlibs/securitycommonutils/group" mrp="cryptomgmtlibs/securitycommonutils/group/security_commonutils.mrp"/>
+      </component>
+    </collection>
+    <collection id="securityanddataprivacytools" name="Security and Data Privacy Tools" level="services">
+      <component id="securityconfig" name="Security Config" introduced="9.1" purpose="optional">
+        <unit bldFile="securityanddataprivacytools/securityconfig/group" mrp="securityanddataprivacytools/securityconfig/group/security_config.mrp"/>
+      </component>
+      <component id="openssllib" name="Openssl Lib" introduced="^4" purpose="optional">
+        <unit mrp="securityanddataprivacytools/openssllib/security_openssllib.mrp"/>
+      </component>
+      <component id="securitytools" name="Security Tools" introduced="^3" purpose="optional" target="desktop">
+        <unit bldFile="securityanddataprivacytools/securitytools/group" mrp="securityanddataprivacytools/securitytools/group/security_tools.mrp"/>
+      </component>
+    </collection>
+    <collection id="cryptoplugins" name="Crypto Plugins" level="plugins">
+      <component id="cryptospiplugins" name="Crypto SPI Plugins" filter="gt" introduced="^3" purpose="optional" class="plugin">
+        <unit bldFile="cryptoplugins/cryptospiplugins/group" mrp="cryptoplugins/cryptospiplugins/group/security_cryptospi_plugins.mrp"/>
+      </component>
+    </collection>
+    <collection id="cryptoservices" name="Crypto Services" level="plugins">
+      <component id="certificateandkeymgmt" name="Certificate and Key Management" introduced="6.0" purpose="optional">
+        <unit bldFile="cryptoservices/certificateandkeymgmt/group" mrp="cryptoservices/certificateandkeymgmt/group/security_certman.mrp"/>
+      </component>
+      <component id="filebasedcertificateandkeystores" name="File-based Certificate and Key Stores" introduced="8.0" purpose="optional">
+        <unit bldFile="cryptoservices/filebasedcertificateandkeystores/group" mrp="cryptoservices/filebasedcertificateandkeystores/group/security_filetokens.mrp"/>
+      </component>
+      <component id="rootcertificates" name="Root Certificates" introduced="7.0s" purpose="optional" filter="sf_build">
+        <unit bldFile="cryptoservices/rootcertificates/group" mrp="cryptoservices/rootcertificates/group/rootcerts.mrp"/>
+      </component>
+      <component id="browserrootcertificates" name="Browser Root Certificates" introduced="^2" purpose="optional" filter="sf_build">
+        <unit mrp="cryptoservices/browserrootcertificates/browserrootcerts.mrp"/>
+      </component>
+      <component id="asnpkcs" name="ASN PKCS" introduced="8.0" purpose="optional">
+        <unit bldFile="cryptoservices/asnpkcs/group" mrp="cryptoservices/asnpkcs/group/security_asnpkcs.mrp"/>
+      </component>
+    </collection>
+    <collection id="security_info" name="OS Security Info" level="utilities">
+      <component id="security_metadata" name="OS Security Metadata" class="config" introduced="^2" purpose="development" target="desktop">
+        <unit mrp="security_info/security_metadata/security_metadata.mrp"/>
+      </component>
+    </collection>
+  </package>
+</SystemDefinition>

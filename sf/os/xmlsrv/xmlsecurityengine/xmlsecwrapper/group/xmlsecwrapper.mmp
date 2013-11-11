@@ -1,0 +1,81 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: Project definition file for XmlSec Wrapper component       
+*
+*/
+
+#include "../../inc/xmlsecvariant.hrh"
+
+TARGET          xmlsecwrapper.dll
+TARGETTYPE      dll
+UID             0x1000008D 0x101F9793
+
+#ifdef CAP_GENERAL_DLL
+    CAPABILITY CAP_GENERAL_DLL
+#else
+    CAPABILITY ALL -TCB
+#endif
+
+    VENDORID VID_DEFAULT        
+
+SOURCEPATH      ../src
+SOURCE          xmlsecwencrypt.cpp
+SOURCE          xmlsecwsign.cpp
+SOURCE          xmlsecwkeymanager.cpp
+SOURCE          xmlsecwinit.cpp
+SOURCE          xmlsecwtemplate.cpp
+SOURCE          xmlsecwinternalutils.cpp
+
+OS_LAYER_SYSTEMINCLUDE
+SYSTEMINCLUDE ../../../inc
+SYSTEMINCLUDE ../../inc
+
+SYSTEMINCLUDE  /epoc32/include/libc
+USERINCLUDE     ../inc
+
+LIBRARY         euser.lib
+
+#ifdef __RD_XMLSEC_MEMCOPY_PROBLEM_FIX__
+LIBRARY estlib.lib
+#endif
+
+LIBRARY         charconv.lib
+LIBRARY         efsrv.lib
+#if !defined(__RD_XMLSEC_SRCINC_CHANGE_REVERSE__)
+//libxml2parser
+LIBRARY         xmlengine.lib
+LIBRARY         xmlengineutils.lib
+LIBRARY         xmlenginedom.lib
+#else
+LIBRARY 	wsstarxmlengine.lib
+LIBRARY         wsstarxmlengineutils.lib
+LIBRARY         wsstarxmlenginedom.lib
+#endif
+//xmlsecurity
+LIBRARY         xmlsec.lib
+LIBRARY         xmlseccrypto.lib
+
+#if defined(ARMCC)
+#if !defined(__RD_XMLSEC_MEMCOPY_PROBLEM_FIX__)
+  DEFFILE ../eabi/xmlsecwrapper.def
+#else
+  DEFFILE ../eabi/wsstarxmlsecwrapper.def
+#endif
+#elif defined(WINSCW) || defined(WINS)
+  DEFFILE ../bwinscw/xmlsecwrapper.def
+#endif
+
+nostrictdef
+
+SMPSAFE

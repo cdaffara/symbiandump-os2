@@ -1,0 +1,1098 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+//! @file
+// filetokens tools unit (integration) tests
+PRINT Run all certtool and keytool tests
+LOAD_SUITE ttesttools
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0001
+//! @SYMTestCaseDesc 	Certool help command  
+//! 			(certhelp)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call Certool for the help command
+//! @SYMTestExpectedResults Certtool  help command should display the help command as expected
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0001
+RUN_PROGRAM certtool.exe c:\ttesttools\data\certhelp.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\sec-filetokens-tools.ini certhelp
+END_TESTCASE SEC-FILETOKENS-EC097-0001
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0002
+//! @SYMTestCaseDesc 	Certool Individual help command  
+//! 			(certhelp_individual)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call Certool for the Individual help command
+//! @SYMTestExpectedResults Certtool Individual help command should display the help command as expected
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0002
+RUN_PROGRAM certtool.exe c:\ttesttools\data\cert_helpls.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\sec-filetokens-tools.ini certhelp_individual
+END_TESTCASE SEC-FILETOKENS-EC097-0002
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0003
+//! @SYMTestCaseDesc 	Certool liststore command  
+//! 			(certtool_liststores)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call Certool for the liststore command then parse the output file and constuct the expected stores
+//! @SYMTestExpectedResults Call certstore via CUnifiedCertstore and compare with the expected stores
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0003
+RUN_PROGRAM certtool.exe c:\ttesttools\data\cert_ls.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ListCertStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_liststores
+END_TESTCASE SEC-FILETOKENS-EC097-0003
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0004
+//! @SYMTestCaseDesc 	Certool import command  
+//! 			(certtool_import_store0)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call Certool to import the certificate. 
+//! @SYMTestExpectedResults Call certstore list via CUnifiedCertstore and confirms the certificate is listed
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0004
+RUN_PROGRAM certtool.exe c:\ttesttools\data\cert_import1.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ListCertStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_import_store0
+END_TESTCASE SEC-FILETOKENS-EC097-0004
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0005
+//! @SYMTestCaseDesc 	Certool import command  
+//! 			(certtool_import_store1)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call Certool to import the certificate to store 1
+//! @SYMTestExpectedResults Call certstore list via CUnifiedCertstore and confirms the certificate is listed
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0005
+RUN_PROGRAM certtool.exe c:\ttesttools\data\cert_import2.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ListCertStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_import_store1
+END_TESTCASE SEC-FILETOKENS-EC097-0005
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0006
+//! @SYMTestCaseDesc	Certool import command  
+//! 			(certtool_import_store01twice)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call Certool to import the same certificate with same name in two different stores
+//! @SYMTestExpectedResults Call certstore list via CUnifiedCertstore and confirms the certificate is listed
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0006
+RUN_PROGRAM certtool.exe c:\ttesttools\data\cert_import3.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ListCertStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_import_store01twice
+END_TESTCASE SEC-FILETOKENS-EC097-0006
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0007
+//! @SYMTestCaseDesc 	Certool import command  
+//! 			(certtool_import_keycert)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call Certool to import the certificate as well as the key
+//! @SYMTestExpectedResults Call certstore list via CUnifiedCertstore and confirms the certificate is listed
+//!	Call keystore list via CUnifiedKeystore and confirms the key is listed
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0007
+RUN_PROGRAM certtool.exe c:\ttesttools\data\cert_import4.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ListCertStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_import_keycert
+RUN_TEST_STEP 100 ttesttools ListKeyStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_import_keycert
+END_TESTCASE SEC-FILETOKENS-EC097-0007
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0008
+//! @SYMTestCaseDesc 	Certool setapps command  
+//! 			(certtool_setapps)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call Certool to set the application trust status for the certificate
+//! @SYMTestExpectedResults Query certstore via CUnifiedCertstore for the certificats trust status
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0008
+RUN_PROGRAM certtool.exe c:\ttesttools\data\cert_setapps.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools GetTrustAppsStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_setapps
+END_TESTCASE SEC-FILETOKENS-EC097-0008
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0009
+//! @SYMTestCaseDesc 	Certool addapps command  
+//! 			(certtool_addapps)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call Certool to add the application trust status for the certificate
+//! @SYMTestExpectedResults Query certstore via CUnifiedCertstore for the certificats trust status
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0009
+RUN_PROGRAM certtool.exe c:\ttesttools\data\cert_addapps.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools GetTrustAppsStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_addapps
+END_TESTCASE SEC-FILETOKENS-EC097-0009
+
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0010
+//! @SYMTestCaseDesc 	Certool removeapps command  
+//! 			(certtool_removeapps)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call Certool to remove the application trust status for the certificate
+//! @SYMTestExpectedResults Query certstore via CUnifiedCertstore for the certificats trust status
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0010
+RUN_PROGRAM certtool.exe c:\ttesttools\data\cert_removeapps.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools GetTrustAppsStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_removeapps
+END_TESTCASE SEC-FILETOKENS-EC097-0010
+
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0011
+//! @SYMTestCaseDesc 	Certool list command  
+//! 			(certtool_list)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call Certool to list the certificate then parse the output file and construct the expected cert list
+//! @SYMTestExpectedResults Query certstore  list via CUnifiedCertstore and confirms with the expected certlist
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0011
+RUN_PROGRAM certtool.exe c:\ttesttools\data\cert_list1.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ListCertStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_list
+END_TESTCASE SEC-FILETOKENS-EC097-0011
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0012
+//! @SYMTestCaseDesc 	Certool list the certficate in store 1  
+//! 			(certtool_list_store)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call Certool to list the certificate in store 1 then parse the output file and construct the expected cert list
+//! @SYMTestExpectedResults Query certstore  list via CUnifiedCertstore and confirms with the expected certlist
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0012
+RUN_PROGRAM certtool.exe c:\ttesttools\data\cert_list2.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ListCertStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_list_store
+END_TESTCASE SEC-FILETOKENS-EC097-0012
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0013
+//! @SYMTestCaseDesc 	Certool list a particular certificate
+//! 			(certtool_list_cert)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call Certool to list the certificate 
+//! @SYMTestExpectedResults Query certstore  list via CUnifiedCertstore and confirms with the expected certificate
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0013
+RUN_PROGRAM certtool.exe c:\ttesttools\data\cert_list3.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ListCertStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_list_cert
+END_TESTCASE SEC-FILETOKENS-EC097-0013
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0014
+//! @SYMTestCaseDesc 	Certool list a particular owner type 
+//! 			(certtool_list_certowner)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call Certool to list the certificate for a particular owner
+//! @SYMTestExpectedResults Query certstore  list via CUnifiedCertstore and confirms with the expected certlist
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0014
+RUN_PROGRAM certtool.exe c:\ttesttools\data\cert_list4.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ListCertStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_list_certowner
+END_TESTCASE SEC-FILETOKENS-EC097-0014
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0015
+//! @SYMTestCaseDesc 	Certool remove command  
+//! 			(certtool_remove)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call Certool to remove the certificate 
+//! @SYMTestExpectedResults Query certstore  list via CUnifiedCertstore and confirm that the certificate won't be listed
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0015
+RUN_PROGRAM certtool.exe c:\ttesttools\data\cert_remove1.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ListCertStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_remove1
+RUN_TEST_STEP 100 ttesttools ListCertStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_remove2
+RUN_TEST_STEP 100 ttesttools ListCertStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_remove3
+END_TESTCASE SEC-FILETOKENS-EC097-0015
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0016
+//! @SYMTestCaseDesc 	Certool remove key and cert
+//! 			(certtool_removekey)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call Certool to remove the certificate as well as key
+//! @SYMTestExpectedResults Query certstore  and keystore and confirms both cert and key are deleted.
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0016
+RUN_PROGRAM certtool.exe c:\ttesttools\data\cert_remove2.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ListCertStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_removekey
+RUN_TEST_STEP 100 ttesttools ListKeyStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_removekey
+END_TESTCASE SEC-FILETOKENS-EC097-0016
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0017
+//! @SYMTestCaseDesc	keytool help command 
+//! 			(keytool_help)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call keytool to display the help command
+//! @SYMTestExpectedResults help command should display the help command as expected
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0017
+RUN_PROGRAM keytool.exe c:\ttesttools\data\keyhelp.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\sec-filetokens-tools.ini keytool_help
+END_TESTCASE SEC-FILETOKENS-EC097-0017
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0018
+//! @SYMTestCaseDesc 	keytool Individual help command 
+//! 			(keytool_help_individual)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call keytool to display the Individual help command
+//! @SYMTestExpectedResults help command should display the help command as expected
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0018
+RUN_PROGRAM keytool.exe c:\ttesttools\data\key_setuserhelp.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\sec-filetokens-tools.ini keytool_help_individual
+END_TESTCASE SEC-FILETOKENS-EC097-0018
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0019
+//! @SYMTestCaseDesc 	keytool liststore command  
+//! 			(keytool_liststores)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call keytool for the liststore command then parse the output file and constuct the expected stores
+//! @SYMTestExpectedResults Call keystore via CUnifiedKeystore and compare with the expected stores
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0019
+RUN_PROGRAM keytool.exe c:\ttesttools\data\key_ls.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ListKeyStep c:\ttesttools\scripts\sec-filetokens-tools.ini keytool_liststores
+END_TESTCASE SEC-FILETOKENS-EC097-0019
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0020
+//! @SYMTestCaseDesc 	keytool import command  
+//! 			(keytool_import_key)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call keytool to import the certtificate. 
+//! @SYMTestExpectedResults Call keystore list via CUnifiedkeystore and confirms the key is listed
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0020
+RUN_PROGRAM keytool.exe c:\ttesttools\data\key_import1.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ListKeyStep c:\ttesttools\scripts\sec-filetokens-tools.ini keytool_import_key
+END_TESTCASE SEC-FILETOKENS-EC097-0020
+
+//! Test case 21 and 22 should be uncommented after fix the defect DEF113031
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0021
+//! @SYMTestCaseDesc 	keytool import command  
+//! 			(keytool_import_key_store1)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call keytool to import the key to store 1
+//! @SYMTestExpectedResults Call keystore list via CUnifiedKeystore and confirms the key is listed
+//! @SYMDevelopedForRelease Sphinx
+
+// START_TESTCASE SEC-FILETOKENS-EC097-0021
+// RUN_PROGRAM keytool.exe c:\ttesttools\data\key_import2.txt c:\output.txt
+// RUN_TEST_STEP 100 ttesttools ListKeyStep c:\ttesttools\scripts\sec-filetokens-tools.ini keytool_import_key_store1
+// END_TESTCASE SEC-FILETOKENS-EC097-0021
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0022
+//! @SYMTestCaseDesc 	keytool import command  
+//! 			(keytool_import_key_store01twice)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call keytool to import the same key with same name in two different stores
+//! @SYMTestExpectedResults Call keystore list via CUnifiedKeystore and confirms the key is listed
+//! @SYMDevelopedForRelease Sphinx
+
+// START_TESTCASE SEC-FILETOKENS-EC097-0022
+// RUN_PROGRAM keytool.exe c:\ttesttools\data\key_import3.txt c:\output.txt
+// RUN_TEST_STEP 100 ttesttools ListKeyStep c:\ttesttools\scripts\sec-filetokens-tools.ini keytool_import_key_store01twice
+// END_TESTCASE SEC-FILETOKENS-EC097-0022
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0023
+//! @SYMTestCaseDesc 	keytool list command  
+//! 			(keytool_list)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call keytool to list the keys then parse the output file and construct the expected key list
+//! @SYMTestExpectedResults Query keystore  list via CUnifiedKeystore and confirms with the expected keylist
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0023
+RUN_PROGRAM keytool.exe c:\ttesttools\data\key_list1.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ListKeyStep c:\ttesttools\scripts\sec-filetokens-tools.ini keytool_list
+END_TESTCASE SEC-FILETOKENS-EC097-0023
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0024
+//! @SYMTestCaseDesc 	keytool list the keys in store 0  
+//! 			(keytool_list_store)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call keytool to list the keys in store 0 then parse the output file and construct the expected key list
+//! @SYMTestExpectedResults Query keystore  list via CUnifiedKeystore and confirms with the expected key list.
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0024
+RUN_PROGRAM keytool.exe c:\ttesttools\data\key_list2.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ListKeyStep c:\ttesttools\scripts\sec-filetokens-tools.ini keytool_list_store
+END_TESTCASE SEC-FILETOKENS-EC097-0024
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0025
+//! @SYMTestCaseDesc 	keytool list a particular key
+//! 			(keytool_list_key)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions 	 call keytool to list the key 
+//! @SYMTestExpectedResults Query keystore  list via CUnifiedKeystore and confirms with the expected key
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0025
+RUN_PROGRAM keytool.exe c:\ttesttools\data\key_list3.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ListKeyStep c:\ttesttools\scripts\sec-filetokens-tools.ini keytool_list_key
+END_TESTCASE SEC-FILETOKENS-EC097-0025
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0026
+//! @SYMTestCaseDesc 	keytool remove a particular key
+//! 			(keytool_remove)
+//! @SYMTestPriority	Medium
+//! @SYMTestActions  	call keytool to remove the key 
+//! @SYMTestExpectedResults Query keystore list via CUnifiedKeystore and confirms with the expected key won't be listed
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0026
+RUN_PROGRAM keytool.exe c:\ttesttools\data\key_remove.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ListKeyStep c:\ttesttools\scripts\sec-filetokens-tools.ini keytool_remove
+END_TESTCASE SEC-FILETOKENS-EC097-0026
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0027
+//! @SYMTestCaseDesc 	keytool setuser command
+//! 			(keytool_setuser)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call keytool to setuser for the key 
+//! @SYMTestExpectedResults Query keystore via CUnifiedKeystore for the key user.
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0027
+RUN_PROGRAM keytool.exe c:\ttesttools\data\key_setuser.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools GetPolicyStep c:\ttesttools\scripts\sec-filetokens-tools.ini keytool_setuser
+END_TESTCASE SEC-FILETOKENS-EC097-0027
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0028
+//! @SYMTestCaseDesc 	keytool setalluser command
+//! 			(keytool_setallusers)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call keytool to setalluser for the key 
+//! @SYMTestExpectedResults Query keystore via CUnifiedKeystore for the key user.
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0028
+RUN_PROGRAM keytool.exe c:\ttesttools\data\key_setalluser.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools GetPolicyStep c:\ttesttools\scripts\sec-filetokens-tools.ini keytool_setallusers
+END_TESTCASE SEC-FILETOKENS-EC097-0028
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0029
+//! @SYMTestCaseDesc 	keytool setmanager command
+//! 			(keytool_setmanager)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call keytool to setmanager for the key 
+//! @SYMTestExpectedResults Query keystore via CUnifiedKeystore for the key manager.
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0029
+RUN_PROGRAM keytool.exe c:\ttesttools\data\key_setmanager.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools GetPolicyStep c:\ttesttools\scripts\sec-filetokens-tools.ini keytool_setmanager
+END_TESTCASE SEC-FILETOKENS-EC097-0029
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0030
+//! @SYMTestCaseDesc 	keytool removeuser command
+//! 			(keytool_removeuser)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call keytool to remove the user for the key 
+//! @SYMTestExpectedResults Query keystore via CUnifiedKeystore for the key user.
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0030
+RUN_PROGRAM keytool.exe c:\ttesttools\data\key_removeuser.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools GetPolicyStep c:\ttesttools\scripts\sec-filetokens-tools.ini keytool_removeuser
+END_TESTCASE SEC-FILETOKENS-EC097-0030
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0031
+//! @SYMTestCaseDesc 	certtool imported key managed by keytool 
+//! 			(certtoolkey_keytoolmanage)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call certtool to import a key then call keytool to setuser,removeuser , remove the key
+//! @SYMTestExpectedResults Query keystore via CUnifiedKeystore for the key Details.
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0031
+RUN_PROGRAM certtool.exe c:\ttesttools\data\cert_import4.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ListCertStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_import_keycert
+RUN_TEST_STEP 100 ttesttools ListKeyStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_import_keycert
+RUN_PROGRAM keytool.exe c:\ttesttools\data\key_import4.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools GetPolicyStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtoolkey_keytoolmanage
+RUN_TEST_STEP 100 ttesttools GetPolicyStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtoolkey_keytoolmanage1
+END_TESTCASE SEC-FILETOKENS-EC097-0031
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0032
+//! @SYMTestCaseDesc 	Certool help command
+//! 			(certtool_helpfail)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions 	 call Certool for the help command without any argument
+//! @SYMTestExpectedResults Certtool  help command should display the help command as expected
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0032
+RUN_PROGRAM certtool.exe c:\ttesttools\data\cert_helpfail1.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\sec-filetokens-tools.ini certhelp
+END_TESTCASE SEC-FILETOKENS-EC097-0032
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0033
+//! @SYMTestCaseDesc 	Certool Individual help command  
+//! 			(certtool_individual_helpfail)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call Certool for the individual help command with wrong command
+//! @SYMTestExpectedResults Certtool  help command should display the help command as expected
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0033
+RUN_PROGRAM certtool.exe c:\ttesttools\data\cert_helpfail2.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\sec-filetokens-tools.ini certhelp
+END_TESTCASE SEC-FILETOKENS-EC097-0033
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0035
+//! @SYMTestCaseDesc 	Certool importing twice
+//! 			(certtool_import_twicefail)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call Certool to import a certificate twice
+//! @SYMTestExpectedResults Certtool  should display the error message as already exists
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0035
+RUN_PROGRAM certtool.exe c:\ttesttools\data\cert_importfail1.txt c:\output.txt
+RUN_PROGRAM certtool.exe c:\ttesttools\data\cert_importfail1.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_import_twicefail
+END_TESTCASE SEC-FILETOKENS-EC097-0035
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0036
+//! @SYMTestCaseDesc 	Certool importing certficate to non existing store
+//! 			(certtool_import_emptycertstorefail)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions 	call Certool to import a certificate to non existing store
+//! @SYMTestExpectedResults Certtool  should display the error message as not exist
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0036
+RUN_PROGRAM certtool.exe c:\ttesttools\data\cert_importfail2.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_import_emptycertstorefail
+END_TESTCASE SEC-FILETOKENS-EC097-0036
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0037
+//! @SYMTestCaseDesc Certool importing nonexisting certificate
+//! 		     (certtool_import_nonexistfail)
+//! @SYMTestPriority Medium
+//! @SYMTestActions  call Certool to import a nonexisting certficate
+//! @SYMTestExpectedResults Certtool  should display the error message as cannot open the file
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0037
+RUN_PROGRAM certtool.exe c:\ttesttools\data\cert_importfail3.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_import_nonexistfail
+END_TESTCASE SEC-FILETOKENS-EC097-0037
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0038
+//! @SYMTestCaseDesc 	Certool importing corrupted certificate
+//! 			(certtool_import_corruptcertfail)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call Certool to import a corrupted certificate 
+//! @SYMTestExpectedResults Certtool  should display the error message as corrupted
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0038
+RUN_PROGRAM certtool.exe c:\ttesttools\data\cert_importfail4.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_import_corruptcertfail
+END_TESTCASE SEC-FILETOKENS-EC097-0038
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0039
+//! @SYMTestCaseDesc 	Certool importing a empty certficate
+//! 			(certtool_import_emptycertfail)
+//! @SYMTestPriority	Medium
+//! @SYMTestActions  	call Certool to import a empty certficate
+//! @SYMTestExpectedResults Certtool  should display the error message as cannot open the file
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0039
+RUN_PROGRAM certtool.exe c:\ttesttools\data\cert_importfail5.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_import_emptycertfail
+END_TESTCASE SEC-FILETOKENS-EC097-0039
+
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0040
+//! @SYMTestCaseDesc 	Certool setapps command
+//! 			(certtool_setapps_invalidfail)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call Certool to setapps a certificate where the apps is not exist
+//! @SYMTestExpectedResults Certtool  should display the error message try one of existing apps
+//! @SYMDevelopedForRelease Sphinx
+
+
+START_TESTCASE SEC-FILETOKENS-EC097-0040
+RUN_PROGRAM certtool.exe c:\ttesttools\data\cert_setappsfail1.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_setapps_invalidfail
+END_TESTCASE SEC-FILETOKENS-EC097-0040
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0041
+//! @SYMTestCaseDesc 	Certool setapps command
+//! 			(certtool_setapps_userfail)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call Certool to setapps a user certificate
+//! @SYMTestExpectedResults Certtool  should display the error message error occured while adding applicability
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0041
+RUN_PROGRAM certtool.exe c:\ttesttools\data\cert_setappsfail2.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_setapps_userfail
+END_TESTCASE SEC-FILETOKENS-EC097-0041
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0042
+//! @SYMTestCaseDesc Certool addapps command
+//! 		     (certtool_addapps_invalidfail)
+//! @SYMTestPriority Medium
+//! @SYMTestActions  call Certool to addapps a certificate where the apps is not exist
+//! @SYMTestExpectedResults Certtool  should display the error message try one of existing apps
+//! @SYMDevelopedForRelease Sphinx
+
+
+START_TESTCASE SEC-FILETOKENS-EC097-0042
+RUN_PROGRAM certtool.exe c:\ttesttools\data\cert_addappsfail1.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_addapps_invalidfail
+END_TESTCASE SEC-FILETOKENS-EC097-0042
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0043
+//! @SYMTestCaseDesc Certool addapps command
+//! 		     (certtool_addapps_userfail)
+//! @SYMTestPriority Medium
+//! @SYMTestActions  call Certool to addapps a certificate where the apps is not exist
+//! @SYMTestExpectedResults Certtool should display the error message error occured while adding applicability
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0043
+RUN_PROGRAM certtool.exe c:\ttesttools\data\cert_setappsfail2.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_addapps_userfail
+END_TESTCASE SEC-FILETOKENS-EC097-0043
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0044
+//! @SYMTestCaseDesc 	Certool removeapps command
+//! 			(certtool_removeapps_invalidfail)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call Certool to removeapps a certificate where the apps is not exist
+//! @SYMTestExpectedResults Certtool  should display the error message try one of existing apps
+//! @SYMDevelopedForRelease Sphinx
+
+
+START_TESTCASE SEC-FILETOKENS-EC097-0044
+RUN_PROGRAM certtool.exe c:\ttesttools\data\cert_removeappsfail1.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_removeapps_invalidfail
+END_TESTCASE SEC-FILETOKENS-EC097-0044
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0045
+//! @SYMTestCaseDesc Certool removeapps command
+//! 		     (certtool_removeapps_untrustfail)
+//! @SYMTestPriority Medium
+//! @SYMTestActions  call Certool to removeapps a certificate where the applicability is not exist
+//! @SYMTestExpectedResults Certtool  should display the error message not trusted for the apps
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0045
+RUN_PROGRAM certtool.exe c:\ttesttools\data\cert_removeappsfail2.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_removeapps_untrustfail
+END_TESTCASE SEC-FILETOKENS-EC097-0045
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0046
+//! @SYMTestCaseDesc Certool list command
+//! 		     (certtool_list_fail)
+//! @SYMTestPriority Medium
+//! @SYMTestActions  call Certool to list a certificate where the certificate  store is not exist
+//! @SYMTestExpectedResults Certtool  should display the error message store not exist
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0046
+RUN_PROGRAM certtool.exe c:\ttesttools\data\cert_listfail1.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_list_fail
+END_TESTCASE SEC-FILETOKENS-EC097-0046
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0047
+//! @SYMTestCaseDesc Certool list command
+//! 		     (certtool_list_fail1)
+//! @SYMTestPriority Medium
+//! @SYMTestActions  call Certool to list a certificate where the certificate  is not exist
+//! @SYMTestExpectedResults Certtool  should display the error message certificate is not exist
+//! @SYMDevelopedForRelease Sphinx
+
+
+START_TESTCASE SEC-FILETOKENS-EC097-0047
+RUN_PROGRAM certtool.exe c:\ttesttools\data\cert_listfail2.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_list_fail1
+END_TESTCASE SEC-FILETOKENS-EC097-0047
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0034
+//! @SYMTestCaseDesc 	Certool list command
+//! 			(certtool_list_fail2)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call Certool to list a certificate ownere where the owner is not exist
+//! @SYMTestExpectedResults Certtool  should display the error message as no certificate exist
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0034
+RUN_PROGRAM certtool.exe c:\ttesttools\data\cert_listfail3.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_list_fail2
+END_TESTCASE SEC-FILETOKENS-EC097-0034
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0048
+//! @SYMTestCaseDesc 	Certool remove command
+//! 			(certtool_remove_fail)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call Certool to remove a certificate where the certificate  is not exist
+//! @SYMTestExpectedResults Certtool  should display the error message certificate not exist
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0048
+RUN_PROGRAM certtool.exe c:\ttesttools\data\cert_removefail.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_remove_fail
+END_TESTCASE SEC-FILETOKENS-EC097-0048
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0049
+//! @SYMTestCaseDesc 	Certool command
+//! 			(certtool_fail)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call Certool command in unspecified order
+//! @SYMTestExpectedResults Certtool should display the help message
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0049
+RUN_PROGRAM certtool.exe c:\ttesttools\data\certfail.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\sec-filetokens-tools.ini certhelp
+END_TESTCASE SEC-FILETOKENS-EC097-0049
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0050
+//! @SYMTestCaseDesc Keytool help command
+//! 		     (keytool_help_fail)
+//! @SYMTestPriority Medium
+//! @SYMTestActions  call Keytool help command without any argument
+//! @SYMTestExpectedResults Keytool should display the help message
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0050
+RUN_PROGRAM keytool.exe c:\ttesttools\data\key_helpfail1.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\sec-filetokens-tools.ini keytool_help
+END_TESTCASE SEC-FILETOKENS-EC097-0050
+
+//! @SYMTestCaseID SEC-FILETOKENS-EC097-0051
+//! @SYMTestCaseDesc Keytool Individual help command
+//! 		     (keytool_help_fail1)
+//! @SYMTestPriority Medium
+//! @SYMTestActions  call Keytool Individual help command where the command is not exist
+//! @SYMTestExpectedResults Keytool should display the help message
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0051
+RUN_PROGRAM keytool.exe c:\ttesttools\data\key_helpfail2.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\sec-filetokens-tools.ini keytool_help
+END_TESTCASE SEC-FILETOKENS-EC097-0051
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0053
+//! @SYMTestCaseDesc 	Keytool import command
+//! 			(keytool_import_fail)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call Keytool import key twice
+//! @SYMTestExpectedResults Keytool should display the error message as already exists
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0053
+RUN_PROGRAM keytool.exe c:\ttesttools\data\key_importfail1.txt c:\output.txt
+RUN_PROGRAM keytool.exe c:\ttesttools\data\key_importfail1.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\sec-filetokens-tools.ini keytool_import_fail
+END_TESTCASE SEC-FILETOKENS-EC097-0053
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0054
+//! @SYMTestCaseDesc 	Keytool import command
+//! 			(keytool_import_fail1)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call Keytool import key where keystore doesn't exist
+//! @SYMTestExpectedResults Keytool should display the error message as store not exist
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0054
+RUN_PROGRAM keytool.exe c:\ttesttools\data\key_importfail2.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\sec-filetokens-tools.ini keytool_import_fail1
+END_TESTCASE SEC-FILETOKENS-EC097-0054
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0055
+//! @SYMTestCaseDesc 	Keytool import command
+//! 			(keytool_import_fail2)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call Keytool import key where key doesn't exist
+//! @SYMTestExpectedResults Keytool should display the error message as key not exist
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0055
+RUN_PROGRAM keytool.exe c:\ttesttools\data\key_importfail3.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\sec-filetokens-tools.ini keytool_import_fail2
+END_TESTCASE SEC-FILETOKENS-EC097-0055
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0056
+//! @SYMTestCaseDesc 	Keytool import command
+//! 			(keytool_import_fail3)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call Keytool import a corrupted key 
+//! @SYMTestExpectedResults Keytool should display the error message as corrupted key
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0056
+RUN_PROGRAM keytool.exe c:\ttesttools\data\key_importfail4.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\sec-filetokens-tools.ini keytool_import_fail3
+END_TESTCASE SEC-FILETOKENS-EC097-0056
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0057
+//! @SYMTestCaseDesc 	Keytool import command
+//! 			(keytool_import_fail4)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call Keytool import empty key 
+//! @SYMTestExpectedResults Keytool should display the error message as key is empty
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0057
+RUN_PROGRAM keytool.exe c:\ttesttools\data\key_importfail5.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\sec-filetokens-tools.ini keytool_import_fail4
+END_TESTCASE SEC-FILETOKENS-EC097-0057
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0058
+//! @SYMTestCaseDesc 	Keytool setuser command
+//! 			(keytool_setuser_fail)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call Keytool setuser for key where key is not exist 
+//! @SYMTestExpectedResults Keytool should display the error message as key is not exist
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0058
+RUN_PROGRAM keytool.exe c:\ttesttools\data\key_setuserfail1.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\sec-filetokens-tools.ini keytool_setuser_fail
+END_TESTCASE SEC-FILETOKENS-EC097-0058
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0059
+//! @SYMTestCaseDesc Keytool setuser command
+//! 		     (keytool_setuser_fail1)
+//! @SYMTestPriority Medium
+//! @SYMTestActions  call Keytool setuser for key where key is created by third party
+//! @SYMTestExpectedResults Keytool should display the error message as setusers failed with -46
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0059
+RUN_PROGRAM keytool.exe c:\ttesttools\data\key_setuserfail2.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\sec-filetokens-tools.ini keytool_setuser_fail1
+END_TESTCASE SEC-FILETOKENS-EC097-0059
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0060
+//! @SYMTestCaseDesc 	Keytool setalluser command
+//! 			(keytool_setallusers_fail)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call Keytool setalluser for key where key is not exist 
+//! @SYMTestExpectedResults Keytool should display the error message as key is not exist
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0060
+RUN_PROGRAM keytool.exe c:\ttesttools\data\key_setalluserfail1.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\sec-filetokens-tools.ini keytool_setallusers_fail
+END_TESTCASE SEC-FILETOKENS-EC097-0060
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0061
+//! @SYMTestCaseDesc 	Keytool setuser command
+//! 			(keytool_setallusers_fail1)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call Keytool setuser for key where key is created by third party
+//! @SYMTestExpectedResults Keytool should display the error message as setusers failed with -46
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0061
+RUN_PROGRAM keytool.exe c:\ttesttools\data\key_setalluserfail2.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\sec-filetokens-tools.ini keytool_setallusers_fail1
+END_TESTCASE SEC-FILETOKENS-EC097-0061
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0062
+//! @SYMTestCaseDesc 	Keytool setmanager command
+//! 			(keytool_setmanager_fail)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call Keytool setmanager for key where key is not exist 
+//! @SYMTestExpectedResults Keytool should display the error message as key is not exist
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0062
+RUN_PROGRAM keytool.exe c:\ttesttools\data\key_setmanagerfail1.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\sec-filetokens-tools.ini keytool_setmanager_fail
+END_TESTCASE SEC-FILETOKENS-EC097-0062
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0063
+//! @SYMTestCaseDesc 	Keytool setmanager command
+//! 			(keytool_setmanager_fail1)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call Keytool setmanager for key where key is created by third party
+//! @SYMTestExpectedResults Keytool should display the error message as key as setmanager failed with -46
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0063
+RUN_PROGRAM keytool.exe c:\ttesttools\data\key_setmanagerfail2.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\sec-filetokens-tools.ini keytool_setmanager_fail1
+END_TESTCASE SEC-FILETOKENS-EC097-0063
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0064
+//! @SYMTestCaseDesc 	Keytool remove user command
+//! 			(keytool_removeuser_fail)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call Keytool remove user for key where key is not exist 
+//! @SYMTestExpectedResults Keytool should display the error message as key is not exist
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0064
+RUN_PROGRAM keytool.exe c:\ttesttools\data\key_removeuserfail1.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\sec-filetokens-tools.ini keytool_removeuser_fail
+END_TESTCASE SEC-FILETOKENS-EC097-0064
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0065
+//! @SYMTestCaseDesc 	Keytool remove user command
+//! 			(keytool_removeuser_fail1)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call Keytool removeuser for key where key is created by third party
+//! @SYMTestExpectedResults Keytool should display the error message as key is removeusers failed with -46
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0065
+RUN_PROGRAM keytool.exe c:\ttesttools\data\key_removeuserfail2.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\sec-filetokens-tools.ini keytool_removeuser_fail1
+END_TESTCASE SEC-FILETOKENS-EC097-0065
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0066
+//! @SYMTestCaseDesc Keytool list command
+//! 		     (keytool_list_fail)
+//! @SYMTestPriority Medium
+//! @SYMTestActions  call Keytool list for the key where keystore is not exist
+//! @SYMTestExpectedResults Keytool should display the error message as key is store not exist
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0066
+RUN_PROGRAM keytool.exe c:\ttesttools\data\key_listfail1.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\sec-filetokens-tools.ini keytool_list_fail
+END_TESTCASE SEC-FILETOKENS-EC097-0066
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0067
+//! @SYMTestCaseDesc Keytool list command
+//! 		     (keytool_list_fail1)
+//! @SYMTestPriority Medium
+//! @SYMTestActions  call Keytool list for key where key is not exist
+//! @SYMTestExpectedResults Keytool should display the error message as key is not exist
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0067
+RUN_PROGRAM keytool.exe c:\ttesttools\data\key_listfail2.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\sec-filetokens-tools.ini keytool_list_fail1
+END_TESTCASE SEC-FILETOKENS-EC097-0067
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0068
+//! @SYMTestCaseDesc 	Keytool remove command
+//! 			(keytool_remove_fail)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call Keytool remove for key where key is not exist
+//! @SYMTestExpectedResults Keytool should display the error message as key is not exist
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0068
+RUN_PROGRAM keytool.exe c:\ttesttools\data\key_removefail.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\sec-filetokens-tools.ini keytool_remove_fail
+END_TESTCASE SEC-FILETOKENS-EC097-0068
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-EC097-0069
+//! @SYMTestCaseDesc 	Keytool command
+//! 			(keytool_fail)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call Keytool command in unspeicifed order
+//! @SYMTestExpectedResults Keytool should display the help message
+//! @SYMDevelopedForRelease Sphinx
+
+START_TESTCASE SEC-FILETOKENS-EC097-0069
+RUN_PROGRAM keytool.exe c:\ttesttools\data\keyfail.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\sec-filetokens-tools.ini keytool_help
+RUN_PROGRAM certtool.exe c:\ttesttools\data\cert_remove3.txt c:\output.txt
+RUN_PROGRAM keytool.exe c:\ttesttools\data\key_remove1.txt c:\output.txt
+END_TESTCASE SEC-FILETOKENS-EC097-0069
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-Defect118391-0070
+//! @SYMTestCaseDesc 	Certool import command
+//! 			(certtool_import_def118391)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call Certool import command without a label specified
+//! @SYMTestExpectedResults Certtool  should not display any error message and work fine.
+
+START_TESTCASE SEC-FILETOKENS-Defect118391-0070
+RUN_PROGRAM certtool.exe c:\ttesttools\data\cert_import.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ListCertStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_import
+RUN_TEST_STEP 100 ttesttools ListKeyStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_import
+END_TESTCASE SEC-FILETOKENS-Defect118391-0070
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-Defect118391-0071
+//! @SYMTestCaseDesc 	Certool setapps command
+//! 			(certtool_setapps_defect118391)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call Certool setapps command with a label option specified
+//! @SYMTestExpectedResults Certtool  should not display any error message and work fine.
+
+
+START_TESTCASE SEC-FILETOKENS-Defect118391-0071
+RUN_PROGRAM certtool.exe c:\ttesttools\data\cert_setapps1.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools GetTrustAppsStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_setapps1
+END_TESTCASE SEC-FILETOKENS-Defect118391-0071
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-Defect118391-0072
+//! @SYMTestCaseDesc 	Certool setapps command  
+//! 			(certtool_trust)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call Certool to set the application trust status for the certificate
+//! @SYMTestExpectedResults Query certstore via CUnifiedCertstore for the certificats trust status
+
+START_TESTCASE SEC-FILETOKENS-Defect118391-0072
+RUN_PROGRAM certtool.exe c:\ttesttools\data\cert_setapps.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools GetTrustStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_setapps2
+END_TESTCASE SEC-FILETOKENS-Defect118391-0072
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-QI-0073
+//! @SYMTestCaseDesc 	Certool addapps command
+//! 			(certtool_addapps_QI)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	First remove the cert, then import the certificate then call Certool to set the application trust status for the certificate
+//! @SYMTestExpectedResults Query certstore via CUnifiedCertstore for the certificats app status.
+
+
+START_TESTCASE SEC-FILETOKENS-QI-0073
+RUN_PROGRAM certtool.exe c:\ttesttools\data\cert_addapps1.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools GetTrustAppsStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_addapps1
+END_TESTCASE SEC-FILETOKENS-QI-0073
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-QI-0074
+//! @SYMTestCaseDesc 	Certool addapps command  
+//! 			(certtool_trust)
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call gettrust status to check the trust status for the certificate
+//! @SYMTestExpectedResults Query certstore via CUnifiedCertstore for the certificats trust status
+
+START_TESTCASE SEC-FILETOKENS-QI-0074
+RUN_TEST_STEP 100 ttesttools GetTrustStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_addapps2
+END_TESTCASE SEC-FILETOKENS-QI-0074
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-IMPROVEMENT-0001
+//! @SYMTestCaseDesc 	Certtool import command
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call Certtool to import a certificate with the deletable flag set to 'y'.
+//! @SYMTestExpectedResults Call certstore list via CUnifiedCertstore, the certificate is listed.
+
+START_TESTCASE SEC-FILETOKENS-IMPROVEMENT-0001
+RUN_PROGRAM certtool.exe c:\ttesttools\data\cert_importdeletable1.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ListCertStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_importdeletable1
+
+END_TESTCASE SEC-FILETOKENS-IMPROVEMENT-0001
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-IMPROVEMENT-0002
+//! @SYMTestCaseDesc 	Certtool import command
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call Certtool to import a certificate with the deletable flag set to 'n'.
+//! @SYMTestExpectedResults Call certstore list via CUnifiedCertstore, the certificate is listed.
+
+START_TESTCASE SEC-FILETOKENS-IMPROVEMENT-0002
+RUN_PROGRAM certtool.exe c:\ttesttools\data\cert_importdeletable2.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ListCertStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_importdeletable2
+END_TESTCASE SEC-FILETOKENS-IMPROVEMENT-0002
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-IMPROVEMENT-0003
+//! @SYMTestCaseDesc 	Certtool import command
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	call Certtool to import a certificate with the deletable flag set to a garbage value.
+//! @SYMTestExpectedResults The expected output is "An error occured during certificate import."
+
+START_TESTCASE SEC-FILETOKENS-IMPROVEMENT-0003
+RUN_PROGRAM certtool.exe c:\ttesttools\data\cert_importdeletable3.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_importdeletable3
+END_TESTCASE SEC-FILETOKENS-IMPROVEMENT-0003
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-IMPROVEMENT-0004
+//! @SYMTestCaseDesc 	Certtool remove command
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	Call certtool to remove the certificate imported with deletable set to 'y'
+//! @SYMTestExpectedResults The expected output is "Certificate removed successfully."
+
+START_TESTCASE SEC-FILETOKENS-IMPROVEMENT-0004
+RUN_PROGRAM certtool.exe c:\ttesttools\data\cert_removedeletable1.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_removedeletable1
+END_TESTCASE SEC-FILETOKENS-IMPROVEMENT-0004
+
+
+//! @SYMTestCaseID 	SEC-FILETOKENS-IMPROVEMENT-0005
+//! @SYMTestCaseDesc 	Certtool remove command
+//! @SYMTestPriority 	Medium
+//! @SYMTestActions  	Call certtool to remove the certificate imported with deletable set to 'n'
+//! @SYMTestExpectedResults The expected output is "Certificate removed successfully."
+
+START_TESTCASE SEC-FILETOKENS-IMPROVEMENT-0005
+RUN_PROGRAM certtool.exe c:\ttesttools\data\cert_removedeletable2.txt c:\output.txt
+RUN_TEST_STEP 100 ttesttools ParseFileStep c:\ttesttools\scripts\sec-filetokens-tools.ini certtool_removedeletable2
+END_TESTCASE SEC-FILETOKENS-IMPROVEMENT-0005
+
+

@@ -1,0 +1,235 @@
+<project name="OstTraceCompilerTest" default="build" basedir="..">
+
+<condition property="isLinux">
+    <os name="linux"/>
+</condition>
+
+<condition property="isWindows">
+	<not>
+		<os name="linux"/>
+	</not>
+</condition>
+
+<!-- EMMA configuration -->
+<path id="emma.lib" >
+	<pathelement location="${ant.home}/lib/emma.jar" />
+	<pathelement location="${ant.home}/lib/emma_ant.jar" />
+</path>
+
+<taskdef resource="emma_ant.properties" classpathref="emma.lib" />
+
+<target name="init_windows_epocroot" if="isWindows">
+	<property environment="env" />
+	<echo message="Init Windows epocroot"/>
+	<property name="epoc.root" value="${env.EPOCROOT}"/>
+</target>
+
+<target name="init_linux_epocroot" if="isLinux">
+	<property environment="env" />
+	<echo message="Init Linux epocroot"/>
+	<property name="epoc.root" value="${env.EPOCROOT}//" />
+</target>
+
+<target name="init" depends="init_windows_epocroot, init_linux_epocroot">
+	<property name="src.dir" value="src" />
+	<property name="build.dir" value="build" />
+	<property name="jar.dir" value="jar" />
+	<property name="instr.dir" location="instr"/>
+	<property name="testdata.dir" location="${epoc.root}testdata"/>
+	<property name="reports.dir" value="${epoc.root}testdata/reports" />	
+	<property name="emma.dir" location="${epoc.root}testdata/reports/emma"/>
+	<property name="tools.dir" location="${epoc.root}epoc32/tools"/>
+</target>
+
+<target name="clean" depends="init">
+	<echo>Cleaning the ${build.dir}</echo>
+	<delete dir="${build.dir}"/>
+	<echo>Creating the ${build.dir} directory</echo>
+	<mkdir dir="${build.dir}"/>
+	<echo>Cleaning the ${reports.dir}</echo>
+	<delete dir="${reports.dir}"/>
+	<echo>Creating the ${reports.dir} directory</echo>
+	<mkdir dir="${reports.dir}"/>
+	<echo>Cleaning the ${instr.dir}</echo>
+	<delete dir="${instr.dir}"/>
+	<echo>Creating the ${instr.dir} directory</echo>
+	<mkdir dir="${instr.dir}"/>
+	<echo>Deleting test exports</echo>
+	<delete file="${epoc.root}epoc32/include/platform/test_opensystemtrace_types.h"/>
+	<delete file="${epoc.root}epoc32/build/buildlog_tc.txt"/>
+	<delete file="${epoc.root}epoc32/build/parsedlogs_tc.txt"/>
+	<delete file="${epoc.root}epoc32/build/buildlog_sbs.txt"/>
+	<delete file="${epoc.root}epoc32/build/parsedlogs_sbs.txt"/>
+	<delete file="${epoc.root}epoc32/build/buildlog_mult_cpp.txt"/>
+	<delete file="${epoc.root}epoc32/build/parsedlogs_mult_cpp.txt"/>
+	<delete file="${epoc.root}epoc32/build/buildlog_mult_mmp.txt"/>
+	<delete file="${epoc.root}epoc32/build/parsedlogs_mult_mmp.txt"/>	
+	<delete dir="${testdata.dir}/TraceErrorApp"/>
+	<delete dir="${testdata.dir}/MultipleCppTraceErrorApp"/>
+	<delete dir="${testdata.dir}/MultipleMmpTraceErrorApps"/>
+	<delete dir="${testdata.dir}/FixedIdDefinitionsTestApp"/>
+	<delete dir="${testdata.dir}/MultipleMmpTestCases"/>
+	<delete dir="${epoc.root}testdata/MultipleMmpTestCases"/>
+	<delete dir="${testdata.dir}TracesInHeadersApps"/>
+	<delete dir="${epoc.root}epoc32/build/testdata/MultipleMmpTestCases"/>
+	<delete dir="${epoc.root}epoc32/build/testdata/MultipleCppTraceErrorApp"/>
+	<delete dir="${epoc.root}epoc32/build/testdata/TracesInHeadersApps"/>
+</target>
+
+<target name="build" depends="clean">
+	<property name="classpath" value="${build.dir}:lib/junit-4.7.jar:../jar/tracecompiler.jar" />
+	<copy todir="${epoc.root}epoc32/include/platform">
+		<fileset dir="testdata"/>
+	</copy>
+	<copy todir="${epoc.root}testdata/TraceErrorApp">
+		<fileset dir="TraceErrorApp"/>
+	</copy>	
+	<copy todir="${epoc.root}testdata/MultipleCppTraceErrorApp">
+		<fileset dir="MultipleCppTraceErrorApp"/>
+	</copy>	
+	<copy todir="${epoc.root}testdata/MultipleMmpTraceErrorApps">
+		<fileset dir="MultipleMmpTraceErrorApps"/>
+	</copy>
+	<copy todir="${epoc.root}testdata/FixedIdDefinitionsTestApp">
+		<fileset dir="FixedIdDefinitionsTestApp"/>
+	</copy>			
+	<copy todir="${epoc.root}testdata/MultipleMmpTestCases">
+		<fileset dir="MultipleMmpTestCases"/>
+	</copy>
+    	<copy todir="${epoc.root}testdata/TracesInHeadersApps">
+		<fileset dir="TracesInHeadersApps"/>
+	</copy>
+	<javac  classpath="${classpath}" srcdir="${src.dir}" destdir="${build.dir}" debug="false" target="1.5" >
+	</javac>
+</target>
+
+<target name="run" depends="build" description="run the junit tests">
+
+	<echo>---- Note ANT 1.7 or greater is required for the junit task ----</echo>
+
+	<!-- generate classpath -->
+	<path id="lib.path.ref">
+		<pathelement location="build"/>
+   		<fileset dir="lib" includes="*.jar"/>
+   		<fileset dir="../jar" includes="*.jar"/>
+ 	</path>
+	
+	<junit printsummary="yes" haltonfailure="yes">		
+	 	<classpath path="${toString:lib.path.ref}"/>
+	 	<formatter type="plain"/>
+	
+		<!--complete test code should be in the $src.dir so run all of them except ErrorLogsTestBase.java-->
+		<!--that is the base class of ErrorLogsTestUnit.java and ErrorLogsTestSystem.java-->	 	 	
+	 	<batchtest fork="yes" todir="${reports.dir}">
+	 		<fileset dir="${src.dir}">
+	      		<include name="*.java"/>
+	      		<exclude name="ErrorLogsTestBase.java"/>
+	 		</fileset>
+	 	</batchtest>	
+	</junit>
+
+</target>
+
+<!-- Instrumentation target, depends on JAR -->
+<target name="instr" depends="build">
+	<!-- Instrument the source code -->
+	<emma>
+		<instr instrpath="${tools.dir}/tracecompiler" metadatafile="${emma.dir}/metadata.emma" merge="true" mode="overwrite"/>
+	</emma>
+</target>
+
+<!--target to execute pure unit tests and measure test coverage-->		 
+<target name="run_unit_emma" depends="instr" description="run the TraceCompiler unit tests and measure test coverage">
+	<echo>---- Note ANT 1.7 or greater is required for the junit task ----</echo>
+
+	<!-- generate classpath -->
+	<path id="lib.path.ref">
+		<!-- Instrumented class files -->
+		<pathelement location="${epoc.root}epoc32/tools/tracecompiler"/>
+		<pathelement location="build"/>
+		<fileset dir="${instr.dir}" includes="*.class"/>
+		<fileset dir="lib" includes="*.jar"/>
+
+		<!-- EMMA -->
+		<pathelement path="${ant.home}/lib/emma.jar"/>
+ 	</path>
+	
+	<echo>${toString:lib.path.ref}</echo> 
+	
+	<junit printsummary="yes" haltonfailure="yes">		
+	 	<classpath path="${toString:lib.path.ref}"/>
+	 	<formatter type="plain"/>
+		<formatter type="xml"/>
+
+		<!-- Instrumentation arguments to JVM -->
+		<jvmarg value="-Demma.coverage.out.file=${emma.dir}/coverage.emma" />
+		<jvmarg value="-Demma.coverage.out.merge=true" />
+
+		<!--complete test code should be in the $src.dir so run all of them except ErrorLogsTestSystem.java, MultipleMmpTest.java and-->
+		<!--ErrorLogsTestBase.java that is the base class of ErrorLogsTestUnit.java and ErrorLogsTestSystem.java-->		 	
+	 	<batchtest fork="yes" todir="${reports.dir}">
+	 		<fileset dir="${src.dir}">
+	      		<include name="*.java"/>
+	      		<exclude name="ErrorLogsTestSystem.java"/>
+	      		<exclude name="ErrorLogsTestBase.java"/>
+	      		<exclude name="MultipleMmpTest.java"/>
+	      		<exclude name="TracesInHeadersTest.java"/>	      		
+                <exclude name="TraceHeadersLicenceTest.java"/>
+	 		</fileset>
+		</batchtest>
+	</junit>
+		
+	<!-- Create EMMA report -->
+	<emma>
+		<report sourcepath="src/" >
+			<fileset dir="${emma.dir}" >
+				<include name="*.emma" />
+			</fileset>
+			<xml outfile="${emma.dir}/coverage.xml" />
+		</report>
+	</emma>
+</target>
+
+<!--target to execute pure unit tests-->		 
+<target name="run_unit" depends="build" description="run the TraceCompiler unit tests">
+
+	<echo>---- Note ANT 1.7 or greater is required for the junit task ----</echo>
+
+	<!-- generate classpath -->
+	<path id="lib.path.ref">
+		<pathelement location="build"/>
+   		<fileset dir="lib" includes="*.jar"/>
+   		<fileset dir="../jar" includes="*.jar"/>
+ 	</path>
+	
+	<junit printsummary="yes" haltonfailure="yes">		
+	 	<classpath path="${toString:lib.path.ref}"/>
+	 	<formatter type="plain"/>
+	 	<formatter type="xml"/>
+	
+		<!--complete test code should be in the $src.dir so run all of them except ErrorLogsTestBase.java-->
+		<!--that is the base class of ErrorLogsTestUnit.java and ErrorLogsTestSystem.java-->	 	 	
+	 	<batchtest fork="yes" todir="${reports.dir}">
+	 		<fileset dir="${src.dir}">
+	      		<include name="*.java"/>
+	      		<exclude name="ErrorLogsTestSystem.java"/>
+	      		<exclude name="ErrorLogsTestBase.java"/>
+	      		<exclude name="MultipleMmpTest.java"/>
+	      		<exclude name="TracesInHeadersTest.java"/>	 
+	      		<exclude name="TraceHeadersLicenceTest.java"/>                
+	 		</fileset>
+	 	</batchtest>	
+	</junit>
+
+</target>
+
+<target name="jar" depends="build">
+	<mkdir dir="${jar.dir}"/>
+        <jar destfile="${jar.dir}/tests.jar" basedir="${build.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="GroupNamesTest"/>
+            </manifest>
+        </jar>
+</target>
+
+</project>

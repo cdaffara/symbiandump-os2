@@ -1,0 +1,2555 @@
+//
+// Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+//tups_install
+//PRINT Run Basic test cases PREQ1262 for integration test
+
+//
+//  Prepare various clones of TUPSInteg.exe with different SIDs.
+//  Don't forget to delete clones at the end of test script.
+//  but do not delete original one !!!!
+
+RUN_PROGRAM 100 SETCAP TUPSInteg_data.exe 1c000 -SID 80001234 TUPSInteg_2.exe
+RUN_PROGRAM 100 SETCAP TUPSInteg_data.exe 1c000 -SID 80002222 TUPSInteg_3.exe  
+RUN_PROGRAM 100 SETCAP TUPSInteg_data.exe 1c000 -SID 10004444 TUPSInteg_4.exe 
+RUN_PROGRAM 100 SETCAP TUPSInteg_data.exe 810  	-SID 10006666 TUPSInteg_allfiles_readdevice.exe
+RUN_PROGRAM 100 SETCAP TUPSInteg_data.exe 10 	-SID 10007777 TUPSInteg_readdevice.exe
+RUN_PROGRAM 100 SETCAP TUPSInteg_data.exe 20 	-SID 10008888 TUPSInteg_writedevice.exe
+RUN_PROGRAM 100 SETCAP TUPSInteg_data.exe 1cf00 -SID 101F7790 TUPSInteg_minor.exe 
+
+// load suites
+LOAD_SUITE TUPSInteg_1
+LOAD_SUITE TUPSInteg_unprotected
+
+// load clones
+LOAD_SUITE TUPSInteg_2
+LOAD_SUITE TUPSInteg_3
+LOAD_SUITE TUPSInteg_4
+LOAD_SUITE TUPSInteg_allfiles_readdevice
+LOAD_SUITE TUPSInteg_readdevice
+LOAD_SUITE TUPSInteg_writedevice
+LOAD_SUITE TUPSInteg_minor
+
+
+//! @SYMTestCaseID SEC-UPS-MISC-0001
+//! @SYMTestCaseDesc Set up properties for policy evaluators and dialog creators, and Delete Existing Database
+
+START_TESTCASE SEC-UPS-MISC-0001
+
+RUN_TEST_STEP 100 TUPSInteg_1 PropertyStep z:\tups\integ\scripts\tups_properties.ini PropertiesToDestroy
+
+// Set up properties for policy evaluators and dialog creators.
+RUN_TEST_STEP 100 TUPSInteg_1 PropertyStep z:\tups\integ\scripts\tups_properties.ini PropertiesToCreate
+
+// Delete Existing Database
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+END_TESTCASE SEC-UPS-MISC-0001
+
+
+//********************** SEC-UPS-A : BASIC USER PROMPTING  **********************
+
+//! @SYMTestCaseID SEC-UPS-INTEG-A001
+//! @SYMTestCaseDesc User prompt service: option “only this session”
+//!                  (only_this_session)
+//!		
+//! @SYMPREQ PREQ1262
+//! @SYMREQ REQ7367, REQ7410, REQ7411, REQ7412, REQ7413, REQ7414, REQ7415, REQ7417, REQ7446
+//! @SYMTestPriority Critical
+//! @SYMTestStatus   Implemented
+//! @SYMTestActions 	Preconditions:
+//!			• There is an appropriate policy, policy evaluator and dialog that matches the UID of the service 	
+//!			offered by the “system server”.
+//!
+//!			
+//!			Test Actions:
+//!			• Launch “test client” which tries to connect to a system server and use service.
+//!			• System server asks for a user prompt to the UPS.
+//!			• When UPS prompts user, select the “Only this session” option.
+//!			• Check that now the “test client” can use the intended service from the “system server”.
+//!			• Check again In same session that client still can use test service without need of user prompt. 
+//!			• Disconnect session and create new one.
+//!			• Ask “test client” to request again for the same service to the system server.  This should cause 	
+//!			the service provided to request for a new user prompt.
+//!			• Select again “Only this session” option.
+//!			• Check that “test client” can use again the intended service from system server.
+//!
+//! @SYMTestExpectedResults 	• User prompt service dialog is displayed correctly in both occasions that “test client” 
+//!				request for authorisation.
+//!				• Information displayed about the client is complete (see Appendix A).
+//!				• “Test client” can use service from system server in both  occasions after selecting “Only 	
+//!				this session”
+//!				• Information about the “Test client” is displayed correctly by user prompt.
+//!				• Decision DB is not affected by previous operation as “only this session” is not expected to 
+//!				be stored. 
+//!
+//! @SYMTestType CIT
+
+START_TESTCASE SEC-UPS-INTEG-A001
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini only_this_session
+END_TESTCASE SEC-UPS-INTEG-A001
+
+
+//! @SYMTestCaseID SEC-UPS-INTEG-A002
+//! @SYMTestCaseDesc User prompt service: User prompt service: option “never”
+//!                  (never)
+//!		
+//! @SYMPREQ PREQ1262
+//! @SYMREQ REQ7367, REQ7372, REQ7374
+//!
+//! @SYMTestPriority Critical
+//! @SYMTestStatus   Implemented
+//! @SYMTestActions 	Preconditions:
+//!			• There is an appropriate policy, policy evaluator and dialog creator that matches the UID of the 	
+//!			service offered by the “system server”.
+//!			
+//!			Test Actions:
+//!			• Launch “test client” which tries to connect to a system server and use service.
+//!			• System server asks for a user prompt to the UPS.
+//!			• When UPS prompts user, select the “Never” option.
+//!			• Check that now the “test client” can NOT use the intended service after user selected “never”.
+//!			• Disconnect session and create new one.
+//!			• Ask “test client” to request again for the same service to the system server.  System server should 
+//!			deny access to “test client” immediately without showing user prompt. Make sure that UPS was invoked 	
+//!			again.
+//!
+//!
+//! @SYMTestExpectedResults 	• User prompt service dialog is displayed correctly.
+//!				• Security dialog is displayed within one second (1 sec) of client request for service. 
+//!				• Information displayed about the client is complete (see Appendix A).
+//!				• “Test client” can NOT use service from system server after selecting “Never”
+//!				• Decision DB is updated correctly with the never decision. 
+//!				• The second time the “Test client” tries to access the service from the system server it 	
+//!				should receive a silent denial. 
+//!
+//! @SYMTestType CIT
+
+START_TESTCASE SEC-UPS-INTEG-A002
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini never
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini never_b
+END_TESTCASE SEC-UPS-INTEG-A002
+
+
+//! @SYMTestCaseID SEC-UPS-INTEG-A003
+//! @SYMTestCaseDesc User prompt service: option “Always”
+//!                  (always)
+//!		
+//! @SYMPREQ PREQ1262
+//! @SYMREQ REQ7428, REQ7429, REQ7367, REQ7372, REQ7374, REQ7493
+//!
+//! @SYMTestPriority Critical
+//! @SYMTestStatus   Implemented
+//! @SYMTestActions 	Preconditions:
+//!			• There is an appropriate policy, policy evaluator and dialog creator that matches the UID of the 	
+//!			service offered by the “system server”.
+//!			• Special: make sure that client have all necessary capabilities in order to test  REQ7493
+//!			
+//!			Test Actions:
+//!			• Launch “test client” which tries to connect to a system server and use service.
+//!			• System server asks for a user prompt to the UPS.
+//!			• When UPS prompts user, select the “Always” option.
+//!			• Check in same session that now the “test client” now can use the intended service after user 		
+//!			selected “Always”.
+//!			• Ask “test client” to request again for the same service to the system server.  System server should 
+//!			give immediate access to “test client” without showing user prompt (in same session).  
+//!			• Disconnect session and create new one.
+//!			• Ask “test client” to request again for the same service to the system server.  System server should 
+//!			give immediate access to “test client” without showing user prompt.  Make sure that UPS was invoked 	
+//!			again.
+//!
+//! @SYMTestExpectedResults 	• User prompt service dialog is displayed correctly.
+//!				• Security dialog is displayed within one second (1 sec) of client request for service. 
+//!				• Information displayed about the client is complete (see Appendix A).
+//!				• “Test client” can use service from system server after selecting “Always”
+//!				• Decision DB is updated correctly with the Always decision. 
+//!				• The second time the “Test client” tries to access the service from the system server it 	
+//!				should receive immediate access.  
+//!				• The response time from UPS for second use of test client is 100 ms (H4 board without demand 
+//!				paging) 
+//!
+//! @SYMTestType CIT
+
+START_TESTCASE SEC-UPS-INTEG-A003
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini always
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini always_b
+END_TESTCASE SEC-UPS-INTEG-A003
+
+
+//! @SYMTestCaseID SEC-UPS-INTEG-A004
+//! @SYMTestCaseDesc User prompt service: “Yes” or “No” selection”
+//!                  (yes_or_no)
+//!		
+//! @SYMPREQ PREQ1262
+//! @SYMREQ REQ7372
+//!
+//! @SYMTestPriority Critical
+//! @SYMTestStatus   Implemented
+//! @SYMTestActions 	Preconditions:
+//!			• There is an appropriate policy, policy evaluator and dialog creator that matches the UID of the 	
+//!			service offered by the “system server”.
+//!			• Policy is set to display “yes” or “no” option
+//!			
+//!			Test Actions:
+//!			• Launch “test client” which tries to connect to a system server and use service.
+//!			• System server asks for a user prompt to the UPS.
+//!			• When UPS prompts user, select the “yes” option.
+//!			• Check that now the “test client” now can use the intended service.
+//!			• In same session that before, request uses service.
+//!			• UPS should prompt user again. Select yes  
+//!			• Launch “test client” in a new session. When security dialog is displayed select “no”.
+//!			• Check that test client can not access intended service. 
+//!
+//! @SYMTestExpectedResults 	• User prompt service dialog is displayed correctly.
+//!				• Security dialog is displayed within one second (1 sec) of client request for service. 
+//!				• Information displayed about the client is complete (see Appendix A).
+//!				• Decision DB does not store any new decision. 
+//!				• Access to test service is denied or granted accordingly.
+//!
+//! @SYMTestType CIT
+
+START_TESTCASE SEC-UPS-INTEG-A004
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini yes_or_no
+END_TESTCASE SEC-UPS-INTEG-A004
+
+
+
+//********************** SEC-UPS-B : USE CASES FOR UPS INVOLVING CONCURRENCY  **********************
+
+
+//! @SYMTestCaseID 	SEC-UPS-INTEG-B004
+//! @SYMTestCaseDesc 	Concurrent process can access service despite unattended security dialog.
+//!                     (Unattended_Dialog)
+//!		
+//! @SYMPREQ 		PREQ1262
+//! @SYMREQ  		REQ7427
+//!
+//! @SYMTestPriority 	Critical
+//! @SYMTestStatus   	Implemented
+//! @SYMTestActions 	Preconditions:
+//!			• There is an appropriate policy, policy evaluator and dialog creator that matches the UID of the 
+//!			service offered by the “system server”.
+//!
+//!			Test Actions:
+//!			• Launch 3 “test client” (A, B & C) which requests use of different system servers. Client A should
+//!			not have any decision related to it stored in DB, Clients B should have a decision “Always” stored 
+//!			in DB, Client C should have decision “Never” stored in DB. Make sure that Client B & C are launch 
+//!			after security dialog is displayed for Client A. 
+//!			• Do not act in the security dialog for Client A when this one is displayed.
+//!			• Check that Client B can access intended test service.
+//!			• Check that Client C can not access intended test service and did receive a denial response.
+//!			• Act now in security dialog for Client A, select “always”.
+//!			• Check that Client A can access intended test service.
+//!
+//! @SYMTestExpectedResults 	• Final check in Decision DB shows 3 decisions stored: “Always” for Clients A & B,  “Never” 
+//!				for Client C.
+//!				• Accesses to service were granted for Clients A & B.
+//!
+//! @SYMTestType CIT
+
+START_TESTCASE SEC-UPS-INTEG-B004
+
+// Delete Existing Database
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+// Setup up the Database so that Client B has an 'Always' Decision and Client C has a 'Never' Decision stored
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini Unattended_Dialog_ClientB_Setup
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini Unattended_Dialog_ClientC_Setup
+
+// Run 3 concurrent clients with a Coordinator to ensure that the Clients are synchronised
+CONCURRENT
+RUN_TEST_STEP 100 TUPSInteg_1 UPSCoordinatorStep z:\tups\integ\scripts\tups_integ.ini Unattended_Dialog_Coordinator
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini Unattended_Dialog_ClientA
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini Unattended_Dialog_ClientB
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini Unattended_Dialog_ClientC
+CONSECUTIVE
+
+// Database Management Checks
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini Unattended_Dialog_dbManagementcheck
+
+END_TESTCASE SEC-UPS-INTEG-B004
+
+
+//! @SYMTestCaseID 	SEC-UPS-INTEG-B005
+//! @SYMTestCaseDesc 	Cancellation of UPS request in concurrent system server.
+//!                     (concurrent_cancellation)
+//!		
+//! @SYMPREQ 		PREQ1262
+//! @SYMREQ  		REQ7427, REQ7431, REQ7432
+//!
+//! @SYMTestPriority 	Critical
+//! @SYMTestStatus   	Implemented
+//! @SYMTestActions 	Preconditions:
+//!			• There is an appropriate policy, policy evaluator and dialog creator that matches the UID of the 
+//!			service offered by the “system server”.
+//!
+//!			Test Actions:
+//!			• Launch 2 “test client” (A & B ) which requests use of different system servers. Client A 		
+//!			should have a decision “Always” stored in DB, client B should have decision “Never” stored in DB. 	
+//!			Client A & B run continuously and they request periodic use of a test service, each of this request 	
+//!			should cause UPS to be invoked, UPS should continuously issue an appropriate silence response for A & 
+//!			B. 
+//!			• Launch “test client C” which requests use of different system servers. This client C does not have 	
+//!			any related decision stored in DB.
+//!			• The system server for client C is expected to request UPS for security dialog.
+//!			• Do not act in security dialog displayed for client C, instead instruct system server for client C 	
+//!			to cancel previous request made to UPS.
+//!			• Make sure that clients A & B can still receive appropriate silent response from UPS despite 		
+//!			cancellation of request by system server attending client C.
+//!			• Launch test client D which should attempt use of same service attempted by client C. Security 	
+//!			dialog should be displayed, select “Always”.
+//!			• Check that client D can access intended service.
+//!			• Launch client D in new session and check that it received silent acceptance.
+//!
+//!
+//! @SYMTestExpectedResults 	• Final check in Decision DB shows 2 decisions stored: “Always” for Clients A,  “Never” for 	
+//!				Client B.
+//!				• Access to service was granted for Clients A & D.
+//!				• Access to service was denied for Clients B.	
+//!
+//! @SYMTestType CIT
+
+START_TESTCASE SEC-UPS-INTEG-B005
+
+// Delete Existing Database
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini concurrent_cancellation_clientA_setup
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini concurrent_cancellation_clientB_setup
+
+CONCURRENT
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini concurrent_cancellation_clientA
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini concurrent_cancellation_clientB
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini concurrent_cancellation_clientC_cancel
+RUN_TEST_STEP 100 TUPSInteg_4 UPSClientStep z:\tups\integ\scripts\tups_integ.ini concurrent_cancellation_clientD
+CONSECUTIVE
+
+// Concurrent cancellation with UPS calling the same server, policy evaluator, dialog creator and policy from clients B + D
+CONCURRENT
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini concurrent_cancellation_clientA
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini concurrent_cancellation_clientB_samepolicy
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini concurrent_cancellation_clientC_cancel
+RUN_TEST_STEP 100 TUPSInteg_4 UPSClientStep z:\tups\integ\scripts\tups_integ.ini concurrent_cancellation_clientD_samepolicy
+CONSECUTIVE
+
+END_TESTCASE SEC-UPS-INTEG-B005
+
+
+//! @SYMTestCaseID 	SEC-UPS-INTEG-B008
+//! @SYMTestCaseDesc 	Early closure of client with concurrent processes, policy evaluator stage
+//!                     (client_dying_at_evaluator_point)
+//!		
+//! @SYMPREQ 		PREQ1262
+//! @SYMREQ  		REQ7427 
+//!
+//! @SYMTestPriority 	Critical
+//! @SYMTestStatus   	Implemented
+//! @SYMTestActions 	Preconditions:
+//!			•  There is an appropriate policy, policy evaluator and dialog creator that 
+//!			   matches the UID of the service offered by the “system server”.
+//!
+//!			Test Actions:
+//!			•  Launch 2 “test client” (A & B) which requests use of different system servers.
+//!			   Client A should have a decision “Always” stored in DB, client B should have 
+//!		           decision “Never” stored in DB. Clients A & B run continuously and they request
+//!			   periodic use of a test service, each of this request should cause UPS to be 
+//!			   invoked, UPS should continuously issue an appropriate silence response for A & B. 
+//!			•  Launch “test client C” which requests use of a different system server. System 
+//!			   server will invoke UPS and this one should invoke a policy evaluator. When 
+//!			   policy evaluator is running shut down test client C.
+//!			•  Make sure that Clients A & B can still receive appropriate silent response from UPS.
+//!
+//! @SYMTestExpectedResults 
+//!			•  Final check in Decision DB shows 2 decisions stored: “Always” for Clients A, “Never”
+//!			   for Client B.
+//!			•  Access to service was granted for Clients A. 
+//!			•  Access to service was denied for Clients B & C. 
+//!
+//! @SYMTestType CIT
+
+START_TESTCASE SEC-UPS-INTEG-B008
+
+// Delete Existing Database
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini populate_client_00a
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini populate_client_00b
+
+CONCURRENT
+RUN_TEST_STEP 100 TUPSInteg_1 UPSCoordinatorStep z:\tups\integ\scripts\tups_integ.ini dying_client_at_evaluator_Coordinator
+RUN_TEST_STEP 100 TUPSInteg_minor DyingClient z:\tups\integ\scripts\tups_integ.ini dying_client_at_evaluator
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_client_00a
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_client_00b
+CONSECUTIVE
+
+// Database Management Checks
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini client_dying_at_evaluator_point_dbManagementCheck
+
+END_TESTCASE SEC-UPS-INTEG-B008
+
+
+
+//! @SYMTestCaseID 	SEC-UPS-B009
+//! @SYMTestCaseDesc 	Early closure of client with concurrent processes, dialog displayed stage
+//!                     (client_dying_at_dialog_point)
+//!		
+//! @SYMPREQ 		PREQ1262
+//! @SYMREQ  		REQ7427 
+//!
+//! @SYMTestPriority 	Critical
+//! @SYMTestStatus   	Implemented
+//! @SYMTestActions 	Preconditions:
+//!			•  There is an appropriate policy, policy evaluator and dialog creator that 
+//!			   matches the UID of the service offered by the “system server”.
+//!			Test Actions:
+//!			•  Launch 2 “test client” (A & B) which requests use of different system 
+//!			   servers. Client A should have a decision “Always” stored in DB, client B 
+//!			   should have decision “Never” stored in DB. Clients A & B run continuously and 
+//!			   they request periodic use of a test service, each of this request should cause 
+//!	                   UPS to be invoked, UPS should continuously issue an appropriate silence response 
+//!			   for A & B. 
+//!			•  Launch “test client C” which requests use of a different system server. System 
+//!			   server will invoke UPS and at some stage a security dialog will be invoked. When 
+//!			   security dialog is displayed do not act on this one and shut down test client C.
+//!			•  Make sure that Clients A & B can still receive appropriate silent response from UPS.
+//!
+//! @SYMTestExpectedResults 
+//!			•  Final check in Decision DB shows 2 decisions stored: “Always” for Clients A,  
+//!			   “Never” for Client B.
+//!			•  Access to service was granted for Clients A. 
+//!		        •  Access to service was denied for Clients B & C. 
+//!
+//! @SYMTestType CIT
+
+START_TESTCASE SEC-UPS-B009
+
+// Delete Existing Database
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini populate_client_00a
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini populate_client_00b
+
+CONCURRENT
+RUN_TEST_STEP 100 TUPSInteg_1 UPSCoordinatorStep z:\tups\integ\scripts\tups_integ.ini dying_client_at_dialog_Coordinator
+RUN_TEST_STEP 100 TUPSInteg_minor DyingClient z:\tups\integ\scripts\tups_integ.ini dying_client_at_dialog
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_client_00a
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_client_00b
+CONSECUTIVE
+
+// Database Management Checks
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini client_dying_at_dialog_point_dbManagementCheck
+
+END_TESTCASE SEC-UPS-B009
+
+
+
+//! @SYMTestCaseID 	SEC-UPS-B010
+//! @SYMTestCaseDesc 	Multiple clients requesting multiple services in concurrent manner.
+//!                     (multiple_client_requests_concurrent)
+//!		
+//! @SYMPREQ 		PREQ1262
+//! @SYMREQ  		REQ7427 
+//!
+//! @SYMTestPriority 	Critical
+//! @SYMTestStatus   	Implemented
+//! @SYMTestActions 	Preconditions:
+//!			• As set in test assumptions section on detail description of this test.
+//!
+//!			Test Actions:
+//!			• Execute test actions as set in “tests sequence part 1” above.
+//!			• Execute test actions as set in “tests sequence part 2” above.
+//!			• Reset test clients and test system servers.
+//!			• Execute test actions as set in “tests sequence part 3” above.
+//!
+//! @SYMTestExpectedResults 	Test services are granted/denied accordingly as set in detail test description.
+//!
+//! @SYMTestType CIT
+
+START_TESTCASE SEC-UPS-B010
+
+// Delete Existing Database
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+CONCURRENT
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini concurrent_multiple_request_client1
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini concurrent_multiple_request_client2
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini concurrent_multiple_request_client3
+RUN_TEST_STEP 100 TUPSInteg_4 UPSClientStep z:\tups\integ\scripts\tups_integ.ini concurrent_multiple_request_client4
+CONSECUTIVE
+
+CONCURRENT
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini concurrent_multiple_request_client1
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini concurrent_multiple_request_client2
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini concurrent_multiple_request_client3
+RUN_TEST_STEP 100 TUPSInteg_4 UPSClientStep z:\tups\integ\scripts\tups_integ.ini concurrent_multiple_request_client4
+CONSECUTIVE
+
+// Close and Reset UPS
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+
+CONCURRENT
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini concurrent_multiple_request_client1
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini concurrent_multiple_request_client2
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini concurrent_multiple_request_client3
+RUN_TEST_STEP 100 TUPSInteg_4 UPSClientStep z:\tups\integ\scripts\tups_integ.ini concurrent_multiple_request_client4
+CONSECUTIVE
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini count_24
+
+END_TESTCASE SEC-UPS-B010
+
+
+//! @SYMTestCaseID 	SEC-UPS-B011
+//! @SYMTestCaseDesc 	Multiple clients requesting multiple services in non–concurrent manner.
+//!                     (multiple_client_requests_consecutive)
+//!		
+//! @SYMPREQ 		PREQ1262
+//! @SYMREQ  		REQ****
+//!
+//! @SYMTestPriority 	Critical
+//! @SYMTestStatus   	Implemented
+//! @SYMTestActions 	Preconditions:
+//!			• As set for test case SEC-UPS-B002C, but each test client and system server do not run concurrently 
+//!			with other tests clients. 
+//!
+//!			Test Actions:
+//!			• Execute test actions as set in “tests sequence part 1” on test case SEC-UPS-B010 above.
+//!			• Execute test actions as set in “tests sequence part 2” on test case SEC-UPS-B010 above.
+//!			• Reset test clients and test system servers.
+//!			• Execute test actions as set in “tests sequence part 3” on test case SEC-UPS-B010 above.
+//!
+//! @SYMTestExpectedResults 	Test services are granted/denied accordingly as set in detail test description for test case 
+//!				SEC-UPS-B010 above.	
+//!
+//! @SYMTestType CIT
+
+START_TESTCASE SEC-UPS-B011
+
+// Delete Existing Database
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini multiple_request_client1_Part1
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini multiple_request_client2_Part1
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini multiple_request_client3_Part1
+RUN_TEST_STEP 100 TUPSInteg_4 UPSClientStep z:\tups\integ\scripts\tups_integ.ini multiple_request_client4
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini multiple_request_client1_Part2
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini multiple_request_client2_Part2
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini multiple_request_client3_Part2
+RUN_TEST_STEP 100 TUPSInteg_4 UPSClientStep z:\tups\integ\scripts\tups_integ.ini multiple_request_client4
+
+// Close and Reset UPS
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini multiple_request_client1_Part2
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini multiple_request_client2_Part2
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini multiple_request_client3_Part2
+RUN_TEST_STEP 100 TUPSInteg_4 UPSClientStep z:\tups\integ\scripts\tups_integ.ini multiple_request_client4
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini count_24
+
+END_TESTCASE SEC-UPS-B011
+
+
+
+//! @SYMTestCaseID 	SEC-UPS-INTEG-B012
+//! @SYMTestCaseDesc 	Concurrent process can access service despite multiple unattended security dialogs.
+//!                     (Multiple_Unattended_Dialogs)
+//!		
+//! @SYMPREQ 		PREQ1262
+//! @SYMREQ  		REQ7427
+//!
+//! @SYMTestPriority 	Critical
+//! @SYMTestStatus   	Implemented
+//! @SYMTestActions 	Preconditions:
+//!			• There is an appropriate policy, policy evaluator and dialog creator that matches the UID of the service offered by the “system 
+//!			server”.
+//!
+//!			Test Actions:
+//!			• Launch 3 “test client” (A, B & C) which requests use of different system servers. Clients A & B should not have any decision 
+//!			related to it stored in DB, Clients C should have a decision “Always” stored in DB. Make sure that Client B is launched after 
+//!			security dialog is displayed for Client A. Make sure that request for security dialog for client B is made before client C is 
+//!			launched. 
+//!			• Do not act in the security dialog for Client A when this one is displayed.
+//!			• Check that Client C can access intended test service and UPS did issue a silent acceptance to system server from UPS for the 
+//!			request made for client C.
+//!			• Act now in security dialog for Client A, select “Never”.
+//!			• Check that Client A can NOT access intended test service.
+//!			• Act now in security dialog for Client B, select “Always”.
+//!			• Check that Client B can access intended test service.
+//!
+//! @SYMTestExpectedResults 	• Final check in Decision DB shows 4 decisions stored: “Always” for Clients B & C. “Never” for Client A.
+//!				• Accesses to service were granted for Clients B & C. 
+//!
+//! @SYMTestType CIT
+
+START_TESTCASE SEC-UPS-INTEG-B012
+
+// Delete Existing Database
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+// Setup up the Database so that Client C has an 'Always' Decision stored
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini Multiple_Unattended_Dialogs_ClientC_Setup
+
+// Run 3 concurrent clients with a Coordinator to ensure that the Clients are synchronised
+CONCURRENT
+RUN_TEST_STEP 100 TUPSInteg_1 UPSCoordinatorStep z:\tups\integ\scripts\tups_integ.ini Multiple_Unattended_Dialogs_Coordinator
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini Multiple_Unattended_Dialogs_ClientA
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini Multiple_Unattended_Dialogs_ClientB
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini Multiple_Unattended_Dialogs_ClientC
+CONSECUTIVE
+
+// Database Management Checks
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini Multiple_Unattended_Dialogs_dbManagementcheck
+
+END_TESTCASE SEC-UPS-INTEG-B012
+
+
+//********************** SEC-UPS-C : DIALOG SERIALISATION SPECIFIC TESTS  **********************
+
+
+//! @SYMTestCaseID 	SEC-UPS-C001
+//! @SYMTestCaseDesc 	Dialog serialisation
+//!                     (Dialog_Serialisation)
+//!		
+//! @SYMPREQ 		PREQ1262
+//! @SYMREQ  		REQ7472
+//!
+//! @SYMTestPriority 	Critical
+//! @SYMTestStatus   	Implemented
+//! @SYMTestActions 	Preconditions:
+//!			• For each of the services There is an appropriate policy, policy evaluator and dialog creator that matches the UID of the service //!			offered by the “system server”.
+//!
+//!			Test Actions:
+//!			• Launch 3 “test client”  (A ,B & C) in turns, these Clients requests use of a system server.  System server should request prompt of //!			security dialog to UPS. Make sure that requests for the 3 security dialog are made before acting in the first dialog that is expected //!			to be displayed.
+//!			• For first security dialog to be displayed (client A) select “always”.
+//!			• Check that client A can access intended service.
+//!			• For second security dialog to be displayed (client B) select “only this session”.
+//!			• Check that client B can access intended service.
+//!			• For third security dialog to be displayed (client C) select “never”.
+//!			• Check that client C can NOT access intended service.
+//!			• Shut down clients and servers.
+//!			• Launch client A again, check that it can access test service and UPS is issuing silent acceptance.
+//!			• Launch client C again, check that it can access test service and UPS is issuing silent denial.
+//!
+//!
+//! @SYMTestExpectedResults 	• User prompt service dialogs are displayed correctly, and only 1 dialog at any time.
+//!				• Information displayed about the client is complete (see Appendix A).
+//!				• Clients A & C can access test service.
+//!				• Client B can not access test service.
+//!				•Decision DB is updated correctly with the Always decision. 
+//!
+//! @SYMTestType CIT
+
+START_TESTCASE SEC-UPS-C001
+
+// Delete Existing Database
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+// Run 3 concurrent clients with a Coordinator to ensure that the Clients are synchronised
+CONCURRENT
+RUN_TEST_STEP 100 TUPSInteg_1 UPSCoordinatorStep z:\tups\integ\scripts\tups_integ.ini Dialog_Serialisation_Coordinator
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini Dialog_Serialisation_clientA
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini Dialog_Serialisation_clientB
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini Dialog_Serialisation_clientC
+CONSECUTIVE
+
+// Silent acceptance checking for Client A
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini Dialog_Serialisation_clientA_DecisionCheck
+
+// Silent denial checking for Client C
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini Dialog_Serialisation_clientC_DecisionCheck
+
+// Database Management Checks
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini Dialog_Serialisation_dbManagementcheck
+
+END_TESTCASE SEC-UPS-C001
+
+
+//! @SYMTestCaseID 	SEC-UPS-INTEG-C005
+//! @SYMTestCaseDesc 	To ensure that a cancellation of a user prompt dialog (cancel button) does not affect 
+//!			adversatively the behaviour of the UPS.
+//!                     (single_dialog_cancellation)
+//!		
+//! @SYMPREQ 		PREQ1262
+//! @SYMREQ  		REQ7427 
+//!
+//! @SYMTestPriority 	Critical
+//! @SYMTestStatus   	Implemented
+//! @SYMTestActions 	Preconditions:
+//!			• There is an appropriate policy, policy evaluator and dialog creator that matches the UID of 		
+//!			the service offered by the “system server”.
+//!
+//!			Test Actions:
+//!			• Launch a “test client A” which requests use of a system server.
+//!			• System server asks for a user prompt to the UPS.
+//!			• When security dialog is displayed, cancel request made from system server to UPS, this should 
+//!			cause cancellation of notifier and therefore cancellation of security dialog.
+//!			• Close test client A.
+//!			• Launch test client B which tries to use the same test service.
+//!			• System server requests security dialog.
+//!			• When dialog is displayed select “always”
+//!			• Check that client B can use test service.
+//!
+//! @SYMTestExpectedResults
+//!                     • User prompt service dialogs is displayed correctly.
+//!			• Cancellation of security dialog does not cause UPS malfunction.
+//!			• Decision DB is upgraded with new decision for test client B.
+//!
+//! @SYMTestType CIT	 
+//!			 
+
+
+START_TESTCASE SEC-UPS-INTEG-C005
+
+// Delete Existing Database
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+// Client A is run concurrently with a Coordinator so that the request can be cancelled once the Dialog Creator has been invoked
+CONCURRENT
+RUN_TEST_STEP 100 TUPSInteg_1 UPSCoordinatorStep z:\tups\integ\scripts\tups_integ.ini single_dialog_cancellation_Coordinator
+RUN_TEST_STEP 100 TUPSInteg_minor CancelPrompt z:\tups\integ\scripts\tups_integ.ini single_dialog_cancellation_ClientA
+CONSECUTIVE
+
+// Client B makes an attempt to access the same service as Client A
+RUN_TEST_STEP 100 TUPSInteg_minor SimpleRequest z:\tups\integ\scripts\tups_integ.ini single_dialog_cancellation_ClientB
+
+// Database Management Checks
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini single_dialog_cancellation_dbManagementCheck
+
+END_TESTCASE SEC-UPS-INTEG-C005
+
+
+
+//! @SYMTestCaseID 	SEC-UPS-INTEG-C006
+//! @SYMTestCaseDesc 	Cancellation of first dialog from a queue of pending security dialogs.
+//!                     (cancellation_first_dialog)
+//!		
+//! @SYMPREQ 		PREQ1262
+//! @SYMREQ  		REQ7431 REQ7432 
+//!
+//! @SYMTestPriority 	Critical
+//! @SYMTestStatus   	Implemented
+//! @SYMTestActions 	Preconditions:
+//!			• For each of the services there is an appropriate policy, policy evaluator and dialog creator that matches the UID of the service //!			offered by the “system server”.
+//!			
+//!			Test Actions:
+//!			• Launch 3 “test client” in turns (A,B & C), these Clients try to use of a test service in system server.
+//!			• Make sure system server has request security dialog for all clients before acting in any security dialog. 
+//!			• Once user prompt is displayed for client A, induce system server to cancel request to UPS for client A, this should cause security //!			dialog for client A to be removed from screen. 
+//!			• Security dialog for client B should appear on screen select “never” and check that application can NOT use intended service.
+//!			• Security dialog for client C should appear on screen select “always” and check that application can use intended service.
+//!
+//! @SYMTestExpectedResults • Decision DB is upgraded with new decisions for Clients B (“never”) and C (“always”) 
+//!			• UPS does not malfunction after cancellation of dialog for Client A.
+//!
+//! @SYMTestType CIT	 
+//!			 
+
+
+START_TESTCASE SEC-UPS-INTEG-C006
+
+// Delete Existing Database
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+// Client A, B and C are run concurrently with a Coordinator so that the first dialog (Client A) can be cancelled once all of the service requests
+// have been invoked
+CONCURRENT
+RUN_TEST_STEP 100 TUPSInteg_1 UPSCoordinatorStep z:\tups\integ\scripts\tups_integ.ini cancellation_first_dialog_Coordinator
+RUN_TEST_STEP 100 TUPSInteg_minor CancelPrompt z:\tups\integ\scripts\tups_integ.ini cancellation_first_dialog_ClientA_cancel
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini cancellation_first_dialog_ClientB
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini cancellation_first_dialog_ClientC
+CONSECUTIVE
+
+// Database Management Checks
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini cancellation_first_dialog_dbManagementCheck
+
+END_TESTCASE SEC-UPS-INTEG-C006
+
+
+
+//! @SYMTestCaseID 	SEC-UPS-INTEG-C007
+//! @SYMTestCaseDesc 	Cancellation of last dialog from a queue of pending security dialogs.
+//!                     (cancellation_last_dialog)
+//!		
+//! @SYMPREQ 		PREQ1262
+//! @SYMREQ  		REQ7431 REQ7432 
+//!
+//! @SYMTestPriority 	Critical
+//! @SYMTestStatus   	Implemented
+//! @SYMTestActions 	Preconditions:
+//!			• For each of the services there is an appropriate policy, policy evaluator and dialog creator that matches the UID of the service //!			offered by the “system server”.
+//!
+//!			Test Actions:
+//!			• Launch 3 “test client” in turns (A, B & C), these Clients try to use of a test service in system server.
+//!			• Make sure system server has request security dialog for all clients before acting in any security dialog. 
+//!			• Security dialog for client A should appear on screen select “always” and check that application can use intended service.
+//!			• Security dialog for client B should appear on screen select “never” and check that application can NOT use intended service.
+//!			• Once user prompt is displayed for client C, induce system server to cancel request to UPS for client C, this should cause security //!			dialog for client C to be removed from screen. 
+//!			• In new session ask client A to try to access test service, UPS should grant silent acceptance and client A should have access to //!			test service.
+//!			• In new session ask client B to try to access test service, UPS should grant silent denial and client B should NOT  have access to //!			test service.
+//!	
+//! @SYMTestExpectedResults • Decision DB is upgraded with new decisions for Clients B (“never”) and 
+//!			      A (“always”).
+//!			    • UPS does not malfunction after cancellation of dialog for Client C.		
+//! @SYMTestType CIT
+//!	
+
+
+START_TESTCASE SEC-UPS-INTEG-C007
+
+// Delete Existing Database
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+// Client A, B and C are run concurrently with a Coordinator so that the last dialog (Client C) can be cancelled once all of the service requests
+// have been invoked
+CONCURRENT
+RUN_TEST_STEP 100 TUPSInteg_1 UPSCoordinatorStep z:\tups\integ\scripts\tups_integ.ini cancellation_last_dialog_Coordinator
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini cancellation_last_dialog_ClientA
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini cancellation_last_dialog_ClientB
+RUN_TEST_STEP 100 TUPSInteg_minor CancelPrompt z:\tups\integ\scripts\tups_integ.ini cancellation_last_dialog_ClientC_cancel
+CONSECUTIVE
+
+// Database Management Checks
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini cancellation_last_dialog_dbManagementCheck
+
+END_TESTCASE SEC-UPS-INTEG-C007
+
+
+
+//! @SYMTestCaseID 	SEC-UPS-INTEG-C008
+//! @SYMTestCaseDesc 	Cancellation of middle position dialog from a queue of pending security dialogs.
+//!                     (cancellation_middle_dialog)
+//!		
+//! @SYMPREQ 		PREQ1262
+//! @SYMREQ  		REQ7431 REQ7432 
+//!
+//! @SYMTestPriority 	Critical
+//! @SYMTestStatus   	Implemented
+//! @SYMTestActions 	Preconditions:
+//!			• For each of the services there is an appropriate policy, policy evaluator and dialog creator that matches the UID of the service //!			offered by the “system server”.
+//!
+//!			Test Actions:
+//!			• Launch 3 “test client” in turns (A, B & C), these Clients try to use of a test service in system server.
+//!			• Make sure system server has request security dialog for all clients before acting in any security dialog. 
+//!			• Security dialog for client A should appear on screen select “always” and check that application can use intended service.
+//!			• Once user prompt is displayed for client B, induce system server to cancel request to UPS for client B, this should cause security //!			dialog for client B to be removed from screen. 
+//!			• Security dialog for client C should appear on screen select “Always” and check that client can use intended service.
+//!			• In new session ask client A to try to access test service, UPS should grant silent acceptance and client A should have access to //!			test service.
+//!			• In new session ask client C to try to access test service, UPS should grant silent acceptance and client B should have access to //!			test service.
+//!	
+//! @SYMTestExpectedResults • Decision DB is upgraded with 2 new “Always” decisions for Clients A & C.
+//!		            • UPS does not malfunction after cancellation of dialog for Client B.
+//!		
+//! @SYMTestType CIT	
+
+
+START_TESTCASE SEC-UPS-INTEG-C008
+
+// Delete Existing Database
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+// Client A, B and C are run concurrently with a Coordinator so that the middle dialog (Client B) can be cancelled once all of the service requests
+// have been invoked
+CONCURRENT
+RUN_TEST_STEP 100 TUPSInteg_1 UPSCoordinatorStep z:\tups\integ\scripts\tups_integ.ini cancellation_middle_dialog_Coordinator
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini cancellation_middle_dialog_ClientA
+RUN_TEST_STEP 100 TUPSInteg_minor CancelPrompt z:\tups\integ\scripts\tups_integ.ini cancellation_middle_dialog_ClientB_cancel
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini cancellation_middle_dialog_ClientC
+CONSECUTIVE
+
+// Database Management Checks
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini cancellation_middle_dialog_dbManagementCheck
+
+END_TESTCASE SEC-UPS-INTEG-C008
+
+
+//! @SYMTestCaseID 	SEC-UPS-INTEG-C009
+//! @SYMTestCaseDesc 	Cancellation of request whilst Policy Evaluator is Generating Fingerprints
+//!                     (cancellation_during_fingerprint_generation)
+//!		
+//! @SYMPREQ 		PREQ1262
+//! @SYMREQ 		REQ7431 REQ7432 
+//!
+//! @SYMTestPriority	Critical
+//! @SYMTestStatus	Implemented
+//! @SYMTestActions	
+//!	Preconditions:
+//!		•  For each of the services there is an appropriate policy, policy evaluator and 
+//!		   dialog creator that matches the UID of the service offered by the “system server”.
+//!     Test Actions:
+//!            •  Launch 3 “test client” in turns (A, B & C), these Clients try to use of a test 
+//!               service in system server.
+//!	       •  Make sure system server has request security dialog for all clients to UPS before 
+//!		  acting in any security dialog. At this stage client A should be hold with security 
+//!		  dialog open (on display), client B need to be hold while its request is at 
+//!		  “GenerateFingerPrints” stage, client C can be hold at display queuing stage.
+//!	       •  Once all clients have reached stages described above cancel request from client B, 
+//!		  consecutively let other two clients requests (A & C) run normally to competition. 
+//!	       •  Check that request for A and C can be served normally by UPS.
+//!	       •  Check that request for client B received a “KerrCancel” from UPS.
+//!
+//! @SYMTestExpectedResults  •	Decisions for client A and C are correctly stored in decision DB.
+//!    			     •	No decision was stored for client B.
+//!			
+//! @SYMTestType CIT	 
+
+START_TESTCASE SEC-UPS-INTEG-C009
+
+// Delete Existing Database
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+// Client A, B and C are run concurrently with a Coordinator so that the middle dialog (Client B) can be cancelled whilst the policy evaluator is generating 
+// fingerprints
+CONCURRENT
+RUN_TEST_STEP 100 TUPSInteg_1 UPSCoordinatorStep z:\tups\integ\scripts\tups_integ.ini cancellation_during_fingerprint_generation_Coordinator
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini cancellation_during_fingerprint_generation_ClientA
+RUN_TEST_STEP 100 TUPSInteg_minor CancelPrompt z:\tups\integ\scripts\tups_integ.ini cancellation_during_fingerprint_generation_ClientB_cancel
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini cancellation_during_fingerprint_generation_ClientC
+CONSECUTIVE
+
+// Database Management Checks
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini cancellation_during_fingerprint_generation_dbManagementCheck
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini count_2
+
+END_TESTCASE SEC-UPS-INTEG-C009
+
+
+//! @SYMTestCaseID 	SEC-UPS-INTEG-C010
+//! @SYMTestCaseDesc 	Cancellation of request whilst Dialog Creator is Preparing a Dialog
+//!                     (cancellation_during_prepare_dialog)
+//!		
+//! @SYMPREQ 		PREQ1262
+//! @SYMREQ 		REQ7431 REQ7432 
+//!
+//! @SYMTestPriority	Critical
+//! @SYMTestStatus	Implemented
+//! @SYMTestActions	
+//!	Preconditions:
+//!		•  For each of the services there is an appropriate policy, policy evaluator and 
+//!		   dialog creator that matches the UID of the service offered by the “system server”.
+//!     Test Actions:
+//!            •  Launch 3 “test client” in turns (A, B & C), these Clients try to use of a test 
+//!               service in system server.
+//!	       •  Make sure system server has request security dialog for all clients to UPS before 
+//!		  acting in any security dialog. At this stage client A should be hold with security 
+//!		  dialog open (on display), client B need to be hold while its request is at 
+//!		  “PrepareDialog” stage, client C can be hold at display queuing stage.
+//!	       •  Once all clients have reached stages described above cancel request from client B, 
+//!		  consecutively let other two clients requests (A & C) run normally to competition. 
+//!	       •  Check that request for A and C can be served normally by UPS.
+//!	       •  Check that request for client B received a “KerrCancel” from UPS.
+//!
+//! @SYMTestExpectedResults  •	Decisions for client A and C are correctly stored in decision DB.
+//!    			     •	No decision was stored for client B.
+//!			
+//! @SYMTestType CIT	 
+
+
+
+START_TESTCASE SEC-UPS-INTEG-C010
+
+// Delete Existing Database
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+// Client A, B and C are run concurrently with a Coordinator so that the middle dialog (Client B) can be cancelled whilst the dialog creator is preparing
+// a dialog
+CONCURRENT
+RUN_TEST_STEP 100 TUPSInteg_1 UPSCoordinatorStep z:\tups\integ\scripts\tups_integ.ini cancellation_during_prepare_dialog_Coordinator
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini cancellation_during_prepare_dialog_ClientA
+RUN_TEST_STEP 100 TUPSInteg_minor CancelPrompt z:\tups\integ\scripts\tups_integ.ini cancellation_during_prepare_dialog_ClientB_cancel
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini cancellation_during_prepare_dialog_ClientC
+CONSECUTIVE
+
+// Database Management Checks
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini cancellation_during_prepare_dialog_dbManagementCheck
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini count_2
+
+END_TESTCASE SEC-UPS-INTEG-C010
+
+
+//********************** SEC-UPS-D : DECISION DATABASE SPECIFIC TESTS  **********************
+
+
+//! @SYMTestCaseID SEC-UPS-INTEG-D003
+//! @SYMTestCaseDesc Deletion of decision DB after DB corruption
+//!                  (BD_corruption)
+//!		
+//! @SYMPREQ PREQ1262
+//! @SYMREQ REQ0
+//!
+//! @SYMTestPriority Critical
+//! @SYMTestStatus   Implemented
+//! @SYMTestActions 	Preconditions:
+//!			• For each of the services there is an appropriate policy, policy evaluator and 
+//!	   		  dialog creator that matches the UID of the service offered by the “system server”.
+//!			
+//!			Test Actions:
+//!			• Launch 2 “test client” in turns (A & B) these Clients try to use of a system server.
+//!			• System server asks for a user prompt to the UPS for each of the Clients.
+//!			• For the first 2 test clients (A & B) select “Always” option. 
+//!			• Check that “test client” A & B can now use the intended service from the system server. 
+//!			• Close client, system servers and UPS
+//!			• Change some bytes in decision DB file that will be interpreted as DB corruption. 
+//!     		• Launch again test clients A & B,  as the decision DB is expected to have been deleted, 
+//!	                  it is expected that 2 user prompts will be displayed again for A & B.
+//!			• Select “Never” for A and “always” for B.
+//!			• Check that A can access intended service and B can NOT.
+//! @SYMTestExpectedResults • The decision DB is deleted after corruption and replaced with new one.
+//!			    • A  new DB is created with “”Never” decision for client A and “Always” decision for client B. 
+//!			    • Corruption of decision DB does not cause failure in UPS.
+//! @SYMTestType CIT
+
+START_TESTCASE SEC-UPS-INTEG-D003
+// First attempt of corruption
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini BD_corruption_adddecisions
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini BD_corruption_checkdecisions
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+// replaces database with corrupted database
+RUN_UTILS CopyFile z:\tups\integ\corrupted_db_integ\ups_corrupted1.db c:\private\10283558\database\ups.db
+RUN_UTILS MakeReadWrite c:\private\10283558\database\ups.db
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini BD_corruption_adddecisions
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini BD_corruption_checkdecisions
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+
+// second attempt of corruption
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini BD_corruption_adddecisions
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini BD_corruption_checkdecisions
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+// replaces database with corrupted database
+RUN_UTILS CopyFile z:\tups\integ\corrupted_db_integ\ups_corrupted2.db c:\private\10283558\database\ups.db
+// The database file is deliberately left as read only (DEF122590).
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini BD_corruption_adddecisions
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini BD_corruption_checkdecisions
+END_TESTCASE SEC-UPS-INTEG-D003
+
+
+//! @SYMTestCaseID 	SEC-UPS-D004
+//! @SYMTestCaseDesc 	Removal of single decision from DB by user operation. 
+//!                     (remove_single_db_decision)
+//!		
+//! @SYMPREQ 		PREQ1262
+//! @SYMREQ  		REQ7379
+//!
+//! @SYMTestPriority 	Critical
+//! @SYMTestStatus   	Implemented
+//! @SYMTestActions 	Preconditions:
+//!			• For each of the services There is an appropriate policy, policy evaluator and dialog creator that matches the UID 	//!			of the service offered by the “system server”.
+//!
+//!			Test Actions:
+//!			• Populate decision DB for 3 test clients (A, B, C) with “Never” decisions for 3 Clients.
+//!			• Remove individual decision for Client B from DB using decision DB management API.  
+//!			• Launch test clients (A, B, C) which should try to use service from system server. 
+//!			• System server requests UPS for security for user security prompting, at this point UPS should give silent denial 	//!			for Client A & C, but should prompt user security dialog for Client B.  
+//!			• Select “Always” for test client B when security dialog is displayed.
+//!			• Check that Client B can now use the intended service.
+//!
+//! @SYMTestExpectedResults	• Only decision for test client B changes; final state of decision DB should show decisions for A & C as 
+//!				“never”, decision for C as “Always”.
+//!				• Test client B is granted access to intended service.
+//!
+//! @SYMTestType 	CIT
+
+
+START_TESTCASE SEC-UPS-D004
+
+// Delete Existing Database
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+// * STAGE 1 - CONSECUTIVE REMOVAL OF DECISIONS FROM DATABASE
+
+// Populate decisions in the database and close off sessions
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini remove_single_db_decision_setup_clientA
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini remove_single_db_decision_setup_clientB
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini remove_single_db_decision_setup_clientC
+
+// Initial check on the decisions for denial from UPS
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini remove_single_db_decision_initialCheck_clientA
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini remove_single_db_decision_initialCheck_clientB
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini remove_single_db_decision_initialCheck_clientC
+
+// Initial Database Management Record Check and Count
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini remove_single_db_decision_initialDBCheck
+
+// Remove database decisions for client B using the UPS DB Management API
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini remove_single_db_decision_removeDecision_clientB
+
+// UPS DB Management checking on records and Execute Decision Count
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini remove_single_db_decision_postClientRemovalDBCheck
+
+// Remove database decisions for Policy Evaluator 2 using the UPS DB Management API
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini remove_single_db_decision_removeDecision_evaluator2
+
+// UPS DB Management checking on records and Execute Decision Count
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini remove_single_db_decision_postEvaluatorRemovalDBCheck
+
+// Relaunch clients checking that clients A & C requesting PE 1 or 3 return denials and others require a User Prompt of which
+// Always is selected
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini remove_single_db_decision_checkAndRepopulate_clientA
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini remove_single_db_decision_checkAndRepopulate_clientB
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini remove_single_db_decision_checkAndRepopulate_clientC
+
+// Final check on the decisions from UPS
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini remove_single_db_decision_finalCheck_clientA
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini remove_single_db_decision_finalCheck_clientB
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini remove_single_db_decision_finalCheck_clientC
+
+// Final Stage of UPS DB Management checking on records and Execute Decision Count
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini remove_single_db_decision_finalDBCheck
+
+
+// * STAGE 2 - CONCURRENT OPERATIONS ON UPS WHILST REMOVING DECISIONS FROM DATABASE
+
+// Delete Existing Database
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+// populate decision database with sample inital values.
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini populate_sample
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini populate_sample2
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini populate_sample2
+
+// Perform initial checking on sample decisions
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample2
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample2
+
+// Concurrently check the decisions of clients B & C whilst remove select decisions from the Database for Client A
+CONCURRENT
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini remove_decisions_concurrent_clientA
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample2
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample2
+CONSECUTIVE
+
+// UPS DB Management checking on records and Execute Decision Count
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini remove_decisions_concurrent_dbCheck 
+
+END_TESTCASE SEC-UPS-D004
+
+
+//********************** SEC-UPS-E : SECURITY POLICIES AND POLICY EVALUATOR PLUG-INS  **********************
+//! @SYMTestCaseID SEC-UPS-INTEG-E001
+//! @SYMTestCaseDesc To ensure that when a single bit is set in the “options” no security
+//!		     dialog will be prompted to user. 
+//!                  (single_bit_set)
+//!		
+//! @SYMPREQ PREQ1262
+//! @SYMREQ REQ7391, REQ7392, REQ7433  
+//! @SYMTestPriority Critical
+//! @SYMTestStatus   Implemented
+//! @SYMTestActions 	Test A: Set only ‘EYes’ bit to true in test policy for“test client”.
+//!			Induce UPS invocation by using a “test client”
+//!			Check if test client can access intended service.
+//!		    	Test B:  Set only ‘ENo’ bit to true in test policy for“test client”.
+//!			Induce UPS invocation by using a “test client”
+//!			Check if test client can access intended service.
+//! 		   	Test C: Set only ‘ESession’ bit to true in test policy for“test client”.
+//!			Induce UPS invocation by using a “test client”
+//!			Check if test client can access intended service.
+//! 			Test D: Set only ‘EAlways’ bit to true in test policy for“test client”.
+//!			Induce UPS invocation by using a “test client”
+//!			Check if test client can access intended service.
+//! 			Test E:	Set only ‘ENever’ bit to true in test policy for“test client”.
+//!			Induce UPS invocation by using a “test client”
+//!			Check if test client can access intended service.
+//!
+//! @SYMTestExpectedResults 	Only for tests A, C & D the test service will be able to access 
+//!				intended service.
+//!	 			For all of the tests (A to E), no decision is stored in decision DB.
+//!				No security dialog is displayed (all decisions are silent).
+//!
+//! @SYMTestType CIT
+//
+START_TESTCASE SEC-UPS-INTEG-E001
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini single_bit_set
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini single_bit_set_b
+END_TESTCASE SEC-UPS-INTEG-E001
+
+
+//! @SYMTestCaseID SEC-UPS-INTEG-E002
+//! @SYMTestCaseDesc To ensure that a default policy evaluator will be invoked if a service
+//!                  requested do not match any existing policy in the phone 
+//!                  (no_matching_policy)
+//!		
+//! @SYMPREQ PREQ1262
+//! @SYMREQ REQ0
+//! @SYMTestPriority Critical
+//! @SYMTestStatus   Implemented
+//! @SYMTestActions 	Preconditions: There is not matching policy for the test client to 
+//!                     be used for this test case.
+//!                     Test Actions:  
+//!                     - Launch test client which tries to access test service, system server 
+//!                     should invoke UPS.
+//!             	- A “Yes” or “No” dialog should be displayed select “YES
+//!			Check that access is granted to test service. 
+//!			- Launch again same test client, a “Yes” or “Not” dialog should be displayed 
+//!			select “No”. 
+//!			- Check that access is NOT granted to test service. 
+//!			- Launch again same test client, a “Yes” or “Not” dialog should be displayed 
+//!                     select “Yes”. 
+//!			-  Check that access is granted to test service. 
+//!
+//! @SYMTestExpectedResults 	Yes” or “No” dialog is displayed every time that test client 
+//!				request service access.
+//!
+//! @SYMTestType CIT
+//
+START_TESTCASE SEC-UPS-INTEG-E002
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep Z:\tups\integ\scripts\tups_integ.ini no_matching_policy
+END_TESTCASE SEC-UPS-INTEG-E002
+
+
+//! @SYMTestCaseID SEC-UPS-INTEG-E004
+//! @SYMTestCaseDesc To ensure that UPS will return an appropriate error if the policy 
+//!                  evaluator set in the “policy evaluator” field is not present in the phone 
+//!                  (missing_policy_evaluator)
+//!		
+//! @SYMPREQ PREQ1262
+//! @SYMREQ REQ7444  
+//! @SYMTestPriority Critical
+//! @SYMTestStatus   Implemented
+//! @SYMTestActions 	Preconditions there is an appropriate policy, policy evaluator
+//!                    and dialog creator that matches the UID of the service offered by the 
+//!                    “system server”. However the policy evaluator referred in the “policy 
+//!                    evaluator UID field” is not present in the phone. 
+//! 		       Actions:  Launch test client which tries to use test service, system server should invoke UPS.
+//!                    UPS should return KErrUpsMissingPolicyEvaluator to system server.
+//!
+//! @SYMTestExpectedResults System server receives KErrUpsMissingPolicyEvaluator 
+//!				and test client can not use intended service
+//!
+//! @SYMTestType CIT
+//
+START_TESTCASE SEC-UPS-INTEG-E004
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini missing_policy_evaluator
+END_TESTCASE SEC-UPS-INTEG-E004
+
+
+//! @SYMTestCaseID SEC-UPS-INTEG-E006
+//! @SYMTestCaseDesc To ensure that UPS will return appropriate error if dialog creator referred 
+//!                  by “Dialog creator UID” field in policy is not present in phone
+//!                  (missing_dialog_creator)
+//!		
+//! @SYMPREQ PREQ1262
+//! @SYMREQ REQ7444  
+//! @SYMTestPriority Critical
+//! @SYMTestStatus   Implemented
+//! @SYMTestActions  preconditions There is an appropriate policy, policy evaluator that matches 
+//!                  the UID of the service offered by the “system server”. However the dialog 
+//!                  creator referred in the “Dialog creator UID field” is not present in the phone.
+//!                  Launch test client which tries to access test service, system server should 
+//!		     invoke UPS. Launch test client which tries to use test service, system server 
+//!                  should invoke UPS.
+//!
+//! @SYMTestExpectedResults System server receives KErrUpsMissingDialogCreator
+//!				and test client can not use intended service
+//!
+//! @SYMTestType CIT
+//
+START_TESTCASE SEC-UPS-INTEG-E006
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini missing_dialog_creator
+END_TESTCASE SEC-UPS-INTEG-E006
+
+//! @SYMTestCaseID SEC-UPS-INTEG-E007
+//! @SYMTestCaseDesc Matching destination by wild card, asterisk symbols – limited range.
+//!                  (asterisk_limited)
+//!		
+//! @SYMPREQ PREQ1262
+//! @SYMREQ REQ0
+//!
+//! @SYMTestPriority Critical
+//! @SYMTestStatus   Implemented
+//! @SYMTestActions 	Preconditions: 
+//!			• There is an appropriate policy, policy evaluator and dialog creator 
+//!			that matches the UID of the service offered by the “system server”. 
+//!			The value for “destination” in policy file contains asterisk.
+//!			Test Actions:  
+//!			• Launch test client A which tries to access test service. The service 
+//!			requested by this Client is a phone connection to a 0900 number. 
+//!			(The policy associated to this service states that all 0900* should be 
+//!			prompted for user decision)
+//! 			• System server asks for a user prompt to the UPS.
+//!			• When UPS prompts user, select the “Always” option. Check that Client 
+//!			A can access intended service.
+//!			• Launch Client A in a new session, check that Client A receives a silent 
+//!			acceptance and can access the intended service.
+//!			• Launch test client B which tries to access test service. The service 
+//!			  requested by this Client is an internet connection to a “.RU” address. 
+//!     		(The policy associated to this service states that all “.RU” addresses 
+//!			should be blocked).
+//!			• System server asks for a user prompt to the UPS.
+//!			• UPS should reply with a silent denial. Check that Client B can not 
+//!			access intended service.
+//!
+//! @SYMTestExpectedResults 	• An “Always” decision is stored in decision DB for Client A. 
+//!				• Client A can access intended service.
+//!				• No decision is stored for Client B in decision DB.
+//!				• Client B can NOT access intended service.
+//! @SYMTestType CIT
+
+START_TESTCASE SEC-UPS-INTEG-E007
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini asterisk_limited
+END_TESTCASE SEC-UPS-INTEG-E007
+
+
+//! @SYMTestCaseID SEC-UPS-INTEG-E008
+//! @SYMTestCaseDesc Matching destination by wild card, asterisk symbols – All option.
+//!                  (asterisk_all)
+//!		
+//! @SYMPREQ PREQ1262
+//! @SYMREQ REQ0
+//!
+//! @SYMTestPriority Critical
+//! @SYMTestStatus   Implemented
+//! @SYMTestActions 	Preconditions: 
+//!			•  There is an appropriate policy, policy evaluator and dialog creator
+//!			  that matches the UID of the service offered by the “system server”. 
+//!			  The value for “destination” in policy file contains asterisk.
+//!			Test Actions:  
+//!			• Launch test client A with which tries to access test service. 
+//!			The service requested by this Client is a phone connection to a 0500 number. 
+//!			(The policy associated to this service states that all destinations should be prompted 
+//!			for user decision, “*” in destination)
+//!			• System server asks for a user prompt to the UPS.
+//!			• When UPS prompts user, select the “Always” option. Check that Client A can 
+//!			  access intended service.
+//!			• Launch Client A in a new session, check that Client A receives a silent acceptance 
+//!			  and can access the intended service.
+//!			• Launch test client B which tries to access test service. The service requested by this 
+//!			  Client is an internet connection to a “.RU” address. (The policy associated to this service 
+//!			  states that all “.RU” addresses should be blocked).
+//!			• System server asks for a user prompt to the UPS.
+//!			• UPS should reply with a silent denial. Check that Client B can not access intended service.
+//!
+//!
+//! @SYMTestExpectedResults 	• An “Always” decision is stored in decision DB for Client A. 
+//!				• Client A can access intended service.
+//!				• No decision is stored for Client B in decision DB.
+//!				• Client B can NOT access intended service.
+//! @SYMTestType CIT
+
+START_TESTCASE SEC-UPS-INTEG-E008
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini asterisk_all
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini asterisk_all_b
+END_TESTCASE SEC-UPS-INTEG-E008
+
+
+//! @SYMTestCaseID SEC-UPS-INTEG-E009
+//! @SYMTestCaseDesc 	Matching destination by wild card, question mark symbols.
+//!                     (question_mark_card)
+//!		
+//! @SYMPREQ PREQ1262
+//! @SYMREQ REQ0
+//!
+//! @SYMTestPriority Critical
+//! @SYMTestStatus   Implemented
+//! @SYMTestActions 	Preconditions: 
+//!			• There is an appropriate policy, policy evaluator and dialog creator that 
+//!                       matches the UID of the service offered by the “system server”. The value 
+//!			  for “destination” in policy file contains question mark symbols.
+//!			Test Actions: 
+//!			• Launch test client A which tries to access test service. The service requested
+//!			  by this Client is a phone connection to a 0900 number. (The policy associated to 
+//!			  this service states that all 0?00 should be prompted for user decision)
+//!			• System server asks for a user prompt to the UPS.
+//!			• When UPS prompts user, select the “Always” option. Check that Client A can access
+//!		          intended service.
+//!			• Launch Client A in a new session, check that Client A receives a silent acceptance 
+//!			  and can access the intended service.
+//!			• Launch test client B which tries to access test service. The service requested by 
+//!			  this Client is an phone call to 118 500. (The policy associated to this service states 
+//!			  that all 118??? Phone numbers should be blocked).
+//!			• System server asks for a user prompt to the UPS.
+//!			• UPS should reply with a silent denial. Check that Client B can not access intended 
+//!			  service.
+//!			
+//!
+//! @SYMTestExpectedResults 	• An “Always” decision is stored in decision DB for Client A. 
+//!				• Client A can access intended service.
+//!                             • No decision is stored for Client B in decision DB.
+//!				• Client B can NOT access intended service.
+//! @SYMTestType CIT
+
+START_TESTCASE SEC-UPS-INTEG-E009
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini question_mark_card
+END_TESTCASE SEC-UPS-INTEG-E009
+
+
+//! @SYMTestCaseID SEC-INTEG-UPS-E024
+//! @SYMTestCaseDesc Security Policy Authorisation - EAlwaysCheck  
+//!                  (alwayscheck_authoristion)
+//!		
+//! @SYMPREQ PREQ1262
+//! @SYMREQ REQ7389
+//! @SYMTestPriority Critical
+//! @SYMTestStatus   Implemented
+//! @SYMTestActions  
+//!		Preconditions:
+//!		• Policy file related to test service to be used has property “authorisationPolicy” set
+//!		  to “EAlwaysCheck”.
+//!		Test Actions:
+//!		    •  Request use of the service that matches policy file mentioned in “preconditions”. 
+//!		       Test system server should invoke UPS.
+//!		    •  Use different values for “aServerCheckOk” parameter in “Authorise” methods (ETrue 
+//!		       and EFalse)
+//!	            •  Check that UPS invokes correct policy evaluator and dialog creator as set in policy 
+//!		       file. 
+//!
+//! @SYMTestExpectedResults  
+//!	            • All new requests made to UPS for test service will cause a user prompt from UPS.   
+//!
+//! @SYMTestType CIT
+
+START_TESTCASE SEC-INTEG-UPS-E024
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini alwayscheck_platsec_true
+
+// Delete Existing Database
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini alwayscheck_platsec_false
+END_TESTCASE SEC-INTEG-UPS-E024
+
+
+//! @SYMTestCaseID SEC-INTEG-UPS-E025
+//! @SYMTestCaseDesc Security Policy Authorisation - ECheckPostManufacture  
+//!                  (checkpostmanufacture_authoristion)
+//!		
+//! @SYMPREQ PREQ1262
+//! @SYMREQ REQ7389
+//! @SYMTestPriority Critical
+//! @SYMTestStatus   Implemented
+//! @SYMTestActions  Preconditions:
+//!			• Policy file related to test service to be used has property “authorisationPolicy” 
+//!	                  set to “ECheckPostManufacture”.
+//!		     Test Actions:  
+//!			• Request use of the service that matches policy file mentioned in “preconditions”. 
+//!			  Test system server should invoke UPS.
+//!			• Use different values for “aServerCheckOk” parameter in “Authorise” methods (ETrue 
+//!			  and EFalse).
+//!			• Use different types of applications to request the same service including: applications
+//!			  with protected SID on Z drive, unprotected SID on Z drive, protected SID on C drive and 
+//!			  unprotected SID on C drive.  
+//!
+//! @SYMTestExpectedResults  Only requests made from applications with protected SID running from Z drive having 
+//!			     passed system server checks should receive immediate access approval, any other type 
+//!			     should cause a security user prompt. 
+//!
+//! @SYMTestType CIT
+
+START_TESTCASE SEC-INTEG-UPS-E025
+
+// Delete Existing Database
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+// CLIENT WITH PROTECTED SID ON Z
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini checkpostmanufacture_platsec_true_zdrive_protect
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini checkpostmanufacture_platsec_false_zdrive_protect
+
+
+// CLIENT WITH UNPROTECTED SID ON Z
+RUN_TEST_STEP 100 TUPSInteg_unprotected UPSClientStep z:\tups\integ\scripts\tups_integ.ini checkpostmanufacture_platsec_true_zdrive_unprotect
+RUN_TEST_STEP 100 TUPSInteg_unprotected UPSClientStep z:\tups\integ\scripts\tups_integ.ini checkpostmanufacture_platsec_false_zdrive_unprotect
+
+
+// CLIENT WITH PROTECTED SID ON C
+RUN_TEST_STEP 100 TUPSInteg_4 UPSClientStep z:\tups\integ\scripts\tups_integ.ini checkpostmanufacture_platsec_true_cdrive_protect
+
+// Delete Existing Database
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+RUN_TEST_STEP 100 TUPSInteg_4 UPSClientStep z:\tups\integ\scripts\tups_integ.ini checkpostmanufacture_platsec_false_cdrive_protect
+
+
+// CLIENT WITH UNPROTECTED SID ON C
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini checkpostmanufacture_platsec_true_cdrive_unprotect
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini checkpostmanufacture_platsec_false_cdrive_unprotect
+
+END_TESTCASE SEC-INTEG-UPS-E025
+
+
+//! @SYMTestCaseID SEC-INTEG-UPS-E026
+//! @SYMTestCaseDesc Security Policy Authorisation - ECheckUnprotectedSids
+//!                  (checkunprotectedsids_authoristion)
+//!		
+//! @SYMPREQ PREQ1262
+//! @SYMREQ REQ7389
+//! @SYMTestPriority Critical
+//! @SYMTestStatus   Implemented
+//! @SYMTestActions  
+//!      Preconditions:
+//!	   •  Policy file related to test service to be used has property “authorisationPolicy” 
+//!	      set to “ECheckUnprotectedSids”.
+//!	 Test Actions: 
+//!	   •  Request use of the service that matches policy file mentioned in “preconditions”. 
+//!	      Test system server should invoke UPS.
+//!	   •  Use different values for “aServerCheckOk” parameter in “Authorise” methods (ETrue 
+//!	      and EFalse).
+//! 	   •  Use different types of applications to request the same service including: 
+//!	      applications with protected SID on Z drive, unprotected SID on Z drive, protected 
+//!	      SID on C drive and unprotected SID on C drive. 
+//!
+//! @SYMTestExpectedResults  
+//!        • Any request for tests services made from clients with protected SID should receive 
+//!	     immediate silent approval from UPS.
+//!	   • Request for tests services made from clients with unprotected SID should cause user 
+//!	     security dialog from UPS.
+//!
+//! @SYMTestType CIT
+
+START_TESTCASE SEC-INTEG-UPS-E026
+
+// Delete Existing Database
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+// CLIENT WITH PROTECTED SID ON Z
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini checkunprotectedsids_platsec_true_zdrive_protect
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini checkunprotectedsids_platsec_false_zdrive_protect
+
+// CLIENT WITH UNPROTECTED SID ON Z
+RUN_TEST_STEP 100 TUPSInteg_unprotected UPSClientStep z:\tups\integ\scripts\tups_integ.ini checkunprotectedsids_platsec_true_zdrive_unprotect
+RUN_TEST_STEP 100 TUPSInteg_unprotected UPSClientStep z:\tups\integ\scripts\tups_integ.ini checkunprotectedsids_platsec_false_zdrive_unprotect
+
+// CLIENT WITH PROTECTED SID ON C
+RUN_TEST_STEP 100 TUPSInteg_4 UPSClientStep z:\tups\integ\scripts\tups_integ.ini checkunprotectedsids_platsec_true_cdrive_protect
+RUN_TEST_STEP 100 TUPSInteg_4 UPSClientStep z:\tups\integ\scripts\tups_integ.ini checkunprotectedsids_platsec_false_cdrive_protect
+
+// CLIENT WITH UNPROTECTED SID ON C
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini checkunprotectedsids_platsec_true_cdrive_unprotect
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini checkunprotectedsids_platsec_false_cdrive_unprotect
+
+END_TESTCASE SEC-INTEG-UPS-E026
+
+
+//! @SYMTestCaseID SEC-INTEG-UPS-E027
+//! @SYMTestCaseDesc Security Policy Authorisation - ECheckIfFailed 
+//!                  (checkiffailed_authoristion)
+//!		
+//! @SYMPREQ PREQ1262
+//! @SYMREQ REQ7389
+//! @SYMTestPriority Critical
+//! @SYMTestStatus   Implemented
+//! @SYMTestActions  
+//!		Preconditions:
+//!		• Policy file related to test service to be used has property 
+//!		“authorisationPolicy” set to “ECheckIfFailed”.
+//!		Test Actions:     
+//!		• Request use of the service that matches policy file mentioned in 
+//!		  “preconditions”. Test system server should invoke UPS.
+//!		• Use different values for “aServerCheckOk” parameter in “Authorise” 
+//!		  request (ETrue and EFalse).
+//! @SYMTestExpectedResults  
+//!		• Only requests made with “aServerCheckOk” parameter set to Efalse should cause
+//!		  UPS to display user security dialog, otherwise UPS should return silent approval. 
+//!
+//! @SYMTestType CIT
+
+START_TESTCASE SEC-INTEG-UPS-E027
+
+// Delete Existing Database
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini checkiffailed_platsec_true
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini checkiffailed_platsec_false
+END_TESTCASE SEC-INTEG-UPS-E027
+
+
+//! @SYMTestCaseID SEC-INTEG-UPS-E028
+//! @SYMTestCaseDesc Security Policy Authorisation - ENeverCheck 
+//!                  (nevercheck_authoristion)
+//!		
+//! @SYMPREQ PREQ1262
+//! @SYMREQ REQ7389
+//! @SYMTestPriority Critical
+//! @SYMTestStatus   Implemented
+//! @SYMTestActions  
+//!    Preconditions:
+//!    •  Policy file related to test service to be used has property “authorisationPolicy” set 
+//!	  to “ENeverCheck”.
+//!   Test Actions: 
+//!    •  Request use of the service that matches policy file mentioned in “preconditions”. Test 
+//!	  system server should invoke UPS.
+//!    •  Use different values for “aServerCheckOk” parameter in “Authorise” request (ETrue and 
+//!	  EFalse).
+//!
+//! @SYMTestExpectedResults  
+//!    •  UPS shouldn’t display any security dialog, UPS should return silent acceptance server 
+//!	  checks passed, UPS should return silent denial server checks failed.  
+//!
+//! @SYMTestType CIT
+
+START_TESTCASE SEC-INTEG-UPS-E028
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini nevercheck_platsec_true
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini nevercheck_platsec_false
+END_TESTCASE SEC-INTEG-UPS-E028
+
+
+//! @SYMTestCaseID SEC-INTEG-UPS-E029
+//! @SYMTestCaseDesc System server with no policy files        
+//!                  (no_policy_files_server)
+//!		
+//! @SYMPREQ PREQ1262
+//! @SYMREQ REQ7427
+//!
+//! @SYMTestPriority Critical
+//! @SYMTestStatus   Implemented
+//! @SYMTestActions 	Preconditions:
+//!			• There is NO policy file at all related to the system server been used for test purpose
+//!
+//!			Test Actions:
+//!			• Launch “test clients” which tries to use of system servers. System server should request UPS for
+//!			  user security dialog. Set plat sec check to ETrue in request to UPS.
+//!			• Launch “test clients” which tries to use of system servers. System server should request UPS for
+//!			  user security dialog. Set plat sec check to EFalse in request to UPS. 
+//!
+//! @SYMTestExpectedResults 	• System server shuold receive a EDecisionYes for first request 
+//!				• System server shuold receive a EDecisionNo for second request 
+//!
+//! @SYMTestType CIT
+
+START_TESTCASE SEC-INTEG-UPS-E029
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini no_policy_files_server
+END_TESTCASE SEC-INTEG-UPS-E029
+
+
+//! @SYMTestCaseID SEC-INTEG-UPS-E030
+//! @SYMTestCaseDesc Option session returned for always decision stored.
+//!                  (session_overwrites_always)
+//!       
+//!
+//! @SYMTestPurpose  To check that if a policy includes the “session” option for an “always” decision already stored,
+//!                  then UPS will reply with “ESession” every time this decision is queried		
+//!
+//! @SYMPREQ 
+//!
+//! @SYMTestPriority Critical
+//! @SYMTestStatus   Implemented
+//! @SYMTestActions 	Preconditions:
+//!			• The UPS policy stated for the test service to be used allows at least the options “ESession” 
+//!			  and “EAlways”
+//!
+//!			Test Actions:
+//!			• Launch “test client” which tries to connect to a system server and use service.
+//!			• System server asks for a user prompt to the UPS.
+//!			• When UPS prompts user, select the “Always” option.
+//!			• Check that UPS returned “ESession” to system server.
+//!			• In a new session request the same service and destination, check that UPS returns an “ESession” 
+//!			  silent reply to system server. Check that the correct policy evaluator was invoked but no dialog 
+//!			  creator was invoked.
+//!
+//!
+//! @SYMTestExpectedResults 	• UPS returns “ESession” even if an “Always” decision was selected by the use.
+//!				• A new “Always” decision was added to decision DB.
+//!
+//! @SYMTestType CIT
+
+START_TESTCASE SEC-INTEG-UPS-E030
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini session_overwrites_always
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini session_overwrites_always_b
+END_TESTCASE SEC-INTEG-UPS-E030
+
+
+//! @SYMTestCaseID 	SEC-UPS-E031
+//! @SYMTestCaseDesc 	To check that UPS can handle client entities of a max length of 32 bytes
+//!                     (client_entity)
+//!		
+//! @SYMPREQ 		PREQ1262
+//! @SYMREQ  		REQ7374
+//!
+//! @SYMTestPriority 	Critical
+//! @SYMTestStatus   	Implemented
+//! @SYMTestActions 	Preconditions:
+//!			• Policy evaluator used for test can populate “CClientEntity” object at will.
+//!			• Appropriate policy file, policy evaluator and dialog creator are present in phone for test service 
+//!			to be requested
+//!			
+//!			Test Actions:                
+//!			• Make request to ups for security user prompt for some arbitrary destinations. For these destination
+//!			instruct policy evaluator to create different CClientEntity lengths including:
+//!			- 0 bytes.
+//!			- 1 bytes.
+//!			- 32 bytes.
+//!			- 33 bytes.
+//!
+//!			• For the previous requests select “Always” or “Never” when security dialog is displayed.
+//!
+//! @SYMTestExpectedResults	• For client entities of length 0, 1 or 32 bytes a corresponding decision is expected to be 
+//!				created in decision database. The client entity value is reported correctly in DB.
+//!				
+//!				• For CClientEntity of 33 bytes length, the constructor is expected to return 
+//!				KErrUpsBadClientEntityLength and no decision is created in database.
+//!
+//! @SYMTestType 	CIT
+
+START_TESTCASE SEC-UPS-E031
+
+// Delete Existing Database
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini client_Entity
+
+END_TESTCASE SEC-UPS-E031
+
+
+//! @SYMTestCaseID 	SEC-UPS-E032
+//! @SYMTestCaseDesc 	Force prompt – decision removed
+//!                     (force_prompt_decision_removed)
+//!		
+//! @SYMPREQ 		PREQ1262
+//! @SYMREQ  		REQ0
+//!
+//! @SYMTestPriority 	Critical
+//! @SYMTestStatus   	Implemented
+//! @SYMTestActions 	Preconditions:
+//!			• There is an appropriate policy file for the test service to be use. 
+//!			• Policy evaluator has the ability to force prompt at run time. Policy evaluator increases by 
+//!			one the value of “evaluator info” every time that a security dialog is prompted for a particular 
+//!			decision in the DB.
+//!
+//!			Test Actions:                
+//!			• Part 1: Test client A has two pre-stored decision as “Always”. 
+//!			• Instruct client A to request access to test service that matches its pre-stored decisions,
+//!			instruct policy evaluator to force prompt new security dialog for these decisions.
+//!			• When new security dialogs appear select “yes” for one of the pre-stored decisions and select 
+//!			“no” for the other decision”.
+//!			• Check that both pre-stored decision for client A were removed from DB. 
+//!
+//!			• Part 2: Test client B has two pre-stored decision as “Never”. 
+//!			• Instruct client B to request access to test service that matches its pre-stored decisions, 
+//!			instruct policy evaluator to force prompt new security dialog for these decisions.
+//!			• When new security dialogs appear select “yes” for one of the pre-stored decisions and select 
+//!			“no” for the other decision”.
+//!			• Check that both pre-stored decision for client B were removed from DB. 
+//!
+//! @SYMTestExpectedResults	• Decisions in database where updated correctly in DB.
+//!				• “client info” field was increased by two at the end of test. 
+//!
+//! @SYMTestType 	CIT
+
+
+START_TESTCASE SEC-UPS-E032
+
+//* PART 1
+
+// Delete Existing Database
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+// Client A setup of pre-stored decisions
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini force_prompt_decision_removed_clientA_setup
+
+// Initial check to ensure that DB decision acceptance is issued by UPS  
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini force_prompt_decision_removed_clientA_initialCheck
+
+// Check decision database state before force prompting
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini force_prompt_decision_removed_clientA_intitalDbCheck
+
+// Force the dialog prompt on the Decisions stored about Client A in the Database
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini force_prompt_decision_removed_clientA_forcePrompt
+
+// Check that decisions have been removed and that new options can be chosen
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini force_prompt_decision_removed_clientA_noDecisionCheck
+
+// Check for No Decisions using Database Management Step
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini force_prompt_decision_removed_clientA_dbManagementCheck
+
+
+// * PART 2
+
+// Client B setup of pre-stored decisions
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini force_prompt_decision_removed_clientB_setup
+
+// Initial check to ensure that DB decision denial is issued by UPS  
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini force_prompt_decision_removed_clientB_initialCheck
+
+// Check decision database state before force prompting
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini force_prompt_decision_removed_clientB_intitalDbCheck
+
+// Force the dialog prompt on the Decisions stored about Client B in the Database
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini force_prompt_decision_removed_clientB_forcePrompt
+
+// Check that decisions have been removed and that new options can be chosen
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini force_prompt_decision_removed_clientB_noDecisionCheck
+
+// Check for No Decisions using Database Management Step
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini force_prompt_decision_removed_clientB_dbManagementCheck
+
+END_TESTCASE SEC-UPS-E032
+
+
+//**************************************************************************************************************
+
+
+//! @SYMTestCaseID  	SEC-UPS-E033
+//! @SYMTestCaseDesc 	Force prompt – multiple fingerprints- record overwritten
+//!                     (force_prompt_multifingerprint_overwriterecord)
+//!		
+//! @SYMPREQ 		PREQ1262
+//! @SYMREQ  		REQ7409 REQ7403
+//!
+//! @SYMTestPriority 	Critical
+//! @SYMTestStatus   	Implemented
+//! @SYMTestActions 	Preconditions:
+//!			• There is an appropriate policy file for the test service to be use. 
+//!			• Policy evaluator has the ability to force prompt at run time. Policy evaluator increases by one
+//!			the value of “evaluator info” every time that a security dialog is prompted for a particular 
+//!			decision in the DB.
+//!			• Policy evaluator generates 3 fingerprints FP1, FP2 & FP3 which are checked by UPS in decision DB
+//!			in that order (FP1 would be the first match if all 3 fingerprints exist in decision DB.
+//!
+//!			Test Actions:
+//!			• Part 1: Test client A has 3 pre-stored decision as “Always” matching FP1, FP2 & FP3. 
+//!			• Instruct client A to request access to test service that matches FP1. Test system server should 
+//!			invoke UPS for decision check. When policy evaluator is invoked instruct this one to generate FP1,
+//!			FP2 & FP3.
+//!			• At dialog display stage select “never” for fingerprint FP3.
+//!			• Check that finger print FP1 was removed from DB, FP2 remain unchanged, FP3 was replaced with a 
+//!			Never Decision
+//!			• “Evaluator info is increased by 1.
+//!
+//!			• Part 2: Reset test so it remains in original conditions (3 “always” decisions for FP1, FP2 & FP3
+//!			in decision DB).
+//!			• Instruct client A to request access to test service that matches FP1. Test system server should 
+//!			invoke UPS for decision check. When policy evaluator is invoked instruct this one to generate FP1, 
+//!			FP2 &FP3.
+//!			• At dialog display stage select “always” for fingerprint FP3.
+//!			• Check that finger print FP1 was removed from DB, FP2 & FP3 remain unchanged. 
+//!			• “Evaluator info is increased by 1.
+//!
+//! @SYMTestExpectedResults	• First matching fingerprint FP1 is deleted from DB as this one is not selected by user in 
+//!				dialog creator stage.
+//!				• FP3 is replaced with a “never” decision in case 1 but remains unchanged for case 2 
+//!				(“always” decision)
+//!				• Evaluator info is increased by one in both cases.	
+//!
+//! @SYMTestType 	CIT
+
+
+START_TESTCASE SEC-UPS-E033
+
+// Delete Existing Database
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+//* PART 1
+
+// Client setup of pre-stored 'ALWAYS' decisions using the 3 different fingerprints
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini force_prompt_multifingerprint_overwriterecord_setup
+
+// Initial check to ensure that DB decisions stored for the 3 fingerprints return the expected result 
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini force_prompt_multifingerprint_overwriterecord_initialCheck
+
+// Check decision database state before force prompting
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini force_prompt_multifingerprint_overwriterecord_initialDbCheck
+
+// Force the dialog prompt on decision FingerPrint 1, and 'NEVER' decision selected for FingerPrint 3 chosen at Dialog
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini force_prompt_multifingerprint_overwriterecord_forcePrompt_part1
+
+// Check that decisions within DB have been altered/removed/added as necessary using Database Management Step
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini force_prompt_multifingerprint_overwriterecord_dbManagementCheck_part1
+
+// Delete Existing Database
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+
+//* PART 2
+
+// Client setup of pre-stored 'ALWAYS' decisions using the 3 different fingerprints
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini force_prompt_multifingerprint_overwriterecord_setup
+
+// Initial check to ensure that DB decisions stored for the 3 fingerprints return the expected result  
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini force_prompt_multifingerprint_overwriterecord_initialCheck
+
+// Check decision database state before force prompting
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini force_prompt_multifingerprint_overwriterecord_initialDbCheck
+
+// Force the dialog prompt on decision FingerPrint 1, and 'ALWAYS' decision selected for FingerPrint 3 chosen at Dialog
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini force_prompt_multifingerprint_overwriterecord_forcePrompt_part2
+
+// Check that decisions within DB have been altered/removed/added as necessary using the Database Management Step
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini force_prompt_multifingerprint_overwriterecord_dbManagementCheck_part2
+
+END_TESTCASE SEC-UPS-E033
+
+
+//! @SYMTestCaseID 	SEC-UPS-E034
+//! @SYMTestCaseDesc 	Force prompt – multiple fingerprints - new record
+//!                     (force_prompt_multifingerprint_newrecord)
+//!		
+//! @SYMPREQ 		PREQ1262
+//! @SYMREQ  		REQ7409 REQ7403
+//!
+//! @SYMTestPriority 	Critical
+//! @SYMTestStatus   	Implemented
+//! @SYMTestActions 	Preconditions:
+//!			• There is an appropriate policy file for the test service to be use. 
+//!			• Policy evaluator has the ability to force prompt at run time. Policy evaluator increases by one 
+//!			the value of “evaluator info” every time that a security dialog is prompted for a particular
+//!			decision in the DB.
+//!			• Policy evaluator generates 3 fingerprints FP1, FP2 & FP3 which are checked by UPS in decision DB
+//!			in that order (FP1 would be the first match if all 3 fingerprints exist in decision DB.
+//!
+//!			Test Actions:                
+//!			• Part 1: Test client A has 2 pre-stored decision as “Always” matching FP1 & FP2. 
+//!			• Instruct client A to request access to test service that matches FP1. Test system server should 
+//!			invoke UPS for decision check. When policy evaluator is invoked instruct this one to generate FP1,
+//!			FP2 &FP3.
+//!			• At dialog display stage select “never” for fingerprint FP3.
+//!			• Check that finger print FP1 was removed from DB, FP2 remain unchanged,  new FP3 is created in
+//!			decision DB (with never decision). 
+//!			• “Evaluator info is increased by 1.
+//!			
+//!			• Part 2: Reset test so it remains in original conditions (2 “always” decisions for FP1& FP2).
+//!			• Instruct client A to request access to test service that matches FP1. Test system server should 
+//!			invoke UPS for decision check. When policy evaluator is invoked instruct this one to generate FP1,
+//!			FP2 &FP3.
+//!			• At dialog display stage select “always” for fingerprint FP3.
+//!			• Check that finger print FP1 was removed from DB, FP2 remain unchanged,  new FP3 is created in 
+//!			decision DB (with always decision). 
+//!			• “Evaluator info is increased by 1.
+//!
+//! @SYMTestExpectedResults	• In both cases decision related to FP1 are removed from DB.
+//!				• FP3 is created with a “never” decision in case 1 and with an “always” in cases 2.
+//!				• Evaluator info is increased by one in both cases.
+//!	
+//!
+//! @SYMTestType 	CIT
+
+
+START_TESTCASE SEC-UPS-E034
+
+// Delete Existing Database
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+//* PART 1
+
+// Client setup of pre-stored 'ALWAYS' decisions using 2 of the 3 fingerprints
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini force_prompt_multifingerprint_newrecord_setup
+
+// Initial check to ensure that DB decisions stored for the 2 fingerprints return the expected result
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini force_prompt_multifingerprint_newrecord_initialCheck
+
+// Check decision database state before force prompting
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini force_prompt_multifingerprint_newrecord_intitalDbCheck
+
+// Force the dialog prompt on decision FingerPrint 1, and 'NEVER' decision selected for FingerPrint 3 chosen at Dialog
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini force_prompt_multifingerprint_newrecord_forcePrompt_part1
+
+// Check that decisions within DB have been altered/removed/added as necessary using the Database Management Step
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini force_prompt_multifingerprint_newrecord_dbManagementCheck_part1
+
+// Delete Existing Database
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+
+//* PART 2
+
+// Client setup of pre-stored 'ALWAYS' decisions using 2 of the 3 fingerprints
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini force_prompt_multifingerprint_newrecord_setup
+
+// Initial check to ensure that DB decisions stored for the 2 fingerprints return the expected result
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini force_prompt_multifingerprint_newrecord_initialCheck
+
+// Check decision database state before force prompting
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini force_prompt_multifingerprint_newrecord_intitalDbCheck
+
+// Force the dialog prompt on decision FingerPrint 1, and 'ALWAYS' decision selected for FingerPrint 3 chosen at Dialog
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini force_prompt_multifingerprint_newrecord_forcePrompt_part2
+
+// Check that decisions within DB have been altered/removed/added as necessary using the Database Management Step
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini force_prompt_multifingerprint_newrecord_dbManagementCheck_part2
+
+
+END_TESTCASE SEC-UPS-E034
+
+
+//! @SYMTestCaseID 	SEC-UPS-E035
+//! @SYMTestCaseDesc 	Invocation of Default Symbian policy evaluator
+//!                     (invoke_default_policy_evaluator)
+//!		
+//! @SYMPREQ 		PREQ1262
+//! @SYMREQ  		
+//!
+//! @SYMTestPriority 	Critical
+//! @SYMTestStatus   	Implemented
+//! @SYMTestActions 	
+//!
+//! @SYMTestExpectedResults	Preconditions:
+//!				• There is an appropriate policy file for the test service to be use, but in the header of 
+//!				the policy file there is NO mention of policy evaluator. 
+//!				• Note: It is expected that the Symbian policy evaluator will generate a NULL value 
+//!				fingerprint. 
+//!				• Dialog creator specified by policy evaluator is present. 
+//!
+//!				Test Actions:                
+//!				• Case 1: Request service to test system server, this one is expected to invoke UPS.
+//!				• Check that Symbian default policy evaluator was invoked. 
+//!				• When security dialog is invoked select “Always”.
+//!				• Check that decision is stored correctly.
+//!
+//!				• Case 2: Request service to test system server, this one is expected to invoke UPS.
+//!				• Check that Symbian default policy evaluator was invoked. 
+//!				• When security dialog is invoked select “never”.
+//!				• Check that decision is stored correctly.
+//!
+//!				• Extra Checking: Use dumpupsdb.exe tool to export and re-import UPS database, check 
+//!				consistency of imported database.
+//!
+//! @SYMTestExpectedResults	• Two new decisions where created: 1 “never” and 1 ”always” which are expected to have NULL 
+//!				value fingerprints.
+//!				• Decision database with null value fingerprint can be exported and re-imported correctly.
+//!
+//! @SYMTestType 	CIT
+
+START_TESTCASE SEC-UPS-E035
+
+// Delete Existing Database
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+// Case 1:
+
+// Client call to UPS invoking the defualt policy evaluator and selecting 'ALWAYS' from the dialog 
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini invoke_default_policy_evaluator_Always
+
+// Initial check to ensure that DB contains an ALWAYS decision for the client with a NULL fingerprint
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini invoke_default_policy_evaluator_Alaways_initalCheck
+
+// Database Management Checking to ensure that each value in the decision is what is expected
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini invoke_default_policy_evaluator_Alaways_dbManagementCheck
+
+
+// Case 2:
+
+// Client call to UPS invoking the defualt policy evaluator and selecting 'NEVER' from the dialog 
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini invoke_default_policy_evaluator_Never
+
+// Initial check to ensure that DB contains an additional NEVER decision for the client with a NULL fingerprint
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini invoke_default_policy_evaluator_Never_initalCheck
+
+// Database Management Checking to ensure that each value in the decision is what is expected
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini invoke_default_policy_evaluator_Never_dbManagementCheck
+
+
+// Database Import/Export Checking:
+
+// Shutdown UPS Server
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+
+// Dump contents of the database
+RUN_PROGRAM dumpupsdb.exe -e -db \private\10283558\database\ups.db -f c:\exportdb.db -s
+
+// Delete Existing UPS Database
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+// Reimport Database Contents
+RUN_PROGRAM dumpupsdb.exe -i -db \private\10283558\database\ups.db -f c:\exportdb.db -s
+
+// Delete Temporary Export File
+RUN_UTILS DeleteFile c:\exportdb.db
+
+// Re Check the NULL fingerprint Decisions Imported into the Database
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini invoke_default_policy_evaluator_Alaways_initalCheck
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini invoke_default_policy_evaluator_Never_initalCheck
+
+// Final Datbase Management Check to ensure that the values of the Decision are still as expected
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini invoke_default_policy_evaluator_Never_dbManagementCheck
+
+END_TESTCASE SEC-UPS-E035
+
+//! @SYMTestCaseID SEC-INTEG-UPS-E036
+//! @SYMTestCaseDesc System Server Security
+//!                  (System_Server_Security)
+//!		
+//! @SYMPREQ PREQ1262
+//! @SYMREQ REQ7408
+//! @SYMTestPriority Critical
+//! @SYMTestStatus   Implemented
+//! @SYMTestActions   
+//!		     Preconditions:
+//!			• There is an appropriate policy file in the phone that uses SystemServerSecurity
+//!			  property set with different values for individual policies including 
+//!			  ESystemServerSecurityPassedOrFailed, ESystemServerSecurityFailed and 
+//!			  ESystemServerSecurityPassed. 
+//!		     Test Actions:     
+//!			• Case 1: Request set services to a test system server to ensure that an individual
+//!			  policy set with ESystemServerSecurityPassedOrFailed is invoked, use different 
+//!		          values for platSecPass parameter in authorize request. 
+//!  			• Case 2: : Request set services to a test system server to ensure that an 
+//!			  individual policy set with ESystemServerSecurityFailed  is invoked, use values 
+//!			  for platSecPass parameter as EFalse in authorize request.   
+//!			• Case 3: : Request set services to a test system server to ensure that an 
+//!			  individual policy set with ESystemServerSecurityPassed is invoked, use values for 
+//!			  platSecPass parameter as ETrue in authorize request. 
+//!
+//! @SYMTestExpectedResults  
+//!			• On each case the appropriate individual policy is invoked. 
+//!
+//! @SYMTestType CIT
+
+START_TESTCASE SEC-INTEG-UPS-E036
+
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+// case 1
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini ESystemServerSecurityPassedOrFailed
+// case 2
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini ESystemServerSecurityFailed 
+// case 3
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini ESystemServerSecurityPassed
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini count_8
+
+END_TESTCASE SEC-INTEG-UPS-E036
+
+
+
+//********************** SEC-UPS-G : NEGATIVE TEST CASES  **********************
+
+//! @SYMTestCaseID SEC-UPS-INTEG-G004
+//! @SYMTestCaseDesc Non ProtServ capability system server   
+//!                  (no_protser_cap)
+//!		
+//! @SYMPREQ PREQ1262
+//! @SYMREQ REQ7427
+//!
+//! @SYMTestPriority Critical
+//! @SYMTestStatus   Implemented
+//! @SYMTestActions 	Preconditions:
+//!			•  There is an appropriate policy, policy evaluator and dialog creator that matches the UID of the
+//!			service offered by the “system server”.
+//!			•  The system server request prompt to UPS does NOT have ProtServ capability.
+//!
+//!			Test Actions:
+//!			•  Launch “test client” which tries to connect to a system server and use service. 
+//!			•  System server asks for a user prompt to the UPS (Authorise method).
+//!			•  UPS should deny the request from system server. 
+//!
+//! @SYMTestExpectedResults 	• System server receives a KErrPermissionDenied from Ups. 
+//!
+//! @SYMTestType CIT
+
+START_TESTCASE SEC-UPS-INTEG-G004
+RUN_TEST_STEP 100 TUPSInteg_1 NonProtServAuthorisation z:\tups\integ\scripts\tups_integ.ini no_protser_cap
+// test variation: server has no capabilities but plat sec test passed
+// Note: nop decision is stored or dialog prompted.
+RUN_TEST_STEP 100 TUPSInteg_1 NonProtServAuthorisation z:\tups\integ\scripts\tups_integ.ini no_protser_cap_b
+END_TESTCASE SEC-UPS-INTEG-G004
+
+
+//! @SYMTestCaseID 	SEC-UPS-G007
+//! @SYMTestCaseDesc 	Protected deletion and update of decisions.
+//!                     (remove_update_capabilityChecking)
+//!		
+//! @SYMPREQ 		PREQ1262
+//! @SYMREQ  		REQ7381
+//!
+//! @SYMTestPriority 	Critical
+//! @SYMTestStatus   	Implemented
+//! @SYMTestActions 	Preconditions:
+//!			• Existence of test application 1 without AllFiles capabilities.
+//!			• Existence of test application 2 without WriteDeviceData capabilities. 
+//!			
+//!			Test Actions:
+//!			• Instruct test application 1 to attempt a record update in decision database using UpsManagement.
+//!			• Instruct test application 2 to attempt a record delete in decision database using UpsManagement.
+//!
+//! @SYMTestExpectedResults	• Test application1 should not be able to update record.
+//!				• Test application2 should not be able to delete record.
+//!
+//! @SYMTestType 	CIT
+
+
+START_TESTCASE SEC-UPS-G007
+
+// Delete Existing Database
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+// populate decision database with sample inital values.
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini populate_sample2
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini populate_sample2
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini populate_sample2
+
+// Perform initial checking on sample decisions
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample2
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample2
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample2
+
+// * STAGE 1 - UPDATE RECORD CAPABILITY TEST (AllFiles Required)
+
+// Perform attempt to update a decision "WITHOUT" the appropriate capabilities
+RUN_TEST_STEP !Result=-46 100 TUPSInteg_writedevice UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini remove_update_capabilityChecking_Update
+
+// Run Database Management Checking for Unauthorised Update
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini remove_update_capabilityChecking_unauthorisedUpdate_DBCheck
+
+// Perform attempt to update a decision "WITH" the appropriate capabilities 
+RUN_TEST_STEP 100 TUPSInteg_allfiles_readdevice UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini remove_update_capabilityChecking_Update
+
+// Run Database Management Checking for authorised Update
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini remove_update_capabilityChecking_authorisedUpdate_DBCheck
+
+
+// * STAGE 2 - REMOVE RECORD CAPABILITY TEST (WriteDeviceData Required)
+
+// Perform attempt to remove a decision "WITHOUT" the appropriate capabilities
+RUN_TEST_STEP !Result=-46 100 TUPSInteg_allfiles_readdevice UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini remove_update_capabilityChecking_Remove
+
+// Run Database Management Checking for Unauthorised Remove
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini remove_update_capabilityChecking_unauthorisedRemove_DBCheck
+
+// Perform attempt to remove a decision "WITH" the appropriate capabilities 
+RUN_TEST_STEP 100 TUPSInteg_writedevice UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini remove_update_capabilityChecking_Remove
+
+// Run Database Management Checking for authorised Remove
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini remove_update_capabilityChecking_authorisedRemove_DBCheck
+
+END_TESTCASE SEC-UPS-G007
+
+
+//! @SYMTestCaseID SEC-UPS-INTEG-G008
+//! @SYMTestCaseDesc Policy Evaluator Leaving
+//!                  (policy_evaluator_leave)
+//!		
+//! @SYMPREQ PREQ1262
+//! @SYMREQ REQ7427
+//! @SYMTestPriority Critical
+//! @SYMTestStatus   Implemented
+//! @SYMTestActions 	Preconditions:
+//!			• There is an appropriate policy, policy evaluator and dialog creator that matches the UID of the 	
+//!			service offered by the “system server”.
+//!			• Test Client doesn’t have any decision stored in DB related to service about to be used by test 	
+//!			client.
+//!			
+//!			Test Actions:
+//!			• Launch “test clients” which tries to use of system servers. System server should request UPS for 
+//!			user security dialog.
+//!			• When UPS invokes policy evaluator, induce a “leave” in policy evaluator. 
+//!			• UPS should process this leave from policy evaluator and reply with a silent denial to system 		
+//!			server.
+//!
+//! @SYMTestExpectedResults 	• System server receives a silent denial from UPS.  
+//!
+//! @SYMTestType CIT
+
+//Delete Current Database
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+START_TESTCASE SEC-UPS-INTEG-G008
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini policyevaluator_leave_session
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini policyevaluator_leave_always
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini policyevaluator_leave_never
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini policyevaluator_leave_yes
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini policyevaluator_leave_no
+
+CONCURRENT
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini policyevaluator_leaving_concurrent
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini policyevaluator_always_concurrent
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini policyevaluator_never_concurrent
+CONSECUTIVE 
+
+END_TESTCASE SEC-UPS-INTEG-G008
+
+
+//! @SYMTestCaseID SEC-UPS-INTEG-G009
+//! @SYMTestCaseDesc Dialog Creator Leaving         
+//!                  (dialog_creator_leave)
+//!		
+//! @SYMPREQ PREQ1262
+//! @SYMREQ REQ7427
+//!
+//! @SYMTestPriority Critical
+//! @SYMTestStatus   Implemented
+//! @SYMTestActions 	Preconditions:
+//!			• There is an appropriate policy, policy evaluator and dialog creator that matches the UID of the 	
+//!			service offered by the “system server”.
+//!			• Test Client doesn’t have any decision stored in DB related to service about to be used by test 	
+//!			client.
+//!
+//!			Test Actions:
+//!			• Launch “test clients” which tries to use of system servers. System server should request UPS for 	
+//!			user security dialog.
+//!			• When UPS invokes dialog, induce a “leave” in dialog creator. 
+//!			• UPS should process this leave from policy evaluator and reply with a silent denial to system 		
+//!			server.
+//!
+//! @SYMTestExpectedResults 	• System server receives a silent denial from UPS. 
+//!
+//! @SYMTestType CIT
+
+START_TESTCASE SEC-UPS-INTEG-G009
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini dialogcreator_leave_session
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini dialogcreator_leave_always
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini dialogcreator_leave_never
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini dialogcreator_leave_yes
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini dialogcreator_leave_no
+
+CONCURRENT
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini dialogcreator_leaving_concurrent
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini dialogcreator_always_concurrent
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini dialogcreator_never_concurrent
+CONSECUTIVE
+
+END_TESTCASE SEC-UPS-INTEG-G009
+
+
+//! @SYMTestCaseID 	SEC-UPS-G010
+//! @SYMTestCaseDesc 	Protected reading of decisions
+//!                     (readDecision_capabilityChecking)
+//!		
+//! @SYMPREQ 		PREQ1262
+//! @SYMREQ  		REQ7492
+//!
+//! @SYMTestPriority 	Critical
+//! @SYMTestStatus   	Implemented
+//! @SYMTestActions 	Preconditions:
+//!			• There are some previous decisions stored in decision data base.
+//!			• Test application does not have ReadDeviceData but it has WriteDeviceData capabilities. 
+//!
+//!			Test Actions:
+//!			• Try to use test application with not ReadDeviceData capabilities to read existing entry from decision DB.
+//!
+//! @SYMTestExpectedResults	• Reading of entry fails, test application is returned error.	
+//!
+//! @SYMTestType 	CIT
+
+
+START_TESTCASE SEC-UPS-G010
+
+// Delete Existing Database
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+// populate decision database with sample inital values.
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini populate_sample2
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini populate_sample2
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini populate_sample2
+
+// Perform initial checking on sample decisions
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample2
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample2
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample2
+
+// Perform attempt to read a decision "WITHOUT" the appropriate capabilities
+RUN_TEST_STEP !Result=-46 100 TUPSInteg_writedevice UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini readDecision_capabilityChecking_dbRead
+
+// Perform attempt to update a decision "WITH" the appropriate capabilities 
+RUN_TEST_STEP 100 TUPSInteg_readdevice UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini readDecision_capabilityChecking_dbRead
+
+END_TESTCASE SEC-UPS-G010
+
+
+
+//********************** SEC-UPS-H : MISCELLANEOUS  **********************
+
+//! @SYMTestCaseID SEC-UPS-INTEG-H010
+//! @SYMTestCaseDesc Simple request cancelation        
+//!                  (simple_cancel)
+//!		
+//! @SYMPREQ PREQ1262
+//! @SYMREQ REQ7427
+//!
+//! @SYMTestPriority Critical
+//! @SYMTestStatus   Implemented
+//! @SYMTestActions 	Preconditions:
+//!			• There is an appropriate policy, policy evaluator and dialog creator that matches the UID of the
+//!			  service offered by the “system server”.
+//!			• Test Client doesn’t have any decision stored in DB related to service about to be used by test
+//!			  client.
+//!
+//!			Test Actions:
+//!			• Launch “test clients” which tries to use of system servers. System server should request UPS for
+//!			  user security dialog.
+//!			• When server requests UPS authorisation, cancel the request using CancelPrompt method. 
+//!
+//! @SYMTestExpectedResults 	• System server receives a KErrCancel from Ups. 
+//!
+//! @SYMTestType CIT
+
+START_TESTCASE SEC-UPS-INTEG-H010
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini simple_cancel
+END_TESTCASE SEC-UPS-INTEG-H010
+
+
+//! @SYMTestCaseID 	SEC-UPS-H011
+//! @SYMTestCaseDesc 	Reversible decision DB export by dumpupsdb
+//!                     (Export_Import_DBDumpTool)
+//!		
+//! @SYMPREQ 		PREQ1262
+//! @SYMREQ  		REQ7443 REQ7442
+//!
+//! @SYMTestPriority 	Critical
+//! @SYMTestStatus   	Implemented
+//! @SYMTestActions 	Test Actions:
+//!			• Populate decision database with a reasonable number of decisions.
+//!			• Check correct behaviour of UPS with this decision DB.
+//!			• Stop UPS server running and use “dumpupsdb.exe” to export database to temporary file.
+//!			• Using dumpupsdb.exe” re-import this temporary file into the decision DB (ups.db). 
+//!			• Check that re-imported decision database contains the same records that the original and UPS 
+//!			behaves normally when using it.
+//!
+//! @SYMTestExpectedResults	• There is no functional difference between the original decision database and the 
+//!				re-imported one.
+//!
+//! @SYMTestType 	CIT
+
+START_TESTCASE SEC-UPS-H011
+
+// Delete Existing Database
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+// Run the initial data entry step to populate the database with entries
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini Export_Import_DBDumpTool_Setup
+
+// Check the newly created Decisions within the UPS Database
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini Export_Import_DBDumpTool_Verify
+
+// Shutdown UPS Server
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+
+// Dump contents of the database
+RUN_PROGRAM dumpupsdb.exe -e -db \private\10283558\database\ups.db -f c:\exportdb.db -s
+RUN_PROGRAM dumpupsdb.exe -e -db \private\10283558\database\ups.db -f c:\exportdba.txt -s
+
+// Delete Existing UPS Database
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+// Reimport Database Contents
+RUN_PROGRAM dumpupsdb.exe -i -db \private\10283558\database\ups.db -f c:\exportdb.db -s
+RUN_PROGRAM dumpupsdb.exe -e -db \private\10283558\database\ups.db -f c:\exportdbb.txt -s
+
+// Delete Temporary Export File
+RUN_UTILS DeleteFile c:\exportdb.db
+
+// Rerun service requests using Reimported Database
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini Export_Import_DBDumpTool_Verify
+
+/////////// repeats same test sequence with (-b) flag in dumpupsdb.exe 
+
+// Delete Existing Database
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+// Run the initial data entry step to populate the database with entries
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini Export_Import_DBDumpTool_Setup
+
+// Check the newly created Decisions within the UPS Database
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini Export_Import_DBDumpTool_Verify
+
+// Shutdown UPS Server
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+
+// Dump contents of the database
+RUN_PROGRAM dumpupsdb.exe -e -db \private\10283558\database\ups.db -f c:\exportdb.db -s -b
+
+// Delete Existing UPS Database
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+// Reimport Database Contents
+RUN_PROGRAM dumpupsdb.exe -i -db \private\10283558\database\ups.db -f c:\exportdb.db -s -b
+
+// Delete Temporary Export File
+RUN_UTILS DeleteFile c:\exportdb.db
+
+// Rerun service requests using Reimported Database
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini Export_Import_DBDumpTool_Verify
+
+END_TESTCASE SEC-UPS-H011
+
+
+//! @SYMTestCaseID SEC-UPS-INTEG-H012
+//! @SYMTestCaseDesc UPS sub-session in different thread
+//!                  (ups_session_shared)
+//!		
+//! @SYMPREQ PREQ1262
+//! @SYMREQ REQ7446
+//! @SYMTestPriority Critical
+//! @SYMTestStatus   Implemented
+//! @SYMTestActions 	Test Actions:
+//!			• Open an UPS session from a test server.
+//!			• Create a new thread and share UPS session with this new thread.
+//!			• From this new thread create a sub-session to ups, request authorisation to UPS 
+//!		          using this sub-session.
+//!			• Check that UPS behaves like normal and the appropriate decision is stored in DB. 
+//!
+//! @SYMTestExpectedResults  • Authorize method for UPS can be used successfully for thread different that 
+//!			       the one owning the UPS session.
+//!
+//! @SYMTestType CIT
+
+START_TESTCASE SEC-UPS-INTEG-H012
+// Shutdown UPS Server
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+
+// Delete Existing UPS Database
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+RUN_TEST_STEP 100 TUPSInteg_minor Multithread z:\tups\integ\scripts\tups_integ.ini ups_session_shared
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini count_2
+
+// Shutdown UPS Server
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+
+// Dump contents of the database
+RUN_PROGRAM dumpupsdb.exe -e -db \private\10283558\database\ups.db -f c:\multithread.db -s -b
+END_TESTCASE SEC-UPS-INTEG-H012
+
+
+//! @SYMTestCaseID SEC-UPS-MISC-0002
+//! @SYMTestCaseDesc Clears off properties previously set for policy evaluators and dialog creators.
+
+START_TESTCASE SEC-UPS-MISC-0002
+RUN_TEST_STEP 100 TUPSInteg_1 PropertyStep z:\tups\integ\scripts\tups_properties.ini PropertiesToDestroy
+END_TESTCASE SEC-UPS-MISC-0002
+
+
+PRINT Complete_TUPS_Tests

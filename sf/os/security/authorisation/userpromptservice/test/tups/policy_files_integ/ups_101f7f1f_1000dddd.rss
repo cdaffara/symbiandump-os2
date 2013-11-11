@@ -1,0 +1,89 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* Policy file 0, used by integration test
+*
+*/
+
+
+#include <ups/policies.rh>
+
+UID2 KUidUpsPolicyResourceFile
+UID3 0x101F7F1F
+
+// Test policy file for integration test (wild cards) 
+RESOURCE POLICIES testpolicies
+	{
+	header = POLICY_HEADER
+		{
+		// use default client config 
+		policyevaluator = 0xe1111e21;
+		dialogcreator = 0xe1111d21;
+		majorversion = 1;
+		minorversion = 1;
+		};
+	policies = 
+		{
+		POLICY
+			{
+			// Silently accepts calls to "900"  
+			sid_classes = KAllSids;            
+			destination = "900";
+			options = KYes;
+			flags = 0x01;
+			},
+		POLICY
+			{
+			// prompt always never for 0900* numbers
+			sid_classes = KAllSids;            
+			destination = "900*";
+			options = KNever|KAlways;
+			flags = 0x02;
+			},
+		POLICY
+			{
+			// Silently denies connections to "*.RU"  
+			sid_classes = KAllSids;            
+			destination = "*.RU";
+			options = KNo;
+			flags = 0x03;
+			},
+		POLICY
+			{
+			//  
+			sid_classes = KAllSids;            
+			destination = "*.RU*";
+			options = KNo|KYes;
+			flags = 0x04;
+			},
+		POLICY
+			{
+			// Silently denies connections to any address for client 0x80001234
+			sid_list = {0x80001234};         
+			destination = "*";
+			options = KNo;
+			flags = 0x05;
+			},
+		POLICY
+			{
+			// Any other  
+			sid_classes = KAllSids;            
+			destination = "*";
+			options = KYes|KAlways|KNever;
+			flags = 0x05;
+			} 
+				
+		};
+	}
+

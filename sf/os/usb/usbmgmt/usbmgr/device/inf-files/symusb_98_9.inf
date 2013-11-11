@@ -1,0 +1,160 @@
+; Copyright (c) 2003-2009 Nokia Corporation and/or its subsidiary(-ies).
+; All rights reserved.
+; This component and the accompanying materials are made available
+; under the terms of "Eclipse Public License v1.0"
+; which accompanies this distribution, and is available
+; at the URL "http://www.eclipse.org/legal/epl-v10.html".
+;
+; Initial Contributors:
+; Nokia Corporation - initial contribution.
+;
+; Contributors:
+;
+; Description:
+; Windows Device Setup File
+;
+; USB Modem installer for Windows 98/2000
+; This file contains the modem registry keys. It is included by both the
+; Windows 98 and 2000 inf file. Since no device is actually installed, the
+; ClassGuid is set to all zeroes.
+;
+;
+
+[Version]
+Signature  = $WINDOWS NT$
+ClassGuid  = {00000000-0000-0000-0000-000000000000}
+Provider   = %String0%
+LayoutFile = layout.inf
+
+[Main]
+HKR,,FriendlyDriver,,unimodem.vxd
+HKR,,DevLoader,,*vcomm
+HKR,,PortSubClass,1,02
+HKR,,ConfigDialog,,modemui.dll
+HKR,,EnumPropPages,,modemui.dll,EnumPropPages
+HKR, Init,      1,, "AT<cr>"
+HKR, Monitor,   1,, "ATS0=0<cr>"
+HKR, Monitor,   2,, "None"
+HKR, Hangup,    1,, "ATH<cr>"
+HKR, Answer,    1,, "ATA<cr>"
+HKR,, Reset,, "ATZ<cr>"
+HKR, Settings, Prefix,, "AT"
+HKR, Settings, Terminator,, "<cr>"
+HKR, Settings, DialPrefix,, "D"
+HKR, Settings, DialSuffix,, ""
+HKR, Settings, FlowControl_Off,, "\Q0"
+HKR, Settings, FlowControl_Hard,, "\Q3"
+HKR, Settings, FlowControl_Soft,, "\Q1"
+HKR,, InactivityScale,1,0a,00,00,00
+HKR, Settings, InactivityTimeout,, "S30=<#>"
+
+[Properties]
+HKR,,Properties,1,00,00,00,00,00,00,00,00,FF,00,00,00,00,00,00,00,00,00,00,00,30,00,00,00,00,C2,01,00,00,FA,00,00
+
+[PortDriver]
+HKR, , PortDriver, , wdmmdmld.vxd
+HKR, , Contention, 0,
+
+[External]
+HKR, , DeviceType, 1, 01
+
+[Responses]
+; This selection of responses is by no means exhausting (probably not even
+; suitable for our device). But better to have this than nothing at all...
+; It was copied verbatim from mdmelsa5.inf from the ML ISDN 2 a/b project.
+;
+HKR, Responses, "0<cr>", 	1, 00, 00, 00,00,00,00, 00,00,00,00  ; OK
+HKR, Responses, "1<cr>",	1, 02, 00, 00,00,00,00, 00,00,00,00  ; CONNECT
+HKR, Responses, "2<cr>",	1, 08, 00, 00,00,00,00, 00,00,00,00  ; RING
+HKR, Responses, "3<cr>",	1, 04, 00, 00,00,00,00, 00,00,00,00  ; NO CARRIER
+HKR, Responses, "4<cr>",	1, 03, 00, 00,00,00,00, 00,00,00,00  ; ERROR
+HKR, Responses, "6<cr>",	1, 05, 00, 00,00,00,00, 00,00,00,00  ; NO DIALTONE
+HKR, Responses, "7<cr>",	1, 06, 00, 00,00,00,00, 00,00,00,00  ; BUSY
+
+HKR, Responses, "<cr><lf>CONNECT<cr><lf>",	1, 02, 00, 00,00,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>OK<cr><lf>",		1, 00, 00, 00,00,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>ERROR<cr><lf>",	1, 03, 00, 00,00,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>RING<cr><lf>",		1, 08, 00, 00,00,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>NO CARRIER<cr><lf>",	1, 04, 00, 00,00,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>NO DIALTONE<cr><lf>",	1, 05, 00, 00,00,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>BUSY<cr><lf>",		1, 06, 00, 00,00,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>NO ANSWER<cr><lf>",	1, 07, 00, 00,00,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECTING<cr><lf>",	1, 01, 00, 00,00,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CALL SENT<cr><lf>",	1, 01, 00, 00,00,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>ALERTING<cr><lf>",	1, 01, 00, 00,00,00,00, 00,00,00,00
+
+HKR, Responses, "<cr><lf>CONNECT 38400<cr><lf>",	1, 02, 00, 00,96,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT 48000<cr><lf>",	1, 02, 00, 80,BB,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT 56000<cr><lf>",	1, 02, 00, C0,DA,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT 64000<cr><lf>",	1, 02, 00, 00,FA,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT 56000/REL<cr><lf>",	1, 02, 02, C0,DA,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT 64000/REL<cr><lf>",	1, 02, 02, 00,FA,00,00, 00,00,00,00
+
+; ISDN transparent no compression / no errorcorrection
+
+HKR, Responses, "<cr><lf>CONNECT 56000<cr><lf>",	1, 02, 00, C0,DA,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT 64000<cr><lf>",	1, 02, 00, 00,FA,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT 112000<cr><lf>",	1, 02, 00, 08,B5,01,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT 128000<cr><lf>",	1, 02, 00, 00,F4,01,00, 00,00,00,00
+
+; ISDN V110:  no compression / no errorcorrection
+
+HKR, Responses, "<cr><lf>CONNECT 1200/ISDN/V110<cr><lf>",	1, 02, 00, B0,04,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT 2400/ISDN/V110<cr><lf>",	1, 02, 00, 60,09,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT 4800/ISDN/V110<cr><lf>",	1, 02, 00, C0,12,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT 9600/ISDN/V110<cr><lf>",	1, 02, 00, 80,25,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT 19200/ISDN/V110<cr><lf>",	1, 02, 00, 00,4B,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT 38400/ISDN/V110<cr><lf>",	1, 02, 00, 00,96,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT 48000/ISDN/V110<cr><lf>",	1, 02, 00, 80,BB,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT 56000/ISDN/V110<cr><lf>",	1, 02, 00, C0,DA,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT 64000/ISDN/V110<cr><lf>",	1, 02, 00, 00,FA,00,00, 00,00,00,00
+
+; ISDN HDLC/V120/X75 errorcorrection / no compression
+
+HKR, Responses, "<cr><lf>CONNECT 56000/REL<cr><lf>",		1, 02, 02, C0,DA,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT 64000/REL<cr><lf>",		1, 02, 02, 00,FA,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT 56000/REL-LAPB<cr><lf>",	1, 02, 02, C0,DA,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT 64000/REL-LAPB<cr><lf>",	1, 02, 02, 00,FA,00,00, 00,00,00,00
+
+HKR, Responses, "<cr><lf>CONNECT 56000/ISDN/BTX<cr><lf>",	1, 02, 02, C0,DA,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT 64000/ISDN/BTX<cr><lf>",	1, 02, 02, 00,FA,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT 56000/ISDN/HDLCP<cr><lf>",	1, 02, 00, C0,DA,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT 64000/ISDN/HDLCP<cr><lf>",	1, 02, 00, 00,FA,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT 56000/ISDN/HDLC<cr><lf>",	1, 02, 00, C0,DA,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT 64000/ISDN/HDLC<cr><lf>",	1, 02, 00, 00,FA,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT 56000/ISDN/V120<cr><lf>",	1, 02, 02, C0,DA,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT 64000/ISDN/V120<cr><lf>",	1, 02, 02, 00,FA,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT 56000/ISDN/X75<cr><lf>",	1, 02, 02, C0,DA,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT 64000/ISDN/X75<cr><lf>",	1, 02, 02, 00,FA,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT 112000/ISDN/X75<cr><lf>",	1, 02, 02, 80,B5,01,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT 128000/ISDN/X75<cr><lf>",	1, 02, 02, 00,F4,01,00, 00,00,00,00
+
+; ISDN V120/X75 compression / errorcorrection
+
+HKR, Responses, "<cr><lf>CONNECT 56000/ISDN/V120/V42BIS<cr><lf>",	1, 02, 03, C0,DA,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT 64000/ISDN/V120/V42BIS<cr><lf>",	1, 02, 03, 00,FA,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT 56000/ISDN/X75/V42BIS<cr><lf>",	1, 02, 03, C0,DA,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT 64000/ISDN/X75/V42BIS<cr><lf>",	1, 02, 03, 00,FA,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT 112000/ISDN/X75/V42BIS<cr><lf>",	1, 02, 03, 80,B5,01,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT 128000/ISDN/X75/V42BIS<cr><lf>",	1, 02, 03, 00,F4,01,00, 00,00,00,00
+
+HKR, Responses, "<cr><lf>CONNECT 56000/ISDN/X75/V42BIS/MLP<cr><lf>",	1, 02, 03, C0,DA,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT 64000/ISDN/X75/V42BIS/MLP<cr><lf>",	1, 02, 03, 00,FA,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT 112000/ISDN/X75/V42BIS/MLP<cr><lf>",	1, 02, 03, 80,B5,01,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT 128000/ISDN/X75/V42BIS/MLP<cr><lf>",	1, 02, 03, 00,F4,01,00, 00,00,00,00
+
+; ISDN independent of transferrate: no compression / errrorcorrection
+
+HKR, Responses, "<cr><lf>CONNECT ISDN/V110<cr><lf>",	1, 02, 02, 00,00,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT ISDN/V120<cr><lf>",	1, 02, 02, 00,00,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT ISDN/X75<cr><lf>",	1, 02, 02, 00,00,00,00, 00,00,00,00
+
+; ISDN independent of transferrate: compression / errrorcorrection
+
+HKR, Responses, "<cr><lf>CONNECT ISDN/V120/V42BIS<cr><lf>",		1, 02, 03, 00,00,00,00, 00,00,00,00
+HKR, Responses, "<cr><lf>CONNECT ISDN/X75/V42BIS<cr><lf>",		1, 02, 03, 00,00,00,00, 00,00,00,00
+
+[Strings]
+String0 = "Symbian Ltd"
+
+; --- eof ---

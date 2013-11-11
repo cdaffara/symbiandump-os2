@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE featuredatabase SYSTEM "featuredatabase.dtd">
+
+<featuredatabase>
+	<featureset ibyname="multisection_test_featuredatabase_core.iby" hfilename="multisection_test_featuredatabase_rofs2.h" namespace="NFeature">
+		<hfileheader interfacestatus="@prototype" interfacevisibility="@internalComponent">
+		 	// Copyright (c) Symbian Software Ltd 2008. All rights reserved.
+	      	//...................................................
+		</hfileheader>
+		<!-- This feature is defined as "unsupported" in the first ROFS section and as -->
+		<!-- "supported" in both second and third ROFS sections -->
+		<feature uid="0x00000001" statusflags="0x00000000" name="TestCompROMUid1" userdata="0x00000001">
+			<hrhmacro include="SYMBIAN_INCLUDE_TESTCOMPROMUID1"/>
+			<comment>
+				/**
+				Feature = TestCompROMUid1  
+				This feature is defined as "unsupported" in the first ROFS section and as "supported" in both second and third ROFS sections.
+				*/
+			</comment>
+		</feature>
+
+		<!-- This feature is defined as "supported" in the first and second ROFS sections and as -->
+		<!-- "unsupported" in the third ROFS section -->
+		<feature uid="0x00000002" statusflags="0x00000001" name="TestCompROMUid2" userdata="0x00000001">
+			<hrhmacro exclude="SYMBIAN_EXCLUDE_TESTCOMPROMUID2"/>
+			<comment>
+				/**
+				Feature = TestCompROMUid2
+				This feature is defined as "supported" in the first and second ROFS sections and as "unsupported" in the third ROFS section
+				*/
+			</comment>
+		</feature>
+
+	</featureset>
+
+	<defaultfeaturerange loweruid="0x10279806" higheruid="0x10281805">					
+		<comment>
+			/**
+			The UID ranges are allocated for Symbian features that default to reporting "feature supported"
+			*/
+		</comment>
+	</defaultfeaturerange >
+
+</featuredatabase>

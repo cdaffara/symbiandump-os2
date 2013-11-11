@@ -1,0 +1,39 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+/**
+@file
+
+@SYMPurpose tasnpkcs.exe Test harness for anspkcs
+*/
+
+TARGET	tasnpkcs.exe
+TARGETTYPE	exe
+UID 0x10000079 0x10001011
+VENDORID 0x70000001
+
+SOURCEPATH .
+SOURCE tactiondecodepkcs5.cpp tasnpkcsmain.cpp
+SOURCE tactiontestpkcs8.cpp
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+USERINCLUDE ../../../crypto/weakcrypto/inc
+USERINCLUDE ../../../cryptomgmtlibs/securitytestfw/test/testhandler2
+
+LIBRARY	euser.lib efsrv.lib t_testhandler2.lib asnpkcs.lib asn1.lib
+SMPSAFE

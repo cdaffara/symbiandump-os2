@@ -1,0 +1,52 @@
+/*
+* Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+TARGET			iso2022jp_2_test.dll
+TARGETTYPE		PLUGIN
+
+CAPABILITY		All -Tcb
+
+MACRO	S60_TEST
+
+UID				0x10009D8D 0x01000006
+VENDORID		0x70000001
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+USERINCLUDE		../../../src/inc
+USERINCLUDE		../../../inc
+USERINCLUDE		../../../src/shared
+
+SOURCEPATH		../../../src/plugins
+SOURCE			ISO2022JP_2.CPP
+
+SOURCEPATH		../tsrc/main
+START RESOURCE	01000006.rss
+TARGET			iso2022jp_2_test.rsc
+END
+
+LIBRARY			euser.lib
+LIBRARY			charconv.lib
+LIBRARY			convutils.lib
+LIBRARY			ecom.lib
+LIBRARY			jisbase_shared_2.lib 
+LIBRARY			jisx0201_2.lib
+LIBRARY			jisx0208_2.lib 
+library         CnvPictographShared.lib
+LIBRARY         featmgr.lib
+
+SMPSAFE

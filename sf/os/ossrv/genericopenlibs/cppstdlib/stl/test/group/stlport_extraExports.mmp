@@ -1,0 +1,45 @@
+// Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// Name        : stlport_extraExports.mmp
+// Part of     : 
+
+
+TARGET		  stlport_extraExports.dll
+TARGETTYPE	  dll
+
+OPTION CW -wchar_t on
+MACRO _WCHAR_T_DECLARED
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_LIBC_SYSTEMINCLUDE
+OS_LAYER_STLPORTV5_SYSTEMINCLUDE
+
+sourcepath		../unit/
+SOURCE		  extraExports.cpp
+
+EPOCALLOWDLLDATA
+
+nostrictdef
+
+STDCPP
+
+LIBRARY euser.lib
+LIBRARY libc.lib
+LIBRARY libstdcppv5.lib
+
+#ifdef ENABLE_ABIV2_MODE
+DEBUGGABLE_UDEBONLY
+#endif											
+
+SMPSAFE

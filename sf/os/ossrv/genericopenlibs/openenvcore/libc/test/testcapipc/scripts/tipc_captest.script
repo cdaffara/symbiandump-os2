@@ -1,0 +1,61 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+CONSECUTIVE
+
+START_TESTCASE  OPENENV-LIBC-CIT-TESTCAPIPC-OE-0001
+PRINT --------  Testing ftok,Capability set to None
+RUN_PROGRAM -1 setcap.exe tipccap.exe 000000  tipc_cap1.exe
+LOAD_SUITE tipc_cap1
+//! @SYMTestCaseID OPENENV-LIBC-CIT-TESTCAPIPC-OE-0001
+//! @SYMTestStatus 	3.Released
+RUN_TEST_STEP   !Result=13 tipc_cap1 ftoksys
+END_TESTCASE  OPENENV-LIBC-CIT-TESTCAPIPC-OE-0001
+
+
+
+START_TESTCASE  OPENENV-LIBC-CIT-TESTCAPIPC-OE-0002
+PRINT --------  Testing ftok,Capability set to AllFiles
+RUN_PROGRAM -1 setcap.exe tipccap.exe 000800  tipc_cap2.exe
+LOAD_SUITE tipc_cap2
+//! @SYMTestCaseID OPENENV-LIBC-CIT-TESTCAPIPC-OE-0002
+//! @SYMTestStatus 	3.Released
+RUN_TEST_STEP  tipc_cap2 ftoksys
+END_TESTCASE  OPENENV-LIBC-CIT-TESTCAPIPC-OE-0002
+
+
+
+START_TESTCASE  OPENENV-LIBC-CIT-TESTCAPIPC-OE-0003
+PRINT --------  Testing ftok,Capability set to None
+RUN_PROGRAM -1 setcap.exe tipccap.exe 000000  tipc_cap3.exe
+LOAD_SUITE tipc_cap3
+//! @SYMTestCaseID OPENENV-LIBC-CIT-TESTCAPIPC-OE-0003
+//! @SYMTestStatus 	3.Released
+RUN_TEST_STEP !Result=13 tipc_cap3 ftokprivate
+END_TESTCASE  OPENENV-LIBC-CIT-TESTCAPIPC-OE-0003
+
+
+START_TESTCASE  OPENENV-LIBC-CIT-TESTCAPIPC-OE-0004
+PRINT --------  Testing ftok,Capability set to AllFiles
+RUN_PROGRAM -1 setcap.exe tipccap.exe 000800  tipc_cap4.exe
+LOAD_SUITE tipc_cap4
+//! @SYMTestCaseID OPENENV-LIBC-CIT-TESTCAPIPC-OE-0004
+//! @SYMTestStatus 	3.Released
+RUN_TEST_STEP tipc_cap4 ftokprivate
+END_TESTCASE  OPENENV-LIBC-CIT-TESTCAPIPC-OE-0004
+
+
+
+

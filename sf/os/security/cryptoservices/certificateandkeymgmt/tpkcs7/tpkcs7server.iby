@@ -1,0 +1,244 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+#ifndef __TPKCS7SERVER_IBY__
+#define __TPKCS7SERVER_IBY__
+
+#include <testexecute.iby>
+#include <pkcs7.iby>
+
+// Programs
+file=ABI_DIR\BUILD_DIR\tpkcs7server.exe			System\Libs\tpkcs7server.exe
+
+// Scripts
+data=\epoc32\winscw\c\tpkcs7\tpkcs7_v2.script  		\tpkcs7\tpkcs7_v2.script
+data=\epoc32\winscw\c\tpkcs7\tpkcs7_v2.ini		\tpkcs7\tpkcs7_v2.ini
+
+//CMS test
+data=\epoc32\winscw\c\tpkcs7\tcms.script            	\tpkcs7\tcms.script              
+data=\epoc32\winscw\c\tpkcs7\tcms.ini			\tpkcs7\tcms.ini
+data=\epoc32\winscw\c\tpkcs7\tinteg_cms.script         	\tpkcs7\tinteg_cms.script            
+data=\epoc32\winscw\c\tpkcs7\tinteg_cms.ini		\tpkcs7\tinteg_cms.ini
+
+// Data files
+data=\epoc32\winscw\c\tpkcs7\data\corrupt1		\tpkcs7\data\corrupt1
+data=\epoc32\winscw\c\tpkcs7\data\corrupt2		\tpkcs7\data\corrupt2
+data=\epoc32\winscw\c\tpkcs7\data\corrupt3		\tpkcs7\data\corrupt3
+data=\epoc32\winscw\c\tpkcs7\data\corrupt4		\tpkcs7\data\corrupt4
+data=\epoc32\winscw\c\tpkcs7\data\expired1		\tpkcs7\data\expired1
+data=\epoc32\winscw\c\tpkcs7\data\noroot1			\tpkcs7\data\noroot1
+data=\epoc32\winscw\c\tpkcs7\data\valid1			\tpkcs7\data\valid1
+data=\epoc32\winscw\c\tpkcs7\data\valid2			\tpkcs7\data\valid2
+data=\epoc32\winscw\c\tpkcs7\data\valid3			\tpkcs7\data\valid3
+data=\epoc32\winscw\c\tpkcs7\data\rootcertificate	\tpkcs7\data\rootcertificate
+
+data=\epoc32\winscw\c\tpkcs7\data\pkcs7_encrypteddata_corrupt2          		 \tpkcs7\data\pkcs7_encrypteddata_corrupt2         
+data=\epoc32\winscw\c\tpkcs7\data\empty						   \tpkcs7\data\empty
+data=\epoc32\winscw\c\tpkcs7\data\sha1anddes-cbc                                   \tpkcs7\data\sha1anddes-cbc
+data=\epoc32\winscw\c\tpkcs7\data\sha1and128bitrc4.der                                 \tpkcs7\data\sha1and128bitrc4.der
+data=\epoc32\winscw\c\tpkcs7\data\sha1and128bitrc4_encryptedcontent.der                \tpkcs7\data\sha1and128bitrc4_encryptedcontent.der
+data=\epoc32\winscw\c\tpkcs7\data\sha1and128bitrc4_salt.der                            \tpkcs7\data\sha1and128bitrc4_salt.der
+data=\epoc32\winscw\c\tpkcs7\data\sha1and40bitrc4.der                                  \tpkcs7\data\sha1and40bitrc4.der
+data=\epoc32\winscw\c\tpkcs7\data\sha1and40bitrc4_encryptedcontent.der  		   \tpkcs7\data\sha1and40bitrc4_encryptedcontent.der
+data=\epoc32\winscw\c\tpkcs7\data\sha1and40bitrc4_salt.der                             \tpkcs7\data\sha1and40bitrc4_salt.der
+data=\epoc32\winscw\c\tpkcs7\data\sha1and128bitrc2.der                               \tpkcs7\data\sha1and128bitrc2.der
+data=\epoc32\winscw\c\tpkcs7\data\sha1and128bitrc2_encryptedcontent.der              \tpkcs7\data\sha1and128bitrc2_encryptedcontent.der
+data=\epoc32\winscw\c\tpkcs7\data\sha1and128bitrc2_salt.der                          \tpkcs7\data\sha1and128bitrc2_salt.der
+data=\epoc32\winscw\c\tpkcs7\data\sha1and3_keytripledes_cbc.der                         \tpkcs7\data\sha1and3_keytripledes_cbc.der
+data=\epoc32\winscw\c\tpkcs7\data\sha1and3_keytripledes_cbc_encryptedcontent.der        \tpkcs7\data\sha1and3_keytripledes_cbc_encryptedcontent.der
+data=\epoc32\winscw\c\tpkcs7\data\sha1and3_keytripledes_cbc_salt.der                    \tpkcs7\data\sha1and3_keytripledes_cbc_salt.der
+data=\epoc32\winscw\c\tpkcs7\data\sha1and40bitrc2_cbc.der                              \tpkcs7\data\sha1and40bitrc2_cbc.der
+data=\epoc32\winscw\c\tpkcs7\data\sha1and40bitrc2_cbc_encryptedcontent.der             \tpkcs7\data\sha1and40bitrc2_cbc_encryptedcontent.der
+data=\epoc32\winscw\c\tpkcs7\data\sha1and40bitrc2_cbc_salt.der                         \tpkcs7\data\sha1and40bitrc2_cbc_salt.der
+data=\epoc32\winscw\c\tpkcs7\data\notencrypteddata.der                                 \tpkcs7\data\notencrypteddata.der
+data=\epoc32\winscw\c\tpkcs7\data\sha1and2_keytripledes.der				   \tpkcs7\data\sha1and2_keytripledes.der	                        
+data=\epoc32\winscw\c\tpkcs7\data\sha1and2_keytripledes_encryptedcontent.der		   \tpkcs7\data\sha1and2_keytripledes_encryptedcontent.der            
+data=\epoc32\winscw\c\tpkcs7\data\sha1and2_keytripledes_salt.der			   \tpkcs7\data\sha1and2_keytripledes_salt.der	                
+data=\epoc32\winscw\c\tpkcs7\data\encrypteddata_withoutsalt.der				\tpkcs7\data\encrypteddata_withoutsalt.der
+data=\epoc32\winscw\c\tpkcs7\data\encrypteddata_withoutsalt_content.der			\tpkcs7\data\encrypteddata_withoutsalt_content.der
+data=\epoc32\winscw\c\tpkcs7\data\pkcs7_encryptedneg_version.der			   \tpkcs7\data\pkcs7_encryptedneg_version.der
+data=\epoc32\winscw\c\tpkcs7\data\pkcs7_encryptedneg_contentType.der   		   \tpkcs7\data\pkcs7_encryptedneg_contentType.der
+data=\epoc32\winscw\c\tpkcs7\data\pkcs7_encryptedneg_nocontsalt.der			   \tpkcs7\data\pkcs7_encryptedneg_nocontsalt.der
+data=\epoc32\winscw\c\tpkcs7\data\pkcs7_encryptedneg_noencryptedcon.der		   \tpkcs7\data\pkcs7_encryptedneg_noencryptedcon.der
+data=\epoc32\winscw\c\tpkcs7\data\encrypteddata_versiontag.der			\tpkcs7\data\encrypteddata_versiontag.der
+
+
+data=\epoc32\winscw\c\tpkcs7\data\digest_sha1.der                         	\tpkcs7\data\digest_sha1.der
+data=\epoc32\winscw\c\tpkcs7\data\digestinfo_sha1.der                      	\tpkcs7\data\digestinfo_sha1.der                     
+data=\epoc32\winscw\c\tpkcs7\data\pkcs7_digest_md5alg.der			\tpkcs7\data\pkcs7_digest_md5alg.der
+data=\epoc32\winscw\c\tpkcs7\data\digestinfo_md5alg.der			\tpkcs7\data\digestinfo_md5alg.der
+data=\epoc32\winscw\c\tpkcs7\data\digestinfo_negalgtag.der			\tpkcs7\data\digestinfo_negalgtag.der	
+data=\epoc32\winscw\c\tpkcs7\data\digestinfo_digest_notoctetstring.der		\tpkcs7\data\digestinfo_digest_notoctetstring.der
+data=\epoc32\winscw\c\tpkcs7\data\digestinfo_nodigest.der            		\tpkcs7\data\digestinfo_nodigest.der              
+data=\epoc32\winscw\c\tpkcs7\data\digestinfo_unsupportedalg.der			\tpkcs7\data\digestinfo_unsupportedalg.der
+
+
+
+//CMS test
+data=\epoc32\winscw\c\tpkcs7\cms\data\datacontent.txt		\tpkcs7\cms\data\datacontent.txt
+data=\epoc32\winscw\c\tpkcs7\cms\data\ca.der			\tpkcs7\cms\data\ca.der
+data=\epoc32\winscw\c\tpkcs7\cms\data\cms_add_rsa_cert_is.der	\tpkcs7\cms\data\cms_add_rsa_cert_is.der
+data=\epoc32\winscw\c\tpkcs7\cms\data\attributecert.der		\tpkcs7\cms\data\attributecert.der
+data=\epoc32\winscw\c\tpkcs7\cms\data\corruptattributecert.der	\tpkcs7\cms\data\corruptattributecert.der
+data=\epoc32\winscw\c\tpkcs7\cms\data\corruptattributecert_noseq.der	\tpkcs7\cms\data\corruptattributecert_noseq.der
+
+//CMS test by integration test
+data=\epoc32\winscw\c\tpkcs7\cms\data\int_ca.der	       		\tpkcs7\cms\data\int_ca.der
+data=\epoc32\winscw\c\tpkcs7\cms\data\int_cms_dsa_cert_1_is.der		\tpkcs7\cms\data\int_cms_dsa_cert_1_is.der
+data=\epoc32\winscw\c\tpkcs7\cms\data\int_cms_dsa_cert_1_ki.der		\tpkcs7\cms\data\int_cms_dsa_cert_1_ki.der
+data=\epoc32\winscw\c\tpkcs7\cms\data\int_cms_dsa_cert_2_is.der		\tpkcs7\cms\data\int_cms_dsa_cert_2_is.der
+data=\epoc32\winscw\c\tpkcs7\cms\data\int_cms_dsa_cert_2_ki.der		\tpkcs7\cms\data\int_cms_dsa_cert_2_ki.der
+data=\epoc32\winscw\c\tpkcs7\cms\data\int_cms_dsa_cert_3_is.der		        \tpkcs7\cms\data\int_cms_dsa_cert_3_is.der
+data=\epoc32\winscw\c\tpkcs7\cms\data\int_cms_dsa_cert_3_ki.der		       	\tpkcs7\cms\data\int_cms_dsa_cert_3_ki.der
+data=\epoc32\winscw\c\tpkcs7\cms\data\int_cms_dsa_key_1_is.der		       	\tpkcs7\cms\data\int_cms_dsa_key_1_is.der
+data=\epoc32\winscw\c\tpkcs7\cms\data\int_cms_dsa_key_1_ki.der		       	\tpkcs7\cms\data\int_cms_dsa_key_1_ki.der
+data=\epoc32\winscw\c\tpkcs7\cms\data\int_cms_dsa_key_2_is.der		       	\tpkcs7\cms\data\int_cms_dsa_key_2_is.der
+data=\epoc32\winscw\c\tpkcs7\cms\data\int_cms_dsa_key_2_ki.der		       	\tpkcs7\cms\data\int_cms_dsa_key_2_ki.der
+data=\epoc32\winscw\c\tpkcs7\cms\data\int_cms_dsa_key_3_is.der		       	\tpkcs7\cms\data\int_cms_dsa_key_3_is.der
+data=\epoc32\winscw\c\tpkcs7\cms\data\int_cms_dsa_key_3_ki.der		       	\tpkcs7\cms\data\int_cms_dsa_key_3_ki.der
+data=\epoc32\winscw\c\tpkcs7\cms\data\int_cms_rsa_cert_1_is.der		       	\tpkcs7\cms\data\int_cms_rsa_cert_1_is.der
+data=\epoc32\winscw\c\tpkcs7\cms\data\int_cms_rsa_cert_1_ki.der		       	\tpkcs7\cms\data\int_cms_rsa_cert_1_ki.der
+data=\epoc32\winscw\c\tpkcs7\cms\data\int_cms_rsa_cert_2_is.der		       	\tpkcs7\cms\data\int_cms_rsa_cert_2_is.der
+data=\epoc32\winscw\c\tpkcs7\cms\data\int_cms_rsa_cert_2_ki.der		       	\tpkcs7\cms\data\int_cms_rsa_cert_2_ki.der
+data=\epoc32\winscw\c\tpkcs7\cms\data\int_cms_rsa_cert_3_is.der		       	\tpkcs7\cms\data\int_cms_rsa_cert_3_is.der
+data=\epoc32\winscw\c\tpkcs7\cms\data\int_cms_rsa_cert_3_ki.der		       	\tpkcs7\cms\data\int_cms_rsa_cert_3_ki.der
+data=\epoc32\winscw\c\tpkcs7\cms\data\int_cms_rsa_key_1_is.der		       	\tpkcs7\cms\data\int_cms_rsa_key_1_is.der
+data=\epoc32\winscw\c\tpkcs7\cms\data\int_cms_rsa_key_1_ki.der		       	\tpkcs7\cms\data\int_cms_rsa_key_1_ki.der
+data=\epoc32\winscw\c\tpkcs7\cms\data\int_cms_rsa_key_2_is.der		       	\tpkcs7\cms\data\int_cms_rsa_key_2_is.der
+data=\epoc32\winscw\c\tpkcs7\cms\data\int_cms_rsa_key_2_ki.der		       	\tpkcs7\cms\data\int_cms_rsa_key_2_ki.der
+data=\epoc32\winscw\c\tpkcs7\cms\data\int_cms_rsa_key_3_is.der		       	\tpkcs7\cms\data\int_cms_rsa_key_3_is.der
+data=\epoc32\winscw\c\tpkcs7\cms\data\int_cms_rsa_key_3_ki.der		       	\tpkcs7\cms\data\int_cms_rsa_key_3_ki.der
+data=\epoc32\winscw\c\tpkcs7\cms\data\int_datacontent.txt		   	\tpkcs7\cms\data\int_datacontent.txt
+data=\epoc32\winscw\c\tpkcs7\cms\data\int_dsa_2_attributeCert.der	       	\tpkcs7\cms\data\int_dsa_2_attributeCert.der
+data=\epoc32\winscw\c\tpkcs7\cms\data\int_dsa_3_attributeCert.der	       	\tpkcs7\cms\data\int_dsa_3_attributeCert.der
+data=\epoc32\winscw\c\tpkcs7\cms\data\int_dsa_attributeCert.der		       	\tpkcs7\cms\data\int_dsa_attributeCert.der
+data=\epoc32\winscw\c\tpkcs7\cms\data\int_large_data.txt		       	\tpkcs7\cms\data\int_large_data.txt
+data=\epoc32\winscw\c\tpkcs7\cms\data\int_rsa_2_attributeCert.der	       	\tpkcs7\cms\data\int_rsa_2_attributeCert.der
+data=\epoc32\winscw\c\tpkcs7\cms\data\int_rsa_3_attributecert.der	       	\tpkcs7\cms\data\int_rsa_3_attributecert.der
+data=\epoc32\winscw\c\tpkcs7\cms\data\int_rsa_attributeCert.der		       	\tpkcs7\cms\data\int_rsa_attributeCert.der
+data=\epoc32\winscw\c\tpkcs7\cms\data\int_small_data.txt		       	\tpkcs7\cms\data\int_small_data.txt
+
+
+
+//CMS Test Certificates and key					
+data=\epoc32\winscw\c\tpkcs7\cms\data\cms_rsa_cert_1_ki.der	\tpkcs7\cms\data\cms_rsa_cert_1_ki.der
+data=\epoc32\winscw\c\tpkcs7\cms\data\cms_rsa_key_1_ki.der	\tpkcs7\cms\data\cms_rsa_key_1_ki.der
+data=\epoc32\winscw\c\tpkcs7\cms\data\cms_rsa_cert_1_is.der	\tpkcs7\cms\data\cms_rsa_cert_1_is.der
+data=\epoc32\winscw\c\tpkcs7\cms\data\cms_rsa_key_1_is.der	\tpkcs7\cms\data\cms_rsa_key_1_is.der
+data=\epoc32\winscw\c\tpkcs7\cms\data\cms_dsa_cert_1_ki.der	\tpkcs7\cms\data\cms_dsa_cert_1_ki.der
+data=\epoc32\winscw\c\tpkcs7\cms\data\cms_dsa_key_1_ki.der	\tpkcs7\cms\data\cms_dsa_key_1_ki.der
+data=\epoc32\winscw\c\tpkcs7\cms\data\cms_dsa_cert_1_is.der	\tpkcs7\cms\data\cms_dsa_cert_1_is.der
+data=\epoc32\winscw\c\tpkcs7\cms\data\cms_dsa_key_1_is.der	\tpkcs7\cms\data\cms_dsa_key_1_is.der
+
+//CMS expected signed data result
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cms_1_attached_rsa_sha1_ki.der		\tpkcs7\cms\results\cms_1_attached_rsa_sha1_ki.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cms_1_attached_rsa_sha1_is.der		\tpkcs7\cms\results\cms_1_attached_rsa_sha1_is.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cms_1_detached_rsa_sha1_ki.der		\tpkcs7\cms\results\cms_1_detached_rsa_sha1_ki.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cms_1_detached_rsa_sha1_is.der		\tpkcs7\cms\results\cms_1_detached_rsa_sha1_is.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cms_1_attached_rsa_md2_ki.der		\tpkcs7\cms\results\cms_1_attached_rsa_md2_ki.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cms_1_detached_rsa_md2_ki.der		\tpkcs7\cms\results\cms_1_detached_rsa_md2_ki.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cms_1_attached_rsa_md2_is.der		\tpkcs7\cms\results\cms_1_attached_rsa_md2_is.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cms_1_detached_rsa_md2_is.der		\tpkcs7\cms\results\cms_1_detached_rsa_md2_is.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cms_1_attached_rsa_md5_is.der		\tpkcs7\cms\results\cms_1_attached_rsa_md5_is.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cms_1_detached_rsa_md5_is.der		\tpkcs7\cms\results\cms_1_detached_rsa_md5_is.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cms_1_attached_rsa_md5_ki.der		\tpkcs7\cms\results\cms_1_attached_rsa_md5_ki.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cms_1_detached_rsa_md5_ki.der		\tpkcs7\cms\results\cms_1_detached_rsa_md5_ki.der
+
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cms_1_attached_dsa_ki.der	\tpkcs7\cms\results\cms_1_attached_dsa_ki.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cms_1_detached_dsa_ki.der	\tpkcs7\cms\results\cms_1_detached_dsa_ki.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cms_1_attached_dsa_is.der	\tpkcs7\cms\results\cms_1_attached_dsa_is.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cms_1_detached_dsa_is.der	\tpkcs7\cms\results\cms_1_detached_dsa_is.der
+
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cms_multi_2_attached_rsaki_dsais.der	\tpkcs7\cms\results\cms_multi_2_attached_rsaki_dsais.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cms_multi_2_attached_dsais_rsaki.der	\tpkcs7\cms\results\cms_multi_2_attached_dsais_rsaki.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cms_multi_2_attached_rsakimd5_dsais.der	\tpkcs7\cms\results\cms_multi_2_attached_rsakimd5_dsais.der
+
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cms_1_attached_rsa_sha1_ki_nocert.der	\tpkcs7\cms\results\cms_1_attached_rsa_sha1_ki_nocert.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cms_1_attached_rsa_sha1_ki_nosignerinfo.der	\tpkcs7\cms\results\cms_1_attached_rsa_sha1_ki_nosignerinfo.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cms_multi_2_attached_rsakimd5_dsais_addcert.der	\tpkcs7\cms\results\cms_multi_2_attached_rsakimd5_dsais_addcert.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cms_corrupt_signature.der	\tpkcs7\cms\results\cms_corrupt_signature.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cms_corrupt_excerttag.der	\tpkcs7\cms\results\cms_corrupt_excerttag.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cms_corrupt_certsettag.der	\tpkcs7\cms\results\cms_corrupt_certsettag.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cms_corrupt_signinfoversion.der	\tpkcs7\cms\results\cms_corrupt_signinfoversion.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cms_corrupt_signdataversion.der	\tpkcs7\cms\results\cms_corrupt_signdataversion.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cms_corrupt_datacontent.der	\tpkcs7\cms\results\cms_corrupt_datacontent.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cms_corrupt_encapcontentoid.der	\tpkcs7\cms\results\cms_corrupt_encapcontentoid.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cms_corrupt_encapcontent_tag_1.der	\tpkcs7\cms\results\cms_corrupt_encapcontent_tag_1.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cms_corrupt_encapcontent_tag_2.der	\tpkcs7\cms\results\cms_corrupt_encapcontent_tag_2.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cms_corrupt_contentoid.der	\tpkcs7\cms\results\cms_corrupt_contentoid.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cms_corrupt_content_tag_1.der	\tpkcs7\cms\results\cms_corrupt_content_tag_1.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cms_corrupt_algorithmoid.der	\tpkcs7\cms\results\cms_corrupt_algorithmoid.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cms_1_attached_rsa_sha1_KI_attributecert.der	\tpkcs7\cms\results\cms_1_attached_rsa_sha1_KI_attributecert.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cms_corrupt_block.der		\tpkcs7\cms\results\cms_corrupt_block.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cms_1_attached_rsa_sha1_ki_unsignedattributes.der	\tpkcs7\cms\results\cms_1_attached_rsa_sha1_ki_unsignedattributes.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cms_1_attached_rsa_sha1_ki_attributes.der	\tpkcs7\cms\results\cms_1_attached_rsa_sha1_ki_attributes.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cms_corrupt_length.der		\tpkcs7\cms\results\cms_corrupt_length.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cms_data.der			\tpkcs7\cms\results\cms_data.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cms_data_corrupt_tag.der	\tpkcs7\cms\results\cms_data_corrupt_tag.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cms_data_corrupt_class.der	\tpkcs7\cms\results\cms_data_corrupt_class.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cmsdigestdata.der		\tpkcs7\cms\results\cmsdigestdata.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cmsenvelopeddata.der		\tpkcs7\cms\results\cmsenvelopeddata.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cmsencryteddata.der		\tpkcs7\cms\results\cmsencryteddata.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\cmsauthdata.der		\tpkcs7\cms\results\cmsauthdata.der
+
+
+
+//CMS Integ expected signed data result
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\int_cms_1_dataattached_3rsa_certattach_md2_ki.der			\tpkcs7\cms\results\int_cms_1_dataattached_3rsa_certattach_md2_ki.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\int_cms_1_dataattached_3rsa_certattach_md2md5sha1_is.der		\tpkcs7\cms\results\int_cms_1_dataattached_3rsa_certattach_md2md5sha1_is.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\int_cms_1_dataattached_12rsa_3dsa_certdetach_md2md5sha1_1ki_23is.der	\tpkcs7\cms\results\int_cms_1_dataattached_12rsa_3dsa_certdetach_md2md5sha1_1ki_23is.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\int_cms_1_dataattached_3rsa_certattach_md5_13ki_2is.der		\tpkcs7\cms\results\int_cms_1_dataattached_3rsa_certattach_md5_13ki_2is.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\int_cms_1_dataattached_3rsa_certdetach_sha1_is.der			\tpkcs7\cms\results\int_cms_1_dataattached_3rsa_certdetach_sha1_is.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\int_cms_1_dataattached_3rsa_certdetach_sha1_is_x509.der		\tpkcs7\cms\results\int_cms_1_dataattached_3rsa_certdetach_sha1_is_x509.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\int_cms_1_dataattached_3rsa_certdetach_sha1md2md5_is_attribute.der	\tpkcs7\cms\results\int_cms_1_dataattached_3rsa_certdetach_sha1md2md5_is_attribute.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\int_cms_1_dataattached_certattach_rsa_md5_is.der			\tpkcs7\cms\results\int_cms_1_dataattached_certattach_rsa_md5_is.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\int_cms_1_dataattached_certattach_rsa_sha1_is.der			\tpkcs7\cms\results\int_cms_1_dataattached_certattach_rsa_sha1_is.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\int_cms_1_dataattached_certdetach_dsa_sha1_is.der			\tpkcs7\cms\results\int_cms_1_dataattached_certdetach_dsa_sha1_is.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\int_cms_1_dataattached_certdetach_dsa_sha1_is_attribute.der		\tpkcs7\cms\results\int_cms_1_dataattached_certdetach_dsa_sha1_is_attribute.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\int_cms_1_dataattached_certdetach_dsa_sha1_ki.der			\tpkcs7\cms\results\int_cms_1_dataattached_certdetach_dsa_sha1_ki.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\int_cms_1_dataattached_certdetach_rsa_md2_ki.der			\tpkcs7\cms\results\int_cms_1_dataattached_certdetach_rsa_md2_ki.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\int_cms_1_dataattached_certdetach_rsa_sha1_ki.der			\tpkcs7\cms\results\int_cms_1_dataattached_certdetach_rsa_sha1_ki.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\int_cms_1_datadetached_12rsa_3_dsa_certdetach_sha1_ki.der		\tpkcs7\cms\results\int_cms_1_datadetached_12rsa_3_dsa_certdetach_sha1_ki.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\int_cms_1_datadetached_12rsa_3dsa_certdetach_1md2_2md5_3sha1_1ki_23is.der		\tpkcs7\cms\results\int_cms_1_datadetached_12rsa_3dsa_certdetach_1md2_2md5_3sha1_1ki_23is.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\int_cms_1_datadetached_3dsa_certattach_3sha1_ki.der			\tpkcs7\cms\results\int_cms_1_datadetached_3dsa_certattach_3sha1_ki.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\int_cms_1_datadetached_3dsa_certdetach_sha1_is_attribute.der		\tpkcs7\cms\results\int_cms_1_datadetached_3dsa_certdetach_sha1_is_attribute.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\int_cms_1_datadetached_3rsa_certattach_12sha1_3md5_1ki_23is.der	\tpkcs7\cms\results\int_cms_1_datadetached_3rsa_certattach_12sha1_3md5_1ki_23is.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\int_cms_1_datadetached_3rsa_certattach_3md2_12ki_3is.der		\tpkcs7\cms\results\int_cms_1_datadetached_3rsa_certattach_3md2_12ki_3is.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\int_cms_1_datadetached_3rsa_certattach_sha1_is.der			\tpkcs7\cms\results\int_cms_1_datadetached_3rsa_certattach_sha1_is.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\int_cms_1_datadetached_3rsa_certattach_sha1_is_attribute.der		\tpkcs7\cms\results\int_cms_1_datadetached_3rsa_certattach_sha1_is_attribute.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\int_cms_1_datadetached_3rsa_certdattach_md5_13ki_2is_.der		\tpkcs7\cms\results\int_cms_1_datadetached_3rsa_certdattach_md5_13ki_2is_.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\int_cms_1_datadetached_3rsa_certdetach_sha1_is.der			\tpkcs7\cms\results\int_cms_1_datadetached_3rsa_certdetach_sha1_is.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\int_cms_1_datadetached_certattach_rsa_sha1_is.der			\tpkcs7\cms\results\int_cms_1_datadetached_certattach_rsa_sha1_is.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\int_cms_1_datadetached_certdetach_rsa_md2_ki.der			\tpkcs7\cms\results\int_cms_1_datadetached_certdetach_rsa_md2_ki.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\int_cms_1_datadetached_dsa_certattach_sha1_is.der			\tpkcs7\cms\results\int_cms_1_datadetached_dsa_certattach_sha1_is.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\int_cms_1_datadetached_dsa_certattach_sha1_is_attribute.der		\tpkcs7\cms\results\int_cms_1_datadetached_dsa_certattach_sha1_is_attribute.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\int_cms_1_datadetached_dsa_certdetach_sha1_ki.der			\tpkcs7\cms\results\int_cms_1_datadetached_dsa_certdetach_sha1_ki.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\int_cms_1_datadetached_dsa_certdetach_sha1_ki_attribute.der		\tpkcs7\cms\results\int_cms_1_datadetached_dsa_certdetach_sha1_ki_attribute.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\int_cms_1_datadetached_rsa_certattach_md5_is.der			\tpkcs7\cms\results\int_cms_1_datadetached_rsa_certattach_md5_is.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\int_cms_1_datadetached_rsa_certdetach_sha1_is_attribute.der		\tpkcs7\cms\results\int_cms_1_datadetached_rsa_certdetach_sha1_is_attribute.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\int_cms_1_digested.der							\tpkcs7\cms\results\int_cms_1_digested.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\int_cms_1_enveloped.der						\tpkcs7\cms\results\int_cms_1_enveloped.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\int_cms_1_plain_data.der						\tpkcs7\cms\results\int_cms_1_plain_data.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\int_cms_1_signed_and_enveloped_data.der				\tpkcs7\cms\results\int_cms_1_signed_and_enveloped_data.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\int_cms_invalid_attr_cert_value_2.der					\tpkcs7\cms\results\int_cms_invalid_attr_cert_value_2.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\int_small_data.der							\tpkcs7\cms\results\int_small_data.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\int_large_data.der							\tpkcs7\cms\results\int_large_data.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\int_cms_1_encrypted.der						\tpkcs7\cms\results\int_cms_1_encrypted.der
+data=\epoc32\WINSCW\C\tpkcs7\cms\results\int_cms_1_authenticated_data.der					\tpkcs7\cms\results\int_cms_1_authenticated_data.der
+
+
+#endif

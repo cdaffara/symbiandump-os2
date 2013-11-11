@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<relnotes name="Task Scheduler">
+  <purpose>
+    Provides the ability to schedule a task/executable to run at a specified time
+  </purpose>
+  
+  <defect number="DEF139847" title="[Coverity]:SYMBIAN.CLEANUP_STACK,RESOURCE_LEAK,CHECKED_RETURN " revision="024">
+	Added appropriate comments for the corresponding coverity checker
+  </defect>
+
+ <defect number="DEF138354" title="schsvr Rtests failing in tb92sf due to changes made to timezoneserver.iby" revision="023">
+   Included cenreprefrepositories.iby in SchsvrTest.iby which in turn includes 1020383e.txt file in timezoneServer.
+  </defect>
+
+ <deliverystep number="1462" name="PREQ2475: Splitting Mixed Header files for Base Services API" osproject="SymTB9.2" revision="022">
+    <milestone project="GT0494" number="3.9"/>
+    <preq number="2475" title="Splitting Mixed header">
+    Splitting Mixed Header files for Base Services API
+  </preq>
+  </deliverystep>
+
+   <defect number="PDEF128431" title="Fix for PDEF118811 introduces behavioural change " revision="021">
+    Removed the bounds restrictions on the TaskId parameter for GetTaskInfo, GetTaskDataSize and DeleteTask APIs.
+    Modified appropriate test cases to ensure KErrNotFound is returned when a taskId of -1 is passed to those APIs. 
+  </defect>
+  
+  <defect number="PDEF127260" title="Updating startup domain definitions used in Task Scheduler" revision="020">
+    Updates made in accordance to the changes in the Starup domain definitions as per System model v2. 
+  </defect>
+  
+  <defect number="DEF124488" title="[coverity] -schsvr - FORWARD_NULL" revision="019">
+    Fixes a coverity discovered dereferenced null pointer error. 
+  </defect>
+  <defect number="PDEF124589" title="TaskScheduler crashes under IPC fuzzing causing phone reset" revision="018">
+    Added extra check which makes the TaskScheduler more robust and not open to attack by malware. 
+  </defect>
+
+    <minorchange revision="017">
+	some functions used only for manual testing purposes are commented because they generated warning remarks during ONB. 
+    </minorchange>  
+  <defect number="PDEF118812" title="TaskScheduler crashes under IPC fuzzing and phone resets" revision="017">
+    Modified Task Scheduler to use the CClientMessage framework that was moved to Bsul.dll as part of this fix.
+  </defect>
+
+  <defect number="DEF108026" title="SCHSVR performs SSA-driven actions before acknowledging transition" revision="016">
+    The systart state transition Acknowledgment to Domain manager is done as soon as possible in CSchStartupStateMgr::RunL(), 
+    and a sleep of 2 tickperiods is performed right afterward to allow this acknowlegement reach the domain manager.
+  </defect>
+
+  <minorchange revision="015">Fix tagscan errors for schsvr test</minorchange> 
+  <defect number="DEF113259" title="(schsvr) call to GetDesLength() not checked for error return" revision="014">
+    Used RMessage2::GetDesLengthL instead of RMessage2::GetDesLength to be able to leave with error code.
+  </defect>
+
+  <defect number="PDEF105017" title="Task scheduler is not backup/restore aware " revision="013">
+    Add support for backup and restore for task scheduler
+  </defect>
+  
+  <defect number="DEF110156" title="Incorrect component name in distribution.policy files" revision="012">
+    Changed schedule 12 information for the distribution.policy files from Tools to Task Scheduler
+  </defect>
+
+  <defect number="DEF110187" title="SCHSVR, BuildTaskErrorMessage(), excessive stack usage " revision="011">
+    Added an internal function parameter.
+  </defect>
+
+  <defect number="DEF109371" title="Task Scheduler incorrectly persists transient schedules to disk" revision="010">
+    Transient schedules and tasks are no longer persisted to disk.
+  </defect>
+
+  <defect number="DEF104103" title="ONB: Schedule server conditioning tests failing on ONB" revision="009">
+    Updated checks for Time::MaxTTime so that DST is taken into account.
+  </defect>
+
+  <defect number="PDEF102482" title="ONB: 2 TEF scripts are crashing in Coverage in 9.3 and 9.4" revision="008">
+    Fixed memory leak on Task Scheduler exit
+  </defect>
+
+  <deliverystep number="557" name="Filename policy changes" osproject="Oghma" revision="007">
+    <milestone project="GT0329" number="3.11"/>
+    <preq number="1182" title="GNU Make-based build system">
+    Updating the component source files to comply with the Symbian filename policy.
+  </preq>
+  </deliverystep>
+
+  <minorchange revision="006">
+    Symbian OS v9.3 component branched from common codeline
+  </minorchange>
+
+  <defect number="PDEF102408" title="System drive hard coded in some TaskScheduler code" revision="005">
+    Removed references to hard coded system drive
+  </defect>
+
+  <defect number="PDEF101876" title="Task Scheduler temporary task files are not always deleted" revision="004">
+    Fixed error in deleting temporary files if client does not behave as expected
+  </defect>
+
+  <defect number="PDEF098080" title="Task Scheduler: Persistent Schedules not ReScheduled on Device Bootup" revision="003">
+    WriteDeviceData capability policing is introduced in Task Scheduler whereby only client applications with WriteDeviceData can create persistent schedules.
+  </defect>
+
+  <defect number="DEF096673" title="Legacy code in task scheduler needs to be removed" revision="002">
+    Legacy code in task scheduler removed
+  </defect>
+
+  <defect number="DEF097771" title="Some Task Scheduler tests appear to pass even though they don't complete" revision="001">
+    Added new test helper, PropertyDefine.exe, with necessary capabilities and updated TC_TSCH_CONDITION tests to use it.
+  </defect>
+</relnotes>

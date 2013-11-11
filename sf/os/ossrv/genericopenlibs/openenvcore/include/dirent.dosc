@@ -1,0 +1,423 @@
+/** @file  ../include/dirent.h
+@internalComponent
+*/
+
+/** @fn getdirentries(int x, char *ptr, int y, long *lptr) 
+getdirentries(int fd, char *buf, int nbytes, long *basep)
+@param x
+@param ptr
+@param y
+@param lptr
+@return   If successful, the number of bytes actually transferred is returned.
+Otherwise, -1 is returned and the global variable errno is set to indicate the error.
+
+  The getdirentries system call reads directory entries from the directory 
+referenced by the file descriptor x into the buffer pointed to by ptr, in a file system independent format. Up to y of data will be transferred. The y argument must be greater than or equal to the block size associated 
+with the file, see stat. Some file systems may not support these system 
+calls with buffers smaller than this size.
+
+ The data in the buffer is a series of dirent
+@code
+structures each containing the following entries: u_int32_t d_fileno;
+u_int16_t d_reclen;
+u_int8_t  d_type;
+u_int8_t  d_namlen;
+char  d_name[MAXNAMELEN + 1];/* see below */
+@endcode
+
+ The d_fileno entry is a number which is unique for each distinct file in 
+  the file system. Files that are linked by hard links (see link ) have the same d_fileno. The d_reclen entry is the length, in bytes, of the directory record. The d_type entry is the type of the file pointed to by the directory record. 
+  The file type values are defined in \<sys/dirent.h\>. Presently, however, file type is not supported 
+  and d_type is set to 0. The d_name entry contains a null terminated file name. The d_namlen entry specifies the length of the file name excluding the null 
+  byte. Thus the actual size of d_name may vary from 1 to MAXNAMELEN + 1.
+
+ Entries may be separated by extra space.
+The d_reclen entry may be used as an offset from the start of a dirent structure to the next structure, if any.
+
+ The actual number of bytes transferred is returned. The current position pointer 
+  associated with x is set to point to the next block of entries. The pointer may not 
+  advance by the number of bytes returned by getdirentries . A value of zero is returned when the end of the directory 
+  has been reached.
+
+ The getdirentries system call writes the position of the block read into 
+  the location pointed to by lptr. Alternatively, the current position pointer may be set and retrieved 
+  by lseek. The current position pointer should only 
+  be set to a value returned by lseek, a value returned in the location pointed 
+  to by basep ( (getdirentries); only) or zero.
+
+Examples:
+@code
+/* reading directory stream using getdirenttries */ 
+/* considering directory c:    emp already exists */
+#include <stdio.h>
+int main()
+{
+        int retval;
+        long basep=(off_t) 0;
+        char buf[1024];
+        struct dirent * d;
+        char * dname="C:\       emp\
+        char * fname="C:\       emp\input.txt";
+        int fd,fd1;
+        fd1=open(fname,O_WRONLY|O_CREAT);
+        if(fd==-1)
+                {
+                printf("file creation failed");
+                return -1;
+                }
+        fd=open(dname,O_RDONLY);
+        if(fd==-1)
+                {
+                printf("directory opening failed");
+                return -1;
+                }
+        retval = getdirentries (fd, buf,(unsigned int)sizeof (buf),&basep);
+        if(retval == -1)
+        {
+                printf("getdirentries call failed");
+                return -1;
+        }               
+       
+        d=(struct dirent *)buf;
+        
+        printf("name of the file in the newly created directory is \"%s\",d-d_name);
+        
+        close(fd1);
+        close(fd);
+        return 0;
+}
+
+@endcode
+ Output
+@code
+name of the file in the newly created directory is "input.txt"
+
+@endcode
+@see lseek()
+@see open()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  opendir(const char *_path)
+@param _path
+
+Note: This description also covers the following functions -
+ readdir()  readdir_r()  telldir()  seekdir()  rewinddir()  closedir()  dirfd() 
+
+@return   closedir function returns 0 on success or -1 on failure.
+
+  The opendir function
+opens the directory named by _path ,
+associates a directory stream with it
+and
+returns a pointer to be used to identify the directory stream in subsequent operations.
+The pointer NULL is returned if filename cannot be accessed, or if it cannot malloc enough memory to hold the whole thing.
+
+ The readdir function
+returns a pointer to the next directory entry.
+It returns NULL upon reaching the end of the directory or detecting an invalid seekdir operation.
+
+ The readdir_r function
+provides the same functionality as readdir ,
+but the caller must provide a directory entry buffer to store the results in.
+If the read succeeds, result is pointed at the entry ;
+upon reaching the end of the directory result is set to NULL .
+The readdir_r function
+returns 0 on success or an error number to indicate failure.
+
+ The telldir function
+returns the current location associated with the named directory stream .
+Values returned by telldir are good only for the lifetime of the DIR pointer, dirp ,
+from which they are derived.
+If the directory is closed and then
+reopened, prior values returned by telldir will no longer be valid.
+
+ The seekdir function
+sets the position of the next readdir operation on the directory stream .
+The new position reverts to the one associated with the directory stream when the telldir operation was performed.
+
+ The rewinddir function
+resets the position of the named directory stream to the beginning of the directory.
+
+ The closedir function
+closes the named directory stream and frees the structure associated with the dirp pointer,
+returning 0 on success.
+On failure, -1 is returned and the global variable errno is set to indicate the error.
+
+ The dirfd function
+returns the integer file descriptor associated with the named directory stream ,
+see open .
+
+@code
+ Sample code which searches a directory for entry ‘‘name’’ is: len = strlen(name);
+dirp = opendir(".");
+while ((dp = readdir(dirp)) != NULL)
+        if (dp->d_namlen == len && !strcmp(dp->d_name, name)) {
+                (void)closedir(dirp);
+                return FOUND;
+        }
+(void)closedir(dirp);
+return NOT_FOUND;
+@endcode
+
+Examples:
+@code
+/* Detailed description: This test code demonstrates usage of opendir system call, open directory name test.
+ Preconditions: Expects Test directory to be present in the current working directory.
+*/
+ #include <sys/types.h>
+ #include <dirent.h>
+int main()
+{
+  DIR *DirHandle;
+  if(!(DirHandle = opendir("Test") ) ) 
+  {
+     printf("Failed to open directory Test\n");
+     return -1;
+  }
+  printf("Directory Test opened \n");
+  return 0;
+}
+@endcode
+@code
+Output 
+Directory Test opened
+@endcode
+
+Limitations:
+
+The filename parameter of the opendir() function should not exceed 256 characters in length.
+
+@see close()
+@see lseek()
+@see open()
+@see read()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  readdir(DIR *dp)
+@param dp
+Refer to opendir() for the documentation
+@see close()
+@see lseek()
+@see open()
+@see read()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @fn  rewinddir(DIR *dp)
+@param dp
+Refer to opendir() for the documentation
+@see close()
+@see lseek()
+@see open()
+@see read()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  alphasort(const void *d1, const void *d2)
+@param d1
+@param d2
+Refer to scandir() for the documentation
+@see directory()
+@see malloc()
+@see qsort()
+@see dir()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  scandir(const char *dirname, struct dirent ***namelist, int(*)(struct dirent *), int(*)(const void *, const void *))
+@param dirname
+@param namelist
+
+Note: This description also covers the following functions -
+ alphasort() 
+
+  The scandir function
+reads the directory dirname and builds an array of pointers to directory
+entries using malloc It returns the number of entries in the array.
+A pointer to the array of directory entries is stored in the location
+referenced by namelist.
+
+ The select argument is a pointer to a user supplied subroutine which is called by scandir to select which entries are to be included in the array.
+The select routine is passed a
+pointer to a directory entry and should return a non-zero
+value if the directory entry is to be included in the array.
+If select is null, then all the directory entries will be included.
+
+ The compar argument is a pointer to a user supplied subroutine which is passed to qsort to sort the completed array.
+If this pointer is null, the array is not sorted.
+
+ The alphasort function
+is a routine which can be used for the compar argument to sort the array alphabetically.
+
+ The memory allocated for the array can be deallocated with free ,
+by freeing each pointer in the array and then the array itself.
+
+Examples:
+@code
+//Illustrates how to use scandir API.
+#include <dirent.h>
+Void  scandirTest()
+    {
+       struct dirent **namelist;
+       int n;
+       // Function call to get the dir entries into the namelist.
+       n = scandir("\home\manjus\GETTEXT", &namelist;, 0, 0);
+      
+       if(n > 0) // if scandir is successful it retuns the number of entries greater than 0
+       {
+             // print all the entries in the directory.
+        while(n--)
+        {
+                printf("dir name @ pos %d is %s",n,namelist[n]->d_name);
+        }
+       }
+     }
+
+@endcode
+Diagnostics:
+ Returns -1 if the directory cannot be opened for reading or if malloc cannot allocate enough memory to hold all the data structures.
+
+Limitations:
+
+The dirname parameter in scandir() should not exceed 256 characters in length.
+
+@see directory()
+@see malloc()
+@see qsort()
+@see dir()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  seekdir(DIR *dp, long index)
+@param dp
+@param index
+Refer to opendir() for the documentation
+@see close()
+@see lseek()
+@see open()
+@see read()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  telldir(DIR *dp)
+@param dp
+Refer to opendir() for the documentation
+@see close()
+@see lseek()
+@see open()
+@see read()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @fn  closedir(DIR *dp)
+@param dp
+Refer to opendir() for the documentation
+@see close()
+@see lseek()
+@see open()
+@see read()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @typedef typedef struct _dirdesc  DIR
+
+defines DIR  data type through typedef. A type representing a directory stream.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def dirfd(dirp)
+
+get directory stream file descriptor
+
+@publishedAll
+@released
+*/
+
+/** @def DTF_HIDEW
+
+flags for opendir2. hide whiteout entries.
+
+@publishedAll
+@released
+*/
+
+
+/** @def DTF_NODUP
+
+flags for opendir2. don't return duplicate names.
+
+@publishedAll
+@released
+*/
+
+
+/** @def DTF_REWIND
+
+flags for opendir2. rewind after reading union stack.
+
+@publishedAll
+@released
+*/
+
+
+/** @def __DTF_READALL
+
+flags for opendir2. everything has been read.
+
+@publishedAll
+@released
+*/
+
+

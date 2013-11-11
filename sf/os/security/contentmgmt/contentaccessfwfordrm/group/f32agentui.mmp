@@ -1,0 +1,42 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* f32agent.dll Content Access Framework unprotected file agent
+*
+*/
+
+
+/**
+ @file
+*/
+
+TARGET		f32agentui.dll
+CAPABILITY	All	-Tcb
+TARGETTYPE		DLL
+
+UID			0x10204B5C
+VENDORID	0x70000001
+
+UNPAGED
+
+SOURCEPATH	../source/f32agentui
+SOURCE		f32agentui.cpp
+
+USERINCLUDE		../inc
+
+// OS_LAYER_SYSTEMINCLUDE_SYMBIAN -- should be this but has an upward dependency on apmstd.h in the MW layer.
+MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+LIBRARY			euser.lib
+SMPSAFE

@@ -1,0 +1,184 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// NOTE: For the purpose of clarity we have ommitted full error checking in the 
+// <hr>
+// The Supplier API allows agents to publicise the MIME types they are 
+// interested in. When those files arrive on the device, message handling
+// applications can check these MIME types and import the file 
+// into CAF. The agent transforms the file into a different format
+// for use within the device. 
+// In most cases this won't be necessary, since the files will arrive in the 
+// same format that they will be used in. However, some agents require the device 
+// to protect (encrypt) the content at the moment it arrives; the Supplier 
+// API fulfills that role.
+// The classes used in the supply operation are:
+// <code>ContentAccess::CSupplier</code> and instances of <code>ContentAccess::CImportFile</code>.
+// <hr>
+// The <code>ContentAccess::CSupplier</code> is designed to allow several unrelated files to be imported 
+// into CAF. It uses its <code>ContentAccess::CAgentResolver</code> member to determine 
+// which CA agent should be used to import each file. The <code>CAgentResolver</code> builds 
+// a list of all agents when it is created and updates the list if new agents
+// are installed.
+// A typical import session will start with the creation of a <code>CSupplier</code>, e.g.,
+// //Create Supplier
+// CSupplier *mySupplier = CSupplier::NewL();
+// Most applications will have a preference for the directory where output files
+// are to be stored. Usually the first thing to do with the new <code>CSupplier</code> instance 
+// is to set the output path. 
+// //Set output path for DRM protected content
+// _LIT(KPath,"C:\myOutputFiles");
+// mySupplier->SetOutputDirectoryL(KPath());
+// It is not necessary to set the output path if the application
+// provides output file handles to the agent.
+// <hr>
+// <b> Check that the MIME type is supported </b>
+// Before importing a file into the content access framework, an application
+// should check that the MIME type of the file is supported. Each agent publishes a 
+// list of the MIME types it supports. The list is configured in the agent's 
+// resource file and can be checked using <code>ContentAccess::CSupplier::IsImportSupported()</code>
+// if(!mySupplier->IsImportSupported(myMimeType))
+// return;
+// <b> Create a CMetaDataList object </b>
+// The <code>CMetaDataList</code> object is used to store any information associated with the import file that
+// may be useful for the agent. These values will be passed to the agent.
+// For example OMA DRM 1.0 files sometimes arrive with the HTTP header 
+// <code>X-Oma-Drm-Separate-Delivery</code>. This informs the agent how long before rights are expected 
+// for the content. If the rights were expected in 12 seconds it would be something like 
+// the following:
+// // Create meta-data array
+// CMetaDataArray *metaDataArray = new (ELeave) CMetaDataArray();
+// CleanupStack::PushL(metaDataArray);
+// // Add any useful information we can think of....
+// metaDataArray->AddL(_L("Content Type"), _L("application/vnd.oma.drm.dm"));
+// metaDataArray->AddL(_L("X-Oma-Drm-Separate-Delivery"), _L("12"));
+// The file is 'written' to CAF using a <code>ContentAccess::CImportFile</code> object. 
+// <code>ContentAccess::CSupplier::ImportFile()</code> creates an <code>CImportFile</code> object for importing a file. 
+// The parameters supplied indicate whether the agent will create the output files or whether
+// the application using CAF will generate output files for the agent on demand.
+// // Create the import object, passing in the metaDataArray created earlier
+// // The application will supply the output files
+// CImportFile *import = mySupplier->ImportFileL(sourceMimeType, *metaDataArray);
+// The application should now transfer the file to CAF using the <code>CImportFile</code> object. 
+// Only one file can be transferred by each instance although several output files
+// may be produced. Applications should create new <code>CImportFile</code> objects in order to import more files.
+// <b> Agents Generating the Output files </b>
+// If the application wants the agent to generate the output files, it should supply a suggested
+// file name in the call to <code>CSupplier::ImportFile()</code>. Even if this parameter is a zero length
+// descriptor, it still indicates that the agent is responsible for generating output files.
+// Agents will create the output files in a directory nominated by the application when it called
+// <code>CSupplier::SetOutputDirectoryL()</code> or they may decide to store the output files in their private 
+// directory.
+// Applications should check at the end of the import to find out how many output files were created
+// and where they are stored.
+// <b> Application generating the Output files</b>
+// If no suggested file name is passed to the agent, the application will provide output files for
+// the agent to use. This mechanism allows applications to open files in their own private directory and 
+// ask the CAF agent to store the output in those files. 
+// The way it works is the same as an any other import operation, the difference is that the call 
+// to <code>CImportFile::WriteData()</code> or <code>CImportFile::WriteComplete()</code> may return an error code of 
+// <code>KErrCANewFileHandleRequired</code>. 
+// This error code indicates that the agent needs a new output file handle in order to continue. The 
+// application should open a new output file with write access and call <code>CImportFile::ContinueWithNewOutputFile()</code> 
+// to supply the new handle to the agent. It is possible that further handles may be needed, if so 
+// <code>CImportFile::ContinueWithNewOutputFile()</code> will return <code>KErrCANewFileHandleRequired</code> and the application should 
+// repeat the procedure with another file.
+// The agent must cache its state before returning <code>KErrCANewFileHandleRequired</code>. The application MUST NOT resend
+// the same <code>WriteData()</code> or <code>WriteComplete()</code> command.
+// At the end of the import operation the output files will still be listed regardless of whether
+// they were supplied by the application or the agent.
+// <hr>
+// <code>ContentAccess::CImportFile</code> is the class used to write the file data to CAF. 
+// It is created by <code>ContentAccess::CSupplier</code> and can only be used to import a single file.
+// An application should call <code>WriteData()</code> to transfer a field in 'chunks' to the Content 
+// Access Framework. Usually this would be something like the following:
+// TFileName fileName;
+// TBuf8<128> data;
+// TInt err = KErrNone;
+// // start importing content
+// while( (source still has data) && (err==KErrNone) )
+// source.read(data);
+// err = import->WriteData(data);
+// // need to supply new file to import to ?
+// while (err == KErrCANewFileHandleRequired)		
+// // supply new file in order to continue writing
+// RFile newFile;
+// import->GetSuggestedOutputFileName(fileName);
+// newFile.Open(fileName, EFileWrite);
+// err = import->ContinueWithNewOutputFile(newFile, fileName);
+// newFile.Close();
+// <hr>
+// When all the data is written, the application should call <code>ContentAccess::CImportFile::WriteComplete()</code>, this will 
+// let the agent know that all the data has been transferred and allow it to perform any final processing.
+// err = import->WriteComplete();
+// // When application supplies file handles it must always check to see if 
+// // the agent needs a new file handle
+// while(err == KErrCANewFileHandleRequired)
+// RFile newFile;
+// import->GetSuggestedOutputFileName(fileName);
+// newFile.Open(fileName, EFileWrite);
+// err = import->ContinueWithNewOutputFile(newFile, filename);
+// // It is possible that the agent needs yet another file handle
+// newFile.Close();   // agent makes a copy so we don't need to keep our file handle
+// At this stage all the agent's work is done, the <code>CImportFile</code> object can be deleted.
+// <hr>
+// When the import is finished the application may wish to check if any output files have 
+// been produced. The list of output files is accessed using <code>ContentAccess::CImportFile::OutputFileL()</code>.
+// // loop over all the output files produced
+// for(TInt i =0; i < import->OutputFileCountL(); i++)
+// // Can now retrieve filename, type of file (receipt or content) and 
+// // MIME type for the file produced
+// TPtr filename =	import->OutputFileL(i).FileName();
+// TOutputType type = import->OutputFileL(i).OutputType();
+// TPtr8 mimetype = import->OutputFileL(i).MimeType();
+// The output files can be either content files or receipts for DRM rights. It is possible that no output
+// files will be generated and the file will be "absorbed" into the agent.
+// Also, it is important to remember that the MIME type and most likely the file extension of the output files are 
+// almost certainly different to the MIME type and file extension of the imported file.
+// <hr>
+// 
+//
+
+/**
+ @page CSupplierAPI Importing files into the Content Access Framework
+ - @ref SupplierAPI
+ - @ref ImportSession
+ - @ref ImportCAF
+ - @ref Importfile
+ - @ref ImportComplete 
+ - @ref ImportOutput
+ code examples given below. For examples with error checking see @ref ExampleSupplier2.
+ @section SupplierAPI Supplier API
+ @section ImportSession Starting a new import session
+ @code
+ @endcode
+ @code
+ @endcode
+ @section ImportCAF Preparing to import the file
+ @code
+ @endcode
+ @code
+ @endcode
+ @section ImportFile Creating the CImportFile object
+ @code
+ @endcode
+ @section Importfile Transferring the file to the Content Access Agent
+ @code
+ @endcode
+ @section ImportComplete Completing the Import
+ @code 
+ @endcode
+ @section ImportOutput Output files produced
+ @code
+ @endcode
+*/

@@ -1,0 +1,51 @@
+// Copyright (c) 2008-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+#include <e32utrace.mmh>
+
+TARGET			t_sqlcompact3.exe
+TARGETTYPE		EXE
+CAPABILITY		All -Tcb
+
+//SQLITE warnings suppressed
+OPTION ARMCC --diag_suppress 368
+
+USERINCLUDE 	.
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_ESTLIB_SYSTEMINCLUDE
+USERINCLUDE		../traces_sqlite
+USERINCLUDE		../OsLayer
+#ifdef SYMBIAN_USE_SQLITE_VERSION_3_6_4
+USERINCLUDE		../SQLite364
+#else
+USERINCLUDE		../SQLite
+#endif
+
+SOURCEPATH		../TEST
+SOURCE			t_sqlcompact3.cpp
+
+LIBRARY			euser.lib 
+LIBRARY			efsrv.lib
+LIBRARY			sqldb.lib 
+LIBRARY			bafl.lib 
+LIBRARY			estor.lib 
+LIBRARY			estlib.lib
+LIBRARY			hal.lib
+STATICLIBRARY	sqlite.lib 
+
+VENDORID		0x70000001
+UID				0 0x21212124
+
+SMPSAFE

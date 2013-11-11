@@ -1,0 +1,70 @@
+/*
+* Copyright (c) 2001-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* asn1.dll ASN.1 Protocol Specification Language translation
+*
+*/
+
+
+/**
+ @file
+*/
+
+TARGET        asn1.dll
+CAPABILITY All
+TARGETTYPE    DLL
+
+UID    0x1000008d 0x10005e09
+VENDORID 0x70000001
+
+SOURCEPATH	../asn1
+
+// Generic
+SOURCE        panic.cpp 
+SOURCE		  asn1libdec.cpp	//	For EKA1, e32dll entry point
+
+// Decoding
+SOURCE        booleandec.cpp nulldec.cpp integerdec.cpp gentimedec.cpp
+SOURCE        oiddec.cpp setdec.cpp graphstdec.cpp visiblstdec.cpp
+SOURCE        utctimedec.cpp bitstrdec.cpp ia5strdec.cpp genrlstrdec.cpp
+SOURCE        octetstrdec.cpp numstrdec.cpp videostrdec.cpp printstrdec.cpp
+SOURCE        sequencedec.cpp genericdec.cpp telestrdec.cpp utf8strdec.cpp bmpstrdec.cpp
+
+// Encoding
+SOURCE        baseenc.cpp primitiveenc.cpp constructedenc.cpp containerenc.cpp
+SOURCE        explicittagenc.cpp base128enc.cpp sequenceenc.cpp
+SOURCE        nullenc.cpp intenc.cpp bigintenc.cpp octetstrenc.cpp bitstrenc.cpp printstrenc.cpp
+SOURCE        booleanenc.cpp oidenc.cpp gentimeenc.cpp encenc.cpp
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+USERINCLUDE ../../../crypto/weakcrypto/inc
+
+LIBRARY       euser.lib
+
+LIBRARY       cryptography.lib
+
+START WINS
+    BASEADDRESS 0x745d0000
+END
+
+#ifdef WINSCW
+DEFFILE ASN1.def
+#endif
+
+#ifdef ARMV5
+DEFFILE asn1.def
+#endif
+SMPSAFE
+

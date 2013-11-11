@@ -1,0 +1,30 @@
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+LOAD_SUITE T_UsbManagerServer
+
+//! @SYMTestCaseID T_CablePulling2
+//! @SYMTestType CIT
+//! @SYMTestCaseDesc Test cable pulling during personality switching 
+//! @SYMFssID USB/DynamicClassChange/1.3.3
+//! @SYMTestActions Create session with USB server. Start personality defined at INI file and then simulate cable pull-of.
+//! After defined period of time simulate cable pull-on. Wait time is longer than stub cc start time.
+//! @SYMTestExpectedResults The host PC should read personality data (PID,VID etc) correctly
+//! @SYMTestPriority Low
+//! @SYMTestStatus Defined
+
+START_TESTCASE T_CablePulling2
+RUN_TEST_STEP -1 T_UsbManagerServer SimCablePulling z:\testdata\config\t_usbmanintegration.ini T_CablePulling2
+END_TESTCASE T_CablePulling2

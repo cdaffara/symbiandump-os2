@@ -1,0 +1,52 @@
+// Copyright (c) 2004-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// Configuration options for ECOM component test harnesses
+// This file is appended to the platform specific hrh file by 
+// the overnight build system for testing
+// File can exist in MCL/release codelines but must not be included anywhere.
+// Macro used for component testing EComServer.
+// When this macro is defined CServerStartupMgr is derived from 
+// CDmDomainTestHarness otherwise it is directly derived from CDmDomain.
+// CDmDomainTestHarness provides some testing functionality which
+// allows for component testing of EComServer. When this macro is
+// not defined some of the tests are completely disabled, therefore enabled
+// by default.
+// 
+//
+
+/**
+ @internalComponent
+*/
+#define __ECOM_SERVER_TESTABILITY__
+
+
+/**
+@internalComponent
+Macro used for performance testing EComServer. When this macro
+is defined performance sampling code is built. These macros are used for
+recording timer values at different probe points. The timer macros 
+are defined in ~Framework/Frame/EComPerformance.h
+Enabled by default so that performance tests can be run.
+*/
+#define __ECOM_SERVER_PERFORMANCE__
+
+
+/**
+@internalComponent
+When macro defined trace messages for ECOM server and client are 
+compiled in and sent to RDebug.
+This line must always be commented before submitting to the MCL. See EComDebug.h
+*/
+//#define ECOM_TRACE
+

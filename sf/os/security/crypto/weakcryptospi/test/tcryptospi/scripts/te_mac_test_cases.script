@@ -1,0 +1,433 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+
+PRINT Run all te_mac_test_cases Tests
+//
+
+//
+LOAD_SUITE Te_CryptoSpi
+//
+
+//***************
+//MAC TEST CASES
+//***************
+
+//! @SYMTestCaseID          SEC-MAC-0001
+//! @SYMTestCaseDesc        MacPositiveObjectLoad
+
+START_TESTCASE SEC-MAC-0001
+RUN_TEST_STEP 100 Te_CryptoSpi MacPositiveObjectLoadStep c:\testdata\tcryptospi\configs\mac_test_cases.ini MD2
+RUN_TEST_STEP 100 Te_CryptoSpi MacPositiveObjectLoadStep c:\testdata\tcryptospi\configs\mac_test_cases.ini MD4
+RUN_TEST_STEP 100 Te_CryptoSpi MacPositiveObjectLoadStep c:\testdata\tcryptospi\configs\mac_test_cases.ini MD5
+RUN_TEST_STEP 100 Te_CryptoSpi MacPositiveObjectLoadStep c:\testdata\tcryptospi\configs\mac_test_cases.ini SHA1
+RUN_TEST_STEP 100 Te_CryptoSpi MacPositiveObjectLoadStep c:\testdata\tcryptospi\configs\mac_test_cases.ini SHA224
+RUN_TEST_STEP 100 Te_CryptoSpi MacPositiveObjectLoadStep c:\testdata\tcryptospi\configs\mac_test_cases.ini SHA256
+RUN_TEST_STEP 100 Te_CryptoSpi MacPositiveObjectLoadStep c:\testdata\tcryptospi\configs\mac_test_cases.ini SHA384
+RUN_TEST_STEP 100 Te_CryptoSpi MacPositiveObjectLoadStep c:\testdata\tcryptospi\configs\mac_test_cases.ini SHA512
+END_TESTCASE SEC-MAC-0001
+
+//! @SYMTestCaseID          SEC-CRYP007-LOAD-MAC-0001
+//! @SYMTestCaseDesc        The test case have been designed to make certain that the functionality 
+//!                         provided by each type of implementation object returned from the framework, 
+//!                         behaves as expected and produces the desired results as specified in each test case.
+//!                         (SymmetricMacPositiveObjectLoad_MAC96)
+//! @SYMREQ                 REQ10616  
+//! @SYMTestPriority        High
+//! @SYMTestType            CIT
+//! @SYMTestStatus          Implemented
+//! @SYMTestExpectedResults The call to the factory method should return KErrNone, 
+//!                         successfully create the implementation object, 
+//!                         the Algorithm ID characteristic should equal KAlgorithmCipherAesXcbcMac96.
+START_TESTCASE SEC-CRYP007-LOAD-MAC-0001
+RUN_TEST_STEP 100 Te_CryptoSpi MacPositiveObjectLoadStep c:\testdata\tcryptospi\configs\mac_test_cases.ini MAC96_load
+END_TESTCASE SEC-CRYP007-LOAD-MAC-0001
+
+//! @SYMTestCaseID          SEC-CRYP007-LOAD-MAC-0002
+//! @SYMTestCaseDesc        Tests that a KAlgorithmCipherAesXcbcPrf128 implementation object is returned by the 
+//!                         framework when the necessary parameters are passed into the factory object creation method.
+//!                         (SymmetricMacPositiveObjectLoad_PRF128)
+//! @SYMREQ                 REQ10620  
+//! @SYMTestPriority        High
+//! @SYMTestType            CIT
+//! @SYMTestStatus          Implemented
+//! @SYMTestExpectedResults The call to the factory method should return KErrNone, 
+//!                         successfully create the implementation object, 
+//!                         the Algorithm ID characteristic should equal KAlgorithmCipherAesXcbcPrf128.
+START_TESTCASE SEC-CRYP007-LOAD-MAC-0002
+RUN_TEST_STEP 100 Te_CryptoSpi MacPositiveObjectLoadStep c:\testdata\tcryptospi\configs\mac_test_cases.ini PRF128_load
+END_TESTCASE SEC-CRYP007-LOAD-MAC-0002
+
+//! @SYMTestCaseID          SEC-CRYP008-LOAD-MAC-0001
+//! @SYMTestCaseDesc        Tests that a KAlgorithmCipherAesXcbcPrf128 implementation object is not be returned by the 
+//!                         framework when the wrong key parameters are passed into the factory object creation method.
+//!                         (SymmetricMacLoadFail_PRF128_invalid_key)
+//! @SYMREQ                 REQ10618  
+//! @SYMTestPriority        High
+//! @SYMTestType            CIT
+//! @SYMTestStatus          Implemented
+//! @SYMTestExpectedResults The call to the factory method should return KErrNotSupported, 
+//!                         as the key parameter has got a wrong value.
+START_TESTCASE SEC-CRYP008-LOAD-MAC-0001
+RUN_TEST_STEP !Result=-6 100 Te_CryptoSpi MacPositiveObjectLoadStep c:\testdata\tcryptospi\configs\mac_test_cases.ini PRF128_invalid_key
+END_TESTCASE SEC-CRYP008-LOAD-MAC-0001
+
+//! @SYMTestCaseID          SEC-CRYP008-LOAD-MAC-0002
+//! @SYMTestCaseDesc        Tests that a KAlgorithmCipherAesXcbcMac96  implementation object is not be returned by the 
+//!                         framework when the wrong key parameters are passed into the factory object creation method.
+//!                         (SymmetricMacLoadFail_MAC_invalid_key)
+//! @SYMREQ                 REQ10618  
+//! @SYMTestPriority        High
+//! @SYMTestType            CIT
+//! @SYMTestStatus          Implemented
+//! @SYMTestExpectedResults The call to the factory method should return KErrArgument, 
+//!                         as the symmetric key length is not in multiple of 16 bytes.
+START_TESTCASE SEC-CRYP008-LOAD-MAC-0002
+RUN_TEST_STEP !Result=-6 100 Te_CryptoSpi MacPositiveObjectLoadStep c:\testdata\tcryptospi\configs\mac_test_cases.ini MAC_invalid_key
+RUN_TEST_STEP !Result=-5 100 Te_CryptoSpi MacPositiveObjectLoadStep c:\testdata\tcryptospi\configs\mac_test_cases.ini MAC96_invalid_key
+END_TESTCASE SEC-CRYP008-LOAD-MAC-0002
+
+//! @SYMTestCaseID          SEC-CRYP008-LOAD-MAC-0003
+//! @SYMTestCaseDesc        Tests that a MAC implementation object is not be returned by the framework 
+//!                         when an invalid algorithm UID is provided.
+//!                         (SymmetricMacLoadFail_Invalid_algorithm)
+//! @SYMREQ                 REQ10618 
+//! @SYMTestPriority        High
+//! @SYMTestType            CIT
+//! @SYMTestStatus          Implemented
+//! @SYMTestExpectedResults The call to the factory method should return KNotSupported, 
+//!                         as KAlgorithmCipherDes is not a supported Mac.
+START_TESTCASE SEC-CRYP008-LOAD-MAC-0003
+RUN_TEST_STEP !Result=-5 100 Te_CryptoSpi MacPositiveObjectLoadStep c:\testdata\tcryptospi\configs\mac_test_cases.ini Invalid_algorithm
+END_TESTCASE SEC-CRYP008-LOAD-MAC-0003
+
+//! @SYMTestCaseID          SEC-MAC-0002
+//! @SYMTestCaseDesc        MacBasicData 
+
+START_TESTCASE SEC-MAC-0002
+RUN_TEST_STEP 100 Te_CryptoSpi MacBasicDataStep c:\testdata\tcryptospi\configs\mac_test_cases.ini MD2
+RUN_TEST_STEP 100 Te_CryptoSpi MacBasicDataStep c:\testdata\tcryptospi\configs\mac_test_cases.ini MD4
+RUN_TEST_STEP 100 Te_CryptoSpi MacBasicDataStep c:\testdata\tcryptospi\configs\mac_test_cases.ini MD5
+RUN_TEST_STEP 100 Te_CryptoSpi MacBasicDataStep c:\testdata\tcryptospi\configs\mac_test_cases.ini SHA1
+RUN_TEST_STEP 100 Te_CryptoSpi MacBasicDataStep c:\testdata\tcryptospi\configs\mac_test_cases.ini SHA224
+RUN_TEST_STEP 100 Te_CryptoSpi MacBasicDataStep c:\testdata\tcryptospi\configs\mac_test_cases.ini SHA256
+RUN_TEST_STEP 100 Te_CryptoSpi MacBasicDataStep c:\testdata\tcryptospi\configs\mac_test_cases.ini SHA384
+RUN_TEST_STEP 100 Te_CryptoSpi MacBasicDataStep c:\testdata\tcryptospi\configs\mac_test_cases.ini SHA512
+END_TESTCASE SEC-MAC-0002
+
+//! @SYMTestCaseID          SEC-MAC-0003
+//! @SYMTestCaseDesc        MacBasicDataOOM 
+
+START_TESTCASE SEC-MAC-0003
+RUN_TEST_STEP 100 Te_CryptoSpi MacBasicDataStep c:\testdata\tcryptospi\configs\mac_test_cases.ini MD2oom
+RUN_TEST_STEP 100 Te_CryptoSpi MacBasicDataStep c:\testdata\tcryptospi\configs\mac_test_cases.ini SHA512oom
+END_TESTCASE SEC-MAC-0003
+
+
+//! @SYMTestCaseID          SEC-CRYP007-BASIC-MAC-0001
+//! @SYMTestCaseDesc        Tests that a KAlgorithmCipherAesXcbcMac96 implementation object returned from the
+//!                         framework can successfully generate a Mac value according to the contents of specific
+//!                         data file and that it matches the expected value.
+//!                         (SymmetricMacBasicData_MAC96)
+//! @SYMREQ                 REQ10618, REQ10619, REQ10623
+//! @SYMTestPriority        High
+//! @SYMTestType            CIT
+//! @SYMTestStatus          Implemented
+//! @SYMTestExpectedResults The call to the factory method should return KErrNone, 
+//!                         successfully create the KAlgorithmCipherAesXcbcMac96 object.
+//!                         The returned Mac is the same as the expected Mac.
+
+START_TESTCASE SEC-CRYP007-BASIC-MAC-0001
+RUN_TEST_STEP 100 Te_CryptoSpi SymmetricMacBasicDataStep c:\testdata\tcryptospi\configs\mac_test_cases.ini MAC96
+RUN_TEST_STEP 100 Te_CryptoSpi SymmetricMacBasicDataStep c:\testdata\tcryptospi\configs\mac_test_cases.ini MAC96-3Bytes
+RUN_TEST_STEP 100 Te_CryptoSpi SymmetricMacBasicDataStep c:\testdata\tcryptospi\configs\mac_test_cases.ini MAC96-16Bytes
+RUN_TEST_STEP 100 Te_CryptoSpi SymmetricMacBasicDataStep c:\testdata\tcryptospi\configs\mac_test_cases.ini MAC96-20Bytes
+RUN_TEST_STEP 100 Te_CryptoSpi SymmetricMacBasicDataStep c:\testdata\tcryptospi\configs\mac_test_cases.ini MAC96-32Bytes
+RUN_TEST_STEP 100 Te_CryptoSpi SymmetricMacBasicDataStep c:\testdata\tcryptospi\configs\mac_test_cases.ini MAC96-34Bytes
+RUN_TEST_STEP 100 Te_CryptoSpi SymmetricMacBasicDataStep c:\testdata\tcryptospi\configs\mac_test_cases.ini MAC96-1000Bytes
+END_TESTCASE SEC-CRYP007-BASIC-MAC-0001
+
+//! @SYMTestCaseID          SEC-CRYP007-BASIC-MAC-0002
+//! @SYMTestCaseDesc        Tests that a KAlgorithmCipherAesXcbcPrf128 implementation object returned from the
+//!                         framework can successfully generate a Mac value according to the contents of specific
+//!                         data file and that it matches the expected value.
+//!                         (SymmetricMacBasicData_PRF128)
+//! @SYMREQ                 REQ10618, REQ10619, REQ10623
+//! @SYMTestPriority        High
+//! @SYMTestType            CIT
+//! @SYMTestStatus          Implemented
+//! @SYMTestExpectedResults The call to the factory method should return KErrNone, 
+//!                         successfully create the KAlgorithmCipherAesXcbcPrf128 object.
+//!                         The returned Mac is the same as the expected Mac.
+
+START_TESTCASE SEC-CRYP007-BASIC-MAC-0002
+RUN_TEST_STEP 100 Te_CryptoSpi SymmetricMacBasicDataStep c:\testdata\tcryptospi\configs\mac_test_cases.ini PRF128
+RUN_TEST_STEP 100 Te_CryptoSpi SymmetricMacBasicDataStep c:\testdata\tcryptospi\configs\mac_test_cases.ini PRF128-3Bytes
+RUN_TEST_STEP 100 Te_CryptoSpi SymmetricMacBasicDataStep c:\testdata\tcryptospi\configs\mac_test_cases.ini PRF128-16Bytes
+RUN_TEST_STEP 100 Te_CryptoSpi SymmetricMacBasicDataStep c:\testdata\tcryptospi\configs\mac_test_cases.ini PRF128-20Bytes
+RUN_TEST_STEP 100 Te_CryptoSpi SymmetricMacBasicDataStep c:\testdata\tcryptospi\configs\mac_test_cases.ini PRF128-32Bytes
+RUN_TEST_STEP 100 Te_CryptoSpi SymmetricMacBasicDataStep c:\testdata\tcryptospi\configs\mac_test_cases.ini PRF128-34Bytes
+RUN_TEST_STEP 100 Te_CryptoSpi SymmetricMacBasicDataStep c:\testdata\tcryptospi\configs\mac_test_cases.ini PRF128-1000Bytes
+END_TESTCASE SEC-CRYP007-BASIC-MAC-0002
+
+//! @SYMTestCaseID          SEC-MAC-0004
+//! @SYMTestCaseDesc        SymmetricMacVariableKeyLength_PRF128
+
+START_TESTCASE SEC-MAC-0004
+RUN_TEST_STEP 100 Te_CryptoSpi SymmetricMacBasicDataStep c:\testdata\tcryptospi\configs\mac_test_cases.ini PRF128-KeyLength-10Bytes
+RUN_TEST_STEP 100 Te_CryptoSpi SymmetricMacBasicDataStep c:\testdata\tcryptospi\configs\mac_test_cases.ini PRF128-KeyLength-18Bytes
+END_TESTCASE SEC-MAC-0004
+
+
+//! @SYMTestCaseID          SEC-CRYP009-OOM-MAC-0001
+//! @SYMTestCaseDesc        Tests that the KAlgorithmCipherAesXcbcMac96 implementation in the default software
+//!                         plug-in (softwarecrypto.dll) is loads and does not leak memory.
+//!                         (SymmetricMacBasicDataOOM_MAC96oom-3Bytes)
+//! @SYMREQ                 REQ10618, REQ10619, REQ10623
+//! @SYMTestPriority        High
+//! @SYMTestType            CIT
+//! @SYMTestStatus          Implemented
+//! @SYMTestExpectedResults TEF OOM should return KErrNoMemory when encounter OOM, but eventually the test should pass.
+
+START_TESTCASE SEC-CRYP009-OOM-MAC-0001
+RUN_TEST_STEP 100 Te_CryptoSpi SymmetricMacBasicDataStep c:\testdata\tcryptospi\configs\mac_test_cases.ini MAC96oom-3Bytes
+END_TESTCASE SEC-CRYP009-OOM-MAC-0001
+
+//! @SYMTestCaseID          SEC-CRYP009-OOM-MAC-0002
+//! @SYMTestCaseDesc        Tests that the KAlgorithmCipherAesXcbcPrf128 implementation in the default software
+//!                         plug-in (softwarecrypto.dll) is loads and does not leak memory.
+//!                         (SymmetricMacBasicDataOOM_PRF128oom-3Bytes)
+//! @SYMREQ                 REQ10618, REQ10619, REQ10623 
+//! @SYMTestPriority        High
+//! @SYMTestType            CIT
+//! @SYMTestStatus          Implemented
+//! @SYMTestExpectedResults TEF OOM should return KErrNoMemory when encounter OOM, but eventually the test should pass.
+
+START_TESTCASE SEC-CRYP009-OOM-MAC-0002
+RUN_TEST_STEP 100 Te_CryptoSpi SymmetricMacBasicDataStep c:\testdata\tcryptospi\configs\mac_test_cases.ini PRF128oom-3Bytes
+END_TESTCASE SEC-CRYP009-OOM-MAC-0002
+
+//! @SYMTestCaseID          SEC-MAC-0005
+//! @SYMTestCaseDesc        MacIncremental
+
+START_TESTCASE SEC-MAC-0005
+RUN_TEST_STEP 100 Te_CryptoSpi MacIncrementalStep c:\testdata\tcryptospi\configs\mac_test_cases.ini MD2L
+RUN_TEST_STEP 100 Te_CryptoSpi MacIncrementalStep c:\testdata\tcryptospi\configs\mac_test_cases.ini MD4L
+RUN_TEST_STEP 100 Te_CryptoSpi MacIncrementalStep c:\testdata\tcryptospi\configs\mac_test_cases.ini MD5L
+RUN_TEST_STEP 100 Te_CryptoSpi MacIncrementalStep c:\testdata\tcryptospi\configs\mac_test_cases.ini SHA1L
+RUN_TEST_STEP 100 Te_CryptoSpi MacIncrementalStep c:\testdata\tcryptospi\configs\mac_test_cases.ini SHA224L
+RUN_TEST_STEP 100 Te_CryptoSpi MacIncrementalStep c:\testdata\tcryptospi\configs\mac_test_cases.ini SHA256L
+RUN_TEST_STEP 100 Te_CryptoSpi MacIncrementalStep c:\testdata\tcryptospi\configs\mac_test_cases.ini SHA384L
+RUN_TEST_STEP 100 Te_CryptoSpi MacIncrementalStep c:\testdata\tcryptospi\configs\mac_test_cases.ini SHA512L
+END_TESTCASE SEC-MAC-0005
+
+
+//! @SYMTestCaseID          SEC-CRYP007-INCRE-MAC-0001
+//! @SYMTestCaseDesc        Tests that a KAlgorithmCipherAesXcbcMac96 implementation object returned from the framework 
+//!                         can incrementally generate a MAC value according to the contents of a large data file
+//!                         and that it matches the expected value.
+//!                         (SymmetricMacIncremental)
+//! @SYMREQ                 REQ10618, REQ10619, REQ10623
+//! @SYMTestPriority        High
+//! @SYMTestType            CIT
+//! @SYMTestStatus          Implemented
+//! @SYMTestExpectedResults The call to the factory method should return KErrNone, 
+//!                         successfully create the KAlgorithmCipherAesXcbcMac96 object. 
+//!                         Once the final chunk of data has been passed into the finalise method, 
+//!                         the returned Mac should be the same as the expected Mac.
+
+START_TESTCASE SEC-CRYP007-INCRE-MAC-0001
+RUN_TEST_STEP 100 Te_CryptoSpi SymmetricMacIncrementalStep c:\testdata\tcryptospi\configs\mac_test_cases.ini MAC96-1000Bytes
+END_TESTCASE SEC-CRYP007-INCRE-MAC-0001
+
+//! @SYMTestCaseID          SEC-CRYP007-INCRE-MAC-0002
+//! @SYMTestCaseDesc        Tests that a KAlgorithmCipherAesXcbcPrf128 implementation object returned from the framework 
+//!                         can incrementally generate a MAC value according to the contents of a large data file
+//!                         and that it matches the expected value.
+//!                         (SymmetricMacIncremental)
+//! @SYMREQ                 REQ10618, REQ10619, REQ10623
+//! @SYMTestPriority        High
+//! @SYMTestType            CIT
+//! @SYMTestStatus          Implemented
+//! @SYMTestExpectedResults The call to the factory method should return KErrNone, 
+//!                         successfully create the KAlgorithmCipherAesXcbcPrf128 object. 
+//!                         Once the final chunk of data has been passed into the finalise method, 
+//!                         the returned Mac should be the same as the expected Mac.
+
+START_TESTCASE SEC-CRYP007-INCRE-MAC-0002
+RUN_TEST_STEP 100 Te_CryptoSpi SymmetricMacIncrementalStep c:\testdata\tcryptospi\configs\mac_test_cases.ini PRF128-1000Bytes
+END_TESTCASE SEC-CRYP007-INCRE-MAC-0002
+
+//! @SYMTestCaseID          SEC-MAC-0006
+//! @SYMTestCaseDesc        MacIncrementalCopy 
+
+START_TESTCASE SEC-MAC-0006
+RUN_TEST_STEP 100 Te_CryptoSpi MacIncrementalWithCopyStep c:\testdata\tcryptospi\configs\mac_test_cases.ini MD2L
+RUN_TEST_STEP 100 Te_CryptoSpi MacIncrementalWithCopyStep c:\testdata\tcryptospi\configs\mac_test_cases.ini MD4L
+RUN_TEST_STEP 100 Te_CryptoSpi MacIncrementalWithCopyStep c:\testdata\tcryptospi\configs\mac_test_cases.ini MD5L
+RUN_TEST_STEP 100 Te_CryptoSpi MacIncrementalWithCopyStep c:\testdata\tcryptospi\configs\mac_test_cases.ini SHA1L
+RUN_TEST_STEP 100 Te_CryptoSpi MacIncrementalWithCopyStep c:\testdata\tcryptospi\configs\mac_test_cases.ini SHA224L
+RUN_TEST_STEP 100 Te_CryptoSpi MacIncrementalWithCopyStep c:\testdata\tcryptospi\configs\mac_test_cases.ini SHA256L
+RUN_TEST_STEP 100 Te_CryptoSpi MacIncrementalWithCopyStep c:\testdata\tcryptospi\configs\mac_test_cases.ini SHA384L
+RUN_TEST_STEP 100 Te_CryptoSpi MacIncrementalWithCopyStep c:\testdata\tcryptospi\configs\mac_test_cases.ini SHA512L
+END_TESTCASE SEC-MAC-0006
+
+//! @SYMTestCaseID          SEC-MAC-0007
+//! @SYMTestCaseDesc        SymmetricMacIncrementalCopy 
+
+START_TESTCASE SEC-MAC-0007
+RUN_TEST_STEP 100 Te_CryptoSpi SymmetricMacIncrementalWithCopyStep c:\testdata\tcryptospi\configs\mac_test_cases.ini MAC96-1000Bytes
+RUN_TEST_STEP 100 Te_CryptoSpi SymmetricMacIncrementalWithCopyStep c:\testdata\tcryptospi\configs\mac_test_cases.ini PRF128-1000Bytes
+END_TESTCASE SEC-MAC-0007
+
+//! @SYMTestCaseID          SEC-MAC-0008
+//! @SYMTestCaseDesc        MacIncrementalReplicate 
+
+START_TESTCASE SEC-MAC-0008
+RUN_TEST_STEP 100 Te_CryptoSpi MacIncrementalWithReplicateStep c:\testdata\tcryptospi\configs\mac_test_cases.ini MD2L
+RUN_TEST_STEP 100 Te_CryptoSpi MacIncrementalWithReplicateStep c:\testdata\tcryptospi\configs\mac_test_cases.ini MD4L
+RUN_TEST_STEP 100 Te_CryptoSpi MacIncrementalWithReplicateStep c:\testdata\tcryptospi\configs\mac_test_cases.ini MD5L
+RUN_TEST_STEP 100 Te_CryptoSpi MacIncrementalWithReplicateStep c:\testdata\tcryptospi\configs\mac_test_cases.ini SHA1L
+RUN_TEST_STEP 100 Te_CryptoSpi MacIncrementalWithReplicateStep c:\testdata\tcryptospi\configs\mac_test_cases.ini SHA224L
+RUN_TEST_STEP 100 Te_CryptoSpi MacIncrementalWithReplicateStep c:\testdata\tcryptospi\configs\mac_test_cases.ini SHA256L
+RUN_TEST_STEP 100 Te_CryptoSpi MacIncrementalWithReplicateStep c:\testdata\tcryptospi\configs\mac_test_cases.ini SHA384L
+RUN_TEST_STEP 100 Te_CryptoSpi MacIncrementalWithReplicateStep c:\testdata\tcryptospi\configs\mac_test_cases.ini SHA512L
+END_TESTCASE SEC-MAC-0008
+
+
+//! @SYMTestCaseID          SEC-CRYP007-REPLICATE-MAC-0001
+//! @SYMTestCaseDesc        Tests that a KAlgorithmCipherAesXcbcMac96 implementation object returned from the framework 
+//!                         can incrementally replicate a MAC value according to the contents of a large data file
+//!                         and that it matches the expected value.
+//!                         (SymmetricMacIncrementalReplicate)
+//! @SYMREQ                 REQ10618, REQ10619, REQ10623
+//! @SYMTestPriority        High
+//! @SYMTestType            CIT
+//! @SYMTestStatus          Implemented
+//! @SYMTestExpectedResults The call to the factory method should return KErrNone, 
+//!                         successfully create the KAlgorithmCipherAesXcbcMac96 object. 
+//!                         Once the final chunk of data has been passed into the finalise method, 
+//!                         the returned Mac should be the same as the expected Mac.
+
+START_TESTCASE SEC-CRYP007-REPLICATE-MAC-0001
+RUN_TEST_STEP 100 Te_CryptoSpi SymmetricMacIncrementalWithReplicateStep c:\testdata\tcryptospi\configs\mac_test_cases.ini MAC96-1000Bytes
+END_TESTCASE SEC-CRYP007-REPLICATE-MAC-0001
+
+//! @SYMTestCaseID          SEC-CRYP007-REPLICATE-MAC-0002
+//! @SYMTestCaseDesc        Tests that a KAlgorithmCipherAesXcbcPrf128 implementation object returned from the framework 
+//!                         can incrementally replicate a MAC value according to the contents of a large data file
+//!                         and that it matches the expected value.
+//!                         (SymmetricMacIncrementalReplicate)
+//! @SYMREQ                 REQ10618, REQ10619, REQ10623
+//! @SYMTestPriority        High
+//! @SYMTestType            CIT
+//! @SYMTestStatus          Implemented
+//! @SYMTestExpectedResults The call to the factory method should return KErrNone, 
+//!                         successfully create the KAlgorithmCipherAesXcbcPrf128 object. 
+//!                         Once the final chunk of data has been passed into the finalise method, 
+//!                         the returned Mac should be the same as the expected Mac.
+
+START_TESTCASE SEC-CRYP007-REPLICATE-MAC-0002
+RUN_TEST_STEP 100 Te_CryptoSpi SymmetricMacIncrementalWithReplicateStep c:\testdata\tcryptospi\configs\mac_test_cases.ini PRF128-1000Bytes
+END_TESTCASE SEC-CRYP007-REPLICATE-MAC-0002
+
+//! @SYMTestCaseID          SEC-MAC-0009
+//! @SYMTestCaseDesc        MacIncrementalReset 
+
+START_TESTCASE SEC-MAC-0009
+RUN_TEST_STEP 100 Te_CryptoSpi MacIncrementalResetStep c:\testdata\tcryptospi\configs\mac_test_cases.ini MD2L
+RUN_TEST_STEP 100 Te_CryptoSpi MacIncrementalResetStep c:\testdata\tcryptospi\configs\mac_test_cases.ini MD4L
+RUN_TEST_STEP 100 Te_CryptoSpi MacIncrementalResetStep c:\testdata\tcryptospi\configs\mac_test_cases.ini MD5L
+RUN_TEST_STEP 100 Te_CryptoSpi MacIncrementalResetStep c:\testdata\tcryptospi\configs\mac_test_cases.ini SHA1L
+RUN_TEST_STEP 100 Te_CryptoSpi MacIncrementalResetStep c:\testdata\tcryptospi\configs\mac_test_cases.ini SHA224L
+RUN_TEST_STEP 100 Te_CryptoSpi MacIncrementalResetStep c:\testdata\tcryptospi\configs\mac_test_cases.ini SHA256L
+RUN_TEST_STEP 100 Te_CryptoSpi MacIncrementalResetStep c:\testdata\tcryptospi\configs\mac_test_cases.ini SHA384L
+RUN_TEST_STEP 100 Te_CryptoSpi MacIncrementalResetStep c:\testdata\tcryptospi\configs\mac_test_cases.ini SHA512L
+END_TESTCASE SEC-MAC-0009
+
+
+//! @SYMTestCaseID          SEC-CRYP007-RESET-MAC-0001
+//! @SYMTestCaseDesc        Tests that a KAlgorithmCipherAesXcbcMac96 implementation object returned from
+//!                         the framework can be successfully reset.
+//!                         (SymmetricMacIncrementalReset_MAC96)
+//! @SYMREQ                 REQ10618, REQ10619, REQ10623
+//! @SYMTestPriority        High
+//! @SYMTestType            CIT
+//! @SYMTestStatus          Implemented
+//! @SYMTestExpectedResults The call to the factory method should return KErrNone, 
+//!                         successfully create the KAlgorithmCipherAesXcbcMac96 object. 
+//!                         Once the final chunk of data has been passed into the finalise method, 
+//!                         the returned Mac should be the same as the expected Mac.
+
+START_TESTCASE SEC-CRYP007-RESET-MAC-0001
+RUN_TEST_STEP 100 Te_CryptoSpi SymmetricMacIncrementalResetStep c:\testdata\tcryptospi\configs\mac_test_cases.ini MAC96-1000Bytes
+END_TESTCASE SEC-CRYP007-RESET-MAC-0001
+
+//! @SYMTestCaseID          SEC-CRYP007-RESET-MAC-0002
+//! @SYMTestCaseDesc        Tests that a KAlgorithmCipherAesXcbcPrf128 implementation object returned from
+//!                         the framework can be successfully reset.
+//!                         (SymmetricMacIncrementalReset_PRF128)
+//! @SYMREQ                 REQ10618, REQ10619, REQ10623
+//! @SYMTestPriority        High
+//! @SYMTestType            CIT
+//! @SYMTestStatus          Implemented
+//! @SYMTestExpectedResults The call to the factory method should return KErrNone, 
+//!                         successfully create the KAlgorithmCipherAesXcbcPrf128 object. 
+//!                         Once the final chunk of data has been passed into the finalise method, 
+//!                         the returned Mac should be the same as the expected Mac.
+
+START_TESTCASE SEC-CRYP007-RESET-MAC-0002
+RUN_TEST_STEP 100 Te_CryptoSpi SymmetricMacIncrementalResetStep c:\testdata\tcryptospi\configs\mac_test_cases.ini PRF128-1000Bytes
+END_TESTCASE SEC-CRYP007-RESET-MAC-0002
+
+
+//! @SYMTestCaseID          SEC-CRYP007-REINIT-MAC-0001
+//! @SYMTestCaseDesc        Tests that a KAlgorithmCipherAesXcbcMac96 implementation object returned from the 
+//!                         framework can be successfully reinitialise and set key.
+//!                         (SymmetricMacIncrementalReInit_MAC96)
+//! @SYMREQ                 REQ10618, REQ10619, REQ10623
+//! @SYMTestPriority        High
+//! @SYMTestType            CIT
+//! @SYMTestStatus          Implemented
+//! @SYMTestExpectedResults The call to the factory method should return KErrNone, 
+//!                         successfully create the KAlgorithmCipherAesXcbcMac96 object. 
+//!                         Once the final chunk of data has been passed into the finalise method, 
+//!                         the returned Mac should be the same as the expected Mac.
+
+START_TESTCASE SEC-CRYP007-REINIT-MAC-0001
+RUN_TEST_STEP 100 Te_CryptoSpi SymmetricMacIncrementalReInitStep c:\testdata\tcryptospi\configs\mac_test_cases.ini MAC96-1000Bytes
+END_TESTCASE SEC-CRYP007-REINIT-MAC-0001
+
+//! @SYMTestCaseID          SEC-CRYP007-REINIT-MAC-0002
+//! @SYMTestCaseDesc        Tests that a KAlgorithmCipherAesXcbcPrf128 implementation object returned from the 
+//!                         framework can be successfully reinitialise and set key.
+//!                         (SymmetricMacIncrementalReInit_PRF128)
+//! @SYMREQ                 REQ10618, REQ10619, REQ10623
+//! @SYMTestPriority        High
+//! @SYMTestType            CIT
+//! @SYMTestStatus          Implemented
+//! @SYMTestExpectedResults The call to the factory method should return KErrNone, 
+//!                         successfully create the KAlgorithmCipherAesXcbcPrf128 object. 
+//!                         Once the final chunk of data has been passed into the finalise method, 
+//!                         the returned Mac should be the same as the expected Mac.
+
+START_TESTCASE SEC-CRYP007-REINIT-MAC-0002
+RUN_TEST_STEP 100 Te_CryptoSpi SymmetricMacIncrementalReInitStep c:\testdata\tcryptospi\configs\mac_test_cases.ini PRF128-1000Bytes
+END_TESTCASE SEC-CRYP007-REINIT-MAC-0002
+
+
+PRINT Complete_te_mac_test_cases_Tests
+

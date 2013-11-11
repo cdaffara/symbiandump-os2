@@ -1,0 +1,39 @@
+/*
+* Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+/** 
+@file
+@SYMPurpose ncmclasscontroller.dll USB NCM Class Controller over dummy stubs
+ */
+
+macro OVERDUMMY_NCMCC
+
+#include "ncmclasscontroller_base.mmp"
+
+target  dummy_ncmclasscontroller.dll
+
+UID 0x10009d8d 0x2002EA9F
+
+sourcepath    ../src
+START resource ncmcc_over_dummy.rss
+  TARGET dummy_ncmclasscontroller.rsc
+END
+
+// Dummy librarys
+LIBRARY     dummy_sock.lib
+LIBRARY     dummyusbsclddapi.lib
+LIBRARY     dummy_ncminternalsrv.lib

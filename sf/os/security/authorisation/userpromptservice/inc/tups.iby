@@ -1,0 +1,52 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+#ifndef __TUPS_IBY__
+#define __TUPS_IBY__
+
+#include <testexecute.iby>
+#include <tupspolicies.iby>
+#include <tups_integ.iby>
+#ifdef _SERIAL_DOWNLOAD
+#include <upstechview.iby>
+#else
+#include <security_ups_utils.iby>
+#endif
+define ZDRIVE \epoc32\data\Z
+
+REM User Prompt Service Tests
+
+file=ABI_DIR\BUILD_DIR\tupsdb.exe							\sys\bin\tupsdb.exe
+file=ABI_DIR\BUILD_DIR\dumpupsdb.exe							\sys\bin\dumpupsdb.exe
+
+data = ZDRIVE\tups\tupsdb\scripts\tupsdb.ini				\tups\tupsdb\scripts\tupsdb.ini
+data = ZDRIVE\tups\tupsdb\scripts\tupsdb.script				\tups\tupsdb\scripts\tupsdb.script
+data = ZDRIVE\tups\tupsdb\scripts\tupsdbperformance.ini		\tups\tupsdb\scripts\tupsdbperformance.ini
+data = ZDRIVE\tups\tupsdb\scripts\tupsdbperformance.script	\tups\tupsdb\scripts\tupsdbperformance.script
+
+file=ABI_DIR\BUILD_DIR\rtestwrapper.dll		\sys\bin\rtestwrapper.dll
+file=ABI_DIR\BUILD_DIR\upstest.exe		\sys\bin\upstest.exe
+file=ABI_DIR\BUILD_DIR\upstestoom.exe		\sys\bin\upstestoom.exe
+data=ZDRIVE\private\10283558\policies\ups_10283559_0000002a.rsc \private\10283558\policies\ups_10283559_0000002a.rsc
+data=ZDRIVE\private\10283558\policies\ups_10283559_0000002b.rsc \private\10283558\policies\ups_10283559_0000002b.rsc
+
+#ifdef __SECURITY_TEST_ROM__
+data=ZDRIVE\system\install\testupsromstub.sis 		system\install\upsserver.sis
+#endif
+
+#endif

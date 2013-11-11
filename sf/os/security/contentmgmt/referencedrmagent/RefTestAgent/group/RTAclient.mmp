@@ -1,0 +1,67 @@
+/*
+* Copyright (c) 2004-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* RTAclient.dll Implementation of software registry client
+*
+*/
+
+
+/**
+ @file
+*/
+
+MACRO __SECURE_API__
+MACRO __DATA_CAGING__
+CAPABILITY	All -Tcb
+
+TARGET		rtaclient.dll
+TARGETTYPE	dll
+
+UID		0x1000008d 0x10205EA4
+VENDORID	0x70000001
+
+UNPAGED
+
+#ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+deffile     rtaclient_v3.def
+#else
+deffile		rtaclient_v2.def
+#endif
+#else
+deffile		rtaclient.def
+#endif
+
+
+SOURCEPATH	../RTAServer/Client
+
+SOURCE		rtaclient.cpp
+SOURCE		rtarights.cpp
+SOURCE		rtadata.cpp
+SOURCE		rtamanager.cpp
+SOURCE		rtacontent.cpp
+
+USERINCLUDE		../inc
+USERINCLUDE		../RTAServer/Common
+USERINCLUDE		../RTAServer/Client
+
+MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+LIBRARY		euser.lib
+LIBRARY		estor.lib
+LIBRARY		efsrv.lib
+LIBRARY		rtaparser.lib
+LIBRARY		cafutils.lib
+LIBRARY		iniparser.lib
+SMPSAFE

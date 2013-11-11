@@ -1,0 +1,80 @@
+// Copyright (c) 2005-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// SqlDb.dll SQL Database management - client dll
+// 
+//
+
+/**
+@file
+*/
+
+TARGET			sqldb.dll
+TARGETTYPE		dll
+
+UID				0x1000008d 0x10281E18
+
+//CodeWarrior compilation options - disable the "illegal pragma" warning
+OPTION CW -w noillpragmas
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+USERINCLUDE		../traces_SqlDb
+USERINCLUDE		../INC
+USERINCLUDE		../SRC/Client
+USERINCLUDE		../SRC/Client/IPC
+USERINCLUDE		../SRC/Common
+USERINCLUDE		../SRC/Common/IPC
+USERINCLUDE		../SRC/Security
+//SqlDb includes sqlite3.h header file for the error code macros defined there
+#ifdef SYMBIAN_USE_SQLITE_VERSION_3_6_4
+USERINCLUDE		../SQLite364
+#else
+USERINCLUDE		../SQLite
+#endif
+//SqlDb does not use standard C library, but there are some C header files included in sqlite3.h
+OS_LAYER_ESTLIB_SYSTEMINCLUDE
+
+SOURCEPATH		../SRC/Client
+SOURCE			SQLDatabase.cpp 
+SOURCE			SqlDatabaseImpl.cpp 
+SOURCE			SqlStatement.cpp 
+SOURCE			SqlStatementImpl.cpp 
+SOURCE			SqlStream.cpp
+SOURCE			SqlBlob.cpp
+SOURCE			SqlDbSession.cpp 
+SOURCE			SqlStmtSession.cpp 
+SOURCE			SqlResourceTest.cpp 
+SOURCE			SqlScalarFullSelect.cpp 
+SOURCE			SqlResourceProfiler.cpp
+
+SOURCEPATH		../SRC/Client/IPC
+SOURCE			IPCBuf.cpp
+
+SOURCEPATH		../SRC/Common
+SOURCE			SqlUtil.cpp 
+SOURCE			SqlBufFlat.cpp 
+SOURCE			SqlBufIterator.cpp
+SOURCE			SqlSrvStartup.cpp
+
+SOURCEPATH		../SRC/Security
+SOURCE			SqlSecurity.cpp 
+SOURCE			SqlSecurityImpl.cpp
+
+LIBRARY			euser.lib efsrv.lib estor.lib
+
+VENDORID		0x70000001
+CAPABILITY		All -Tcb
+
+SMPSAFE
+
+DEFFILE			SqlDb.def

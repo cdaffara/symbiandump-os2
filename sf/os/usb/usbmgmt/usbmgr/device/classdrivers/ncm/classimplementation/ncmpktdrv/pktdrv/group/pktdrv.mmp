@@ -1,0 +1,63 @@
+/*
+* Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+*
+*/
+
+TARGET      ncmpkt.drv
+TARGETTYPE  DLL
+
+UID         0x1000053f 0x2002C306
+VENDORID    0x70000001
+
+
+// Being run in C32EXE
+CAPABILITY CommDD PowerMgmt TrustedUI ProtServ NetworkControl NetworkServices LocalServices ReadUserData WriteUserData ReadDeviceData WriteDeviceData 
+
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+
+USERINCLUDE   ../inc
+USERINCLUDE   ../../server/inc
+USERINCLUDE   ../../../../inc/
+USERINCLUDE   ../traces
+
+
+SOURCEPATH    ../src
+SOURCE        ncmpktdrvfactory.cpp
+SOURCE        ncmpktdrv.cpp
+SOURCE        ncmengine.cpp 
+SOURCE        ncmcommunicationinterface.cpp
+SOURCE        ncmcomminterfacesenderandreceiver.cpp
+SOURCE        ncmnotificationdescriptor.cpp
+SOURCE        ncmdatainterface.cpp
+SOURCE        ncmdatareceiver.cpp
+SOURCE        ncmdatasender.cpp 
+SOURCE        ncmntbparser.cpp
+SOURCE        ncmntbbuilder.cpp
+SOURCE        ncmntb16builder.cpp
+SOURCE        ncmbuffermanager.cpp
+SOURCE        ncmntbbuildpolicy.cpp
+SOURCE        ncmntbbuildsimplepolicy.cpp
+SOURCE        ncmsharedstatemanager.cpp
+SOURCE        ncmcoexistbearerwatcher.cpp 
+
+#include      "../../server/group/server.mmh"
+
+LIBRARY       euser.lib mbufmgr.lib esock.lib ethint.lib usbcsc_bil.lib
+LIBRARY       efsrv.lib random.lib
+LIBRARY       nodemessages.lib
+LIBRARY       netmeta.lib
+

@@ -1,0 +1,49 @@
+# Build WLDCOMP, a strange WINC/Win32 hybrid
+#
+
+TOOLNAME=zlib
+SRCDIR=..\zlib
+
+!if "$(CFG)" == "DEB"
+VC_CFG="$(TOOLNAME) - Win32 Release"
+!else
+VC_CFG="$(TOOLNAME) - Win32 Debug"
+CFG=REL
+!endif
+
+TARGETDIR=$(EPOCROOT)epoc32\release\winc\$(CFG)
+TOOL=$(TARGETDIR)\$(TOOLNAME).lib
+
+makelib :
+	cd $(SRCDIR)
+	echo NMAKE /S /NOLOGO /f $(SRCDIR)\$(TOOLNAME).MAK CFG=DEB
+	NMAKE /S /NOLOGO /f $(SRCDIR)\$(TOOLNAME).MAK CFG="$(TOOLNAME) - Win32 Debug"
+	echo NMAKE /S /NOLOGO /f $(SRCDIR)\$(TOOLNAME).MAK CFG=REL
+	NMAKE /S /NOLOGO /f $(SRCDIR)\$(TOOLNAME).MAK CFG="$(TOOLNAME) - Win32 Release"
+
+do_nothing:
+	rem do nothing
+
+#
+# The targets invoked by abld...
+#
+
+MAKMAKE : do_nothing
+FREEZE : do_nothing
+
+LIB : makelib
+
+RESOURCE : do_nothing
+CLEANLIB : do_nothing
+FINAL : do_nothing
+SAVESPACE : do_nothing
+BLD : do_nothing
+
+CLEAN : 
+	cd $(SRCDIR)
+	echo NMAKE /S /NOLOGO /f $(SRCDIR)\$(TOOLNAME).MAK CLEAN CFG=$(VC_CFG)
+	NMAKE /S /NOLOGO /f $(SRCDIR)\$(TOOLNAME).MAK CLEAN CFG=$(VC_CFG)
+	erase $(TOOL)
+
+RELEASABLES : 
+	echo $(TOOL)

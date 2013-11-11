@@ -1,0 +1,56 @@
+/*
+* Copyright (c) 2008-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* "Turkish National Language Locking Shift Table + GSM 7 bit default alphabet extension table" converter 
+*
+*/
+
+
+/**
+ @file
+*/
+
+TARGET			turkish_locking_gsm7ext.dll
+TARGETTYPE		PLUGIN
+
+CAPABILITY		All -Tcb
+
+UID				0x10009D8D 0x10286403
+VENDORID		0x70000001
+
+USERINCLUDE ../inc
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+SOURCEPATH		../src/plugins
+SOURCE			turkish_locking_gsm7ext.cpp
+
+SOURCEPATH		/epoc32/build/generatedcpp/charconv
+SOURCE			g_turkish_locking_gsm7ext.cpp
+
+SOURCEPATH		../resource
+START RESOURCE	turkish_locking_gsm7ext.rss
+TARGETPATH		/resource/charconv
+LANG			sc
+END
+
+START RESOURCE	10286403.rss
+TARGET			turkish_locking_gsm7ext.rsc
+END
+
+LIBRARY			euser.lib
+LIBRARY			charconv.lib
+LIBRARY			ecom.lib
+
+SMPSAFE

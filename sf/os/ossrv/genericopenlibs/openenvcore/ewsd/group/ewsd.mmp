@@ -1,0 +1,62 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// Name        : ewsd.mmp
+// Part of     : ewsd library
+// This is a project specific file for building the ewsd library 
+// This material, including documentation and any related
+// computer programs, is protected by copyright controlled by
+// Nokia. All rights are reserved. Copying, including
+// reproducing, storing, adapting or translating, any
+// or all of this material requires the prior written consent of
+// Nokia. This material also contains confidential
+// information which may not be disclosed to others without the
+// prior written consent of Nokia.
+//
+
+
+
+TARGET        ewsd.dll
+TARGETTYPE    dll
+UID           0x1000008d 0x102828D4
+
+LANG          SC
+CAPABILITY    ALL -TCB
+VENDORID      0x70000001
+VERSION 				10.1
+
+#ifdef WINSCW
+OPTION CW -stdinc
+#endif // WINSCW
+
+DEFFILE       ewsd.def
+
+SOURCEPATH    ../src
+SOURCE        ewsd.cpp
+
+SOURCEPATH	   ../inc
+DOCUMENT	   pls.dosc
+DOCUMENT  	   ewsd.dosc       
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+LIBRARY         euser.lib
+
+START WINSCW
+WIN32_LIBRARY   kernel32.lib
+END // WINSCW
+
+nostrictdef
+
+
+SMPSAFE

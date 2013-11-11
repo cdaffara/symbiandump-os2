@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<relnotes name="Cryptography SPI Library">
+  <purpose>
+    Non-RSA cryptographic algorithms including symmetric and asymmetric ciphers, hash functions and a cryptographic strong random number generator. Supercedes 'crypto', export restricted.
+  </purpose>
+
+  <defect number="DEF132802" title="TMacCharacteristics implemented with potential NULL pointer" revision="029">
+ 	provided a more descriptive doxygen comment for the publishedAll class TMacCharacteristics. 	
+  </defect>
+  
+  <defect number="DEF130791" title="[Coverity]-FORWARD_NULL,UNINIT-security/cryptospi,/caf2,/ups,/epoc32/include/scs" revision="028">
+ 	coverity issues fixed
+  </defect>
+
+  <defect number="DEF129395" title="[Coverity]-SYMBIAN.CLEANUP_STACK-security/tlsprovider" revision="027">
+	coverity issues fixed
+  </defect>
+
+  <defect number="DEF127711" title="[Coverity]-SYMBIAN.CLEANUP_STACK-security/tlsprovider" revision="026">
+	coverity issues fixed
+  </defect>
+
+  <deliverystep number="" name="PREQ2193 SMP-Safe Crypto Services Components" osproject="Diran" revision="025">
+	  <milestone project="GT0433" number="MS3.7"/>
+	  <preq number="2193" title="SMP-Safe Crypto Services Components">
+		  Add SMPSAFE keyword in SDP mmp files
+	  </preq>
+  </deliverystep>
+
+  <defect number="DEF130024" title="CryptoSPI doesnot work if the configured crypto plugin is missing" revision="024">
+     CryptoSPI works when configured plugins missing. 
+  </defect>
+
+  <defect number="DEF130017" title="SMP:KMS component cause NaviEngine not to boot" revision="023">
+    Exclude h4 specific hardware crypto plugin from NaviEngine and 3430 test rom. Build armv5smp kms for NaviEngine. 
+  </defect>
+
+  <deliverystep number="1231" name="PREQ1853: IPSec based support for VoIP" osproject="Diran" revision="022">
+     <milestone project="GT0433" number="MS3.6"/>
+     <preq number="1853" title="IPSec based support for VoIP">
+       Addition of two new cryptographic algorithms AES-XCBC-MAC-96 and AES-XCBC-PRF-128 to the CryptoSPI component. APIs enables to use the cipher based MAC evaluation and pseudo random generation algorithms (AES-XCBC-MAC-96 and AES-XCBC-PRF-128 respectively) through a new MAC interface introduced in the CryptoSpi framework. 
+     </preq>
+  </deliverystep>  
+
+ <defect number="DEF127700" title="CyptoSPI headers" revision="021">
+   Have corrected the tagging in cryptoSPI headers  and exported the unexported @publishedparter header files to epoc/include.
+ </defect>
+
+ <defect number="DEF126487" title="Export restricted issues in security_cryptospi_strong and security_testframework" revision="020">
+   Distribution policy corrected in security_cryptospi_strong and security_testframework  to reflect the correct changes.
+ </defect>
+
+ <defect number="DEF123026" title="cryptospi header file problems" revision="019">
+   #includes to other cryptospi header files specified along with the subdirectory
+ </defect>
+
+ <defect number="DEF125856" title="[Coverity] - SYMBIAN.CLEANUP - security/cryptospi/source/common/keyconverter.cpp " revision="018">
+   Incorrect usage of cleanup stack could cause a panic under low memory conditions.
+ </defect>
+  
+ <defect number="DEF124560" title="[coverity] - cryptospi/source/hash - REVERSE_INULL" revision="017">
+   Null verification added to rectify coverity warnings.
+ </defect>
+
+ <defect number="PDEF118911" title="Extra padding in block cipher causes problems in TLS" revision="016">
+   With symetric cipher, padding could be done on more than a block, therefore, during decrypting instead of unpadding the last block, it will unpad according to the number read from the last padded block.
+ </defect>
+  
+ <defect number="DEF118568" title="tpadding.script fails in ONB" revision="015">
+   All DoPadL in padding class are made private. Input data are checked by PadL in CPadding base class 
+ </defect>
+  
+  <deliverystep number="922" name="PREQ1493: Crypto Services: Add SHA 224, 256, 384, 512 hash algorithms to the Cryptographic Library." osproject="Sphinx" revision="014">
+     <milestone project="GT0379" number="MS3.16"/>
+     <preq number="1493" title="Add SHA 224, 256, 384, 512 hash algorithms to the Cryptographic Library.">
+       Adds an old cryptographic library shim layer around the CryptoSPI implementations in the MCL. This is required for backward compatibility.
+     </preq>
+  </deliverystep>    
+  
+ <defect number="DEF112296" title="HMAC(crypto) only works with hash functions having 64 byte block" revision="013">
+   HMAC(crypto) works with the block size as supplied by the hash algorithm.
+ </defect>
+  
+  <defect number="DEF111308" title="cryptospi dependency on securitydefs.h breaks Core OS layered build" revision="012">
+    Removed securitydefs.h from the cryptospi component and added the data needed for cryptospi in /common/generic/security/cryptospi/inc/keyidentifierutil.h. Hence removed the dependency of cryptospi on securitydefs.h.
+  </defect>
+  
+  <defect number="DEF111846" title="randsvr.exe need to be unpaged for realtime performance" revision="011">
+    randsvr.exe need to be unpaged for realtime performance
+  </defect>
+
+  <defect number="DEF111759" title="Incorrect documentation of THashCharacteristics::iOutputSize" revision="010">
+    Documentation comment for THashCharacteristics::iOutputSize has been rectified.
+  </defect>
+
+  <defect number="DEF110891" title="UNPAGED Cryptospi module" revision="010">
+    Tagged performance critical cryptospi mmp files with UNPAGED
+  </defect>
+
+  <deliverystep number="775" name="PREQ782: Crypto Services: Counter mode" osproject="Sphinx" revision="009">
+    <milestone project="GT0379" number="MS3.1"/>
+    <preq number="782" title="Over-the-air Streamed Content Protection">
+      Implementation of counter mode added to the software plugin in cryptospi.
+    </preq>
+  </deliverystep>
+
+  <defect number="DEF111078" title="Incorrect documentation in CSymmetricCipher::BlockSize" revision="008">
+    Fixed the doxygen documentation for CSymmetricCipher::BlockSize.
+  </defect>
+
+  <cr number="1088" title="Add MISTY and Kasumi Encryption Algorithm Identifiers" revision="007">
+    Added algorithm identifiers for MISTY and Kasumi algorithms.
+  </cr>
+
+  <deliverystep number="496" name="EC073: Security: Crypto Services Header File Refactoring" osproject="Oghma" revision="006">
+	  <milestone project="GT0313" number="MS3.7"/>
+	  <ec number="73" title="Crypto Services Header File Refactoring (to simplify the SDK creation process)">
+		  Non-exported published functions made internal.
+		  Exported pluginselectorbas.h and cryptospistateapi.h in bld.inf file.
+		  Status added to published files if it was missing.
+		  Removed internal header file inclusions. BR2143 raised against this.
+	  </ec>
+  </deliverystep>
+
+  <deliverystep number="708" name="Security - Alignment of CBR and System Model components" osproject="Oghma" revision="005">
+    <milestone project="GT0313" number="MS3.7"/>
+    <preq number="775" title="Alignment of CBR and System Model components">
+      Softwarecrypto plugin is splitted into a new component security_cryptospi_plugins.
+    </preq>
+  </deliverystep>
+
+  <defect number="DEF108963" title="TBAS (T3648_Symbian_OS_v9.5) DP tests hang at tasn1_log.txt" revision="004">
+    Fixed the buildrom warnings by adding the device drivers and extentions to the Core rom binary [core.img]
+  </defect>
+
+  <defect number="DEF106230" title="Clean up build's tagscan errors" revision="003">
+    Removed tagscan errors
+  </defect>
+
+  <defect number="DEF107631" title="ESock_SIP - Program Closed on boot of H2, 9.5" revision="002">
+    Change the initialisation of the array of cryptospi interface UID
+  </defect>
+
+  <ec number="074" title="Include an implementation of the MD4 hash function (IETF RFC 1320) in those provided by the Symbian Hash library (part of Symbian Security subsystem)" revision="001">
+    Added the MD4 Message Digest Algorithm(RFC 1320) implementation.
+  </ec>
+</relnotes>

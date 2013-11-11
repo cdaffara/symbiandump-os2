@@ -1,0 +1,2943 @@
+Version 1.05(063)
+=================
+(Made by Mark Cawston on 23 November 2001)
+
+Dependencies
+
+Built against Hurricane Release build 00629
+
+Defects fixed : DON-587EA3 (Corrupted Cdbv2.dat prevents device from booting)
+
+Testing
+
+automatic F32tests run on MINT UDEB, UREL, WINS UDEB.
+
+Version 1.05(062)
+=================
+(Made by Mark Cawston on 23 November 2001)
+
+Dependencies
+
+Built against GT6.2 Release build 00558
+
+Building
+
+Use bldmake and abld
+
+Testing
+
+Tests modified to verify defects fixed T_BENCH, T_COMP tested on WINS UDEB and
+MISA ARM4 (Assabet) UDEB.
+
+Defects fixed
+
+Hurricane : ROS-534E69: DBMS should use CleanupArrayDeletePushL()
+
+Version 1.05(061)
+=================
+(Made by Mark Dowman on 26 July 2000)
+
+Dependencies
+
+Built against GT6.0 Release build 00039
+
+Building
+
+Use bldmake and abld
+
+Testing
+
+Tests modified to verify defects fixed. T_DBMS, T_DBS, T_SQL and T_TRANS passed on WINS UDEB and ARM4(BRUTUS) UDEB.
+
+Defects fixed
+
+ER6.0 : EDNATHE-4MCL2K: RDbDatabase::IsDamaged() always false after opening database.
+ER6.0 : EDNPHAR-4L4KY2: DBMS access violation when sending a fax.
+
+Version 1.05(060)
+=================
+(Made by Andrew Thoelke on 20 May 1999)
+
+For EPOC Release 5 Unicode
+MSVC++ 6.0 compatible source only release
+
+Dependencies
+
+This release has been built against Baseline 0801
+
+Building
+
+Use bldmake, etc.
+
+Testing
+
+Tests added to verify defect fixes. All tests passed on WINS UREL, WINS UDEB, ARM ROM 306
+
+Changes
+
+RDbs::Version() now reports "1.05(060)"
+DBMS stores all Unicode text columns (Text and Text16 columns) using the standard unicode compression algorithm available in STORE. This breaks the data format for all databases containing text - and to ensure that old databases cannot be loaded by this build of DBMS the internal database version numbers have been increased. All existing databases are now unreadable.
+Long columns that are not inlined but still under a certain threshold (currently 1.5K) are now extracted from the database without requiring a read-lock on the database. This allows moderate sized BLOBs to be read from a shared database while another client is updating or compacting the database.
+
+Defects fixed
+
+ER5:EDNBBAR-463J5D: Concurrent server start-up does not panic and hang the second client attempting to connect.
+ER5:EDNATHE-48AEZW: Automatic cursor recovery after row deletion is now much more capable than previously.
+ER5U:EDNATHE-497KWW: Explicitly load 16-bit values using 8-bit reads to prevent incorrect use of half-word load instructions.
+
+ 
+Version 1.05(058)
+=================
+(Made by Andrew Thoelke on 20 May 1999)
+
+EPOC Release 5u baseline component
+
+Dependencies
+
+This release was built with
+     Tools: E32TOOLS 120, E32TOOLP 107
+Components: E32 185, F32 145, STORE 062
+
+Building
+
+Mostly standard EBLD syntax supported. Invoking EBLD without parameters gives usage information
+
+Release components
+
+All 4 build variants have been released.
+
+Testing
+
+No testing has been done
+
+Changes
+
+RDbs::Version() now reports "1.05(058)"
+The DATAZIP tool has been removed - it was not supported for Unicode data documents in any case
+
+ 
+Version 1.05(057)
+=================
+(Made by Andrew Thoelke on 15 January 1999)
+
+EPOC Release 5 candidate component
+
+Dependencies
+
+This release was built with
+     Tools: E32TOOLS 095, E32TOOLP 098
+Components: E32 158, F32 124, STORE 051
+
+Binary Compatibility
+
+Fully binary compatible with 054-6
+
+Building
+
+Mostly standard EBLD syntax supported. Invoking EBLD without parameters gives usage information
+
+Release components
+
+All 8 build variants have been released.
+MARM ASCII release build EDBMS.DLL + EDBSRV.EXE is 130,276 + 496 bytes (127.7K) in ROM
+To install DBMS for MARM:
+	edbms.dll : install to \System\Libs\
+	edbsrv.exe: install to \System\Programs\
+
+Known problems
+
+DATAZIP will not work on new unicode database documents, as it does not recognise the new Data App UID. This tool is likely to be migrated out of DBMS in the near future
+
+Testing
+
+Test code amended and extended to verify the defect fixes. All test code passes on all platforms.
+
+Changes
+
+RDbs::Version() now reports "1.05(057)"
+
+Defects Fixed
+
+590829: CDbTableDatabase::CheckIdle() no longer causes an access violation if the table collection is modified while it iterates across the tables.
+394751: The server panics clients in such a way as to avoid trying to complete the offending message twice, which caused a KERN-EXEC 4 in the server.
+
+ 
+Version 1.05(056)
+=================
+(Made by Andrew Thoelke on 5 January 1999)
+
+EPOC Release 5 candidate component
+
+Dependencies
+
+This release was built with
+     Tools: E32TOOLS 095, E32TOOLP 098
+Components: E32 158, F32 124, STORE 051
+
+Binary Compatibility
+
+Fully binary compatible with 054-5
+
+Building
+
+Mostly standard EBLD syntax supported. Invoking EBLD without parameters gives usage information
+
+Release components
+
+All 8 build variants have been released.
+MARM ASCII release build EDBMS.DLL + EDBSRV.EXE is 130,280 + 496 bytes (127.7K) in ROM
+To install DBMS for MARM:
+	edbms.dll : install to \System\Libs\
+	edbsrv.exe: install to \System\Programs\
+
+Known problems
+
+DATAZIP will not work on new unicode database documents, as it does not recognise the new Data App UID. This tool is likely to be migrated out of DBMS in the near future
+
+Testing
+
+Test code amended and extended to verify the defect fixes. All test code passes on all platforms.
+
+Changes
+
+RDbs::Version() now reports "1.05(056)"
+New RProcess::Create() and RLibrary::Load() functions which take a TUidType parameter are now used for launching the server and loading drivers with full UID type checking
+
+Defects Fixed
+
+632258: RDbNamedDatabase::Create() will now only delete the file on cleanup if it created the file, and not delete an existing file
+
+ 
+Version 1.05(055)
+=================
+(Made by Andrew Thoelke on 9 December 1998)
+
+EPOC Release 5 candidate component
+
+Dependencies
+
+This release was built with
+     Tools: E32TOOLS 095, E32TOOLP 098
+Components: E32 156, F32 122, STORE 051
+
+Binary Compatibility
+
+Fully binary compatible with 054
+
+Building
+
+Mostly standard EBLD syntax supported. Invoking EBLD without parameters gives usage information
+
+Release components
+
+All 8 build variants have been released.
+MARM ASCII release build EDBMS.DLL + EDBSRV.EXE is 130,288 + 496 bytes (127.7K) in ROM
+To install DBMS for MARM:
+	edbms.dll : install to \System\Libs\
+	edbsrv.exe: install to \System\Programs\
+
+Known problems
+
+DATAZIP will not work on new unicode database documents, as it does not recognise the new Data App UID. This tool is likely to be migrated out of DBMS in the near future
+
+Testing
+
+Test code amended and extended to verify the defect fixes. All test code passes on all platforms.
+
+Changes
+
+RDbs::Version() now reports "1.05(055)"
+
+Defects Fixed
+
+SW1-488	Regression from 043: deleting a row can cause an access	violation. A simple fix added and tested by T_BIG.
+Rebuilt with MSVC++ 5.0 Service Pack 3 to ensure good WINS release builds.
+Boiler-plated the source code using the SysDoc tool.
+
+ 
+Version 1.05(054)
+=================
+(Made by Andrew Thoelke on 16th November, 1998)
+
+This is an EPOC Release 5 component.
+
+
+Dependencies
+
+The requires EPOC Release 5 components to build and run. This release
+was built with
+
+     Tools: E32TOOLS 095, E32TOOLP 097
+Components: E32 156, F32 122, STORE 050
+
+
+Binary Compatibility
+
+Backwards binary compatible with 053
+RDbNotifier::Notify() has changed names, making this release source
+incompatible, and RDbNotifer has gained a new export (see Changes).
+
+
+Building
+
+Mostly standard EBLD syntax supported. Invoking EBLD without parameters
+gives usage information
+
+
+Release components
+
+All 8 build variants have been released.
+MARM ASCII release build EDBMS.DLL + EDBSRV.EXE is 130,280 + 496 bytes
+(127.7K) in ROM
+
+To install DBMS for MARM:
+	edbms.dll : install to \System\Libs\
+	edbsrv.exe: install to \System\Programs\
+
+For ROM building, edbsrv.exe should be marked as a FIXED process, the
+process priority has yet to be specified.
+
+DBMS can be successfully installed an run from C: (RAM drive) on a
+EPOC Release 5 ROM
+
+
+Known problems
+
+DATAZIP will not work on new unicode database documents, as it does not
+recognise the new Data App UID. This tool is likely to be migrated out
+of DBMS in the near future
+
+
+Testing
+
+Test code amended and extended to verify the defect fixes and changes.
+All platforms have been fully tested.
+
+
+Changes
+
+RDbs::Version() now reports "1.05(054)"
+
+The notification interface of RDbNotifer has changed:
+*	Notify() has been renamed to NotifyUnlock(), inidicating that all
+	events are reported, including "unlock" events.
+*	A new request NotifyChange() has been added which only completes
+	when a change event (all except unlock) occurs on the database.
+Note that change events occuring between notifier completion and making a
+new request will not be missed (as they are in 053), see the fix for
+SW1-334 below.
+
+
+Defects Fixed
+
+Defects are from EPOC Software Defects.
+
+SW1-320	File and Path not found errors are now returned by
+	RDbNamedDatabase::Open() when appropriate.
+
+SW1-326	Attempting to read Long columns can return KErrAccessDenied if
+	compaction or statistics update is in progress in the same
+	client. 053 only reported this if a different client was
+	compacting, but panic'd if it was the same client.
+
+SW1-334	Database "change" events which occur after a request is completed
+	are now stored by the notifier and reported immediately when the
+	next notification request is made. Only the most significant event
+	is stored, following this ordering:
+
+		Recover > Rollback > Commit
+
+	The more "significant" events have a larger impact on client views.
+
+
+ 
+Version 1.05(053)
+=================
+(Made by Andrew Thoelke on 28th October, 1998)
+
+This is a beta EPOC Release 5 component.
+
+
+Dependencies
+
+The requires EPOC Release 5 compatibility components to build and run
+
+     Tools: E32TOOLS 095, E32TOOLP 096
+Components: E32 156, F32 122, STORE 050
+
+
+Binary Compatibility
+
+Only WINS REL, MARM REL and MARM DEB releases are fully binary compatible
+with 052
+
+WINS DEB is now BC with WINS REL
+WINS UREL is BC with WINS UDEB
+MARM UREL is BC with MARM UDEB
+
+
+Building
+
+Mostly standard EBLD syntax supported. Invoking EBLD without parameters
+gives usage information
+
+
+Release components
+
+All 8 build variants have been released.
+MARM ASCII release build EDBMS.DLL + EDBSRV.EXE is 130,020 + 496 bytes
+(127.5K) in ROM
+
+To install DBMS for MARM:
+	edbms.dll : install to \System\Libs\
+	edbsrv.exe: install to \System\Programs\
+
+For ROM building, edbsrv.exe should be marked as a FIXED process, the
+process priority has yet to be specified.
+
+DBMS can be successfully installed an run from C: (RAM drive) on a
+EPOC Release 4 ROM
+
+
+Known problems
+
+DATAZIP will not work on new unicode database documents, as it does not
+recognise the new Data App UID at the moment. This will be remedied once
+the new unicode Data app UID is available.
+
+
+Testing
+
+All platforms have been fully tested.
+
+
+Changes
+
+1.	RDbs::Version() now reports "1.05(053)"
+
+2.	New UIDs allocated for Unicode:
+		0x10003B0E: Unicode EDBMS.DLL
+		0x10003B0F: KDbmsDriverUid16
+
+
+
+Version 1.05(052)
+=================
+(Made by Andrew Thoelke on 13th October, 1998)
+
+This is a beta EPOC Release 5 component.
+
+
+Dependencies
+
+This component requires at least EPOC Release 4 in order to be built and
+run.
+Components required: E32 144, F32 115, STORE 049
+Tools: E32TOOLS 095, E32TOOLP 093
+
+
+Binary Compatibility
+
+This release is fully backwards binary compatible with DBMS 051.
+
+However, internal changes mean that different versions of DBMS 050+ in ROM
+and RAM can cause problems.
+
+DBMS 052 adds three more exports to the client interface, to support
+enquiry of database properties such as size and usage.
+
+
+Building
+
+WINS components were built using MSVC++ 5.0, hence the debugging databases
+are incompatible with previous versions of MSDev.
+
+Command-line building now uses the "EBLD" syntax. Invoking EBLD from the
+GROUP sub-project will provide usage information. All MNT verbs which
+could previously be used for building have been removed.
+
+EBLD TOOL ... is used to build the tools
+
+
+Release components
+
+All 8 build variants have been released.
+MARM ASCII release build EDBMS.DLL + EDBSRV.EXE is 130,020 + 496 bytes
+(127.5K) in ROM
+
+To install DBMS 052 for MARM:
+	edbms.dll : install to \System\Libs\
+	edbsrv.exe: install to \System\Programs\
+
+For ROM building, edbsrv.exe should be marked as a FIXED process, the
+process priority has yet to be specified.
+
+DBMS 052 can be successfully installed an run from C: (RAM drive) on a
+EPOC Release 4 ROM
+
+
+Testing
+
+All platforms have been fully tested.
+
+A new SQL-script test program has been added, and further SQL scripts are
+planned to validate the query analysis and evaluation engine.
+
+
+Changes
+
+1.	RDbs::Version() now reports "1.05(052)"
+
+2.	To complement database compaction, a query function which returns
+	the database size and usage has been added: RDbDatabase::Size().
+	This returns a structure containing the database size (in bytes)
+	and the usage (in percent). A value <0 indiciates an inability to
+	evaluate the property, this may be because the database does not
+	support the query (such as RDbStoreDatabase), or because the value
+	is not immediately available. For hard-to-compute values (like
+	usage) this function will return a cached value, these "stats" can
+	be updated by calling RDbDatabase::UpdateStats() (which may be
+	long-running) or using the incremental version
+	RDbIncremental::UpdateStats(TInt&).
+
+3.	RDbNotifier's can now also be opened on a client-side database:
+	attempting this operation with build 050 or 051 panic'd. The
+	current implementation only supports a single notifier for a
+	client-side database, but continues to support any number of
+	notifiers opened on a client-server database.
+
+4.	SQL Query optimisation has arrived. No longer is there only one
+	way to evaluate a query, DBMS 052 will now make use of indexes to
+	optimise query evaluation. The implications for database design
+	(what to index) and access (undefined behaviour) are significant.
+
+4.1.	Indexes may be used to evaluate the WHERE clause, the ORDER BY
+	clause, or both. Pre DBMS 051 the exact method of evaluating a
+	query was well defined, and could be relied on: e.g. an ORDER BY
+	clause had to be evluated with an index, and WHERE clause was done
+	on-the-fly; the TDbWindow paramater to RDbView::Prepare() was
+	followed precisely. This can no longer be relied on in the
+	presence of indexes.
+
+4.2.	If a window is requested, the rowset is guaranteed to use one: but
+	a window'd View may be provided for a request which did not
+	specify one, because that may be the only (or best) way to
+	evaluate the query. This implies that Views must be Evaluate()'d
+	after preparation, and they may behave differently if this or
+	another view updates the underlying table.
+
+4.3.	An ORDER BY clause may be evaluated without an index (even if an
+	appropriate one is available), in which case none of the rows will
+	appear in the view until they have all been evaluated. So the "get
+	results as they come in" approach used in the Data application
+	will not look as cool--however, the results might appear 10 times
+	faster to make up for this.
+
+4.4.	Table rowsets continue to have the same behaviour as before.
+
+5.	The server, DBMS drivers and open tables are now held in a expiry
+	cache when they are no longer "in use", and discarded after a
+	short time if not re-used. This significantly improves performance
+	in situations where these objects are repeatedly opened and closed.
+
+6.	Cluster caching is now dynamically increased when it would benefit
+	access performance.
+
+7.	RDbRowSet::CountL() and RDbRowSet::FindL() are implemented one
+	layer "deeper" allowing the server implementation to improve their
+	performance by an order of magnitude.
+
+8.	All references to "Library" and "ISAM" are now "Driver". DBMS
+	driver extensions will have the extension .dbx.
+
+
+Defects fixed
+
+Defect numbers refer to the EPOC Software Defects database
+
+SW1-183: Null columns do not always return zero values (as spec'd by the
+	SDK). The row buffer code has been adapted to do the right thing
+	for all null columns. Test code amended to verify this in the
+	"problem" cases.
+
+SW1-225: An emulator-only defect where the server thread was being
+	cleaned up by the OS because of incorrect ownership. Test code
+	amended to verify this fix.
+
+*	It was possible to set up a database state combining a transaction
+	and long column access, that caused STORE to panic on rollback:
+	this was not ideal for client-side access, but deadly for
+	client-server access as it killed the server. The transaction
+	locking system has now added transient read-locks for long column
+	access to prevent this state. However, this may now cause a
+	RDbColReadStream::Open() call to fail with "KErrLocked" if
+	another client holds an exclusive lock on the database (e.g. they
+	are updating a table, or compacting...). This can be handled
+	earlier by using a transaction to enclose the read, in which case
+	Begin() may fail with KErrLocked.
+
+
+
+
+Version 1.03.051
+================
+(Made by AjThoelke, 28 August 1998)
+
+This is an alpha EPOC Release 5 component.
+
+
+Dependencies
+
+This component ideally requires at least EPOC Release 4 in order to be built
+and run.
+Components required: E32 143, F32 115, STORE 049
+Tools: E32TOOLS 094, E32TOOLP 093
+
+
+Binary Compatibility
+
+This release is fully backwards binary compatible with DBMS 043
+This release is backwards source compatible with DBMS 050
+
+DBMS now has the full E5 API, having now added support for data modification
+SQL statements. Hopefully this API will not be changed in future E5 releases.
+
+The SQL execution has changed from 050, although the new API remains source
+(but not binary) compatible,.
+
+
+Building
+
+ Binaries: From the BMAKE sub-project invoke the BLD batch file
+    Tools: From the TOOLS sub-project invoke the BLD batch file
+
+
+Release components
+
+All 8 build variants have been released.
+MARM ASCII release build EDBMS.DLL is 120,732 bytes (117.9K) in ROM
+
+To install DBMS 051 for MARM:
+	edbms.dll : install to \System\Libs\
+	edbsrv.exe: install to \System\Programs\
+
+For ROM building, edbsrv.exe should be marked as a FIXED process, the process
+priority has yet to be specified.
+
+DBMS 051 can be successfully installed an run from C: on a EPOC Release 4 ROM
+
+
+Testing
+
+All platforms have been fully tested.
+
+Note that some of the new functionality requires new test code to be written
+to ensure it's correctness--this work is planned for the next release.
+
+
+Defects fixed
+
+Defect numbers refer to the EPOC Software Defects database
+
+*	SW1-65: DBMS 051 should be MSVC 5.0 friendly
+
+*	SW1-71: Function renamed to RDbs::ResourceCount()
+
+*	SW1-173: LIKE '*?a?*' could fail to match rows that it should, this has
+	been remedied
+
+*	Faulting previously correct SQL due to the additon of reserved keywords
+	is not really backwards compatible, and this restriction is now lifted.
+	Tables,	indexes and columns can be named after SQL keywords. This is not,
+	however, recommended if you want to remain forwards compatible with 043.
+
+*	SQL create-table-statements could contain invalid data types and cause
+	unexpected things to happen: e.g. "UNSIGNED BINARY" was not flagged as
+	an error.
+
+*	If the last record in a partially evaluated view was deleted and further
+	evaluation generated more rows, the cursor put itself into an
+	inconsistent state, often resulting in a panic. This situation is now
+	detected and dealt with correctly.
+
+
+Changes and additions
+
+A full explanation of the API changes can be found in "r:\dbms\dsdk\api.doc",
+and the SQL grammar is described in "r:\dbms\dsdk\sql.doc".
+
+*	ORDER BY clauses in RDbView queries can now be evaluated without
+	requiring the support of an index (hooray!). In fact, it is now
+	recommended that you do _not_ create indexes for the sole purpose of
+	evaluating an ORDER BY clause: they are slower and bigger, particularly
+	for text keys. More detail on those issues in the next release...
+
+*	RDbDatabase::Execute() now supports DML as well as DDL statements.
+	(see api.doc and sql.doc for details)
+
+*	Added class RDbUpdate to incrementally execute data modification SQL
+	statements. (see api.doc)
+
+*	Started caching tables which have been opened, but are no longer used
+	by any cursor, until the current transaction completes. This
+	particularly improves performance of multiple SQL insert-statements
+	run inside a transaction, as well as removing a nearly-silent-failure
+	mode from the transaction system.
+
+*	Major reworking of the SQL engine involving:
+
+*	Rewrite of the lexer, removing most dependencies on TLex and TChar
+	for performance reasons. TChar functions are only used for non-ASCII
+	characters encountered in identifiers or spaces. TLex is only used
+	for lexing floating point numbers. Keyword identification now uses a
+	case-insensitive comparison, rather than folding.
+
+*	Literal values are managed and converted by a single class
+
+*	Added support for DML statements to the parser
+
+*	Access plan generation has been moved into a new class, in preparation
+	for query optimization in the next release.
+
+
+
+Version 1.02.050
+================
+(Made by AjThoelke, 7 May 1998)
+
+
+Binary Compatibility
+
+This release is fully backwards binary compatible with DBMS 043.
+
+The new API in this release of DBMS is NOT frozen at present, and it has
+beta status. It is liable to be changed in incompatible ways in the next
+release.
+
+Additionally, some of the functionality in 043 has been enhanced, so code
+which relies on the new behaviour will fail when used with 043.
+
+
+Build
+
+E32 release 126, for debug/release compatibility and Security framework
+F32 release 095
+STORE release 048, for RSecureStorePagePool and assertion fix
+E32TOOLS 089
+
+ARM narrow release size is 111,364 bytes (108.8K), as reported from ROMBUILD.
+
+*	Reorganised the source code, SQL classes are now in sub-project USQL
+
+*	Added two new source directories for the DBMS server: SDBMS contains all
+	classes which are built into EDBMS.DLL, SEXE contains the code for the
+	server process MARM executable.
+
+
+Release
+
+*	All MARM binaries have been validated
+
+*	All test code has been run against compatible platforms
+
+*	The build number has been bumped just in case a small incremental release
+	based on 043 is required for EPOC release 4 (e.g. for a bug fix). 050 is
+	not ready for platform release.
+
+*	MARM now releases an executable as well as a DLL. EDBSRV.EXE should go
+	in \system\programs and is required if and only if client/server DBMS is
+	used. WINS does not have any additional objects
+
+
+Defects fixed
+
+*	Obscure "phantom row" defect, discovered during code review.
+	If a row is deleted through rowset A, and then rowset B deletes what would
+	be the next record for rowset A; then NextL() on rowset A would fail to
+	move to the next record after that, resulting in a KErrNotFound error on
+	a subsequent GetL() on rowset A. NextL() now checks for this state and
+	navigates correctly
+
+*	LIKE '?' fails to match a text column containing a single character.
+	Certain patterns in an SQL like-predicate failed to match when they
+	should. The patterns which would failed are characterised by ending in
+	one or more '?' followed by zero or more '*', as long as the '?'s were
+	not preceeded by a regular character. e.g.
+		'?' would not match any single character string
+		'?*' would only match strings of length >=2 rather than	>=1
+
+
+Changes and additions
+
+These release notes contain just the highlights of the changes made to DBMS.
+The document "r:\dbms\dsdk\api.doc" provides more detail on the new API	and
+behaviour of shared databases.
+
+*	RDbs is the client session handle for sharing databases through the DBMS
+	server. It provides resource checking and heap failure tools
+
+*	RDbNamedDatabase provide the generic mechanism for instantiating a
+	database, by providing a name and a format-spec. Databases can be opened
+	client-side for exclusive write access or shared read-only access, or
+	through the DBMS server for shared write access.
+
+*	RDbNotifier provides change notification for shared databases. They can
+	only be opened on a database which has been opened using the DBMS server
+
+*	RDbDatabase::Begin() now returns a TInt error code. For client databases
+	this is garaunteed to be KErrNone (thus ensuring B.C.), but a client-server
+	database may return KErrLocked if another client has locked the database
+
+*	A single transaction can share DDL operations and DML operations. Any
+	affected rowsets which are open when a DDL operation is begun will be
+	invalidated, and if the DDL operation is rolled back all rowsets are
+	invalidated. In this state, most operations on the rowset result in a
+	KErrDisconnected error, and the rowset has to be Close()'d--it cannot
+	be Reset()
+
+*	RDbDatabase::Compact() and RDbIncremental::Compact() provide a way to
+	compact a database. This can be used for RDbStoreDatabase's as an
+	alternative	to the compaction functions available on CStreamStore. These
+	will fail if anyone has an outstanding transaction (including the caller)
+
+*	RDbDatabase::Execute() and RDbIncrmental::Execute() can execute DDL SQL
+	statements. See	"r:\dbms\dsdk\sql.doc" for the SQL syntax of these
+	statements.
+
+	*** If your databases contain tables, indexes or columns which use an SQL
+	keyword for their name: then any SQL passed to DBMS 050, including
+	RDbView::Prepare(), can fail with KErrArgument. The list SQL reserved
+	words is also in the document.
+
+*	Relaxed	constraints on getting and setting integral columns on a rowset
+	and also for specifying integral key values in a TDbSeekKey. These are
+	primarily provided to ease the implementation of non-C++ interfaces to
+	DBMS, note that utilising the new functionality will panic'd on DBMS 043.
+
+
+Test code
+
+*	Revised the current test code to use and test the new API for database
+	instantiation and DDL SQL, and also to test dynamic binding of the DBMS
+	driver library
+
+*	Added a new test program to test database sharing
+
+
+Version 1.02.043
+================
+(Made by AjThoelke, 30 March 1998)
+
+Binary Compatibility
+
+This release is fully backwards and forwards binary compatible with DBMS 042.
+
+Build
+
+E32 release 125, for debug/release compatibility and Security framework
+F32 release 095
+STORE release 047, for RSecureStorePagePool
+E32TOOLS 089
+
+ARM narrow release size is 81964 bytes (80.0K), as reported from ROMBUILD.
+
+Fixed
+
+1.	The compressor could generate an invalid compressed database due to
+	faulty analysis of the database data. The data written is subtly
+	different to the original database, so analysis for the encoding should
+	take place on the data that is written, not on the data that is read:
+	which is what DBMS 042 was doing.
+	
+	This has been fixed: compression is now a little slower, and DBMS is
+	.5K smaller.
+
+
+Version 1.02.042
+================
+(Made by AjThoelke, 18 March 1998)
+
+Binary Compatibility
+
+With the exception of compressed databases, this release is fully backwards and
+forwards binary compatible with DBMS 041.
+
+The compression format has changed slightly, resulting in a data incompatibility
+for compressed databases between 041 and 042. You must use DBMS 042 to compress
+databases for use with this release.
+
+Build
+
+E32 release 125, for debug/release compatibility and Security framework
+F32 release 095
+STORE release 047, for RSecureStorePagePool
+E32TOOLS 089
+
+ARM narrow release size is 82448 bytes (80.5K), as reported from ROMBUILD.
+
+Changes
+
+1.	The compression format has been changed to provide a larger look-back
+	for better compression of long streams; and now uses a stream terminator
+	resulting in faster decompression code.
+
+
+Version 1.02.041
+================
+(Made by AjThoelke, 13 March 1998)
+
+Binary Compatibility
+
+Fully backwards and forwards binary compatible with DBMS 040
+
+Build
+
+E32 release 125, for debug/release compatibility and Security framework
+F32 release 095
+STORE release 047, for RSecureStorePagePool
+E32TOOLS 089
+
+ARM narrow release size is 82524 bytes (80.6K), as reported from ROMBUILD.
+
+Fixed
+
+1.	Compression failed for databases which had no LongText or LongBinary
+	data. The huffman code generator could not cope with a no-data
+	situation. This has been fixed so that non-encodings are supported.
+
+2.	Some code slipped out of 040 which ensures that enforces the read-only
+	nature of a compressed database. Otherwise the database could be
+	modified and left in a corrupt and unreadable state.
+
+3.	Reduced the memory requirements for compression by a factor of 4 or
+	more for databases with large streams.
+
+
+Version 1.02.040
+================
+(Made by AjThoelke, 6 March 1998)
+
+Binary Compatibility
+
+Fully backwards binary compatible with DBMS 039
+Forwards compatible with 039 if you do not use either of the two new exports:
+
+	RDbStoreDatabase::CompressL(CStreamStore&,TStreamId);
+	RDbStoreDatabase::DecompressL(CStreamStore&,TStreamId);
+
+in d32dbms.h. (See below)
+
+Build
+
+E32 release 125, for debug/release compatibility and Security framework
+F32 release 095
+STORE release 047, for RSecureStorePagePool
+E32TOOLS 089
+
+ARM narrow release size is 82384 bytes (80.5K), as reported from ROMBUILD.
+
+Fixed
+
+1.	Writing to a LongText column using the WriteL(RReadStream&,TInt)
+	overload can result in an incorrect column size being stored in the row.
+	This defect has only been introduced in 039, and was not present before
+	that release.
+	This has been fixed, and test code has been changed to test the
+	behaviour of stream-to-stream writing to LongText columns.
+
+New stuff
+
+1.	Provided primarily to support compression of help files in ROM...
+	Store databases can be compressed[1]. These new static functions of
+	RDbStoreDatabase
+
+	CompressL(CStreamStore&,TStreamId)
+	DecompressL(CStreamStore&,TStreamId)
+
+	convert a (non-encrypted) database from normal to compressed form and
+	back again.
+
+	These functions operate synchronously, and can take an extended time to
+	complete[2]. On return the database is not open, and the store file
+	should be CompactL()'d and CommitL()'d after compression or
+	decompression is successful. If they fail, the database will be in its
+	previous state, i.e. the database is still good.
+
+	Index data cannot be compressed (unfortunately).
+
+	Once compressed the database is read-only, but otherwise operates as
+	normal: the data is decompressed on the fly as required.
+
+	I have included the compression code on MARM (4.5K of ROM) as this
+	might prove useful, although it is less aggressive when compressing
+	than the WINS/WINC code. The resulting database is about 7% larger
+	but takes half the time to compress. Compression requires quite a bit of
+	memory.
+
+	[1] Test on help files show compression ratios between 2.5:1 and 4:1
+	[2] e.g. the Series5 help file (343K) takes 10 seconds to compress on
+	an E32 125 ROM.
+
+2.	A new releasable TOOLS contains a WINC\REL executable DataZip.exe which
+	can compress a Data Document (including help files). This has the same
+	EPOC dependencies as DBMS 040 (of course).
+
+	To run this program you need to have E32 WINC 125+, F32 WINC 095+, STORE
+	WINS 047+, DBMS WINS 040+ and DataZip all in the same directory. The
+	source and target file names for the program must be specified in full
+	due to a limitation of WINC at present
+
+	
+Version 1.02.039
+================
+(Made by AjThoelke, 19 February 1998)
+
+Binary Compatibility
+
+Only the client API (d32dbms.h) in MARM REL, WINS REL and WINS DEB builds
+remains binary compatible with DBMS 038.
+
+*	This is the first release to support unicode properly, in particular,
+	the unicode releases are not BC with the 038 pre-release.
+
+*	MARM Debug builds have broken BC in order to become BC with the
+	release build, enabling debug/release component mix'n'match.
+
+*	In order to enable client-server and future extensions to DBMS, the
+	implementors' interface has been thoroughly broken. This interface is
+	described by d32dbas.h, d32rec.h and d32table.h; it has never been
+	documented and will no longer be supported by DBMS. These header files
+	have been withdrawn until Akula completes its changes to this API.
+
+*	The client interface, described by d32dbms.h, is completely backwards
+	binary compatible with 038, adding some new functionality in the shape
+	of secure databases (see below).
+
+If you are building a release/debug compatible component you must use at least
+E32 125, F32 95, STORE 047 and DBMS 039.
+
+Build
+
+E32 release 125, for debug/release compatibility and Security framework
+F32 release 095
+STORE release 047, for RSecureStorePagePool
+E32TOOLS 089
+
+ARM narrow release size is 75920 bytes (74.1K), as reported from ROMBUILD.
+
+MAKMAKE is now used throughout DBMS. The new BMAKE directory contains the batch
+file (bld.bat), makefiles and mmp files to build DBMS. BWINS and BMARM now just
+contain the export definitions files.
+
+DBMS can still be built using the mnt verbs, or by invoking BLD in the BMAKE
+directory. Invoking BLD without parameters gives the basic syntax used.
+
+Test code is built either in each test code sub-project using bld.bat or the
+makefile, or using mnt.cmd from the group as before to build all test code.
+
+Fixed
+
+1.	SW1-792: Following DeleteL() on a filtered rowset, the cursor now
+	correctly determines the NextL() row in the set.
+
+2.	Loopholes in the LongText column streaming code allowed clever, but
+	incorrect, things to be done with text-only columns (such as embedded
+	stores etc.). These columns might now be encrypted, and so do not
+	support seeking or combined read and write: so this condition is
+	asserted. LongText streams should only ever stream text in or out,
+	LongBinary columns must be used for embedding stores.
+
+
+3.	An SQL view which had a comparison operator on a long unicode column
+	could be evaluated incorrectly due to a /2 error in a length
+	calculation. This has been fixed.
+
+4.	The SQL parser could fail in new ways in Unicode (such as OOM) when
+	parsing numeric values. The parser was re-engineered to correctly report
+	the real error code, instead of reporting a generic error
+	(KErrArgument).
+
+5.	RDbTable::SeekL(), when looking up a unicode column key would not use
+	the whole key value given (another divide-by-2 error). Fixed.
+
+Changes and additions
+
+1.	Unicode is here (properly this time). Test code has been modified to run
+	in unicode builds. Missing LongText16 functionality has been
+	implemented, and a couple of unicode column flaws have been fixed.
+
+2.	LongText16 columns could not be used in LIKE predicates in SQL. The
+	required classes and code has been implemented to match the 8-bit code.
+
+3.	Long column optimizations have been overhauled to allow many more than
+	previously (the limit has been rasied from 32 to 504, if there are no
+	other columns). To reduce memory consumption when large numbers of long
+	columns are used, the row buffer is now sized dynamically; are whereas
+	the RDbRowSet::SetColL() members may have left with KErrTooBig, they can
+	now fail with KErrNoMemory if the buffer cannot be expanded. Overall
+	this may reduce the memory requirements for using DBMS.
+
+4.	AlterTable() has some added powers. As long as the respective columns
+	are not indexed, it now possible to increase the maximum length of
+	Text8, Text16 and Binary columns--up to their maximum of 255 bytes--or
+	to change such a column into its respective long type. The reverse is
+	not allowed (shortening a Text column or changing LongText->Text).
+	
+	Changing the maximum length of a column in a StoreDatabase does not
+	require the table to be	re-written, and so is a quick operation.
+	Changing the column type does require the entire table to be re-written
+	and so can take an extended time to complete.
+
+5.	Encrypted databases are also now available (thanks to an addition to the
+	security framework in the Base). The database is encrypted by a key it
+	generates itself, access to this key is protected by encryption and
+	decryption keys provided by clients. This allows a client to change the
+	user password (for example) without requiring the entire database to be
+	re-encrypted. For this reason it is not possible to turn a secure
+	database into a plain-text database and vice-versa: this can only be
+	done by copying the data from one database to another. It is worth noting
+	that encrypting a database does have an impact on performance.
+
+	The three new API functions:
+
+	RDbStoreDatabase::CreateL(CStreamStore*,CSecurityEncryptBase*)
+
+	This creates a secure version of the store database. It cannot be read
+	using DBMS 038 or earlier (it will fail with KErrNotSupported). The
+	second parameter is an encryption object (such as returned from
+	CSecurityBase::NewEncryptL) which is used to create authentication
+	data in the database. The key object is deleted by this function.
+
+	A matching CSecurityDecryptBase object (i.e. same key, same algorithm)
+	must be provided to allow access to the database at any later stage.
+	
+	RDbStoreDatabase::OpenL(CStreamStore*,TStreamId,CSecurityDecryptBase*)
+
+	This is the secure version of opening a store database. The supplied
+	decryption key will be authenticated first before the database is
+	opened. It should match the Encryption key used to create the database,
+	or the last security change. The key object is deleted by this function.
+
+	If the key fails to access the database this fails with KErrGeneral.
+	If the database is not encrypted this fails with KErrArgument.
+	If the database is encrypted using an unknown algorithm this fails with
+	KErrNotSupported.
+	
+	RDbDatabase::ChangeSecurity(CSecurityDecryptBase*,CSecurityEncryptBase*)
+
+	This is used to change the access key for the database. The first
+	parameter is the current decryption key, which is authenticated (just as
+	for opening a database); the second parameter is the new encryption key,
+	used to re-encrypt the authentication data. Both keys are deleted by
+	this function.
+
+	If the database is not encrypted this fails with KErrArgument.
+	If the key fails to access the database this fails with KErrGeneral.
+	
+6.	Cluster (records) caching has been changed to provide caching for
+	multiple record-clusters, paving the way for more efficient multiple
+	client access.
+
+7.	Internal column sets are now crossed indexed by name, making table
+	creation and alteration, and view preparation faster when tha table has
+	a large number of columns. Creating tables up the the record limits is
+	quite acceptably fast now.
+
+8.	Took the opportunity presented by losing back-end API compatibility to
+	rectify one or two design flaws in the implementation classes, and begin
+	the work on turning it into a dynamically loaded generic-database
+	framework.
+
+
+Version 1.01.038
+================
+(Made by AjThoelke, 16 October 1997)
+
+1.	Built using Platform 001 releases of E32, F32 and STORE; used E32TOOLS/067
+
+	Only debug binaries have been modified by this release.
+	
+	Size of EDBMS.DLL
+
+	WINS ASCII Release      66,560 bytes (65.0K)
+	WINS ASCII Debug        -
+	MARM ASCII Release      68,748 bytes (67.1K)	(ROMBUILD)
+	MARM ASCII Debug        82,076 bytes (80.2K)	(ROMBUILD)
+
+2.	Fixed SW1-393 as described. Change T_INDEX to check the assertion.
+
+
+Version 1.00.037
+================
+(Made by Geert, 2 June 1997)
+
+1.	Built using Platform 001 releases of E32, F32 and STORE; used E32TOOLS/067
+
+	Size of EDBMS.DLL
+
+	WINS ASCII Release      66,560 bytes (65.0K)
+	WINS ASCII Debug        -
+	MARM ASCII Release      68,748 bytes (67.1K)	(ROMBUILD)
+	MARM ASCII Debug        82,076 bytes (80.2K)	(ROMBUILD)
+
+2.	Fixed SW3-1060 as described.
+
+
+Version 1.00.036
+================
+(Made by AjThoelke, 28 May 1997)
+
+1.	Built using Platform 001 releases of E32, F32 and STORE; used E32TOOLS/067
+
+	Size of EDBMS.DLL
+
+	WINS ASCII Release      66,560 bytes (65.0K)
+	WINS ASCII Debug        -
+	MARM ASCII Release      68,732 bytes (67.1K)	(ROMBUILD)
+	MARM ASCII Debug        82,060 bytes (80.1K)	(ROMBUILD)
+
+2.	Fixed MNT VALID: needed -e32 in pediff command line.
+
+
+Version 1.00.035
+================
+(Made by AjThoelke, 19 May 1997)
+
+Build
+
+	Built using Platform releases of E32, F32 and STORE; used E32TOOLS/066
+
+	Size of EDBMS.DLL
+
+	WINS ASCII Release      66,560 bytes (65.0K)
+	WINS ASCII Debug        -
+	MARM ASCII Release      68,732 bytes (67.1K)	(ROMBUILD)
+	MARM ASCII Debug        82,060 bytes (80.1K)	(ROMBUILD)
+
+Binary Compatibility
+
+	Fully binary compatible with Platform release 034.
+
+	Four reserved virtual functions on the CDbDatabase and CDbCursor classes
+	defined in d32dbas.h were incorrectly declared as public. These now have
+	private access. The only real changes required to the releasables was new
+	WINS import libraries.
+
+	Nobody should have got anywhere near calling these exports, but they
+	have been made private to protect against anyone doing so "by accident".
+	You should not be building against this release: use the platform
+	version 034.
+
+Changes
+
+1.	Removed Name builds from the BWINS project make file.
+
+2.	Added map files to MARM releaseables
+
+Differences from 034:
+
+
+Version 0.06.034
+================
+(Made by AjThoelke, 17 April 1997)
+
+1.	Uses E32/098, F32/068, STORE/042, E32TOOLS/063
+
+	Binary compatible with 033.
+	File compatible with 033.
+
+	Build sizes for EDBMS[D].DLL
+
+	WINS ASCII Release      66,560 bytes (65.0K)
+	WINS ASCII Debug        -
+	MARM ASCII Release      68,732 bytes (67.1K)	(ROMBUILD)
+	MARM ASCII Debug        82,060 bytes (80.1K)
+
+2.	New Uid scheme adopted for MARM releasables. For MARM, requires
+	E32 098 for anything other than narrow release.
+
+3.	Fixed SW-3494. Calling RDbRowSet::Cancel() before the database had
+	actually been modified when in a real transaction left the transaction
+	machinery in an invalid state. This has been cured.
+
+
+Version 0.06.033
+================
+(Made by AjThoelke, 11 April 1997)
+
+1.	Uses E32/097, F32/067, STORE/041, E32TOOLS/060
+
+2.	Binary incompatible with 032.
+	File compatible with 032.
+
+3.	Build (ROM) sizes for EDBMS[D].DLL
+
+	WINS ASCII Release      66,560 bytes (65.0K)
+	WINS ASCII Debug        -
+	MARM ASCII Release      68,728 bytes (67.1K)	(ROMBUILD)
+	MARM ASCII Debug        82,056 bytes (80.1K)
+
+4.	Full Binary compatibility review complete. API is now frozen.
+
+	Adjusted exports to provide a full implementation API, for potential
+	other implementations of the client API.
+
+	Added some reserved virtual space onto the DBMS implementation framework
+	for future development.
+
+
+Version 0.06.032
+================
+(Made by AjThoelke, 10 April 1997)
+
+1.	Uses E32/096, F32/066, STORE/040, E32TOOLS/060
+
+2.	Binary compatible with 031. File compatible with 031.
+
+3.	Build (ROM) sizes for EDBMS[D].DLL
+
+	WINS ASCII Release      66,048 bytes (64.5K)
+	WINS ASCII Debug        -
+	MARM ASCII Release      68,580 bytes (66.9K)	(ROMBUILD)
+	MARM ASCII Debug        81,824 bytes (79.9K)
+
+4.	Fixed a bug when evaluating unrestricted views (no WHERE clause): a
+	single evaluation step was doing full evaulation, rather than a bite-
+	size chunk.
+
+5.	MARM releasables are now pre-PETRAN'd. Obey file uids are history.
+
+
+Version 0.05.031
+================
+(Made by AjT, 21 February 1997)
+
+1.	Uses E32/089, F32/055, STORE/036, E32TOOLS/051
+
+2.	Binary compatible with 030. File compatible with 030.
+
+3.	Build (ROM) sizes for EDBMS[D].DLL
+
+	WINS ASCII Release      66,048 bytes (64.5K)
+	WINS ASCII Debug        -
+	MARM ASCII Release      68,584 bytes (66.9K)
+	MARM ASCII Debug        81,832 bytes (79.9K)
+
+4.	API tweaklet. TDbSeekKey::Add() members now return a reference to
+	the seek key, to assist in construction of multi-column keys. This
+	is similar to the CDbColSet::AddL() and CDbKey::AddL() functions.
+
+	e.g.
+
+	TDbSeekMultiKey<3> key;
+	key.Add(value1).Add(_L("value2")).Add(value3);
+	table.SeekL(key);
+
+	This change does not affect binary compatibility.
+
+
+Version 0.05.030
+================
+(Made by AjT, 3 February 1997)
+
+1.	Uses E32/086, F32/050, STORE/035, E32TOOLS/051
+
+2.	Binary compatible with 029.
+	This is the B5 release.
+
+3.	Build (ROM) sizes for EDBMS[D].DLL
+
+	WINS ASCII Release      66,048 bytes (64.5K)
+	WINS ASCII Debug        -
+	MARM ASCII Release      68,520 bytes (67.0K)
+	MARM ASCII Debug        81,768 bytes (79.9K)
+
+4.	API tweaklet. In the process of documentation, I discovered that two
+	inline functions on RDbRowSet, Beginning() and End() can leave if
+	the rowset was specified to have insert-only access. I have put an
+	L onto the end of these inline functions, which will not break any
+	binary compatibility, but might affect program logic.
+
+	If the rowset is read-only or updatable (the default) then these
+	functions are guaranteed not to leave.
+
+4.	Fixed a bug in RDbRowSet::DeleteL(). It was not reporting any errors,
+	even when there was one. Error propagation has been reinstated.
+
+5.	Fixed two bugs to do with synchronising mutliple rowsets during
+	concurrent updates to the same table.
+
+
+Version 0.05.029
+================
+(Made by AjT, 21st January 1997)
+
+1.	Uses E32/085, F32/049, STORE/033, E32TOOLS/050
+
+2.	Binary incompatible with any predecessor.
+
+3.	Build (ROM) sizes for EDBMS[D].DLL
+
+	WINS ASCII Release      66,048 bytes (64.5K)
+	WINS ASCII Debug        -
+	MARM ASCII Release      68,448 bytes (66.8K)
+	MARM ASCII Debug        81,628 bytes (79.7K)
+
+4.	The code for parsing text into TTime has been passed on to the base,
+	knocking 3.5K off the DLL.
+
+5.	Fixed an SQL bug: Strings in SQL could not have embedded quote
+	characters (').	This can now be done by using two adjacent quote
+	characters.
+
+
+Version 0.04.028
+================
+(Made by AjT, 4th December 1996)
+
+1.	Uses E32/076, F32/042, STORE/031, E32TOOLS/048
+
+2.	Minor version number set to 4. This is the B4 release
+
+3.	Binary incompatible with any predecessor.
+	File compatibility has been completely broken again. This should be the
+	last time.
+
+4.	Build sizes for EDBMS[D].DLL
+
+	WINS ASCII Release      68,096 bytes (66.5K)
+	WINS ASCII Debug        -
+	MARM ASCII Release      71,268 bytes (69.6K)
+	MARM ASCII Debug        84,608 bytes (82.6K)
+
+5.	The embedded class RDbRowSet::RConstraint has been unembedded, and is now
+	RDbRowConstraint, it's behaviour is unchanged.
+
+6.	The class RDbDatabase::RIncremental and its derived classes have been
+	turned into a single unembedded class RDbIncremental. Instead of
+	constructing the class required for the operation (RDbDatabase::RCreateIndex
+	for example) and then invoking the Open() member, you now construct an
+	instance of RDbIncremental, and invoke the required member (CreateIndex()
+	for the above operation). Otherwise the behaviour of incremental operations
+	is unchanged.
+
+7.	RDbRowSet::ColSet() has been dropped, only the leaving version ColSetL()
+	remains.
+
+8.	A const KDbUnlimitedWindow has been introduced, this is a TDbWindow
+	constructed to represent an unlimited window.
+
+9.	RDbDatabase::IsDamaged() and RDbDatabase::InTransaction() are now const
+	members
+
+10.	The test to date/time conversion has been temporarily adopted by DBMS.
+	search-conditions in WHERE clauses for view preparation, or row
+	constraints can now contain comparisons with DateTime columns. The literal
+	date should be specified by enclosing it in '#'s, e.g.
+
+	SELECT * FROM EMPLOYEES WHERE START_DATE >= #1 Jan 1996#
+
+11.	DBMS RXxx objects previously would automatically close if opened/prepared
+	before being explicitly closed. This functionality has been removed: DBMS
+	handles now behave like F32 handles.
+
+12.	All KErrDoesNotExist errors have been replaced by KErrNotFound
+
+13.	Attempting to use a database/rowset between a failure and a transaction
+	Rollback (or rowset Cancel) now results in the error KErrDied (previously
+	was KErrAbort).
+
+14.	Some verification now takes place as clusters and records are loaded to
+	ensure that they have not been corrupted externally. These checks now
+	result in KErrCorrupt errors, as opposed to ASSERTion panics, or memory
+	overwrites (in release mode).
+
+
+Version 0.01.027
+================
+(Made by AjT, 25th November 1996)
+
+1.	Uses E32/074, F32/040, STORE/029, E32TOOLS/046
+
+2.	Binary compatible 026. Totally file compatible too.
+	Bugs in F32 040 (and 041) may cause incorrect behaviour.
+
+3.	Build sizes for EDBMS[D].DLL
+
+	WINS ASCII Release      65,536 bytes (64.0K)
+	WINS ASCII Debug        -
+	MARM ASCII Release      68,012 bytes (66.4K)
+	MARM ASCII Debug        80,116 bytes (78.2K)
+
+4.	Fixed:
+
+	Insert/SetColL/Cancel/InsertCopy resulted in the row data from the
+	cancelled insertion being in the row buffer following the call to
+	InsertCopyL. Fixed.
+	
+	Alien bookmarks (from another table) caused panics or corruption,
+	rather than being rejected. A new verification scheme has been
+	implemented to handle this (see #7 below).
+
+5.	Added two more typedefs
+
+	typedef TBufC<KDbMaxName> TDbNameC;
+	typedef TBufC<KDbMaxColName> TDbColNameC;
+
+	These are used in place of the explicit TBufC variants in the interface.
+
+6.	Schema enquiry has been added to RDbDatabase. This is the last OVAL
+	related omission.
+
+	CDbTableNames* RDbDatabase::TableNamesL() const;
+	CDbColSet* RDbDatabase::ColSetL(const TDesC& aName) const;
+	CDbIndexNames* RDbDatabase::IndexNamesL(const TDesC& aTable) const;
+	CDbKey* RDbDatabase::KeyL(const TDesC& aName,const TDesC& aTable) const;
+
+	TableNamesL() returns a list of tables in the database.
+	ColSetL() returns a the column set for a given table.
+	IndexNamesL() returns a list of indexes for the table.
+	KeyL() returns a key for the index on the table.
+
+	The objects returned need to be destroyed by the caller.
+
+	The Names functions return an instance of the CDbNames class, which can
+	be iterated through by using the Count() member and [] operator.
+
+7.	A bookmark's persistence can now be specified explicitly:
+	
+	A bookmark taken from a	view A is valid in view A following
+	re-evaluation, and also in any view B based on a query using the
+	same select list on the same table.
+	A bookmark from a RDbTable object is valid for any RDbTable opened
+	on the same table, with or without a SetIndex.
+	
+	These all operate with the proviso that the record in question has
+	not been deleted (of course).
+
+8.	The table-structure cache/map has been overhauled, resulting in
+	faster backwards navigation and reduced overall memory usage.
+
+9.	The heuristic used to determine the clustering for a table has been
+	improved following profiling tests. It is more optimistic than
+	previously, especially for variable length columns. This results in
+	significantly lower stream counts and therefore faster performance.
+
+10.	The "inlining" limit for Long columns has been upped to 255 bytes
+	as #9 has ensured that this doesn't have a serious clustering
+	penalty.
+
+
+Version 0.01.026
+================
+(Made by AjT, 29th October 1996)
+
+1.	Uses E32/072, F32/038, STORE/028, E32TOOLS/045
+
+2.	Not binary compatible release with 025.
+	Can read files from 025, but writes files which cannot be read
+	by 025.
+
+3.	Build sizes for EDBMS[D].DLL
+
+	WINS ASCII Release      62.0K
+	WINS ASCII Debug        -
+	MARM ASCII Release      64.2K
+	MARM ASCII Debug        75.7K
+
+4.	Made use of TCardinality from STORE to give a little more
+	compression to some DBMS store structures, reducing storage
+	overhead to less than 2 bytes per record in ideal conditions.
+
+Version 0.01.025
+================
+(Made by AjT, 18th October 1996)
+
+1.	Uses E32/070, F32/036, STORE/026, E32TOOLS/045
+
+2.	Binary compatible release with 024. I lied about the file
+        formats though: but it wasn't my fault really. This should be
+        the last time they change though.
+
+3.	Build sizes for EDBMS[D].DLL
+
+	WINS ASCII Release      62.0K
+	WINS ASCII Debug        -
+	MARM ASCII Release      64.2K
+	MARM ASCII Debug        75.6K
+
+4.      Fixed a bug in RDbRowSet::InsertCopyL: BLOBs were not being
+        duplicated.
+
+5.      Added Auto-Increment support due to overwhelming demand. This has
+        effected the file format change which makes all previous
+        databases unreadable.
+
+        TDbCol::EAutoIncrement can be added to the attributes of any
+        integral column 32 bits wide or less. The next value of the
+        counter is used to initialise any auto-increment columns when
+        RDbRowSet::InsertL() or RDbRowSet::InsertCopyL() is used. So the
+        value is available before PutL() is called.
+
+        The columns are not verified for uniqueness (you can use a
+        unique index to do that), nor are clients prevented from
+        changing the value in an auto-increment column.
+        
+        It is implemented as an unsigned 32 bit counter, beginning
+        from 0, with the following effects given the choice of column:
+
+        EDbColUint32: Wrap-around from KMaxUint32 -> 0
+        EDbColUint16: KErrOverflow in PutL() at KMaxUint16+1
+        EDbColUint8:  KErrOverflow in PutL() at KMaxUint8+1
+        EDbColBit:    KErrOverflow in PutL() at 2
+        EDbColInt32:  Wrap-around from KMaxInt32 -> KMinInt32
+        EDbColInt16:  KErrOverflow in PutL() at KMaxInt16+1
+        EDbColInt8:   KErrOverflow in PutL() at KMaxInt8+1
+
+6.      RDbTable::SeekL(TDbSeekKey const&,TComparison=EEqualTo) has
+        been implemented. This allows fast key-based lookup of a
+        particular row in a table, using an index. To use it the index
+        has to be created, and the RDbTable has to be set to use this
+        index using the SetIndex() member.
+
+        Two classes are provided for passing keys to Seek: TDbSeekKey
+        is used for passing a single-column key, the template class
+        TDbSeekMultiKey is used for multi-column keys: the template
+        parameter is the number of columns in the key. Key values are
+        added to the key using the Add() members. Single column keys can
+        be constructed directly from the key value with the
+        TDbSeekKey(... aKey) constructors.
+
+        The key values used must match the column types in the index
+        definition exactly, except for integral types <=32 bits wide
+        which are all passed as 32 bit values. You can specify less key
+        columns than are present in the index, and the search will be
+        restricted to the columns in the key you provide.
+
+        Results of using different comparisons are:
+
+        ELessThan:      the last row which compares strictly less than
+                        the key
+        ELessEqual:     the last row which compares less than or
+                        matches the key
+        EEqualTo:       the first row which matches the key
+        EGreaterEqual:  the first row which matches or compares greater
+                        than the key
+        EGreaterThan:   the first row which compares strictly greater
+                        then the key
+
+        SeekL() returns non-false to indicate when a row matching the
+        key and comparison was found.
+
+        Note:
+        a) that if more than one row matches the provided key,
+        EEqualTo and EGreaterEqual will return the same row, but
+        ELessEqual will return a different row: the _last_ row which
+        matches.
+
+        b) the comparison type does not take into account whether an
+        index column is descending: i.e. a row which is "less than" a
+        key (for Seek) can contain a column value numerically greater
+        than the value in the key.
+
+
+Version 0.01.024
+================
+(Made by AjT, 4th October 1996)
+
+1.	Uses E32/069, F32/035, STORE/025, E32TOOLS/042
+
+2.	Binary compatible release with 023. As with STORE 025, the final
+	adjustments in file format come with this release: all future
+	releases should be able to read databases written with this
+	release.
+
+3.	Build sizes for EDBMS[D].DLL
+
+	WINS ASCII Release      60.5K
+	WINS ASCII Debug        -
+	MARM ASCII Release      62.4K
+	MARM ASCII Debug        73.6K
+
+4.	Recompiled against STORE 025 to bring in an inline bug fix.
+
+5.	Fixed a failure-to-initialise bug which occured following a
+	failure during RDbDatabase::RDropTable::Open() and
+	RDbDatabase::RRecover::Open()
+
+6.	Fixed a couple of bugs related to index recovery in stressed
+	conditions: resulted in corrupting the stream-structure of the
+	database, and a bogus index after rollback.
+
+7.	Failure during RDbView::Prepare() or RDbTable::Open() could
+	leave the database in an invalid transaction state. Fixed.
+
+
+Version 0.01.023
+================
+(Made by AjT, 1st October 1996)
+
+1.	Uses E32/069, F32/035, STORE/024, E32TOOLS/042
+
+2.	This is the DBMS B2 release.
+
+	There are one or two weird bugs lurking in there somewhere, which 
+	we are trying to fish out at the moment. They only show up under
+	heavy alloc fail and thread shooting tests. Rather like trying to 
+	catch exotic sub-atomic particles really.
+
+3.	Build sizes for EDBMS[D].DLL
+
+	WINS ASCII Release      60.5K
+	WINS ASCII Debug        -
+	MARM ASCII Release      62.1K
+	MARM ASCII Debug        72.9K
+
+4.	Binary incompatible with any previous release.
+
+5.	Fixed:
+
+	Navigating to Next after Deleting a record from a windowed view
+	and then trying to read the record resulted in KErrDoesNotExist.
+	The next row is now correctly found.
+
+	Rowset returning an (incorrectly) empty row after a failed row
+	read (due to e.g. OOM). Row buffer/cache fixed.
+
+	Specifying a Unicode column for a LIKE match in an SQL string
+	now results in KErrNotSupported, rather than undefined (random)
+	behaviour.
+
+	Rollback due to a failed Update/Put left the rowset with invalid
+	data in the row. This could be returned a valid row after resetting
+	the rowset. This is now correctly invalidated.
+
+	Could not navigate on a rowset while any other rowset was between
+	Update/Insert and Put. Changed Transaction states to allow this.
+
+	Fixed an incorrect assert in the transaction states.
+
+6.	RDbColXmmmmStream::StoreL[C] have been withdrawn. Use the 
+	CEmbeddedStore class in STORE instead to achieve store embedding
+	in LongBinary columns.
+
+7.	With support from STORE 024, Recovery is now fully operational.
+
+
+Version 0.01.022
+================
+(Made by AjT, 23rd September 1996)
+
+1.	Uses E32/067, F32/033, STORE/022, E32TOOLS/041
+
+	This release has not used the latest E32 etc., in order to
+	make the new DBMS functionality available to its clients
+	immediately.
+
+2.	Build sizes for EDBMS[D].DLL
+
+	WINS ASCII Release      60.5K
+	WINS ASCII Debug        -
+	MARM ASCII Release      61.8K
+	MARM ASCII Debug        72.7K
+
+3.	Binary incompatible with any previous release.
+	Files are also incompatible: the DBMS head stream is now typed
+	and validated whn opened.
+
+4.	Fixed a bug in the calculation of maximum record size in the
+	presence of a DateTime column.
+
+5.	Indexes now support truncated Text and LongText keys.
+
+	TDbKeyCol has a new member iLength and a new ctor:
+
+	TDbKeyCol(const TDesC& aColumn,TInt aLength,TOrder anOrder=EAsc);
+
+	*	The length should only be defined for Text or LongText columns.
+	
+	*	The lengths specified need to equal the maximum column length
+		(or be left undefined), _except_ for the last key column, for 
+		which it can be smaller. Key values will be truncated to fit.
+
+	*	With unique indexes the _truncated_ key will have to be unique.
+
+	*	ORDER BY (which is only supported in the presence of an index) 
+		is relaxed so that rows are returned in the order of the 'best' 
+		matching index available: i.e. between indexes containing all 
+		necessary columns, the one that stores most of the final key
+		column. Clearly if a truncated-key index is not unique, the rows
+		may be returned in not-quite-order.
+
+	*	LongText columns, like short ones, can be indexed. LongText 
+		columns can only ever be used as the last column in a key 
+		specification, and must have a length specified.
+
+	*	Every key value in an index takes up the maximum space.
+
+	As a guide: The maximum allowable unique Text key is 248 bytes, the
+	maximum allowable non-unique Text key is 244 bytes.
+
+6.	Database safety and Transaction support.
+
+	*	The Database uses the Store commit/revert protocol to achieve
+		transaction support. Therefore is is _vital_ that clients do
+		not do so themselves while they have the database open. Failure
+		to do so may result in an unrecoverable database.
+
+	*	Until a transaction is commited, the updates are not persistent:
+		Rollback or closing and re-opening the database will result in
+		loss of the updates and possible recoverable damage to the
+		database.
+
+	*	Without the explicit use of transactions on the database, all
+		update operations take place within their own automatic
+		transaction:
+
+		*	DDL incremental operations are committed on successful
+			completion, or rolled back when the incremental object
+			is closed if the operation failed or was not completed.
+
+		*	DML: RDbRowSet::UpdateL() or Insert[Copy]L() begins a auto-
+			transaction and PutL() commits it, on any failure, 
+			Cancel() will invoke the rollback. DeleteL() does all of
+			this within the single function.
+
+		*	Interleaved DML operations on separate rowsets are treated
+			as a single transaction on the database, so it is possible
+			to make a multi-table update be atomic using the auto-
+			transaction feature. e.g.
+			
+			View1.UpdateL();	// transaction begins here
+			View2.UpdateL();
+			...
+			View1.PutL();
+			View2.PutL();		// transaction commits here
+
+			For such a transaction to rollback on failure, all rowsets
+			with pending updates must be Cancel()led.
+
+	*	Explicit use of RDbDatabase::Begin(), Commit() and Rollback() 
+		precludes the above behaviour. If the database is in an explicit
+		transaction, update operations do not invoke invoke their own
+		auto-transactions.
+
+		DML and DDL cannot (and never could be) operated at the same
+		time, but they can be done within the same database transaction.
+
+	*	When an operation fails during a transaction, and before any
+		rollback, the database is left in an "abort" state, and
+		attempting other operations will result in an KErrAbort error.
+		The appropriate rollback mechanism must be used before commencing
+		(Cancel() rowset updates, Close() incremental objects, Rollback()
+		any explicit transactions).
+
+		The database may be damaged following rollback, but this can be
+		repaired.
+
+	*	After a Rollback, all rowsets lose their current position, this
+		results in a return/leave code of KErrNotReady when attempting
+		to use the table or view. The rowset must be Reset() which
+		returns it to the state it was in immediately after opening or
+		preparing. (So a view may need to be re-evaluated at this point).
+		The rowset does not need to be closed and re-prepared.
+
+	*	If a client requires that some Store updates are commited to
+		the Store at the same save-point as some database updates,
+		an explicit transaction should be used, and both the store and
+		database updates carried out within the transaction. Commiting
+		the database will then commit the Store.
+
+	*	Why use transactions? Apart from providing atomicity of multiple
+		updates across one or more tables, they vastly improve
+		performance when doing bulk updates.
+	
+		Some statistics: the test was writing 1000 records (about 40 bytes
+		per record) to a table in a database. (timings from the rack)
+
+		Automatic transactions (each record is written within its own
+		transaction):
+			File size: 529,667 bytes
+			Time:      90.1s
+		Explicit transactions (a single transaction is used for all 1000
+		record writes):
+			File size: 38,762 bytes		(14 x smaller)
+			Time:      1.54s			(>50 x faster)
+
+		The file size difference is entirely compactible on STORE
+		(eventually--when STORE provides compaction), as the extra space
+		comes from having to flush buffers and commit the store after
+		every record is written.
+
+7.	The recovery code is in place, but requires some more Btree
+	support from STORE than comes with 022.
+
+	*	Following Rollback (auto or explicit): if any indexes have 
+		been updated, they are considered broken. The database is
+		still operational (although it reports that it is damaged).
+		Any damaged indexes cannot be used for DML (reporting 
+		KErrCorrupt) and so may prevent some views being operational 
+		after rollback and reset.
+
+	*	Damaged indexes can be dropped (STORE does not support this
+		yet). The database will still report damage, though recovery
+		will then be trivial.
+
+	*	Recovering the database involves rebuilding all damaged
+		indexes. (ditto about STORE)
+
+	*	All tables and views must be closed on the database before 
+		recovery can commence.
+
+8.	There is now a limit of 32 indexes on any one table in database.
+
+9.	Incremental operations now take larger than minimal steps, and
+	should modify the step count more sensibly than before.
+
+10.	Indexing should be one helluvalot faster now: without any commit
+	framework the previous release was doing some excessive streaming
+	to the file.
+
+
+Version 0.01.021
+================
+(Made by AjT, 6th September 1996)
+
+1.	Uses E32/066, F32/031, STORE/021, E32TOOLS/039
+
+2.	Build sizes for EDBMS[D].DLL
+
+	WINS ASCII Release	54.0K
+	WINS ASCII Debug        -
+	MARM ASCII Release      55.4K
+	MARM ASCII Debug        64.9K
+
+3.      Binary incompatible with previous release.
+
+4.      Any API to do with compaction has been removed as compaction is
+        ommitted. Compaction of the file-store should be done with the
+        STORE API.
+
+5.      Added RDbColXxxxStream::StoreL() and RDbColXxxxStream::StoreLC()
+        to enable a persistent store to be embedded in LongBinary
+        columns. Use in the same way as RStoreXxxxStream::StoreL() etc.
+
+6.      New persistent table structure: robust and PermanentStore
+        friendly. Records are clustered and clusters are cached in
+        memory, resulting in lower storage overhead and faster record
+        access.
+
+7.      The rule about EDbColBit columns being not-null has been
+        withdrawn. Nullable Bit columns are back.
+
+8.      No provision for serious text to time conversion has been made,
+        so date columns cannot be used in WHERE clauses, and the date-
+        literal is removed from the grammar.
+
+9.      Removed trivial constructors and destructors from abstract
+        classes, there by saving code space (~1K) and preventing
+        vtables being generated for these classes.
+
+Version 0.01.020
+================
+(Made by AjT, 2nd September 1996)
+
+1.	Uses E32/066, F32/031, STORE/021, E32TOOLS/039
+
+2.	Build sizes for EDBMS[D].DLL
+
+	WINS ASCII Release	52.5K
+	WINS ASCII Debug        -
+	MARM ASCII Release      53.5K
+	MARM ASCII Debug        62.6K
+
+3.      Binary compatible with 019
+
+4.      DBMS is no longer tested against the Fragment file store layout,
+        as this is being phased out and the future releases will start
+        using file store features not supported by CFragmentFileStore.
+        Changed your code to using CPermanentFileStore now!
+
+5.      Views now follow the spec for cursor position after DeleteL,
+        PutL and Cancel.
+
+        Following from DeleteL, the current position is in between what
+        would have been the Next and Previous rows, so Next and Previous
+        after DeleteL will go to the same row as if DeleteL had not been
+        called.
+
+        After a PutL the current row will be the row just Put. Which row
+        appears following subsequent Next/Previous depends on how the
+        view is evaluated. For Unlimited windows it is well defined (see
+        note 8 to release 018). For Table views with no set index,
+        Updated rows remain in the same place, Insert[Copy]ed rows are
+        appended, so following Insert/Put the current row is the Last
+        row.
+
+        After a Cancel the view should be located in the same place it
+        was prior to the Update/Insert.
+
+6.      Support for co-ordinating multiple views on the same table has
+        been added. If one view modifies the table this can affect other
+        rowsets. DBMS tries to recover the other view cursors when they
+        are next used, but this is not always possible. Some RDbRowSet
+        members can fail in special ways in this situations:
+
+        If another view has deleted the rowset's current row, GetL and
+        DeleteL will fail with KErrDoesNotExist. Depending on how the
+        view is evaluated the view may still be able to move to
+        PreviousL and NextL. If the cursor cannot be recovered, NextL
+        and PreviousL will fail with KErrNotReady and the view will be
+        left on an invalied row.
+
+        If another view has modified the table between between a call to
+        UpdateL and PutL, PutL will fail with KErrGeneral. [I'm trying to
+        think of a more appropriate error for this]. To continue you
+        need to Cancel() and then try to update again.
+
+        As DBMS is not a server, you should usually be in control of
+        multiple views, and how they will interact with each other.
+
+7.      Long columns are inlined into the record when they are short
+        enough. This has no affect on the API to access them, as this is
+        primarily to reduce the storage overheads for short BLOBs.
+
+
+Version 0.01.019
+================
+(Made by AjT, 21 August 1996)
+
+1.	Uses E32/065, F32/029, STORE/020, E32TOOLS/039
+
+        A release to upgrade to the new components and directory
+        structure.
+
+2.	Build sizes for EDBMS[D].DLL
+
+	WINS ASCII Release	51,200
+	WINS ASCII Debug        -
+	MARM ASCII Release      52,812
+	MARM ASCII Debug        61,268
+
+Version 0.01.018
+================
+(Made by AjT, 20 August 1996)
+
+1.	Uses E32/064, F32/028, STORE/019, E32TOOLS/036
+
+2.	Build sizes for EDBMS[D].DLL
+
+	WINS ASCII Release	51,200
+	MARM ASCII Release      52,860
+	MARM ASCII Debug        61,308
+
+3.      Fix: Table names are compared folded when opening tables or
+        views on the database.
+        
+4.      A final record layout has been adopted: Long columns are not yet
+        inlined when they contain sufficiently little data. Any
+        databases from previous versions will be read incorrectly. The
+        new format means that the order of the columns in a newly
+        created table may not be the same as that in the column set
+        provided for RDbDatabase::CreateTable() or
+        RDbDatabase::AlterTable().
+
+        Specifying columns as Not-Null reduces the persistent storage
+        requirements for numerical columns. Bit columns must always be
+        Not-Null.
+
+5.      Dropping and altering tables, creating and dropping indexes, and
+        evaluating a view are now done incrementally. The non-incremental
+        forms use the incremental objects/functions. These are done in
+        rather small steps at the moment, this will be changed to more
+        efficient larger steps at some stage.
+
+6.      AlterTable has arrived. Specification of the altered column set:
+
+        Any column with the same name in the altered set as one in the
+        original table is considered unchanged. So it must have the same
+        definition, with the exception that the TDbCol in the altered set
+        can have iMaxLength set to KDbUndefinedLength.
+
+        Any number of columns may be deleted, provided they are not used
+        in any index key. Any number of nullable columns may be added.
+        Any number of Not-null columns may be added to an empty table:
+        it is an error to try and add Not-null columns to a non-empty
+        table.
+
+        If the table is empty, or no columns are being dropped this
+        completes immediately. Otherwise the entire dataset need to be
+        modified and the operation is potentially long-running.
+
+7.      Query text and the comparison type to be used in the query are
+        now packaged into a class TDbQuery, which can be constructed
+        from a descriptor, or a descriptor and a comparison type.
+
+        This affects the following functions:
+        RDbRowSet::RConstraint::Open()
+        RDbRowSet::FindL()
+        RDbView::Prepare()
+
+8.      The RDbView::Prepare API now looks like:
+        
+        TInt Prepare(RDbDatabase&,const TDbQuery&,TAccess =EUpdatable);
+        TInt Prepare(RDbDatabase&,const TDbQuery&,const TDbWindow&);
+        TInt Prepare(RDbDatabase&,const TDbQuery&,const TDbWindow&,TAccess);
+
+        effectively you have
+        
+        Prepare(Database, Query [,Window] [,Access])
+
+        The Query can be directly constructed from a descriptor, in
+        which case normal text comparison is used in the query
+        evaluation. Other comparison modes can be set by explicitly
+        constructing a TDbQuery from the query descriptor and comparison
+        type.
+
+        The Access parameter is as specified before, and always defaults
+        to RDbRowSet::EUpdatable.
+
+        The Window parameter is the new one. This defaults to
+        TDbWindow::ENone, which provides the previous behaviour for the
+        view: evaluation or navigation may take an extended time to
+        complete, depending on how the query is evaluated, as little
+        memory is used as possible.
+
+        If TDbWindow::EUnlimited is specified, the view takes on Dynaset
+        behaviour. Evaluation may take an extended time to generate a
+        set of all the rows in the query, but then navigation is
+        guaranteed to take constant time. This does impact the way
+        modified or inserted rows appear in the set: modified rows will
+        stay in the same place in the set, even if an ORDER BY clause is
+        specified in the query or they no longer match the WHERE clause;
+        inserted rows will always appear at the end of the set, even
+        when they do not match a WHERE clause. If the set is re-
+        evaluated, these rows will then appear (or not) in the correct
+        place.
+
+        A limited size window can be specified, which allows for
+        guaranteed quick navigation within the window, without the
+        memory overhead of generating a set of every row in the query.
+        This is specified with the TDbWindow constructor overload:
+
+        TDbWindow(TInt aForeSlots,TInt aRearSlots);
+
+        aForeSlots indicates the number of row references which should be
+        "cached" for navigating to Next, and aRearSlots indicates the
+        number which should be cached for going to Previous. The current
+        row is not included. The window then provides a restricted view
+        over the underlying query; when fully evaluated the window will
+        try to match the requested shape if possible. Navigation is
+        restricted to the window, CountL() reports the number of rows in
+        the window, and going past the end will report AtEnd and
+        AtBeginning as for other rowsets. To "move" the window, the
+        view needs to be evaluated some more.
+
+        Updated records in a restricted window will remain in place,
+        though further navigation and evaluation may result in it
+        appearing elsewhere later. Inserted records are not added to the
+        window, they may appear later after further evaluation.
+        Restricted windows are therefore not ideal for modifying the
+        data.
+
+        Note: Some queries will demand an unlimited window (ORDER BY on
+        a non-indexed column (not yet available), so the parameter to
+        Prepare can only be used as a suggestion to DBMS.
+
+        
+        Evaluation API:
+
+        void Reset();
+        TInt Evaluate();
+        void Evaluate(TRequestStatus& aStatus);
+        TBool Unevaluated() const;
+        TInt EvaluateAll();
+
+        The view can be Reset() to its condition immediately after
+        Prepare(). For views with a window, this results in an empty
+        window, and evaluation is required to make any rows available.
+        The view is repositioned back to the beginning.
+
+        Evaluate() does a unit of evaluation work. A return value <0
+        is an error code; KErrNone implies that evaluation is complete
+        for the window/set; >0 implies that further evaluation can be
+        done. Evaluate(TRequestStatus& aStatus) is an asynchronous
+        version of Evaluate(), the status reporting the same as the
+        return code.
+        
+        At any time, RDbView::Unevaluated() will return whether
+        Evaluate() has any work to do or not.
+
+        EvaluateAll() invokes Evaluate() until evaluation is complete.
+
+        Evaluation and navigation can be mixed. An interesting side
+        effect is that if the view is navigated off the end of the
+        window, resulting in being AtEnd, and then further evaluation
+        results in rows being added to the window, the view will then be
+        positioned at the new row, its state changing from AtEnd to
+        AtRow.
+
+        To fully re-evaluate an unlimited window, use Reset() followed
+        by EvaluateAll().
+
+
+Version 0.01.017
+================
+(Made by AjT, 5 August 1996)
+
+1.	Uses E32/064, F32/028, STORE/019, E32TOOLS/036
+	
+	This is just a component upgrade release
+
+2.	MARM ASCII Release size down to 46,776 due to IMPORT stub
+	shortening
+
+Version 0.01.016
+================
+(Made by AjT, 26 July 1996)
+
+1.	Uses E32/063, F32/027, STORE/018, E32TOOLS/034
+
+2.	Build sizes for EDBMS[D].DLL
+
+	WINS ASCII Release	46,592
+	WINS ASCII Debug	110,592
+	MARM ASCII Release	46,980
+	MARM ASCII Debug	54,580
+
+3.	Bugs fixed:
+
+	Key uniqueness was not being persisted, so unique indexes would
+	not work when the database was re-opened after closing.
+
+4.	Bookmarks are here. It is possible to bookmark any cursor position,
+	including the beginning and end of the set.
+
+5.	Finding within a rowset is operational.
+	RDbRowSet::RConstraint, MatchL and FindL are fully functional as
+	spec'd in the previous release notes.
+
+6.	Incremental database operations are now functional, though their
+	implementation is currently a mock-up based on their single call
+	siblings. So they will all report 1 step after the call to
+	Open(...) and complete after the first call to Next().
+
+7.	A TDbCol constructed as a short Text column (EDbColText[8|16]) now
+	has a default iMaxLength of KDbDefaultTextColLength (50) rather than
+	KDbUndefinedLength.
+
+	This allows default length text columns to be indexed, as the
+	previous default (which translates to 255 characters in the
+	database-in-a-store) meant that the key was too large and the index
+	creation failed. The value chosen matches a default in
+	Microsoft Access.
+
+8.	The enum TDbPosition has been renamed to RDbRowSet::TPosition, and
+	as all its values are now scoped by RDbRowSet, the 'Db' prefix
+	to the enumeratiuon values has been dropped.
+
+9.	RDbRowSet::SetColNull() has had an 'L' suffix added as it may leave
+	when a Long column is being set to Null. It will never leave if the
+	column is not a Long column or it is already Null.
+
+10.	The base class for the incremental operations has been renamed from
+	RDbDatabase::RState to RDbDatabase::RIncremental which better
+	reflects its purpose.
+
+11.	RDbView's evaluation interface has been changed after thought about
+	incremental evalution.
+	
+	IMPORTANT: Evaluate() has been renamed to EvaluateAll(). Evaluate()
+	will eventually invoke a single step in the evaluation of the view,
+	but this member has been commented out for this release to
+	help spot uses of this member which need to be changed.
+	
+	EvaluteAll() will eventually use the incremental evaluation
+	mechanism to generate the rowset.
+
+12.	RDbRowSet::CountL() is fully implemented now, and will restore the
+	previous cursor position if it is necessary to navigate the entire
+	set in order to calculate the number of rows.
+
+13.	RDbRowSet::IsEmptyL() is also now implemented.
+
+Version 0.01.015
+================
+(Made by AjT, 11 July 1996)
+
+1.	Uses E32/063, F32/027, STORE/017(018), E32TOOLS/034
+
+	Upgraded to new releases. Store 017 and 018 are binary
+	compatible. Use 018, it provided between 300 and 800% speed
+	increase for the DBMS test code.
+
+2.	Build sizes for EDBMS[D].DLL
+
+	WINS ASCII Release	44,032
+	WINS ASCII Debug	115,712
+	MARM ASCII Release	44,068
+	MARM ASCII Debug	51,080
+
+	Tool change resulted in 18% code size reduction. Implementation
+	of indices and addition of new API has added an extra 9.5K.
+
+	Debug MARM version for the first time included.
+
+3.	Indices are here! Single- and multi-column keys can be used to create
+	indices. Once created, all indices on a table will be updated when
+	the table has rows inserted, deleted or updated.
+
+	RDbTable::SetIndex() (see below) allows direct index navigation of the
+	table record set.
+
+	ORDER BY will work as long as the ordering matches an index, including
+	the text ordering (see 7 below) for text columns. "Matching" includes
+	reversing the index order and truncating a multi-key index to a
+	shorter sort-specification.
+
+4.	Following the spec meeting, the API has undergone some major work
+	detailed below. All the additions which have not been implemented
+	should still link OK, but the EXPORT_C'd stubs Panic at runtime with
+	EDbUnimplemented.
+
+5.	TDbCol attributes are now a member enumeration and the attributes
+	member name has been changed:
+
+	KDbColNotNull is now TDbCol::ENotNull
+	KDbColAutoIncr is now TDbCol::EAutoIncrement
+	TDbCol::iColAtt is now TDbCol::iAttributes
+
+	CDbColSet::New() has been withdrawn.
+
+6.	The TDbSortOrder enumeration is now a member of TDbKeyCol and the
+	sorting order member of TDbKeyCol has changed:
+
+	TDbSortOrder is now TDbKeyCol::TOrder
+	EDbSortAsc is now TDbKeyCol::EAsc
+	EDbSortDesc is now TDBKeyCol::EDesc
+
+	CDbKey::New() has been withdrawn.
+	CDbKey::Unique() is now CDbKey::IsUnique()
+
+7.	Enumeration TDbTextComparison has been introduced to specify how text
+	data is compared and ordered:
+
+	EDbCompareNormal - use "binary" order
+	EDbCompareFolded - use folded order (case and accent insensitive)
+	EDbCompareCollated - use the locale collation order
+
+	Where-ever SQL expressions are used in the API, a companion parameter
+	of this type is now required to specify how text columns in the query
+	are compared. This parameter is query-wide, and affects text columns
+	within a WHERE clause as well as those in an ORDER BY clause.
+	So the RDbView::Prepare(...) and Evaluate(...) members have been changed.
+
+	This is also an attribute of an index key, specifying how the text
+	columns in the index are ordered. If a key has no text columns, this
+	attribute is ignored. Use the CDbKey::SetComparison() and
+	CDbKey::Comparison() members to	set and test this attribute.
+
+8.	Row data in a rowset is not retrieved automatically anymore.
+	RDbRowSet::GetL() must be called before any column extraction can be
+	done without a Panic. RDbRowSet::UpdateL() does not require
+	the use of GetL() before or after it is called, the row is read as
+	part of the UpdateL(). If Cancel() is used after an UpdateL() or
+	InsertL(), then GetL() is required to re-retrieve the data for the
+	row previously in view.
+
+9.	A copy of the current row can be inserted into the rowset using
+	RDbRowSet::InsertCopyL(). This will provide new values for
+	auto-increment columns.	For views with a projected column set, i.e.
+	those using a non trivial (*) select-list in the query, it is not
+	defined whether the un-viewed columns are copied or not.
+
+10.	RDbRowSet::Count() is now CountL(TAccuracy anAccuracy=EEnsure)
+	to reflect the fact that counting may not be a trivial operation
+	The default behaviour is to go to whatever lengths are required
+	to provide an exact count of the membership of the row set, this
+	can take an extended time to evaluate.
+
+	If EQuick is passed as the accuracy parameter this member will
+	return a count only if it is immediately available, otherwise it
+	will return KDbUndefinedCount (-1). Not fully implemented.
+
+11.	For similar reasons RDbRowSet::IsEmpty() is now IsEmptyL()
+	This is not as hard to evaluate as the Count, but may still be a
+	non-trivial operation in some cases.
+
+12.	The rowset positioning operations have two new additions:
+	RDbRowSet::Beginning() and End() which are always available (hence no
+	trailingL). The positioning members	are all implemented in terms of
+	RDbRowSet::GotoL(TDbPosition), which is also available for clients.
+
+	RDbRowSet::FirstL(), LastL(), NextL() and PreviousL() now all return
+	TBool to indicate whether or not they are at a row. i.e. calling
+	RDbRowSet::AtRow() after a call to one of the above will return the
+	same value.
+
+	You can write your loops in lots of ways now
+
+	for (view.FirstL;view.AtRow();view.NextL())
+		{
+		}
+
+	or
+
+	view.Beginning();
+	while (view.NextL())
+		{
+		}
+
+	etc.
+
+13.	RDbTable provides the ability to view the records in named index order
+	using RDbTable::SetIndex(const TDesC& anIndex). Or back in default
+	order using RDbTable::SetNoIndex().
+
+14.	RDbDatabase::PrepareCommit() and FinishCommit() withdrawn. Two phase
+	commit belongs to a different scale of database.
+
+15.	RDbDatabase::CreateTable(...,const CDbKey&) added to support
+	implementations	which use a primary key in a table definition. The
+	Store database implementation will not support this.
+
+16. RDbs and RDbsDatabase have been withdrawn.
+
+
+The following changes have been made to the API, but are not yet implemented:
+
+17.	Bookmarks to reposition to a previously accessed row. Use them like this:
+
+	TDbBookmark mark=view.Bookmark();
+	// use the view to do something
+	view.GotoL(mark);
+
+18.	Searching across a rowset using:
+
+	TInt RDbRowSet::FindL(TDirection,const TDesC&,TDbTextComparison)
+
+	The matching constraint is defined by the search-condition part of a
+	SQL WHERE clause, i.e. "Name like '*john*'", passed as the second
+	parameter, the third parameter specifies the text comparison to use
+	(see 7 above). The first parameter is either EForwards or EBackwards
+	and specifies which direction the search should move through the row
+	set. The search always starts at the current record. The search
+	terminates when either:
+	a)	a match is found and the number of records searched minus 1 is
+		returned (so if	the current record matches the condition 0 is
+		returned) or
+	b)	the	end of the set is reached and KNotFound is returned
+
+	The API also provides a way of testing a row against a given condition.
+	The condition is built into an RDbRowSet::RConstraint object and can
+	then be tested against individual rows using the RDbRowSet::MatchL()
+	member. As the constraint involves allocating resources it should be
+	closed when no longer required.
+
+19.	Incremental forms for RDbRowSet::Evaluate()
+
+	All the incremental operations have a single basic function
+	TInt Next(TInt& aStep) // synchronous form
+	The integer aStep is decremented for each step, though it may be in
+	units > 1. When aStep reaches 0, the operation is complete. Some of
+	the operations' step-counts are very hard to predict, and so finish much
+	earlier than predicted.
+
+20.	Seeking within an index for a record which matches a specified key can
+	be achieved with RDbTable::SeekL(). The index used for the look up is
+	set using RDbTable::SetIndex() (see 13 above) and the key is specified
+	using the TDbSeekKey or TDbSeekMultiKey<S> classes. The templated class
+	allows seeking with an index which has multiple	key columns. Each key
+	value is added to the TDbSeekKey, and should match the column type in
+	the table.
+	
+	RDbTable::SeekL() also takes a parameter which specifies which record to
+	find in the index. If it succeeds in locating a record which matches the
+	key and comparison it returns true; otherwise the rowset is left in an
+	undefined position.
+
+20.	RDbDatabase::IsDamaged() and Recover() added to support recovery.
+	This is done on a opened database. When open IsDamaged() reports whether
+	the database requires recovery: if it is damaged then no other
+	operations can be performed on the database, and they will report the
+	error KErrCorrupt.
+
+21.	RDbDatabase::Compact() will compact an open database. It must not be
+	in use for anything else concurrently.
+
+22. Incremental database operations are supported by the RDbDatabase::RState
+	class and those derived from it.
+
+Version 0.01.014
+================
+(Made by AjT, 30 May 1996)
+
+1)	Uses E32/060, F32/024, STORE/015, E32TOOLS/028
+
+2)	Binary compatible with build 013.
+	Making use of the -fcheck-new flag in MAKTRAN(028)
+
+3)	EDBMS.DLL build sizes:
+
+	WINS Ascii Debug		93,696
+	WINS Ascii Release		34,304
+
+	MARM Ascii Release		41,496
+
+4)	Bugs fixed:
+	
+	MNT bug: failed to create an E32DATA directory, which is required
+	during EPOC32 startup!
+
+	Clearing or rewriting a Long column while in an RDbRowSet::UpdateL
+	caused a USER panic.
+
+	When updating a row, making columns smaller or setting them to
+	Null, could result in data on the end of the row being lost or
+	corrupted.
+
+5)	STORE 015 fixed the worst of the Rewritable file store problems.
+
+Version 0.01.013
+================
+(Made by AndrewT, 24 May 1996)
+
+1)	Uses E32/059, F32/023. STORE/014, E32TOOLS/024
+
+2)	EDBMS.DLL build sizes
+
+	WINS Ascii Debug		93,696
+	WINS Ascii Release		34,304
+
+	MARM Ascii Release		47,108
+
+3)	The ODBC implementation has been removed from the release
+
+4)	Bugs fixed:
+
+	Word swapping doubles was written without alignment in mind, caused
+	the rack to hang sometimes in RDbRowSet::PutL(). Fixed
+
+5)  	New features:
+
+	[NOT] LIKE in the search condition is now case-insensitive (using Folding);
+	The other comparison operators are (and will remain) case sensitive
+
+	Select-lists are now supported: so
+	"select Name,Dept from Personnel where ID>3"
+	will now work. The columns in the RDbView are ordered exactly as in the
+	list in the SQl statement.
+
+6)	WARNING!
+
+	A bug in CRewritableFileStore in STORE 014 means that once a
+	CRewritableFileStore file has been closed, opening and adding new streams
+	will make the last stream (by id) corrupt and the first one (by position)
+	invisible. This will also happen when more than 16 streams are created in a
+	newly created store.
+	Signs of corruption are duff stream data or non-exisitence of a stream when
+	reading, but may be hard to track down.
+	Opening a CRewritableFileStore for reading if no corruption has yet occured
+	is not a problem.
+
+	This will affect databases in RewritableFileStores.
+
+7)	Due to dependence on STORE 014, which has changed the format of file store
+	headers, files written using DBMS(012)/STORE(013) are unreadable with
+	DBMS(013)/STORE(014)
+
+Version 0.01.012
+================
+(Made by AndrewT, 13 May 1996)
+
+1)	Uses E32/059, F32/023. STORE/013, E32TOOLS/023
+
+2)	EMARM build sizes from e32rom.log:
+
+	Rom file size:			64K
+	Total Raw Data size:	43K
+
+3)	Bugs fixed:
+
+	RDbRowSet::IsColNull(), ColSize() and ColLength() return as for a
+	NULL column when invoked on a Long column in a rowset which has not
+	had any other column evaluated.
+
+	Various problems with recovery after errors when opening databases
+	or views.
+
+4)  New features:
+
+	LongText8 columns can now be specified in the WHERE clause of a
+	query.
+
+	Table names and columns sets are fully validated when a table is
+	created.
+
+	Rows are fully validated before they are written to the table.
+
+5)	Data format has changed, so databases written with build 011 of
+	DBMS will fail to open correctly with this build.
+
+
+Version 0.01.011
+================
+(Made by AndrewT, 30 April 1996)
+
+1)	Uses E32/057, F32/021. STORE/012, E32TOOLS/021
+
+2)	EMARM build sizes from e32rom.log:
+
+	Rom file size:		64K
+	Total Raw Data size:	42K
+
+3)	Bugs fixes:
+
+	E32 panic during cleanup if Store database open or creation failed.
+
+	Deleting last row in a table generated an End-Of-File error.
+
+4)	API Changes:
+
+	KNullColNo has become KDbNullColNo
+
+	Added new member TDbColType RDbRowSet::ColType(TDbColNo) which just
+	reports the column type.
+
+	In the RDbView::Prepare(), RDbView::Evalyate() and RDbTable::Open()
+	functions, the allowUpdates boolean flag has been replaced by an enum
+	RDbRowSet::TAccess, which takes one of the three values:
+
+		EUpdatable:  the default, rows can be read or written
+		EReadOnly:   the rows can only be read, InsertL/DeleteL/UpdateL
+					 will leave with KErrWrite
+		EInsertOnly: the rows can only be inserted. Any navigation
+					 functions and DeleteL will leave with KErrWrite
+
+5)	Long columns are now length counted when written, so ColSize() and
+	ColLength() should report correctly. Only one column can be streamed
+	in at a time on a single rowset, and only one Long column can be
+	streamed out at a time. Column streams must be closed before setting
+	other columns, navigating, etc. on the rowset.
+
+6)	Search conditions are now supported in the query passed to
+	RDbView::Prepare() and RDbView::Evaluate().
+
+	See R:\DBMS\DSPEC\SQL.DOC for the supported grammar in search
+	conditions. Searching on date columns cannot be done currently as I
+	am waiting for TTime support for descriptors.
+
+
+Version 0.01.010
+================
+(Made by AndrewT, 22 April 1996)
+
+1).	Still uses E32/056, F32/020. STORE/011, E32TOOLS/019
+
+2)	API changes:
+
+	KDbUndefinedLength is used for TDbCol::iMaxLength to imply that no
+	maximum has been set, and also to report the RDbRow::ColSize() could
+	not be determined.
+
+	KDbUndefinedCount is returned from RDbRowSet::Count() when the number of
+	rows cannot be determined
+
+	Static member TBool TDbCol::IsLong(TDbColType) has been added for
+	convenience to test whether the column type is one of the "Long" types.
+
+	CDbColSet and CDbKey are implemented using Packed arrays, and provide a
+	NewLC() member.
+	
+	TDbColSetIter has been introduced to provide simple, but fast forward
+	iteration over a column set. Use as:
+
+	for (TDbColSetIter col(aColSet);col;++col)
+		{
+		if (col->iType==EDbColBit)
+			// etc.
+		}
+
+	RDbRowSet has two new members
+		TInt ColCount()
+		TDbCol ColDef(TDbColNo)
+	These report the column definition on a column by column basis: ColSet()
+	and ColSetL() are now implemented in terms of these new members.
+
+3)	EDBMS (the real thing) now supports a Database-in-a-Store in Win32
+	ASCII Debug & Release builds and the MARM ASCII Release.
+
+	Supports Database creation/deletion within a Store.
+	Supported Table creation/dropping with all column types. Column
+	attributes (KDbColNotNUll and KDbColAutoIncr) are not supported.
+	Long columns cannot report their length	yet.
+	RDbTables and whole-table views ("SELECT * FROM <table>" exactly: no extra
+	spaces) are supported for Viewing, Adding, Editing and Deleting rows.
+	
+Version 0.01.009
+================
+(Made by AndrewT, 10 April 1996)
+
+1).	Uses E32/056, F32/020, STORE/011, E32TOOLS/019
+	Reinstated F32 as a dependency, as STORE is dependant on it.
+
+2).	Fixed a few duff header dependencies in the test code.
+
+Version 0.01.008
+================
+(Made by AndrewT, 29 March 1996)
+
+1). Includes MARM releasables for the first time. The release components are
+	now called EWINS, EWINSDB and EMARM. EMARM is 8-bit release mode only.
+
+	Uses E32/055, STORE/010 and E32TOOLS/017.
+
+2). DBMS has been reorganised to prepare for the ODBC mock-up being phased out
+	and replaced by the Real Thing. A clean getsrc is required as a number of
+	files and directories are new or have been renamed.
+
+	The ODBC implementation has been relegated to a set of DLLs of its own;
+	EODBC*.DLL, available for WINS only. To use ODBC, link against these,
+	rather than the standard EDBMS*.DLL ones.
+	DBMS test programs demonstrate one way of dealing with this situation. They
+	feature new Win32 ODBC Debug and Release configurations causing them to be
+	linked against the alternative libraries.
+
+3). There is now a stream store-based flavour of database, as well as a
+	server-based one. EODBC*.DLLs export a mock-up of both flavours.
+	EDBMS*.DLLs, identical on WINS and ARM, do not export the server-based
+	database, and the store-based one currently exported will refuse to open,
+	leaving with KErrGeneral.
+	
+	Note that DBMS v1 will *not* include the DBMS server.
+
+4). If you use the DDL pre-processor you should stick it in \tools using
+	"getrel dbms ddlpp <ver>". The Custom-Build on Build/Settings in MSVC 4
+	is dead handy for using this tool. See the T_DDL test program for details.
+
+5). KDbMaxColumnLength is a const which specifies the maximum "MaxLength" that
+    can be used for EDbColText8, EDbColText16 and EDbColBinary columns. For the
+	text columns "Length" has the same meaning as for descriptors.
+
+6). EDbColLongText8, EDbColLongText16, EDbColLongBinary are the Long column
+	types. They can only be read or written using the new stream column
+	accessors (see 7), the other SetColL() and ColXxx() members of RDbRowSet
+	will Panic. "Short" columns can be read but not written using the column
+	streams. "Short" text or binary columns can always be read directly using
+	the ColDes8/16() accessors.
+
+	EDbLongText8 and EDbLongBinary have been implemented for ODBC. Unicode
+	columns are still unsupported.
+	
+	EDbColObject has been removed.
+
+7).	RDbColReadStream, RDbColWriteStream provide the stream interface to the Long
+	columns. Although 'MExternalizer's are in the RDbColWriteStream interface
+	they are not implemented at the moment. They require a RDbRowSet and a column
+	number to open: the row set must be positioned at a valid row for reading
+	and must be in insert/update mode for writing, as for the other column
+	accessors.
+
+8). Two new members RDbRowSet::ColSize(), RDbRowSet::ColLength() provide size
+	information for the current row in the row set. ColSize() is the size in
+	bytes of the data available if streamed using RDbColReadStream. ColLength(),
+	in the spirit of TDesC::Length(), returns the number of "units" of data in
+	the column. For non text/binary columns this will be 0 or 1 indicating
+	whether the column is NULL or not, for text columns this returns the number
+	of characters available in the column, and for binary columns returns the
+	same value as the ColSize() member.
+
+	If this cannot be evaluated -1 is returned;
+
+9). RDbDatabase has lost the ability to Open/Create/etc. a database.
+	This functionality is now left to derived classes:
+	
+	RDbsDatabase provides what was lost from RDbDatabase. This (and RDbs) will
+	not be present in the MARM release.
+
+	RDbStoreDatabase implements the new Open/Create protocol. CreateL returns
+	an Id for the database within the store, which is used by OpenL to reopen
+	the database on a later occasion. The Real Thing will require a Store
+	which supports ExtendL() and RStoreWriteStream::OpenL() (the only
+	persistent store which currently provides this is CRewritableFileStore).
+	This is supported by ODBC, but don't expect the database to be kept within
+	the Store itself, it is in fact somewhere in \E32DATA.
+
+9). RDbDatabase::Destroy() destroys (deletes) the persistent database and
+	closes the RDbDatabase object. This provides for deletion of databases
+	created using RDbStoreDatabase
+
+
+Version 0.01.007
+================
+(Made by AndrewT, 4 March 1996)
+
+1).	Updated to E32:054 and F32:018
+
+Version 0.01.006
+================
+(Made by AndrewT, 30 January 1996)
+
+1).	Updated to E32:053 and F32:017
+
+Version 0.01.005
+================
+(Made by AndrewT, 18 January 1996)
+
+1).	Updated to E32:052 and F32:016
+
+1).	Fixed a bug in TDbRow which meant that changing column data for
+	text columns would not always change the column data width.
+
+2)	Changed the accessors for the View. SetColL() does not have overloads
+	for 8 or 16 bit integers, The TInt, TInt32, TUint and TUint32 are
+	enough - (via ODBC we cannot provide range validation on shorter columns
+	due to its signed/unsigned incapabilities).
+	
+	Any integral column can be extracted using an accessor at least as wide
+	as the column definition:
+
+	e.g. a Bit column can be extracted with ColUint8() ColUint16() or
+	ColUint32(), an Int16 column can be extracted with ColInt16() or
+	ColInt32() but not ColInt8() - even if the data is in range for this
+	extraction.
+
+Version 0.01.004
+================
+(Made by AndrewT, 3 January 1996)
+
+1).	Updated to E32:051 and F32:015
+
+2).	Now uses the new TTime and TDateTime classes. TSystemTime is no
+	longer supported.
+
+3).	The pre-processor has also been modified to handle the new TTime.
+
+Version 0.01.003
+================
+(Made by AndrewT, 18 December 1995)
+
+1).	Updated to E32:050 and F32:014
+	The new TBool has broken the SetColL() overloads for RDbRowSet.
+	The overload for TBool has been withdrawn for this release, pending a
+	rewrite of the set/get interface.
+
+Version 0.01.002
+================
+(Made by AndrewT, 17 October 1995)
+
+1).	Updated to E32:047 and F32:011
+	All functions which used to return TUints as counts or indices now return
+	TInts. Specifically RDbRowSet::Count() now returns -1 if it cannot determine
+	the actual count.
+
+2).	Fixed a bug in RDbRowSet::Prepare() to report an error on SQL syntax errors.
+
+Version 0.01.001
+================
+(Made by GeertB, 29 August 1995)
+
+1). First release.
+
+	The main header file is D32DBMS.H.
+
+	The header file D32ADT.H is for the use of implementers of DBMS file
+	organisations, "drivers" which are used by the DBMS.
+
+	Implemented by passing all interesting operations on to Microsoft Access
+	through ODBC.
+
+	Running programs linked against this release requires the installation of
+	32-bit ODBC and the Access driver. This is done as follows:
+
+	- shut down all applications (don't forget Office)
+	- run T:\ODBC\BIN32\ODBCAD32.EXE, the 32-bit ODBC Administrator
+	- in the resulting dialog, press "Drivers...", then "Add..."
+	- type T:\ODBC\BIN32 at the prompt (or use "Browse...")
+	- select "Microsoft Access Driver (*.mdb)" in the list that pops up
+	- press "OK" (or double click)
+	- file copying will start
+	- a message like the following will appear: "The file C:\WINNT35\SYSTEM32\
+	  MSVCRT20.DLL is currently in use and cannot be removed or updated. Try
+	  closing all applications and choosing Retry. (...)"
+	  Since it's the ODBC Administrator itself that is using the DLL, complying
+	  won't help. Instead, choose "Ignore".
+	- if a message along the lines of "An error occurred while copying
+	  C:\WINNT35\SYSTEM32\MFC30.DLL. Restart Windows and try installing again
+	  (before running any applications which use ODBC)." appears, you've left an
+	  application using MFC running. Start again from the top.
+	- the installer adds a data source called "sdk21-Access32". It can
+	  safely be deleted.
+	- in the "Data Sources" dialog, create a data source by pressing "Add..."
+	- select the Access driver in the resulting dialog and press "OK"
+	- call the new data source "DBMS", leaving other fields blank. Choose "OK".
+	- close the ODBC Administrator
+	- in case you haven't copied the new (MSVC 2.1) MSVCRT20.DLL from T:\MSVC21\
+	  SYSTEM32 yet, do so now. The Access ODBC driver needs the newer version.
+	  See the instructions in the E32 0.01.039 release notes.
+	
+	Warning: on one NT machine, the driver setup program erroneously copied the
+	Windows 95 version of CTL3D32.DLL. If this happens, applications--notably
+	MSVC--may start complaining about it. The fix is to copy T:\ODBC\REDIST32\
+	WINNT\CTL3D32.DLL into your SYSTEM32 directory.
+
+2). Unicode builds are not supported. ODBC understands only 8-bit text.
+	Support for the 8-bit subset of the Unicode character set can be added
+	fairly trivially if it turns out to be needed during the life time of this
+	implementation.
+
+3). The initial revision of a tool to help in building programs to run against
+	the DBMS is included. It is called DDLPP.EXE and it takes a simple data
+	definition language as its input and generates C++ headers and source code.
+	See R:\DBMS\DSDK\DDLPP.HLP for more information.
+	It is less than perfect as a command line tool at the moment.
+	Comments and feedback welcome.
+
+4). No interpretation of ODBC status codes. In case of an ODBC error,
+	KErrGeneral is returned.
+
+5). RDbViews and RDbTables become unusable when the transaction they were
+	created in ends. Currently, if you don't start a transaction using
+	RDbDatabase::Begin(), one is implicitly entered for you, and committed
+	on RDbRowSet::Put(). Thus the row set is effectively closed after the
+	first database modification.
+	The workaround is to use explicit transactions.
+
+6). RDbView::Define() is not implemented, and will in all likelihood be
+	withdrawn in a future release.
+
+7). The Access driver does not accurately report the number of rows in the
+	result set. As a result, RDbRowSet::Count() returns KMaxTUint in the
+	majority of cases.
+	In general, Count() is an expensive operation and should not be used
+	lightly.
+
+8). No interpretation of ODBC status codes. In case of an ODBC error,
+	KErrGeneral is returned.
+
+9). Bit columns (EDbColBit) cannot be NULL.
+
+10). Text columns (EDbColText8) are currently limited to 255 characters.
+
+11). Binary column extraction (EDbColBinary) is limited to the first 2K of the
+	data.
+
+12). TUint32 column accessor functions cannot be used at the moment due to an
+	overload ambiguity with TSystemTime.
+
+13). The full range of the unsigned integer column types is not available.
+	Values are constrained to the range of the corresponding signed types.
+
+14). The Access driver does not support NOT NULL columns.
+	RDbDatabase::CreateTable() does accept KDbColNotNull columns but cannot
+	enforce it.
+
+15). RDbDatabase::AlterTable() is not currently implemented.
+
+NOTES
+=====
+
+The DBMS's requirements are currently undergoing extensive revision, due to
+changes in ERA's overall strategy for persistent storage. This may result in a
+number of changes to the API.
+

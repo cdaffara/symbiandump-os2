@@ -1,0 +1,165 @@
+// Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+
+STRUCT TBUF
+	{
+	BUF buf; /* non-zero terminated text string */
+	}
+
+STRUCT LBUF
+	{
+	LTEXT txt; // leading-byte counted text string
+	}
+
+STRUCT ARRAY
+	{
+	STRUCT items[];
+	}
+
+STRUCT BUTTON
+	{
+	WORD id;
+	WORD flags;
+	LTEXT txt;
+	LTEXT txt2;
+	LTEXT bmp;
+	}
+
+STRUCT FLPTED
+	{
+	WORD maxlength;
+	DOUBLE min;
+	DOUBLE max;
+	}
+
+STRUCT MENU_BAR
+	{
+	STRUCT titles[]; // MENU_BAR_ITEMs
+	}
+
+STRUCT MENU_TITLE
+	{
+	LLINK menu_pane;
+	LTEXT txt;
+	}
+
+
+// NB, the T_RSC test code currently relies on these resources being
+// numbered 1 - 8
+
+
+RESOURCE TBUF sys_special_characters { buf="+-*/<,>."<0x1F>"NSWE"; }
+
+RESOURCE TBUF sys_string { buf="%s"; }
+RESOURCE TBUF sys_dimmed_msg {buf="This item is not available";}
+RESOURCE TBUF sys_locked_msg {buf="This item cannot be changed";}
+RESOURCE TBUF sys_busy { buf="Busy"; }
+RESOURCE TBUF sys_scanning { buf="Scanning"; }
+RESOURCE TBUF sys_printing_to { buf="Printing to %s";}
+RESOURCE TBUF sys_page_is { buf="(page %u)";}
+
+
+RESOURCE LBUF r_text_signature { txt = "Signature"; }
+
+
+
+RESOURCE ARRAY sys_array_one
+	{
+	items=
+		{
+		LBUF { txt="Esc"; },
+		LBUF { txt="Enter"; },
+		LBUF { txt="Tab"; },
+		LBUF { txt="Del"; },
+		LBUF { txt="Space"; }
+		};
+	}
+
+RESOURCE BUTTON sys_button_one
+	{
+	id=3;
+	flags=5;
+	txt="Text";
+	txt2="";
+	bmp="Bitmap placeholder";
+	}
+
+RESOURCE FLPTED sys_flpted_one
+	{
+	maxlength=18;
+	min=0.0;
+	max=9.9e99;
+	}
+
+RESOURCE MENU_BAR sys_menubar_one
+	{
+	titles=
+		{
+		MENU_TITLE { menu_pane=1; txt="a"; },
+		MENU_TITLE { menu_pane=2; txt="ab"; },
+		MENU_TITLE { menu_pane=3; txt="abc"; },
+		MENU_TITLE { menu_pane=4; txt="abcd"; },
+		MENU_TITLE { menu_pane=5; txt="abcde"; },
+		MENU_TITLE { menu_pane=6; txt="abcdef"; },
+		MENU_TITLE { menu_pane=7; txt="abcdefg"; },
+		MENU_TITLE { menu_pane=8; txt="abcdefgh"; }
+		};
+	}
+
+STRUCT HORROR
+	{
+	LTEXT8  txt8;
+	LTEXT16 txt16;
+	}
+
+RESOURCE HORROR sys_alignment_horror0
+	{
+	txt8="";
+	txt16="";
+	}
+
+RESOURCE HORROR sys_alignment_horror1
+	{
+	txt8="x";
+	txt16="x";
+	}
+
+RESOURCE HORROR sys_alignment_horror2
+	{
+	txt8="xy";
+	txt16="xy";
+	}
+
+RESOURCE HORROR sys_alignment_horror3
+	{
+	txt8="xyz";
+	txt16="xyz";
+	}
+
+RESOURCE ARRAY sys_alignment_horror_array
+	{
+	items=
+		{
+		HORROR { txt8="";       txt16="abcdef"; },
+		HORROR { txt8="a";      txt16="bcdef"; },
+		HORROR { txt8="ab";     txt16="cdef"; },
+		HORROR { txt8="abc";    txt16="def"; },
+		HORROR { txt8="abcd";   txt16="ef"; },
+		HORROR { txt8="abcde";  txt16="f"; },
+		HORROR { txt8="abcdef"; txt16=""; }
+		};
+	}
+

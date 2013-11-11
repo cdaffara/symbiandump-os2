@@ -1,0 +1,33 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SERVER te_RegBlockTestSuite 
+
+START_TESTCASE DT-TEF-TestBlock-0062
+//! @SYMTestCaseID          DT-TEF-TestBlock-0062
+//! @SYMCreationDate        03-07-2008
+//! @SYMAuthor              DavidZhang
+//! @SYMTestType            CT
+//! @SYMTestPriority        Medium
+//! @SYMTestCaseDesc        Create a wrapper object and check that it is available in the dictionary.
+//! @SYMTestExpectedResults The test completes without errors.
+//! @SYMTestActions         1. Use CREATE_OBJECT to create an object providing an existing ini-section name.
+//!                         2. Call a command that ensures that the wrapper object can be found in the dictionary.
+	START_TEST_BLOCK	100 te_RegBlockTestSuite ${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini
+		CREATE_OBJECT	te_RegBlockTestWrapper	TestCase001_obj_name
+		COMMAND		TestCase001_obj_name		GetDataWrapper			TestCase001_obj_not_null
+	END_TEST_BLOCK
+END_TESTCASE DT-TEF-TestBlock-0062

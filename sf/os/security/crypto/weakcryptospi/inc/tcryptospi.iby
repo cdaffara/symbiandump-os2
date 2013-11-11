@@ -1,0 +1,228 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+#ifndef __tcryptospi_iby__
+#define __tcryptospi_iby__
+
+define ZDRIVE \epoc32\winscw\c
+
+file = ABI_DIR\BUILD_DIR\Te_CryptoSpi.exe		sys\bin\Te_CryptoSpi.exe
+file = ABI_DIR\BUILD_DIR\tplugin01.dll  		sys\bin\tplugin01.dll
+file = ABI_DIR\BUILD_DIR\tplugin02.dll  		sys\bin\tplugin02.dll
+file = ABI_DIR\BUILD_DIR\dumpcryptoplugin.exe  		sys\bin\dumpcryptoplugin.exe
+
+data = ZRESOURCE\cryptospi\plug-ins.txt1 		resource\cryptospi\plug-ins.txt1
+data = ZRESOURCE\cryptospi\plug-ins.txt2 		resource\cryptospi\plug-ins.txt2
+data = ZRESOURCE\cryptospi\plug-ins.txt3 		resource\cryptospi\plug-ins.txt3
+data = ZRESOURCE\cryptospi\plug-ins.txt4 		resource\cryptospi\plug-ins.txt4
+data = ZRESOURCE\cryptospi\plug-ins.txt5 		resource\cryptospi\plug-ins.txt5
+data = ZRESOURCE\cryptospi\plug-ins.txt6 		resource\cryptospi\plug-ins.txt6
+data = ZRESOURCE\cryptospi\plug-ins.txt7 		resource\cryptospi\plug-ins.txt7
+#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
+data = ZRESOURCE\cryptospi\tecchw-plug-ins.txt 		resource\cryptospi\tecchw-plug-ins.txt
+#endif
+
+data = ZDRIVE/testdata/tcryptospi/scripts/tcryptospi.script						\testdata\tcryptospi\scripts\tcryptospi.script
+data = ZDRIVE/testdata/tcryptospi/scripts/te_SymmetricCipherTestCases.script			\testdata\tcryptospi\scripts\te_SymmetricCipherTestCases.script
+data = ZDRIVE/testdata/tcryptospi/scripts/te_ASymmetricCipherTestCases.script			\testdata\tcryptospi\scripts\te_ASymmetricCipherTestCases.script
+data = ZDRIVE/testdata/tcryptospi/scripts/te_HashHmacTestCases.script				\testdata\tcryptospi\scripts\te_HashHmacTestCases.script
+
+
+data = ZDRIVE/testdata/tcryptospi/scripts/te_RandomTestCases.script				\testdata\tcryptospi\scripts\te_RandomTestCases.script
+data = ZDRIVE/testdata/tcryptospi/scripts/te_MiscellaneousTestCases.script			\testdata\tcryptospi\scripts\te_MiscellaneousTestCases.script
+data = ZDRIVE/testdata/tcryptospi/scripts/te_PluginLoadTestCases.script				\testdata\tcryptospi\scripts\te_PluginLoadTestCases.script
+data = ZDRIVE/testdata/tcryptospi/scripts/te_PluginCharsTestCases.script			\testdata\tcryptospi\scripts\te_PluginCharsTestCases.script
+data = ZDRIVE/testdata/tcryptospi/scripts/te_RuleSelectionTestCases.script			\testdata\tcryptospi\scripts\te_RuleSelectionTestCases.script
+
+#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
+data = ZDRIVE/testdata/tcryptospi/scripts/te_dummyeccciphertestcases.script			\testdata\tcryptospi\scripts\te_dummyeccciphertestcases.script
+#endif
+
+data = ZDRIVE/testdata/tcryptospi/configs/SymmetricCipherPositiveObjectLoad.ini					\testdata\tcryptospi\configs\SymmetricCipherPositiveObjectLoad.ini
+data = ZDRIVE/testdata/tcryptospi/configs/SymmetricCipherEncryptedDataCheck.ini					\testdata\tcryptospi\configs\SymmetricCipherEncryptedDataCheck.ini
+data = ZDRIVE/testdata/tcryptospi/configs/SymmetricCipherEncryptDecrypt.ini						\testdata\tcryptospi\configs\SymmetricCipherEncryptDecrypt.ini
+data = ZDRIVE/testdata/tcryptospi/configs/SymmetricCipherIncrementalEncryptDecrypt.ini				\testdata\tcryptospi\configs\SymmetricCipherIncrementalEncryptDecrypt.ini
+data = ZDRIVE/testdata/tcryptospi/configs/SymmetricCipherIncrementalEncryptDecryptMinus1Byte.ini		\testdata\tcryptospi\configs\SymmetricCipherIncrementalEncryptDecryptMinus1Byte.ini
+data = ZDRIVE/testdata/tcryptospi/configs/SymmetricCipherIncrementalEncryptDecryptMinus3Bytes.ini		\testdata\tcryptospi\configs\SymmetricCipherIncrementalEncryptDecryptMinus3Bytes.ini
+data = ZDRIVE/testdata/tcryptospi/configs/SymmetricCipherIncrementalEncryptDecryptPlus1Byte.ini			\testdata\tcryptospi\configs\SymmetricCipherIncrementalEncryptDecryptPlus1Byte.ini
+data = ZDRIVE/testdata/tcryptospi/configs/SymmetricCipherIncrementalEncryptDecryptPlus3Bytes.ini		\testdata\tcryptospi\configs\SymmetricCipherIncrementalEncryptDecryptPlus3Bytes.ini
+data = ZDRIVE/testdata/tcryptospi/configs/SymmetricCipherObjectReuse.ini						\testdata\tcryptospi\configs\SymmetricCipherObjectReuse.ini
+data = ZDRIVE/testdata/tcryptospi/configs/symmetriccipherprocessbeforeivset.ini					\testdata\tcryptospi\configs\symmetriccipherprocessbeforeivset.ini
+data = ZDRIVE/testdata/tcryptospi/configs/symmetriccipherbadivlength.ini						\testdata\tcryptospi\configs\symmetriccipherbadivlength.ini
+data = ZDRIVE/testdata/tcryptospi/configs/symmetriccipherctrmodeoutoforder.ini					\testdata\tcryptospi\configs\symmetriccipherctrmodeoutoforder.ini
+
+data = ZDRIVE/testdata/tcryptospi/configs/ASymmetricCipherPositiveObjectLoad.ini		\testdata\tcryptospi\configs\ASymmetricCipherPositiveObjectLoad.ini
+data = ZDRIVE/testdata/tcryptospi/configs/ASymmetricCipherEncryptedDataCheck.ini		\testdata\tcryptospi\configs\ASymmetricCipherEncryptedDataCheck.ini
+data = ZDRIVE/testdata/tcryptospi/configs/ASymmetricCipherEncryptDecrypt.ini			\testdata\tcryptospi\configs\ASymmetricCipherEncryptDecrypt.ini
+
+data = ZDRIVE/testdata/tcryptospi/configs/HashPositiveObjectLoad.ini				\testdata\tcryptospi\configs\HashPositiveObjectLoad.ini
+data = ZDRIVE/testdata/tcryptospi/configs/HashBasicHashOfData.ini					\testdata\tcryptospi\configs\HashBasicHashOfData.ini
+data = ZDRIVE/testdata/tcryptospi/configs/HashIncrementalHash.ini					\testdata\tcryptospi\configs\HashIncrementalHash.ini
+data = ZDRIVE/testdata/tcryptospi/configs/HashIncrementalHashWithCopy.ini			\testdata\tcryptospi\configs\HashIncrementalHashWithCopy.ini
+data = ZDRIVE/testdata/tcryptospi/configs/HashIncrementalHashWithReplicate.ini 		\testdata\tcryptospi\configs\HashIncrementalHashWithReplicate.ini
+data = ZDRIVE/testdata/tcryptospi/configs/HashIncrementalHashWithReset.ini			\testdata\tcryptospi\configs\HashIncrementalHashWithReset.ini
+
+data = ZDRIVE/testdata/tcryptospi/configs/HmacPositiveObjectLoad.ini				\testdata\tcryptospi\configs\HmacPositiveObjectLoad.ini
+data = ZDRIVE/testdata/tcryptospi/configs/HmacBasicHashOfData.ini					\testdata\tcryptospi\configs\HmacBasicHashOfData.ini
+data = ZDRIVE/testdata/tcryptospi/configs/HmacIncrementalHash.ini					\testdata\tcryptospi\configs\HmacIncrementalHash.ini
+data = ZDRIVE/testdata/tcryptospi/configs/HmacIncrementalHashWithCopy.ini			\testdata\tcryptospi\configs\HmacIncrementalHashWithCopy.ini
+data = ZDRIVE/testdata/tcryptospi/configs/HmacIncrementalHashWithReplicate.ini		\testdata\tcryptospi\configs\HmacIncrementalHashWithReplicate.ini
+data = ZDRIVE/testdata/tcryptospi/configs/HmacIncrementalHashWithReset.ini			\testdata\tcryptospi\configs\HmacIncrementalHashWithReset.ini
+data = ZDRIVE/testdata/tcryptospi/configs/HmacSetKeyChecking.ini					\testdata\tcryptospi\configs\HmacSetKeyChecking.ini
+data = ZDRIVE/testdata/tcryptospi/configs/HmacSetOperationModeChecking.ini			\testdata\tcryptospi\configs\HmacSetOperationModeChecking.ini
+
+data = ZDRIVE/testdata/tcryptospi/configs/RandomNumberGeneratorGeneralUsage.ini		\testdata\tcryptospi\configs\RandomNumberGeneratorGeneralUsage.ini
+
+data = ZDRIVE/testdata/tcryptospi/configs/Miscellaneous.ini						\testdata\tcryptospi\configs\Miscellaneous.ini
+
+data = ZDRIVE/testdata/tcryptospi/configs/pluginload.ini						\testdata\tcryptospi\configs\pluginload.ini
+
+data = ZDRIVE/testdata/tcryptospi/configs/plugincharscommon.ini					\testdata\tcryptospi\configs\plugincharscommon.ini
+data = ZDRIVE/testdata/tcryptospi/configs/plugincharssymmetriccipher.ini			\testdata\tcryptospi\configs\plugincharssymmetriccipher.ini
+data = ZDRIVE/testdata/tcryptospi/configs/plugincharsasymmetriccipher.ini			\testdata\tcryptospi\configs\plugincharsasymmetriccipher.ini
+data = ZDRIVE/testdata/tcryptospi/configs/plugincharshash.ini					\testdata\tcryptospi\configs\plugincharshash.ini
+data = ZDRIVE/testdata/tcryptospi/configs/plugincharsrandom.ini					\testdata\tcryptospi\configs\plugincharsrandom.ini
+data = ZDRIVE/testdata/tcryptospi/configs/plugincharsasymsign.ini					\testdata\tcryptospi\configs\plugincharsasymsign.ini
+data = ZDRIVE/testdata/tcryptospi/configs/plugincharskeyagree.ini					\testdata\tcryptospi\configs\plugincharskeyagree.ini
+data = ZDRIVE/testdata/tcryptospi/configs/plugincharsasymkeypair.ini				\testdata\tcryptospi\configs\plugincharsasymkeypair.ini
+data = ZDRIVE/testdata/tcryptospi/configs/plugincharsextended.ini					\testdata\tcryptospi\configs\plugincharsextended.ini
+
+data = ZDRIVE/testdata/tcryptospi/configs/ruleselection_allchars.ini				\testdata\tcryptospi\configs\ruleselection_allchars.ini
+data = ZDRIVE/testdata/tcryptospi/configs/ruleselection_interface.ini				\testdata\tcryptospi\configs\ruleselection_interface.ini
+data = ZDRIVE/testdata/tcryptospi/configs/ruleselection_ascend.ini				\testdata\tcryptospi\configs\ruleselection_ascend.ini
+data = ZDRIVE/testdata/tcryptospi/configs/ruleselection_descend.ini				\testdata\tcryptospi\configs\ruleselection_descend.ini
+data = ZDRIVE/testdata/tcryptospi/configs/ruleselection_matrix.ini				\testdata\tcryptospi\configs\ruleselection_matrix.ini
+data = ZDRIVE/testdata/tcryptospi/configs/ruleselection_extended.ini				\testdata\tcryptospi\configs\ruleselection_extended.ini
+
+#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
+data = ZDRIVE/testdata/tcryptospi/configs/dummyeccciphertestcases.ini				\testdata\tcryptospi\configs\dummyeccciphertestcases.ini
+#endif
+
+data = ZDRIVE/testdata/tcryptospi/data/key64bit.txt							\testdata\tcryptospi\data\key64bit.txt
+data = ZDRIVE/testdata/tcryptospi/data/key128bit.txt							\testdata\tcryptospi\data\key128bit.txt
+data = ZDRIVE/testdata/tcryptospi/data/key192bit.txt							\testdata\tcryptospi\data\key192bit.txt
+
+data = ZDRIVE/testdata/tcryptospi/data/smallcipher64bit.txt						\testdata\tcryptospi\data\smallcipher64bit.txt
+data = ZDRIVE/testdata/tcryptospi/data/smallcipher128bit.txt					\testdata\tcryptospi\data\smallcipher128bit.txt
+data = ZDRIVE/testdata/tcryptospi/data/largecipher.txt						\testdata\tcryptospi\data\largecipher.txt
+
+data = ZDRIVE/testdata/tcryptospi/data/SmallHash-SRC.dat						\testdata\tcryptospi\data\SmallHash-SRC.dat
+data = ZDRIVE/testdata/tcryptospi/data/LargeHash-SRC.dat						\testdata\tcryptospi\data\LargeHash-SRC.dat
+
+
+
+
+#ifdef SYMBIAN_SDP_IPSEC_VOIP_SUPPORT
+
+data = ZDRIVE/testdata/tcryptospi/scripts/te_mac_test_cases.script				\testdata\tcryptospi\scripts\te_mac_test_cases.script
+data = ZDRIVE/testdata/tcryptospi/scripts/te_hash_test_cases.script				\testdata\tcryptospi\scripts\te_hash_test_cases.script
+data = ZDRIVE/testdata/tcryptospi/configs/hash_test_cases.ini					\testdata\tcryptospi\configs\hash_test_cases.ini
+data = ZDRIVE/testdata/tcryptospi/configs/mac_test_cases.ini					\testdata\tcryptospi\configs\mac_test_cases.ini
+data = ZDRIVE/testdata/tcryptospi/configs/plugin_chars_new_hash.ini					\testdata\tcryptospi\configs\plugin_chars_new_hash.ini
+data = ZDRIVE/testdata/tcryptospi/configs/plugincharsmac.ini					\testdata\tcryptospi\configs\plugincharsmac.ini
+data = ZDRIVE/testdata/tcryptospi/data/symmetric-mac-src.dat						\testdata\tcryptospi\data\symmetric-mac-src.dat
+data = ZDRIVE/testdata/tcryptospi/data/symmetric-mac-3bytes-src.dat						\testdata\tcryptospi\data\symmetric-mac-3bytes-src.dat
+data = ZDRIVE/testdata/tcryptospi/data/symmetric-mac-16bytes-src.dat						\testdata\tcryptospi\data\symmetric-mac-16bytes-src.dat
+data = ZDRIVE/testdata/tcryptospi/data/symmetric-mac-20bytes-src.dat						\testdata\tcryptospi\data\symmetric-mac-20bytes-src.dat
+data = ZDRIVE/testdata/tcryptospi/data/symmetric-mac-32bytes-src.dat						\testdata\tcryptospi\data\symmetric-mac-32bytes-src.dat
+data = ZDRIVE/testdata/tcryptospi/data/symmetric-mac-34bytes-src.dat						\testdata\tcryptospi\data\symmetric-mac-34bytes-src.dat
+data = ZDRIVE/testdata/tcryptospi/data/symmetric-mac-1000bytes-src.dat						\testdata\tcryptospi\data\symmetric-mac-1000bytes-src.dat
+data = ZDRIVE/testdata/tcryptospi/data/symmetric-mac96-mac.dat						\testdata\tcryptospi\data\symmetric-mac96-mac.dat
+data = ZDRIVE/testdata/tcryptospi/data/symmetric-mac96-3bytes-mac.dat						\testdata\tcryptospi\data\symmetric-mac96-3bytes-mac.dat
+data = ZDRIVE/testdata/tcryptospi/data/symmetric-mac96-16bytes-mac.dat						\testdata\tcryptospi\data\symmetric-mac96-16bytes-mac.dat
+data = ZDRIVE/testdata/tcryptospi/data/symmetric-mac96-20bytes-mac.dat						\testdata\tcryptospi\data\symmetric-mac96-20bytes-mac.dat
+data = ZDRIVE/testdata/tcryptospi/data/symmetric-mac96-32bytes-mac.dat						\testdata\tcryptospi\data\symmetric-mac96-32bytes-mac.dat
+data = ZDRIVE/testdata/tcryptospi/data/symmetric-mac96-34bytes-mac.dat						\testdata\tcryptospi\data\symmetric-mac96-34bytes-mac.dat
+data = ZDRIVE/testdata/tcryptospi/data/symmetric-mac96-1000bytes-mac.dat						\testdata\tcryptospi\data\symmetric-mac96-1000bytes-mac.dat
+data = ZDRIVE/testdata/tcryptospi/data/symmetric-prf128-mac.dat						\testdata\tcryptospi\data\symmetric-prf128-mac.dat
+data = ZDRIVE/testdata/tcryptospi/data/symmetric-prf128-3bytes-mac.dat						\testdata\tcryptospi\data\symmetric-prf128-3bytes-mac.dat
+data = ZDRIVE/testdata/tcryptospi/data/symmetric-prf128-16bytes-mac.dat						\testdata\tcryptospi\data\symmetric-prf128-16bytes-mac.dat
+data = ZDRIVE/testdata/tcryptospi/data/symmetric-prf128-20bytes-mac.dat						\testdata\tcryptospi\data\symmetric-prf128-20bytes-mac.dat
+data = ZDRIVE/testdata/tcryptospi/data/symmetric-prf128-32bytes-mac.dat						\testdata\tcryptospi\data\symmetric-prf128-32bytes-mac.dat
+data = ZDRIVE/testdata/tcryptospi/data/symmetric-prf128-34bytes-mac.dat						\testdata\tcryptospi\data\symmetric-prf128-34bytes-mac.dat
+data = ZDRIVE/testdata/tcryptospi/data/symmetric-prf128-1000bytes-mac.dat						\testdata\tcryptospi\data\symmetric-prf128-1000bytes-mac.dat
+data = ZDRIVE/testdata/tcryptospi/data/symmetric-prf128-key10bytes-mac.dat						\testdata\tcryptospi\data\symmetric-prf128-key10bytes-mac.dat
+data = ZDRIVE/testdata/tcryptospi/data/symmetric-prf128-key18bytes-mac.dat						\testdata\tcryptospi\data\symmetric-prf128-key18bytes-mac.dat
+data = ZDRIVE/testdata/tcryptospi/data/symmetric-mac-key.txt						\testdata\tcryptospi\data\symmetric-mac-key.txt
+data = ZDRIVE/testdata/tcryptospi/data/symmetric-mac-key10.txt						\testdata\tcryptospi\data\symmetric-mac-key10.txt
+data = ZDRIVE/testdata/tcryptospi/data/symmetric-mac-key18.txt						\testdata\tcryptospi\data\symmetric-mac-key18.txt
+#endif
+
+
+
+
+
+
+data = ZDRIVE/testdata/tcryptospi/data/symmetricdatacheck0001/128bitin.txt			\testdata\tcryptospi\data\symmetricdatacheck0001\128bitin.txt
+data = ZDRIVE/testdata/tcryptospi/data/symmetricdatacheck0001/128bitkey.txt			\testdata\tcryptospi\data\symmetricdatacheck0001\128bitkey.txt
+data = ZDRIVE/testdata/tcryptospi/data/symmetricdatacheck0001/192bitin.txt			\testdata\tcryptospi\data\symmetricdatacheck0001\192bitin.txt
+data = ZDRIVE/testdata/tcryptospi/data/symmetricdatacheck0001/192bitiv.txt			\testdata\tcryptospi\data\symmetricdatacheck0001\192bitiv.txt
+data = ZDRIVE/testdata/tcryptospi/data/symmetricdatacheck0001/192bitkey.txt			\testdata\tcryptospi\data\symmetricdatacheck0001\192bitkey.txt
+data = ZDRIVE/testdata/tcryptospi/data/symmetricdatacheck0001/64bitin.txt			\testdata\tcryptospi\data\symmetricdatacheck0001\64bitin.txt
+data = ZDRIVE/testdata/tcryptospi/data/symmetricdatacheck0001/64bitiv.txt			\testdata\tcryptospi\data\symmetricdatacheck0001\64bitiv.txt
+data = ZDRIVE/testdata/tcryptospi/data/symmetricdatacheck0001/64bitkey.txt			\testdata\tcryptospi\data\symmetricdatacheck0001\64bitkey.txt
+data = ZDRIVE/testdata/tcryptospi/data/symmetricdatacheck0001/AES-CBC-NOPADDING.TXT		\testdata\tcryptospi\data\symmetricdatacheck0001\AES-CBC-NOPADDING.TXT
+data = ZDRIVE/testdata/tcryptospi/data/symmetricdatacheck0001/AES-CBC-PKCS5PADDING.TXT	\testdata\tcryptospi\data\symmetricdatacheck0001\AES-CBC-PKCS5PADDING.TXT
+data = ZDRIVE/testdata/tcryptospi/data/symmetricdatacheck0001/AES-CFB-NOPADDING.TXT		\testdata\tcryptospi\data\symmetricdatacheck0001\AES-CFB-NOPADDING.TXT
+data = ZDRIVE/testdata/tcryptospi/data/symmetricdatacheck0001/AES-CFB-PKCS5PADDING.TXT	\testdata\tcryptospi\data\symmetricdatacheck0001\AES-CFB-PKCS5PADDING.TXT
+data = ZDRIVE/testdata/tcryptospi/data/symmetricdatacheck0001/AES-CTR-NOPADDING.TXT		\testdata\tcryptospi\data\symmetricdatacheck0001\AES-CTR-NOPADDING.TXT
+data = ZDRIVE/testdata/tcryptospi/data/symmetricdatacheck0001/AES-ECB-NOPADDING.TXT		\testdata\tcryptospi\data\symmetricdatacheck0001\AES-ECB-NOPADDING.TXT
+data = ZDRIVE/testdata/tcryptospi/data/symmetricdatacheck0001/AES-ECB-PKCS5PADDING.TXT	\testdata\tcryptospi\data\symmetricdatacheck0001\AES-ECB-PKCS5PADDING.TXT
+data = ZDRIVE/testdata/tcryptospi/data/symmetricdatacheck0001/AES-OFB-NOPADDING.TXT		\testdata\tcryptospi\data\symmetricdatacheck0001\AES-OFB-NOPADDING.TXT
+data = ZDRIVE/testdata/tcryptospi/data/symmetricdatacheck0001/AES-OFB-PKCS5PADDING.TXT	\testdata\tcryptospi\data\symmetricdatacheck0001\AES-OFB-PKCS5PADDING.TXT
+data = ZDRIVE/testdata/tcryptospi/data/symmetricdatacheck0001/DES3-CBC-NOPADDING.TXT	\testdata\tcryptospi\data\symmetricdatacheck0001\DES3-CBC-NOPADDING.TXT
+data = ZDRIVE/testdata/tcryptospi/data/symmetricdatacheck0001/DES3-CBC-PKCS5PADDING.TXT	\testdata\tcryptospi\data\symmetricdatacheck0001\DES3-CBC-PKCS5PADDING.TXT
+data = ZDRIVE/testdata/tcryptospi/data/symmetricdatacheck0001/DES3-CFB-NOPADDING.TXT	\testdata\tcryptospi\data\symmetricdatacheck0001\DES3-CFB-NOPADDING.TXT
+data = ZDRIVE/testdata/tcryptospi/data/symmetricdatacheck0001/DES3-CFB-PKCS5PADDING.TXT	\testdata\tcryptospi\data\symmetricdatacheck0001\DES3-CFB-PKCS5PADDING.TXT
+data = ZDRIVE/testdata/tcryptospi/data/symmetricdatacheck0001/DES3-CTR-NOPADDING.TXT	\testdata\tcryptospi\data\symmetricdatacheck0001\DES3-CTR-NOPADDING.TXT
+data = ZDRIVE/testdata/tcryptospi/data/symmetricdatacheck0001/DES3-ECB-NOPADDING.TXT	\testdata\tcryptospi\data\symmetricdatacheck0001\DES3-ECB-NOPADDING.TXT
+data = ZDRIVE/testdata/tcryptospi/data/symmetricdatacheck0001/DES3-ECB-PKCS5PADDING.TXT	\testdata\tcryptospi\data\symmetricdatacheck0001\DES3-ECB-PKCS5PADDING.TXT
+data = ZDRIVE/testdata/tcryptospi/data/symmetricdatacheck0001/DES3-OFB-NOPADDING.TXT	\testdata\tcryptospi\data\symmetricdatacheck0001\DES3-OFB-NOPADDING.TXT
+data = ZDRIVE/testdata/tcryptospi/data/symmetricdatacheck0001/DES3-OFB-PKCS5PADDING.TXT	\testdata\tcryptospi\data\symmetricdatacheck0001\DES3-OFB-PKCS5PADDING.TXT
+data = ZDRIVE/testdata/tcryptospi/data/symmetricdatacheck0001/DES-CBC-NOPADDING.TXT		\testdata\tcryptospi\data\symmetricdatacheck0001\DES-CBC-NOPADDING.TXT
+data = ZDRIVE/testdata/tcryptospi/data/symmetricdatacheck0001/DES-CBC-PKCS5PADDING.TXT	\testdata\tcryptospi\data\symmetricdatacheck0001\DES-CBC-PKCS5PADDING.TXT
+data = ZDRIVE/testdata/tcryptospi/data/symmetricdatacheck0001/DES-CFB-NOPADDING.TXT		\testdata\tcryptospi\data\symmetricdatacheck0001\DES-CFB-NOPADDING.TXT
+data = ZDRIVE/testdata/tcryptospi/data/symmetricdatacheck0001/DES-CFB-PKCS5PADDING.TXT	\testdata\tcryptospi\data\symmetricdatacheck0001\DES-CFB-PKCS5PADDING.TXT
+data = ZDRIVE/testdata/tcryptospi/data/symmetricdatacheck0001/DES-CTR-NOPADDING.TXT		\testdata\tcryptospi\data\symmetricdatacheck0001\DES-CTR-NOPADDING.TXT
+data = ZDRIVE/testdata/tcryptospi/data/symmetricdatacheck0001/DES-ECB-NOPADDING.TXT		\testdata\tcryptospi\data\symmetricdatacheck0001\DES-ECB-NOPADDING.TXT
+data = ZDRIVE/testdata/tcryptospi/data/symmetricdatacheck0001/DES-ECB-PKCS5PADDING.TXT	\testdata\tcryptospi\data\symmetricdatacheck0001\DES-ECB-PKCS5PADDING.TXT
+data = ZDRIVE/testdata/tcryptospi/data/symmetricdatacheck0001/DES-OFB-NOPADDING.TXT		\testdata\tcryptospi\data\symmetricdatacheck0001\DES-OFB-NOPADDING.TXT
+data = ZDRIVE/testdata/tcryptospi/data/symmetricdatacheck0001/DES-OFB-PKCS5PADDING.TXT	\testdata\tcryptospi\data\symmetricdatacheck0001\DES-OFB-PKCS5PADDING.TXT
+data = ZDRIVE/testdata/tcryptospi/data/symmetricdatacheck0001/RC2-CBC-NOPADDING.TXT		\testdata\tcryptospi\data\symmetricdatacheck0001\RC2-CBC-NOPADDING.TXT
+data = ZDRIVE/testdata/tcryptospi/data/symmetricdatacheck0001/RC2-CBC-PKCS5PADDING.TXT	\testdata\tcryptospi\data\symmetricdatacheck0001\RC2-CBC-PKCS5PADDING.TXT
+data = ZDRIVE/testdata/tcryptospi/data/symmetricdatacheck0001/RC2-CFB-NOPADDING.TXT		\testdata\tcryptospi\data\symmetricdatacheck0001\RC2-CFB-NOPADDING.TXT
+data = ZDRIVE/testdata/tcryptospi/data/symmetricdatacheck0001/RC2-CFB-PKCS5PADDING.TXT	\testdata\tcryptospi\data\symmetricdatacheck0001\RC2-CFB-PKCS5PADDING.TXT
+data = ZDRIVE/testdata/tcryptospi/data/symmetricdatacheck0001/RC2-CTR-NOPADDING.TXT	\testdata\tcryptospi\data\symmetricdatacheck0001\RC2-CTR-NOPADDING.TXT
+data = ZDRIVE/testdata/tcryptospi/data/symmetricdatacheck0001/RC2-ECB-NOPADDING.TXT		\testdata\tcryptospi\data\symmetricdatacheck0001\RC2-ECB-NOPADDING.TXT
+data = ZDRIVE/testdata/tcryptospi/data/symmetricdatacheck0001/RC2-ECB-PKCS5PADDING.TXT	\testdata\tcryptospi\data\symmetricdatacheck0001\RC2-ECB-PKCS5PADDING.TXT
+data = ZDRIVE/testdata/tcryptospi/data/symmetricdatacheck0001/RC2-OFB-NOPADDING.TXT		\testdata\tcryptospi\data\symmetricdatacheck0001\RC2-OFB-NOPADDING.TXT
+data = ZDRIVE/testdata/tcryptospi/data/symmetricdatacheck0001/RC2-OFB-PKCS5PADDING.TXT	\testdata\tcryptospi\data\symmetricdatacheck0001\RC2-OFB-PKCS5PADDING.TXT
+data = ZDRIVE/testdata/tcryptospi/data/symmetricdatacheck0001/RC4-ECB-NOPADDING.TXT		\testdata\tcryptospi\data\symmetricdatacheck0001\RC4-ECB-NOPADDING.TXT
+
+data = ZDRIVE/testdata/tcryptospi/data/nistsp800-38atestvectors/ctr-aes128key.ctr		\testdata\tcryptospi\data\nistsp800-38atestvectors\ctr-aes128key.ctr
+data = ZDRIVE/testdata/tcryptospi/data/nistsp800-38atestvectors/ctr-aesplaintext.ctr		\testdata\tcryptospi\data\nistsp800-38atestvectors\ctr-aesplaintext.ctr
+data = ZDRIVE/testdata/tcryptospi/data/nistsp800-38atestvectors/ctr-aesiv.ctr			\testdata\tcryptospi\data\nistsp800-38atestvectors\ctr-aesiv.ctr
+data = ZDRIVE/testdata/tcryptospi/data/nistsp800-38atestvectors/ctr-aes128ciphertext.ctr	\testdata\tcryptospi\data\nistsp800-38atestvectors\ctr-aes128ciphertext.ctr
+
+data = ZDRIVE/testdata/tcryptospi/data/nistsp800-38atestvectors/ctr-aes192key.ctr		\testdata\tcryptospi\data\nistsp800-38atestvectors\ctr-aes192key.ctr
+data = ZDRIVE/testdata/tcryptospi/data/nistsp800-38atestvectors/ctr-aes192ciphertext.ctr	\testdata\tcryptospi\data\nistsp800-38atestvectors\ctr-aes192ciphertext.ctr
+
+data = ZDRIVE/testdata/tcryptospi/data/nistsp800-38atestvectors/ctr-aes256key.ctr		\testdata\tcryptospi\data\nistsp800-38atestvectors\ctr-aes256key.ctr
+data = ZDRIVE/testdata/tcryptospi/data/nistsp800-38atestvectors/ctr-aes256ciphertext.ctr	\testdata\tcryptospi\data\nistsp800-38atestvectors\ctr-aes256ciphertext.ctr
+
+#endif

@@ -1,0 +1,37 @@
+component	security_cryptospi_strong
+source	\sf\os\security\crypto\weakcryptospi\BWINS
+source	\sf\os\security\crypto\weakcryptospi\docs
+source	\sf\os\security\crypto\weakcryptospi\EABI
+source	\sf\os\security\crypto\weakcryptospi\group
+source	\sf\os\security\crypto\weakcryptospi\inc
+source	\sf\os\security\crypto\weakcryptospi\source
+source	\sf\os\security\crypto\weakcryptospi\strong
+source	\sf\os\security\crypto\weakcryptospi\test
+source	\sf\os\security\crypto\weakcryptospi\examples
+binary  \sf\os\security\crypto\weakcryptospi\strong all
+exports  \sf\os\security\crypto\weakcryptospi\strong
+notes_source	\component_defs\release.src
+
+# Temporary workaround to support components which #include the
+# unexported crypto headers. Once 9.4 has branched from the MCL
+# then other team's .mmp files can be re-written to refer to
+# cryptospi/inc and everything under 'crypto' can be deleted
+# from Perforce.
+source \sf\os\security\crypto\weakcrypto\inc
+ipr export-restricted E \sf\os\security\crypto\weakcrypto\inc
+
+
+ipr export-restricted E \sf\os\security\crypto\weakcryptospi\BWINS
+ipr export-restricted E \sf\os\security\crypto\weakcryptospi\EABI
+ipr export-restricted B \sf\os\security\crypto\weakcryptospi\docs
+ipr export-restricted E \sf\os\security\crypto\weakcryptospi\group
+ipr export-restricted E \sf\os\security\crypto\weakcryptospi\inc
+ipr export-restricted B \sf\os\security\crypto\weakcryptospi\source
+ipr export-restricted E \sf\os\security\crypto\weakcryptospi\source\spi
+ipr E \sf\os\security\crypto\weakcryptospi\source\spi\cryptospisetup
+ipr export-restricted B \sf\os\security\crypto\weakcryptospi\strong
+ipr export-restricted T \sf\os\security\crypto\weakcryptospi\test
+ipr export-restricted T \sf\os\security\crypto\weakcryptospi\examples
+ipr T \sf\os\security\crypto\weakcryptospi\test\dumpcryptoplugin
+
+

@@ -1,0 +1,144 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+PRINT Run all tpadding tests 
+//
+LOAD_SUITE tpaddingServer
+//
+
+
+//! @SYMTestCaseID   SEC-CRYPTO-PADDING-0007
+START_TESTCASE SEC-CRYPTO-PADDING-0007
+
+RUN_TEST_STEP 		100 tpaddingServer PadNone		c:\tpadding\tpaddingnone.ini	PaddingNone
+RUN_TEST_STEP 		100 tpaddingServer UnpadNone	c:\tpadding\tpaddingnone.ini	PaddingNone
+
+END_TESTCASE SEC-CRYPTO-PADDING-0007
+
+
+//! @SYMTestCaseID   SEC-CRYPTO-PADDING-0001
+//! @SYMTestCaseDesc The test case appends no padding.
+//! 		     (PaddingNone)
+//! @SYMDEF	     DEF079604 
+//! @SYMTestPriority Low
+//! @SYMTestStatus   Implemented
+//! @SYMTestActions  ASSERT KErrArgument if blocksize < 0.
+//! @SYMTestExpectedResults No padding.
+//! @SYMDevelopedForRelease Argus
+START_TESTCASE SEC-CRYPTO-PADDING-0001
+
+RUN_TEST_STEP_RESULT -6 100 tpaddingServer PadNone	c:\tpadding\tpaddingnone.ini    Zero_BlockSize
+RUN_TEST_STEP_RESULT -6 100 tpaddingServer PadNone	c:\tpadding\tpaddingnone.ini    Negative_BlockSize
+
+END_TESTCASE SEC-CRYPTO-PADDING-0001
+
+
+//! @SYMTestCaseID   SEC-CRYPTO-PADDING-0002
+//! @SYMTestCaseDesc Checks the padding for SSL by giving different blocksize and textsize.
+//! 		     (PadSSLv3)
+//! @SYMDEF			 DEF079604 
+//! @SYMTestPriority Low
+//! @SYMTestStatus   Implemented
+//! @SYMTestActions  ASSERT KErrArgument if blocksize <= textsize.
+//! @SYMTestExpectedResults The padding of data for SSL 3.0 should be proper.
+//! @SYMDevelopedForRelease Argus
+START_TESTCASE SEC-CRYPTO-PADDING-0002
+
+RUN_TEST_STEP 100 tpaddingServer PadSSLv3 c:\tpadding\tpadSSLv3.ini CipherAES_CBC
+RUN_TEST_STEP 100 tpaddingServer PadSSLv3 c:\tpadding\tpadSSLv3.ini CipherDES_CBC
+RUN_TEST_STEP 100 tpaddingServer PadSSLv3 c:\tpadding\tpadSSLv3.ini CipherRC2_CBC
+RUN_TEST_STEP 100 tpaddingServer PadSSLv3 c:\tpadding\tpadSSLv3.ini Block_LessThan_Text
+RUN_TEST_STEP_RESULT -6 100 tpaddingServer PadSSLv3 c:\tpadding\tpadSSLv3.ini Zero_BlockSize
+RUN_TEST_STEP_RESULT -6 100 tpaddingServer PadSSLv3 c:\tpadding\tpadSSLv3.ini Negative_BlockSize
+
+END_TESTCASE SEC-CRYPTO-PADDING-0002
+
+
+//! @SYMTestCaseID   SEC-CRYPTO-PADDING-0003
+//! @SYMTestCaseDesc Checks the unpadding for SSL by giving different blocksize and textsize.
+//! 		     (UnpadSSLv3)
+//! @SYMDEF			 DEF079604 
+//! @SYMTestPriority Low
+//! @SYMTestStatus   Implemented
+//! @SYMTestActions  ASSERT KErrArgument if blocksize <= textsize.
+//! @SYMTestExpectedResults The unpadding of data for SSL 3.0 should be proper.
+//! @SYMDevelopedForRelease Argus
+START_TESTCASE SEC-CRYPTO-PADDING-0003
+
+RUN_TEST_STEP 100 tpaddingServer UnpadSSLv3 c:\tpadding\tpadSSLv3.ini CipherAES_CBC
+RUN_TEST_STEP 100 tpaddingServer UnpadSSLv3 c:\tpadding\tpadSSLv3.ini CipherDES_CBC
+RUN_TEST_STEP 100 tpaddingServer UnpadSSLv3 c:\tpadding\tpadSSLv3.ini CipherRC2_CBC
+RUN_TEST_STEP 100 tpaddingServer UnpadSSLv3 c:\tpadding\tpadSSLv3.ini Block_LessThan_Text
+RUN_TEST_STEP_RESULT -6 100 tpaddingServer UnpadSSLv3 c:\tpadding\tpadSSLv3.ini Zero_BlockSize
+RUN_TEST_STEP_RESULT -6 100 tpaddingServer UnpadSSLv3 c:\tpadding\tpadSSLv3.ini Negative_BlockSize
+
+END_TESTCASE SEC-CRYPTO-PADDING-0003
+
+
+//! @SYMTestCaseID   SEC-CRYPTO-PADDING-0008
+START_TESTCASE SEC-CRYPTO-PADDING-0008
+
+RUN_TEST_STEP 100 tpaddingServer PadPKCS1
+RUN_TEST_STEP 100 tpaddingServer UnpadPKCS1
+
+RUN_TEST_STEP 100 tpaddingServer PadPKCS7
+RUN_TEST_STEP 100 tpaddingServer UnpadPKCS7
+
+RUN_TEST_STEP 100 tpaddingServer UnpadCorruptPKCS7 c:\tpadding\tpadpkcs7.ini DEF073199
+
+END_TESTCASE SEC-CRYPTO-PADDING-0008
+
+
+//! @SYMTestCaseID   SEC-CRYPTO-PADDING-0004
+//! @SYMTestCaseDesc Checks the unpadding for PKCS7 by giving different blocksize, textsize
+//					 and valid and invalid padding byte.
+//! 		     (UnpadCorruptPKCS7)
+//! @SYMDEF			 DEF079604 
+//! @SYMTestPriority Low
+//! @SYMTestStatus   Implemented
+//! @SYMTestActions  ASSERT KErrArgument if blocksize <= textsize.
+//! @SYMTestExpectedResults The unpadding of data for PKCS7 should be proper.
+//! @SYMDevelopedForRelease Argus
+START_TESTCASE SEC-CRYPTO-PADDING-0004
+
+RUN_TEST_STEP 100 tpaddingServer UnpadCorruptPKCS7 c:\tpadding\tpadpkcs7.ini Valid_PaddingByte1
+RUN_TEST_STEP 100 tpaddingServer UnpadCorruptPKCS7 c:\tpadding\tpadpkcs7.ini Valid_PaddingByte2
+RUN_TEST_STEP 100 tpaddingServer UnpadCorruptPKCS7 c:\tpadding\tpadpkcs7.ini Valid_PaddingByte3
+RUN_TEST_STEP 100 tpaddingServer UnpadCorruptPKCS7 c:\tpadding\tpadpkcs7.ini InValid_PaddingByte2
+
+END_TESTCASE SEC-CRYPTO-PADDING-0004
+
+
+//! @SYMTestCaseID   SEC-CRYPTO-PADDING-0005
+//! @SYMTestCaseDesc Checks the padding for PKCS7 by giving different blocksize, textsize.
+//! 		     (PaddingCorruptPKCS7)
+//! @SYMDEF			 DEF079604 
+//! @SYMTestPriority Low
+//! @SYMTestStatus   Implemented
+//! @SYMTestActions  ASSERT KErrArgument if blocksize <= textsize.
+//! @SYMTestExpectedResults The padding of data for PKCS7 should be proper.
+//! @SYMDevelopedForRelease Argus
+START_TESTCASE SEC-CRYPTO-PADDING-0005
+
+RUN_TEST_STEP 100 tpaddingServer PaddingCorruptPKCS7 c:\tpadding\tpadpkcs7.ini Block_LessThan_Text_Padding
+RUN_TEST_STEP 100 tpaddingServer PaddingCorruptPKCS7 c:\tpadding\tpadpkcs7.ini Block_Equal_Text_Padding
+RUN_TEST_STEP 100 tpaddingServer PaddingCorruptPKCS7 c:\tpadding\tpadpkcs7.ini Block_GreaterThan_Text_Padding
+RUN_TEST_STEP_RESULT -6 100 tpaddingServer PaddingCorruptPKCS7 c:\tpadding\tpadpkcs7.ini Zero_Block_Padding
+RUN_TEST_STEP_RESULT -6 100 tpaddingServer PaddingCorruptPKCS7 c:\tpadding\tpadpkcs7.ini Negative_Block_Padding
+
+END_TESTCASE SEC-CRYPTO-PADDING-0005
+
+

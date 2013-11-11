@@ -1,0 +1,42 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+TARGET          ecomnullexample.dll
+CAPABILITY		ALL -Tcb
+TARGETTYPE      PLUGIN
+
+// MAGIC Dll recognition UID followed by the unique UID for this dll
+UID             0x10009D8D 0x011f500e
+VENDORID		0x70000001
+
+SOURCEPATH	../../Framework/nullExample
+
+SOURCE          nullExample.cpp
+
+USERINCLUDE 	../../Test_Bed/inc ../../Framework/frame ../../Framework/inc
+USERINCLUDE	../../Framework/nullExample
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN 
+
+START RESOURCE        011f500e.rss
+TARGET ecomnullexample.rsc
+END
+
+LIBRARY         euser.lib
+LIBRARY			ecom.lib
+
+// End of File
+
+SMPSAFE

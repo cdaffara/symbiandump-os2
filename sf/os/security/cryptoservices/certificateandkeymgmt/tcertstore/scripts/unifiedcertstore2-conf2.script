@@ -1,0 +1,824 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+START_TESTCASE                SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF2-0001
+
+//! @SYMTestCaseID            SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF2-0001
+
+//! @SYMTestCaseDesc          unifiedcertstore2-conf2.txt
+
+//!                           
+
+//!                           New tests are added to the existing test scripts to test certificate addition, removal, setapplication
+
+//!                           and settrust which required in PREQ226 MIDP 2.0 support.
+
+//!                           These tests need to have taddtionalstores enabled.
+
+//!                           
+
+//!                           Note: The in-source test tag is only added to the new tests for PREQ226. The tests without test tag is the existing tests
+
+//!                           in the certstore component, which are used to set up the environment needed by the PREQ226 tests.
+
+//!                           
+
+//!                           5.1 Test cases for single file-based writable certificate store
+
+//!                           
+
+//!                           5.1.1 Successfull addition, listing and retrieval of certificates (X.509)
+
+//! @SYMTestActions           1) No Test,Opening a CertificateAppInfoManager
+
+//!                           2) No Test,Adding client A1
+
+//!                           3) No Test,Adding client A2
+
+//!                           4) No Test,Adding client A3
+
+//!                           5) No Test,Adding client A4
+
+//!                           6) No Test,Deleting the CertificateAppInfoManager
+
+//!                           7) 5.1.1.1,Opening a certificate store manager
+
+RUN_TEST_STEP                 -1    CTestHandler        initappmanager      
+
+RUN_TEST_STEP                 -1    CTestHandler        addclient              unifiedcertstore2-conf2.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF2-0001-002
+
+RUN_TEST_STEP                 -1    CTestHandler        addclient              unifiedcertstore2-conf2.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF2-0001-003
+
+RUN_TEST_STEP                 -1    CTestHandler        addclient              unifiedcertstore2-conf2.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF2-0001-004
+
+RUN_TEST_STEP                 -1    CTestHandler        addclient              unifiedcertstore2-conf2.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF2-0001-005
+
+RUN_TEST_STEP                 -1    CTestHandler        deleteappmanager    
+
+RUN_TEST_STEP                 -1    CTestHandler        init                   unifiedcertstore2-conf2.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF2-0001-007
+
+END_TESTCASE                  SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF2-0001
+
+
+
+
+
+START_TESTCASE                UCTSSEC-CT-WMODEUCTADDCWN5.1.1.2
+
+//! @SYMTestCaseID            UCTSSEC-CT-WMODEUCTADDCWN5.1.1.2
+
+//! @file                     
+
+//! @SYMTestCaseDesc          The test is to add a X509 CA certficate CAX1 in the CertStore and get notification.
+
+//! @SYMPREQ                  226
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 5.1.1.2,Add the certificate CAX1 with notification
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTADDCWN5.1.1.2-001
+
+END_TESTCASE                  UCTSSEC-CT-WMODEUCTADDCWN5.1.1.2
+
+
+
+
+
+START_TESTCASE                UCTSSEC-CT-WMODEUCTADDCWN5.1.1.3
+
+//! @SYMTestCaseID            UCTSSEC-CT-WMODEUCTADDCWN5.1.1.3
+
+//! @file                     
+
+//! @SYMTestCaseDesc          The test is to a X509 CA certficate CAX2 in the CertStore and get notification.
+
+//! @SYMPREQ                  226
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 5.1.1.3,Add the certificate CAX2 with notification
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTADDCWN5.1.1.3-001
+
+END_TESTCASE                  UCTSSEC-CT-WMODEUCTADDCWN5.1.1.3
+
+
+
+
+
+START_TESTCASE                UCTSSEC-CT-WMODEUCTADDCWN5.1.1.4
+
+//! @SYMTestCaseID            UCTSSEC-CT-WMODEUCTADDCWN5.1.1.4
+
+//! @file                     
+
+//! @SYMTestCaseDesc          The test is to add a X509 CA certficate CAX3 in the CertStore and get notification.
+
+//! @SYMPREQ                  226
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 5.1.1.4,Add the certificate CAX3 with notification
+
+//!                           2) 5.1.1.5,Get the list of certificates
+
+//!                           3) 5.1.1.5.1,Retrieve CAX1 cert
+
+//!                           4) 5.1.1.9,Deleting the certificate store manager
+
+//!                           5) 5.1.1.10,Opening a certificate store manager
+
+//!                           6) 5.1.1.11,Get the list of certificates
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTADDCWN5.1.1.4-001
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTADDCWN5.1.1.4-002
+
+RUN_TEST_STEP                 -1    CTestHandler        retrieve               unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTADDCWN5.1.1.4-003
+
+RUN_TEST_STEP                 -1    CTestHandler        delete              
+
+RUN_TEST_STEP                 -1    CTestHandler        init                   unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTADDCWN5.1.1.4-005
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTADDCWN5.1.1.4-006
+
+END_TESTCASE                  UCTSSEC-CT-WMODEUCTADDCWN5.1.1.4
+
+
+
+
+
+// 5.1.2 Successfull addition, listing and retrieval of certificates (WTLS)
+
+
+
+START_TESTCASE                UCTSSEC-CT-WMODEUCTADDCWN5.1.2.1
+
+//! @SYMTestCaseID            UCTSSEC-CT-WMODEUCTADDCWN5.1.2.1
+
+//! @file                     
+
+//! @SYMTestCaseDesc          The test is to add a WTLS CA certficate CAW1 in the CertStore and get notification.
+
+//! @SYMPREQ                  226
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 5.1.2.1,Add the certificate CAW1 with notification
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTADDCWN5.1.2.1-001
+
+END_TESTCASE                  UCTSSEC-CT-WMODEUCTADDCWN5.1.2.1
+
+
+
+
+
+START_TESTCASE                UCTSSEC-CT-WMODEUCTADDCWN5.1.2.2
+
+//! @SYMTestCaseID            UCTSSEC-CT-WMODEUCTADDCWN5.1.2.2
+
+//! @file                     
+
+//! @SYMTestCaseDesc          The test is to add a WTLS CA certficate CAW2 in the CertStore and get notification.
+
+//! @SYMPREQ                  226
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 5.1.2.2,Add the certificate CAW2 with notification
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTADDCWN5.1.2.2-001
+
+END_TESTCASE                  UCTSSEC-CT-WMODEUCTADDCWN5.1.2.2
+
+
+
+
+
+START_TESTCASE                UCTSSEC-CT-WMODEUCTADDCWN5.1.2.3
+
+//! @SYMTestCaseID            UCTSSEC-CT-WMODEUCTADDCWN5.1.2.3
+
+//! @file                     
+
+//! @SYMTestCaseDesc          The test is to add a WTLS CA certficate CAW3 in the CertStore and get notification.
+
+//! @SYMPREQ                  226
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 5.1.2.3,Add the certificate CAW3 with notification
+
+//!                           2) 5.1.2.4,Get the list of certificates
+
+//!                           3) 5.1.2.4.1,Retrieve CAW1 cert
+
+//!                           4) 5.1.2.5,Deleting the certificate store manager
+
+//!                           5) 5.1.2.6,Opening a certificate store manager
+
+//!                           6) 5.1.2.7,Get the list of certificates
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTADDCWN5.1.2.3-001
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTADDCWN5.1.2.3-002
+
+RUN_TEST_STEP                 -1    CTestHandler        retrieve               unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTADDCWN5.1.2.3-003
+
+RUN_TEST_STEP                 -1    CTestHandler        delete              
+
+RUN_TEST_STEP                 -1    CTestHandler        init                   unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTADDCWN5.1.2.3-005
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTADDCWN5.1.2.3-006
+
+END_TESTCASE                  UCTSSEC-CT-WMODEUCTADDCWN5.1.2.3
+
+
+
+
+
+// 5.1.3 Successfull trust settings updates and retrieval
+
+
+
+START_TESTCASE                UCTSSEC-CT-WMODEUCTSAPPCWN5.1.3.1
+
+//! @SYMTestCaseID            UCTSSEC-CT-WMODEUCTSAPPCWN5.1.3.1
+
+//! @file                     
+
+//! @SYMTestCaseDesc          The test is to set application to a X509 CA certficate CAX1 in the CertStore and get notification.
+
+//! @SYMPREQ                  226
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 5.1.3.1,Set applications to the CAX1 certificate with notification
+
+RUN_TEST_STEP                 -1    CTestHandler        setapplications        unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTSAPPCWN5.1.3.1-001
+
+END_TESTCASE                  UCTSSEC-CT-WMODEUCTSAPPCWN5.1.3.1
+
+
+
+
+
+START_TESTCASE                UCTSSEC-CT-WMODEUCTSTRUSTCWN5.1.3.2
+
+//! @SYMTestCaseID            UCTSSEC-CT-WMODEUCTSTRUSTCWN5.1.3.2
+
+//! @file                     
+
+//! @SYMTestCaseDesc          The test is to set trust to a X509 CA certficate CAX1 in the CertStore and get notification.
+
+//! @SYMPREQ                  226
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 5.1.3.2,set the trust for CAX1 with notification
+
+RUN_TEST_STEP                 -1    CTestHandler        settrust               unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTSTRUSTCWN5.1.3.2-001
+
+END_TESTCASE                  UCTSSEC-CT-WMODEUCTSTRUSTCWN5.1.3.2
+
+
+
+
+
+START_TESTCASE                UCTSSEC-CT-WMODEUCTSAPPCWN5.1.3.3
+
+//! @SYMTestCaseID            UCTSSEC-CT-WMODEUCTSAPPCWN5.1.3.3
+
+//! @file                     
+
+//! @SYMTestCaseDesc          The test is to set application to a X509 CA certficate CAX2 in the CertStore and get notification.
+
+//! @SYMPREQ                  226
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 5.1.3.3,Set applications to the CAX2 certificate with notification
+
+RUN_TEST_STEP                 -1    CTestHandler        setapplications        unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTSAPPCWN5.1.3.3-001
+
+END_TESTCASE                  UCTSSEC-CT-WMODEUCTSAPPCWN5.1.3.3
+
+
+
+
+
+START_TESTCASE                UCTSSEC-CT-WMODEUCTSTRUSTCWN5.1.3.4
+
+//! @SYMTestCaseID            UCTSSEC-CT-WMODEUCTSTRUSTCWN5.1.3.4
+
+//! @file                     
+
+//! @SYMTestCaseDesc          The test is to set trust to a X509 CA certficate CAX2 in the CertStore and get notification.
+
+//! @SYMPREQ                  226
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 5.1.3.4,set the trust for CAX2 with notification
+
+RUN_TEST_STEP                 -1    CTestHandler        settrust               unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTSTRUSTCWN5.1.3.4-001
+
+END_TESTCASE                  UCTSSEC-CT-WMODEUCTSTRUSTCWN5.1.3.4
+
+
+
+
+
+START_TESTCASE                UCTSSEC-CT-WMODEUCTSAPPCWN5.1.3.5
+
+//! @SYMTestCaseID            UCTSSEC-CT-WMODEUCTSAPPCWN5.1.3.5
+
+//! @file                     
+
+//! @SYMTestCaseDesc          The test is to set application to a X509 CA certficate CAX3 in the CertStore and get notification.
+
+//! @SYMPREQ                  226
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 5.1.3.5,Set applications to the CAX3 certificate with notification
+
+RUN_TEST_STEP                 -1    CTestHandler        setapplications        unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTSAPPCWN5.1.3.5-001
+
+END_TESTCASE                  UCTSSEC-CT-WMODEUCTSAPPCWN5.1.3.5
+
+
+
+
+
+START_TESTCASE                UCTSSEC-CT-WMODEUCTSTRUSTCWN5.1.3.6
+
+//! @SYMTestCaseID            UCTSSEC-CT-WMODEUCTSTRUSTCWN5.1.3.6
+
+//! @file                     
+
+//! @SYMTestCaseDesc          The test is to set trust to a X509 CA certficate CAX3 in the CertStore and get notification.
+
+//! @SYMPREQ                  226
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 5.1.3.6,set the trust for CAX3 with notification
+
+//!                           2) 5.1.3.7,Get applications for CAX1
+
+//!                           3) 5.1.3.8,Get the trust for CAX1
+
+//!                           4) 5.1.3.9,Get applications for CAX2
+
+//!                           5) 5.1.3.10,Get the trust for CAX2
+
+//!                           6) 5.1.3.11,Get applications for CAX3
+
+//!                           7) 5.1.3.12,Get the trust for CAX3
+
+RUN_TEST_STEP                 -1    CTestHandler        settrust               unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTSTRUSTCWN5.1.3.6-001
+
+RUN_TEST_STEP                 -1    CTestHandler        getapplications        unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTSTRUSTCWN5.1.3.6-002
+
+RUN_TEST_STEP                 -1    CTestHandler        gettrusters            unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTSTRUSTCWN5.1.3.6-003
+
+RUN_TEST_STEP                 -1    CTestHandler        getapplications        unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTSTRUSTCWN5.1.3.6-004
+
+RUN_TEST_STEP                 -1    CTestHandler        gettrusters            unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTSTRUSTCWN5.1.3.6-005
+
+RUN_TEST_STEP                 -1    CTestHandler        getapplications        unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTSTRUSTCWN5.1.3.6-006
+
+RUN_TEST_STEP                 -1    CTestHandler        gettrusters            unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTSTRUSTCWN5.1.3.6-007
+
+END_TESTCASE                  UCTSSEC-CT-WMODEUCTSTRUSTCWN5.1.3.6
+
+
+
+
+
+START_TESTCASE                UCTSSEC-CT-WMODEUCTSAPPCWN5.1.3.13
+
+//! @SYMTestCaseID            UCTSSEC-CT-WMODEUCTSAPPCWN5.1.3.13
+
+//! @file                     
+
+//! @SYMTestCaseDesc          The test is to set application to a WTLS CA certficate CAW2 in the CertStore and get notification.
+
+//! @SYMPREQ                  226
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 5.1.3.13,Set trusters to the CAW2 certificate with notification
+
+RUN_TEST_STEP                 -1    CTestHandler        setapplications        unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTSAPPCWN5.1.3.13-001
+
+END_TESTCASE                  UCTSSEC-CT-WMODEUCTSAPPCWN5.1.3.13
+
+
+
+
+
+START_TESTCASE                UCTSSEC-CT-WMODEUCTSTRUSTCWN5.1.3.14
+
+//! @SYMTestCaseID            UCTSSEC-CT-WMODEUCTSTRUSTCWN5.1.3.14
+
+//! @file                     
+
+//! @SYMTestCaseDesc          The test is to set trust to a WTLS CA certficate CAW2 in the CertStore and get notification.
+
+//! @SYMPREQ                  226
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 5.1.3.14,set the trust for CAW2 with notification
+
+RUN_TEST_STEP                 -1    CTestHandler        settrust               unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTSTRUSTCWN5.1.3.14-001
+
+END_TESTCASE                  UCTSSEC-CT-WMODEUCTSTRUSTCWN5.1.3.14
+
+
+
+
+
+START_TESTCASE                UCTSSEC-CT-WMODEUCTSAPPCWN5.1.3.15
+
+//! @SYMTestCaseID            UCTSSEC-CT-WMODEUCTSAPPCWN5.1.3.15
+
+//! @file                     
+
+//! @SYMTestCaseDesc          The test is to set application to a WTLS CA certficate CAW3 in the CertStore and get notification.
+
+//! @SYMPREQ                  226
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 5.1.3.15,Set trusters to the CAW3 certificate with notification
+
+RUN_TEST_STEP                 -1    CTestHandler        setapplications        unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTSAPPCWN5.1.3.15-001
+
+END_TESTCASE                  UCTSSEC-CT-WMODEUCTSAPPCWN5.1.3.15
+
+
+
+
+
+START_TESTCASE                UCTSSEC-CT-WMODEUCTSTRUSTCWN5.1.3.16
+
+//! @SYMTestCaseID            UCTSSEC-CT-WMODEUCTSTRUSTCWN5.1.3.16
+
+//! @file                     
+
+//! @SYMTestCaseDesc          The test is to set trust to a WTLS CA certficate CAW3 in the CertStore and get notification.
+
+//! @SYMPREQ                  226
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 5.1.3.16,set the trust for CAW3 with notification
+
+//!                           2) 5.1.3.17,Get applications for CAW1
+
+//!                           3) 5.1.3.18,Get the trust for CAW1
+
+//!                           4) 5.1.3.19,Get applications for CAW2
+
+//!                           5) 5.1.3.20,Get the trust for CAW2
+
+//!                           6) 5.1.3.21,Get applications for CAW3
+
+//!                           7) 5.1.3.22,Get the trust for CAW3
+
+RUN_TEST_STEP                 -1    CTestHandler        settrust               unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTSTRUSTCWN5.1.3.16-001
+
+RUN_TEST_STEP                 -1    CTestHandler        getapplications        unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTSTRUSTCWN5.1.3.16-002
+
+RUN_TEST_STEP                 -1    CTestHandler        gettrusters            unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTSTRUSTCWN5.1.3.16-003
+
+RUN_TEST_STEP                 -1    CTestHandler        getapplications        unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTSTRUSTCWN5.1.3.16-004
+
+RUN_TEST_STEP                 -1    CTestHandler        gettrusters            unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTSTRUSTCWN5.1.3.16-005
+
+RUN_TEST_STEP                 -1    CTestHandler        getapplications        unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTSTRUSTCWN5.1.3.16-006
+
+RUN_TEST_STEP                 -1    CTestHandler        gettrusters            unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTSTRUSTCWN5.1.3.16-007
+
+END_TESTCASE                  UCTSSEC-CT-WMODEUCTSTRUSTCWN5.1.3.16
+
+
+
+
+
+START_TESTCASE                SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF2-0018
+
+//! @SYMTestCaseID            SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF2-0018
+
+//! @SYMTestCaseDesc          5.1.4 Successfull addition and retrieval of user certificates
+
+//! @SYMTestActions           1) 1.1.0.4 Import a RSA key
+
+//!                           2) 1.1.0.5 Import a RSA key
+
+//!                           3) 1.1.0.6 Import a RSA key
+
+//!                           4) 5.1.4.1, Add certificate rsacert1 ***NEW***
+
+//!                           5) 5.1.4.2,Add the certificate rsacert2 ***NEW***
+
+//!                           6) 5.1.4.3,Add the certificate rsacert3 ***NEW***
+
+//!                           7) 5.1.4.4.a,Get the list of certificates
+
+//!                           8) 5.1.4.4.b,Get the list of certificates
+
+//!                           9) 5.1.4.4.c,Retrieve rsacert1 cert
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              unifiedcertstore2-conf2.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF2-0018-001
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              unifiedcertstore2-conf2.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF2-0018-002
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              unifiedcertstore2-conf2.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF2-0018-003
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                unifiedcertstore2-conf2.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF2-0018-004
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                unifiedcertstore2-conf2.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF2-0018-005
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                unifiedcertstore2-conf2.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF2-0018-006
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               unifiedcertstore2-conf2.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF2-0018-007
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               unifiedcertstore2-conf2.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF2-0018-008
+
+RUN_TEST_STEP                 -1    CTestHandler        retrieve               unifiedcertstore2-conf2.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF2-0018-009
+
+END_TESTCASE                  SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF2-0018
+
+
+
+
+
+START_TESTCASE                UCTSSEC-CT-WMODEUCTDELCWN1.1
+
+//! @SYMTestCaseID            UCTSSEC-CT-WMODEUCTDELCWN1.1
+
+//! @file                     
+
+//! @SYMTestCaseDesc          The test is to delete a X509 CA certficate CAX1 in the CertStore and get notification.
+
+//! @SYMPREQ                  226
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) No Test,Deleting the certificate CAX1 with notification
+
+RUN_TEST_STEP                 -1    CTestHandler        deletecert             unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTDELCWN1.1-001
+
+END_TESTCASE                  UCTSSEC-CT-WMODEUCTDELCWN1.1
+
+
+
+
+
+START_TESTCASE                UCTSSEC-CT-WMODEUCTDELCWN1.2
+
+//! @SYMTestCaseID            UCTSSEC-CT-WMODEUCTDELCWN1.2
+
+//! @file                     
+
+//! @SYMTestCaseDesc          The test is to delete a X509 CA certficate CAX2 in the CertStore and get notification.
+
+//! @SYMPREQ                  226
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) No Test,Deleting the certificate CAX2 with notification
+
+RUN_TEST_STEP                 -1    CTestHandler        deletecert             unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTDELCWN1.2-001
+
+END_TESTCASE                  UCTSSEC-CT-WMODEUCTDELCWN1.2
+
+
+
+
+
+START_TESTCASE                UCTSSEC-CT-WMODEUCTDELCWN1.3
+
+//! @SYMTestCaseID            UCTSSEC-CT-WMODEUCTDELCWN1.3
+
+//! @file                     
+
+//! @SYMTestCaseDesc          The test is to delete a X509 CA certficate CAX3 in the CertStore and get notification.
+
+//! @SYMPREQ                  226
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) No Test,Deleting the certificate CAX3 with notification
+
+RUN_TEST_STEP                 -1    CTestHandler        deletecert             unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTDELCWN1.3-001
+
+END_TESTCASE                  UCTSSEC-CT-WMODEUCTDELCWN1.3
+
+
+
+
+
+START_TESTCASE                UCTSSEC-CT-WMODEUCTDELCWN1.4
+
+//! @SYMTestCaseID            UCTSSEC-CT-WMODEUCTDELCWN1.4
+
+//! @file                     
+
+//! @SYMTestCaseDesc          The test is to delete a WTLS CA certficate CAW1 in the CertStore and get notification.
+
+//! @SYMPREQ                  226
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) No Test,Deleting the certificate CAW1 with notification
+
+RUN_TEST_STEP                 -1    CTestHandler        deletecert             unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTDELCWN1.4-001
+
+END_TESTCASE                  UCTSSEC-CT-WMODEUCTDELCWN1.4
+
+
+
+
+
+START_TESTCASE                UCTSSEC-CT-WMODEUCTDELCWN1.5
+
+//! @SYMTestCaseID            UCTSSEC-CT-WMODEUCTDELCWN1.5
+
+//! @file                     
+
+//! @SYMTestCaseDesc          The test is to delete a WTLS CA certficate CAW2 in the CertStore and get notification.
+
+//! @SYMPREQ                  226
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) No Test,Deleting the certificate CAW2 with notification
+
+RUN_TEST_STEP                 -1    CTestHandler        deletecert             unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTDELCWN1.5-001
+
+END_TESTCASE                  UCTSSEC-CT-WMODEUCTDELCWN1.5
+
+
+
+
+
+START_TESTCASE                UCTSSEC-CT-WMODEUCTDELCWN1.6
+
+//! @SYMTestCaseID            UCTSSEC-CT-WMODEUCTDELCWN1.6
+
+//! @file                     
+
+//! @SYMTestCaseDesc          The test is to delete a WTLS CA certficate CAW3 in the CertStore and get notification.
+
+//! @SYMPREQ                  226
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) No Test,Deleting the certificate CAW3 with notification
+
+//!                           2) No Test,Deleting the certificate rsacert1 ***NEW***
+
+//!                           3) No Test,Deleting the certificate rsacert2 ***NEW***
+
+//!                           4) No Test,Deleting the certificate rsacert3 ***NEW***
+
+//!                           5) No Test,Deleting the writable certificate store manager
+
+//!                           6) No Test,Opening a CertificateAppInfoManager
+
+//!                           7) No Test,Deleting the client A1
+
+//!                           8) No Test,Deleting the client A2
+
+//!                           9) No Test,Deleting the client A3
+
+//!                           10) No Test,Deleting the client A4
+
+//!                           11) No Test,Deleting the CertificateAppInfoManager
+
+RUN_TEST_STEP                 -1    CTestHandler        deletecert             unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTDELCWN1.6-001
+
+RUN_TEST_STEP                 -1    CTestHandler        deletecert             unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTDELCWN1.6-002
+
+RUN_TEST_STEP                 -1    CTestHandler        deletecert             unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTDELCWN1.6-003
+
+RUN_TEST_STEP                 -1    CTestHandler        deletecert             unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTDELCWN1.6-004
+
+RUN_TEST_STEP                 -1    CTestHandler        delete              
+
+RUN_TEST_STEP                 -1    CTestHandler        initappmanager      
+
+RUN_TEST_STEP                 -1    CTestHandler        removeclient           unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTDELCWN1.6-007
+
+RUN_TEST_STEP                 -1    CTestHandler        removeclient           unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTDELCWN1.6-008
+
+RUN_TEST_STEP                 -1    CTestHandler        removeclient           unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTDELCWN1.6-009
+
+RUN_TEST_STEP                 -1    CTestHandler        removeclient           unifiedcertstore2-conf2.ini   UCTSSEC-CT-WMODEUCTDELCWN1.6-010
+
+RUN_TEST_STEP                 -1    CTestHandler        deleteappmanager    
+
+END_TESTCASE                  UCTSSEC-CT-WMODEUCTDELCWN1.6
+
+
+
+
+
+START_TESTCASE                UCTSSEC-CT-RMODEUCTWITHSS5.6
+
+//! @SYMTestCaseID            UCTSSEC-CT-RMODEUCTWITHSS5.6
+
+//! @file                     
+
+//! @SYMTestCaseDesc          The test is to open one UnifiedCertStore in read mode with the
+
+//!                           sequence of UICC, WIM, unknown hardware, SIM, ManufactureSoftware and ThirdpartySoftware cerstore
+
+//!                           implementations, and expect the correct order.The test needs
+
+//!                           tadditionalstores.dll enabled
+
+//! @SYMPREQ                  226
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 5.6,Opening a read-only certificate store manager
+
+//!                           2) 0.2,Deleting the second read-only certificate store manager
+
+RUN_TEST_STEP                 -1    CTestHandler        init                   unifiedcertstore2-conf2.ini   UCTSSEC-CT-RMODEUCTWITHSS5.6-001
+
+RUN_TEST_STEP                 -1    CTestHandler        delete              
+
+END_TESTCASE                  UCTSSEC-CT-RMODEUCTWITHSS5.6
+
+
+
+
+

@@ -1,0 +1,1213 @@
+/** @file  ../include/netdb.h
+@internalComponent
+*/
+
+/** @fn  endservent(void)
+
+Refer to  getservent() for the documentation
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  gethostbyaddr(const char *addr, int length, int format)
+@param addr
+@param length
+@param format
+Refer to  gethostbyname() for the documentation
+@see getaddrinfo()
+@see getnameinfo()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  gethostbyname(const char *name)
+@param name
+
+Note: This description also covers the following functions -
+ gethostbyaddr() 
+
+@return   The gethostbyname and gethostbyaddr functions return NULL if an error occurs or a valid hostent 
+structure otherwise.
+
+The gethostbyname, and gethostbyaddr functions each return a pointer to an object with the following structure describing an internet host referenced by name or by address, respectively. 
+
+The name argument passed to gethostbyname should point to a NUL -terminated hostname. The addr argument passed to gethostbyaddr should point to an address which is len bytes long, in binary form (i.e., not an IP address in human readable ASCII form). The type argument specifies the address family (e.g. AF_INET, etc.) of this address. 
+
+The structure returned contains either the information obtained from the name server, 
+
+@code
+struct  hostent {
+        char    *h_name;        // official name of host
+        char    **h_aliases;    // alias list 
+        int     h_addrtype;     // host address type 
+        int     h_length;       // length of address 
+        char    **h_addr_list;  // list of addresses from name server 
+};
+#define h_addr  h_addr_list[0]  //address, for backward compatibility
+@endcode
+
+
+
+The members of this structure are: 
+@code
+h_name  Official name of the host.  
+h_aliases  A NULL -terminated array of alternate names for the host.  
+h_addrtype  The type of address being returned; usually AF_INET.  
+h_length  The length, in bytes, of the address.  
+h_addr_list  A NULL -terminated array of network addresses for the host. Host addresses are returned in network byte order.  
+h_addr  The first address in h_addr_list; this is for backward compatibility.  
+@endcode
+
+
+When using the nameserver, gethostbyname will search for the named host in the current domain and its parents unless the name ends in a dot. 
+
+getaddrinfo and getnameinfo functions are preferred over the gethostbyname, and gethostbyaddr functions. 
+
+
+
+
+
+
+Examples:
+@code
+#include<stdio.h>
+#include<arpa/inet.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netdb.h>
+#include <string.h>
+Int main()
+{
+struct hostent *hp = 0;
+char *test_url=www.google.com:
+hp = gethostbyname(test_url);
+if(hp==NULL)
+printf("gethostbyname failed"):
+else
+printf("gethostbyname passed");
+return 0;
+}
+
+@endcode
+ Output
+@code
+Gethostbyname passed
+
+@endcode
+@code
+#include<stdio.h>
+#include<arpa/inet.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netdb.h>
+#include <string.h>
+#define urlsize 50
+Int main()
+{
+struct hostent *hp = 0;
+char addr[256];
+unsigned long  test_addr;
+strcpy(addr," 147.243.3.83");
+test_addr=inet_addr(addr);
+struct hostent *hp;
+hp=gethostbyaddr((const char *)&test;_addr,sizeof(test_addr),AF_INET);
+if(hp)
+printf("DNS query resolved");
+else
+printf("gethostbyaddr failed");
+return 0;
+}
+
+@endcode
+
+Diagnostics:
+
+ Error return status from gethostbyname and gethostbyaddr is indicated by return of a NULL pointer.
+The external integer h_errno may then be checked to see whether this is a temporary failure
+or an invalid or unknown host.
+The routine
+If its argument string is non- NULL, it is printed, followed by a colon and a space.
+The error message is printed with a trailing newline. The variable h_errno can have the following values: TRY_AGAIN This is usually a temporary error
+and means that the local server did not receive
+a response from an authoritative server.
+A retry at some later time may succeed. NO_RECOVERY Some unexpected server failure was encountered.
+This is a non-recoverable error.
+
+@see getaddrinfo()
+@see getnameinfo()
+
+
+Bugs:
+
+ These functions use a thread-specific data storage; if the data is needed 
+for future use it should be copied before any subsequent calls overwrite it. Though these functions are thread-safe the getaddrinfo family of functions is recommended 
+  instead. Only the Internet
+address format is currently understood. 
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  getprotobyname(const char *name)
+@param name
+
+Note: This description also covers the following functions -
+ getprotobynumber() 
+
+@return   Null pointer
+(0) returned on
+error.
+
+The getprotobyname, and getprotobynumber functions each return a pointer to an object with the following structure from the network protocol data base 
+@code
+struct  protoent {
+        char    *p_name;        /* official name of protocol */
+        char    **p_aliases;    /* alias list */
+        int     p_proto;        /* protocol number */
+};
+@endcode
+
+The members of this structure are: 
+@code
+p_name  The official name of the protocol.  
+p_aliases    A zero terminated list of alternate names for the protocol.  
+p_proto  The protocol number.  
+@endcode
+
+
+The getprotobyname function and getprotobynumber sequentially search from the beginning of the database until a matching protocol name or protocol number is found, 
+
+
+Examples:
+@code
+#include<netinet/in.h>
+#include<arpa/inet.h>
+#include<stdio.h>
+#include<string.h>
+#include<netdb.h>
+Int main()
+{
+struct protoent *p =0;
+char *protoname="tcp";
+p=getprotobyname(protoname);
+if(p!=NULL)
+printf("protocol not supported:");
+else
+printf("protocol supported");
+return 0;
+}
+
+@endcode
+ Output
+@code
+Protocol supported/not supported based on the support for protocol
+
+@endcode
+@code
+#include<netinet/in.h>
+#include<arpa/inet.h>
+#include<stdio.h>
+#include<string.h>
+#include<netdb.h>
+int main()
+	{
+	struct protoent *p =0;
+	int protonum=6;
+	p=getprotobynumber(protonum);
+	if(p!=NULL)
+		printf("protocol not supported:");
+	else
+		printf("protocol supported");
+	return 0;
+	}
+
+@endcode
+ Output
+@code
+Protocol supported/not supported based on the support for protocol
+
+@endcode
+ The getprotobynumber, getprotobyname, functions appeared in BSD 4.2 .
+
+Bugs:
+
+ These functions use a thread-specific data space; if the data is needed for 
+future use it must be copied before any subsequent calls overwrite it. Only the 
+Internet protocols are currently understood. 
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  getprotobynumber(int proto)
+@param proto
+
+Refer to  getprotobyname() for the documentation
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  getservbyname(const char *name, const char *proto)
+@param name
+@param proto
+Refer to  getservent() for the documentation
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  getservbyport(int port, const char *proto)
+@param port
+@param proto
+Refer to  getservent() for the documentation
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  getservent(void)
+
+Note: This description also covers the following functions -
+ getservbyname()  getservbyport()  setservent()  endservent() 
+
+@return   getservent, getservbyname and getservbyport functions return the servent structure, or a NULL pointer if an error occurs or the end of the file is reached.
+
+@code
+ s_name The official name of the service.
+ s_aliases
+  A zero terminated list of alternate names for the service.
+ s_port The port number at which the service resides.
+ Port numbers are returned in network byte order.
+ s_proto The name of the protocol to use when contacting the
+ service.
+
+@endcode
+  
+@code
+The getservent, getservbyname, and getservbyport functions
+each return a pointer to an object with the
+following structure
+containing the broken-out
+fields of a line in the network services data base, c:/sys/data/services. 
+structservent {
+char*s_name;/* official name of service */
+char**s_aliases;/* alias list */
+ints_port;/* port service resides at */
+char*s_proto;/* protocol to use */
+};
+@endcode
+
+ The members of this structure are: s_name The official name of the service. s_aliases  A zero terminated list of alternate names for the service. s_port The port number at which the service resides.
+Port numbers are returned in network byte order. s_proto The name of the protocol to use when contacting the
+service.
+
+ The getservent function
+reads the next line of the file, opening the file if necessary.
+
+ The setservent function
+opens and rewinds the file.
+
+ The endservent function
+closes the file.
+
+ The getservbyname and getservbyport functions
+sequentially search from the beginning
+of the file until a matching
+protocol name or
+port number (which must be specified in
+network byte order) is found,
+or until EOF is encountered.
+If a protocol name is also supplied (non- NULL ), searches must also match the protocol.
+
+Examples:
+@code
+#include<stdio.h>
+#include<netinet/in.h>
+#include<arpa/inet.h>
+#include<string.h>
+#include<netdb.h>
+int main()
+{
+Char *service="http";
+Char *protocol="tcp";
+Struct servent *p=0;
+P=getservbyname(service,protocol);
+if(p!=NULL)
+printf("service not supported:");
+else
+printf("Service  supported");
+return 0;
+}
+
+@endcode
+@code
+#include<stdio.h>
+#include<netinet/in.h>
+#include<arpa/inet.h>
+#include<string.h>
+#include<netdb.h>
+int main()
+{
+struct servent *p;
+char *protocol="tcp";
+int port;
+port=htons(80);
+p=(port,protocol);
+if(p)
+{
+Printf("port is  assigned");
+else
+printf("port is not assigned");
+}
+
+@endcode
+ Output
+@code
+Port is assigned
+
+@endcode
+@code
+#include<stdio.h>
+#include<netinet/in.h>
+#include<arpa/inet.h>
+#include<string.h>
+#include<netdb.h>
+Int main()
+{
+struct servent *p;
+p=getservent();
+if(p)
+printf("getservent successful");
+else
+printf("getservent failed");
+return 0;
+}
+
+@endcode
+ Output
+@code
+Getservent passed
+
+@endcode
+@code
+#include<stdio.h>
+#include<netinet/in.h>
+#include<arpa/inet.h>
+#include<string.h>
+#include<netdb.h>
+int main()
+{
+int stayopen=1;
+retservent(stayopen):
+return 0;
+}
+
+@endcode
+@code
+#include<stdio.h>
+#include<netinet/in.h>
+#include<arpa/inet.h>
+#include<string.h>
+#include<netdb.h>
+int main()
+{
+struct servent *p;
+  p=getservent();
+if(p)
+endservent();
+return 0;
+}
+
+@endcode
+
+Diagnostics:
+ Null pointer
+(0) returned on EOF or error. The getservent, getservbyport, getservbyname, setservent, and endservent functions appeared in BSD 4.2.
+
+Bugs:
+
+ These functions use a thread-specific data storage. If the data is needed 
+for future use it should be copied before any subsequent calls overwrite it. Expecting 
+port numbers to fit in a 32 bit quantity is probably naive. 
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn getaddrinfo(const char *hostname, const char *servname,const struct addrinfo *hints, struct addrinfo **res)
+@param hostname
+@param servname
+@param hints
+@param res
+@return A zero return value for getaddrinfo() indicates successful completion; a non-zero return value indicates failure. The possible values for the failures are listed in the ERRORS section.
+Upon successful return of getaddrinfo(), the location to which res points shall refer to a linked list of addrinfo structures, each of which shall specify a socket address and information for use in creating a socket with which to use that socket address. 
+The list shall include at least one addrinfo structure. 
+
+The freeaddrinfo() function shall free one or more addrinfo structures returned by getaddrinfo(), along with any additional storage associated with those structures. If the ai_next field of the structure is not null, the entire list of structures shall be freed. The freeaddrinfo() function shall support the freeing of arbitrary sublists of an addrinfo list originally returned by getaddrinfo().
+
+The getaddrinfo() function shall translate the name of a service location (for example, a host name) and//or a service name and shall return a set of socket addresses and associated information to be used in creating a socket with which to address the specified service.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  getnameinfo( const struct sockaddr * sa , socklen_t salen, char * host,size_t 
+      hostlen, char * serv, size_t servlen, int flags )
+@param sa
+@param salen
+@param host
+@param hostlen
+@param serv
+@param servlen
+@param flags
+@return   getnameinfo returns zero on success or one of the error codes listed in gai_strerror if an error occurs.
+
+The getnameinfo function is used to convert a sockaddr structure to a pair of host name and service strings. It is a replacement for and provides more flexibility than the gethostbyaddr and getservbyport functions and is the converse of the getaddrinfo function. 
+The sockaddr structure sa should point to sockaddr_in (for IPv4) that is salen bytes long. 
+
+The host and service names associated with sa are stored in host and serv which have length parameters hostlen and servlen. The maximum value for hostlen is NI_MAXHOST and the maximum value for servlen is NI_MAXSERV, as defined by \<netdb.h.\> If a length parameter is zero, no string will be stored. Otherwise, enough space must be provided to store the host name or service string plus a byte for the NUL terminator. 
+
+The flags argument is formed by OR ’ing the following values: NI_NOFQDN  A fully qualified domain name is not required for local hosts. The local part of the fully qualified domain name is returned instead.  
+@code
+NI_NUMERICHOST  Return the address in numeric form, as if calling inet_ntop, instead of a host name.  
+NI_NAMEREQD  A name is required. If the host name cannot be found in DNS and this flag is set, a non-zero error code is returned. If the host name is not found and the flag is not set, the address is returned in numeric form.  
+NI_NUMERICSERV  The service name is returned as a digit string representing the port number.  
+NI_DGRAM  Specifies that the service being looked up is a datagram service, and causes getservbyport to be called with a second argument of "udp" instead of its default of "tcp." This is required for the few ports (512-514) that have different services for UDP and TCP.  
+@endcode
+
+
+
+Examples:
+@code
+#include <stdio.h>
+#include <netdb.h>
+#include <netinet/in.h>
+int main()
+{
+     struct addrinfo *result;
+     char hostname[80];
+     int error;
+     if (error = getaddrinfo("www.yahoo.com",NULL, NULL, &result;))
+     {
+            fprintf(stderr, "error using getaddrinfo: %s
+", gai_strerror(error));
+     }
+     if (result)
+     {
+            if (error = getnameinfo(result->ai_addr,result->ai_addrlen, hostname, sizeof(hostname), NULL,0,0))
+            {
+                   printf( "error using getnameinfo: %s
+", gai_strerror(error));
+            }
+    }
+return 0;
+}
+
+@endcode
+@see gai_strerror()
+@see getaddrinfo()
+@see inet_ntop()
+
+
+Caveats:
+
+ getnameinfo can return both numeric and FQDN forms of the address specified in sa. There is no return value that indicates whether the string returned in host is a result of binary to numeric-text translation (like inet_ntop or is the result of a DNS reverse lookup.
+Because of this, malicious parties could set up a PTR record as follows:
+@code
+1.0.0.127.in-addr.arpa. IN PTR  10.1.1.1
+
+@endcode
+ and trick the caller of getnameinfo into believing that sa is 10.1.1.1
+when it is actually 127.0.0.1. To prevent such attacks, the use of NI_NAMEREQD is recommended when the result of getnameinfo is used
+for access control purposes:
+@code
+struct sockaddr *sa;
+socklen_t salen;
+char addr[NI_MAXHOST];
+struct addrinfo hints, *res;
+int error;
+error = getnameinfo(sa, salen, addr, sizeof(addr),
+    NULL, 0, NI_NAMEREQD);
+if (error == 0) {
+        memset(&hints;, 0, sizeof(hints));
+        hints.ai_socktype = SOCK_DGRAM; /*dummy*/
+        hints.ai_flags = AI_NUMERICHOST;
+        if (getaddrinfo(addr, "0", &hints;, &res;) == 0) {
+                /* malicious PTR record */
+                freeaddrinfo(res);
+                printf("bogus PTR record
+");
+                return -1;
+        }
+        /* addr is FQDN as a result of PTR lookup */
+} else {
+        /* addr is numeric string */
+        error = getnameinfo(sa, salen, addr, sizeof(addr),
+            NULL, 0, NI_NUMERICHOST);
+}
+
+@endcode
+ 
+Caveats:
+
+ getnameinfo can return both numeric and FQDN forms of the address specified in sa. There is no return value that indicates whether the string returned in host is a result of binary to numeric-text translation (like inet_ntop or is the result of a DNS reverse lookup.
+Because of this, malicious parties could set up a PTR record as follows:
+@code
+1.0.0.127.in-addr.arpa. IN PTR  10.1.1.1
+
+@endcode
+ and trick the caller of getnameinfo into believing that sa is 10.1.1.1
+when it is actually 127.0.0.1. To prevent such attacks, the use of NI_NAMEREQD is recommended when the result of getnameinfo is used
+for access control purposes:
+@code
+struct sockaddr *sa;
+socklen_t salen;
+char addr[NI_MAXHOST];
+struct addrinfo hints, *res;
+int error;
+error = getnameinfo(sa, salen, addr, sizeof(addr),
+    NULL, 0, NI_NAMEREQD);
+if (error == 0) {
+        memset(&hints;, 0, sizeof(hints));
+        hints.ai_socktype = SOCK_DGRAM; /*dummy*/
+        hints.ai_flags = AI_NUMERICHOST;
+        if (getaddrinfo(addr, "0", &hints;, &res;) == 0) {
+                /* malicious PTR record */
+                freeaddrinfo(res);
+                printf("bogus PTR record
+");
+                return -1;
+        }
+        /* addr is FQDN as a result of PTR lookup */
+} else {
+        /* addr is numeric string */
+        error = getnameinfo(sa, salen, addr, sizeof(addr),
+            NULL, 0, NI_NUMERICHOST);
+}
+
+@endcode
+ 
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  freeaddrinfo(struct addrinfo *ai)
+@param ai
+Refer to t() for the documentation
+@see bind()
+@see connect()
+@see send()
+@see socket()
+@see gai_strerror()
+@see gethostbyname()
+@see getnameinfo()
+@see getservent()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  gai_strerror(int ecode)
+@param ecode
+@return   The gai_strerror function
+returns a pointer to the error message string corresponding to ecode. If ecode is out of range, an implementation-specific error message string is returned.
+
+@code
+ EAI_AGAIN temporary failure in name resolution
+ EAI_BADFLAGS
+  invalid value for ai_flags
+ EAI_BADHINTS
+  invalid value for hints
+ EAI_FAIL non-recoverable failure in name resolution
+ EAI_FAMILY ai_family not supported
+ EAI_MEMORY memory allocation failure
+ EAI_NONAME hostname or servname not provided, or not known
+ EAI_PROTOCOL
+  resolved protocol is unknown
+ EAI_SERVICE servname not supported for ai_socktype
+ EAI_SOCKTYPE
+  ai_socktype not supported
+ EAI_SYSTEM system error returned in errno
+
+@endcode
+  The gai_strerror function returns an error message string corresponding to the error code
+returned by getaddrinfo or getnameinfo .
+
+ The following error codes and their meaning are defined in \#include \<netdb.h\>
+
+ EAI_AGAIN temporary failure in name resolution EAI_BADFLAGS  invalid value for ai_flags EAI_BADHINTS  invalid value for hints EAI_FAIL non-recoverable failure in name resolution EAI_FAMILY ai_family not supported EAI_MEMORY memory allocation failure EAI_NONAME hostname or servname not provided, or not known EAI_PROTOCOL  resolved protocol is unknown EAI_SERVICE servname not supported for ai_socktype EAI_SOCKTYPE  ai_socktype not supported EAI_SYSTEM system error returned in errno
+
+Examples:
+@code
+#include <stdio.h>
+#include <netdb.h>
+#include <netinet/in.h>
+int main()
+{
+      struct addrinfo *result;
+      char hostname[80];
+      int error;
+      if (error = getaddrinfo("www.nokia.com",NULL, NULL, &result;))
+      {
+              fprintf(stderr, "error using getaddrinfo: %s
+", gai_strerror(error));
+      }
+      if (result)
+      {
+              if (error = getnameinfo(result->ai_addr, sizeof(struct sockaddr), hostname, sizeof(hostname), NULL,0,0))
+              {
+                      printf( "error using getnameinfo: %s
+", gai_strerror(error));
+              }
+      }
+return 0;
+}
+
+@endcode
+@see getaddrinfo()
+@see getnameinfo()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  setservent(int f)
+@param f
+Refer to  getservent() for the documentation
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def h_errno
+
+defines errno
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _PATH_SERVICES
+
+Defines the services path.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def NETDB_INTERNAL
+
+Error return codes from gethostbyname() and gethostbyaddr(). see errno.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def NETDB_SUCCESS
+
+Error return codes from gethostbyname() and gethostbyaddr(). No Problem.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def HOST_NOT_FOUND
+
+Error return codes from gethostbyname() and gethostbyaddr(). Authoritative Answer Host not found.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def TRY_AGAIN
+
+Error return codes from gethostbyname() and gethostbyaddr(). Non-Authoritative Host not found, or SERVERFAIL
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def NO_RECOVERY
+
+Error return codes from gethostbyname() and gethostbyaddr(). Non recoverable errors, FORMERR, REFUSED, NOTIMP
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def NO_DATA
+
+Error return codes from gethostbyname() and gethostbyaddr(). Valid name, no data record of requested type
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def NO_ADDRESS
+
+Error return codes from gethostbyname() and gethostbyaddr(). no address, look for MX record
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def EAI_AGAIN
+
+Error return codes from getaddrinfo(). emporary failure in name resolution 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def EAI_BADFLAGS
+
+Error return codes from getaddrinfo(). invalid value for ai_flags
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def EAI_FAIL
+
+Error return codes from getaddrinfo(). non-recoverable failure in name resolution
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def EAI_FAMILY
+
+Error return codes from getaddrinfo(). ai_family not supported 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def EAI_MEMORY
+
+Error return codes from getaddrinfo(). memory allocation failure .
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def EAI_NONAME
+
+Error return codes from getaddrinfo(). hostname nor servname provided, or not known.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def EAI_SERVICE
+
+Error return codes from getaddrinfo(). servname not supported for ai_socktype.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def EAI_SOCKTYPE
+
+Error return codes from getaddrinfo(). ai_socktype not supported 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def EAI_SYSTEM
+
+Error return codes from getaddrinfo(). system error returned in errno.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def EAI_SOCKTYPE
+
+Error return codes from getaddrinfo(). 
+
+@publishedAll
+@externallyDefinedApi
+*/
+ 
+/** @def EAI_BADHINTS
+
+Error return codes from getaddrinfo(). 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def EAI_PROTOCOL
+
+Error return codes from getaddrinfo(). 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def EAI_MAX
+
+Error return codes from getaddrinfo(). 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def AI_PASSIVE
+
+Flag values for getaddrinfo(). get address to use bind() 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def AI_NUMERICHOST
+
+Flag values for getaddrinfo(). prevent host name resolution
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def AI_CANONNAME
+
+Flag values for getaddrinfo(). fill ai_canonname
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def AI_NUMERICSERV
+
+Flag values for getaddrinfo(). prevent service name resolution 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def AI_MASK
+
+valid flags for addrinfo (not a standard def, apps should not use it) 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def AI_ALL
+
+IPv6 and IPv4-mapped (with AI_V4MAPPED) 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def AI_V4MAPPED_CFG
+
+accept IPv4-mapped if kernel supports
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def AI_ADDRCONFIG
+
+only if any address is assigned
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def AI_V4MAPPED
+
+accept IPv4-mapped IPv6 address
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def AI_DEFAULT
+
+special recommended flags for getipnodebyname
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def NI_MAXHOST
+
+Constants for getnameinfo()
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def NI_MAXSERV
+
+Constants for getnameinfo()
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def NI_NOFQDN
+
+Flag values for getnameinfo().
+Only the nodename portion of the FQDN is returned for local hosts.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def NI_NUMERICHOST
+
+Flag values for getnameinfo().
+The numeric form of the node's address is returned instead of its name.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def NI_NAMEREQD
+
+Flag values for getnameinfo().
+Return an error if the node's name cannot be located in the database.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def NI_NUMERICSERV
+
+Flag values for getnameinfo().
+The numeric form of the service address is returned instead of its name.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def NI_DGRAM
+
+Flag values for getnameinfo().
+Indicates that the service is a datagram service (SOCK_DGRAM).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def SCOPE_DELIMITER
+
+Scope delimit character
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @struct hostent
+
+Structures returned by network data base library.  
+All addresses are supplied in host order, and returned in network order (suitable for use in system calls).
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @var hostent::h_name
+official name of host
+*/
+
+/** @var hostent::h_aliases
+alias list 
+*/
+
+/** @var hostent::h_addrtype
+host address type
+*/
+
+/** @var hostent::h_length
+length of address
+*/
+
+/** @var hostent::h_addr_list
+list of addresses from name server
+*/
+
+/** @struct netent
+
+Contains following members,
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @var netent::n_name
+official name of net
+*/
+
+/** @var netent::n_aliases
+alias list 
+*/
+
+/** @var netent::n_addrtype
+net address type
+*/
+
+/** @var netent::n_net
+network
+*/
+
+/** @struct servent
+
+Includes following members,
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @var servent::s_name
+official service name
+*/
+
+/** @var servent::s_aliases
+alias list
+*/
+
+/** @var servent::s_port
+ port X
+*/
+
+/** @var servent::s_proto
+protocol to use 
+*/
+
+/** @struct protoent
+
+Includes the following members,
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @var protoent::p_name
+official protocol name
+*/
+
+/** @var protoent::p_aliases
+alias list
+*/
+
+/** @var protoent::p_proto
+protocol X
+*/
+
+/** @struct addrinfo
+
+Includes the following members,
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @var addrinfo::ai_flags
+AI_PASSIVE, AI_CANONNAME, AI_NUMERICHOST 
+*/
+
+/** @var addrinfo::ai_family
+PF_xxx
+*/
+
+/** @var addrinfo::ai_socktype
+SOCK_xxx 
+*/
+
+/** @var addrinfo::ai_protocol
+0 or IPPROTO_xxx for IPv4 and IPv6
+*/
+
+/** @var addrinfo::ai_addrlen
+length of ai_addr
+*/
+
+/** @var addrinfo::ai_canonname
+ canonical name for hostname 
+*/
+
+/** @var addrinfo::ai_addr
+binary address
+*/
+
+/** @var addrinfo::ai_next
+next structure in linked list
+*/
+
+
+/** @typedef  typedef __size_t	size_t
+
+Used for sizes of objects.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @typedef  typedef __socklen_t	socklen_t
+
+Socket address length type.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @typedef  typedef __uint32_t	uint32_t
+
+Unsigned long int
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+

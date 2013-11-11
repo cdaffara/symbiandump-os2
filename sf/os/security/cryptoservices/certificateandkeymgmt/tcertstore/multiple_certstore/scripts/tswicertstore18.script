@@ -1,0 +1,60 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+// CASE18: No Duplicates (ND), Duplicates in Distinct certstore (DD), Duplicates in same certstore (SD), Empty certstore (E)
+
+
+
+// TEST-CASE:         SEC-FILECERTSTORE-0018-0001
+
+// FILES:             swicertstore5.dat, swicertstore3.dat, swicertstore2.dat, swicertstore1.dat, swicertstore0.dat
+
+// LABELS:            RootXXX, RootXXX, SymbianTestRSACA, SymbianTestDSACA, SymbianTestRSACA, Root5CA
+
+// EXPECTED RESULTS:  RootXXX, SymbianTestRSACA, SymbianTestDSACA, Root5CA
+
+// VARIANT:           UDEB, UREL
+
+
+
+START_TESTCASE                SEC-FILECERTSTORE-0018-0001
+
+//! @SYMTestCaseID            SEC-FILECERTSTORE-0018-0001
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Open the SWI cert store
+
+//! @SYMREQ                   REQ9981, REQ9983, REQ10141
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) Open the SWI cert store
+
+//!                           2) Get the list of CA certificates
+
+RUN_TEST_STEP                 -1    CTestHandler        initswicertstore    
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               tswicertstore18.ini   SEC-FILECERTSTORE-0018-002
+
+END_TESTCASE                  SEC-FILECERTSTORE-0018-0001
+
+
+
+
+

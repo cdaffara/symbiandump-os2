@@ -1,0 +1,84 @@
+/*
+* Copyright (c) 2001-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+NAME WRAP
+
+#include "TCustomWrap.hrh"
+#include <eikon.rh>
+#include <uiklafgt/eikcore.rsg>
+
+RESOURCE RSS_SIGNATURE { }
+
+RESOURCE TBUF16 { buf=""; }
+
+RESOURCE EIK_APP_INFO
+	{
+	hotkeys=r_tcustomwrap_exitonly_hotkey;
+	menubar=r_wrap_menubar;
+	}
+
+RESOURCE MENU_BAR r_wrap_menubar
+  {
+  titles=
+      {
+       MENU_TITLE {menu_pane=r_wrap_file; txt="CWrap File"; },
+	   MENU_TITLE {menu_pane=r_wrap_options; txt="CWrap Options"; }
+       };
+   }
+
+RESOURCE MENU_PANE r_wrap_file 
+   {
+   items=
+        {
+         MENU_ITEM
+			{
+			command=EAppCmdExit;
+			txt="Exit";
+			}
+       };
+   }
+	
+RESOURCE MENU_PANE r_wrap_options
+	{
+	items=
+		{
+		MENU_ITEM
+			{
+			command=EAppCmdWrap0;
+			txt="Normal";
+			},
+		MENU_ITEM
+			{
+			command=EAppCmdWrap1;
+			txt="Anywhere";
+			},
+		MENU_ITEM
+			{
+			command=EAppCmdWrap2;
+			txt="Anywhere with wrap up";
+			}
+		};
+	}
+
+RESOURCE HOTKEYS r_tcustomwrap_exitonly_hotkey
+	{
+	control=
+		{
+		HOTKEY{command=EAppCmdExit;key='e';}
+		};
+	}

@@ -1,0 +1,138 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// <hr>
+// The Rights manager API gives simple access to the rights within a CAF agent implementing a DRM scheme. 
+// The rights are represented in a generic form using the <code>ContentAccess::CRightsInfo</code> class. This simple class
+// just holds a text description of the rights and some simple properties assocaiated with those
+// rights.
+// The Rights manager also allows applications to determine which content files are assocated with
+// each Rights object and vice versa.
+// <hr>
+// The <code>ContentAccess::CRightsManager</code> object is created by the <code>ContentAccess::CManager</code> object to look at the rights stored by a 
+// particular content access agent.
+// // create the CManager object
+// CManager* manager = CManager::NewL();
+// //Create RPointerArray to store pointers to the agents
+// RPointerArray <CAgent> agentArray;
+// // Get the list of agents
+// manager->ListAgentsL(agentArray);
+// // Create a CRightsManager for the first agent
+// CRightsManager *rightsManager = manager->CreateRightsManagerL(agentArray[0]);
+// <hr>
+// The <code>ContentAccess::CRightsManager::ListAllRightsL()</code> function produces a list of all the rights stored
+// in the given a DRM agent.
+// // Create the array to store Rights objects
+// RStreamablePtrArray<CRightsInfo> myArray;
+// CleanupClosePushL(myArray);
+// // Get the Rights objects from the agent
+// rightsManager->ListAllRightsL(myArray);
+// // count the number of Rights objects
+// TInt numRights = myArray.Count();
+// // clear the contents of the array
+// CleanupStack::PopAndDestroy();
+// <hr>
+// The <code>ContentAccess::CRightsManager::ListRightsL()</code> function produces a list of all the rights stored
+// in the given a DRM agent that are associated with the file at a given URI.
+// // Create the array to store Rights objects
+// RStreamablePtrArray<CRightsInfo> myArray;
+// CleanupClosePushL(myArray);
+// // Get the Rights objects assocated with the content
+// rightsManager->ListRightsL(myArray, uri);
+// // Count the number of Rights objects associated with the content
+// TInt numRights = myArray.Count();
+// // clear the contents of the array
+// CleanupStack::PopAndDestroy();
+// <hr>
+// The <code>ContentAccess::CRightsManager::ListRightsL()</code> function produces a list of all the rights stored
+// in the given a DRM agent that are associated with the content object at a given virtual path
+// // Create the array to store Rights objects
+// RStreamablePtrArray<CRightsInfo> myArray;
+// CleanupClosePushL(myArray);
+// // Get the Rights objects assocated with the content
+// rightsManager->ListRightsL(myArray, virtualPath);
+// // Count the number of Rights objects associated with the content
+// TInt numRights = myArray.Count();
+// // clear the contents of the array
+// CleanupStack::PopAndDestroy();
+// <hr>
+// The <code>ContentAccess::CRightsManager::ListContentL()</code> function produces a list of all the content
+// that is associated with the given Rights object.
+// // Create the array to store Rights objects
+// RStreamablePtrArray<CRightsInfo> rightsArray;
+// CleanupClosePushL(rightsArray);
+// rightsManager->ListAllRightsL(rightsArray);
+// // get the first CRightsInfo object
+// CRightsInfo* rightsObject = rightsArray[0];
+// RStreamablePtrArray<CVirtualPath> contentArray;
+// CleanupClosePushL(contentArray);
+// // Get the array of content objects associated with the rights
+// rightsManager->ListContentL(contentArray, rightsObject);
+// // count the number of content objects
+// TInt numContentObjects = contentArray.Count();
+// // produce listing
+// // Finished
+// CleanupStack::PopAndDestroy(2);		// rightsArray, contentArray
+// <hr>
+// The <code>ContentAccess::CRightsManager::GetRightsDataL()</code> function allows an application to 
+// retrieve a pointer to a Rights object. The Rights object is derived from <code>MAgentRightsBase</code>.
+// // Retrieve the full Rights object 
+// // The application will need to cast it to the agent's derived Rights class before using it.
+// MAgentRightsBase* rightsObject = rightsManager->GetRightsDataL(rightsObject);
+// <hr>
+// The <code>ContentAccess::CRightsManager::DeleteRightsObject()</code> function allows an application to 
+// delete rights stored by the agent.
+// // Delete the Rights object
+// TInt result = rightsManager->DeleteRightsObject(rightsObject);
+// It is also possible to delete all the rights associated with a particular content object.
+// // Delete all the Rights objects associated with the given content object
+// TInt result = rightsManager->DeleteAllRights(virtualPath);
+// <hr>
+// 
+//
+
+/**
+ @page CAFRightsManager Rights Manager API
+ - @ref RightsManagerAPI
+ - @ref CreatingRightsManager
+ - @ref ListingAllRights 
+ - @ref ListingRightsURI
+ - @ref ListingRightsVP
+ - @ref ListingContent
+ - @ref RetrievingRights 
+ - @ref DeletingRights 
+ @section RightsManagerAPI Rights manager API
+ @section CreatingRightsManager Creating a CRightsManager Object
+ @code
+ @endcode
+ @section ListingAllRights Listing all Rights objects
+ @code
+ @endcode
+ @section ListingRightsURI List the rights associated with a content file
+ @code
+ @endcode
+ @section ListingRightsVP List the rights associated with a content object
+ @code
+ @endcode
+ @section ListingContent List the content associated with a Rights object
+ @code
+ @endcode
+ @section RetrievingRights Retrieving a Rights Object
+ @code
+ @endcode
+ @section DeletingRights Deleting a Rights Object
+ @code
+ @endcode
+ @code
+ @endcode
+*/

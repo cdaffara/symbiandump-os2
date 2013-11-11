@@ -1,0 +1,46 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+*
+*/
+TARGET      tsemwait.exe
+
+//Add your platform security capabilities 
+
+CAPABILITY NONE
+TARGETTYPE  exe
+UID         0x1000008D 0x1028308C
+
+SOURCEPATH		..\src
+SOURCE			tsemwaitserver.cpp
+SOURCE			tsemwait.cpp
+SOURCE			tsemwaitcases.cpp
+
+USERINCLUDE ..\inc
+
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_LIBC_SYSTEMINCLUDE
+
+
+LIBRARY 		euser.lib efsrv.lib c32.lib
+LIBRARY			testexecuteutils.lib
+LIBRARY			testexecutelogclient.lib
+LIBRARY         libc.lib
+LIBRARY       libpthread.lib
+
+STATICLIBRARY 	libcrt0.lib
+
+
+SMPSAFE

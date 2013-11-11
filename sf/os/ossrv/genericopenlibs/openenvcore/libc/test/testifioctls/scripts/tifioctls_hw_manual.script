@@ -1,0 +1,71 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+PRINT Run all tifioctls
+LOAD_SUITE tifioctls
+
+CONSECUTIVE
+
+START_TESTCASE  	OPENENV-LIBC-CIT-TIFIOCTLSHW-MANUAL-0001
+//! @SYMTestCaseID 	OPENENV-LIBC-CIT-TIFIOCTLSHW-MANUAL-0001
+//! @SYMTestStatus 	3.Released
+RUN_TEST_STEP !Result=0 5 tifioctls ConnectToUrlUsingConnection \tstdapis\tifioctls.ini SectionConnectToUrlUsingConnection
+END_TESTCASE  		OPENENV-LIBC-CIT-TIFIOCTLSHW-MANUAL-0001
+
+START_TESTCASE  	OPENENV-LIBC-CIT-TIFIOCTLSHW-MANUAL-0002
+//! @SYMTestCaseID 	OPENENV-LIBC-CIT-TIFIOCTLSHW-MANUAL-0002
+//! @SYMTestStatus 	3.Released
+RUN_TEST_STEP !Result=0 50 tifioctls TestAddDelRoute
+END_TESTCASE  		OPENENV-LIBC-CIT-TIFIOCTLSHW-MANUAL-0002
+
+START_TESTCASE  	OPENENV-LIBC-CIT-TIFIOCTLSHW-MANUAL-0003
+//! @SYMTestCaseID 	OPENENV-LIBC-CIT-TIFIOCTLSHW-MANUAL-0003
+//! @SYMTestStatus 	3.Released
+RUN_TEST_STEP !Result=0 50 tifioctls TestAddDelRouteNegative1
+END_TESTCASE  		OPENENV-LIBC-CIT-TIFIOCTLSHW-MANUAL-0003
+
+START_TESTCASE  	OPENENV-LIBC-CIT-TIFIOCTLSHW-MANUAL-0004
+//! @SYMTestCaseID 	OPENENV-LIBC-CIT-TIFIOCTLSHW-MANUAL-0004
+//! @SYMTestStatus 	3.Released
+RUN_TEST_STEP !Result=0 50 tifioctls TestAddDelRouteNegative2
+END_TESTCASE  		OPENENV-LIBC-CIT-TIFIOCTLSHW-MANUAL-0004
+
+START_TESTCASE  	OPENENV-LIBC-CIT-TIFIOCTLSHW-MANUAL-0005
+//! @SYMTestCaseID 	OPENENV-LIBC-CIT-TIFIOCTLSHW-MANUAL-0005
+//! @SYMTestStatus 	3.Released
+RUN_TEST_STEP !Result=0 50 tifioctls TestMacAddress
+END_TESTCASE  		OPENENV-LIBC-CIT-TIFIOCTLSHW-MANUAL-0005
+
+START_TESTCASE  	OPENENV-LIBC-CIT-TIFIOCTLSHW-MANUAL-0006
+//! @SYMTestCaseID 	OPENENV-LIBC-CIT-TIFIOCTLSHW-MANUAL-0006
+//! @SYMTestStatus 	3.Released
+RUN_TEST_STEP !Result=0 50 tifioctls TestMacAddressNegative1 \tstdapis\tifioctls.ini SectionInvalidIFName
+END_TESTCASE  		OPENENV-LIBC-CIT-TIFIOCTLSHW-MANUAL-0006
+
+START_TESTCASE  	OPENENV-LIBC-CIT-TIFIOCTLSHW-MANUAL-0007
+//! @SYMTestCaseID 	OPENENV-LIBC-CIT-TIFIOCTLSHW-MANUAL-0007
+//! @SYMTestStatus 	3.Released
+RUN_TEST_STEP !Result=0 50 tifioctls TestMacAddressNegative1 \tstdapis\tifioctls.ini SectionNullIFName
+END_TESTCASE   		OPENENV-LIBC-CIT-TIFIOCTLSHW-MANUAL-0007
+
+//Requires COMMDB
+RUN_TEST_STEP !Result=0 50 tifioctls ChooseInterface \tstdapis\tifioctls.ini SectionChooseInterface_1
+RUN_TEST_STEP !Result=0 50 tifioctls ChooseActiveInterface \tstdapis\tifioctls.ini SectionChooseActiveInterface
+
+// Emulator test : Requires COMMDB
+RUN_TEST_STEP !Result=0 100 tifioctls CreateManyActiveInterfaces \tstdapis\tifioctls.ini SectionCreateManyActiveInterfaces
+//RUN_TEST_STEP !Result=0 50 tifioctls ChooseInterface \tstdapis\tifioctls.ini SectionChooseInterface_2
+RUN_TEST_STEP !Result=0 50 tifioctls ConnectToIpUsingConnection \tstdapis\tifioctls.ini SectionConnectToIpUsingConnection
+RUN_TEST_STEP !Result=0 50 tifioctls SendtoIpUsingConnection \tstdapis\tifioctls.ini SectionConnectToIpUsingConnection

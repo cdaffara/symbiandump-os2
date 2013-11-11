@@ -1,0 +1,1313 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+// tcms.script
+
+LOAD_SUITE tpkcs7server
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0038
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0038
+//! @SYMTestCaseDesc 		Test CMS signed data construction, encoding, decoding and validation. 
+//!				The signing key: RSA key
+//!				Signer identifier: issuer and serial number 
+//!				Signed data content: attached, 
+//!				Digest Algorithm: SHA1
+//!				Hash available: No
+//!				Muti-signature: No
+//!				Certificates provided by User: Yes
+//!				Certificates Set: Yes
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults 	successfully validated
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST0
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0038
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0001
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0001
+//! @SYMTestCaseDesc 		Test CMS signed data construction, encoding, decoding and validation. 
+//!				The signing key: RSA key
+//!				Signer identifier: issuer and serial number 
+//!				Signed data content: attached, 
+//!				Digest Algorithm: SHA1
+//!				Hash available: No
+//!				Muti-signature: No
+//!				Certificates provided by User: No
+//!				Certificates Set: Yes
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults 	successfully validated
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST1
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0001
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0039
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0039
+//! @SYMTestCaseDesc 		Test creation of a attached CMS object without given the data content 
+//!				The signing key: RSA key
+//!				Signer identifier: issuer and serial number 
+//!				Signed data content: attached, 
+//!				Digest Algorithm: SHA1
+//!				Hash available: No
+//!				Muti-signature: No
+//!				Certificates provided by User: No
+//!				Certificates Set: Yes
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults 	KErrArgument
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST1_1
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0039
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0002
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0002
+//! @SYMTestCaseDesc 		Test CMS signed data construction, encoding, decoding and validation. 
+//!				The signing key: RSA key
+//!				Signer identifier: issuer and serial number 
+//!				Signed data content: detached, 
+//!				Digest Algorithm: SHA1
+//!				Hash available: Yes
+//!				DataDetached: Yes
+//!				Muti-signature: No
+//!				Certificates provided by User: No
+//!				Certificates Set: Yes
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults 	successfully validated
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST2
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0002
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0047
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0047
+//! @SYMTestCaseDesc 		Test CMS signed data construction, encoding, decoding and validation.
+//!				Test two step construction of signed data when hash is provided by user     
+//!				The signing key: RSA key
+//!				Signer identifier: issuer and serial number 
+//!				Signed data content: detached, 
+//!				Digest Algorithm: SHA1
+//!				Hash available: Yes
+//!				DataDetached: No
+//!				Muti-signature: No
+//!				Certificates provided by User: No
+//!				Certificates Set: Yes
+//!				TwoStepCreation: Yes
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults 	successfully validated
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST2_1
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0047
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0048
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0048
+//! @SYMTestCaseDesc 		Test CMS signed data construction, encoding, decoding and validation.
+//!				Test two step construction of signed data when hash is provided by user     
+//!				The signing key: RSA key
+//!				Signer identifier: issuer and serial number 
+//!				Signed data content: detached, 
+//!				Digest Algorithm: SHA1
+//!				Hash available: Yes
+//!				DataDetached: Yes
+//!				Muti-signature: No
+//!				Certificates provided by User: No
+//!				Certificates Set: Yes
+//!				TwoStepCreation: Yes
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults 	successfully validated
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST2_2
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0048
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0003
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0003
+//! @SYMTestCaseDesc 		Test CMS signed data construction, encoding, decoding and validation. 
+//!				The signing key: RSA key
+//!				Signer identifier: issuer and serial number 
+//!				Signed data content: detached, 
+//!				Digest Algorithm: SHA1
+//!				Hash available: No
+//!				Muti-signature: No
+//!				Certificates provided by User: No
+//!				Certificates Set: Yes
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults 	successfully validated
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST3
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0003
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0049
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0049
+//! @SYMTestCaseDesc 		Test CMS signed data construction, encoding, decoding and validation when
+//!				no provided hash nor provided data content.
+//!				The signing key: RSA key
+//!				Signer identifier: issuer and serial number 
+//!				Signed data content: detached, 
+//!				Digest Algorithm: SHA1
+//!				Hash available: No
+//!				Muti-signature: No
+//!				Certificates provided by User: No
+//!				Certificates Set: Yes
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults 	KErrArgument
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST3_1
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0049
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0068
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0068
+//! @SYMTestCaseDesc 		Test Validateion a detached CMS sign data without given data content or hash
+//!				The signing key: RSA key
+//!				Signer identifier: issuer and serial number 
+//!				Signed data content: detached, 
+//!				Digest Algorithm: SHA1
+//!				Hash available: No
+//!				Muti-signature: No
+//!				Certificates provided by User: No
+//!				Certificates Set: Yes
+//!				ValidationDetachedWithoutInput: Yes
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults KErrArgument
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST3_2
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0068
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0069
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0069
+//! @SYMTestCaseDesc 		Test Validateion a detached CMS sign data without given data content or hash
+//!				The signing key: RSA key
+//!				Signer identifier: issuer and serial number 
+//!				Signed data content: detached, 
+//!				Digest Algorithm: SHA1
+//!				Hash available: No
+//!				Muti-signature: No
+//!				Certificates provided by User: Yes
+//!				Certificates Set: Yes
+//!				ValidationDetachedWithoutInput: Yes
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults 	KErrArgument
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST3_3
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0069
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0070
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0070
+//! @SYMTestCaseDesc 		Test Validateion a detached CMS sign data without given data content or hash
+//!				The signing key: RSA key
+//!				Signer identifier: issuer and serial number 
+//!				Signed data content: detached, 
+//!				Digest Algorithm: SHA1
+//!				Hash available: No
+//!				Muti-signature: No
+//!				Certificates provided by User: Yes
+//!				Certificates Set: Yes
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults 	KErrArgument
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST3_4
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0070
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0071
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0071
+//! @SYMTestCaseDesc 		Test Validateion a detached CMS sign data without given data content or hash
+//!				The signing key: RSA key
+//!				Signer identifier: issuer and serial number 
+//!				Signed data content: detached, 
+//!				Digest Algorithm: SHA1
+//!				Hash available: Yes
+//!				Muti-signature: No
+//!				Certificates provided by User: Yes
+//!				Certificates Set: Yes
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults 	KErrArgument
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST3_5
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0071
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0004
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0004
+//! @SYMTestCaseDesc 		Test CMS signed data construction, encoding, decoding and validation. 
+//!				The signing key: RSA key
+//!				Signer identifier: issuer and serial number 
+//!				Signed data content: attached, 
+//!				Digest Algorithm: MD5
+//!				Hash available: No
+//!				Muti-signature: No
+//!				Certificates provided by User: No
+//!				Certificates Set: Yes
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults 	successfully validated
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST4
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0004
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0005
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0005
+//! @SYMTestCaseDesc 		Test CMS signed data construction, encoding, decoding and validation. 
+//!				The signing key: RSA key
+//!				Signer identifier: issuer and serial number 
+//!				Signed data content: detached, 
+//!				Digest Algorithm: MD5
+//!				Hash available: Yes
+//!				Muti-signature: No
+//!				Certificates provided by User: No
+//!				Certificates Set: Yes
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults 	successfully validated
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST5
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0005
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0006
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0006
+//! @SYMTestCaseDesc 		Test CMS signed data construction, encoding, decoding and validation. 
+//!				The signing key: RSA key
+//!				Signer identifier: issuer and serial number 
+//!				Signed data content: detached, 
+//!				Digest Algorithm: MD5
+//!				Hash available: No
+//!				Muti-signature: No
+//!				Certificates provided by User: No
+//!				Certificates Set: Yes
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults 	successfully validated
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST6
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0006
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0007
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0007
+//! @SYMTestCaseDesc 		Test CMS signed data construction, encoding, decoding and validation. 
+//!				The signing key: RSA key
+//!				Signer identifier: issuer and serial number 
+//!				Signed data content: attached, 
+//!				Digest Algorithm: MD2
+//!				Hash available: No
+//!				Muti-signature: No
+//!				Certificates provided by User: No
+//!				Certificates Set: Yes
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults 	successfully validated
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST7
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0007
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0008
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0008
+//! @SYMTestCaseDesc 		Test CMS signed data construction, encoding, decoding and validation. 
+//!				The signing key: RSA key
+//!				Signer identifier: issuer and serial number 
+//!				Signed data content: detached, 
+//!				Digest Algorithm: MD2
+//!				Hash available: Yes
+//!				Muti-signature: No
+//!				Certificates provided by User: No
+//!				Certificates Set: Yes
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults 	successfully validated
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST8
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0008
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0009
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0009
+//! @SYMTestCaseDesc 		Test CMS signed data construction, encoding, decoding and validation. 
+//!				The signing key: RSA key
+//!				Signer identifier: issuer and serial number 
+//!				Signed data content: detached, 
+//!				Digest Algorithm: MD2
+//!				Hash available: No
+//!				Muti-signature: No
+//!				Certificates provided by User: No
+//!				Certificates Set: Yes
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults 	successfully validated
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST9
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0009
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0010
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0010
+//! @SYMTestCaseDesc 		Test CMS signed data construction, encoding, decoding and validation. 
+//!				The signing key: RSA key
+//!				Signer identifier: subject key Id Extension 
+//!				Signed data content: attached, 
+//!				Digest Algorithm: SHA1
+//!				Hash available: No
+//!				Muti-signature: No
+//!				Certificates provided by User: No
+//!				Certificates Set: Yes
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults 	successfully validated
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST10
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0010
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0011
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0011
+//! @SYMTestCaseDesc 		Test CMS signed data construction, encoding, decoding and validation. 
+//!				The signing key: RSA key
+//!				Signer identifier: subject key Id Extension 
+//!				Signed data content: detached, 
+//!				Digest Algorithm: SHA1
+//!				Hash available: Yes
+//!				Muti-signature: No
+//!				Certificates provided by User: No
+//!				Certificates Set: Yes
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults 	successfully validated
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST11
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0011
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0012
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0012
+//! @SYMTestCaseDesc 		Test CMS signed data construction, encoding, decoding and validation. 
+//!				The signing key: RSA key
+//!				Signer identifier: subject key Id Extension 
+//!				Signed data content: detached, 
+//!				Digest Algorithm: SHA1
+//!				Hash available: No
+//!				Muti-signature: No
+//!				Certificates provided by User: No
+//!				Certificates Set: Yes
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults 	successfully validated
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST12
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0012
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0013
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0013
+//! @SYMTestCaseDesc 		Test CMS signed data construction, encoding, decoding and validation. 
+//!				The signing key: RSA key
+//!				Signer identifier: subject key Id Extension
+//!				Signed data content: attached, 
+//!				Digest Algorithm: MD5
+//!				Hash available: No
+//!				Muti-signature: No
+//!				Certificates provided by User: No
+//!				Certificates Set: Yes
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults 	successfully validated
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST13
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0013
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0014
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0014
+//! @SYMTestCaseDesc 		Test CMS signed data construction, encoding, decoding and validation. 
+//!				The signing key: RSA key
+//!				Signer identifier: subject key Id Extension
+//!				Signed data content: detached, 
+//!				Digest Algorithm: MD5
+//!				Hash available: Yes
+//!				Muti-signature: No
+//!				Certificates provided by User: No
+//!				Certificates Set: Yes
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults 	successfully validated
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST14
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0014
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0015
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0015
+//! @SYMTestCaseDesc 		Test CMS signed data construction, encoding, decoding and validation. 
+//!				The signing key: RSA key
+//!				Signer identifier: subject key Id Extension
+//!				Signed data content: detached, 
+//!				Digest Algorithm: MD5
+//!				Hash available: No
+//!				Muti-signature: No
+//!				Certificates provided by User: No
+//!				Certificates Set: Yes
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults 	successfully validated
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST15
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0015
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0016
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0016
+//! @SYMTestCaseDesc 		Test CMS signed data construction, encoding, decoding and validation. 
+//!				The signing key: RSA key
+//!				Signer identifier: subject key Id Extension
+//!				Signed data content: attached, 
+//!				Digest Algorithm: MD2
+//!				Hash available: No
+//!				Muti-signature: No
+//!				Certificates provided by User: No
+//!				Certificates Set: Yes
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults 	successfully validated
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST16
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0016
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0017
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0017
+//! @SYMTestCaseDesc 		Test CMS signed data construction, encoding, decoding and validation. 
+//!				The signing key: RSA key
+//!				Signer identifier: subject key Id Extension
+//!				Signed data content: detached, 
+//!				Digest Algorithm: MD2
+//!				Hash available: Yes
+//!				Muti-signature: No
+//!				Certificates provided by User: No
+//!				Certificates Set: Yes
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults 	successfully validated
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST17
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0017
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0018
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0018
+//! @SYMTestCaseDesc 		Test CMS signed data construction, encoding, decoding and validation. 
+//!				The signing key: RSA key
+//!				Signer identifier: subject key Id Extension
+//!				Signed data content: detached, 
+//!				Digest Algorithm: MD2
+//!				Hash available: No
+//!				Muti-signature: No
+//!				Certificates provided by User: No
+//!				Certificates Set: Yes
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST18
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0018
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0019
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0019
+//! @SYMTestCaseDesc 		Test CMS signed data construction, encoding, decoding and validation. 
+//!				The signing key: RSA key
+//!				Signer identifier: subject key Id Extension
+//!				Signed data content: detached, 
+//!				Digest Algorithm: MD2
+//!				Hash available: No
+//!				Muti-signature: No
+//!				Certificates provided by User: No
+//!				Certificates Set: Yes
+//!				Wrong root certificate
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults Validation Fail
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST19
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0019
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0020
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0020
+//! @SYMTestCaseDesc 		Test CMS signed data construction, encoding, decoding and validation. 
+//!				The signing key: RSA key
+//!				Signer identifier: issuer and serial number 
+//!				Signed data content: attached, 
+//!				Digest Algorithm: SHA1
+//!				Hash available: No
+//!				Muti-signature: No
+//!				Certificates provided by User: Yes
+//!				Certificates Set: No
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults 	successfully validated
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST20
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0020
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0072
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0072
+//! @SYMTestCaseDesc 		Test CMS signed data construction, encoding, decoding and validation. 
+//!				The signing key: RSA key
+//!				Signer identifier: issuer and serial number 
+//!				Signed data content: attached, 
+//!				Digest Algorithm: SHA1
+//!				Hash available: No
+//!				Muti-signature: No
+//!				Certificates provided by User: Yes
+//!				Certificates Set: No
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults KErrNotFound
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST20_1
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0072
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0077
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0077
+//! @SYMTestCaseDesc 		Test CMS signed data construction, encoding, decoding and validation. 
+//!				The signing key: RSA key
+//!				Signer identifier: issuer and serial number 
+//!				Signed data content: attached, 
+//!				Digest Algorithm: SHA1
+//!				Hash available: No
+//!				Muti-signature: No
+//!				Certificates provided by User: No
+//!				Certificates Set: No
+//!				No Signer Info
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults Encoding Check Successfully
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST20_2
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0077
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0021
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0021
+//! @SYMTestCaseDesc 		Test CMS signed data construction, encoding, decoding and validation. 
+//!				The signing key: DSA key
+//!				Signer identifier: subject key Id Extension
+//!				Signed data content: attached, 
+//!				Digest Algorithm: SHA1
+//!				Hash available: No
+//!				Muti-signature: No
+//!				Certificates provided by User: No
+//!				Certificates Set: Yes
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults 	successfully validated
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST21
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0021
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0022
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0022
+//! @SYMTestCaseDesc 		Test CMS signed data construction, encoding, decoding and validation. 
+//!				The signing key: DSA key
+//!				Signer identifier: subject key Id Extension
+//!				Signed data content: detached, 
+//!				Digest Algorithm: SHA1
+//!				Hash available: Yes
+//!				Muti-signature: No
+//!				Certificates provided by User: No
+//!				Certificates Set: Yes
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults 	successfully validated
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST22
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0022
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0023
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0023
+//! @SYMTestCaseDesc 		Test CMS signed data construction, encoding, decoding and validation. 
+//!				The signing key: DSA key
+//!				Signer identifier: subject key Id Extension
+//!				Signed data content: detached, 
+//!				Digest Algorithm: MD2
+//!				Hash available: No
+//!				Muti-signature: No
+//!				Certificates provided by User: No
+//!				Certificates Set: Yes
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults 	successfully validated
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST23
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0023
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0024
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0024
+//! @SYMTestCaseDesc 		Test CMS signed data construction, encoding, decoding and validation. 
+//!				The signing key: DSA key
+//!				Signer identifier: issuer and serial number 
+//!				Signed data content: attached, 
+//!				Digest Algorithm: SHA1
+//!				Hash available: No
+//!				Muti-signature: No
+//!				Certificates provided by User: No
+//!				Certificates Set: Yes
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults 	successfully validated
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST24
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0024
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0025
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0025
+//! @SYMTestCaseDesc 		Test CMS signed data construction, encoding, decoding and validation. 
+//!				The signing key: DSA key
+//!				Signer identifier: issuer and serial number 
+//!				Signed data content: detached, 
+//!				Digest Algorithm: SHA1
+//!				Hash available: Yes
+//!				Muti-signature: No
+//!				Certificates provided by User: No
+//!				Certificates Set: Yes
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults 	successfully validated
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST25
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0025
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0026
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0026
+//! @SYMTestCaseDesc 		Test CMS signed data construction, encoding, decoding and validation. 
+//!				The signing key: DSA key
+//!				Signer identifier: issuer and serial number 
+//!				Signed data content: detached, 
+//!				Digest Algorithm: MD2
+//!				Hash available: No
+//!				Muti-signature: No
+//!				Certificates provided by User: No
+//!				Certificates Set: Yes
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults 	successfully validated
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST26
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0026
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0027
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0027
+//! @SYMTestCaseDesc 		Test CMS signed data construction, encoding, decoding and validation. 
+//!				The signing key: DSA key, RSA key
+//!				Signer identifier: issuer and serial number, subject key Id Extension
+//!				Signed data content: detached, 
+//!				Digest Algorithm: SHA1, SHA1
+//!				Hash available: No
+//!				Muti-signature: YES
+//!				Certificates provided by User: No
+//!				Certificates Set: Yes
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults 	successfully validated
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST27
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0027
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0028
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0028
+//! @SYMTestCaseDesc 		Test CMS signed data construction, encoding, decoding and validation. 
+//!				The signing key: DSA key, RSA key
+//!				Signer identifier: issuer and serial number, subject key Id Extension
+//!				Signed data content: attached, 
+//!				Digest Algorithm: SHA1, SHA1
+//!				Hash available: No
+//!				Muti-signature: YES
+//!				Certificates provided by User: Yes
+//!				Certificates Set: Yes
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults 	successfully validated
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST28
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0028
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0029
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0029
+//! @SYMTestCaseDesc 		Test CMS signed data construction, encoding, decoding and validation. 
+//!				The signing key: RSA key, DSA key
+//!				Signer identifier: subject key Id Extension, issuer and serial number
+//!				Signed data content: attached, 
+//!				Digest Algorithm: SHA1, SHA1
+//!				Hash available: No
+//!				Muti-signature: YES
+//!				Certificates provided by User: No
+//!				Certificates Set: Yes
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults 	successfully validated
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST29
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0029
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0030
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0030
+//! @SYMTestCaseDesc 		Test CMS signed data construction, encoding, decoding and validation. 
+//!				The signing key: RSA key, DSA key
+//!				Signer identifier: subject key Id Extension, issuer and serial number
+//!				Signed data content: attached, 
+//!				Digest Algorithm: SHA1, SHA1
+//!				Hash available: No
+//!				Muti-signature: YES
+//!				Certificates provided by User: Yes
+//!				Certificates Set: Yes
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults 	successfully validated
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST30
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0030
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0031
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0031
+//! @SYMTestCaseDesc 		Test CMS signed data construction, encoding, decoding and validation. 
+//!				The signing key: RSA key, DSA key
+//!				Signer identifier: subject key Id Extension, issuer and serial number
+//!				Signed data content: attached, 
+//!				Digest Algorithm: Md5, SHA1
+//!				Hash available: No
+//!				Muti-signature: YES
+//!				Certificates provided by User: No
+//!				Certificates Set: Yes
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults 	successfully validated
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST31
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0031
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0032
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0032
+//! @SYMTestCaseDesc 		Test CMS signed data construction, encoding, decoding and validation. 
+//!				The signing key: RSA key, DSA key
+//!				Signer identifier: subject key Id Extension, issuer and serial number
+//!				Signed data content: attached, 
+//!				Digest Algorithm: Md5, SHA1
+//!				Hash available: No
+//!				Muti-signature: YES
+//!				Certificates provided by User: No
+//!				Certificates Set: Yes
+//!				Additional Certificate: Yes,  X509 certificate
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults 	successfully validated
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST32
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0032
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0033
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0033
+//! @SYMTestCaseDesc 		Test CMS signed data construction, encoding, decoding and validation. 
+//!				The signing key: RSA key, DSA key
+//!				Signer identifier: subject key Id Extension, issuer and serial number
+//!				Signed data content: attached, 
+//!				Digest Algorithm: Md5, SHA1
+//!				Hash available: No
+//!				Muti-signature: YES
+//!				Certificates provided by User: No
+//!				Certificates Set: Yes
+//!				Attribute Certificate: Yes 
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults 	successfully validated
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST33
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0033
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0034
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0034
+//! @SYMTestCaseDesc 		Test CMS data Construction, encoding and decoding 
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS data Construction, encoding and decoding 
+//! @SYMTestExpectedResults 	successfully Encoding and Decoding
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSData C:\tpkcs7\tcms.ini TEST34
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0034
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0035
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0035
+//! @SYMTestCaseDesc 		Test CMS signed data construction, encoding, decoding and validation. 
+//!				The signing key: RSA key, DSA key
+//!				Signer identifier: subject key Id Extension, issuer and serial number
+//!				Signed data content: attached, 
+//!				Digest Algorithm: Md5, SHA1
+//!				Hash available: No
+//!				Muti-signature: YES
+//!				Certificates provided by User: No
+//!				Certificates Set: Yes
+//!				Additional Certificate: Yes, duplicate cert
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation.
+//!			This test try to add an existing certificate to the certificate set. The 
+//!			adding is ignaored.
+//! @SYMTestExpectedResults 	successfully validated
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST35
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0035
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0036
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0036
+//! @SYMTestCaseDesc 		Test CMS signed data construction, encoding, decoding and validation. 
+//!				The signing key: RSA key, DSA key
+//!				Signer identifier: subject key Id Extension, issuer and serial number
+//!				Signed data content: attached, 
+//!				Digest Algorithm: Md5, SHA1
+//!				Hash available: No
+//!				Muti-signature: YES
+//!				Certificates provided by User: No
+//!				Certificates Set: Yes
+//!				Additional Certificate: Yes, , Encoded X509 certificate
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults 	successfully validated
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST36
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0036
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0037
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0037
+//! @SYMTestCaseDesc 		Test CMS signed data construction, encoding, decoding and validation. 
+//!				The signing key: RSA key, DSA key
+//!				Signer identifier: subject key Id Extension, issuer and serial number
+//!				Signed data content: attached, 
+//!				Digest Algorithm: Md5, SHA1
+//!				Hash available: No
+//!				Muti-signature: YES
+//!				Certificates provided by User: No
+//!				Certificates Set: Yes
+//!				Additional Certificate: Yes, Encoded Extended certificate
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults 	KErrNotSupported
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST37
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0037
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0040
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0040
+//! @SYMTestCaseDesc 		OOM Test CMS signed data construction, encoding, decoding and validation. 
+//!				The signing key: RSA key
+//!				Signer identifier: issuer and serial number
+//!				Signed data content: attached, 
+//!				Digest Algorithm: SHA1
+//!				Hash available: No
+//!				Muti-signature: YES
+//!				Certificates provided by User: No
+//!				Certificates Set: Yes
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		OOM Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults 	successfully validated
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST40
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0040
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0041
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0041
+//! @SYMTestCaseDesc 		OOM Test CMS signed data construction, encoding, decoding and validation. 
+//!				The signing key: RSA key, DSA key
+//!				Signer identifier: subject key Id Extension, issuer and serial number
+//!				Signed data content: attached, 
+//!				Digest Algorithm: Md5, SHA1
+//!				Hash available: No
+//!				Muti-signature: YES
+//!				Certificates provided by User: No
+//!				Certificates Set: Yes
+//!				Additional Certificate: Yes
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		OOM Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults 	successfully validated
+//! @SYMTestType 		UT
+RUN_TEST_STEP 300 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST41
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0041
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0042
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0042
+//! @SYMTestCaseDesc 		OOM Test CMS signed data construction, encoding, decoding and validation. 
+//!				The signing key: DSA key
+//!				Signer identifier: subject key Id Extension
+//!				Signed data content: detached, 
+//!				Digest Algorithm: SHA1
+//!				Hash available: Yes
+//!				Muti-signature: No
+//!				Certificates provided by User: No
+//!				Certificates Set: Yes
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		OOM Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults 	successfully validated
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST42
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0042
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0043
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0043
+//! @SYMTestCaseDesc 		Test CMS signed data construction, encoding, decoding and validation. 
+//!				The signing key: RSA key
+//!				Signer identifier: issuer and serial number 
+//!				Signed data content: detached, 
+//!				Digest Algorithm: SHA1
+//!				Hash available: No
+//!				Muti-signature: No
+//!				Certificates provided by User: No
+//!				Certificates Set: Yes
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		OOM Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults 	successfully validated
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST43
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0043
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0044
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0044
+//! @SYMTestCaseDesc 		Test decoding and validation CMS Signed data contains unsigned attributes
+//!				The signing key: RSA key
+//!				Signer identifier: subject key id extension
+//!				Signed data content: attached
+//!				Digest Algorithm: SHA1
+//!				Hash available: No
+//!				Muti-signature: No
+//!				Certificates provided by User: No
+//!				Certificates Set: Yes
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test decoding and validation CMS Signed data contains unsigned attributes
+//! @SYMTestExpectedResults 	successfully validated
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedDataDecoding C:\tpkcs7\tcms.ini TEST44
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0044
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0045
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0045
+//! @SYMTestCaseDesc 		Test decoding CMS Signed data contains signed and unsigned attributes
+//!				The signing key: RSA key
+//!				Signer identifier: subject key id extension
+//!				Signed data content: attached
+//!				Digest Algorithm: SHA1
+//!				Hash available: No
+//!				Muti-signature: No
+//!				Certificates provided by User: No
+//!				Certificates Set: Yes
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		Test decoding and validation CMS Signed data contains unsigned attributes
+//! @SYMTestExpectedResults 	successfully decoded
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedDataDecoding C:\tpkcs7\tcms.ini TEST45
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0045
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0046
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0046
+//! @SYMTestCaseDesc 		OOM Test CMS data Construction, encoding and decoding 
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		OOM Test CMS data Construction, encoding and decoding 
+//! @SYMTestExpectedResults 	OOM Test pass
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSData C:\tpkcs7\tcms.ini TEST46
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0046
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0050
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0050
+//! @SYMTestCaseDesc 		Test corrupt CMS signed data decoding. Corrupt Signature
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		Test corrupt CMS signed data decoding. 
+//! @SYMTestExpectedResults 	validation fails
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedDataDecoding C:\tpkcs7\tcms.ini TEST50
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0050
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0051
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0051
+//! @SYMTestCaseDesc 		Test corrupt CMS signed data decoding. Corrupt Content data type oid.
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		Test corrupt CMS signed data decoding. 
+//! @SYMTestExpectedResults 	KErrArgument
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedDataDecoding C:\tpkcs7\tcms.ini TEST51
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0051
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0052
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0052
+//! @SYMTestCaseDesc 		Test corrupt CMS signed data decoding. Corrupt Encapsulated Content data type oid.
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		Test corrupt CMS signed data decoding. 
+//! @SYMTestExpectedResults 	KErrArgument
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedDataDecoding C:\tpkcs7\tcms.ini TEST52
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0052
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0053
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0053
+//! @SYMTestCaseDesc 		Test corrupt CMS signed data decoding. Corrupt data content.
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		Test corrupt CMS signed data decoding. 
+//! @SYMTestExpectedResults 	KErrArgument
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedDataDecoding C:\tpkcs7\tcms.ini TEST53
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0053
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0054
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0054
+//! @SYMTestCaseDesc 		Test corrupt CMS signed data decoding. Corrupt signedata version.
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		Test corrupt CMS signed data decoding. 
+//! @SYMTestExpectedResults 	KErrArgument
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedDataDecoding C:\tpkcs7\tcms.ini TEST54
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0054
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0055
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0055
+//! @SYMTestCaseDesc 		Test corrupt CMS signed data decoding. Corrupt signerinfo version.
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		Test corrupt CMS signed data decoding. 
+//! @SYMTestExpectedResults 	KErrArgument
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedDataDecoding C:\tpkcs7\tcms.ini TEST55
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0055
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0056
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0056
+//! @SYMTestCaseDesc 		Test corrupt CMS signed data decoding. Corrupt excert set tag.
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		Test corrupt CMS signed data decoding. 
+//! @SYMTestExpectedResults 	KErrArgument
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedDataDecoding C:\tpkcs7\tcms.ini TEST56
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0056
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0057
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0057
+//! @SYMTestCaseDesc 		Test corrupt CMS signed data decoding. Corrupt certificate tag.
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		Test corrupt CMS signed data decoding. 
+//! @SYMTestExpectedResults 	KErrArgument
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedDataDecoding C:\tpkcs7\tcms.ini TEST57
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0057
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0058
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0058
+//! @SYMTestCaseDesc 		Test corrupt CMS signed data decoding. Corrupt algorithm OID.
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		Test corrupt CMS signed data decoding. 
+//! @SYMTestExpectedResults 	KErrNotSupported
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedDataDecoding C:\tpkcs7\tcms.ini TEST58
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0058
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0059
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0059
+//! @SYMTestCaseDesc 		Test encoding a CMS signed object with a corrupt attribute certificate
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		High
+//! @SYMTestActions	 	builds and Encodes a CMS signed data object
+//! @SYMTestExpectedResults 	KErrArgument
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST59
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0059
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0060
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0060
+//! @SYMTestCaseDesc 		Test encoding a CMS signed object with a corrupt attribute certificate
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		builds and Encodes a CMS signed data object
+//! @SYMTestExpectedResults 	KErrArgument
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tcms.ini TEST60
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0060
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0061
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0061
+//! @SYMTestCaseDesc 		Test corrupt CMS signed data decoding. Corrupt data block CMS in the signed data.
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		Test corrupt CMS signed data decoding. 
+//! @SYMTestExpectedResults 	KErrArgument
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedDataDecoding C:\tpkcs7\tcms.ini TEST61
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0061
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0062
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0062
+//! @SYMTestCaseDesc 		Test corrupt CMS signed data decoding. Corrupt length.
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		Test corrupt CMS signed data decoding. 
+//! @SYMTestExpectedResults 	KErrArgument
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedDataDecoding C:\tpkcs7\tcms.ini TEST62
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0062
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0063
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0063
+//! @SYMTestCaseDesc 		Test corrupt CMS data decoding. Corrupt Tag.
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		Test corrupt CMS data decoding. 
+//! @SYMTestExpectedResults 	KErrArgument
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSDataDecoding C:\tpkcs7\tcms.ini TEST63
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0063
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0064
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0064
+//! @SYMTestCaseDesc 		Test corrupt CMS data decoding. Corrupt class.
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		Test corrupt CMS data decoding. 
+//! @SYMTestExpectedResults 	KErrArgument
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSDataDecoding C:\tpkcs7\tcms.ini TEST64
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0064
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0065
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0065
+//! @SYMTestCaseDesc 		Test corrupt CMS signed data decoding. Corrupt explicit tag of encapsulated content info.
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		Test corrupt CMS signed data decoding. 
+//! @SYMTestExpectedResults 	KErrArgument
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedDataDecoding C:\tpkcs7\tcms.ini TEST65
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0065
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0066
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0066
+//! @SYMTestCaseDesc 		Test corrupt CMS signed data decoding. Corrupt data content tag of encapsulated content info.
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		Test corrupt CMS signed data decoding. 
+//! @SYMTestExpectedResults 	KErrArgument
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedDataDecoding C:\tpkcs7\tcms.ini TEST66
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0066
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0067
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0067
+//! @SYMTestCaseDesc 		Test corrupt CMS signed data decoding. Corrupt explicit tag of content info.
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		Test corrupt CMS signed data decoding. 
+//! @SYMTestExpectedResults 	KErrArgument
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedDataDecoding C:\tpkcs7\tcms.ini TEST67
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0067
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0073
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0073
+//! @SYMTestCaseDesc 		Decode digested type in CMS content info
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		Test decoding of digested data type
+//! @SYMTestExpectedResults 	KErrArgument
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CmsContentInfoDecoding C:\tpkcs7\tcms.ini TEST73
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0073
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0074
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0074
+//! @SYMTestCaseDesc 		Decode enveloped type in CMS content info
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		Test decoding of enveloped data type
+//! @SYMTestExpectedResults 	KErrArgument
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CmsContentInfoDecoding C:\tpkcs7\tcms.ini TEST74
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0074
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0075
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0075
+//! @SYMTestCaseDesc 		Decode encrypted type in CMS content info
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		Test decoding of encrypted data type
+//! @SYMTestExpectedResults 	KErrArgument
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CmsContentInfoDecoding C:\tpkcs7\tcms.ini TEST75
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0075
+
+START_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0076
+//! @SYMTestCaseID 		SEC-CERTMAN-PKCS7-CMS-0076
+//! @SYMTestCaseDesc 		Decode authenticated type in CMS content info
+//! @SYMPREQ 			PREQ968
+//! @SYMTestPriority		High
+//! @SYMTestActions 		Test decoding of authenticated data type
+//! @SYMTestExpectedResults 	KErrArgument
+//! @SYMTestType 		UT
+RUN_TEST_STEP 100 tpkcs7server CmsContentInfoDecoding C:\tpkcs7\tcms.ini TEST76
+END_TESTCASE			SEC-CERTMAN-PKCS7-CMS-0076
+
+
+
+

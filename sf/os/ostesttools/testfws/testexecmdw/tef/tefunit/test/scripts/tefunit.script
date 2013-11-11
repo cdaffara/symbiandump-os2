@@ -1,0 +1,196 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:  
+// Test Suite Hirarchy
+// SuiteTEFUnit---------------------------------
+// SuiteA       SuiteD          AsyncSuiteAssert  SuiteAssert
+// SuiteD One Two One Two  AsyncSuiteA
+// One  Two                 One  Two      
+//
+LOAD_SERVER TEFUnitTE -SharedData
+//
+PRINT ----------------------------------------------
+PRINT
+PRINT TEFUnit Plugin Test with Test Steps
+PRINT
+PRINT ----------------------------------------------
+PRINT
+
+START_TESTCASE TCTEF01
+PRINT ----------------------------------------------
+PRINT Run TEF test steps in TEFUnit
+PRINT (shared data mode)
+PRINT ----------------------------------------------
+RUN_TEST_STEP 100 TEFUnitTE SampleStep2  ${SYSDRIVE}\TEFUnitScripts\test.ini SectionOne
+RUN_TEST_STEP 100 TEFUnitTE SampleStep3  ${SYSDRIVE}\TEFUnitScripts\test.ini SectionOne
+RUN_TEST_STEP 100 TEFUnitTE SampleStep2  ${SYSDRIVE}\TEFUnitScripts\test.ini SectionOne
+RUN_TEST_STEP 100 TEFUnitTE SampleStep3  ${SYSDRIVE}\TEFUnitScripts\test.ini SectionOne
+END_TESTCASE TCTEF01
+
+// Load Suite for Normal Mode
+LOAD_SUITE TEFUnitTE
+//
+START_TESTCASE TCTEF02
+PRINT ----------------------------------------------
+PRINT Run TEF test steps in TEFUnit
+PRINT (Normal Mode)
+PRINT ----------------------------------------------
+RUN_TEST_STEP 100 TEFUnitTE SampleStep1  ${SYSDRIVE}\TEFUnitScripts\test.ini SectionOne
+RUN_TEST_STEP_RESULT 0 100 TEFUnitTE SampleStep1  ${SYSDRIVE}\TEFUnitScripts\test.ini SectionOne
+RUN_PANIC_STEP 1 TEFUnitTE SampleStep1  ${SYSDRIVE}\TEFUnitScripts\test.ini SectionThree
+RUN_PANIC_STEP_RESULT 1 SampleServer TEFUnitTE SampleStep1  ${SYSDRIVE}\TEFUnitScripts\test.ini SectionThree
+RUN_TEST_STEP 100 TEFUnitTE SampleStep2  ${SYSDRIVE}\TEFUnitScripts\test.ini
+END_TESTCASE TCTEF02
+
+PRINT ----------------------------------------------
+PRINT
+PRINT TEFUnit Plugin Test with Test Suites
+PRINT
+PRINT ----------------------------------------------
+PRINT
+
+START_TESTCASE TCTEFUNIT01
+PRINT -------------------------------------------------------
+PRINT TestFixture derived Suite TestSteps called individually
+PRINT -------------------------------------------------------
+RUN_TEST_STEP 100 TEFUnitTE TEFUnit.CTestSuiteA.TestOne ${SYSDRIVE}\TEFUnitScripts\test.ini
+RUN_TEST_STEP 100 TEFUnitTE TEFUnit.CTestSuiteA.TestTwo ${SYSDRIVE}\TEFUnitScripts\test.ini
+RUN_TEST_STEP 100 TEFUnitTE TEFUnit.CTestSuiteA.TestThree ${SYSDRIVE}\TEFUnitScripts\test.ini SectionWriteTest1
+RUN_TEST_STEP 100 TEFUnitTE TEFUnit.CTestSuiteD.TestOne ${SYSDRIVE}\TEFUnitScripts\test.ini SectionOne
+RUN_TEST_STEP 100 TEFUnitTE TEFUnit.CTestSuiteD.TestTwo ${SYSDRIVE}\TEFUnitScripts\test.ini SectionOne
+END_TESTCASE TCTEFUNIT01
+
+START_TESTCASE TCTEFUNIT02
+PRINT ----------------------------------------------------------
+PRINT TestFixture derived Subsuite TestSteps called individually
+PRINT ----------------------------------------------------------
+RUN_TEST_STEP 100 TEFUnitTE TEFUnit.CTestSuiteA.CTestSuiteB.TestOne ${SYSDRIVE}\TEFUnitScripts\test.ini
+RUN_TEST_STEP 100 TEFUnitTE TEFUnit.CTestSuiteA.CTestSuiteB.TestTwo ${SYSDRIVE}\TEFUnitScripts\test.ini
+RUN_TEST_STEP 100 TEFUnitTE TEFUnit.CTestSuiteA.CTestSuiteB.CTestSuiteC.TestOne ${SYSDRIVE}\TEFUnitScripts\test.ini
+RUN_TEST_STEP 100 TEFUnitTE TEFUnit.CTestSuiteA.CTestSuiteB.CTestSuiteC.TestTwo ${SYSDRIVE}\TEFUnitScripts\test.ini
+END_TESTCASE TCTEFUNIT02
+
+START_TESTCASE TCTEFUNIT03
+PRINT ----------------------------------------------------------------
+PRINT ActiveTestFixture derived Subsuite TestSteps called individually
+PRINT ----------------------------------------------------------------
+RUN_TEST_STEP 100 TEFUnitTE TEFUnit.CTestSuiteD.CTestAsyncSuiteA.TestOne ${SYSDRIVE}\TEFUnitScripts\test.ini SectionOne
+RUN_TEST_STEP 100 TEFUnitTE TEFUnit.CTestSuiteD.CTestAsyncSuiteA.TestTwo ${SYSDRIVE}\TEFUnitScripts\test.ini SectionOne
+END_TESTCASE TCTEFUNIT03
+
+START_TESTCASE TCTEFUNIT04
+PRINT ----------------------------------------------------------
+PRINT TestFixture derived Suite TestSteps called using Wildcards
+PRINT (Check logs to ensure all sub suites are also run)
+PRINT ----------------------------------------------------------
+RUN_TEST_STEP 100 TEFUnitTE TEFUnit.CTestSuiteA.* ${SYSDRIVE}\TEFUnitScripts\test.ini SectionWriteTest1
+RUN_TEST_STEP 100 TEFUnitTE TEFUnit.CTestSuiteD.* ${SYSDRIVE}\TEFUnitScripts\test.ini SectionOne
+END_TESTCASE TCTEFUNIT04
+
+START_TESTCASE TCTEFUNIT05
+PRINT --------------------------------------------------------------
+PRINT TestFixture derived subsuite TestSteps called using wildcards
+PRINT (Check logs to ensure all sub suites are also run - if exists)
+PRINT --------------------------------------------------------------
+RUN_TEST_STEP 100 TEFUnitTE TEFUnit.CTestSuiteA.CTestSuiteB.* ${SYSDRIVE}\TEFUnitScripts\test.ini
+RUN_TEST_STEP 100 TEFUnitTE TEFUnit.CTestSuiteA.CTestSuiteB.CTestSuiteC.* ${SYSDRIVE}\TEFUnitScripts\test.ini
+END_TESTCASE TCTEFUNIT05
+
+START_TESTCASE TCTEFUNIT06
+PRINT -------------------------------------------------------------------
+PRINT ActiveTestFixture derived Subsuite TestSteps called using wildcards
+PRINT -------------------------------------------------------------------
+RUN_TEST_STEP 100 TEFUnitTE TEFUnit.CTestSuiteD.CTestAsyncSuiteA.* ${SYSDRIVE}\TEFUnitScripts\test.ini SectionOne
+END_TESTCASE TCTEFUNIT06
+
+START_TESTCASE TCTEFUNIT07
+PRINT ------------------------------------------------------------------
+PRINT TestFixture derived Suite TestSteps called without using Wildcards
+PRINT (Check logs to ensure all sub suites are also run)
+PRINT ------------------------------------------------------------------
+RUN_TEST_STEP 100 TEFUnitTE TEFUnit.CTestSuiteA ${SYSDRIVE}\TEFUnitScripts\test.ini SectionWriteTest1
+RUN_TEST_STEP 100 TEFUnitTE TEFUnit.CTestSuiteD ${SYSDRIVE}\TEFUnitScripts\test.ini SectionOne
+END_TESTCASE TCTEFUNIT07
+
+START_TESTCASE TCTEFUNIT08
+PRINT ---------------------------------------------------------------------
+PRINT TestFixture derived subsuite TestSteps called without using wildcards
+PRINT (Check logs to ensure all sub suites are also run - if exists)
+PRINT ---------------------------------------------------------------------
+RUN_TEST_STEP 100 TEFUnitTE TEFUnit.CTestSuiteA.CTestSuiteB ${SYSDRIVE}\TEFUnitScripts\test.ini
+RUN_TEST_STEP 100 TEFUnitTE TEFUnit.CTestSuiteA.CTestSuiteB.CTestSuiteC ${SYSDRIVE}\TEFUnitScripts\test.ini
+END_TESTCASE TCTEFUNIT08
+
+START_TESTCASE TCTEFUNIT09
+PRINT ---------------------------------------------------------------------------
+PRINT ActiveTestFixture derived Subsuite TestSteps called without using wildcards
+PRINT ---------------------------------------------------------------------------
+RUN_TEST_STEP 100 TEFUnitTE TEFUnit.CTestSuiteD.CTestAsyncSuiteA ${SYSDRIVE}\TEFUnitScripts\test.ini SectionOne
+END_TESTCASE TCTEFUNIT09
+
+START_TESTCASE TC10
+PRINT ----------------------------------------------------------
+PRINT Try to run some invalid tests/suites
+PRINT ----------------------------------------------------------
+RUN_TEST_STEP_RESULT 108 100 TEFUnitTE TEFUnit.CTestSuiteA.Banana ${SYSDRIVE}\TEFUnitScripts\test.ini
+RUN_TEST_STEP_RESULT 108 100 TEFUnitTE TEFUnit.CTestSuiteA.Banana.* ${SYSDRIVE}\TEFUnitScripts\test.ini
+RUN_TEST_STEP_RESULT 108 100 TEFUnitTE TEFUnit.CTestSuiteD.CTestAsyncSuiteA.Banana ${SYSDRIVE}\TEFUnitScripts\test.ini
+END_TESTCASE TC10
+
+START_TESTCASE TC11
+PRINT ----------------------------------------------------------
+PRINT Try to run some tests/suites with the case being incorrect
+PRINT ----------------------------------------------------------
+RUN_TEST_STEP_RESULT 108 100 TEFUnitTE TEFUnit.CTestSuitea ${SYSDRIVE}\TEFUnitScripts\test.ini
+RUN_TEST_STEP_RESULT 108 100 TEFUnitTE TEFUnit.CTestSuiteA.Testone ${SYSDRIVE}\TEFUnitScripts\test.ini
+RUN_TEST_STEP_RESULT 108 100 TEFUnitTE TEFUnit.CTestSuiteD.CTestAsyncSuiteA.Testtwo ${SYSDRIVE}\TEFUnitScripts\test.ini
+END_TESTCASE TC11
+
+START_TESTCASE TC12
+PRINT -----------------------------------------------------------
+PRINT Try to run some tests with only part of the test/suite name
+PRINT -----------------------------------------------------------
+RUN_TEST_STEP_RESULT 108 100 TEFUnitTE TEFUnit.CTestSuiteA.TestOn ${SYSDRIVE}\TEFUnitScripts\test.ini
+RUN_TEST_STEP_RESULT 108 100 TEFUnitTE TEFUnit.CTestSuiteA.TestTw ${SYSDRIVE}\TEFUnitScripts\test.ini
+RUN_TEST_STEP_RESULT 108 100 TEFUnitTE TEFUnit.CTestSuiteA.CTestSuiteB.TestOn ${SYSDRIVE}\TEFUnitScripts\test.ini
+RUN_TEST_STEP_RESULT 108 100 TEFUnitTE TEFUnit.CTestSui ${SYSDRIVE}\TEFUnitScripts\test.ini
+RUN_TEST_STEP_RESULT 108 100 TEFUnitTE TEFUnit.CTestSuiteA.CTestSuit ${SYSDRIVE}\TEFUnitScripts\test.ini
+RUN_TEST_STEP_RESULT 108 100 TEFUnitTE TEFUnit.CTestSuiteA.CTestSuiteB.CTestSui ${SYSDRIVE}\TEFUnitScripts\test.ini
+END_TESTCASE TC12
+
+START_TESTCASE TC13
+PRINT ----------------------------------------------------------
+PRINT   Assert Tests
+PRINT ----------------------------------------------------------
+RUN_TEST_STEP_RESULT 106 100 TEFUnitTE TEFUnit.CTestSuiteAssert.TestAssertEquals ${SYSDRIVE}\TEFUnitScripts\test.ini
+RUN_TEST_STEP_RESULT 106 100 TEFUnitTE TEFUnit.CTestSuiteAssert.TestAssertNull ${SYSDRIVE}\TEFUnitScripts\test.ini
+RUN_TEST_STEP_RESULT 106 100 TEFUnitTE TEFUnit.CTestSuiteAssert.TestAssertNotNull ${SYSDRIVE}\TEFUnitScripts\test.ini
+RUN_TEST_STEP_RESULT 106 100 TEFUnitTE TEFUnit.CTestSuiteAssert.TestAssertSame ${SYSDRIVE}\TEFUnitScripts\test.ini
+RUN_TEST_STEP_RESULT 106 100 TEFUnitTE TEFUnit.CTestSuiteAssert.TestAssertNotSame ${SYSDRIVE}\TEFUnitScripts\test.ini
+RUN_TEST_STEP_RESULT 106 100 TEFUnitTE TEFUnit.CTestSuiteAssert.TestAssertTrue ${SYSDRIVE}\TEFUnitScripts\test.ini
+RUN_TEST_STEP_RESULT 106 100 TEFUnitTE TEFUnit.CTestSuiteAssert.TestAssertFalse ${SYSDRIVE}\TEFUnitScripts\test.ini
+END_TESTCASE TC13
+
+START_TESTCASE TC14
+PRINT ----------------------------------------------------------
+PRINT   Assert Tests in an Active Environment
+PRINT ----------------------------------------------------------
+RUN_TEST_STEP_RESULT 106 100 TEFUnitTE TEFUnit.CTestAsyncSuiteAssert.TestAssertEquals ${SYSDRIVE}\TEFUnitScripts\test.ini
+RUN_TEST_STEP_RESULT 106 100 TEFUnitTE TEFUnit.CTestAsyncSuiteAssert.TestAssertNull ${SYSDRIVE}\TEFUnitScripts\test.ini
+RUN_TEST_STEP_RESULT 106 100 TEFUnitTE TEFUnit.CTestAsyncSuiteAssert.TestAssertNotNull ${SYSDRIVE}\TEFUnitScripts\test.ini
+RUN_TEST_STEP_RESULT 106 100 TEFUnitTE TEFUnit.CTestAsyncSuiteAssert.TestAssertSame ${SYSDRIVE}\TEFUnitScripts\test.ini
+RUN_TEST_STEP_RESULT 106 100 TEFUnitTE TEFUnit.CTestAsyncSuiteAssert.TestAssertNotSame ${SYSDRIVE}\TEFUnitScripts\test.ini
+RUN_TEST_STEP_RESULT 106 100 TEFUnitTE TEFUnit.CTestAsyncSuiteAssert.TestAssertTrue ${SYSDRIVE}\TEFUnitScripts\test.ini
+RUN_TEST_STEP_RESULT 106 100 TEFUnitTE TEFUnit.CTestAsyncSuiteAssert.TestAssertFalse ${SYSDRIVE}\TEFUnitScripts\test.ini
+END_TESTCASE TC14

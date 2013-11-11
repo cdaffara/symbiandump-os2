@@ -1,0 +1,31 @@
+@rem
+@rem Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+@rem All rights reserved.
+@rem This component and the accompanying materials are made available
+@rem under the terms of "Eclipse Public License v1.0"
+@rem which accompanies this distribution, and is available
+@rem at the URL "http://www.eclipse.org/legal/epl-v10.html".
+@rem
+@rem Initial Contributors:
+@rem Nokia Corporation - initial contribution.
+@rem
+@rem Contributors:
+@rem
+@rem Description: 
+@rem
+
+testexecute  z:\testdata\scripts\logger_pretest.script
+
+testexecute  c:\testdata\scripts\pre_log_html.script
+testexecute  c:\testdata\scripts\te_reglogger_html.script
+testexecute  c:\testdata\scripts\post_log_html.script
+
+testexecute  c:\testdata\scripts\pre_log_xml.script
+testexecute  c:\testdata\scripts\te_reglogger_xml.script
+testexecute  c:\testdata\scripts\post_log_xml.script
+
+testexecute  c:\testdata\scripts\pre_log_both.script
+testexecute  c:\testdata\scripts\te_reglogger_both.script
+testexecute  c:\testdata\scripts\post_log_both.script
+
+testexecute  c:\testdata\scripts\logger_posttest.script

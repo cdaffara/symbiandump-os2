@@ -1,0 +1,64 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+TARGET ecomservertest.exe
+TARGETTYPE EXE
+CAPABILITY ProtServ
+
+// Uses sid of EComserver process to allow access to private dir.
+UID 0x101FB5A8 0x10009D8F
+VENDORID 0x70000001
+
+MACRO __ECOMSERVER_TESTING__
+
+SOURCEPATH	../../Framework/MagicServerTest
+SOURCE		MagicServerTest.cpp
+
+// Have to explicitly build in the entire server side framework!!!
+SOURCEPATH	../../Framework/frame
+SOURCE		EComServer.cpp EComServerSession.cpp resolvercache.cpp
+SOURCE		EComServerStart.cpp ServerStartupManager.cpp
+SOURCE		LoadManager.cpp
+SOURCE		Registrar.cpp RegistryData.cpp RegistryResolveTransaction.cpp
+SOURCE		DefaultResolver.cpp RomOnlyResolver.cpp
+SOURCE		Discoverer.cpp ImplementationInformation.cpp
+SOURCE		BackupNotifier.cpp UnloadPolicy.cpp
+SOURCE		EComEntry.cpp
+SOURCE		DowngradePath.cpp
+SOURCE  	clientrequest.cpp
+SOURCE		EComEntryBase.cpp
+SOURCE		TestHarnessDomainMember.cpp
+SOURCE		DriveInfo.cpp
+SOURCE		EComPerformance.cpp
+SOURCE		FileUtils.cpp
+SOURCE		EComPatchDataConstantv2.cpp
+SOURCE		ParseImplementationData.cpp
+
+SOURCEPATH	../EcomTestUtils
+SOURCE		EcomTestIniFileUtils.cpp
+
+USERINCLUDE ../../Test_Bed/inc
+USERINCLUDE ../../Framework/frame 
+USERINCLUDE ../../Framework/inc 
+USERINCLUDE ../../Framework/MagicServerTest
+USERINCLUDE ../EcomTestUtils
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+LIBRARY euser.lib efsrv.lib estor.lib bafl.lib domaincli.lib
+LIBRARY ecomtestutils.lib
+LIBRARY bsul.lib hal.lib
+
+SMPSAFE

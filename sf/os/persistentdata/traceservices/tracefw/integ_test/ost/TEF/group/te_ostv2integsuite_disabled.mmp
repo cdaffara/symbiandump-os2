@@ -1,0 +1,109 @@
+// Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+TARGET      te_ostv2integsuite_disabled.exe
+TARGETTYPE  exe
+UID         0x1000007A 0x1028722F
+CAPABILITY CommDD NetworkControl LocalServices
+
+EPOCHEAPSIZE 1048576 4194304 //ask why this epocsize
+
+MACRO TE_UPT_TRACE_DISABLED //could remove this and just #ifdef on SYMBIAN_TRACE_ENABLE
+#include    <platform/opensystemtrace.mmh>
+
+epocprocesspriority high
+
+OS_LAYER_SYSTEMINCLUDE
+
+USERINCLUDE ../te_ostv2integsuite_common/inc/
+USERINCLUDE ../traces
+USERINCLUDE ../te_ostv2integsuite_functional/inc/
+USERINCLUDE ../te_ostv2integsuite_performance/inc/
+USERINCLUDE ../te_ostv2integsuite_performance/inc/timer
+USERINCLUDE ../te_ostv2integsuite_performance/inc/sanity
+USERINCLUDE ../te_ostv2integsuite_performance/inc/csvoutput
+USERINCLUDE ../te_ostv2integsuite_functional/inc/record_content
+USERINCLUDE ../perfdevicedriver/inc/
+USERINCLUDE ../../../../common_utils/lightlogger/inc
+
+SOURCEPATH    	../te_ostv2integsuite_common/src/
+SOURCE			te_ostv2integsuite_server.cpp 
+SOURCE			te_ostv2integsuite_controller.cpp
+SOURCE			te_ostv2integsuite_basewrapper.cpp
+SOURCE			te_ostv2integsuite_defs.cpp
+SOURCE 			te_instrumentationpoints_disabled.cpp
+SOURCE			te_apirunconfig.cpp
+SOURCE			te_tracecontrolclearconfig.cpp
+SOURCE			te_tracecontrolcmds.cpp
+SOURCE			te_tracecontroldefaultconfig.cpp
+SOURCE			te_ctor_disabled.cpp
+
+SOURCEPATH    	../te_ostv2integsuite_functional/src/
+SOURCE        	te_tracecollectorclient.cpp
+SOURCE			te_advancedfiltering.cpp
+SOURCE        	te_tracecollectorfile.cpp
+SOURCE        	te_tracecollectorserial.cpp
+SOURCE			te_buffersizing.cpp
+SOURCE			te_buffermode.cpp
+SOURCE			te_configfile.cpp
+SOURCE			te_filepluginerr.cpp
+SOURCE			te_ostv2tracetestwrapper.cpp
+
+SOURCEPATH  	../te_ostv2integsuite_performance/src/
+SOURCE      	te_perf.cpp
+SOURCE			te_perfcsvgenerator.cpp
+SOURCE			te_perfresultscollector.cpp
+SOURCE		    te_perfapicall.cpp
+SOURCE		    te_perfapinames.cpp
+SOURCE			te_perfplugin.cpp
+SOURCE			te_perfsanity.cpp
+SOURCE			te_perfoutputsanity.cpp
+SOURCE 			te_perftracetester.cpp
+ 
+#ifndef WINSCW				 
+SOURCE		  te_cacheflush.s
+SOURCE		  te_stackinfo.s
+#endif
+
+SOURCEPATH  ../te_ostv2integsuite_performance/src/timer
+SOURCE		te_perfusertimer.cpp
+
+SOURCEPATH  ../te_ostv2integsuite_performance/src/sanity
+SOURCE 		te_perfsanityhelpers.cpp
+SOURCE 		te_perfsanitytimer.cpp
+
+SOURCEPATH  ../perfdevicedriver/src/
+SOURCE		te_d32perfdrv.cpp 
+
+SOURCEPATH  ../te_ostv2integsuite_performance/src/csvoutput
+SOURCE 		te_perfcsvreader.cpp 
+SOURCE 		te_perfelements.cpp
+
+SOURCEPATH  ../te_ostv2integsuite_functional/src/record_content
+SOURCE		te_parser.cpp 
+SOURCE		te_tracerecord.cpp
+
+LIBRARY     euser.lib
+LIBRARY 	testexecuteutils.lib 
+LIBRARY 	testexecutelogclient.lib 
+LIBRARY	    efsrv.lib
+LIBRARY 	uloggerclient.lib
+LIBRARY 	hal.lib
+LIBRARY     serialdriver.lib ecom.lib
+
+MACRO __TEST_LIGHTLOGGER_ENABLED
+MACRO __LIGHTLOGGER_ENABLED
+
+SMPSAFE

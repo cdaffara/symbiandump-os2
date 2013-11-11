@@ -1,0 +1,38 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+TARGET suicidal.dll
+CAPABILITY All -Tcb
+TARGETTYPE PLUGIN
+
+// MAGIC Dll recognition UID followed by the unique UID for this dll
+UID 0x10009D8D 0x10009DB2
+VENDORID 0x70000001
+
+SOURCEPATH	../../Framework/Suicidal
+SOURCE		Suicidal.cpp
+
+USERINCLUDE 	../../Test_Bed/inc ../../Framework/frame ../../Framework/inc
+USERINCLUDE	../../Framework/Example
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+START RESOURCE 10009DB2.rss
+TARGET suicidal.rsc
+END
+
+LIBRARY euser.lib
+LIBRARY ecom.lib
+
+SMPSAFE

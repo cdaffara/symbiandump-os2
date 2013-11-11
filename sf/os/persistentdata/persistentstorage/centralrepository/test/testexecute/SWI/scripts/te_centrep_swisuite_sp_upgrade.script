@@ -1,0 +1,239 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// @file
+// 
+//
+
+//! @SYMTestSuiteName PDS-TEF-CENTREP-SWISUITE
+//! @SYMScriptTestEnvironment TEF
+//! @internalComponent
+//! @test
+
+PRINT Run SP (Standard Patch) installation te_centrep_SWI Suite Tests
+
+LOAD_SUITE te_centrep_SWISuite
+
+RUN_UTILS MkDir c:\private\
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551551.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551552.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551553.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551554.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551555.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\5155155F.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551551.txt
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551552.txt
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551553.txt
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551554.txt
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551555.txt
+RUN_UTILS DeleteFile c:\private\10202be9\persists\5155155F.txt
+
+START_TESTCASE SYSLIB-CENTRALREPOSITORY-SWI-CIT-SP-3230
+//! @SYMTestCaseID SYSLIB-CENTRALREPOSITORY-SWI-CIT-SP-3230
+//! @SYMTestCaseDesc  Verify that a ‘SP’ installation can create a new
+//!                  keyspace, KS2.
+//! @SYMTestPriority  High
+//! @SYMTestActions   A .sis file which attempts to create a new keyspace (which
+//!                  does not previously exist) is installed. The new keyspace
+//!                  has some default meta-data and platsec settings.
+//! @SYMTestExpectedResults
+//!                  The new keyspace KS2 is detected successfully and values
+//!                  within this are read successfully and have expected
+//!                  values. To be tested for repository settings holding
+//!                  integers, real numbers and strings. The platsec and
+//!                  meta-data settings are as defined in the installer.
+//! @SYMDEF           INC068075
+
+	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryCheck z:\TEF_CentralRepository\SWI-SP-K2.ini BeforeWeStart
+	RUN_TEST_STEP 100 te_centrep_SWISuite InstallStep z:\TEF_CentralRepository\SWI-SP-K2.ini Install_KS2
+ 	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryCheck z:\TEF_CentralRepository\SWI-SP-K2.ini Check_KS2_KeySpace
+END_TESTCASE SYSLIB-CENTRALREPOSITORY-SWI-CIT-SP-3230
+
+START_TESTCASE SYSLIB-CENTRALREPOSITORY-SWI-CIT-SP-3231
+//! @SYMTestCaseID SYSLIB-CENTRALREPOSITORY-SWI-CIT-SP-3231
+//! @SYMTestCaseDesc  Verify that a ‘SP’ installation can upgrade new keyspace,
+//!                  KP2.
+//! @SYMTestPriority  High
+//! @SYMTestActions   Various user settings are created, some previously
+//!                  existing settings are changed (see the table below),
+//!                  giving us KS2.1.
+//!                  A SP .sis file which upgrades KS2.1 to KS2.2 is installed.
+//!                  Platsec and meta-data are changed by this installation.
+//!                  This keyspace does not exist in ROM.
+//! @SYMTestExpectedResults
+//!                  See the test specification for a table of results. Note
+//!                  that the changed platsec information should have no effect.
+//!                  V:\Dev\GT\GT 0219 Mike System Libraries\Test\[08] Test Specifications\SGL.GT0219.228 vX.X CenRep SWI InteractionTest Specification.doc
+//!                  You can also check the SWI-SP-K2.ini config file.
+//! @SYMDEF           INC068075
+
+ 	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryFn z:\TEF_CentralRepository\SWI-SP-K2.ini UserModGivesKS21
+ 	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryFn z:\TEF_CentralRepository\SWI-SP-K2.ini UserModGivesKS21b
+ 	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryCheck z:\TEF_CentralRepository\SWI-SP-K2.ini Check_KS21_KeySpace
+	RUN_TEST_STEP 100 te_centrep_SWISuite InstallStep z:\TEF_CentralRepository\SWI-SP-K2.ini Install_KS22
+ 	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryCheck z:\TEF_CentralRepository\SWI-SP-K2.ini Check_KS22_KeySpace
+ 	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryFn z:\TEF_CentralRepository\SWI-SP-K2.ini UserModGivesKS22a
+ 	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryCheck z:\TEF_CentralRepository\SWI-SP-K2.ini Check_KS22a_KeySpace
+END_TESTCASE SYSLIB-CENTRALREPOSITORY-SWI-CIT-SP-3231
+
+START_TESTCASE SYSLIB-CENTRALREPOSITORY-SWI-CIT-SP-3232
+//! @SYMTestCaseID SYSLIB-CENTRALREPOSITORY-SWI-CIT-SP-3232
+//! @SYMTestCaseDesc  Verify that the ‘KS2’ keyspace introduced by the ‘SP’
+//!                  installation in ‘SYSLIB-CENTRALREPOSITORY-SWI-CIT-SP-0001’
+//!                  can be removed.
+//! @SYMTestPriority  High
+//! @SYMTestActions   Various user settings are created, some previously
+//!                  existing settings are changed (see the table below),
+//!                  giving us KS2.1.
+//!                  A SP .sis file which upgrades KS2.1 to KS2.2 is installed.
+//!                  Platsec and meta-data are changed by this installation.
+//!                  This keyspace does not exist in ROM.
+//! @SYMTestExpectedResults
+//!                  The KS2 keyspace created in
+//!                  SYSLIB-CENTRALREPOSITORY-SWI-CIT-SP-0001 no longer exists.
+//!                  It is not possible to create a CRepository object for this
+//!                  repository (and therefore it is not possible to read the
+//!                  settings installed in
+//!                  SYSLIB-CENTRALREPOSITORY-SWI-CIT-SP-0001 or read the user
+//!                  settings just created).
+//! @SYMDEF           INC068075
+
+	RUN_TEST_STEP 100 te_centrep_SWISuite UninstallAugStep z:\TEF_CentralRepository\SWI-SP-K2.ini UnInstallKS2
+ 	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryCheck z:\TEF_CentralRepository\SWI-SP-K2.ini UnInstallKS2
+END_TESTCASE SYSLIB-CENTRALREPOSITORY-SWI-CIT-SP-3232
+
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551551.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551552.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551553.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551554.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551555.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\5155155F.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551551.txt
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551552.txt
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551553.txt
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551554.txt
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551555.txt
+RUN_UTILS DeleteFile c:\private\10202be9\persists\5155155F.txt
+
+START_TESTCASE SYSLIB-CENTRALREPOSITORY-SWI-CIT-SP-3233
+//! @SYMTestCaseID SYSLIB-CENTRALREPOSITORY-SWI-CIT-SP-3233
+//! @SYMTestCaseDesc  Verify that a ROM supplied keyspace, K1, can be upgraded
+//!                  within a ‘SP’ installation.
+//! @SYMTestPriority  High
+//! @SYMTestActions   A keyspace exists in ROM (K1) defining various integer,
+//!                  real and string settings and containing platsec and
+//!                  meta-data information.
+//!                  Some new, user settings are created. Some existing ROM
+//!                  settings are user-modified, giving us KP1.1.
+//!                  A SP ‘Standard Patch ‘.sis’ file which attempts to
+//!                  upgrade this ROM keyspace is installed. Repository
+//!                  settings holding integers, real numbers and strings are
+//!                  added and changed by this installation. The end result is
+//!                  KS1.2.
+//!                  The keyspace KS1.2 is checked for expected values.
+//! @SYMTestExpectedResults
+//!                  See the test specification for a table of results. This
+//!                  can be found here:
+//!                  V:\Dev\GT\GT 0219 Mike System Libraries\Test\[08] Test Specifications\SGL.GT0219.228 vX.X CenRep SWI InteractionTest Specification.doc
+//!                  You can also check the SWI-SP-K1.ini config file.
+//! @SYMDEF           INC068075
+
+	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryCheck z:\TEF_CentralRepository\SWI-SP-K1.ini BeforeWeStart_1
+ 	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryFn z:\TEF_CentralRepository\SWI-SP-K1.ini UserModGivesKS11
+ 	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryFn z:\TEF_CentralRepository\SWI-SP-K1.ini UserModGivesKS11b
+	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryCheck z:\TEF_CentralRepository\SWI-SP-K1.ini Check_KS11_KeySpace
+	RUN_TEST_STEP 100 te_centrep_SWISuite InstallStep z:\TEF_CentralRepository\SWI-SP-K1.ini Install_KS12
+	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryCheck z:\TEF_CentralRepository\SWI-SP-K1.ini Check_KS12_KeySpace
+END_TESTCASE SYSLIB-CENTRALREPOSITORY-SWI-CIT-SP-3233
+
+
+START_TESTCASE SYSLIB-CENTRALREPOSITORY-SWI-CIT-SP-3234
+//! @SYMTestCaseID SYSLIB-CENTRALREPOSITORY-SWI-CIT-SP-3234
+//! @SYMTestCaseDesc  Verify that a user modified previously upgraded ROM
+//!                  keyspace, KS1.2, can be further upgraded within a ‘SP’
+//!                  installation to KS1.3.
+//! @SYMTestPriority  High
+//! @SYMTestActions   The KS1.2 keyspace has certain settings added others
+//!                  modified by the user, giving KS1.3.
+//!                  A SP ‘Standard Patch’  ‘.sis’ file which attempts to
+//!                  upgrade the KS1.3 keyspace is installed giving us KS1.4.
+//!                  Repository settings holding integers, real numbers and
+//!                  strings are added and changed by this installation.
+//! @SYMTestExpectedResults
+//!                  See the test specification for a table of results. This
+//!                  can be found here:
+//!                  V:\Dev\GT\GT 0219 Mike System Libraries\Test\[08] Test Specifications\SGL.GT0219.228 vX.X CenRep SWI InteractionTest Specification.doc
+//!                  You can also check the SWI-SP-K1.ini config file.
+//! @SYMDEF           INC068075
+
+ 	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryFn z:\TEF_CentralRepository\SWI-SP-K1.ini UserModGivesKS13
+	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryCheck z:\TEF_CentralRepository\SWI-SP-K1.ini Check_KS13_KeySpace
+	RUN_TEST_STEP 100 te_centrep_SWISuite InstallStep z:\TEF_CentralRepository\SWI-SP-K1.ini Install_KS14
+	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryCheck z:\TEF_CentralRepository\SWI-SP-K1.ini Check_KS14_KeySpace
+END_TESTCASE SYSLIB-CENTRALREPOSITORY-SWI-CIT-SP-3234
+
+
+START_TESTCASE SYSLIB-CENTRALREPOSITORY-SWI-CIT-SP-3235
+//! @SYMTestCaseID    SYSLIB-CENTRALREPOSITORY-SWI-CIT-SP-3235
+//! @SYMTestCaseDesc  Verify that the repository originally supplied in ROM and
+//!                  later upgraded by standard patch and user action
+//!                  returns to its original state when the file installed in
+//!                  SYSLIB-CENTRALREPOSITORY-SWI-CIT-SP-3233 is uninstalled.
+//! @SYMTestPriority  High
+//! @SYMTestActions   Uninstall this SP package.
+//! @SYMTestExpectedResults
+//!                  See the test specification for a table of results. This
+//!                  can be found here:
+//!                  V:\Dev\GT\GT 0219 Mike System Libraries\Test\[08] Test Specifications\SGL.GT0219.228 vX.X CenRep SWI InteractionTest Specification.doc
+//!                  You can also check the SWI-SP-K1.ini config file.
+//! @SYMDEF           INC068075
+
+	RUN_TEST_STEP 100 te_centrep_SWISuite UninstallAugStep z:\TEF_CentralRepository\SWI-SP-K1.ini UnInstallKS12
+	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryCheck z:\TEF_CentralRepository\SWI-SP-K1.ini Check_KS15_KeySpace
+END_TESTCASE SYSLIB-CENTRALREPOSITORY-SWI-CIT-SP-3235
+
+
+START_TESTCASE SYSLIB-CENTRALREPOSITORY-SWI-CIT-SP-3236
+//! @SYMTestCaseID    SYSLIB-CENTRALREPOSITORY-SWI-CIT-SP-3236
+//! @SYMTestCaseDesc  Verify that a ROM supplied keyspace, K3, cannot be
+//!                  upgraded within a ‘SP’ installation if the keyspace file
+//!                  is not referenced in the ROM stub file.
+//! @SYMTestPriority  High
+//! @SYMTestActions   A keyspace exists in ROM (K3) defining various integer,
+//!                  real and string settings and containing platsec and
+//!                  meta-data information.  A SP ‘standard patch’  ‘.sis’
+//!                  file which attempts to upgrade this ROM keyspace is
+//!                  installed.
+//! @SYMTestExpectedResults
+//!                  The installation fails because the keyspace file is not
+//!                  referenced in the stub file supplied in ROM.
+//! @SYMDEF           INC068075
+
+	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryCheck z:\TEF_CentralRepository\SWI-SP-K3.ini Check_KS3_KeySpace
+	RUN_TEST_STEP 100 te_centrep_SWISuite InstallStep z:\TEF_CentralRepository\SWI-SP-K3.ini Install_KS3
+	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryCheck z:\TEF_CentralRepository\SWI-SP-K3.ini Check_KS3_KeySpace
+END_TESTCASE SYSLIB-CENTRALREPOSITORY-SWI-CIT-SP-3236
+
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551551.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551552.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551553.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551554.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551555.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\5155155F.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551551.txt
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551552.txt
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551553.txt
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551554.txt
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551555.txt
+RUN_UTILS DeleteFile c:\private\10202be9\persists\5155155F.txt
+

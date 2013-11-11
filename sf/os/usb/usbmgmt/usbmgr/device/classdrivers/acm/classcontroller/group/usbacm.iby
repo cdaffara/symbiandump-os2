@@ -1,0 +1,75 @@
+/*
+* Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+* Configuration for ACM functions
+*
+*/
+
+#ifndef USBACM_IBY
+#define USBACM_IBY
+
+#include <usbacmconfiguration.hby>
+
+// *** Abstract Control Model (serial emulation) Class Controller.
+#ifdef __ACM_REGPORT__
+USB_PLUGIN(t_regport_acmclasscontroller.dll,101fbf20.rsc)
+#else
+USB_PLUGIN(acmclasscontroller.dll,101fbf20.rsc)
+#endif
+
+
+#ifdef USBACM_PATCHDATA_KUSBACMNUMBEROFACMFUNCTIONS
+patchdata acmclasscontroller.dll@KUsbAcmNumberOfAcmFunctions USBACM_PATCHDATA_KUSBACMNUMBEROFACMFUNCTIONS
+#endif
+
+#ifdef USBACM_PATCHDATA_KUSBACMPROTOCOLNUMACM1
+patchdata acmclasscontroller.dll@KUsbAcmProtocolNumAcm1 USBACM_PATCHDATA_KUSBACMPROTOCOLNUMACM1
+#endif
+
+
+#ifdef USBACM_PATCHDATA_KUSBACMPROTOCOLNUMACM2
+patchdata acmclasscontroller.dll@KUsbAcmProtocolNumAcm2 USBACM_PATCHDATA_KUSBACMPROTOCOLNUMACM2
+#endif
+
+#ifdef USBACM_PATCHDATA_KUSBACMPROTOCOLNUMACM3
+patchdata acmclasscontroller.dll@KUsbAcmProtocolNumAcm3 USBACM_PATCHDATA_KUSBACMPROTOCOLNUMACM3
+#endif
+
+#ifdef USBACM_PATCHDATA_KUSBACMPROTOCOLNUMACM4
+patchdata acmclasscontroller.dll@KUsbAcmProtocolNumAcm4 USBACM_PATCHDATA_KUSBACMPROTOCOLNUMACM4
+#endif
+
+#ifdef USBACM_PATCHDATA_KUSBACMPROTOCOLNUMACM5
+patchdata acmclasscontroller.dll@KUsbAcmProtocolNumAcm5 USBACM_PATCHDATA_KUSBACMPROTOCOLNUMACM5
+#endif
+
+
+REM *** 'buildrom -D__TEST_USB_ZLP__' will use the ZLP version of the hby file.
+REM *** Note that this is a test configuration only.
+#ifndef __TEST_USB_ZLP__
+	#include <usbecacmconfiguration.hby>
+#else //__TEST_USB_ZLP__
+	#include <t_usbecacmconfiguration.hby>
+#endif //__TEST_USB_ZLP__
+
+file=ABI_DIR\USB_DIR\acmserver.dll		acmserver.dll
+file=ABI_DIR\USB_DIR\ecacm.csy	Ecacm.csy
+
+
+#ifdef USBECACM_PATCHDATA_KUSBACMHOSTCANHANDLEZLPS
+patchdata ecacm.csy@KUsbAcmHostCanHandleZLPs USBECACM_PATCHDATA_KUSBACMHOSTCANHANDLEZLPS
+#endif
+
+
+#endif // USBACM_IBY

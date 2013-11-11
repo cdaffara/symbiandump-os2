@@ -1,0 +1,119 @@
+<!--
+#
+# Copyright (c) 2008-2009 Nokia Corporation and/or its subsidiary(-ies).
+# All rights reserved.
+# This component and the accompanying materials are made available
+# under the terms of "Eclipse Public License v1.0"
+# which accompanies this distribution, and is available
+# at the URL "http://www.eclipse.org/legal/epl-v10.html".
+#
+# Initial Contributors:
+# Nokia Corporation - initial contribution.
+#
+# Contributors:
+#
+# Description: 
+#
+-->
+<project name="OstTraceCompiler" default="build" basedir="..">
+
+<condition property="isLinux">
+    <os name="linux"/>
+</condition>
+
+<condition property="isWindows">
+	<not>
+		<os name="linux"/>
+	</not>
+</condition>
+	
+<condition property="isRel">
+	<matches string="${epoc.rel}" pattern="^.*rel$"/>
+</condition>
+	
+<condition property="isDeb">
+	<matches string="${epoc.rel}" pattern="^.*deb$"/>
+</condition>
+
+	
+<target name="init" >
+	<property environment="env" />
+	<property name="epoc.root" value="${env.EPOCROOT}/" />
+	<property name="src.dir" value="src" />
+	<property name="jar.dir" value="jar" />
+	<property name="dest.dir" value="${tools.rel}/tracecompiler" />
+	<property name="build.dir" value="${epoc.root}epoc32/build/ost/tracecompiler" />
+</target>
+
+
+<target name="clean" depends="init" if="isRel">
+	<echo>Cleaning the ${build.dir}</echo>
+	<delete dir="${build.dir}"/>
+	<echo>Creating the build directory</echo>
+	<mkdir dir="${build.dir}"/>
+	
+	<echo>Deleting *.xml_ files</echo>
+	<delete>
+		<fileset dir="${epoc.root}epoc32/build" includes="**/*.xml_"/>
+	</delete>
+    <delete dir="${dest.dir}"/>
+    <delete file="tracecompiler/tracecompiler.zip"/>
+</target>
+
+	
+<target name="what" depends="init" description="Prints out all releasables">
+	<pathconvert pathsep="${line.separator}" property="output">
+		<fileset dir="${dest.dir}" casesensitive="no"/>
+	</pathconvert>
+	<echo message="${output}" />
+</target>
+
+
+<target name="build" if="isRel" depends="clean">	
+	<javac srcdir="${src.dir}" destdir="${build.dir}" debug="true" target="1.5"></javac>
+
+	<echo> Copying html and properties files from src/com.nokia.tracecompiler/src to ${build.dir} </echo>
+	<copy todir="${build.dir}">
+		<fileset dir="src/com.nokia.tracecompiler/src" includes="**/*.properties"/>
+		<fileset dir="src/com.nokia.tracecompiler/src" includes="**/*.html"/>
+        <fileset dir="src/com.nokia.tracecompiler/src" includes="**/*.lic"/>
+	</copy>
+
+	<antcall target="change_windows_file_attributes"></antcall>
+
+	<antcall target="change_linux_file_attributes"></antcall>
+
+	<echo>Zip TraceCompiler binaries</echo>
+	<zip destfile="tracecompiler/tracecompiler.zip" update="true">
+		<zipfileset dir="${build.dir}"/> 
+	</zip>
+	
+	<echo>Unzip recompiled TraceCompiler binaries intop epoc32/tools/tracecompiler</echo>
+	<unzip src="tracecompiler/tracecompiler.zip" dest="${dest.dir}" overwrite="true"/>
+
+	<mkdir dir="${jar.dir}"/>
+       	<jar destfile="${jar.dir}/tracecompiler.jar" basedir="${build.dir}">
+       		<fileset dir="src/com.nokia.tracecompiler/src" includes="**/*.properties"/>
+       		<manifest>
+       			<attribute name="Main-Class" value="com.nokia.tracecompiler.TraceCompilerMain"/>
+       		</manifest>
+        </jar>
+</target>
+
+<target name="change_windows_file_attributes" if="isWindows">
+	<echo message="Change tracecompiler.zip file attributes in Windows"/>
+	<exec executable="attrib">
+		<arg value="-r"/>
+		<arg value="tracecompiler/tracecompiler.zip"/>
+	</exec>
+</target>
+
+<target name="change_linux_file_attributes" if="isLinux">
+	<echo message="Change tracecompiler.zip file attributes in Linux"/>
+	<exec executable="chmod">
+		<arg value="777"/>
+		<arg value="tracecompiler/tracecompiler.zip"/>
+	</exec>
+</target>
+
+</project>

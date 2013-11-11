@@ -1,0 +1,40 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SERVER te_RegBlockTestSuite 
+
+DELAY	1000
+START_TESTCASE DT-TEF-TestBlock-0076
+//! @SYMTestCaseID          DT-TEF-TestBlock-0076
+//! @SYMCreationDate        03-07-2008
+//! @SYMAuthor              DavidZhang
+//! @SYMTestType            CT
+//! @SYMTestPriority        Medium
+//! @SYMTestCaseDesc        Mix new syntax with DELAY command.
+//! @SYMTestExpectedResults Test case completes without errors.
+//! @SYMTestActions         Create a test case that has a test block, creates a wrapper object, calls a command
+//!                         and uses DELAY instruction after each other TEF instruction.
+	DELAY	1000
+	START_TEST_BLOCK	100 te_RegBlockTestSuite ${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini
+		DELAY	1000
+		CREATE_OBJECT	te_RegBlockTestWrapper	DummyObj
+		DELAY	1000
+		COMMAND		DummyObj			DummyFunction
+		DELAY	1000
+	END_TEST_BLOCK
+	DELAY	1000
+END_TESTCASE DT-TEF-TestBlock-0076
+DELAY	1000

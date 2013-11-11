@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SystemDefinition schema="3.0.0">
+ <package id="wlan" name="WLAN" levels="hw low mid high tools test">
+  <collection id="wlan_plat" name="WLAN Platform Interfaces" level="test">
+   <component id="wlan_dbif_api" name="WLAN DBIF API" class="api" filter="s60">
+    <meta rel="Api" href="wlan_plat/wlan_dbif_api/wlan_dbif_api.metaxml"/>
+    <unit bldFile="wlan_plat/wlan_dbif_api/group"/>
+   </component>
+   <component id="wlan_hal_api" name="WLAN HAL API" class="api" filter="s60">
+    <meta rel="Api" href="wlan_plat/wlan_hal_api/wlan_hal_api.metaxml"/>
+    <unit bldFile="wlan_plat/wlan_hal_api/group"/>
+   </component>
+   <component id="wlan_management_api" name="WLAN Management API" class="api" filter="s60">
+    <meta rel="Api" href="wlan_plat/wlan_management_api/wlan_management_api.metaxml"/>
+    <unit bldFile="wlan_plat/wlan_management_api/group"/>
+   </component>
+   <component id="wlan_device_settings_api" name="WLAN Device Settings API" class="api" filter="s60">
+    <meta rel="Api" href="wlan_plat/wlan_device_settings_api/wlan_device_settings_api.metaxml"/>
+    <unit bldFile="wlan_plat/wlan_device_settings_api/group"/>
+   </component>
+   <component id="wlan_control_api" name="WLAN Control API" class="api" filter="s60">
+    <meta rel="Api" href="wlan_plat/wlan_control_api/wlan_control_api.metaxml"/>
+    <unit bldFile="wlan_plat/wlan_control_api/group"/>
+   </component>
+   <component id="wlan_hw_initialization_data_api" name="WLAN Hardware Initialization Data API" class="api" filter="s60">
+    <meta rel="Api" href="wlan_plat/wlan_hw_initialization_data_api/wlan_hw_initialization_data_api.metaxml"/>
+    <unit bldFile="wlan_plat/wlan_hw_initialization_data_api/group"/>
+   </component>
+   <component id="wlan_power_save_plugin_api" name="WLAN Power Save Plugin API" class="api" filter="s60">
+    <meta rel="Api" href="wlan_plat/wlan_power_save_plugin_api/wlan_power_save_plugin_api.metaxml"/>
+    <unit bldFile="wlan_plat/wlan_power_save_plugin_api/group"/>
+   </component>
+   <component id="wlan_info_api" name="WLAN Info API" class="api" filter="s60">
+    <meta rel="Api" href="wlan_plat/wlan_info_api/wlan_info_api.metaxml"/>
+    <unit bldFile="wlan_plat/wlan_info_api/group"/>
+   </component>
+   <component id="wlan_agent_hotspot_plugin_api" name="WLAN Agent Hotspot Plug-in API" class="api" filter="s60">
+    <meta rel="Api" href="wlan_plat/wlan_agent_hotspot_plugin_api/wlan_agent_hotspot_plugin_api.metaxml"/>
+    <unit bldFile="wlan_plat/wlan_agent_hotspot_plugin_api/group"/>
+   </component>
+   <component id="wlan_osa_api" name="WLAN OSA API" class="api" filter="s60">
+    <meta rel="Api" href="wlan_plat/wlan_osa_api/wlan_osa_api.metaxml"/>
+    <unit bldFile="wlan_plat/wlan_osa_api/group"/>
+   </component>
+   <component id="wlan_busaccess_api" name="WLAN Bus Access API" class="api" filter="s60">
+    <meta rel="Api" href="wlan_plat/wlan_busaccess_api/wlan_busaccess_api.metaxml"/>
+    <unit bldFile="wlan_plat/wlan_busaccess_api/group"/>
+   </component>
+   <component id="wlan_hpa_api" name="WLAN HPA API" class="api" filter="s60">
+    <meta rel="Api" href="wlan_plat/wlan_hpa_api/wlan_hpa_api.metaxml"/>
+    <unit bldFile="wlan_plat/wlan_hpa_api/group"/>
+   </component>
+   <component id="wlan_eapol_plugin_api" name="WLAN EAPOL Plugin API" class="api" filter="s60">
+    <meta rel="Api" href="wlan_plat/wlan_eapol_plugin_api/wlan_eapol_plugin_api.metaxml"/>
+    <unit bldFile="wlan_plat/wlan_eapol_plugin_api/group"/>
+   </component>
+   <component id="wlan_generic_plugin_api" name="WLAN Generic Plugin API" class="api" filter="s60">
+    <meta rel="Api" href="wlan_plat/wlan_generic_plugin_api/wlan_generic_plugin_api.metaxml"/>
+    <unit bldFile="wlan_plat/wlan_generic_plugin_api/group"/>
+   </component>
+   <component id="wlan_aws_plugin_api" name="WLAN AWS Plugin API" class="api" filter="s60">
+    <meta rel="Api" href="wlan_plat/wlan_aws_plugin_api/wlan_aws_plugin_api.metaxml"/>
+    <unit bldFile="wlan_plat/wlan_aws_plugin_api/group"/>
+   </component>
+  </collection>
+  <collection id="wlan_pub" name="WLAN Public Interfaces" level="test">
+   <component id="wlan_sdk_info_api" name="WLAN SDK Info API" class="api" filter="s60">
+    <meta rel="Api" href="wlan_pub/wlan_sdk_info_api/wlan_sdk_info_api.metaxml"/>
+    <unit bldFile="wlan_pub/wlan_sdk_info_api/group"/>
+   </component>
+  </collection>
+  <collection id="wlan_bearer" name="WLAN Bearer" level="hw">
+   <component id="wlanpsmplugin" filter="s60" name="WLAN PSM Plugin" class="plugin">
+    <unit bldFile="wlan_bearer/wlanpsmplugin/group"/>
+   </component>
+   <component id="wlanagent" filter="s60" name="WLAN Agent">
+    <unit bldFile="wlan_bearer/wlanagent/group"/>
+   </component>
+   <component id="wlandbif_cd" filter="s60" name="WLAN CommsDat interface">
+    <unit bldFile="wlan_bearer/wlandbif_cd/group"/>
+   </component>
+   <!-- should follow component directory rules for stuff in wlan_symbian/ and put in a single component or split up properly -->
+   <component id="wlanengine" filter="s60" name="WLAN Engine">
+    <unit bldFile="wlan_bearer/wlanengine/wlan_symbian/wlanengine_symbian_3.1/group"/>
+   </component>
+   <component id="wlanldd" filter="s60" name="WLAN LDD">
+    <unit bldFile="wlan_bearer/wlanldd/wlan_symbian/wlanldd_symbian/group"/>
+   </component>
+   <component id="wlannwif" filter="s60" name="WLAN Network Interface">
+    <unit bldFile="wlan_bearer/wlannwif/group"/>
+   </component>
+  </collection>
+ </package>
+</SystemDefinition>

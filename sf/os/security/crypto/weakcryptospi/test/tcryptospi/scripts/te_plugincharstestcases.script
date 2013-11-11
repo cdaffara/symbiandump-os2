@@ -1,0 +1,52 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+PRINT Run all te_plugincharstestcases Suite Tests
+
+//
+LOAD_SUITE Te_CryptoSpi
+//
+
+RUN_PROGRAM cryptospisetup.exe 2
+
+//! @SYMTestCaseID          SEC-CRYPTOSPI-PLUGINCHAR-0001
+//! @SYMTestCaseDesc        PluginCharacteristics
+
+START_TESTCASE SEC-CRYPTOSPI-PLUGINCHAR-0001
+
+RUN_TEST_STEP 100 Te_CryptoSpi PluginCharsCommonStep c:\testdata\tcryptospi\configs\plugincharscommon.ini Main
+
+RUN_TEST_STEP 100 Te_CryptoSpi PluginCharsSymmetricCipherStep c:\testdata\tcryptospi\configs\plugincharssymmetriccipher.ini Main
+
+RUN_TEST_STEP 100 Te_CryptoSpi PluginCharsAsymmetricCipherStep c:\testdata\tcryptospi\configs\plugincharsasymmetriccipher.ini Main
+
+RUN_TEST_STEP 100 Te_CryptoSpi PluginCharsHashStep c:\testdata\tcryptospi\configs\plugincharshash.ini Main
+
+RUN_TEST_STEP 100 Te_CryptoSpi PluginCharsRandomStep c:\testdata\tcryptospi\configs\plugincharsrandom.ini Main
+
+RUN_TEST_STEP 100 Te_CryptoSpi PluginCharsAsymSignStep c:\testdata\tcryptospi\configs\plugincharsasymsign.ini Main
+
+RUN_TEST_STEP 100 Te_CryptoSpi PluginCharsKeyAgreeStep c:\testdata\tcryptospi\configs\plugincharskeyagree.ini Main
+
+RUN_TEST_STEP 100 Te_CryptoSpi PluginCharsAsymKeyPairStep c:\testdata\tcryptospi\configs\plugincharsasymkeypair.ini Main
+
+RUN_TEST_STEP 100 Te_CryptoSpi PluginCharsExtendedStep c:\testdata\tcryptospi\configs\plugincharsextended.ini Main
+
+END_TESTCASE SEC-CRYPTOSPI-PLUGINCHAR-0001
+
+RUN_PROGRAM cryptospisetup.exe
+
+PRINT Complete te_plugincharstestcases 

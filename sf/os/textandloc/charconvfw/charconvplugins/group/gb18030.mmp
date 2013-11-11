@@ -1,0 +1,51 @@
+/*
+* Copyright (c) 2000-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* GB18030 converter implementation
+*
+*/
+
+
+TARGET			gb18030.dll
+TARGETTYPE		PLUGIN
+
+CAPABILITY		All -Tcb
+
+UID				0x10009D8D 0x1028703A
+VENDORID		0x70000001
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+USERINCLUDE		../src/inc
+USERINCLUDE		../inc
+
+SOURCEPATH		../src/plugins
+SOURCE			gb18030.cpp
+
+SOURCEPATH		../resource
+START RESOURCE	gb18030.rss
+TARGETPATH		/resource/charconv
+LANG			sc
+END
+
+START RESOURCE	1028703a.rss
+TARGET			gb18030.rsc
+END
+
+LIBRARY			euser.lib
+LIBRARY			charconv.lib
+LIBRARY			gb2312_shared.lib gbk_shared.lib
+LIBRARY			gb18030_4byte.lib gb18030_diff_gbk.lib
+LIBRARY			ecom.lib convutils.lib
+
+SMPSAFE

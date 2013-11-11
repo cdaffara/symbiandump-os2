@@ -1,0 +1,956 @@
+/*
+* Copyright (c) 2001-2010 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* Certificate management service
+* Generic technology part of CERTMAN
+*
+*/
+
+
+/**
+ @file
+*/
+
+PRJ_PLATFORMS
+DEFAULT
+
+PRJ_EXPORTS
+// specify the source file followed by its destination here
+// copy will be used to copy the source file to its destination
+// If there's no destination then the source file will be copied
+// to the same name in /epoc32/include
+
+../inc/x509cert.h 	 SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(x509cert.h)
+../inc/x509keys.h 	 SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(x509keys.h)
+../inc/pkcs10attr.h	  SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(pkcs10attr.h)
+../inc/pkcs10.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(pkcs10.h)
+../inc/pkcs9attr.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(pkcs9attr.h)
+../inc/asn1cons.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(asn1cons.h)
+../inc/asn1dec.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(asn1dec.h)
+../inc/asn1enc.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(asn1enc.h)
+../inc/x500dn.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(x500dn.h)
+../inc/x520ava.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(x520ava.h)
+
+../inc/signed.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(signed.h)
+../inc/certificateapps_v2.h			SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(certificateapps.h)
+../inc/unifiedcertstore_v2.h		SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(unifiedcertstore.h)
+../inc/unifiedkeystore_v2.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(unifiedkeystore.h)
+../inc/pkixCertChain_v2.h			SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(pkixcertchain.h)
+../inc/pkixvalidationresult_v2.h	SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(pkixvalidationresult.h)
+../inc/x509CertExt_v2.h				SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(x509certext.h)
+../inc/x509constraintext.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(x509constraintext.h)
+
+../inc/x509keyencoder.h				SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(x509keyencoder.h)
+
+../inc/swicertstore.h           SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(swicertstore.h)
+
+
+
+../inc/x509certchain.h		 SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(x509certchain.h)
+
+../inc/X509gn.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(x509gn.h)
+../inc/wtlscert.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(wtlscert.h)
+../inc/wtlsnames.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(wtlsnames.h)
+../inc/wtlskeys.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(wtlskeys.h)
+../inc/wtlscertchain.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(wtlscertchain.h)
+../inc/pkcs7excert.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(pkcs7excert.h)
+../inc/pkcs7issuerserial.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(pkcs7issuerserial.h)
+
+
+../inc/cmssignedobject.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(cmssignedobject.h)
+../inc/cmssignerinfo.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(cmssignerinfo.h)
+../inc/cmscontentinfo.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(cmscontentinfo.h)
+../inc/cmscertchoice.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(cmscertchoice.h)
+../inc/cmssigneridentifier.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(cmssigneridentifier.h)
+../inc/cmsdefs.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(cmsdefs.h)
+
+
+../inc/pkcs7digestinfo.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(pkcs7digestinfo.h)
+../inc/pkcs7contentinfo_v2.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(pkcs7contentinfo_v2.h)
+../inc/pkcs7encrypteddataobject.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(pkcs7encrypteddataobject.h)
+
+../inc/pkcs12.h                     SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(pkcs12.h)
+../inc/pkcs12attribute.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(pkcs12attribute.h)
+../inc/pkcs12bags.h					SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(pkcs12bags.h)
+../inc/pkcs12macdata.h				SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(pkcs12macdata.h)
+../inc/pkcs12safebag.h				SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(pkcs12safebag.h)
+
+../certstore/cacerts.dat			/epoc32/release/winscw/udeb/z/private/101f72a6/cacerts.dat
+../certstore/cacerts.dat			/epoc32/release/winscw/urel/z/private/101f72a6/cacerts.dat
+../certstore/cacerts.dat			/epoc32/data/z/private/101f72a6/cacerts.dat
+../certstore/certclients.dat		/epoc32/release/winscw/udeb/z/private/101f72a6/certclients.dat
+../certstore/certclients.dat		/epoc32/release/winscw/urel/z/private/101f72a6/certclients.dat
+../certstore/certclients.dat		/epoc32/data/z/private/101f72a6/certclients.dat
+
+//../makecertstore/makecertstore.bat /epoc32/tools/makecertstore.bat
+
+// ROMKIT includes
+../inc/CERTMAN.IBY					/epoc32/rom/include/certman.iby
+../inc/pkcs7.iby					/epoc32/rom/include/pkcs7.iby
+
+
+../inc/pkcs12.iby					/epoc32/rom/include/pkcs12.iby
+
+
+
+
+
+PRJ_TESTEXPORTS
+
+//////////////////////
+// T_PKCS7 - Begin
+../tpkcs7/data/corrupt1 /epoc32/winscw/c/tpkcs7/data/corrupt1
+../tpkcs7/data/corrupt2 /epoc32/winscw/c/tpkcs7/data/corrupt2
+../tpkcs7/data/corrupt3 /epoc32/winscw/c/tpkcs7/data/corrupt3
+../tpkcs7/data/corrupt4 /epoc32/winscw/c/tpkcs7/data/corrupt4
+../tpkcs7/data/noroot1  /epoc32/winscw/c/tpkcs7/data/noroot1
+../tpkcs7/data/expired1 /epoc32/winscw/c/tpkcs7/data/expired1
+../tpkcs7/data/valid1   /epoc32/winscw/c/tpkcs7/data/valid1
+../tpkcs7/data/valid2   /epoc32/winscw/c/tpkcs7/data/valid2
+../tpkcs7/data/valid3   /epoc32/winscw/c/tpkcs7/data/valid3
+
+
+../tpkcs7/scripts/tpkcs7_v2.script /epoc32/winscw/c/tpkcs7/tpkcs7_v2.script
+../tpkcs7/scripts/tpkcs7_v2.ini    /epoc32/winscw/c/tpkcs7/tpkcs7_v2.ini
+../tpkcs7/scripts/tcms.script /epoc32/winscw/c/tpkcs7/tcms.script
+../tpkcs7/scripts/tcms.ini /epoc32/winscw/c/tpkcs7/tcms.ini
+../tpkcs7/scripts/tinteg_cms.script /epoc32/winscw/c/tpkcs7/tinteg_cms.script
+../tpkcs7/scripts/tinteg_cms.ini /epoc32/winscw/c/tpkcs7/tinteg_cms.ini
+
+
+../tpkcs7/data/empty	                			/epoc32/winscw/c/tpkcs7/data/empty
+../tpkcs7/data/pkcs7_encrypteddata_corrupt2         		/epoc32/winscw/c/tpkcs7/data/pkcs7_encrypteddata_corrupt2
+../tpkcs7/data/SHA1AndDES-CBC                                   /epoc32/winscw/c/tpkcs7/data/sha1anddes-cbc
+
+
+
+//CMS Test data Content root and additional cert
+../tpkcs7/data/cms/datacontent.txt				/epoc32/winscw/c/tpkcs7/cms/data/datacontent.txt
+
+
+
+//CMS Test data Content root and additional cert from integ
+../tpkcs7/data/cms/int_datacontent.txt			       	/epoc32/winscw/c/tpkcs7/cms/data/int_datacontent.txt
+../tpkcs7/data/cms/int_large_data.txt			       	/epoc32/winscw/c/tpkcs7/cms/data/int_large_data.txt
+../tpkcs7/data/cms/int_small_data.txt			       	/epoc32/winscw/c/tpkcs7/cms/data/int_small_data.txt
+
+
+
+//CMS Test Certificates and key					
+
+
+//CMS expected signed data result
+
+
+
+
+
+
+
+//CMS expected signed data result form integ 
+
+../tpkcs7/data/rootcertificate   /epoc32/winscw/c/tpkcs7/data/rootcertificate
+
+// T_PKCS7 - End
+//////////////////////
+
+////////////////////////////////
+// New TPKCS10 TEF version
+
+// Batchfiles for pre and post test-run cleanup
+../tpkcs10/batchfiles/t_pkcs10_backup.bat	/epoc32/winscw/c/tpkcs10/batchfiles/t_pkcs10_backup.bat
+../tpkcs10/batchfiles/t_pkcs10_cleanup.bat	/epoc32/winscw/c/tpkcs10/batchfiles/t_pkcs10_cleanup.bat
+
+// scripts
+../tpkcs10/scripts/tpkcs10_v2.script  /epoc32/winscw/c/tpkcs10/scripts/tpkcs10_v2.script
+../tpkcs10/scripts/tpkcs10_v2.ini     /epoc32/winscw/c/tpkcs10/scripts/tpkcs10_v2.ini
+
+// keys 
+
+// v3Extentions data
+
+// Openssl cert requests
+
+
+
+//  End of New TPKCS10 TEF version
+////////////////////////////////////
+
+//////////////////////
+// TASN1 - Begin
+
+// These scripts are new for TASN1
+
+../tasn1/scripts/tasn1.script	/epoc32/winscw/c/tasn1/scripts/tasn1.script
+../tasn1/scripts/tasn1.ini	/epoc32/winscw/c/tasn1/scripts/tasn1.ini
+
+../tasn1/scripts/tasn1-oom.txt  /epoc32/winscw/c/tasn1/scripts/tasn1-oom.txt
+
+// Batchfiles for post test-run cleanup
+../tasn1/scripts/batchfiles/tasn1_cleanup.bat	/epoc32/winscw/c/tasn1/scripts/batchfiles/tasn1_cleanup.bat
+
+// TASN1 - End
+//////////////////////
+
+//T_PKCS12_INTEGRATION_BEGIN	
+../tpkcs12intgrtn/data/tpkcs12lib.script  /epoc32/winscw/c/tpkcs12intg/data/tpkcs12lib.script
+../tpkcs12intgrtn/data/ini/im001.ini  /epoc32/winscw/c/tpkcs12intg/data/ini/im001.ini
+../tpkcs12intgrtn/data/ini/im002.ini  /epoc32/winscw/c/tpkcs12intg/data/ini/im002.ini
+../tpkcs12intgrtn/data/ini/pm001.ini  /epoc32/winscw/c/tpkcs12intg/data/ini/pm001.ini
+../tpkcs12intgrtn/data/ini/pm002.ini  /epoc32/winscw/c/tpkcs12intg/data/ini/pm002.ini
+../tpkcs12intgrtn/data/ini/pm003.ini  /epoc32/winscw/c/tpkcs12intg/data/ini/pm003.ini
+../tpkcs12intgrtn/data/ini/pm004.ini  /epoc32/winscw/c/tpkcs12intg/data/ini/pm004.ini
+../tpkcs12intgrtn/data/ini/pm005.ini  /epoc32/winscw/c/tpkcs12intg/data/ini/pm005.ini
+../tpkcs12intgrtn/data/ini/pm006.ini  /epoc32/winscw/c/tpkcs12intg/data/ini/pm006.ini
+../tpkcs12intgrtn/data/ini/pm007.ini  /epoc32/winscw/c/tpkcs12intg/data/ini/pm007.ini
+../tpkcs12intgrtn/data/ini/pm008.ini  /epoc32/winscw/c/tpkcs12intg/data/ini/pm008.ini
+../tpkcs12intgrtn/data/ini/pm010.ini  /epoc32/winscw/c/tpkcs12intg/data/ini/pm010.ini
+../tpkcs12intgrtn/data/ini/sb001.ini  /epoc32/winscw/c/tpkcs12intg/data/ini/sb001.ini
+../tpkcs12intgrtn/data/ini/sb002.ini  /epoc32/winscw/c/tpkcs12intg/data/ini/sb002.ini
+../tpkcs12intgrtn/data/ini/sb003.ini  /epoc32/winscw/c/tpkcs12intg/data/ini/sb003.ini
+../tpkcs12intgrtn/data/ini/cb001.ini  /epoc32/winscw/c/tpkcs12intg/data/ini/cb001.ini
+../tpkcs12intgrtn/data/ini/cb002.ini  /epoc32/winscw/c/tpkcs12intg/data/ini/cb002.ini
+../tpkcs12intgrtn/data/ini/cb003.ini  /epoc32/winscw/c/tpkcs12intg/data/ini/cb003.ini
+../tpkcs12intgrtn/data/ini/cb004.ini  /epoc32/winscw/c/tpkcs12intg/data/ini/cb004.ini
+../tpkcs12intgrtn/data/ini/cb005.ini  /epoc32/winscw/c/tpkcs12intg/data/ini/cb005.ini
+../tpkcs12intgrtn/data/ini/cb006.ini  /epoc32/winscw/c/tpkcs12intg/data/ini/cb006.ini
+../tpkcs12intgrtn/data/ini/ci001.ini  /epoc32/winscw/c/tpkcs12intg/data/ini/ci001.ini
+../tpkcs12intgrtn/data/ini/ci002.ini  /epoc32/winscw/c/tpkcs12intg/data/ini/ci002.ini
+../tpkcs12intgrtn/data/ini/iv001.ini  /epoc32/winscw/c/tpkcs12intg/data/ini/iv001.ini
+../tpkcs12intgrtn/data/ini/ct001.ini  /epoc32/winscw/c/tpkcs12intg/data/ini/ct001.ini
+../tpkcs12intgrtn/data/ini/pm009.ini  /epoc32/winscw/c/tpkcs12intg/data/ini/pm009.ini
+
+
+//negative tests
+../tpkcs12intgrtn/data/ini/changetag.ini		/epoc32/winscw/c/tpkcs12intg/data/ini/changetag.ini
+../tpkcs12intgrtn/data/ini/attributevaluechanged.ini	/epoc32/winscw/c/tpkcs12intg/data/ini/attributevaluechanged.ini
+../tpkcs12intgrtn/data/ini/corruptbagalgid.ini	/epoc32/winscw/c/tpkcs12intg/data/ini/corruptbagalgid.ini
+../tpkcs12intgrtn/data/ini/corruptdigestalg_case1.ini	/epoc32/winscw/c/tpkcs12intg/data/ini/corruptdigestalg_case1.ini
+../tpkcs12intgrtn/data/ini/corruptdigestalg_case2.ini	/epoc32/winscw/c/tpkcs12intg/data/ini/corruptdigestalg_case2.ini
+../tpkcs12intgrtn/data/ini/corruptedalgid.ini		/epoc32/winscw/c/tpkcs12intg/data/ini/corruptedalgid.ini
+../tpkcs12intgrtn/data/ini/corruptedshroudedval.ini	/epoc32/winscw/c/tpkcs12intg/data/ini/corruptedshroudedval.ini
+../tpkcs12intgrtn/data/ini/corruptedversion.ini	/epoc32/winscw/c/tpkcs12intg/data/ini/corruptedversion.ini
+../tpkcs12intgrtn/data/ini/digestcorrupted.ini	/epoc32/winscw/c/tpkcs12intg/data/ini/digestcorrupted.ini
+../tpkcs12intgrtn/data/ini/emptycontentinfo.ini	/epoc32/winscw/c/tpkcs12intg/data/ini/emptycontentinfo.ini
+../tpkcs12intgrtn/data/ini/emptydigest.ini		/epoc32/winscw/c/tpkcs12intg/data/ini/emptydigest.ini
+../tpkcs12intgrtn/data/ini/encryptedcontentabsent.ini	/epoc32/winscw/c/tpkcs12intg/data/ini/encryptedcontentabsent.ini
+../tpkcs12intgrtn/data/ini/encrypteddataabsent.ini	/epoc32/winscw/c/tpkcs12intg/data/ini/encrypteddataabsent.ini
+../tpkcs12intgrtn/data/ini/contentinfotypeunsupported.ini		/epoc32/winscw/c/tpkcs12intg/data/ini/contentinfotypeunsupported.ini
+../tpkcs12intgrtn/data/ini/corruptedencryptedconiteration_case1.ini	/epoc32/winscw/c/tpkcs12intg/data/ini/corruptedencryptedconiteration_case1.ini
+../tpkcs12intgrtn/data/ini/corruptedencryptedconiteration_case2.ini	/epoc32/winscw/c/tpkcs12intg/data/ini/corruptedencryptedconiteration_case2.ini
+../tpkcs12intgrtn/data/ini/corruptedencryptedcontent.ini		/epoc32/winscw/c/tpkcs12intg/data/ini/corruptedencryptedcontent.ini
+../tpkcs12intgrtn/data/ini/corruptedencryptedconversion.ini		/epoc32/winscw/c/tpkcs12intg/data/ini/corruptedencryptedconversion.ini
+../tpkcs12intgrtn/data/ini/corruptedshroudediteration_case1.ini	/epoc32/winscw/c/tpkcs12intg/data/ini/corruptedshroudediteration_case1.ini
+../tpkcs12intgrtn/data/ini/corruptedshroudediteration_case2.ini	/epoc32/winscw/c/tpkcs12intg/data/ini/corruptedshroudediteration_case2.ini
+../tpkcs12intgrtn/data/ini/encrypteddatasaltcorrupted.ini		/epoc32/winscw/c/tpkcs12intg/data/ini/encrypteddatasaltcorrupted.ini
+../tpkcs12intgrtn/data/ini/encryptedusingdifferentalg.ini		/epoc32/winscw/c/tpkcs12intg/data/ini/encryptedusingdifferentalg.ini
+
+
+../tpkcs12intgrtn/data/ini/authsafe_contentnotoctetstring.ini	/epoc32/winscw/c/tpkcs12intg/data/ini/authsafe_contentnotoctetstring.ini
+../tpkcs12intgrtn/data/ini/authsafe_contentnotsequence.ini	/epoc32/winscw/c/tpkcs12intg/data/ini/authsafe_contentnotsequence.ini
+../tpkcs12intgrtn/data/ini/authsafe_notasequence.ini			/epoc32/winscw/c/tpkcs12intg/data/ini/authsafe_notasequence.ini
+../tpkcs12intgrtn/data/ini/authsafe_oidnotoctetstring.ini		/epoc32/winscw/c/tpkcs12intg/data/ini/authsafe_oidnotoctetstring.ini
+../tpkcs12intgrtn/data/ini/digestalgorithmnotasequence.ini	/epoc32/winscw/c/tpkcs12intg/data/ini/digestalgorithmnotasequence.ini
+../tpkcs12intgrtn/data/ini/macdata_iterationnotinteger.ini	/epoc32/winscw/c/tpkcs12intg/data/ini/macdata_iterationnotinteger.ini
+../tpkcs12intgrtn/data/ini/macdata_negiteration.ini			/epoc32/winscw/c/tpkcs12intg/data/ini/macdata_negiteration.ini
+../tpkcs12intgrtn/data/ini/macdata_nosalt_noiteration.ini		/epoc32/winscw/c/tpkcs12intg/data/ini/macdata_nosalt_noiteration.ini
+../tpkcs12intgrtn/data/ini/macdatanotasequence.ini			/epoc32/winscw/c/tpkcs12intg/data/ini/macdatanotasequence.ini
+../tpkcs12intgrtn/data/ini/macdataverifyintegritydigestalgnotsha1.ini	/epoc32/winscw/c/tpkcs12intg/data/ini/macdataverifyintegritydigestalgnotsha1.ini
+../tpkcs12intgrtn/data/ini/macsaltnotasequence.ini			/epoc32/winscw/c/tpkcs12intg/data/ini/macsaltnotasequence.ini
+../tpkcs12intgrtn/data/ini/pfx_missingcontents1.ini			/epoc32/winscw/c/tpkcs12intg/data/ini/pfx_missingcontents1.ini
+../tpkcs12intgrtn/data/ini/pfx_notasequence.ini				/epoc32/winscw/c/tpkcs12intg/data/ini/pfx_notasequence.ini
+../tpkcs12intgrtn/data/ini/version_notinteger.ini				/epoc32/winscw/c/tpkcs12intg/data/ini/version_notinteger.ini
+../tpkcs12intgrtn/data/ini/digestinfonotasequence.ini			/epoc32/winscw/c/tpkcs12intg/data/ini/digestinfonotasequence.ini
+../tpkcs12intgrtn/data/ini/unsupported_contenttype.ini		/epoc32/winscw/c/tpkcs12intg/data/ini/unsupported_contenttype.ini
+../tpkcs12intgrtn/data/ini/certbag_notasequence.ini			/epoc32/winscw/c/tpkcs12intg/data/ini/certbag_notasequence.ini
+../tpkcs12intgrtn/data/ini/certbag_oidnotoctetstring.ini		/epoc32/winscw/c/tpkcs12intg/data/ini/certbag_oidnotoctetstring.ini
+../tpkcs12intgrtn/data/ini/certbag_explicittagchanged.ini		/epoc32/winscw/c/tpkcs12intg/data/ini/certbag_explicittagchanged.ini
+../tpkcs12intgrtn/data/ini/certbag_notoctetstring.ini			/epoc32/winscw/c/tpkcs12intg/data/ini/certbag_notoctetstring.ini
+../tpkcs12intgrtn/data/ini/bagattributenotaseq.ini				/epoc32/winscw/c/tpkcs12intg/data/ini/bagattributenotaseq.ini						
+../tpkcs12intgrtn/data/ini/bagattributeoid_notoctet.ini			/epoc32/winscw/c/tpkcs12intg/data/ini/bagattributeoid_notoctet.ini			
+../tpkcs12intgrtn/data/ini/bagattributeval_notset.ini				/epoc32/winscw/c/tpkcs12intg/data/ini/bagattributeval_notset.ini			
+//OOMTest
+../tpkcs12intgrtn/data/ini/oomtest.ini		/epoc32/winscw/c/tpkcs12intg/data/ini/oomtest.ini
+
+
+
+//T_PKCS12_INTEGRATION_TESTDATA_BEGIN
+../tpkcs12intgrtn/data/pkcs12_im001.p12  /epoc32/winscw/c/tpkcs12intg/data/pkcs12_im001.p12
+../tpkcs12intgrtn/data/pkcs12_im002.p12  /epoc32/winscw/c/tpkcs12intg/data/pkcs12_im002.p12
+../tpkcs12intgrtn/data/pkcs12_pm001.p12  /epoc32/winscw/c/tpkcs12intg/data/pkcs12_pm001.p12
+../tpkcs12intgrtn/data/pkcs12_pm002.p12  /epoc32/winscw/c/tpkcs12intg/data/pkcs12_pm002.p12
+../tpkcs12intgrtn/data/pkcs12_pm003.p12  /epoc32/winscw/c/tpkcs12intg/data/pkcs12_pm003.p12
+../tpkcs12intgrtn/data/pkcs12_pm004.p12  /epoc32/winscw/c/tpkcs12intg/data/pkcs12_pm004.p12
+../tpkcs12intgrtn/data/pkcs12_pm005.p12  /epoc32/winscw/c/tpkcs12intg/data/pkcs12_pm005.p12
+../tpkcs12intgrtn/data/pkcs12_pm006.p12  /epoc32/winscw/c/tpkcs12intg/data/pkcs12_pm006.p12
+../tpkcs12intgrtn/data/pkcs12_pm007.p12  /epoc32/winscw/c/tpkcs12intg/data/pkcs12_pm007.p12
+../tpkcs12intgrtn/data/pkcs12_pm008.p12  /epoc32/winscw/c/tpkcs12intg/data/pkcs12_pm008.p12
+../tpkcs12intgrtn/data/pkcs12_pm009.p12  /epoc32/winscw/c/tpkcs12intg/data/pkcs12_pm009.p12
+
+../tpkcs12intgrtn/data/pkcs12_pm010.p12  /epoc32/winscw/c/tpkcs12intg/data/pkcs12_pm010.p12
+../tpkcs12intgrtn/data/pkcs12_ci001.p12  /epoc32/winscw/c/tpkcs12intg/data/pkcs12_ci001.p12
+../tpkcs12intgrtn/data/pkcs12_ci002.p12  /epoc32/winscw/c/tpkcs12intg/data/pkcs12_ci002.p12
+../tpkcs12intgrtn/data/pkcs12_sb001.p12  /epoc32/winscw/c/tpkcs12intg/data/pkcs12_sb001.p12
+../tpkcs12intgrtn/data/pkcs12_sb002.p12  /epoc32/winscw/c/tpkcs12intg/data/pkcs12_sb002.p12
+../tpkcs12intgrtn/data/pkcs12_sb003.p12  /epoc32/winscw/c/tpkcs12intg/data/pkcs12_sb003.p12
+../tpkcs12intgrtn/data/pkcs12_cb001.p12  /epoc32/winscw/c/tpkcs12intg/data/pkcs12_cb001.p12
+../tpkcs12intgrtn/data/pkcs12_cb002.p12  /epoc32/winscw/c/tpkcs12intg/data/pkcs12_cb002.p12
+../tpkcs12intgrtn/data/pkcs12_cb003.p12  /epoc32/winscw/c/tpkcs12intg/data/pkcs12_cb003.p12
+../tpkcs12intgrtn/data/pkcs12_cb004.p12  /epoc32/winscw/c/tpkcs12intg/data/pkcs12_cb004.p12
+../tpkcs12intgrtn/data/pkcs12_cb005.p12  /epoc32/winscw/c/tpkcs12intg/data/pkcs12_cb005.p12
+../tpkcs12intgrtn/data/pkcs12_cb006.p12  /epoc32/winscw/c/tpkcs12intg/data/pkcs12_cb006.p12
+../tpkcs12intgrtn/data/pkcs12_ct001.p12  /epoc32/winscw/c/tpkcs12intg/data/pkcs12_ct001.p12
+../tpkcs12intgrtn/data/pkcs12_junk.p12  /epoc32/winscw/c/tpkcs12intg/data/pkcs12_junk.p12
+
+// Negative Tests
+../tpkcs12intgrtn/data/pkcs12_changetag.p12		/epoc32/winscw/c/tpkcs12intg/data/pkcs12_changetag.p12
+../tpkcs12intgrtn/data/pkcs12_contenttype.p12  		/epoc32/winscw/c/tpkcs12intg/data/pkcs12_contenttype.p12
+../tpkcs12intgrtn/data/pkcs12_corruptedattrval.p12  	/epoc32/winscw/c/tpkcs12intg/data/pkcs12_corruptedattrval.p12
+../tpkcs12intgrtn/data/pkcs12_corruptedSalt.p12  	/epoc32/winscw/c/tpkcs12intg/data/pkcs12_corruptedsalt.p12
+../tpkcs12intgrtn/data/pkcs12_corruptedshroudedval.p12  /epoc32/winscw/c/tpkcs12intg/data/pkcs12_corruptedshroudedval.p12
+../tpkcs12intgrtn/data/pkcs12_corruptedversion.p12  	/epoc32/winscw/c/tpkcs12intg/data/pkcs12_corruptedversion.p12
+../tpkcs12intgrtn/data/pkcs12_digestalg1.p12  		/epoc32/winscw/c/tpkcs12intg/data/pkcs12_digestalg1.p12
+../tpkcs12intgrtn/data/pkcs12_digestalg2.p12  		/epoc32/winscw/c/tpkcs12intg/data/pkcs12_digestalg2.p12
+../tpkcs12intgrtn/data/pkcs12_digestcorrupted.p12  	/epoc32/winscw/c/tpkcs12intg/data/pkcs12_digestcorrupted.p12
+../tpkcs12intgrtn/data/pkcs12_emptycontentinfo.p12  	/epoc32/winscw/c/tpkcs12intg/data/pkcs12_emptycontentinfo.p12
+../tpkcs12intgrtn/data/pkcs12_emptydigest.p12  		/epoc32/winscw/c/tpkcs12intg/data/pkcs12_emptydigest.p12
+../tpkcs12intgrtn/data/pkcs12_encrypteddataabsent.p12	/epoc32/winscw/c/tpkcs12intg/data/pkcs12_encrypteddataabsent.p12
+../tpkcs12intgrtn/data/pkcs12_unsupportedbag.p12  	/epoc32/winscw/c/tpkcs12intg/data/pkcs12_unsupportedbag.p12
+../tpkcs12intgrtn/data/pkcs12_unsupportedcontentinfo.p12	/epoc32/winscw/c/tpkcs12intg/data/pkcs12_unsupportedcontentinfo.p12
+../tpkcs12intgrtn/data/pkcs12_encryptedcontentabsent.p12	/epoc32/winscw/c/tpkcs12intg/data/pkcs12_encryptedcontentabsent.p12
+../tpkcs12intgrtn/data/pkcs12_attributevaluecorrupted.p12	/epoc32/winscw/c/tpkcs12intg/data/pkcs12_attributevaluecorrupted.p12
+../tpkcs12intgrtn/data/pkcs12_corruptedencryptedcontent.p12  	/epoc32/winscw/c/tpkcs12intg/data/pkcs12_corruptedencryptedcontent.p12
+../tpkcs12intgrtn/data/pkcs12_corruptedshroudediteration1.p12  	/epoc32/winscw/c/tpkcs12intg/data/pkcs12_corruptedshroudediteration1.p12
+../tpkcs12intgrtn/data/pkcs12_corruptedshroudediteration2.p12  	/epoc32/winscw/c/tpkcs12intg/data/pkcs12_corruptedshroudediteration2.p12
+../tpkcs12intgrtn/data/pkcs12_encryptedcontentiteration1.p12  	/epoc32/winscw/c/tpkcs12intg/data/pkcs12_encryptedcontentiteration1.p12
+../tpkcs12intgrtn/data/pkcs12_encryptedcontentiteration2.p12  	/epoc32/winscw/c/tpkcs12intg/data/pkcs12_encryptedcontentiteration2.p12
+../tpkcs12intgrtn/data/pkcs12_encryptedcontentversion.p12  	/epoc32/winscw/c/tpkcs12intg/data/pkcs12_encryptedcontentversion.p12
+../tpkcs12intgrtn/data/pkcs12_encryptedusingdifferentAlg.p12  	/epoc32/winscw/c/tpkcs12intg/data/pkcs12_encryptedusingdifferentalg.p12
+
+../tpkcs12intgrtn/data/pkcs12_authsafe_contentnotoctetstring.p12  	/epoc32/winscw/c/tpkcs12intg/data/pkcs12_authsafe_contentnotoctetstring.p12
+../tpkcs12intgrtn/data/pkcs12_authsafe_contentnotsequence.p12  	/epoc32/winscw/c/tpkcs12intg/data/pkcs12_authsafe_contentnotsequence.p12
+../tpkcs12intgrtn/data/pkcs12_authsafe_notasequence.p12  	/epoc32/winscw/c/tpkcs12intg/data/pkcs12_authsafe_notasequence.p12
+../tpkcs12intgrtn/data/pkcs12_authsafe_oidnotoctetstring.p12  	/epoc32/winscw/c/tpkcs12intg/data/pkcs12_authsafe_oidnotoctetstring.p12
+../tpkcs12intgrtn/data/pkcs12_certbag_explicittagchanged.p12  	/epoc32/winscw/c/tpkcs12intg/data/pkcs12_certbag_explicittagchanged.p12
+../tpkcs12intgrtn/data/pkcs12_certbag_notasequence.p12  	/epoc32/winscw/c/tpkcs12intg/data/pkcs12_certbag_notasequence.p12
+../tpkcs12intgrtn/data/pkcs12_certbag_notoctetstring.p12  	/epoc32/winscw/c/tpkcs12intg/data/pkcs12_certbag_notoctetstring.p12
+../tpkcs12intgrtn/data/pkcs12_certbag_oidnotoctetstring.p12  	/epoc32/winscw/c/tpkcs12intg/data/pkcs12_certbag_oidnotoctetstring.p12
+../tpkcs12intgrtn/data/pkcs12_digestalgnotsha1.p12  	/epoc32/winscw/c/tpkcs12intg/data/pkcs12_digestalgnotsha1.p12
+../tpkcs12intgrtn/data/pkcs12_digestalgorithmnotasequence.p12  	/epoc32/winscw/c/tpkcs12intg/data/pkcs12_digestalgorithmnotasequence.p12
+../tpkcs12intgrtn/data/pkcs12_digestinfonotasequence.p12  	/epoc32/winscw/c/tpkcs12intg/data/pkcs12_digestinfonotasequence.p12
+../tpkcs12intgrtn/data/pkcs12_macdata_iterationnotinteger.p12  	/epoc32/winscw/c/tpkcs12intg/data/pkcs12_macdata_iterationnotinteger.p12
+../tpkcs12intgrtn/data/pkcs12_macdata_negiteration.p12  	/epoc32/winscw/c/tpkcs12intg/data/pkcs12_macdata_negiteration.p12
+../tpkcs12intgrtn/data/pkcs12_macdata_nosalt_noiteration.p12  	/epoc32/winscw/c/tpkcs12intg/data/pkcs12_macdata_nosalt_noiteration.p12
+../tpkcs12intgrtn/data/pkcs12_macdatanotasequence.p12  	/epoc32/winscw/c/tpkcs12intg/data/pkcs12_macdatanotasequence.p12
+../tpkcs12intgrtn/data/pkcs12_macsaltnotoctetstring.p12  	/epoc32/winscw/c/tpkcs12intg/data/pkcs12_macsaltnotoctetstring.p12
+../tpkcs12intgrtn/data/pkcs12_pfx_missingcontents1.p12  	/epoc32/winscw/c/tpkcs12intg/data/pkcs12_pfx_missingcontents1.p12
+../tpkcs12intgrtn/data/pkcs12_pfx_notasequence.p12  	/epoc32/winscw/c/tpkcs12intg/data/pkcs12_pfx_notasequence.p12
+../tpkcs12intgrtn/data/pkcs12_unsupported_contenttype.p12  	/epoc32/winscw/c/tpkcs12intg/data/pkcs12_unsupported_contenttype.p12
+../tpkcs12intgrtn/data/pkcs12_version_notinteger.p12  	/epoc32/winscw/c/tpkcs12intg/data/pkcs12_version_notinteger.p12
+../tpkcs12intgrtn/data/pkcs12_bagattributenotaseq.p12  	/epoc32/winscw/c/tpkcs12intg/data/pkcs12_bagattributenotaseq.p12
+../tpkcs12intgrtn/data/pkcs12_bagattributeoid_notoctet.p12  	/epoc32/winscw/c/tpkcs12intg/data/pkcs12_bagattributeoid_notoctet.p12
+../tpkcs12intgrtn/data/pkcs12_bagattributeval_notset.p12  	/epoc32/winscw/c/tpkcs12intg/data/pkcs12_bagattributeval_notset.p12
+
+//OOM Test
+../tpkcs12intgrtn/data/pkcs12_oomsafecontentencrypteddata.p12	/epoc32/winscw/c/tpkcs12intg/data/pkcs12_oomsafecontentencrypteddata.p12
+
+
+//T_PKCS12_INTEGRATION_TESTDATA_END
+
+// T_PKCS12_Cert and Keys
+
+ 
+../tpkcs12intgrtn/data/root5ca_key.pk8  /epoc32/winscw/c/tpkcs12intg/data/root5ca_key.pk8
+../tpkcs12intgrtn/data/ee_key.pk8  /epoc32/winscw/c/tpkcs12intg/data/ee_key.pk8
+
+../tpkcs12intgrtn/data/pm009_shrouded  /epoc32/winscw/c/tpkcs12intg/data/pm009_shrouded
+
+../tpkcs12intgrtn/data/symbiantestrootcadsa_key.pk8  /epoc32/winscw/c/tpkcs12intg/data/symbiantestrootcadsa_key.pk8
+
+
+
+
+
+// Negative Tests
+../tpkcs12intgrtn/data/attrvalchangedfriendlyname	/epoc32/winscw/c/tpkcs12intg/data/attrvalchangedfriendlyname
+../tpkcs12intgrtn/data/attrvalchangedlocalkeyid	/epoc32/winscw/c/tpkcs12intg/data/attrvalchangedlocalkeyid
+
+../tpkcs12intgrtn/data/cb001_mac      /epoc32/winscw/c/tpkcs12intg/data/cb001_mac
+../tpkcs12intgrtn/data/cb001_macsalt      /epoc32/winscw/c/tpkcs12intg/data/cb001_macsalt
+../tpkcs12intgrtn/data/cb002_mac      /epoc32/winscw/c/tpkcs12intg/data/cb002_mac
+../tpkcs12intgrtn/data/cb002_macsalt      /epoc32/winscw/c/tpkcs12intg/data/cb002_macsalt
+../tpkcs12intgrtn/data/cb003_mac      /epoc32/winscw/c/tpkcs12intg/data/cb003_mac
+../tpkcs12intgrtn/data/cb003_macsalt      /epoc32/winscw/c/tpkcs12intg/data/cb003_macsalt
+../tpkcs12intgrtn/data/cb004_mac      /epoc32/winscw/c/tpkcs12intg/data/cb004_mac
+../tpkcs12intgrtn/data/cb004_macsalt      /epoc32/winscw/c/tpkcs12intg/data/cb004_macsalt
+../tpkcs12intgrtn/data/cb005_mac      /epoc32/winscw/c/tpkcs12intg/data/cb005_mac
+../tpkcs12intgrtn/data/cb005_macsalt      /epoc32/winscw/c/tpkcs12intg/data/cb005_macsalt
+../tpkcs12intgrtn/data/cb006_mac      /epoc32/winscw/c/tpkcs12intg/data/cb006_mac
+../tpkcs12intgrtn/data/cb006_macsalt      /epoc32/winscw/c/tpkcs12intg/data/cb006_macsalt
+../tpkcs12intgrtn/data/im001_mac      /epoc32/winscw/c/tpkcs12intg/data/im001_mac
+../tpkcs12intgrtn/data/im001_macsalt      /epoc32/winscw/c/tpkcs12intg/data/im001_macsalt
+../tpkcs12intgrtn/data/im002_mac      /epoc32/winscw/c/tpkcs12intg/data/im002_mac
+../tpkcs12intgrtn/data/im002_macsalt      /epoc32/winscw/c/tpkcs12intg/data/im002_macsalt
+../tpkcs12intgrtn/data/pm001_mac      /epoc32/winscw/c/tpkcs12intg/data/pm001_mac
+../tpkcs12intgrtn/data/pm001_macsalt      /epoc32/winscw/c/tpkcs12intg/data/pm001_macsalt
+../tpkcs12intgrtn/data/pm002_mac      /epoc32/winscw/c/tpkcs12intg/data/pm002_mac
+../tpkcs12intgrtn/data/pm002_macsalt      /epoc32/winscw/c/tpkcs12intg/data/pm002_macsalt
+../tpkcs12intgrtn/data/pm003_mac      /epoc32/winscw/c/tpkcs12intg/data/pm003_mac
+../tpkcs12intgrtn/data/pm003_macsalt      /epoc32/winscw/c/tpkcs12intg/data/pm003_macsalt
+../tpkcs12intgrtn/data/pm004_mac      /epoc32/winscw/c/tpkcs12intg/data/pm004_mac
+../tpkcs12intgrtn/data/pm004_macsalt      /epoc32/winscw/c/tpkcs12intg/data/pm004_macsalt
+../tpkcs12intgrtn/data/pm005_mac      /epoc32/winscw/c/tpkcs12intg/data/pm005_mac
+../tpkcs12intgrtn/data/pm005_macsalt      /epoc32/winscw/c/tpkcs12intg/data/pm005_macsalt
+../tpkcs12intgrtn/data/pm006_mac      /epoc32/winscw/c/tpkcs12intg/data/pm006_mac
+../tpkcs12intgrtn/data/pm006_macsalt      /epoc32/winscw/c/tpkcs12intg/data/pm006_macsalt
+../tpkcs12intgrtn/data/pm007_mac      /epoc32/winscw/c/tpkcs12intg/data/pm007_mac
+../tpkcs12intgrtn/data/pm007_macsalt      /epoc32/winscw/c/tpkcs12intg/data/pm007_macsalt
+../tpkcs12intgrtn/data/pm008_mac      /epoc32/winscw/c/tpkcs12intg/data/pm008_mac
+../tpkcs12intgrtn/data/pm008_macsalt      /epoc32/winscw/c/tpkcs12intg/data/pm008_macsalt
+../tpkcs12intgrtn/data/pm010_mac      /epoc32/winscw/c/tpkcs12intg/data/pm010_mac
+../tpkcs12intgrtn/data/pm010_macsalt      /epoc32/winscw/c/tpkcs12intg/data/pm010_macsalt
+
+../tpkcs12intgrtn/data/sb001_mac      /epoc32/winscw/c/tpkcs12intg/data/sb001_mac
+../tpkcs12intgrtn/data/sb001_macsalt      /epoc32/winscw/c/tpkcs12intg/data/sb001_macsalt
+
+../tpkcs12intgrtn/data/sb002_mac      /epoc32/winscw/c/tpkcs12intg/data/sb002_mac
+../tpkcs12intgrtn/data/sb002_macsalt      /epoc32/winscw/c/tpkcs12intg/data/sb002_macsalt
+
+../tpkcs12intgrtn/data/sb003_mac      /epoc32/winscw/c/tpkcs12intg/data/sb003_mac
+../tpkcs12intgrtn/data/sb003_macsalt      /epoc32/winscw/c/tpkcs12intg/data/sb003_macsalt
+
+../tpkcs12intgrtn/data/ci001_mac      /epoc32/winscw/c/tpkcs12intg/data/ci001_mac
+../tpkcs12intgrtn/data/ci001_macsalt      /epoc32/winscw/c/tpkcs12intg/data/ci001_macsalt
+
+../tpkcs12intgrtn/data/ci002_mac      /epoc32/winscw/c/tpkcs12intg/data/ci002_mac
+../tpkcs12intgrtn/data/ci002_macsalt      /epoc32/winscw/c/tpkcs12intg/data/ci002_macsalt
+
+../tpkcs12intgrtn/data/ct001_mac      /epoc32/winscw/c/tpkcs12intg/data/ct001_mac
+../tpkcs12intgrtn/data/ct001_macsalt      /epoc32/winscw/c/tpkcs12intg/data/ct001_macsalt
+
+
+
+//T_PKCS12_INTEGRATION_END
+///////////////////////
+
+///////////////////////
+// TCertstore - Begin
+
+// Script file
+
+
+../tcertstore/scripts/unifiedcertstore1-conf1.script	/epoc32/winscw/c/tcertstore/scripts/unifiedcertstore1-conf1.script
+../tcertstore/scripts/unifiedcertstore2-conf1.script	/epoc32/winscw/c/tcertstore/scripts/unifiedcertstore2-conf1.script
+../tcertstore/scripts/unifiedcertstore3-conf1.script	/epoc32/winscw/c/tcertstore/scripts/unifiedcertstore3-conf1.script
+../tcertstore/scripts/unifiedcertstore1-conf2.script	/epoc32/winscw/c/tcertstore/scripts/unifiedcertstore1-conf2.script
+../tcertstore/scripts/unifiedcertstore2-conf2.script	/epoc32/winscw/c/tcertstore/scripts/unifiedcertstore2-conf2.script
+../tcertstore/scripts/unifiedcertstore3-conf2.script	/epoc32/winscw/c/tcertstore/scripts/unifiedcertstore3-conf2.script
+../tcertstore/scripts/unifiedcertstore1-conf3.script	/epoc32/winscw/c/tcertstore/scripts/unifiedcertstore1-conf3.script
+../tcertstore/scripts/unifiedcertstore2-conf3.script	/epoc32/winscw/c/tcertstore/scripts/unifiedcertstore2-conf3.script
+../tcertstore/scripts/unifiedcertstore2-conf2a.script	/epoc32/winscw/c/tcertstore/scripts/unifiedcertstore2-conf2a.script
+../tcertstore/scripts/unifiedcertstore3-conf3.script	/epoc32/winscw/c/tcertstore/scripts/unifiedcertstore3-conf3.script
+
+
+../tcertstore/scripts/unifiedcertstore1-conf1.ini	/epoc32/winscw/c/tcertstore/scripts/unifiedcertstore1-conf1.ini
+../tcertstore/scripts/unifiedcertstore2-conf1.ini	/epoc32/winscw/c/tcertstore/scripts/unifiedcertstore2-conf1.ini
+../tcertstore/scripts/unifiedcertstore3-conf1.ini	/epoc32/winscw/c/tcertstore/scripts/unifiedcertstore3-conf1.ini
+../tcertstore/scripts/unifiedcertstore1-conf2.ini	/epoc32/winscw/c/tcertstore/scripts/unifiedcertstore1-conf2.ini
+../tcertstore/scripts/unifiedcertstore2-conf2.ini	/epoc32/winscw/c/tcertstore/scripts/unifiedcertstore2-conf2.ini
+../tcertstore/scripts/unifiedcertstore3-conf2.ini	/epoc32/winscw/c/tcertstore/scripts/unifiedcertstore3-conf2.ini
+../tcertstore/scripts/unifiedcertstore1-conf3.ini	/epoc32/winscw/c/tcertstore/scripts/unifiedcertstore1-conf3.ini
+../tcertstore/scripts/unifiedcertstore2-conf3.ini	/epoc32/winscw/c/tcertstore/scripts/unifiedcertstore2-conf3.ini
+../tcertstore/scripts/unifiedcertstore2-conf2a.ini	/epoc32/winscw/c/tcertstore/scripts/unifiedcertstore2-conf2a.ini
+../tcertstore/scripts/unifiedcertstore3-conf3.ini	/epoc32/winscw/c/tcertstore/scripts/unifiedcertstore3-conf3.ini
+
+
+
+
+
+
+
+
+//	30/09/2002 New certificates and RSA key pairs added by JCS for certstore testing
+
+//	Keys (should be imported to keystore before testing)
+
+../tcertstore/tdata/pkcs8dsa1.001	/epoc32/winscw/c/tcertstore/data/pkcs8dsa1.001
+
+../tcertstore/tdata/rsacertkey1.txt	/epoc32/winscw/c/tcertstore/data/rsacertkey1.txt
+../tcertstore/tdata/rsacertkey2.txt	/epoc32/winscw/c/tcertstore/data/rsacertkey2.txt
+../tcertstore/tdata/rsacertkey3.txt	/epoc32/winscw/c/tcertstore/data/rsacertkey3.txt
+../tcertstore/tdata/nrcertkey.txt		/epoc32/winscw/c/tcertstore/data/nrcertkey.txt
+../tcertstore/tdata/signcertkey2.txt	/epoc32/winscw/c/tcertstore/data/signcertkey2.txt
+../tcertstore/tdata/enciphersigncertkey2.txt	/epoc32/winscw/c/tcertstore/data/enciphersigncertkey2.txt
+../tcertstore/tdata/SelfSignedPrivateKey_pk8.pk8	/epoc32/winscw/c/tcertstore/data/SelfSignedPrivateKey_pk8.pk8
+
+../tcertstore/scripts/certstoreconcurrent1.txt		/epoc32/winscw/c/tcertstoreconcurrent/scripts/certstoreconcurrent1.txt
+../tcertstore/scripts/certstoreconcurrent2.txt		/epoc32/winscw/c/tcertstoreconcurrent/scripts/certstoreconcurrent2.txt
+../tcertstore/scripts/certstoreconcurrent3.txt		/epoc32/winscw/c/tcertstoreconcurrent/scripts/certstoreconcurrent3.txt
+../tcertstore/scripts/cancel2.txt			/epoc32/winscw/c/tcertstore/scripts/cancel2.txt
+../tcertstore/scripts/dsa.txt				/epoc32/winscw/c/tcertstore/scripts/dsa.txt
+
+
+../tcertstore/scripts/certstoreconcurrent1.script	/epoc32/winscw/c/tcertstoreconcurrent/scripts/certstoreconcurrent1.script
+../tcertstore/scripts/certstoreconcurrent2.script		/epoc32/winscw/c/tcertstoreconcurrent/scripts/certstoreconcurrent2.script
+../tcertstore/scripts/certstoreconcurrent3.script		/epoc32/winscw/c/tcertstoreconcurrent/scripts/certstoreconcurrent3.script
+../tcertstore/scripts/cancel1.script			/epoc32/winscw/c/tcertstore/scripts/cancel1.script
+../tcertstore/scripts/cancel2.script			/epoc32/winscw/c/tcertstore/scripts/cancel2.script
+../tcertstore/scripts/dsa.script				/epoc32/winscw/c/tcertstore/scripts/dsa.script
+../tcertstore/scripts/oom1.script			/epoc32/winscw/c/tcertstore/scripts/oom1.script
+../tcertstore/scripts/oom2.script			/epoc32/winscw/c/tcertstore/scripts/oom2.script
+../tcertstore/scripts/oom3.script			/epoc32/winscw/c/tcertstore/scripts/oom3.script
+
+
+../tcertstore/scripts/certstoreconcurrent1.ini		/epoc32/winscw/c/tcertstoreconcurrent/scripts/certstoreconcurrent1.ini
+../tcertstore/scripts/certstoreconcurrent2.ini		/epoc32/winscw/c/tcertstoreconcurrent/scripts/certstoreconcurrent2.ini
+../tcertstore/scripts/certstoreconcurrent3.ini		/epoc32/winscw/c/tcertstoreconcurrent/scripts/certstoreconcurrent3.ini
+../tcertstore/scripts/cancel1.ini			/epoc32/winscw/c/tcertstore/scripts/cancel1.ini
+../tcertstore/scripts/cancel2.ini			/epoc32/winscw/c/tcertstore/scripts/cancel2.ini
+../tcertstore/scripts/dsa.ini				/epoc32/winscw/c/tcertstore/scripts/dsa.ini
+../tcertstore/scripts/oom1.ini				/epoc32/winscw/c/tcertstore/scripts/oom1.ini
+../tcertstore/scripts/oom2.ini					/epoc32/winscw/c/tcertstore/scripts/oom2.ini
+../tcertstore/scripts/oom3.ini					/epoc32/winscw/c/tcertstore/scripts/oom3.ini
+
+
+
+../tcertstore/scripts/bldcertstore.txt			/epoc32/winscw/c/tcertstore/scripts/bldcertstore.txt
+../tcertstore/scripts/filecertstore_servoom.txt		/epoc32/winscw/c/tcertstore/scripts/filecertstore_servoom.txt
+
+../tcertstore/scripts/t_handle_1.script				/epoc32/winscw/c/tcertstore/scripts/t_handle_1.script
+../tcertstore/scripts/bldcertstore.script			/epoc32/winscw/c/tcertstore/scripts/bldcertstore.script
+../tcertstore/scripts/reload.script				/epoc32/winscw/c/tcertstore/scripts/reload.script
+../tcertstore/scripts/filecertstore_errors.script		/epoc32/winscw/c/tcertstore/scripts/filecertstore_errors.script
+../tcertstore/scripts/filecertstore_servoom.script		/epoc32/winscw/c/tcertstore/scripts/filecertstore_servoom.script
+../tcertstore/scripts/multiplecertstoresfilter.script	/epoc32/winscw/c/tcertstore/scripts/multiplecertstoresfilter.script
+../tcertstore/scripts/multiplecertstoresfilter1.script	/epoc32/winscw/c/tcertstore/scripts/multiplecertstoresfilter1.script
+../tcertstore/scripts/multiplecertstoresfilter2.script	/epoc32/winscw/c/tcertstore/scripts/multiplecertstoresfilter2.script
+
+
+../tcertstore/scripts/t_handle_1.ini				/epoc32/winscw/c/tcertstore/scripts/t_handle_1.ini
+../tcertstore/scripts/bldcertstore.ini			/epoc32/winscw/c/tcertstore/scripts/bldcertstore.ini
+../tcertstore/scripts/reload.ini				/epoc32/winscw/c/tcertstore/scripts/reload.ini
+../tcertstore/scripts/filecertstore_errors.ini		/epoc32/winscw/c/tcertstore/scripts/filecertstore_errors.ini
+../tcertstore/scripts/filecertstore_servoom.ini		/epoc32/winscw/c/tcertstore/scripts/filecertstore_servoom.ini
+../tcertstore/scripts/multiplecertstoresfilter.ini	/epoc32/winscw/c/tcertstore/scripts/multiplecertstoresfilter.ini
+../tcertstore/scripts/multiplecertstoresfilter1.ini	/epoc32/winscw/c/tcertstore/scripts/multiplecertstoresfilter1.ini
+../tcertstore/scripts/multiplecertstoresfilter2.ini	/epoc32/winscw/c/tcertstore/scripts/multiplecertstoresfilter2.ini
+
+
+../tcertstore/scripts/t_certstore.txt				/epoc32/winscw/c/t_certstore.txt
+../tcertstore/scripts/t_certstore_2.txt				/epoc32/winscw/c/t_certstore_2.txt
+
+../tcertstore/scripts/t_certstore.script				/epoc32/winscw/c/t_certstore.script
+../tcertstore/scripts/t_certstore_2.script				/epoc32/winscw/c/t_certstore_2.script
+
+../tcertstore/scripts/t_certstore.ini				/epoc32/winscw/c/t_certstore.ini
+../tcertstore/scripts/t_certstore_2.ini				/epoc32/winscw/c/t_certstore_2.ini
+../tcertstore/scripts/t_certstore_sha2.script			/epoc32/winscw/c/tcertstore/scripts/t_certstore_sha2.script
+../tcertstore/scripts/t_certstore_sha2.ini			/epoc32/winscw/c/tcertstore/scripts/t_certstore_sha2.ini
+
+
+
+
+../tcertstore/runtest/nightrun.txt		/epoc32/winscw/c/tcertstore/runtest/nightrun.txt
+
+../tcertstore/certstores/test1certstore.dat	/epoc32/winscw/c/system/data/test1certstore.dat
+../tcertstore/certstores/test2certstore.dat	/epoc32/winscw/c/system/data/test2certstore.dat
+../tcertstore/certstores/test1certstore.dat	/epoc32/winscw/c/tcertstore/certstores/test1certstore.dat
+../tcertstore/certstores/test2certstore.dat	/epoc32/winscw/c/tcertstore/certstores/test2certstore.dat
+
+../tcertstore/certstores/test1certstore.dat	/epoc32/winscw/c/system/data/test1simcertstore.dat
+../tcertstore/certstores/test2certstore.dat	/epoc32/winscw/c/system/data/test2simcertstore.dat
+../tcertstore/certstores/test1certstore.dat	/epoc32/winscw/c/tcertstore/certstores/test1simcertstore.dat
+../tcertstore/certstores/test2certstore.dat	/epoc32/winscw/c/tcertstore/certstores/test2simcertstore.dat
+ 
+../tcertstore/certstores/test1certstore.dat	/epoc32/winscw/c/system/data/test1wimcertstore.dat
+../tcertstore/certstores/test2certstore.dat	/epoc32/winscw/c/system/data/test2wimcertstore.dat
+../tcertstore/certstores/test1certstore.dat	/epoc32/winscw/c/tcertstore/certstores/test1wimcertstore.dat
+../tcertstore/certstores/test2certstore.dat	/epoc32/winscw/c/tcertstore/certstores/test2wimcertstore.dat
+ 
+../tcertstore/certstores/test1certstore.dat	/epoc32/winscw/c/system/data/test1uicccertstore.dat
+../tcertstore/certstores/test2certstore.dat	/epoc32/winscw/c/system/data/test2uicccertstore.dat
+../tcertstore/certstores/test1certstore.dat	/epoc32/winscw/c/tcertstore/certstores/test1uicccertstore.dat
+../tcertstore/certstores/test2certstore.dat	/epoc32/winscw/c/tcertstore/certstores/test2uicccertstore.dat
+
+../tcertstore/certstores/test1certstore.dat	/epoc32/winscw/c/system/data/test1deviceimmutablecertstore.dat
+../tcertstore/certstores/test2certstore.dat	/epoc32/winscw/c/system/data/test2deviceimmutablecertstore.dat
+../tcertstore/certstores/test1certstore.dat	/epoc32/winscw/c/tcertstore/certstores/test1deviceimmutablecertstore.dat
+../tcertstore/certstores/test2certstore.dat	/epoc32/winscw/c/tcertstore/certstores/test2deviceimmutablecertstore.dat
+
+// SWI cert store tests (winscw only)
+
+
+../tcertstore/scripts/swicertstore1.script		/epoc32/winscw/c/tcertstore/scripts/swicertstore1.script
+../tcertstore/scripts/swicertstore2.script		/epoc32/winscw/c/tcertstore/scripts/swicertstore2.script
+../tcertstore/scripts/swicertstore3.script		/epoc32/winscw/c/tcertstore/scripts/swicertstore3.script
+../tcertstore/scripts/swicertstore4.script		/epoc32/winscw/c/tcertstore/scripts/swicertstore4.script
+../tcertstore/scripts/wri-swicertstore1.script	/epoc32/winscw/c/tcertstore/scripts/wri-swicertstore1.script // For emulator tests
+../tcertstore/scripts/swicertstore1hw.script	/epoc32/winscw/c/tcertstore/scripts/swicertstore1hw.script // For ROM build
+../tcertstore/scripts/wri-swicertstorehw.script	/epoc32/winscw/c/tcertstore/scripts/wri-swicertstorehw.script // For ROM build
+../tcertstore/scripts/wri-swicertstore2.script	/epoc32/winscw/c/tcertstore/scripts/wri-swicertstore2.script
+../tcertstore/scripts/wri-swicertstore3.script	/epoc32/winscw/c/tcertstore/scripts/wri-swicertstore3.script
+
+
+../tcertstore/scripts/swicertstore1.ini		/epoc32/winscw/c/tcertstore/scripts/swicertstore1.ini
+../tcertstore/scripts/swicertstore2.ini		/epoc32/winscw/c/tcertstore/scripts/swicertstore2.ini
+../tcertstore/scripts/swicertstore3.ini		/epoc32/winscw/c/tcertstore/scripts/swicertstore3.ini
+../tcertstore/scripts/swicertstore4.ini		/epoc32/winscw/c/tcertstore/scripts/swicertstore4.ini
+../tcertstore/scripts/wri-swicertstore1.ini	/epoc32/winscw/c/tcertstore/scripts/wri-swicertstore1.ini // For emulator tests
+../tcertstore/scripts/swicertstore1hw.ini		/epoc32/winscw/c/tcertstore/scripts/swicertstore1hw.ini // For ROM build
+../tcertstore/scripts/wri-swicertstorehw.ini	/epoc32/winscw/c/tcertstore/scripts/wri-swicertstorehw.ini // For ROM build
+../tcertstore/scripts/wri-swicertstore2.ini	/epoc32/winscw/c/tcertstore/scripts/wri-swicertstore2.ini
+../tcertstore/scripts/wri-swicertstore3.ini	/epoc32/winscw/c/tcertstore/scripts/wri-swicertstore3.ini
+
+
+
+
+
+
+../tcertstore/tdata/swicertstore_nonmand.dat		/epoc32/data/z/resource/swicertstore.dat				// For ROM build
+../tcertstore/tdata/swicertstore.dat		/epoc32/winscw/c/tcertstore/data/swicertstore.dat		// For emulator tests
+../tcertstore/tdata/wri-swicertstore.dat	/epoc32/winscw/c/tcertstore/data/wri-swicertstore.dat	// For emulator tests
+
+// Platform security tests (winscw only)
+
+../tcertstore/scripts/apipolicing.script			/epoc32/winscw/c/tcertstore/scripts/apipolicing.script
+../tcertstore/scripts/apipolicing.ini				/epoc32/winscw/c/tcertstore/scripts/apipolicing.ini
+
+// Data
+
+../tcertstore/scripts/certappmanager.txt		/epoc32/winscw/c/certappmanager.txt
+
+../tcertstore/scripts/certappmanager.script		/epoc32/winscw/c/certappmanager.script
+../tcertstore/scripts/certappmanager.ini		/epoc32/winscw/c/certappmanager.ini
+
+
+
+../testdata/00 /epoc32/winscw/c/system/data/wapstore/items/wtls/cacertificate/00
+../testdata/01 /epoc32/winscw/c/system/data/wapstore/items/wtls/cacertificate/01
+../testdata/02 /epoc32/winscw/c/system/data/wapstore/items/wtls/cacertificate/02
+
+//	Certificates
+
+
+// Batchfiles for pre and post test-run cleanup
+../tcertstore/scripts/batchfiles/swicert_backup.bat	/epoc32/winscw/c/tcertstore/scripts/batchfiles/swicert_backup.bat
+../tcertstore/scripts/batchfiles/swicert_backup1.bat	/epoc32/winscw/c/tcertstore/scripts/batchfiles/swicert_backup1.bat
+../tcertstore/scripts/batchfiles/swicert_restore.bat	/epoc32/winscw/c/tcertstore/scripts/batchfiles/swicert_restore.bat
+../tcertstore/scripts/batchfiles/pre_tocsp_backup.bat	/epoc32/winscw/c/tcertstore/scripts/batchfiles/pre_tocsp_backup.bat
+../tcertstore/scripts/batchfiles/post_tocsp_restore.bat	/epoc32/winscw/c/tcertstore/scripts/batchfiles/post_tocsp_restore.bat
+../tcertstore/scripts/batchfiles/post_httpinterface_restore.bat	/epoc32/winscw/c/tcertstore/scripts/batchfiles/post_httpinterface_restore.bat
+
+
+/////////////// Composite Certstores Testing - Support for multiple swicertstores and filecertstores/////////////////////////////////////
+
+// 1. scripts
+// Multiple File cert stores tests (winscw only)
+
+../tcertstore/multiple_certstore/scripts/tfilecertstore01.script       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tfilecertstore01.script 
+../tcertstore/multiple_certstore/scripts/tfilecertstore02.script       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tfilecertstore02.script 
+../tcertstore/multiple_certstore/scripts/tfilecertstore03.script       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tfilecertstore03.script 
+../tcertstore/multiple_certstore/scripts/tfilecertstore04.script       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tfilecertstore04.script 
+../tcertstore/multiple_certstore/scripts/tfilecertstore05.script       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tfilecertstore05.script 
+../tcertstore/multiple_certstore/scripts/tfilecertstore06.script       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tfilecertstore06.script 
+../tcertstore/multiple_certstore/scripts/tfilecertstore07.script       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tfilecertstore07.script 
+../tcertstore/multiple_certstore/scripts/tfilecertstore08.script       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tfilecertstore08.script 
+../tcertstore/multiple_certstore/scripts/tfilecertstore09.script       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tfilecertstore09.script 
+../tcertstore/multiple_certstore/scripts/tfilecertstore10.script       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tfilecertstore10.script 
+../tcertstore/multiple_certstore/scripts/tfilecertstore11.script       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tfilecertstore11.script 
+../tcertstore/multiple_certstore/scripts/tfilecertstore12.script       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tfilecertstore12.script 
+../tcertstore/multiple_certstore/scripts/tfilecertstore13.script       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tfilecertstore13.script 
+../tcertstore/multiple_certstore/scripts/tfilecertstore14.script       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tfilecertstore14.script // For ROM build  
+../tcertstore/multiple_certstore/scripts/tfilecertstore15.script       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tfilecertstore15.script 
+../tcertstore/multiple_certstore/scripts/tfilecertstore16.script       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tfilecertstore16.script 
+../tcertstore/multiple_certstore/scripts/tfilecertstore17.script       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tfilecertstore17.script 
+../tcertstore/multiple_certstore/scripts/tfilecertstore18.script       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tfilecertstore18.script 
+
+
+
+../tcertstore/multiple_certstore/scripts/tfilecertstore01.ini       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tfilecertstore01.ini 
+../tcertstore/multiple_certstore/scripts/tfilecertstore02.ini       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tfilecertstore02.ini 
+../tcertstore/multiple_certstore/scripts/tfilecertstore03.ini       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tfilecertstore03.ini 
+../tcertstore/multiple_certstore/scripts/tfilecertstore04.ini       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tfilecertstore04.ini 
+../tcertstore/multiple_certstore/scripts/tfilecertstore05.ini       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tfilecertstore05.ini 
+../tcertstore/multiple_certstore/scripts/tfilecertstore06.ini       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tfilecertstore06.ini 
+../tcertstore/multiple_certstore/scripts/tfilecertstore07.ini       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tfilecertstore07.ini 
+../tcertstore/multiple_certstore/scripts/tfilecertstore08.ini       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tfilecertstore08.ini 
+../tcertstore/multiple_certstore/scripts/tfilecertstore09.ini       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tfilecertstore09.ini 
+../tcertstore/multiple_certstore/scripts/tfilecertstore10.ini       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tfilecertstore10.ini 
+../tcertstore/multiple_certstore/scripts/tfilecertstore11.ini       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tfilecertstore11.ini 
+../tcertstore/multiple_certstore/scripts/tfilecertstore12.ini       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tfilecertstore12.ini 
+../tcertstore/multiple_certstore/scripts/tfilecertstore13.ini       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tfilecertstore13.ini 
+../tcertstore/multiple_certstore/scripts/tfilecertstore14.ini       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tfilecertstore14.ini // For ROM build  
+../tcertstore/multiple_certstore/scripts/tfilecertstore15.ini       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tfilecertstore15.ini 
+../tcertstore/multiple_certstore/scripts/tfilecertstore16.ini       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tfilecertstore16.ini 
+../tcertstore/multiple_certstore/scripts/tfilecertstore17.ini       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tfilecertstore17.ini 
+../tcertstore/multiple_certstore/scripts/tfilecertstore18.ini       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tfilecertstore18.ini 
+
+
+
+
+
+// Multiple SWI cert stores tests (winscw only)
+
+../tcertstore/multiple_certstore/scripts/tswicertstore01.script       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tswicertstore01.script 
+../tcertstore/multiple_certstore/scripts/tswicertstore02.script       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tswicertstore02.script 
+../tcertstore/multiple_certstore/scripts/tswicertstore03.script       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tswicertstore03.script 
+../tcertstore/multiple_certstore/scripts/tswicertstore04.script       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tswicertstore04.script 
+../tcertstore/multiple_certstore/scripts/tswicertstore05.script       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tswicertstore05.script 
+../tcertstore/multiple_certstore/scripts/tswicertstore06.script       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tswicertstore06.script 
+../tcertstore/multiple_certstore/scripts/tswicertstore07.script       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tswicertstore07.script 
+../tcertstore/multiple_certstore/scripts/tswicertstore08.script       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tswicertstore08.script 
+../tcertstore/multiple_certstore/scripts/tswicertstore09.script       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tswicertstore09.script 
+../tcertstore/multiple_certstore/scripts/tswicertstore10.script       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tswicertstore10.script 
+../tcertstore/multiple_certstore/scripts/tswicertstore11.script       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tswicertstore11.script 
+../tcertstore/multiple_certstore/scripts/tswicertstore12.script       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tswicertstore12.script 
+../tcertstore/multiple_certstore/scripts/tswicertstore13.script       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tswicertstore13.script 
+../tcertstore/multiple_certstore/scripts/tswicertstore14.script       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tswicertstore14.script 
+../tcertstore/multiple_certstore/scripts/tswicertstore15.script       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tswicertstore15.script 
+../tcertstore/multiple_certstore/scripts/tswicertstore16.script       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tswicertstore16.script 
+../tcertstore/multiple_certstore/scripts/tswicertstore17.script       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tswicertstore17.script 
+../tcertstore/multiple_certstore/scripts/tswicertstore18.script       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tswicertstore18.script 
+../tcertstore/multiple_certstore/scripts/tswicertstore19.script       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tswicertstore19.script 
+
+
+
+../tcertstore/multiple_certstore/scripts/tswicertstore01.ini       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tswicertstore01.ini 
+../tcertstore/multiple_certstore/scripts/tswicertstore02.ini       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tswicertstore02.ini 
+../tcertstore/multiple_certstore/scripts/tswicertstore03.ini       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tswicertstore03.ini 
+../tcertstore/multiple_certstore/scripts/tswicertstore04.ini       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tswicertstore04.ini 
+../tcertstore/multiple_certstore/scripts/tswicertstore05.ini       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tswicertstore05.ini 
+../tcertstore/multiple_certstore/scripts/tswicertstore06.ini       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tswicertstore06.ini 
+../tcertstore/multiple_certstore/scripts/tswicertstore07.ini       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tswicertstore07.ini 
+../tcertstore/multiple_certstore/scripts/tswicertstore08.ini       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tswicertstore08.ini 
+../tcertstore/multiple_certstore/scripts/tswicertstore09.ini       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tswicertstore09.ini 
+../tcertstore/multiple_certstore/scripts/tswicertstore10.ini       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tswicertstore10.ini 
+../tcertstore/multiple_certstore/scripts/tswicertstore11.ini       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tswicertstore11.ini 
+../tcertstore/multiple_certstore/scripts/tswicertstore12.ini       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tswicertstore12.ini 
+../tcertstore/multiple_certstore/scripts/tswicertstore13.ini       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tswicertstore13.ini 
+../tcertstore/multiple_certstore/scripts/tswicertstore14.ini       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tswicertstore14.ini 
+../tcertstore/multiple_certstore/scripts/tswicertstore15.ini       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tswicertstore15.ini 
+../tcertstore/multiple_certstore/scripts/tswicertstore16.ini       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tswicertstore16.ini 
+../tcertstore/multiple_certstore/scripts/tswicertstore17.ini       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tswicertstore17.ini 
+../tcertstore/multiple_certstore/scripts/tswicertstore18.ini       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tswicertstore18.ini 
+../tcertstore/multiple_certstore/scripts/tswicertstore19.ini       /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/tswicertstore19.ini 
+
+
+
+
+// 2. batchfiles
+../tcertstore/multiple_certstore/scripts/batchfiles/initialise_certstore.bat   /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/initialise_certstore.bat
+../tcertstore/multiple_certstore/scripts/batchfiles/cleanup_certstore.bat      /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/cleanup_certstore.bat
+
+
+// 3. test-data files
+../tcertstore/multiple_certstore/tdata/corrupt.dat                 /epoc32/winscw/c/tcertstore/multiple_certstore/tdata/corrupt.dat
+../tcertstore/multiple_certstore/tdata/cacerts0.dat                /epoc32/winscw/c/tcertstore/multiple_certstore/tdata/cacerts0.dat
+../tcertstore/multiple_certstore/tdata/cacerts1.dat                /epoc32/winscw/c/tcertstore/multiple_certstore/tdata/cacerts1.dat
+../tcertstore/multiple_certstore/tdata/cacerts2.dat                /epoc32/winscw/c/tcertstore/multiple_certstore/tdata/cacerts2.dat
+../tcertstore/multiple_certstore/tdata/cacerts3.dat                /epoc32/winscw/c/tcertstore/multiple_certstore/tdata/cacerts3.dat
+../tcertstore/multiple_certstore/tdata/cacerts5.dat                /epoc32/winscw/c/tcertstore/multiple_certstore/tdata/cacerts5.dat
+../tcertstore/multiple_certstore/tdata/certclients0.dat            /epoc32/winscw/c/tcertstore/multiple_certstore/tdata/certclients0.dat
+../tcertstore/multiple_certstore/tdata/certclients1.dat            /epoc32/winscw/c/tcertstore/multiple_certstore/tdata/certclients1.dat
+../tcertstore/multiple_certstore/tdata/certclients2.dat            /epoc32/winscw/c/tcertstore/multiple_certstore/tdata/certclients2.dat
+../tcertstore/multiple_certstore/tdata/certclients3.dat            /epoc32/winscw/c/tcertstore/multiple_certstore/tdata/certclients3.dat
+../tcertstore/multiple_certstore/tdata/certclients5.dat            /epoc32/winscw/c/tcertstore/multiple_certstore/tdata/certclients5.dat
+../tcertstore/multiple_certstore/tdata/swicertstore0.dat           /epoc32/winscw/c/tcertstore/multiple_certstore/tdata/swicertstore0.dat
+../tcertstore/multiple_certstore/tdata/swicertstore1.dat           /epoc32/winscw/c/tcertstore/multiple_certstore/tdata/swicertstore1.dat
+../tcertstore/multiple_certstore/tdata/swicertstore2.dat           /epoc32/winscw/c/tcertstore/multiple_certstore/tdata/swicertstore2.dat
+../tcertstore/multiple_certstore/tdata/swicertstore3.dat           /epoc32/winscw/c/tcertstore/multiple_certstore/tdata/swicertstore3.dat
+../tcertstore/multiple_certstore/tdata/swicertstore5.dat           /epoc32/winscw/c/tcertstore/multiple_certstore/tdata/swicertstore5.dat
+../tcertstore/multiple_certstore/tdata/epoc_multiplecertstore.ini  /epoc32/data/epoc_multiplecertstore.ini
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// TCertstore - End
+/////////////////////
+
+
+//////////////////////
+//TPKIXCert-Begin
+
+../tpkixcert/scripts/tpkixtest_all.txt		/epoc32/winscw/c/tpkixcert/scripts/tpkixtest_all.txt
+../tpkixcert/pkixtestspec.txt		/epoc32/winscw/c/pkixtestspec.txt
+../tpkixcert/tpkixvalidation.txt		/epoc32/winscw/c/tpkixvalidation.txt
+../tpkixcert/tpkixbuild.txt		/epoc32/winscw/c/tpkixbuild.txt
+
+../tpkixcert/scripts/tpkixtest_part1.script	/epoc32/winscw/c/tpkixcert/scripts/tpkixtest_part1.script
+../tpkixcert/scripts/tpkixtest_part2.script	/epoc32/winscw/c/tpkixcert/scripts/tpkixtest_part2.script
+../tpkixcert/scripts/cancel1.script		/epoc32/winscw/c/tpkixcert/scripts/cancel1.script
+../tpkixcert/scripts/oom1.script		/epoc32/winscw/c/tpkixcert/scripts/oom1.script
+../tpkixcert/scripts/oom2.script		/epoc32/winscw/c/tpkixcert/scripts/oom2.script
+../tpkixcert/scripts/oom3.script		/epoc32/winscw/c/tpkixcert/scripts/oom3.script
+../tpkixcert/scripts/oom4.script		/epoc32/winscw/c/tpkixcert/scripts/oom4.script
+
+../tpkixcert/scripts/tpkixtest_part1.ini	/epoc32/winscw/c/tpkixcert/scripts/tpkixtest_part1.ini
+../tpkixcert/scripts/tpkixtest_part2.ini	/epoc32/winscw/c/tpkixcert/scripts/tpkixtest_part2.ini
+../tpkixcert/scripts/cancel1.ini		/epoc32/winscw/c/tpkixcert/scripts/cancel1.ini
+../tpkixcert/scripts/oom1.ini			/epoc32/winscw/c/tpkixcert/scripts/oom1.ini
+../tpkixcert/scripts/oom2.ini			/epoc32/winscw/c/tpkixcert/scripts/oom2.ini
+../tpkixcert/scripts/oom3.ini			/epoc32/winscw/c/tpkixcert/scripts/oom3.ini
+../tpkixcert/scripts/oom4.ini			/epoc32/winscw/c/tpkixcert/scripts/oom4.ini
+
+
+// TPKIXCert - End
+////////////////////
+
+//////////////////////
+// TWTLSCert - Begin
+
+../twtlscert/wtlstestdata/EntrustNetWAP.bin		/epoc32/winscw/c/twtlscert/data/entrustnetwap.bin 
+../twtlscert/wtlstestdata/MobileServiceCA.wap		/epoc32/winscw/c/twtlscert/data/mobileserviceca.wap 
+../twtlscert/wtlstestdata/MobileServiceCA-badsig.wap	/epoc32/winscw/c/twtlscert/data/mobileserviceca-badsig.wap
+../twtlscert/wtlstestdata/UNKNOWN.001			/epoc32/winscw/c/twtlscert/data/unknown.001 
+../twtlscert/wtlstestdata/william.bamberg.wap	/epoc32/winscw/c/twtlscert/data/william.bamberg@symbian.com.wap 
+../twtlscert/wtlstestdata/william.bamberg.com-badsig	/epoc32/winscw/c/twtlscert/data/william.bamberg@symbian.com-badsig.wap
+
+../twtlscert/scripts/twtlscert.script	/epoc32/winscw/c/twtlscert/scripts/twtlscert.script
+../twtlscert/scripts/twtlscert1.script	/epoc32/winscw/c/twtlscert/scripts/twtlscert1.script
+../twtlscert/scripts/twtlscert2.script	/epoc32/winscw/c/twtlscert/scripts/twtlscert2.script
+../twtlscert/scripts/twtlscert3.script	/epoc32/winscw/c/twtlscert/scripts/twtlscert3.script
+
+../twtlscert/scripts/twtlscert.ini	/epoc32/winscw/c/twtlscert/scripts/twtlscert.ini
+../twtlscert/scripts/twtlscert1.ini	/epoc32/winscw/c/twtlscert/scripts/twtlscert1.ini
+../twtlscert/scripts/twtlscert2.ini	/epoc32/winscw/c/twtlscert/scripts/twtlscert2.ini
+../twtlscert/scripts/twtlscert3.ini	/epoc32/winscw/c/twtlscert/scripts/twtlscert3.ini
+
+
+// Batchfiles for pre and post test-run cleanup
+../twtlscert/scripts/batchfiles/cert_backup.bat		/epoc32/winscw/c/twtlscert/scripts/batchfiles/cert_backup.bat
+../twtlscert/scripts/batchfiles/cert_backup1.bat	/epoc32/winscw/c/twtlscert/scripts/batchfiles/cert_backup1.bat
+../twtlscert/scripts/batchfiles/cert_backup2.bat	/epoc32/winscw/c/twtlscert/scripts/batchfiles/cert_backup2.bat
+../twtlscert/scripts/batchfiles/precert_backup.bat	/epoc32/winscw/c/twtlscert/scripts/batchfiles/precert_backup.bat
+../twtlscert/scripts/batchfiles/postcert_restore.bat	/epoc32/winscw/c/twtlscert/scripts/batchfiles/postcert_restore.bat
+../twtlscert/scripts/batchfiles/enableplugin.bat	/epoc32/winscw/c/twtlscert/scripts/batchfiles/enableplugin.bat
+../twtlscert/scripts/batchfiles/twtlscert_cleanup.bat	/epoc32/winscw/c/twtlscert/scripts/batchfiles/twtlscert_cleanup.bat
+../twtlscert/scripts/batchfiles/tcert_password_cleanup.bat	/epoc32/winscw/c/twtlscert/scripts/batchfiles/tcert_password_cleanup.bat
+../twtlscert/scripts/batchfiles/certstorePlugins	/epoc32/winscw/c/twtlscert/scripts/batchfiles/certstoreplugins
+// TWTLSCert - End
+////////////////////
+
+
+// ROMKIT includes
+../inc/certmantests.iby 		/epoc32/rom/include/certmantests.iby
+
+// tx509
+
+
+
+../tx509/Scripts/tx509-1.txt			/epoc32/winscw/c/tx509/scripts/tx509-1.txt
+../tx509/Scripts/tx509-2.txt			/epoc32/winscw/c/tx509/scripts/tx509-2.txt
+../tx509/Scripts/tx509-3.txt			/epoc32/winscw/c/tx509/scripts/tx509-3.txt
+
+../tx509/Scripts/tx509-oom1.script		/epoc32/winscw/c/tx509/scripts/tx509-oom1.script
+../tx509/Scripts/tx509-oom2.script		/epoc32/winscw/c/tx509/scripts/tx509-oom2.script
+../tx509/Scripts/tx509.script			/epoc32/winscw/c/tx509/scripts/tx509.script
+../tx509/Scripts/tx509-dnames.script		/epoc32/winscw/c/tx509/scripts/tx509-dnames.script
+../tx509/Scripts/tx509_dev_certs.script 	/epoc32/winscw/c/tx509/scripts/tx509_dev_certs.script
+../tx509/Scripts/tx509_dev_certs_oom.script 	/epoc32/winscw/c/tx509/scripts/tx509_dev_certs_oom.script
+
+../tx509/Scripts/tx509-oom1.ini			/epoc32/winscw/c/tx509/scripts/tx509-oom1.ini
+../tx509/Scripts/tx509-oom2.ini			/epoc32/winscw/c/tx509/scripts/tx509-oom2.ini
+../tx509/Scripts/tx509.ini			/epoc32/winscw/c/tx509/scripts/tx509.ini
+../tx509/Scripts/tx509-dnames.ini		/epoc32/winscw/c/tx509/scripts/tx509-dnames.ini
+../tx509/Scripts/tx509_dev_certs.ini 		/epoc32/winscw/c/tx509/scripts/tx509_dev_certs.ini
+../tx509/Scripts/tx509_dev_certs_oom.ini 	/epoc32/winscw/c/tx509/scripts/tx509_dev_certs_oom.ini
+
+
+../tx509/Data/results.txt			/epoc32/winscw/c/tx509/data/results.txt
+
+// Batchfiles for post test-run cleanup
+../tx509/Scripts/batchfiles/tx509_cleanup.bat	/epoc32/winscw/c/tx509/scripts/batchfiles/tx509_cleanup.bat
+
+
+// Symbian signed root certs and swi cert store, from top-level rootcerts directory
+../../rootcertificates/data/SymbianA.der			/epoc32/winscw/c/rootcerts/symbiana.der
+../../rootcertificates/data/SymbianB.der			/epoc32/winscw/c/rootcerts/symbianb.der
+../../rootcertificates/data/symbianc.der			/epoc32/winscw/c/rootcerts/symbianc.der
+../../rootcertificates/data/symbiand.der			/epoc32/winscw/c/rootcerts/symbiand.der
+../../rootcertificates/data/SymbianSignedCerts.txt	/epoc32/winscw/c/rootcerts/symbiansignedcerts.txt
+../../rootcertificates/data/swicertstore.dat		/epoc32/winscw/c/rootcerts/swicertstore.dat
+
+../tpkcs12intgrtn/inc/tpkcs12integrationserver.iby /epoc32/rom/include/tpkcs12integrationserver.iby
+../tpkcs7/tpkcs7server.iby /epoc32/rom/include/tpkcs7server.iby
+
+//tpkixcert_tef
+../tpkixcert_tef/scripts/tpkixcert_tef.script	/epoc32/winscw/c/tpkixcert_tef/scripts/tpkixcert_tef.script
+../tpkixcert_tef/scripts/apitests.ini			/epoc32/winscw/c/tpkixcert_tef/scripts/apitests.ini
+../tpkixcert_tef/scripts/validatetests.ini			/epoc32/winscw/c/tpkixcert_tef/scripts/validatetests.ini
+
+PRJ_MMPFILES
+
+#ifndef TOOLS
+#ifndef TOOLS2
+../crypto/certman_crypto.mmp
+../recog/CertRecog.mmp
+../pkcs8recog/pkcs8recog.mmp
+../pkcs7/pkcs7.mmp
+
+../asn1/asn1.mmp
+../x509/X509.mmp
+../x500/X500.mmp
+../pkcs10/pkcs10.mmp
+
+../pkcs12/pkcs12.mmp
+../pkcs12recog/pkcs12recog.mmp
+
+../certstore/certstore.mmp
+../pkixCert/PKIXCert.mmp
+../pkixcertbase/pkixcertbase.mmp
+../swicertstore/swicertstore.mmp
+../swicertstoreplugin/swicertstoreplugin.mmp
+
+../wtlscert/wtlscert.mmp
+#endif	//	TOOLS2
+#endif	//	TOOLS
+
+PRJ_TESTMMPFILES
+// specify the .mmp files required for building any test programs here
+//
+// you can specify "manual" to denote that a test should be listed in a generated
+// batch file for running a group of tests which require user input during testing.
+// you can specify "support" to denote that a file is a test support file and shouldn't
+// be listed in a batch file for running a group of tests
+// By default, each test will be listed in a batch file for running a group of tests
+// which can be left to run without requiring watching over by the person running the tests,
+// i.e. tests where no user input is required.  The default will apply if neither "manual"
+// or "support" is specified.
+
+#ifndef TOOLS
+
+../tx509/tx509.mmp		
+../twtlscert/twtlscert.mmp
+../testhwerrstore/testhwerrcertstore.mmp
+../tcertcommon/tcertcommon.mmp
+../tpkixcert/tpkixcert.mmp
+
+../tpkixcert_tef/group/tpkixcert_tef.mmp
+
+../tadditionalstores/tadditionalstores.mmp
+../tadditionalstores/tadditionalstoressoftware.mmp
+../tadditionalstores/tHwSimstores.mmp
+../tadditionalstores/tHwUiccstores.mmp
+../tadditionalstores/tHwWimstores.mmp
+../tadditionalstores/tDeviceImmutablestores.mmp
+../tasn1/tasn1.mmp
+../tcertstore/tcertstore.mmp
+../tpkcs7/tpkcs7.mmp
+
+//T_PKCS12_INTEGRATIONTEST mmp
+../tpkcs12intgrtn/group/tpkcs12libtest.mmp
+
+../tpkcs10/tpkcs10v2.mmp
+
+../tcertdump/tcertdump.mmp
+#endif	//	TOOLS

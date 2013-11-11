@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SystemDefinition schema="3.0.0">
+  <package id="xmlsrv" name="XML Services" levels="plugin server framework generic specific">
+    <collection id="xmlsrv_plat" name="XML Services Platform Interfaces" level="specific">
+      <component id="xml_encryption_api" name="XML Encryption API" class="api" filter="s60">
+        <meta rel="Api" href="xmlsrv_plat/xml_encryption_api/xml_encryption_api.metaxml"/>
+        <unit bldFile="xmlsrv_plat/xml_encryption_api/group"/>
+      </component>
+      <component id="xml_signature_api" name="XML Signature API" class="api" filter="s60">
+        <meta rel="Api" href="xmlsrv_plat/xml_signature_api/xml_signature_api.metaxml"/>
+        <unit bldFile="xmlsrv_plat/xml_signature_api/group"/>
+      </component>
+      <component id="xml_security_engine_utils_api" name="XML Security Engine Utils API" class="api" filter="s60">
+        <meta rel="Api" href="xmlsrv_plat/xml_security_engine_utils_api/xml_security_engine_utils_api.metaxml"/>
+        <unit bldFile="xmlsrv_plat/xml_security_engine_utils_api/group"/>
+      </component>
+	   <component id="cxml_library_api" name="cXml Library API" class="api" filter="s60">
+		<meta rel="Api" href="xmlsrv_plat/cxml_library_api/cxml_library_api.metaxml"/>
+		<unit bldFile="xmlsrv_plat/cxml_library_api/group"/>
+	   </component>
+	   <component id="xml_parser_api" name="XML Parser API" class="api" filter="s60">
+		<meta rel="Api" href="xmlsrv_plat/xml_parser_api/xml_parser_api.metaxml"/>
+		<unit bldFile="xmlsrv_plat/xml_parser_api/group"/>
+	   </component>
+    </collection>
+    <collection id="xmlsecurityengine" name="XML Security Engine" level="framework">
+      <component id="xmlseccertman" filter="s60" name="XML Security Certificate Manager">
+        <unit bldFile="xmlsecurityengine/xmlseccertman/group"/>
+      </component>
+      <component id="xmlsec" filter="s60" name="XML Security">
+        <unit bldFile="xmlsecurityengine/xmlsec/group"/>
+      </component>
+      <component id="xmlseccrypto" filter="s60" name="XML Security Crypto">
+        <unit bldFile="xmlsecurityengine/xmlseccrypto/group"/>
+      </component>
+      <component id="xmlsecwrapper" filter="s60" name="XML Security Wrapper">
+        <unit bldFile="xmlsecurityengine/xmlsecwrapper/group"/>
+      </component>
+    </collection>
+    <collection id="xml" name="XML" level="generic">
+      <component id="xmlfw" name="XML Framework" introduced="7.0s" purpose="optional">
+        <meta rel="testbuild">
+          <group name="xmlsrv_test_rtest"/>
+        </meta>
+        <unit bldFile="xml/xmlfw/group" mrp="xml/xmlfw/group/syslibs_xml.mrp" filter="!test"/>
+        <unit bldFile="xml/xmlfw/test/rtest/group" filter="test,api_test"/>
+      </component>
+      <component id="libxml2libs" name="Libxml2 Libraries" introduced="^3" purpose="optional">
+        <meta rel="testbuild">
+          <group name="xmlsrv_test_tef"/>
+        </meta>
+        <unit bldFile="xml/libxml2libs/group" mrp="xml/libxml2libs/group/syslibs_libxml2.mrp" filter="!test"/>
+        <unit bldFile="xml/libxml2libs/test" filter="test,api_test"/>
+      </component>
+      <component id="libxml2libs_test" name="Libxml2 Libraries STIF Tests" introduced="^3" purpose="development" filter="test,api_test">
+        <!-- can't have a component live under another component. Need to move to a new directory -->
+        <meta rel="testbuild">
+          <group name="xmlsrv_test_stif"/>
+        </meta>
+        <unit bldFile="xml/libxml2libs/test/xmlengtester/xmlengtester_target/group"/>
+      </component>
+      <component id="legacyminidomparser" name="Legacy Mini-DOM Parser" introduced="7.0s" purpose="optional">
+        <meta rel="testbuild">
+          <group name="xmlsrv_test_rtest"/>
+        </meta>
+        <unit bldFile="xml/legacyminidomparser/GROUP" mrp="xml/legacyminidomparser/GROUP/syslibs_legacyminidomparser.mrp" filter="!test"/>
+        <unit bldFile="xml/legacyminidomparser/XMLParser/test/group" filter="test,api_test"/>
+      </component>
+      <component id="xmldomandxpath" name="XML DOM and XPath" introduced="^3" purpose="optional">
+        <meta rel="testbuild">
+          <group name="xmlsrv_test_tef"/>
+        </meta>
+        <unit bldFile="xml/xmldomandxpath/group" mrp="xml/xmldomandxpath/group/syslibs_xmldom.mrp" filter="!test"/>
+        <unit bldFile="xml/xmldomandxpath/test/tef/group" filter="test,api_test"/>
+      </component>
+      <component id="xmlexpatparser" name="XML Expat Parser" introduced="7.0s" purpose="optional" class="plugin">
+        <meta rel="testbuild">
+          <group name="xmlsrv_test_rtest"/>
+        </meta>
+        <unit bldFile="xml/xmlexpatparser/group" mrp="xml/xmlexpatparser/group/syslibs_xmlparser.mrp" filter="!test"/>
+        <unit bldFile="xml/xmlexpatparser/test/rtest/group" filter="test,api_test"/>
+      </component>
+      <component id="xmllibxml2parser" name="XML Libxml2 Parser" introduced="^3" purpose="optional" class="plugin">
+        <meta rel="testbuild">
+          <group name="xmlsrv_test_tef"/>
+        </meta>
+        <unit bldFile="xml/xmllibxml2parser/group" mrp="xml/xmllibxml2parser/group/syslibs_xmlparser2.mrp" filter="!test"/>
+        <unit bldFile="xml/xmllibxml2parser/test/tef/xmlparser2/group" filter="test,api_test"/>
+      </component>
+      <component id="wbxmlparser" name="WBXML Parser" introduced="7.0s" purpose="optional" class="plugin">
+        <meta rel="testbuild">
+          <group name="xmlsrv_test_rtest"/>
+        </meta>
+        <unit bldFile="xml/wbxmlparser/group" mrp="xml/wbxmlparser/group/syslibs_wbxmlparser.mrp" filter="!test"/>
+        <unit bldFile="xml/wbxmlparser/test/rtest/group" filter="test,api_test"/>
+      </component>
+      <component id="cxmllibrary" filter="s60" name="cXml Library">
+        <unit bldFile="xml/cxmllibrary/group"/>
+      </component>
+      <component id="xmlparser" filter="s60" name="XML Interface">
+        <unit bldFile="xml/xmlparser/group"/>
+      </component>
+    </collection>
+    <collection id="xmlsrv_info" name="XML Services Info" level="specific">
+      <component id="xmlsrv_metadata" name="XML Services Metadata" class="config" introduced="^2" purpose="development" target="desktop">
+        <unit mrp="xmlsrv_info/xmlsrv_metadata/xmlsrv_metadata.mrp"/>
+      </component>
+    </collection>
+  </package>
+</SystemDefinition>

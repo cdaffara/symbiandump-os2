@@ -1,0 +1,49 @@
+/*
+* Copyright (c) 2003 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:     This is project specification file for the TIS_620 (Thai)
+*                charconvplugin.
+*
+*/
+
+
+TARGET               TIS_620.dll
+TARGETTYPE           PLUGIN
+CAPABILITY           All -Tcb
+
+uid                  0x10009D8D 0x10207403
+VENDORID		0x70000001
+
+SOURCEPATH			../src/plugins
+SOURCE               TIS_620.cpp
+SOURCEPATH		/epoc32/build/generatedcpp/charconv
+SOURCE               g_TIS_620.cpp
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+USERINCLUDE		../inc
+
+LIBRARY              euser.lib
+LIBRARY              charconv.lib
+LIBRARY              ecom.lib
+
+SOURCEPATH		../resource
+Start resource       TIS_620.rss
+Targetpath           /resource/charconv
+End
+
+start resource       10207403.rss
+target               tis_620.rsc
+
+end
+
+SMPSAFE

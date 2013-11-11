@@ -1,0 +1,82 @@
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+PRJ_EXPORTS
+initialiseLocale.iby /epoc32/rom/include/initialiselocale.iby
+testLocale.iby /epoc32/rom/include/testlocale.iby
+
+#ifndef SYMBIAN_DISTINCT_LOCALE_MODEL
+
+// Note: these cre files are exported for testing and techview only. Not used in a device
+//repository file for ROM build
+../data/1020e4d3.cre /epoc32/data/z/private/10202be9/1020e4d3.cre
+//repository files for WINSCW
+../data/1020e4d3.cre /epoc32/release/winscw/udeb/z/private/10202be9/1020e4d3.cre
+../data/1020e4d3.cre /epoc32/release/winscw/urel/z/private/10202be9/1020e4d3.cre
+
+// ConfML files
+../conf/apputils_1020e4d3.crml   OS_LAYER_EXPORTS_CRML(apputils_1020e4d3.crml)
+
+
+#else
+
+// Note: these cre files are exported for testing and techview only. Not used in a device
+//repository file for ROM build
+../data/1020e4d3_new.cre /epoc32/data/z/private/10202be9/1020e4d3.cre
+//repository files for WINSCW
+../data/1020e4d3_new.cre /epoc32/release/winscw/udeb/z/private/10202be9/1020e4d3.cre
+../data/1020e4d3_new.cre /epoc32/release/winscw/urel/z/private/10202be9/1020e4d3.cre
+
+#endif 
+
+
+
+PRJ_MMPFILES
+InitialiseLocale.MMP
+
+PRJ_TESTEXPORTS
+initialiseLocaleTests.iby   /epoc32/rom/include/initialiselocaletests.iby
+#ifndef SYMBIAN_DISTINCT_LOCALE_MODEL
+
+initialiseLocaleTests_old_locale_model.bat   /epoc32/data/z/system/test/initialiselocaletests.bat 
+
+#else
+
+initialiseLocaleTests_new_locale_model.bat   /epoc32/data/z/system/test/initialiselocaletests.bat 
+
+#endif 
+
+
+PRJ_TESTMMPFILES
+
+#ifndef SYMBIAN_DISTINCT_LOCALE_MODEL
+
+T_InitialiseLocale
+T_CorruptLocale manual
+T_LocaleFlexi
+
+#else
+
+T_NewLocaleModel.mmp
+T_InitialiseLocale
+T_LocaleFlexiNewLocaleModel.mmp
+T_CorruptLocale manual
+T_OldAPIOldModel.mmp manual
+T_LocaleFlexiOldLocaleModel.mmp manual
+T_RebootNewLocaleModel.mmp manual
+
+#endif 
+
+

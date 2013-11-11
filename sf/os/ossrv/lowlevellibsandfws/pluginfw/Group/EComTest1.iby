@@ -1,0 +1,291 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+#ifndef __ECOMTEST_IBY__
+#define __ECOMTEST_IBY__
+
+#include <ECom.iby>
+#include <TestBed.iby>
+#include <ecomtestcommon.iby>
+#include <syslibs_locale.iby>
+
+
+// batch file that runs all automatic ECOM tests
+// Note run these after the test harness tests, as they do not shut down the EComServer.
+data=ZSYSTEM\test\EComTests.bat           TEST\EComTests.bat
+
+// Example plug-in that must be in ROM
+//
+ECOM_PLUGIN(EComExample.dll,10009db1.rsc)
+
+ECOM_PLUGIN(EComExample2.dll,10009db3.rsc)
+
+ECOM_PLUGIN(EComExample3.dll,101F8477.rsc)
+
+ECOM_PLUGIN(EComExample6.dll,101F847D.rsc)
+
+ECOM_PLUGIN(EComRomOnlyExampleOnZ.dll,10009db5.rsc)
+
+ECOM_PLUGIN(EComRomRslvrExampleOnZ.dll,10009DB7.rsc)
+
+ECOM_PLUGIN(T_PlatSecECom1.dll,102026AB.rsc)
+
+ECOM_PLUGIN(T_PlatSecECom2.dll,102026AD.rsc)
+
+ECOM_PLUGIN(T_PlatSecResolverZ.dll,10777777.rsc)
+
+ECOM_PLUGIN(T_PlatSecECom3.dll,102026AF.rsc)
+ECOM_PLUGIN(T_PlatSecResolver.dll,10202777.rsc)
+
+ECOM_PLUGIN(EcomNullExample.dll,011f500e.rsc)
+
+ECOM_PLUGIN(EComUpgradeExample2.dll,10009DB9.rsc)
+ECOM_PLUGIN(EComUpgradeROExample2.dll,10009DBC.rsc)
+
+ECOM_PLUGIN(EComLoadMgrExample1.dll,EComLoadMgrExample1.rsc)
+ECOM_PLUGIN(EComLoadMgrExample2.dll,EComLoadMgrExample2.rsc)
+
+ECOM_PLUGIN(EComExample10.dll,EComExample10.rsc)
+ECOM_PLUGIN(EComExample12Invalid.dll,EComExample12Invalid.rsc)
+ECOM_PLUGIN(EComExample14Invalid.dll,EComExample14Invalid.rsc)
+
+ECOM_PLUGIN(LanguagePlugin2.dll,10009de0.RSC)
+
+ECOM_PLUGIN(dummycustomresolver2.dll, dummycustomresolver2.rsc)
+
+ECOM_PLUGIN(dummycustomresolver3.dll, dummycustomresolver3.rsc)
+
+ECOM_PLUGIN(badproxytable.dll, badproxytable.rsc)
+
+
+// THE following plugin dll and resouce entry is for SPI disable manual test in t_language.
+// Users should uncomment these following five lines and comment out one line above in order to test t_language SPI disable.
+//file=ABI_DIR\BUILD_DIR\LanguagePlugin2.dll		 Test\LanguagePlugin2.dll
+//data=EPOCROOT##epoc32\data\z\resource\plugins\LanguagePlugin2.rsc       resource\plugins\LanguagePlugin2.rsc
+//data=EPOCROOT##epoc32\data\z\resource\plugins\LanguagePlugin2.r01       resource\plugins\LanguagePlugin2.r01
+//data=EPOCROOT##epoc32\data\z\resource\plugins\LanguagePlugin2.r02       resource\plugins\LanguagePlugin2.r02
+//data=EPOCROOT##epoc32\data\z\resource\plugins\LanguagePlugin2.r03       resource\plugins\LanguagePlugin2.r03
+
+// THE FOLLOWING LOCALE ENTRY IS NOW MOVED TO SYSUTILS.IBY AS THERE IS SIMILAR ENTRY
+// IN BAFLTESTIBY WHICH INCLUDE INITIALISELOCALETESTIBY
+// ELOCL.01 already exported
+// file=ABI_DIR\BUILD_DIR\ELOCL.02				  System\Libs\ELOCL.02
+// file=ABI_DIR\BUILD_DIR\ELOCL.03				  System\Libs\ELOCL.03
+// file=ABI_DIR\BUILD_DIR\ELOCL.04				  System\Libs\ELOCL.04
+// file=ABI_DIR\BUILD_DIR\ELOCL.05				  System\Libs\ELOCL.05
+
+// Example plug-in that must be copied from ROM to RAM
+//
+ECOM_PLUGIN(Suicidal.dll,10009DB2.rsc)
+
+ECOM_PLUGIN(EComExample4.dll,101F8479.rsc)
+
+// Helper processes to move files around when data caging enforced.
+file=ABI_DIR\BUILD_DIR\EcomTestUtils.dll 				System\Libs\EcomTestUtils.dll
+file=ABI_DIR\BUILD_DIR\t_processfilemancopyfile.exe 	System\Programs\t_processfilemancopyfile.exe
+file=ABI_DIR\BUILD_DIR\t_processfilemanrename.exe 	System\Programs\t_processfilemanrename.exe
+file=ABI_DIR\BUILD_DIR\t_processfilemandeletefile.exe	System\Programs\t_processfilemandeletefile.exe
+file=ABI_DIR\BUILD_DIR\t_processrloaderdeletefile.exe	System\Programs\t_processrloaderdeletefile.exe
+file=ABI_DIR\BUILD_DIR\t_processfilemandeletedir.exe	System\Programs\t_processfilemandeletedir.exe
+file=ABI_DIR\BUILD_DIR\t_processrfsreplacefile.exe		System\Programs\t_processrfsreplacefile.exe
+file=ABI_DIR\BUILD_DIR\t_processrfsdeletefile.exe		System\Programs\t_processrfsdeletefile.exe	
+file=ABI_DIR\BUILD_DIR\t_makefilewriteable.exe			System\Programs\t_makefilewriteable.exe
+file=ABI_DIR\BUILD_DIR\t_makefilereadonly.exe			System\Programs\t_makefilereadonly.exe
+file=ABI_DIR\BUILD_DIR\t_processkillprocess.exe			System\Programs\t_processkillprocess.exe
+
+//Helper process and DLL to enable modification of P&S variables
+file=ABI_DIR\BUILD_DIR\tpropertymanager.dll			System\Libs\tpropertymanager.dll
+file=ABI_DIR\BUILD_DIR\tpropertymanagersrv.exe			System\Programs\tpropertymanagersrv.exe
+
+//data=EPOCROOT##epoc32\data\z\EComExample6.RSC			EComExample6.RSC
+data=EPOCROOT##epoc32\data\z\RAMOnly\InvalidSIDPlugin.dll       RAMOnly\InvalidSIDPlugin.dll
+data=EPOCROOT##epoc32\data\z\RAMOnly\InvalidSIDPlugin.rsc	RAMOnly\InvalidSIDPlugin.rsc
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComExample5.RSC		RAMOnly\EComExample5.RSC
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComExample12.RSC		RAMOnly\EComExample12.RSC
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComExample12Upgraded.RSC		RAMOnly\EComExample12Upgraded.RSC
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComExample12Downgraded.RSC	RAMOnly\EComExample12Downgraded.RSC
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComExample14.RSC		RAMOnly\EComExample14.RSC
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComExample14Upgraded.RSC		RAMOnly\EComExample14Upgraded.RSC
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComExample15.RSC		RAMOnly\EComExample15.RSC
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComExampleBadData.RSC		RAMOnly\EComExampleBadData.RSC
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComExampleBadData1.RSC		RAMOnly\EComExampleBadData1.RSC
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComExampleBadData2.RSC		RAMOnly\EComExampleBadData2.RSC
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComRomRslvrExampleOnC.RSC  RAMOnly\EComRomRslvrExampleOnC.RSC
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComRomOnlyExampleOnC.rsc  RAMOnly\EComRomOnlyExampleOnC.rsc
+data=EPOCROOT##epoc32\data\z\HeapTestImpl.rsc			HeapTestImpl.rsc
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComRomOnlyExampleOnC.dll        	RAMOnly\EComRomOnlyExampleOnC.dll
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComRomRslvrExampleOnC.dll       	RAMOnly\EComRomRslvrExampleOnC.dll
+data=EPOCROOT##epoc32\data\z\RAMOnly\T_PlatSecResolverC.rsc	RAMOnly\T_PlatSecResolverC.rsc
+data=EPOCROOT##epoc32\data\z\RAMOnly\T_PlatSecECom4.RSC		RAMOnly\T_PlatSecECom4.RSC
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComExample3.rsc       	RAMOnly\EComExample3.rsc
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComExample2.rsc       	RAMOnly\EComExample2.rsc
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComExample.rsc       	RAMOnly\EComExample.rsc
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComNullExample.rsc       	RAMOnly\EComNullExample.rsc
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComUpgradeExample1.rsc	RAMOnly\EComUpgradeExample1.rsc
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComUpgradeExample1.dll	RAMOnly\EComUpgradeExample1.dll
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComUpgradeExample2.rsc	RAMOnly\EComUpgradeExample2.rsc
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComUpgradeExample2.dll	RAMOnly\EComUpgradeExample2.dll
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComRomRslvrExampleOnZ.rsc       	RAMOnly\EComRomRslvrExampleOnZ.rsc
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComUpgradeExample3.rsc	RAMOnly\EComUpgradeExample3.rsc
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComUpgradeExample3.dll	RAMOnly\EComUpgradeExample3.dll
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComUpgradeROExample1.rsc	RAMOnly\EComUpgradeROExample1.rsc
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComUpgradeROExample1.dll	RAMOnly\EComUpgradeROExample1.dll
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComUpgradeROExample2.rsc	RAMOnly\EComUpgradeROExample2.rsc
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComUpgradeROExample2.dll	RAMOnly\EComUpgradeROExample2.dll
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComUpgradeROExample3.rsc	RAMOnly\EComUpgradeROExample3.rsc
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComUpgradeROExample3.dll	RAMOnly\EComUpgradeROExample3.dll
+data=EPOCROOT##epoc32\data\z\RAMOnly\DefectPlugin.rsc		RAMOnly\DefectPlugin.rsc
+data=EPOCROOT##epoc32\data\z\RAMOnly\DefectPlugin.dll		RAMOnly\DefectPlugin.dll
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComExample7.rsc		RAMOnly\EComExample7.rsc
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComExample7.dll		RAMOnly\EComExample7.dll
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComExample8.rsc		RAMOnly\EComExample8.rsc
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComExample8.dll		RAMOnly\EComExample8.dll
+data=EPOCROOT##epoc32\data\z\RAMOnly\exampleNine.rsc		RAMOnly\exampleNine.rsc
+data=EPOCROOT##epoc32\data\z\RAMOnly\exampleNine.dll		RAMOnly\exampleNine.dll
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComCR629Example1.rsc	RAMOnly\EComCR629Example1.rsc
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComCR629Example1.dll	RAMOnly\EComCR629Example1.dll
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComCR629Example2.rsc	RAMOnly\EComCR629Example2.rsc
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComCR629Example2.dll	RAMOnly\EComCR629Example2.dll
+data=EPOCROOT##epoc32\data\z\RAMOnly\LanguagePlugin.dll		RAMOnly\LanguagePlugin.dll
+data=EPOCROOT##epoc32\data\z\RAMOnly\LanguagePlugin.rsc		RAMOnly\LanguagePlugin.rsc
+data=EPOCROOT##epoc32\data\z\RAMOnly\LanguagePlugin.r01		RAMOnly\LanguagePlugin.r01
+data=EPOCROOT##epoc32\data\z\RAMOnly\LanguagePlugin.r02		RAMOnly\LanguagePlugin.r02
+data=EPOCROOT##epoc32\data\z\RAMOnly\LanguagePlugin.r03		RAMOnly\LanguagePlugin.r03
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComHashExample.dll	RAMOnly\EComHashExample.dll
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComHashExample.rsc	RAMOnly\EComHashExample.rsc
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComSwiExample.dll		RAMOnly\EComSwiExample.dll
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComSwiExample.rsc		RAMOnly\EComSwiExample.rsc
+data=EPOCROOT##epoc32\data\z\RAMOnly\dummycustomresolver1.rsc		RAMOnly\dummycustomresolver1.rsc
+data=EPOCROOT##epoc32\data\z\RAMOnly\cachedcustomresolver2.rsc		RAMOnly\cachedcustomresolver2.rsc
+
+//Note here that the data= is used instead of file= because in T_Loadmanager this plugins needs to be copied from ROM to C
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComExample5.dll       	RAMOnly\EComExample5.dll
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComExample12.dll       	RAMOnly\EComExample12.dll
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComExample12Upgraded.dll       	RAMOnly\EComExample12Upgraded.dll
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComExample12Downgraded.dll       	RAMOnly\EComExample12Downgraded.dll
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComExample14.dll       	RAMOnly\EComExample14.dll
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComExample14Upgraded.dll       	RAMOnly\EComExample14Upgraded.dll
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComExample15.dll       	RAMOnly\EComExample15.dll
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComExampleBadData.dll       	RAMOnly\EComExampleBadData.dll
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComExampleBadData1.dll       	RAMOnly\EComExampleBadData1.dll
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComExampleBadData2.dll       	RAMOnly\EComExampleBadData2.dll
+data=EPOCROOT##epoc32\data\z\HeapTestImpl.dll			HeapTestImpl.dll
+data=EPOCROOT##epoc32\data\z\RAMOnly\T_PlatSecResolverC.dll	RAMOnly\T_PlatSecResolverC.dll
+data=EPOCROOT##epoc32\data\z\RAMOnly\T_PlatSecECom4.dll		RAMOnly\T_PlatSecECom4.dll
+
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComExample3.dll       	RAMOnly\EComExample3.dll
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComExample2.dll       	RAMOnly\EComExample2.dll
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComExample.dll       	RAMOnly\EComExample.dll
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComNullExample.dll       	RAMOnly\EComNullExample.dll
+data=EPOCROOT##epoc32\data\z\RAMOnly\EComRomRslvrExampleOnZ.dll       	RAMOnly\EComRomRslvrExampleOnZ.dll
+data=EPOCROOT##epoc32\data\z\RAMOnly\dummycustomresolver1.dll       	RAMOnly\dummycustomresolver1.dll
+
+
+
+// One that is not in \epoc32\data\z\ramonly.
+data=ABI_DIR\BUILD_DIR\z\ramonly\cachedcustomresolver2.dll	RAMONLY\cachedcustomresolver2.dll
+
+// ECom test EXEs
+file=ABI_DIR\BUILD_DIR\ComponentInfoTest.exe    Test\ComponentInfoTest.exe
+file=ABI_DIR\BUILD_DIR\EComTests.exe            Test\EComTests.exe
+file=ABI_DIR\BUILD_DIR\EComServerTest.exe       Test\EComServerTest.exe
+file=ABI_DIR\BUILD_DIR\T_PlatSecTest.exe   	Test\T_PlatSecTest.exe
+
+// Testbed test EXEs
+file=ABI_DIR\BUILD_DIR\DefaultLogOutputTest.exe Test\DefaultLogOutputTest.exe
+file=ABI_DIR\BUILD_DIR\DataLoggerTest.exe       Test\DataLoggerTest.exe
+file=ABI_DIR\BUILD_DIR\TransitionTest.exe       Test\TransitionTest.exe
+file=ABI_DIR\BUILD_DIR\TestControllerTest.exe   Test\TestControllerTest.exe
+file=ABI_DIR\BUILD_DIR\TestManagerTest.exe      Test\TestManagerTest.exe
+file=ABI_DIR\BUILD_DIR\ComponentTesterTest.exe  Test\ComponentTesterTest.exe
+file=ABI_DIR\BUILD_DIR\UnitTestTest.exe         Test\UnitTestTest.exe
+
+// Simple ECom tests
+file=ABI_DIR\BUILD_DIR\t_ecomcancel.exe         Test\t_ecomcancel.exe
+file=ABI_DIR\BUILD_DIR\t_romresolver.exe        Test\t_romresolver.exe
+file=ABI_DIR\BUILD_DIR\t_romonly.exe            Test\t_romonly.exe
+file=ABI_DIR\BUILD_DIR\T_ListImplementation.exe Test\T_ListImplementation.exe
+file=ABI_DIR\BUILD_DIR\T_ExtendedInterfaces.exe Test\T_ExtendedInterfaces.exe
+file=ABI_DIR\BUILD_DIR\t_language.exe		Test\t_language.exe
+file=ABI_DIR\BUILD_DIR\t_downgrade.exe		Test\t_downgrade.exe
+file=ABI_DIR\BUILD_DIR\t_defaultresolver.exe	Test\t_defaultresolver.exe
+file=ABI_DIR\BUILD_DIR\t_loadmanager.exe      	Test\t_loadmanager.exe
+file=ABI_DIR\BUILD_DIR\t_suicide.exe         	Test\t_suicide.exe
+file=ABI_DIR\BUILD_DIR\t_discoverer.exe       	Test\t_discoverer.exe
+file=ABI_DIR\BUILD_DIR\t_registrar.exe        	Test\t_registrar.exe
+file=ABI_DIR\BUILD_DIR\t_registrydata.exe     	Test\t_registrydata.exe
+file=ABI_DIR\BUILD_DIR\t_resolver.exe         	Test\t_resolver.exe
+file=ABI_DIR\BUILD_DIR\t_backupnotifier.exe   	Test\t_backupnotifier.exe
+file=ABI_DIR\BUILD_DIR\t_finalclose.exe		Test\t_finalclose.exe
+file=ABI_DIR\BUILD_DIR\t_ecomdefect.exe		Test\t_ecomdefect.exe
+file=ABI_DIR\BUILD_DIR\t_ServerStartupMgr.exe   Test\t_ServerStartupMgr.exe
+file=ABI_DIR\BUILD_DIR\t_EComSsaEnabled.exe   	Test\t_EComSsaEnabled.exe
+file=ABI_DIR\BUILD_DIR\t_EComSsaDisabled.exe   	Test\t_EComSsaDisabled.exe
+file=ABI_DIR\BUILD_DIR\t_pluginupgrade.exe 	Test\t_pluginupgrade.exe
+file=ABI_DIR\BUILD_DIR\t_drivemount.exe 	Test\t_drivemount.exe
+file=ABI_DIR\BUILD_DIR\t_rogueplugin.exe		Test\t_rogueplugin.exe
+file=ABI_DIR\BUILD_DIR\t_ecomswi.exe		Test\t_ecomswi.exe
+file=ABI_DIR\BUILD_DIR\t_ecombur.exe		Test\t_ecombur.exe
+
+file=ABI_DIR\BUILD_DIR\t_ecomentry.exe 		Test\t_ecomentry.exe
+file=ABI_DIR\BUILD_DIR\t_plugindiscovery.exe 	Test\t_plugindiscovery.exe
+file=ABI_DIR\BUILD_DIR\t_capcheck.exe		Test\t_capcheck.exe
+file=ABI_DIR\BUILD_DIR\t_validateRegistry.exe	Test\t_validateRegistry.exe
+file=ABI_DIR\BUILD_DIR\t_driveinfo.exe		Test\t_driveinfo.exe
+file=ABI_DIR\BUILD_DIR\t_ImplementationInformation.exe		Test\t_ImplementationInformation.exe
+file=ABI_DIR\BUILD_DIR\t_hashcheck.exe		Test\t_hashcheck.exe
+file=ABI_DIR\BUILD_DIR\t_resolverperf.exe	Test\t_resolverperf.exe
+file=ABI_DIR\BUILD_DIR\t_resolvercache.exe	Test\t_resolvercache.exe
+
+// SPI test file
+data=EPOCROOT##epoc32\data\z\Test\Data\EcomTest.spi Test\Data\EcomTest.spi
+data=EPOCROOT##epoc32\data\z\Test\Data\EcomTestType3.spi Test\Data\EcomTestType3.spi
+
+//multiple SPI test files
+data=EPOCROOT##epoc32\data\z\Test\Data\ecom-0-2.s02 private\10009D8F\ecom-0-2.s02
+data=EPOCROOT##epoc32\data\z\Test\Data\ecom-0-3.s03 private\10009D8F\ecom-0-3.s03
+
+//epocsrvr.ini test files
+data=EPOCROOT##epoc32\data\z\Test\Data\EComSrvr.ini Test\Data\EComSrvr.ini
+data=EPOCROOT##epoc32\data\z\Test\Data\EComTestBehaviour.ini    Test\Data\EComTestBehaviour.ini
+//T_EcomEntry test file .
+data=EPOCROOT##epoc32\data\z\Test\Data\ECOMTEST.aif        Test\Data\ECOMTEST.aif
+
+//corrupt file to replace language and drive index files for robustness tests
+data=EPOCROOT##epoc32\data\z\Test\Data\corruptfile.txt	   Test\Data\corruptfile.txt	
+
+file=ABI_DIR\DEBUG_DIR\t_disabledrives.exe		sys\bin\t_disabledrives.exe
+
+//
+// The following include and macro mimic the way that ECOM production code
+// handles patchable constants. The patchdata commands are copied from
+// ECom.iby (except ecomserver.exe is changed to t_disabledrives.exe).
+// To test your new constants, copy the constant and its associated
+// macro from ECom.iby to disabledrivestest.hby and add a test in t_disabledrives.cpp.
+#include <disabledrivestest.hby>
+
+#ifdef ECOM_PATCHDATA_KTESTDISCOVERYDISABLEDDRIVELIST
+    patchdata t_disabledrives.exe@KDiscoveryDisabledDriveList ECOM_PATCHDATA_KTESTDISCOVERYDISABLEDDRIVELIST
+#endif
+
+#ifdef ECOM_PATCHDATA_KCUSTOMRESOLVERCACHESIZE
+    patchdata t_disabledrives.exe@KCustomResolverCacheSize ECOM_PATCHDATA_KCUSTOMRESOLVERCACHESIZE
+#endif
+
+#ifdef ECOM_PATCHDATA_KCUSTOMRESOLVERCACHETIMEOUT
+    patchdata t_disabledrives.exe@KCustomResolverCacheTimeout ECOM_PATCHDATA_KCUSTOMRESOLVERCACHETIMEOUT
+#endif
+
+#endif //__ECOMTEST_IBY__

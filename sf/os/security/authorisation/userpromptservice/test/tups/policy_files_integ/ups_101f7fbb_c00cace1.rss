@@ -1,0 +1,76 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* Tests Accessing: SEC-INTEG-UPS-B0005 (Cancellation of UPS Request in Concurrent Operation)
+* Service: 1000A00B
+* Service: System Server 3 (0x101F7FBB)
+*
+*/
+
+
+#include <ups/policies.rh>
+
+UID2 KUidUpsPolicyResourceFile
+UID3 0x101F7FBB
+
+// Test policy file for WAP GPRS
+RESOURCE POLICIES testpolicies
+	{
+	header = POLICY_HEADER
+		{
+		// use default client config 
+		policyevaluator = 0xe1111e31;
+		dialogcreator = 0xe1111d31;
+		majorversion = 1;
+		minorversion = 1;
+		};
+	policies = 
+		{
+		POLICY
+			{
+			// Silently accepts redirection to "www.symbian.com" for all clients
+			sid_classes = KAllSids;
+			destination = "www.symbian.com";
+			options = KYes;
+			flags = 0x01;
+			},
+		POLICY
+			{
+			// Allows dialog display when clients with Protected SIDs request an IP address with the specific
+			// network suffix
+			sid_classes = KProtectedSids;
+			destination = "192.168.*.*";
+			options = KYes | KNo | KSession | KAlways | KNever;
+			flags = 0x02;
+			},
+		POLICY
+			{
+			// Allows dialog display protected clients to ".com" sites
+			sid_classes = KAllSids;
+			destination = "*.com";
+			options = KYes | KNo | KAlways | KNever;
+			flags = 0x03;
+			},
+		POLICY
+			{
+			// Allows dialog display protected clients to ".co.??" sites
+			sid_classes = KAllSids;
+			destination = "*.co.??";
+			options = KYes | KNo | KSession | KAlways | KNever;
+			flags = 0x04;
+			}
+		
+		};
+	}
+

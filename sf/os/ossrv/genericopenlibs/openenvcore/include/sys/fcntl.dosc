@@ -1,0 +1,754 @@
+/** @file  ../include/sys/fcntl.h
+@internalComponent
+*/
+
+/** @fn  open(const char *file, int flags, ...)
+@param file
+@param flags
+@param ...
+@return   If successful, open returns a non-negative integer, termed a file descriptor. It returns 
+-1 on failure and sets errno to indicate the error.
+
+  The file name specified by file is opened for reading and/or writing, as specified by the argument flags , and the file descriptor returned to the calling process. The flags argument may indicate that the file is to be created if it does 
+not exist (by specifying the O_CREAT flag). In this case open requires a third argument, mode_t mode , and the file is created with mode as described in chmod and modified by the process' umask 
+value (see umask )
+
+
+
+ The flags specified are formed by OR'ing the following values
+
+@code
+
+O_RDONLYopen for reading only
+O_WRONLYopen for writing only
+O_RDWRopen for reading and writing
+O_NONBLOCKdo not block on open
+O_APPENDappend on each write
+O_CREATcreate file if it does not exist
+O_TRUNCtruncate size to 0
+O_EXCLerror if create and file exists
+O_SHLOCKatomically obtain a shared lock
+O_EXLOCKatomically obtain an exclusive lock
+O_DIRECTeliminate or reduce cache effects
+O_FSYNCsynchronous writes
+O_NOFOLLOWdo not follow symlinks
+Following options are currently not supported :
+O_NONBLOCK, O_SHLOCK, O_EXLOCK, O_DIRECT, O_FSYNC, O_NOFOLLOW.
+@endcode
+O_LARGEFILE
+This flag, if passed into the open() API, enables it to open a large file (files with 64 bit file sizes)
+
+
+ Opening a file with O_APPEND set causes each write on the file
+to be appended to the end.
+
+ If O_TRUNC is specified, and the file exists, the file is truncated to 
+  zero length.
+
+ If O_EXCL is set with O_CREAT and the file already
+exists, open returns an error.
+This may be used to
+implement a simple exclusive access locking mechanism.
+
+ If O_EXCL is set and the last component of the pathname is
+a symbolic link, open will fail even if the symbolic
+link points to a non-existent name.
+
+ If the O_NONBLOCK flag is specified and the open system call would result in the process being blocked for some 
+  reason (e.g., waiting for carrier on a dialup line), open returns immediately. The descriptor remains in non-blocking mode 
+  for subsequent operations. This mode need not have any effect on files other 
+  than FIFOs.
+
+ If O_FSYNC is used in the mask all writes will immediately be written 
+  to disk, the kernel will not cache written data and all writes on the descriptor 
+  will not return until the data to be written completes.
+
+ If O_NOFOLLOW is used in the mask and the target file passed to open is a symbolic link the open will fail.
+
+ When opening a file, a lock with flock semantics can be obtained by setting O_SHLOCK for a shared lock or O_EXLOCK for an exclusive lock. If creating a file with O_CREAT, the request for the lock will never fail (provided that the 
+  underlying file system supports locking).
+
+ O_DIRECT may be used to minimize or eliminate the cache effects of 
+  reading and writing. The system will attempt to avoid caching the data being 
+  read or written. If it cannot avoid caching the data, it will minimize the impact 
+  the data has on the cache. Use of this flag can drastically reduce performance 
+  if not used with care.
+
+ If successful, open returns a non-negative integer termed a file descriptor. It returns 
+  -1 on failure. The file pointer used to mark the current position within the 
+  file is set to the beginning of the file.
+
+ When a new file is created it is given the group of the directory
+which contains it.
+
+ The new descriptor is set to remain open across execve system calls.; See close and fcntl .
+
+ The system imposes a limit on the number of file descriptors
+open simultaneously by one process.
+The getdtablesize system call returns the current system limit.
+
+
+
+ Notes:
+
+ 1) Mode values for group and others are ignored
+
+ 2) Execute bit and setuid on exec bit are ignored.
+
+ 3) The default working directory of a process is initalized to C: \\private\\UID 
+  (UID of the calling application) and any data written into this directory persists 
+  between phone resets.
+
+ 4) If the specified file is a symbolic link and the file it is pointing to 
+  is invalid, the symbolic link file will be automatically removed.
+
+ 5) A file in cannot be created with write-only permissions. Attempting to create 
+  a file with write-only permissions will result in a file with read-write permission.
+
+ 6) Creating a new file with the O_CREAT flag does not alter the time stamp 
+  of the parent directory.
+
+ 7) A file has only two time stamps: access and modification. Creation time 
+  stamp of the file is not supported and access time stamp is initially set equal 
+  to modification time stamp.
+
+ 8) Users should not use O_DIRECT flag as the underlying implementation makes explicit
+   use of O_DIRECT by default. Instead if the users want to use read/write 
+   buffering they can use O_BUFFERED.
+
+ 9) Users should not use O_BINARY flag as the underlying implementation opens a file 
+   in binary mode by default. Instead if the users want to open the file in text mode 
+   they can use O_TEXT.
+
+Examples:
+@code
+/* This example creates a file in the current working directory and 
+ * opens it in read-write mode. */
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+int main()
+{
+  int fd = 0;
+   fd = open("Example.txt" , O_CREAT | O_EXCL , 0666);
+   if(fd < 0 ) 
+   {
+      printf("Failed to create and open file in current working directory 
+");
+      return -1;
+   }
+   printf("File created and opened in current working directory 
+"  );
+   return 0;
+}
+
+@endcode
+ Output
+@code
+File created and opened in current working directory
+
+@endcode
+@see chmod()
+@see close()
+@see dup()
+@see getdtablesize()
+@see lseek()
+@see read()
+@see umask()
+@see write()
+@see fopen()
+
+Limitations:
+
+KErrNotReady of Symbian error code is mapped to ENOENT, which typically means drive
+not found or filesystem not mounted on the drive.
+
+@capability Deferred @ref RFs::Entry(const TDesC16&, TEntry&) const
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @fn  open64(const char *file, int flags, ...)
+@param file
+@param flags
+@param ...
+@return   If successful, open64() returns a non-negative integer, termed a file descriptor. It returns 
+-1 on failure and sets errno to indicate the error.
+
+
+For full documentation see: http://www.unix.org/version2/whatsnew/lfs20mar.html#3.0
+
+@see open()
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/**@typedef typedef	__off_t		off64_t;
+
+Large file offsets.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  creat(const char *file, mode_t mode)
+@param file
+@param mode
+@return   open and creat return the new file descriptor, or -1 if an error occurred (in 
+  which case errno is set appropriately).  
+
+  This interface is made obsolete by: open
+
+ The creat function
+is the same as: open(path, O_CREAT | O_TRUNC | O_WRONLY, mode); Limitation :Creating a new file doesn't alter the time stamp of parent directory, created entry has only two time stamps access and modification timestamps.
+Creation time stamp of the file is not supported, here accesstime stamp is equal to modification time stamp.
+
+Examples:
+@code
+/* Detailed description   : This test code demonstrates creat system call usage, it creates a
+ * in current working directory(if file exists then it is truncated. Preconditions : None */
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+int main()
+{
+ int fd = 0;
+  fd = creat("Example.txt" , 0666);
+  if(fd < 0 )  
+  {
+    printf("File creation failed 
+");
+    return -1;
+  }
+  printf("Example.txt file created 
+");
+  return 0;
+}
+
+@endcode
+ Output
+@code
+Example.txt file created
+
+@endcode
+@see open()
+
+Limitations:
+
+KErrNotReady of Symbian error code is mapped to ENOENT, which typically means drive
+not found or filesystem not mounted on the drive.
+
+@capability Deferred @ref RFs::Entry(const TDesC16&, TEntry&) const
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  creat64(const char *file, mode_t mode)
+@param file
+@param mode
+@return   creat64() returns the new file descriptor, or -1 if an error occurred (in 
+  which case errno is set appropriately).  
+
+For full documentation see: http://www.unix.org/version2/whatsnew/lfs20mar.html#3.0
+
+@see creat()
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fcntl(int aFid, int aCmd, ...)
+@param aFid
+@param aCmd
+@param ...
+@return   Upon successful completion, the value returned depends on cmd as follows: F_DUPFD A new file descriptor. F_GETFD Value of flag (only the low-order bit is defined). F_GETFL Value of flags. F_GETOWN Value of file descriptor owner (Not supported). other Value other than -1. Otherwise, a value of -1 is returned and errno is set to indicate the error.
+
+@code
+The fcntl system call provides for control over descriptors. The argument fd is a descriptor to be operated on by cmd as described below. Depending on the value of cmd, fcntl can take an additional third argument int arg.
+
+ F_DUPFD Return a new descriptor as follows: Lowest numbered available descriptor greater than or equal to arg. Same object references as the original descriptor. New descriptor shares the same file offset if the object
+ was a file. Same access mode (read, write or read/write). Same file status flags (i.e., both file descriptors
+ share the same file status flags). The close-on-exec flag associated with the new file descriptor
+ is set to remain open across execve
+ system calls. 
+ 
+ Limitations: 
+ 
+ The difference between two file descriptors passed must not 
+       be greater than 8. If the difference is greater than 8 then behaviour of 
+       fcntl system call is undefined.F_SELKW flag is not supported because of underlying platform limitations.
+ F_RDLCK is not supported because  the native platform only supports exclusive locks and not shared locks.
+
+
+@code
+
+ O_NONBLOCK Non-blocking I/O; if no data is available to a read system call, or if a write operation would block, the read or 
+       write call returns -1 with the error EAGAIN. (This flag is Not supported for files)
+ O_APPEND Force each write to append at the end of file;
+ corresponds to the O_APPEND flag of open .
+ (Setting this flag in fcntl currently has no effect on subsequent write system calls)
+ O_DIRECT Minimize or eliminate the cache effects of reading and writing. The system 
+       will attempt to avoid caching data during read or write. If it cannot avoid 
+       caching the data it will minimize the impact the data has on the cache. 
+       Use of this flag can drastically reduce performance if not used with care 
+       (Not supported).
+ O_ASYNC Enable the SIGIO signal to be sent to the process group when I/O is possible, 
+       e.g. upon availability of data to be read (Not supported).
+
+ F_GETLK Get the first lock that blocks the lock description pointed to by the
+ third argument, arg, taken as a pointer to a struct flock (see above).
+ The information retrieved overwrites the information passed to fcntl in the flock structure.
+ If no lock is found that would prevent this lock from being created,
+ the structure is left unchanged by this system call except for the
+ lock type which is set to F_UNLCK .
+ F_SETLK Set or clear a file segment lock according to the lock description
+ pointed to by the third argument, arg, taken as a pointer to a struct flock (see above). 
+ F_SETLK is used to establish shared (or read) locks ( F_RDLCK )( "F_RDLCK"  is  not supported)
+ or exclusive (or write) locks, ( F_WRLCK, ) as well as remove either type of lock ( F_UNLCK. )
+ If a shared or exclusive lock cannot be set, fcntl returns immediately with EAGAIN. (Not supported)
+  
+ F_SETLKW This command is the same as F_SETLK except that if a shared or exclusive lock is blocked by other locks,
+ the process waits until the request can be satisfied.(Not Supported)
+ If a signal that is to be caught is received while fcntl is waiting for a region, the fcntl will be interrupted if the signal handler has not specified the SA_RESTART . (Not supported)
+
+@endcode
+
+The fcntl system call provides for control over descriptors.
+The argument fd is a descriptor to be operated on by cmd as described below.
+Depending on the value of cmd, fcntl can take an additional third argument int arg . F_DUPFD Return a new descriptor as follows:
+
+Lowest numbered available descriptor greater than or equal to arg. Same object references as the original descriptor. New descriptor shares the same file offset if the object
+was a file. Same access mode (read, write or read/write). Same file status flags (i.e., both file descriptors
+share the same file status flags). The close-on-exec flag associated with the new file descriptor
+is set to remain open across execve
+system calls. Limitation: The difference between two file descriptors passed must not 
+ be greater than 8. If the difference is greater than 8 then behaviour of 
+fcntl system call is undefined. F_GETFD Get the close-on-exec flag associated with the file descriptor fd as FD_CLOEXEC. If the returned value ANDed with FD_CLOEXEC is 0 the file will remain open across exec, otherwise the file will be closed upon execution of exec (arg is ignored). F_SETFD Set the close-on-exec flag associated with fd to arg, where arg is either 0 or FD_CLOEXEC, as described above. F_GETFL Get descriptor status flags, as described below (arg is ignored). F_SETFL Set descriptor status flags to arg . F_GETOWN Get the process ID or process group currently receiving SIGIO and SIGURG signals. Process groups are returned as negative values (arg is ignored)(Not supported). F_SETOWN Set the process or process group to receive SIGIO and SIGURG signals. Process groups are specified by supplying arg as negative, otherwise arg is interpreted as a process ID (Not supported).
+
+ The flags for the F_GETFL and F_SETFL flags are as follows: O_NONBLOCK No	n-blocking I/O; if no data is available to a read system call, or if a write operation would block, the read or 
+      write call returns -1 with the error EAGAIN. (This flag is Not supported for files) O_APPEND Force each write to append at the end of file;
+corresponds to the O_APPEND flag of open .
+(Setting this flag in fcntl currently has no effect on subsequent write system calls) O_DIRECT Minimize or eliminate the cache effects of reading and writing. The system 
+      will attempt to avoid caching data during read or write. If it cannot avoid 
+      caching the data it will minimize the impact the data has on the cache. 
+      Use of this flag can drastically reduce performance if not used with care 
+      (Not supported). O_ASYNC Enable the SIGIO signal to be sent to the process group when I/O is possible, 
+      e.g. upon availability of data to be read (Not supported).
+
+ Several commands are available for doing advisory file locking;
+they all operate on the following structure: 
+
+@code
+
+struct flock {
+off_tl_start;/* starting offset */
+off_tl_len;/* len = 0 means until end of file */
+pid_tl_pid;/* lock owner */
+shortl_type;/* lock type: read/write, etc. */
+shortl_whence;/* type of l_start */
+}; 
+
+@endcode
+
+The commands available for advisory record locking are as follows: 
+
+F_GETLK Get the first lock that blocks the lock description pointed to by the
+third argument, arg, taken as a pointer to a struct flock (see above).
+The information retrieved overwrites the information passed to fcntl in the flock structure.
+If no lock is found that would prevent this lock from being created,
+the structure is left unchanged by this system call except for the
+lock type which is set to F_UNLCK .
+
+F_SETLK  Set or clear a file segment lock according to the lock description
+pointed to by the third argument, arg, taken as a pointer to a struct flock (see above). 
+F_SETLK is used to establish shared (or read) locks ( F_RDLCK ) . Note "F_RDLCK"  is  not supported)
+or exclusive (or write) locks, ( F_WRLCK, ) as well as remove either type of lock ( F_UNLCK. )
+If a shared or exclusive lock cannot be set, fcntl returns immediately with EAGAIN. (Not supported) 
+
+F_SETLKW This command is the same as F_SETLK except that if a shared or exclusive lock is blocked by other locks,
+the process waits until the request can be satisfied.
+If a signal that is to be caught is received while fcntl is waiting for a region, the fcntl will be interrupted if the signal handler has not specified the SA_RESTART . (Not supported)
+
+ When a shared lock has been set on a segment of a file,other processes can set shared locks on that segment
+or a portion of it.A shared lock prevents any other process from setting an exclusive lock on any portion of the protected area.
+A request for a shared lock fails if the file descriptor was not opened with read access.
+
+An exclusive lock prevents any other process from setting a shared lock or an exclusive lock on any portion of the protected area.
+A request for an exclusive lock fails if the file was not opened with write access.
+
+ The value of l_whence is SEEK_SET, SEEK_CUR, or SEEK_END to indicate that the relative offset, l_start bytes, will be measured from the start of the file,
+current position, or end of the file, respectively.
+The value of l_len is the number of consecutive bytes to be locked.
+If l_len is negative, l_start means end edge of the region.
+The l_pid field is only used with F_GETLK to return the process ID of the process holding a blocking lock .( Not Supported  )
+After a successful F_GETLK request, the value of l_whence is SEEK_SET.
+
+ Locks may start and extend beyond the current end of a file,
+but may not start or extend before the beginning of the file.
+A lock is set to extend to the largest possible value of the
+file offset for that file if l_len is set to zero.
+If l_whence and l_start point to the beginning of the file, and l_len is zero, the entire file is locked.
+If an application wishes only to do entire file locking, the flock system call is much more efficient.
+
+There is at most one type of lock set for each byte in the file.
+Before a successful return from an F_SETLK or an F_SETLKW ( Not Supported  ) request when the calling process has previously existing locks on bytes in the region specified by the request,
+the previous lock type for each byte in the specified
+region is replaced by the new lock type.
+As specified above under the descriptions
+of shared locks and exclusive locks, an F_SETLK or an F_SETLKW request fails or blocks respectively when another process has existing
+locks on bytes in the specified region and the type of any of those
+locks conflicts with the type specified in the request.
+
+ This interface follows the completely stupid [sic] semantics of System 
+  V and -p1003.1-88 that require that all locks associated with a file for a 
+  given process are removed when any file descriptor for that file is closed by that process. This semantic 
+  means that applications must be aware of any files that a subroutine library 
+  may access. For example if an application for updating the password file locks 
+  the password file database while making the update, and then calls getpwnam to retrieve a record, the lock will 
+  be lost because getpwnam opens, reads, and closes the password 
+  database. The database close will release all locks that the process has associated 
+  with the database, even if the library routine never requested a lock on the 
+  database. Another minor semantic problem with this interface is that locks are 
+  not inherited by a child process created using the fork system 
+  call. The flock interface has much more rational last close semantics and allows locks to be 
+  inherited by child processes. The flock system call is recommended for applications that want to ensure the integrity 
+  of their locks when using library routines or wish to pass locks to their children.
+
+ The fcntl, flock ,
+and lockf locks are compatible.
+Processes using different locking interfaces can cooperate
+over the same file safely.
+However, only one of such interfaces should be used within
+the same process.
+If a file is locked by a process through flock ,
+any record within the file will be seen as locked
+from the viewpoint of another process using fcntl or lockf ,
+and vice versa.
+Note that fcntl (F_GETLK); returns -1 in l_pid if the process holding a blocking lock previously locked the
+file descriptor by flock .
+
+ All locks associated with a file for a given process are
+removed when the process terminates.
+
+ All locks obtained before a call to execve remain in effect until the new program releases them.
+If the new program does not know about the locks, they will not be
+released until the program exits.
+
+ A potential for deadlock occurs if a process controlling a locked region
+is put to sleep by attempting to lock the locked region of another process.
+This implementation detects that sleeping until a locked region is unlocked
+would cause a deadlock and fails with an EDEADLK error.
+
+If 'aFid' corresponds to a shared memory object the only values of cmd that are supported are 
+F_DUPFD, F_GETFD, F_SETFD, F_SETFL, F_GETFL.
+
+Examples:
+@code
+/* Detailed description : Sample usafe of fcntl system call */
+#include <stdio.h>
+#include <fcntl.h>
+int main()
+{
+  int fd  = 0;
+  int flags = 0;
+  fd = open("Example.txt " , O_CREAT | O_RDWR  , 0666);
+  if(fd < 0 ) 
+  {
+     printf("Failed to open file Example.txt
+");
+     return -1;
+  }
+  if( (flags = fcntl(fd , F_GETFL) ) < 0 )  
+  {
+     printf("Fcntl system call failed 
+");
+     return -1;
+  }
+  printf("Flags of the file %o 
+" , flags);
+  return 0;
+}
+
+@endcode
+ Output
+@code
+Flags of the file 2
+
+@endcode
+@see close()
+@see flock()
+@see getdtablesize()
+@see open()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def O_RDONLY
+
+open for reading only
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def O_WRONLY
+
+open for writing only
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def O_RDWR	
+
+open for reading and writing 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def O_ACCMODE
+
+mask for above modes
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def O_NONBLOCK
+
+no delay
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def O_APPEND
+
+set append mode 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def O_CREAT	
+
+create if nonexistent 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def O_TRUNC	
+
+truncate to zero length
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def O_EXCL	
+
+error if already exists
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def O_NOCTTY	
+
+don't assign controlling terminal
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def F_DUPFD	
+
+Duplicate file descriptor.
+	
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def F_GETFD	
+
+Get file descriptor flags.
+	
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def F_SETFD	
+
+set file descriptor flags
+		
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def F_GETFL
+
+get file status flags
+		
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def F_SETFL	
+
+set file status flags 		
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def F_GETOWN		
+
+get SIGIO/SIGURG proc/pgrp
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def F_SETOWN		
+
+set SIGIO/SIGURG proc/pgrp 
+	
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def F_GETLK	
+
+get record locking information
+		
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def F_SETLK	
+
+set record locking information
+			
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def F_SETLKW	
+
+F_SETLK; wait if blocked
+		
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def F_GETLK64	
+
+get record locking information of large file
+		
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def F_SETLK64	
+
+set record locking information to a large file
+			
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def F_SETLKW64	
+
+F_SETLK; wait if blocked in a large file
+		
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def F_RDLCK	
+
+shared or read lock 
+		
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def F_UNLCK	
+
+unlock 
+	
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def F_WRLCK
+
+exclusive or write lock 
+	
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def O_SYNC		
+
+POSIX synonym for O_FSYNC 
+	
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def FD_CLOEXEC	
+
+close-on-exec flag 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def FREAD
+
+Kernel encoding of open mode; separate read and write bits that are independently testable: 1 greater than the above.
+FREAD and FWRITE are excluded from the #ifdef _KERNEL so that TIOCFLUSH, which was documented to use FREAD/FWRITE, continues to work.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def FWRITE	
+
+Kernel encoding of open mode; separate read and write bits that are independently testable: 1 greater than the above.
+FREAD and FWRITE are excluded from the #ifdef _KERNEL so that TIOCFLUSH, which was documented to use FREAD/FWRITE, continues to work.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+
+
+
+
+
+
+
+
+

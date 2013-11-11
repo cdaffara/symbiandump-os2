@@ -1,0 +1,54 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+#include <platform_paths.hrh>
+
+target			completion_test.exe
+targettype			exe
+UID               0x1000008d  0xe0000003
+
+#if defined(EKA2)
+CAPABILITY      ALL -TCB
+/* Remove comments and replace 0x00000000 with correct vendor id */
+// VENDORID     0x00000000
+/* Remove comments and replace 0x00000000 with correct secure id */
+// SECUREID     0x00000000
+#endif
+
+//The src directory is added to the (user)include path by default
+userinclude			../../../../tests
+systeminclude			../../../../tests
+
+userinclude			../inc
+//The top level directory is added to the include path by default
+//systeminclude			.. 			 ../glib 			 
+
+//Adding the Symbian and PIPS include path
+systeminclude			/epoc32/include
+systeminclude			/epoc32/include/stdapis
+systeminclude			/epoc32/include/stdapis/glib-2.0
+sourcepath			../../../../tests
+source			 completion-test.c
+
+//Adding some default libraries
+library			euser.lib libc.lib
+library			libglib.lib libgobject.lib libgthread.lib libgmodule.lib
+
+staticlibrary		libcrt0.lib
+
+SMPSAFE

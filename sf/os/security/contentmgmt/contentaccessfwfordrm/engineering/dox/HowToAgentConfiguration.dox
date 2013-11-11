@@ -1,0 +1,78 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// <hr>
+// The \c default_data section of an CA Agent or CA Agent proxy's resource file is 
+// used to specify three pieces of information:
+// The buffer size section is separated from the supplier MIME types by a '<code>|</code>' character 
+// and the supplier MIME types are separated from the consumer MIME types by a '<code>:</code>' character.
+// Below is an example for an OMA DRM agent. 
+// default_data="100|application/vnd.oma.drm.message,application/vnd.oma.drm.rights+xml:application/vnd.oma.drm.content";
+// <hr>
+// The \c opaque_data section is used to specify the agent's private directory under <code>c:\\private\\</code>. This will be the 
+// SID (SecureId) of the server who owns the directory, e.g.
+// opaque_data="12345678";
+// If the agent does not have a corresponding private directory or does not wish to provide access to that directory, it
+// should just leave the \c opaque_data section as an empty string.
+// <hr>
+// // 101FE8F1.rss
+// // UIDs quick-ref
+// // ECOM DLL UID:		0x101FE8F1
+// // CA Agent interface UID:	0x10204740
+// // Test CAA Implementation:	0x101FE8F2
+//
+
+// #include <ecom/registryinfo.rh>
+// RESOURCE REGISTRY_INFO theInfo
+// dll_uid = 0x101FE8F1;
+// interfaces =
+// INTERFACE_INFO
+// interface_uid = 0x10204740;
+// implementations = 
+// IMPLEMENTATION_INFO
+// implementation_uid = 0x101FE8F2;
+// version_no = 1;
+// display_name = "Test Agent";
+// default_data = "255|application/vnd.oma.drm.message,application/vnd.oma.drm.content:application/vnd.oma.drm.content"; // Sample CAF types
+// opaque_data = "12345678";
+// <hr>
+// When writing a new CA Agent, all other UIDs used in the above examples should 
+// be replaced by new UIDs from the Symbian UID generator. 
+//
+
+/**
+ @page CAA_Configuration Content Access Agent ECOM Resource File
+ - @ref default_data
+ - @ref opaque_data
+ - @ref RSSExample
+ - @ref UIDs
+ @section default_data default_data
+ @li The buffer size required by this agent to recognize a file when <code>ContentAccess::CAgentManager::RecognizeFileL()</code> is called
+ @li A list of supplier MIME types supported by this agent
+ @li A list of consumer MIME types supported by this agent.
+ @code
+ @endcode
+ @li It requires at least the first 100 bytes of a file in order to do recognition
+ @li It supports a supplier MIME types of <code>application/vnd.oma.drm.message</code> and <code>application/vnd.oma.drm.rights+xml</code>
+ @li It supports a consumer MIME type of <code>application/vnd.oma.drm.content</code>.
+ @section opaque_data opaque_data
+ @code
+ @endcode
+ @section RSSExample An Example Agent Resource File
+ @code
+ @endcode
+ @section UIDs Important UIDs for CA Agents
+ @li \c 0x10009D8D - the ECOM DLL UID. Identifies a DLL as an ECOM plugin
+ @li \c 0x101FC2CE - The Content Access Agent v1.0 interface, an implementation of <code>ContentAccess::CAgentFactory::NewL()</code>.
+ @li \c 0x10204740 - The Content Access Agent v2.0 interface, an implementation of <code>ContentAccess::CAgentFactory::NewL()</code>.
+*/

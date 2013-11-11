@@ -1,0 +1,46 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+/**
+ @file
+ @test
+ @internalComponent - Internal Symbian test code 
+*/
+
+
+target 		ttestecomdatarec.dll
+targettype 	plugin
+uid			0x10009d8d 0x1d1f75ed
+VENDORID 	0x70000001
+CAPABILITY	All -Tcb
+
+SOURCEPATH	../tef
+source          TTestEcomDataRec.cpp
+source          TEcomDecpDataRec.cpp
+source          TEcomLeavingRecognizer.cpp
+
+MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+library		euser.lib
+library		apmime.lib 
+library		bafl.lib
+library		efsrv.lib
+
+
+start resource 1d1f75ed.rss
+target ttestecomdatarec.rsc
+end
+
+SMPSAFE

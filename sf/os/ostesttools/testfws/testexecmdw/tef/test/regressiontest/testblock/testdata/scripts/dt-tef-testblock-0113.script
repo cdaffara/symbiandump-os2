@@ -1,0 +1,33 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SERVER te_RegBlockTestSuite 
+
+START_TESTCASE DT-TEF-TestBlock-0113
+//! @SYMTestCaseID          DT-TEF-TestBlock-0113
+//! @SYMCreationDate        10-11-2008
+//! @SYMAuthor              extshuohuang
+//! @SYMTestCaseDesc        This case from defect DPDEF129608. when panic or leave happened with number -14 (KErrInUse), testexecute will retry again.
+//!                         two scenario:
+//!                         1. In some situation, test server really in use, testexecute should retry.
+//!                         2. On other wise, test server execute some test, this test require a server which in use. test server should notice the server inuse and retry.
+//!                         
+//!                         So this test case only test server leave(panic) with -14.this not a really test server inuse.So the test should go on next test without retry current.
+	START_TEST_BLOCK	100 te_RegBlockTestSuite ${SYSDRIVE}\TestData\configs\te_RegBlockTestSuite.ini
+		CREATE_OBJECT	te_RegBlockTestWrapper	serverbusy_panic-014
+		COMMAND		serverbusy_panic-014  PanickingFunction		serverbusy_panic-014_obj_Panic
+	END_TEST_BLOCK		!PanicCode=-14
+END_TESTCASE DT-TEF-TestBlock-0113

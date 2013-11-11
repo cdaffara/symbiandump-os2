@@ -1,0 +1,50 @@
+/*
+* Copyright (c) 2000-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* GB18030_diff_gbk converter implementation
+*
+*/
+
+
+/**
+@file
+@SYMPurpose gb18030_4byte.dll GB18030-diff-GBK converter implementation
+*/
+
+TARGET			gb18030_diff_gbk.dll
+TARGETTYPE		dll
+
+CAPABILITY		All -Tcb
+
+DEFFILE			gb18030_diff_gbk.def
+
+UID				0x1000008d 0x10287039
+VENDORID		0x70000001
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+USERINCLUDE		../src/inc
+
+SOURCEPATH		../src/shared
+SOURCE			gb18030_diff_gbk.cpp
+
+SOURCEPATH		/epoc32/build/generatedcpp/charconv
+SOURCE			g_gb18030_diff_gbk.cpp
+
+LIBRARY			euser.lib
+
+START WINS
+				baseaddress 0x7d4d0000
+END
+
+SMPSAFE

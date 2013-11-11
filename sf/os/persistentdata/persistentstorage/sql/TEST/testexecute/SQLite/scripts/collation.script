@@ -1,0 +1,61 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// @file
+// 
+//
+
+//! @SYMTestSuiteName PDS-TEF-SQL-SUITE
+//! @SYMScriptTestEnvironment TEF
+//! @internalComponent
+//! @test
+
+PRINT Run SQL Tests
+
+LOAD_SUITE te_SQL_Suite
+
+RUN_UTILS MkDir c:\private\
+RUN_UTILS MkDir c:\private\102827c7\
+RUN_UTILS MkDir c:\private\10281e17\
+
+RUN_UTILS DeleteFile c:\private\10281e17\[102827c7]coll.db
+
+START_TESTCASE SYSLIB-SQL-CIT-1833
+//! @SYMTestCaseID    SYSLIB-SQL-CIT-1833
+//! @SYMTestCaseDesc  Manual test that checks that when the locale is changed the collation changes
+//! @SYMTestPriority  High
+//! @SYMTestActions   See description and the config file.
+//! @SYMTestExpectedResults
+//!                  The test looks for errors and content
+//!                  within the database. If these are not seen test errors
+//!                  will be generated.
+//!                  
+//! @SYMREQ           REQ5907
+
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\collation.ini collation1
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\collation.ini collation2
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLCDT z:\TEF_SQL\collation.ini collation3
+
+	RUN_UTILS DeleteFile c:\private\10281e17\[102827c7]coll.db
+END_TESTCASE SYSLIB-SQL-CIT-1833
+
+RUN_UTILS DeleteFile c:\private\10281e17\[102827c7]coll.db
+
+//cleanup
+RUN_UTILS DeleteDirectory c:\private\102827c7\
+
+
+
+
+
+

@@ -1,0 +1,225 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+CONSECUTIVE
+
+START_TESTCASE  OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0001
+RUN_PROGRAM -1 setcap.exe tunistdcap.exe 000000  tunistd_cap1.exe
+LOAD_SUITE tunistd_cap1
+//! @SYMTestCaseID OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0001
+//! @SYMTestStatus 	3.Released
+RUN_TEST_STEP   !Result=13 tunistd_cap1 accesssys
+END_TESTCASE  OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0001
+
+
+
+START_TESTCASE  OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0002
+RUN_PROGRAM -1 setcap.exe tunistdcap.exe 000800  tunistd_cap2.exe
+LOAD_SUITE tunistd_cap2
+//! @SYMTestCaseID OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0002
+//! @SYMTestStatus 	3.Released
+RUN_TEST_STEP  tunistd_cap2 accesssys
+END_TESTCASE  OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0002
+
+
+
+START_TESTCASE  OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0003
+RUN_PROGRAM -1 setcap.exe tunistdcap.exe 000000  tunistd_cap3.exe
+LOAD_SUITE tunistd_cap3
+//! @SYMTestCaseID OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0003
+//! @SYMTestStatus 	3.Released
+RUN_TEST_STEP !Result=13 tunistd_cap3 accessprivate
+END_TESTCASE  OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0003
+
+
+
+START_TESTCASE  OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0004
+RUN_PROGRAM -1 setcap.exe tunistdcap.exe 000800  tunistd_cap4.exe
+LOAD_SUITE tunistd_cap4
+//! @SYMTestCaseID OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0004
+//! @SYMTestStatus 	3.Released
+RUN_TEST_STEP tunistd_cap4 accessprivate
+END_TESTCASE  OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0004
+
+
+
+
+START_TESTCASE  OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0005
+RUN_PROGRAM -1 setcap.exe tunistdcap.exe 000000  tunistd_cap5.exe
+LOAD_SUITE tunistd_cap5
+//! @SYMTestCaseID OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0005
+//! @SYMTestStatus 	3.Released
+RUN_TEST_STEP !Result=13 tunistd_cap5 chdirsys
+END_TESTCASE  OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0005
+
+
+
+START_TESTCASE  OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0006
+RUN_PROGRAM -1 setcap.exe tunistdcap.exe 000800  tunistd_cap6.exe
+LOAD_SUITE tunistd_cap6
+//! @SYMTestCaseID OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0006
+//! @SYMTestStatus 	3.Released
+RUN_TEST_STEP  tunistd_cap6 chdirsys
+END_TESTCASE  OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0006
+
+
+START_TESTCASE  OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0007
+RUN_PROGRAM -1 setcap.exe tunistdcap.exe 000000  tunistd_cap7.exe
+LOAD_SUITE tunistd_cap7
+//! @SYMTestCaseID OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0007
+//! @SYMTestStatus 	3.Released
+RUN_TEST_STEP !Result=13 tunistd_cap7 chdirprivate
+END_TESTCASE  OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0007
+
+
+
+
+START_TESTCASE  OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0008
+RUN_PROGRAM -1 setcap.exe tunistdcap.exe 000800  tunistd_cap8.exe
+LOAD_SUITE tunistd_cap8
+//! @SYMTestCaseID OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0008
+//! @SYMTestStatus 	3.Released
+RUN_TEST_STEP  tunistd_cap8 chdirprivate
+END_TESTCASE  OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0008
+
+
+
+
+
+START_TESTCASE  OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0009
+RUN_PROGRAM -1 setcap.exe tunistdcap.exe 000000  tunistd_cap09.exe
+LOAD_SUITE tunistd_cap09
+//! @SYMTestCaseID OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0009
+//! @SYMTestStatus 	3.Released
+RUN_TEST_STEP  !Result=13 tunistd_cap09 symlinksys
+END_TESTCASE  OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0009
+
+
+
+
+START_TESTCASE  OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0010
+RUN_PROGRAM -1 setcap.exe tunistdcap.exe 000800  tunistd_cap10.exe
+LOAD_SUITE tunistd_cap10
+//! @SYMTestCaseID OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0010
+//! @SYMTestStatus 	3.Released
+RUN_TEST_STEP !Result=13 tunistd_cap10 symlinksys
+END_TESTCASE  OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0010
+
+
+
+
+START_TESTCASE  OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0011
+RUN_PROGRAM -1 setcap.exe tunistdcap.exe 000000  tunistd_cap11.exe
+LOAD_SUITE tunistd_cap11
+//! @SYMTestCaseID OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0011
+//! @SYMTestStatus 	3.Released
+RUN_TEST_STEP !Result=13 tunistd_cap11 symlinkprivate
+END_TESTCASE  OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0011
+
+
+
+START_TESTCASE  OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0012
+RUN_PROGRAM -1 setcap.exe tunistdcap.exe 000800  tunistd_cap12.exe
+LOAD_SUITE tunistd_cap12
+//! @SYMTestCaseID OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0012
+//! @SYMTestStatus 	3.Released
+RUN_TEST_STEP !Result=13 tunistd_cap12 symlinkprivate
+END_TESTCASE  OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0012
+
+
+
+
+
+START_TESTCASE  OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0013
+RUN_PROGRAM -1 setcap.exe tunistdcap.exe 000000  tunistd_cap13.exe
+LOAD_SUITE tunistd_cap13
+//! @SYMTestCaseID OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0013
+//! @SYMTestStatus 	3.Released
+RUN_TEST_STEP !Result=13 tunistd_cap13 linksys
+END_TESTCASE  OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0013
+
+
+
+
+START_TESTCASE  OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0014
+RUN_PROGRAM -1 setcap.exe tunistdcap.exe 000800  tunistd_cap14.exe
+LOAD_SUITE tunistd_cap14
+//! @SYMTestCaseID OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0014
+//! @SYMTestStatus 	3.Released
+RUN_TEST_STEP !Result=13 tunistd_cap14 linksys
+END_TESTCASE  OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0014
+
+
+
+
+START_TESTCASE  OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0015
+RUN_PROGRAM -1 setcap.exe tunistdcap.exe 000000  tunistd_cap15.exe
+LOAD_SUITE tunistd_cap15
+//! @SYMTestCaseID OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0015
+//! @SYMTestStatus 	3.Released
+RUN_TEST_STEP  !Result=13  tunistd_cap15 linkprivate
+END_TESTCASE  OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0015
+
+
+START_TESTCASE  OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0016
+RUN_PROGRAM -1 setcap.exe tunistdcap.exe 000800  tunistd_cap16.exe
+LOAD_SUITE tunistd_cap16
+//! @SYMTestCaseID OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0016
+//! @SYMTestStatus 	3.Released
+RUN_TEST_STEP !Result=13 tunistd_cap16 linkprivate
+END_TESTCASE  OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0016
+
+
+
+START_TESTCASE  OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0017
+RUN_PROGRAM -1 setcap.exe tunistdcap.exe 000000  tunistd_cap17.exe
+LOAD_SUITE tunistd_cap17
+//! @SYMTestCaseID OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0017
+//! @SYMTestStatus 	3.Released
+RUN_TEST_STEP !Result=13 tunistd_cap17 rmdirsys
+END_TESTCASE  OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0017
+
+
+
+START_TESTCASE  OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0018
+RUN_PROGRAM -1 setcap.exe tunistdcap.exe 000800  tunistd_cap18.exe
+LOAD_SUITE tunistd_cap18
+//! @SYMTestCaseID OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0018
+//! @SYMTestStatus 	3.Released
+RUN_TEST_STEP !Result=13  tunistd_cap18  rmdirsys
+END_TESTCASE  OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0018
+
+
+
+START_TESTCASE  OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0019
+RUN_PROGRAM -1 setcap.exe tunistdcap.exe 000000  tunistd_cap19.exe
+LOAD_SUITE tunistd_cap19
+//! @SYMTestCaseID OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0019
+//! @SYMTestStatus 	3.Released
+RUN_TEST_STEP !Result=13 tunistd_cap19 rmdirprivate
+END_TESTCASE  OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0019
+
+
+
+START_TESTCASE  OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0020
+RUN_PROGRAM -1 setcap.exe tunistdcap.exe 000800  tunistd_cap20.exe
+LOAD_SUITE tunistd_cap20
+//! @SYMTestCaseID OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0020
+//! @SYMTestStatus 	3.Released
+RUN_TEST_STEP !Result=13 tunistd_cap20 rmdirprivate
+END_TESTCASE  OPENENV-LIBC-CIT-TESTCAPUNISTD-OE-0020
+
+
+

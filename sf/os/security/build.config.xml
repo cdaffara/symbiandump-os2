@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<!DOCTYPE SystemDefinition SYSTEM "sysdef_1_4_0.dtd" [
+  <!ENTITY layer_real_source_path "common/generic/security/os/security" >
+]>
+
+<SystemDefinition name="security" schema="1.4.0">
+	<systemModel>
+		<layer name="os_layer">
+
+			<!-- 
+			<module name="authenticationserver">
+				<unit name="authserver" unitID="secdo.authserver" bldFile="&layer_real_source_path;\authenticationservices\authenticationserver\group" mrp="&layer_real_source_path;\authenticationservices\authenticationserver\group\security_authserver.mrp"/>
+			</module>
+			-->
+
+			<module name="userpromptservice">
+				<unit name="ups" unitID="secdo.ups" bldFile="&layer_real_source_path;\authorisation\userpromptservice\group" mrp="&layer_real_source_path;\authorisation\userpromptservice\group\security_ups.mrp"/>
+			</module>
+			<module name="userpromptutils">
+				<unit name="upsutils" unitID="secdo.upsutils" bldFile="&layer_real_source_path;\authorisation\userpromptutils\group" mrp="&layer_real_source_path;\authorisation\userpromptutils\group\security_ups_utils.mrp"/>
+			</module>
+			<module name="reccafconfig">
+				<unit name="reccafconfig" unitID="secdo.reccafconfig" bldFile="&layer_real_source_path;\contentmgmt\cafrecogniserconfig" mrp="&layer_real_source_path;\contentmgmt\cafrecogniserconfig\security_reccafconfig.mrp"/>
+			</module>
+			<module name="caf streaming support">
+				<unit name="cafstreamingsupport" unitID="secdo.cafstreamingsupport" bldFile="&layer_real_source_path;\contentmgmt\cafstreamingsupport\group" mrp="&layer_real_source_path;\contentmgmt\cafstreamingsupport\group\security_streamingcaf.mrp"/>
+			</module>
+			<module name="content access framework for drm">
+				<unit name="contentaccessfwfordrm" unitID="secdo.contentaccessfwfordrm" bldFile="&layer_real_source_path;\contentmgmt\contentaccessfwfordrm\group" mrp="&layer_real_source_path;\contentmgmt\contentaccessfwfordrm\group\security_caf2.mrp"/>
+			</module>
+			<!-- 
+			<module name="mtputils">
+				<unit name="mtputils" unitID="secdo.mtputils" bldFile="&layer_real_source_path;\contentmgmt\mtputils\group" mrp="&layer_real_source_path;\contentmgmt\mtputils\group\security_mtputils.mrp"/>
+			</module>
+			-->
+			<module name="reference drmagent">
+				<unit name="rta" unitID="secdo.rta" bldFile="&layer_real_source_path;\contentmgmt\referencedrmagent\RefTestAgent\group" mrp="&layer_real_source_path;\contentmgmt\referencedrmagent\RefTestAgent\group\security_rta.mrp"/>
+			</module>
+			<module name="weakcryptospi">
+				<unit name="weakcryptospi" unitID="secdo.weakcryptospi" bldFile="&layer_real_source_path;\crypto\weakcryptospi\group" mrp="&layer_real_source_path;\crypto\weakcryptospi\group\security_cryptospi_weak.mrp"/>
+			</module>
+			<module name="strongcryptospi">
+				<unit name="strongcryptospi" unitID="secdo.strongcryptospi" bldFile="&layer_real_source_path;\crypto\weakcryptospi\strong" mrp="&layer_real_source_path;\crypto\weakcryptospi\group\security_cryptospi_strong.mrp"/>
+			</module>
+			<module name="cryptotoken framework">
+				<unit name="secdo.cryptotokenfw" unitID="secdo.cryptotokenfw" bldFile="&layer_real_source_path;\cryptomgmtlibs\cryptotokenfw\group" mrp="&layer_real_source_path;\cryptomgmtlibs\cryptotokenfw\group\security_cryptotokens.mrp"/>
+			</module>
+			<module name="security common utils">
+				<unit name="secdo.securitycommonutils" unitID="secdo.securitycommonutils" bldFile="&layer_real_source_path;\cryptomgmtlibs\securitycommonutils\group" mrp="&layer_real_source_path;\cryptomgmtlibs\securitycommonutils\group\security_commonutils.mrp"/>
+			</module>
+			<module name="security utils">
+				<unit name="secdo.securityutils" unitID="secdo.securityutils" bldFile="&layer_real_source_path;\cryptomgmtlibs\securityutils\group" mrp="&layer_real_source_path;\cryptomgmtlibs\securityutils\group\security_common.mrp"/>
+			</module>
+			<module name="crypto spi plugins">
+				<unit name="secdo.cryptospiplugins" unitID="secdo.cryptospiplugins" bldFile="&layer_real_source_path;\cryptoplugins\cryptospiplugins\group" mrp="&layer_real_source_path;\cryptoplugins\cryptospiplugins\group\security_cryptospi_plugins.mrp"/>
+			</module>
+			<module name="asnpkcs">
+				<unit name="secdo.asnpkcs" unitID="secdo.asnpkcs" bldFile="&layer_real_source_path;\cryptoservices\asnpkcs\group" mrp="&layer_real_source_path;\cryptoservices\asnpkcs\group\security_asnpkcs.mrp"/>
+			</module>
+			<module name="certificate and key management">
+				<unit name="secdo.certman" unitID="secdo.certman" bldFile="&layer_real_source_path;\cryptoservices\certificateandkeymgmt\group" mrp="&layer_real_source_path;\cryptoservices\certificateandkeymgmt\group\security_certman.mrp"/>
+			</module>
+			<module name="file based certificate and keystores">
+				<unit name="secdo.filetokens" unitID="secdo.filetokens" bldFile="&layer_real_source_path;\cryptoservices\filebasedcertificateandkeystores\group" mrp="&layer_real_source_path;\cryptoservices\filebasedcertificateandkeystores\group\security_filetokens.mrp"/>
+			</module>
+			<module name="securityanddataprivacytools">
+				<unit name="secdo.securityconfig" unitID="secdo.securityconfig" bldFile="&layer_real_source_path;\securityanddataprivacytools\securityconfig\group" mrp="&layer_real_source_path;\securityanddataprivacytools\securityconfig\group\security_config.mrp"/>
+			</module>
+			<module name="securitytools">
+				<unit name="secdo.securitytools" unitID="sos.securitytools" bldFile="&layer_real_source_path;\securityanddataprivacytools\securitytools\group" mrp="&layer_real_source_path;\securityanddataprivacytools\securitytools\group\security_tools.mrp"/>
+			</module>
+    </layer>
+	<layer name="unit_test_layer">
+			<module name="Securityfw_test">
+				<unit name="secdo.securitytestfw" unitID="secdo.securitytestfw.test" bldFile="&layer_real_source_path;\cryptomgmtlibs\securitytestfw\group" mrp="&layer_real_source_path;\cryptomgmtlibs\securitytestfw\group\security_testframework.mrp"/>
+				<unit name="secdo.securitytestcert" unitID="secdo.securitytestcert.test" bldFile="&layer_real_source_path;\cryptomgmtlibs\securitytestfw\testcertificates\noncontributed\testcertificates\group" mrp=""/>
+			<!-- 
+				<unit name="secdo.authserver" unitID="secdo.authserver.test" bldFile="&layer_real_source_path;\authenticationservices\authenticationserver\group" mrp="&layer_real_source_path;\authenticationservices\authenticationserver\group\security_authserver.mrp"/>
+			-->
+				<unit name="secdo.ups" unitID="secdo.ups.test" bldFile="&layer_real_source_path;\authorisation\userpromptservice\group" mrp="&layer_real_source_path;\authorisation\userpromptservice\group\security_ups.mrp"/>
+				<unit name="secdo.cafstreamingsupport" unitID="secdo.cafstreamingsupport.test" bldFile="&layer_real_source_path;\contentmgmt\cafstreamingsupport\group" mrp="&layer_real_source_path;\contentmgmt\cafstreamingsupport\group\security_streamingcaf.mrp"/>
+				<unit name="secdo.contentaccessfwfordrm" unitID="secdo.contentaccessfwfordrm.test" bldFile="&layer_real_source_path;\contentmgmt\contentaccessfwfordrm\group" mrp="&layer_real_source_path;\contentmgmt\contentaccessfwfordrm\group\security_caf2.mrp"/>
+			<!-- 
+				<unit name="secdo.mtputils" unitID="secdo.mtputils.test" bldFile="&layer_real_source_path;\contentmgmt\mtputils\group" mrp="&layer_real_source_path;\contentmgmt\mtputils\group\security_mtputils.mrp"/>
+			-->
+				<unit name="secdo.rta" unitID="secdo.rta.test" bldFile="&layer_real_source_path;\contentmgmt\referencedrmagent\RefTestAgent\group" mrp="&layer_real_source_path;\contentmgmt\referencedrmagent\RefTestAgent\group\security_rta.mrp"/>
+				<unit name="secdo.weakcryptospi" unitID="secdo.weakcryptospi.test" bldFile="&layer_real_source_path;\crypto\weakcryptospi\group" mrp="&layer_real_source_path;\crypto\weakcryptospi\group\security_cryptospi_weak.mrp"/>
+				<unit name="secdo.cryptotokenfw" unitID="secdo.cryptotokenfw.test" bldFile="&layer_real_source_path;\cryptomgmtlibs\cryptotokenfw\group" mrp="&layer_real_source_path;\cryptomgmtlibs\cryptotokenfw\group\security_cryptotokens.mrp"/>
+				<unit name="secdo.securitycommonutils" unitID="secdo.securitycommonutils.test" bldFile="&layer_real_source_path;\cryptomgmtlibs\securitycommonutils\group" mrp="&layer_real_source_path;\cryptomgmtlibs\securitycommonutils\group\security_commonutils.mrp"/>
+				<unit name="secdo.securityutils" unitID="secdo.securityutils.test" bldFile="&layer_real_source_path;\cryptomgmtlibs\securityutils\group" mrp="&layer_real_source_path;\cryptomgmtlibs\securityutils\group\security_common.mrp"/>
+				<unit name="secdo.cryptospiplugins" unitID="secdo.cryptospiplugins.test" bldFile="&layer_real_source_path;\cryptoplugins\cryptospiplugins\group" mrp="&layer_real_source_path;\cryptoplugins\cryptospiplugins\group\security_cryptospi_plugins.mrp"/>
+				<unit name="secdo.asnpkcs" unitID="secdo.asnpkcs.test" bldFile="&layer_real_source_path;\cryptoservices\asnpkcs\group" mrp="&layer_real_source_path;\cryptoservices\asnpkcs\group\security_asnpkcs.mrp"/>
+				<unit name="secdo.certman" unitID="secdo.certman.test" bldFile="&layer_real_source_path;\cryptoservices\certificateandkeymgmt\group" mrp="&layer_real_source_path;\cryptoservices\certificateandkeymgmt\group\security_certman.mrp"/>
+				<unit name="secdo.filetokens" unitID="secdo.filetokens.test" bldFile="&layer_real_source_path;\cryptoservices\filebasedcertificateandkeystores\group" mrp="&layer_real_source_path;\cryptoservices\filebasedcertificateandkeystores\group\security_filetokens.mrp"/>
+				<unit name="secdo.securityconfig" unitID="secdo.securityconfig.test" bldFile="&layer_real_source_path;\securityanddataprivacytools\securityconfig\group" mrp="&layer_real_source_path;\securityanddataprivacytools\securityconfig\group\security_config.mrp"/>
+				<unit name="secdo.securitytools" unitID="sos.securitytools.test" bldFile="&layer_real_source_path;\securityanddataprivacytools\securitytools\group" mrp="&layer_real_source_path;\securityanddataprivacytools\securitytools\group\security_tools.mrp"/>
+			</module>
+    </layer>
+  </systemModel>
+</SystemDefinition>

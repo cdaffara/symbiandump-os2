@@ -1,0 +1,392 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+START_TESTCASE                SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001
+
+//! @SYMTestCaseID            SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001
+
+//! @SYMTestCaseDesc          Start of performance testing
+
+//!                           
+
+//!                           The <randDataSize> tags indicate the size in bytes of the
+
+//!                           random input data to be generated for the cipher in each test case.
+
+//!                           
+
+//! @SYMTestActions           1) DES ECB Vector Test 0 (Performance)
+
+//!                           2) DES ECB Vector Test 1 (Performance)
+
+//!                           3) DES ECB Vector Test 2 (Performance)
+
+//!                           4) DES ECB Vector Test 3 (Performance)
+
+//!                           5) DES ECB Vector Test 4 (Performance)
+
+//!                           6) DES ECB Vector Test 5 (Performance)
+
+//!                           7) DES ECB Vector Test 6 (Performance)
+
+//!                           8) DES ECB Vector Test 7 (Performance)
+
+//!                           9) DES ECB Vector Test 8 (Performance)
+
+//!                           10) DES ECB Vector Test 9 (Performance)
+
+//!                           11) DES CBC Vector Test 0 (Performance)
+
+//!                           12) DES CBC Vector Test 1 (Performance)
+
+//!                           13) DES CBC Vector Test 2 (Performance)
+
+//!                           14) DES CBC Vector Test 3 (Performance)
+
+//!                           15) DES CBC Vector Test 4 (Performance)
+
+//!                           16) DES CBC Vector Test 5 (Performance)
+
+//!                           17) DES CBC Vector Test 6 (Performance)
+
+//!                           18) DES CBC Vector Test 7 (Performance)
+
+//!                           19) DES CBC Vector Test 8 (Performance)
+
+//!                           20) DES CBC Vector Test 9 (Performance)
+
+//!                           21) 3 DES ECB Vector Test 0 (Performance)
+
+//!                           22) 3 DES ECB Vector Test 1 (Performance)
+
+//!                           23) 3 DES ECB Vector Test 2 (Performance)
+
+//!                           24) 3 DES ECB Vector Test 3 (Performance)
+
+//!                           25) 3 DES ECB Vector Test 4 (Performance)
+
+//!                           26) 3 DES ECB Vector Test 5 (Performance)
+
+//!                           27) 3 DES ECB Vector Test 6 (Performance)
+
+//!                           28) 3 DES ECB Vector Test 7 (Performance)
+
+//!                           29) 3 DES ECB Vector Test 8 (Performance)
+
+//!                           30) 3 DES ECB Vector Test 9 (Performance)
+
+//!                           31) 3 DES CBC Vector Test 0 (Performance)
+
+//!                           32) 3 DES CBC Vector Test 1 (Performance)
+
+//!                           33) 3 DES CBC Vector Test 2 (Performance)
+
+//!                           34) 3 DES CBC Vector Test 3 (Performance)
+
+//!                           35) 3 DES CBC Vector Test 4 (Performance)
+
+//!                           36) 3 DES CBC Vector Test 5 (Performance)
+
+//!                           37) 3 DES CBC Vector Test 6 (Performance)
+
+//!                           38) 3 DES CBC Vector Test 7 (Performance)
+
+//!                           39) 3 DES CBC Vector Test 8 (Performance)
+
+//!                           40) 3 DES CBC Vector Test 9 (Performance)
+
+//!                           41) RC2 ECB Vector Test 0 (Performance)
+
+//!                           42) RC2 ECB Vector Test 1 (Performance)
+
+//!                           43) RC2 ECB Vector Test 2 (Performance)
+
+//!                           44) RC2 ECB Vector Test 3 (Performance)
+
+//!                           45) RC2 ECB Vector Test 4 (Performance)
+
+//!                           46) RC2 ECB Vector Test 5 (Performance)
+
+//!                           47) RC2 ECB Vector Test 6 (Performance)
+
+//!                           48) RC2 ECB Vector Test 7 (Performance)
+
+//!                           49) RC2 ECB Vector Test 8 (Performance)
+
+//!                           50) RC2 ECB Vector Test 9 (Performance)
+
+//!                           51) RC2 CBC Vector Test 0 (Performance)
+
+//!                           52) RC2 CBC Vector Test 1 (Performance)
+
+//!                           53) RC2 CBC Vector Test 2 (Performance)
+
+//!                           54) RC2 CBC Vector Test 3 (Performance)
+
+//!                           55) RC2 CBC Vector Test 4 (Performance)
+
+//!                           56) RC2 CBC Vector Test 5 (Performance)
+
+//!                           57) RC2 CBC Vector Test 6 (Performance)
+
+//!                           58) RC2 CBC Vector Test 7 (Performance)
+
+//!                           59) RC2 CBC Vector Test 8 (Performance)
+
+//!                           60) RC2 CBC Vector Test 9 (Performance)
+
+//!                           61) AES ECB Vector Test 0 (Performance)
+
+//!                           62) AES ECB Vector Test 1 (Performance)
+
+//!                           63) AES ECB Vector Test 2 (Performance)
+
+//!                           64) AES ECB Vector Test 3 (Performance)
+
+//!                           65) AES ECB Vector Test 4 (Performance)
+
+//!                           66) AES ECB Vector Test 5 (Performance)
+
+//!                           67) AES ECB Vector Test 6 (Performance)
+
+//!                           68) AES ECB Vector Test 7 (Performance)
+
+//!                           69) AES ECB Vector Test 8 (Performance)
+
+//!                           70) RC4 Vector Test 0 (Performance)
+
+//!                           71) RC4 Vector Test 1 (Performance)
+
+//!                           72) RC4 Vector Test 2 (Performance)
+
+//!                           73) RC4 Vector Test 3 (Performance)
+
+//!                           74) RC4 Vector Test 4 (Performance)
+
+//!                           75) RC4 Vector Test 5 (Performance)
+
+//!                           76) RC4 Vector Test 6 (Performance)
+
+//!                           77) RC4 Vector Test 7 (Performance)
+
+//!                           78) RC4 Vector Test 8 (Performance)
+
+//!                           79) RC4 Vector Test 9 (Performance)
+
+//!                           80) Null Vector Test 0 (Performance)
+
+//!                           81) Null Vector Test 1 (Performance)
+
+//!                           82) Null Vector Test 2 (Performance)
+
+//!                           83) Null Vector Test 3 (Performance)
+
+//!                           84) Null Vector Test 4 (Performance)
+
+//!                           85) Null Vector Test 5 (Performance)
+
+//!                           86) Null Vector Test 6 (Performance)
+
+//!                           87) Null Vector Test 7 (Performance)
+
+//!                           88) Null Vector Test 8 (Performance)
+
+//!                           89) Null Vector Test 9 (Performance)
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-001
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-002
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-003
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-004
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-005
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-006
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-007
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-008
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-009
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-010
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-011
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-012
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-013
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-014
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-015
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-016
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-017
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-018
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-019
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-020
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-021
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-022
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-023
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-024
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-025
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-026
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-027
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-028
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-029
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-030
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-031
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-032
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-033
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-034
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-035
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-036
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-037
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-038
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-039
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-040
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-041
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-042
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-043
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-044
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-045
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-046
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-047
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-048
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-049
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-050
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-051
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-052
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-053
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-054
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-055
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-056
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-057
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-058
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-059
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-060
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-061
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-062
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-063
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-064
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-065
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-066
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-067
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-068
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-069
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-070
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-071
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-072
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-073
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-074
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-075
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-076
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-077
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-078
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-079
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-080
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-081
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-082
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-083
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-084
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-085
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-086
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-087
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-088
+
+RUN_TEST_STEP                 -1    CTestHandler        Performance            tsymmetricperformancetests.ini   SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001-089
+
+END_TESTCASE                  SEC-CRYPTOSPI-TSYMMETRICPERFORMANCETESTS-0001
+
+
+
+
+

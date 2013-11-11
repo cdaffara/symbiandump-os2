@@ -1,0 +1,87 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* Tests Accessing: SEC-INTEG-UPS-D0004 (Platform Security Autorisation Tests)
+* Service: 1000D004
+* Service: System Server 1 (0x101F7F1F)
+*
+*/
+
+
+#include <ups/policies.rh>
+
+UID2 KUidUpsPolicyResourceFile
+UID3 0x101F7F1F
+
+// Test policy file for WAP GPRS
+RESOURCE POLICIES testpolicies
+	{
+	header = POLICY_HEADER
+		{
+		// use default client config 
+		policyevaluator = 0xe1111e11;
+		dialogcreator = 0xe1111d11;
+		majorversion = 3;
+		minorversion = 2;
+		};
+	policies = 
+		{
+		POLICY
+			{
+			// Silently accepts redirection to "www.google.com" for all clients
+			sid_classes = KAllSids;
+			destination = "www.google.com";
+			options = KYes;
+			flags = 0x01;
+			},
+		POLICY
+			{
+			// Silently denies call to "*.xxx" for all clients
+			sid_classes = KAllSids;
+			destination = "*.xxx";
+			options = KNo;
+			flags = 0x02;
+			},
+		POLICY
+			{
+			// Allows dialog display for redirection to www.youtube.com
+			sid_classes = KAllSids;
+			destination = "www.youtube.com";
+			options = KYes | KNo | KSession | KAlways |KNever;
+			flags = 0x04;
+			},
+		POLICY
+			{
+			// Allows dialog display to when a request to 192.168* IP Addresses are made
+			sid_classes = KAllSids;
+			destination = "192.168*";
+			options = KYes | KNo | KAlways | KNever;
+			policyevaluator = 0xe1111e21;
+			dialogcreator = 0xe1111d21;
+			flags = 0x05;
+			},				
+		POLICY
+			{
+			// Allows dialog display protected clients to ".mob" sites
+			sid_classes = KAllSids;
+			destination = "*.mob";
+			options = KYes | KNo | KSessionYes | KSessionNo | KAlways | KNever;
+			policyevaluator = 0xe1111e31;
+			dialogcreator = 0xe1111d31;
+			flags = 0x06;
+			}
+		
+		};
+	}
+

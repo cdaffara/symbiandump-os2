@@ -1,0 +1,38 @@
+/*
+* Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+* usbbatterychargingpluginotg.dll UsbMan extension plugin for battery charging.
+* usbbatterychargingplugin.rsc Resource file for charging plugin.
+*
+*/
+
+/** @file
+@internalComponent
+@SYMPurpose usbbatterychargingpluginotg.dll UsbMan extension plugin for battery charging.
+@SYMPurpose usbbatterychargingplugin.rsc Resource file for charging plugin.
+*/
+
+TARGET			usbbatterychargingpluginotg.dll
+#include "UsbBatteryChargingPluginBase.mmp"
+
+SOURCEPATH      ../src
+SOURCE          idpinwatcher.cpp
+SOURCE          vbuswatcher.cpp
+SOURCE          otgstatewatcher.cpp
+
+START RESOURCE 10208DD7.rss
+target usbbatterychargingpluginotg.rsc
+END
+
+MACRO            SYMBIAN_ENABLE_USB_OTG_HOST_PRIV

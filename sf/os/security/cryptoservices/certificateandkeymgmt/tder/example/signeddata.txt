@@ -1,0 +1,62 @@
+// An signed PKCS#7 data object
+// PARAM1: The name of binary file to include as content
+// PARAM2: The filename of the signing certificate
+// PARAM3: The filename of the signing key
+EQUENCE
+	OID=PKCS7_SIGNEDDATA
+	EXPLICIT		
+		SEQUENCE
+			// version
+			INTEGER=1
+			// digestAlgorithms
+			SET	
+				// DigestAlgorithmIdentifer
+				SEQUENCE
+					OID=SHA1
+					NULL
+				END
+			END
+			// ContentInfo
+			INCLUDE=contentinfo.txt,eval.txt,INCLUDE_BINARY_FILE=root5ca.der
+			// Certificates
+			IMPLICIT=0
+				SET
+					INCLUDE_BINARY_FILE=$2
+				END
+			END
+			// SignerInfos
+			SET
+				// SignerInfo
+				SEQUENCE
+					INTEGER=1
+					// issuerAndSerialNumber
+					SEQUENCE
+						SEQUENCE
+							SET
+								SEQUENCE
+								 	// organizationName
+									OID=2.5.4.10
+									PRINTABLESTRING=Symbian Software Ltd
+								END	
+							END
+							SET
+								SEQUENCE
+									// commonName
+									OID=2.5.4.10
+									PRINTABLESTRING=Root5-RSA
+								END
+							END
+						END
+					END
+					// DigestAlgorithmIdentifier
+					SEQUENCE
+						OID=SHA1
+						NULL
+					END
+					
+				END
+			END
+		END
+	END	
+END
+	

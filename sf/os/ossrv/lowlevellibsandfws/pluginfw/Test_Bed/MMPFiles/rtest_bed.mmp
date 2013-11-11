@@ -1,0 +1,54 @@
+// Copyright (c) 2003-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// rtestbed.dll Legacy Testharness Framework for testing ECom plug-ins - Not for ROM release)
+// 
+//
+
+/**
+ @file
+*/
+
+// If you want to perform RTest test() checking on UnitTest results.
+// define the following macro:
+MACRO	LOG_PANIC_UNIT_TEST_FAILURE
+
+TARGET rtestbed.dll
+CAPABILITY All -Tcb
+TARGETTYPE dll
+
+// Dynamic Dll UID followed by the unique UID for this dll
+UID 0x1000008D 0x101FB5A8
+VENDORID 0x70000001
+
+SOURCEPATH	../../Test_Bed/test_bed
+SOURCE		TestController.cpp DataLogger.cpp ComponentInfo.cpp 		
+SOURCE		UnitTestInfo.cpp
+SOURCE		ComponentTester.cpp UnitTest.cpp Transition.cpp LeakTestTransition.cpp 
+SOURCE		TestManager.cpp DefaultLogOutput.cpp
+SOURCEPATH	../../Test_Bed/console_app
+SOURCE		TestHarnessTemplate.cpp
+
+USERINCLUDE ../../Test_Bed/inc ../../Framework/inc
+USERINCLUDE ../../Test_Bed/console_app
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+LIBRARY euser.lib efsrv.lib flogger.lib ecom.lib
+
+DEFFILE rtestbed2.def
+
+ // Allow DLL to use local data
+ EPOCALLOWDLLDATA
+
+
+SMPSAFE

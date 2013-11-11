@@ -1,0 +1,116 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// <hr>
+// When supplying or consuming content it is possible that the content data has been 
+// corrupted. This may be due to various reasons including file or disk corruption, 
+// transmission errors, etc.
+// If an agent detects corruption in a content object it will end the current 
+// DRM operation and the <code>KErrCACorruptContent</code> or  <code>KErrCorrupt</code> error code will be sent back to the API clients, depending on the type of corruption detected and how the client chooses to handle it. It is recommended that clients be designed to handle such an error if received, as it can usually be considered a fatal error.
+// An example of using this error code when importing content:
+// CSupplier* supplier = CSupplier::NewLC();
+// CImportFile* import = supplier->ImportFile( /*pass in specific MIME type and metadata
+// 
+//
+
+/**
+ @page CAFCorruptData Handling data corruption 
+ - @ref CAFContentCorruption
+ - @ref CAFRightsCorruption
+ @section CAFContentCorruption Content data corruption
+ @code
+*/
+TFileName fileName;
+TBuf8<128> data;
+TInt err = KErrNone;
+
+// start importing content
+while( (source still has data) && (err==KErrNone) )
+	{
+	source.read(data);
+	err = import->WriteData(data);
+	// need to supply new file to import to ?
+	while (err == KErrCANewFileHandleRequired)		
+		{
+	    // supply new file in order to continue writing
+		RFile newFile;
+		import->GetSuggestedOutputFileName(fileName);
+		newFile.Open(fileName, EFileWrite);
+		err = import->ContinueWithNewOutputFile(newFile, fileName);
+		newFile.Close();
+		}
+	}
+	
+if (err != KErrNone)
+	{
+	if (err == KErrCACorruptContent)
+		{
+		//Agent may have performed some error handling. 
+		//Client may need to perform some client specific operations (e.g.cleanup).
+		}
+	else if (err == KErrCorrupt)
+		{
+		DisplayErrorMsg('Unable to import content because it is corrupt!');
+		}
+	else if (err == ...)
+	...
+	}	
+...
+
+@endcode
+
+
+<hr>
+
+@section CAFRightsCorruption Rights data corruption
+
+When consuming content or when obtaining rights object information 
+it is possible that the rights object data has been corrupted. This may be due 
+to various reasons including file or disk corruption, transmission errors, etc.
+
+If an agent detects corruption in a Rights object it will end the current 
+DRM operation and the <code>KErrCACorruptRights</code> or <code>KErrCorrupt</code> error code will be sent back to 
+API clients,depending on the type of corruption detected and how the client chooses to handle it. It is recommended that clients be designed to 
+handle such an error if received, as it can usually be considered a fatal error.
+
+An example of using this error code when accessing content:
+
+@code
+...
+// Create a CContent object
+CContent *content = ...
+
+// Create a CData object to read the content
+CData* data;
+TRAP(err, data = content->OpenContentLC(EDisplay));
+
+if (err != KErrNone)
+	{
+	if (err == KErrCACorruptRights)
+		{
+		//Agent may have performed some error handling. 
+		//Client may need to perform some client specific operations(e.g. cleanup).
+		}
+	else if (err == KErrCorrupt)
+		{
+		DisplayErrorMsg('Unable to decode rights because it is corrupt!');
+		}
+	else if (err == ...)
+	...
+	}	
+...
+
+@endcode
+
+<hr>
+*/

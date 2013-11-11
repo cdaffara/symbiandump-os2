@@ -1,0 +1,170 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// @file
+// 
+//
+
+PRINT Run ECom SWI Install-Plugin Te_EComSWISuite Suite Tests
+
+LOAD_SUITE TE_EComSWITestSuite
+LOAD_SUITE TEFPlatSec
+
+DELAY 3000
+
+
+START_TESTCASE SYSLIB-ECOM-CIT-1889-0001
+//!@file
+//!@SYMTestCaseID 			SYSLIB-ECOM-CIT-1889-0001
+//!@SYMTestCaseDesc  		Verify that an ECom Plugin can be Installed, Queried and Used
+//!                  		When it is Installed using Software Installer (SWI)
+//!@SYMTestPriority  		High
+//!@SYMTestActions   		(1) An ECom plugin which as packaged up into a .SIS is Installed Using SWI.
+//!                  		(2)	The installed is queried for details of the plugins Implementation.
+//!                  		(3) The test tries to Call ReturnInt(),a method implemented by the ECom plugin
+//!							(4) The ECom plugin is uninstallesd suing SWI
+//!
+//!@SYMTestExpectedResults	(1) The plugin is installed.
+//!                  		(2)	The information provided by ListImplementationL macthes the expected data.
+//!                  		(3)	ReturnInt() returns 123456789	
+//!                  		(4)	ECom unregisters plugin
+
+ 
+	
+	RUN_TEST_STEP 100 TE_EComSWITestSuite InstallStep Z:\TEF_EComSWI\ECom-SWI-Install.ini Install_WINSCWSISP1
+	DELAY 3000
+	RUN_TEST_STEP 100 TE_EComSWITestSuite CheckListImplUidStep Z:\TEF_EComSWI\ECom-SWI-CheckPlugin.ini CHECK_P1
+	DELAY 500
+	RUN_TEST_STEP 100 TE_EComSWITestSuite CheckCreateImpl_ImpId_DtorId_Step Z:\TEF_EComSWI\ECom-SWI-UsePlugin.ini UsePlugin1
+	DELAY 180000
+	RUN_TEST_STEP 100 TE_EComSWITestSuite UninstallStep Z:\TEF_EComSWI\ECom-SWI-Install.ini UnInstallWinP1
+	DELAY 3000
+	RUN_TEST_STEP 100 TE_EComSWITestSuite CheckListImplUidStep Z:\TEF_EComSWI\ECom-SWI-CheckPlugin.ini CHECK_P1_UNINSTALL
+	
+END_TESTCASE SYSLIB-ECOM-CIT-1889-0001
+
+
+START_TESTCASE SYSLIB-ECOM-CIT-1890-0001
+//!@SYMTestCaseID 			SYSLIB-ECOM-CIT-1890-0001
+//!@SYMTestCaseDesc 		Verify that an ECom plugin that exists in the ROM (Z:) can be upgraded and downgraded
+//!                 		by a plugin installed and unistalled on the RAM (C:\)  using SWI
+//!                 
+//!@SYMTestPriority 		High
+//!@SYMTestActions  		
+//!                 		(1)	ListImplmentaion is called on plugin v1.
+//!                	 		(2)	CreatListImplmentaionL is called on Plugin v1 method ReturnInt().
+//!							(3)	ECom Plugin is upgraded to  Version 2
+//!                			(4)	ListImplmentaion is called on plugin v2.
+//!                 		(5)	ReturnInt(), a method provided by the plugin is called on Plugin v2.
+//!                 		(6)	Plugin V2 is Uninstalled
+//!                 		(7)	ListImplmentaion is called on plugin v1.
+//!                 
+//!@SYMTestExpectedResults	(1) Plugin v1 exists on Z:\ drive and the specifed plugin attributes are returned.
+//!                 		(2)	Int value is  returned from ReturnInt(), Plugin v1.
+//!                 		(3)	Ecom server now deregisteres v1 and registers v2.
+//!                 		(4) Plugin v2 exists on C:\ drive and the specifed plugin attributes are returned.
+//!                 		(5)	Int value is  returned from ReturnInt(), Plugin v2.
+//!                 		(6)	Ecom server now deregisteres v2 and registers v1. Also no plugin v2 files exist.
+//!                 		(7)	Plugin attribute information for v1 is returned.
+
+
+
+
+
+	RUN_TEST_STEP 100 TE_EComSWITestSuite CheckListImplUidStep Z:\TEF_EComSWI\ECom-SWI-CheckPlugin.ini CHECK_P3
+	DELAY 500
+	RUN_TEST_STEP 100 TE_EComSWITestSuite CheckCreateImpl_ImpId_DtorId_Step Z:\TEF_EComSWI\ECom-SWI-UsePlugin.ini UsePlugin3
+	DELAY 3000
+	RUN_TEST_STEP 100 TE_EComSWITestSuite InstallStep Z:\TEF_EComSWI\ECom-SWI-Install.ini InstallUpgrade_WINSCWSISP3
+	DELAY 3000
+	RUN_TEST_STEP 100 TE_EComSWITestSuite CheckListImplUidStep Z:\TEF_EComSWI\ECom-SWI-CheckPlugin.ini CHECK_P3_UPGRADE
+	DELAY 500
+	RUN_TEST_STEP 100 TE_EComSWITestSuite CheckCreateImpl_ImpId_DtorId_Step Z:\TEF_EComSWI\ECom-SWI-UsePlugin.ini UsePlugin3Upgrade
+	DELAY 180000
+	RUN_TEST_STEP 100 TE_EComSWITestSuite UninstallStepPackageName Z:\TEF_EComSWI\ECom-SWI-Install.ini UnInstallUpgradeWinP3
+	DELAY 3000
+	RUN_TEST_STEP 100 TE_EComSWITestSuite CheckListImplUidStep Z:\TEF_EComSWI\ECom-SWI-CheckPlugin.ini CHECK_P3
+	DELAY 3000
+	RUN_TEST_STEP 100 TE_EComSWITestSuite CheckCreateImpl_ImpId_DtorId_Step Z:\TEF_EComSWI\ECom-SWI-UsePlugin.ini UsePlugin3
+	DELAY 500
+	
+END_TESTCASE SYSLIB-ECOM-CIT-1890-0001
+
+
+START_TESTCASE SYSLIB-ECOM-CIT-1891-0001
+//!@file
+//!@SYMTestCaseID 	 		SYSLIB-ECOM-CIT-1891-0001
+//!@SYMTestCaseDesc  		Verify that and Invalid ECom Plugin whose rss file has an incorrect dll  
+//!                  		UID can be installed using SWI, but does not wok.
+//!@SYMTestPriority  		High
+//!@SYMTestActions   		(1) ECom Plugin is Installed
+//!                  		(2)	Plugin queried for available implementation
+//!                  		(3) Plugin is Uninstalled
+//!                  
+//!@SYMTestExpectedResults 	(1) The files are installed.
+//!                  		(2)	Query returns no implementations are available.
+//!                  		(3)	The files are removed
+
+
+
+	RUN_TEST_STEP 100 TE_EComSWITestSuite InstallStep Z:\TEF_EComSWI\ECom-SWI-Install.ini Install_WINSCWSISP2
+	DELAY 3000
+	RUN_TEST_STEP 100 TE_EComSWITestSuite CheckListImplUidStep Z:\TEF_EComSWI\ECom-SWI-CheckPlugin.ini CHECK_P2
+	DELAY 500
+	RUN_TEST_STEP 100 TE_EComSWITestSuite UninstallStep Z:\TEF_EComSWI\ECom-SWI-Install.ini UnInstallWinP2
+
+END_TESTCASE SYSLIB-ECOM-CIT-1891-0001
+
+START_TESTCASE SYSLIB-ECOM-CIT-4011-0001 //CachedResolverUpgradeBySWI
+//!@SYMTestCaseID 			SYSLIB-ECOM-CIT-4011-0001
+//!@SYMTestCaseDesc  		Verify custom resolver caching do not interfere with SWI upgrading the resolver DLL.
+//!@SYMTestPriority  		High
+//!@SYMTestActions   		(1) Install version 2 of cachedcustomresolver so that the resolver is in RW drive.
+//!                  		(2) Try to upgrade to version 9 while DLL is loaded.
+//!                  		(3) Use the resolver to get it in cache.
+//!                  		(4) Install version 9 of the resolver DLL.
+//!							(5) Check ECom uses version 9 of the resolver.
+//!							(6) Uninstall cachedcustomresolver.
+//! NB: at step 2 SWI fails with -11 instead of the expected -21. This is because of windows dll locking mechanism and hence it is 
+//! not necessary to run this particular test on winscw as we do not end up with the DLL upgraded or
+//!     both the DLL and the .rsc upgraded. This may be a limitation of Windows.
+//!     Any how cachedcustomresolver is completely uninstalled and version 2 reinstalled 
+//!		to ensure we have the correct files.
+//!
+//!@SYMTestExpectedResults	(1) Version 2 is installed successfully.
+//!                  		(2) SWI fails with KErrAccessDenied
+//!                  		(3) ECom instantiates the correct version, i.e. 2.
+//!                  		(4) Version 9 is successfully installed.
+//!                  		(5) ECom instantiate the correct version.
+//!                  		(6) Uninstall is successful.
+//!@SYMCR					CR1182
+
+
+	// Need a tef server with no capabilities to avoid platsec errors in listing custom resolvers
+	RUN_TEST_STEP 100 TEFPlatSec SetCapabilities Z:\TEF_EComSWI\ECom-SWI-CheckPlugin.ini MakeNoCapServer
+	DELAY 2000
+	LOAD_SUITE ecomswinocapserver
+
+	RUN_TEST_STEP 100 TE_EComSWITestSuite ResolverInstallStep Z:\TEF_EComSWI\ECom-SWI-Install.ini Install_CustomResolver2
+	RUN_TEST_STEP 100 ecomswinocapserver UseCustomResolverStep Z:\TEF_EComSWI\ECom-SWI-CheckPlugin.ini CheckVersion2
+	//RUN_TEST_STEP 100 TE_EComSWITestSuite ResolverInstallStep Z:\TEF_EComSWI\ECom-SWI-Install.ini FailInstall_CustomResolver9
+	RUN_TEST_STEP 100 TE_EComSWITestSuite ResolverUninstallStep Z:\TEF_EComSWI\ECom-SWI-Install.ini UnInstallCustomResolver
+	RUN_TEST_STEP 100 TE_EComSWITestSuite ResolverInstallStep Z:\TEF_EComSWI\ECom-SWI-Install.ini Install_CustomResolver2
+	RUN_TEST_STEP 100 ecomswinocapserver UseCustomResolverStep Z:\TEF_EComSWI\ECom-SWI-CheckPlugin.ini CheckVersion2
+	RUN_TEST_STEP 100 TE_EComSWITestSuite ResolverInstallStep Z:\TEF_EComSWI\ECom-SWI-Install.ini Install_CustomResolver9
+	RUN_TEST_STEP 100 ecomswinocapserver UseCustomResolverStep Z:\TEF_EComSWI\ECom-SWI-CheckPlugin.ini CheckVersion9
+	RUN_TEST_STEP 100 TE_EComSWITestSuite ResolverUninstallStep Z:\TEF_EComSWI\ECom-SWI-Install.ini UnInstallCustomResolver
+	RUN_TEST_STEP 100 ecomswinocapserver UseCustomResolverStep Z:\TEF_EComSWI\ECom-SWI-CheckPlugin.ini CheckVersion1
+	DELAY 4000
+	RUN_TEST_STEP 100 TEFPlatSec Cleanup Z:\TEF_EComSWI\ECom-SWI-CheckPlugin.ini MakeNoCapServer
+END_TESTCASE  SYSLIB-ECOM-CIT-4011-0001 //CachedResolverUpgradeBySWI

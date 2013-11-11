@@ -1,0 +1,47 @@
+/*
+* Copyright (c) 2006 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  This is a project specific file for building the wsdDll2 DLL
+*
+*/
+
+
+TARGET        wsdDll2.dll
+TARGETTYPE    dll
+UID           0x1000008d 0x094E40B4
+
+CAPABILITY    ALL -TCB
+
+#ifdef WINSCW
+OPTION CW -stdinc
+#endif
+
+SOURCEPATH    ..\src
+SOURCE        wsdDll2.cpp
+
+USERINCLUDE   ..\inc
+USERINCLUDE   ..\..\include
+USERINCLUDE   ..\..\..\..\inc
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_LIBC_SYSTEMINCLUDE
+
+LIBRARY       euser.lib
+LIBRARY       ewsd.lib
+
+DEFFILE       wsdDll2.def
+
+nostrictdef
+
+SMPSAFE
+

@@ -1,0 +1,48 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+/**
+@file
+
+@SYMPurpose tcertcommon.dll Test harness for common certification functions
+*/
+
+TARGET	tcertcommon.dll
+CAPABILITY    All -Tcb
+TARGETTYPE	dll
+UID 0x10000079 0x10001011
+VENDORID 0x70000001
+
+SOURCEPATH	.
+SOURCE tcertcommonmain.cpp tcertutils.cpp
+SOURCE Tcertwriter.cpp
+
+USERINCLUDE ../../../crypto/weakcrypto/inc
+USERINCLUDE ../../../cryptomgmtlibs/securitytestfw/test/testhandler2
+
+USERINCLUDE .
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+LIBRARY	euser.lib x500.lib x509.lib crypto.lib
+LIBRARY certstore.lib
+LIBRARY wtlscert.lib
+LIBRARY ctframework.lib t_testhandler2.lib
+
+LIBRARY cryptography.lib asn1.lib
+
+DEFFILE tcertcommon.def
+SMPSAFE

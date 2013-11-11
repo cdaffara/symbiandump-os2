@@ -1,0 +1,52 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+/**
+@file
+
+@SYMPurpose x500.dll Parsing/matching X.500 distinguished names and X.520 selected attribute types
+*/
+
+TARGET	x500.dll
+CAPABILITY All
+TARGETTYPE	dll
+
+UID 0x1000008d 0x10005e0d
+VENDORID 0x70000001
+
+SOURCEPATH	.
+SOURCE x500main.cpp x500dn.cpp x520ava.cpp dstringdec.cpp 
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+USERINCLUDE ../../../crypto/weakcrypto/inc
+
+LIBRARY	euser.lib estor.lib asn1.lib
+
+START WINS
+    BASEADDRESS 0x74610000
+END
+
+#ifdef WINSCW
+DEFFILE X500.def
+#endif
+
+#ifdef ARMV5
+DEFFILE x500.def
+#endif
+SMPSAFE

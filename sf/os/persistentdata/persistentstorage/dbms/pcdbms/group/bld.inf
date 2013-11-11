@@ -1,0 +1,38 @@
+// Copyright (c) 2008-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+PRJ_EXPORTS
+
+../inc/D32DBMS.H 	OS_LAYER_PUBLIC_EXPORT_PATH(x86tool/d32dbms.h)
+../inc/D32DBMSCONSTANTS.H 	OS_LAYER_PLATFORM_EXPORT_PATH(x86tool/d32dbmsconstants.h)
+../inc/D32DBMS.INL 	OS_LAYER_PLATFORM_EXPORT_PATH(x86tool/d32dbms.inl)
+
+PRJ_PLATFORMS
+DEFAULT TOOLS2
+
+#ifdef TOOLS2
+
+PRJ_EXTENSIONS
+start extension tools/x86tool
+option TARGET_NAME symdbms
+option TARGET_TYPE lib
+option SOURCE_DIRS ../udbms ../utable ../usql ../ustor ../panic
+option INCLUDES ../inc ../inc2 
+option SYS_INCLUDES epoc32/include/platform
+end
+
+#endif
+
+#include "../tdbms/group/bld.inf"

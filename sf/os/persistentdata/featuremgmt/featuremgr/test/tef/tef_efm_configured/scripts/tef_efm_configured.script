@@ -1,0 +1,1115 @@
+// Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+// @file
+//
+
+//! @SYMTestSuiteName SYSLIB-TEF-EFM-CONFIGURED
+//! @SYMScriptTestEnvironment TEF
+//! @internalComponent
+//! @test
+
+//create folders for the emulated data cages
+RUN_UTILS MkDir C:\Private\
+RUN_UTILS MkDir C:\Private\102836E5\
+RUN_UTILS MkDir C:\Private\102836E5\runtime\
+
+//delete plugin files placed in C:-drive in case the normal script did not run 
+RUN_PROGRAM -1 pluginhelper.exe c:\sys\bin\normal_plugin.dll
+RUN_PROGRAM -1 pluginhelper.exe c:\resource\plugins\normal_plugin.rsc
+
+//load the server used to geneate feature files
+LOAD_SUITE tef_feature_generator
+
+//load the main TEF server used by this script
+LOAD_SUITE efm_configured_testserver
+
+START_TESTCASE SYSLIB-EFM-UT-4035
+//! @SYMTestCaseID      SYSLIB-EFM-UT-4035
+//! @SYMTestCaseDesc    There are two test steps in this test case:
+//! 					   A) Tests that loading simple plugins does not hang until the tmer in the FeatMgr server expires. This step also tests that a plugin can support
+//! 					   enhanced-features or simple-features only. 
+//! 					   B) Tests that the server panics when invalid plugins that do not define any features are loaded.
+//! @SYMTestPriority    High 
+//! @SYMTestActions     Test step A:
+//! 					   1) Use configured EFM server 
+//!                    2) Start the server by opening an RFeatureControl object 
+//!                    3) Call RFeatureControl::FeatureSupported to check if the simple feature from normal_pluig is supported (expcted result KFeatureSupported)
+//!                    4) Call RFeatureControl::FeatureSupported to check if the enhanced feature from bc_enhanced_pluig is supported (expcted result KFeatureSupported) 
+//!                    5) Call RFeatureControl::FeatureSupported to check if the simple feature from reconciliation_plugin is supported (expcted result KFeatureSupported) 
+//!                    6) Call RFeatureControl::FeatureSupported to check if the enhanced feature from reconciliation_plugin is supported (expcted result KFeatureSupported) 
+//! 					   Test step B:
+//! 					   1) Use configured EFM server 
+//!                    2) Start the server by opening an RFeatureControl object. It is expected to panic with KErrGeneral error.
+//! @SYMTestExpectedResults      Test step A: KFeatureSupported error code should be returned when trying to enquire for the support of all features.
+//! 								Test step B: KErrGeneral when try to open a session to FeatMgr server.
+//! @SYMDEF             DEF115396 
+
+//put the data file into the server data cage on Z:-drive
+RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\plugin_features.ini CreateEFMFile
+// Load bc_enhanced_plugin which defines enhanced features only
+RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\bc_enhanced_plugin.dll c:\sys\bin\bc_enhanced_plugin.dll
+RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\bc_enhanced_plugin.rsc c:\resource\plugins\bc_enhanced_plugin.rsc
+// Load reconciliation_plugin which defines both simple and enhanced features (mixed plugin)
+RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\reconciliation_plugin.dll c:\sys\bin\reconciliation_plugin.dll
+RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\reconciliation_plugin.rsc c:\resource\plugins\reconciliation_plugin.rsc
+// Load normal_plugin which defines simple features only
+RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\normal_plugin.dll c:\sys\bin\normal_plugin.dll
+RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\normal_plugin.rsc c:\resource\plugins\normal_plugin.rsc
+DELAY 1000
+// Run test step A to test the fix
+RUN_TEST_STEP 100 efm_configured_testserver RefPluginsTest
+DELAY 1000
+// Delete normal plugin files
+RUN_PROGRAM -1 pluginhelper.exe c:\sys\bin\normal_plugin.dll
+RUN_PROGRAM -1 pluginhelper.exe c:\resource\plugins\normal_plugin.rsc
+// Delete reconciliation plugin files
+RUN_PROGRAM -1 pluginhelper.exe c:\sys\bin\reconciliation_plugin.dll
+RUN_PROGRAM -1 pluginhelper.exe c:\resource\plugins\reconciliation_plugin.rsc
+// Delete enahnced plugin files
+RUN_PROGRAM -1 pluginhelper.exe c:\sys\bin\bc_enhanced_plugin.dll
+RUN_PROGRAM -1 pluginhelper.exe c:\resource\plugins\bc_enhanced_plugin.rsc
+DELAY 1000
+// Load invalid_plugin which does not define any features
+RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\invalid_plugin.dll c:\sys\bin\invalid_plugin.dll
+RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\invalid_plugin.rsc c:\resource\plugins\invalid_plugin.rsc
+//wait for plugins to be discovered and EFM server to be restarted
+DELAY 1000
+//Run test step B to check for invalid plugins
+RUN_TEST_STEP 100 efm_configured_testserver InvalidPluginTest
+//wait for EFM server to terminate
+DELAY 1000
+//delete invalid plugin files
+RUN_PROGRAM -1 pluginhelper.exe c:\sys\bin\invalid_plugin.dll
+RUN_PROGRAM -1 pluginhelper.exe c:\resource\plugins\invalid_plugin.rsc
+//wait for EFM server to complete deletion
+DELAY 1000
+RUN_UTILS DeleteFile C:\Private\102836E5\features.dat
+END_TESTCASE SYSLIB-EFM-UT-4035
+
+START_TESTCASE SYSLIB-EFM-CT-4034
+//! @SYMTestCaseID      SYSLIB-EFM-CT-4034
+//! @SYMTestCaseDesc    Test to check that added features can be deleted after server restart
+//! @SYMTestPriority    Low 
+//! @SYMTestActions     1) Use configured EFM server 
+//!                    2) Start the server by opening an RFeatureControl object 
+//!                    3) Add a persisted feature 
+//!                    4) Add a non-persisted feature 
+//!                    5) Close the RFeatureControl object and wait for the server to terminate 
+//!                    6) Restart the server by opening an RFeatureControl object 
+//!                    7) Attempt to delete the persisted feature (KErrNone expected) 
+//!                    8) Attempt to delete the non-persisted feature (KErrNotFound expected) 
+//! @SYMTestExpectedResults      KErrNone error code should be returned when trying to delete a persisted feature, and KErrNotFound when trying to delete a non-persisted feature.
+//! @SYMPREQ            PREQ1645
+//! @SYMREQ             REQ8194
+
+//put the data file into the server data cage on Z:-drive
+RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\plugin_features.ini CreateEFMFile
+//run the test to check deletion of persisted and non-persisted features
+RUN_TEST_STEP 100 efm_configured_testserver DeleteFeatureStep
+//delete generated data file
+RUN_UTILS DeleteFile C:\Private\102836E5\features.dat
+END_TESTCASE SYSLIB-EFM-CT-4034
+
+START_TESTCASE SYSLIB-EFM-UT-4033
+//! @SYMTestCaseID           SYSLIB-EFM-UT-4033     
+//! @SYMTestCaseDesc           Test for FeatureNotifier ReRequestNotify(Tuid)
+//! @SYMTestPriority           High
+//! @SYMTestActions           An instance of notifier is created, feature is passed to the API for which the notification is required, the server is tested to discover the size of it's internal feature array. By keeping track of this array size, we can define whether a memory leak is occuring with regard to the server feature list.
+//! @SYMTestExpectedResults      for this test case, the number of features inside the array should be 1 item. If a memory leak occurs, then the server will return 2 items.
+//! @SYMDEF                DEF114443
+
+
+RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\plugin_features.ini CreateEFMFile
+RUN_TEST_STEP 100 efm_configured_testserver MemoryLeak_ReNotifyRequestL 
+RUN_UTILS DeleteFile C:\Private\102836E5\features.dat
+END_TESTCASE SYSLIB-EFM-UT-4033
+
+//Plugin testing
+START_TESTCASE SYSLIB-EFM-CT-4027
+//! @SYMTestCaseID      SYSLIB-EFM-CT-4027
+//! @SYMTestCaseDesc    Capability permission Tests for plugins
+//! @SYMTestPriority    Low 
+//! @SYMTestActions     1) Define a P&S property in the test case to manage the execution of these two scenarios. 
+//!					   2) Set the value of the property to 0 in the test case to instruct the plug-in to call the API with ReadDeviceData capability. 
+//!					   3) Start the FeatMgr server which should load the normal plug-in. The plug-in will then check if the P&S property has been 
+//!					   defined or not. If it is then the normal plug-in invokes the code that makes calls to the permissioned-APIs. Otherwise, 
+//!					   the plug-in executes in the normal expected behaviour.
+//!					   4) The plug-in checks the value of the property. If it is 0 then it runs the API call with ReadDeviceData capability. This should return with KErrNone.
+//!					   5) Set the value of the property to KErrNone in the plug-in and check this in the test case to output the result.
+//!					   6) Repeat step 3 but this time set the property to 1 to check the non-ReadDeviceData capability.
+//!					   7) Reapeat step 4
+//!					   8) The plug-in checks the value of the property again. If it is 1 then it runs the API call without ReadDeviceData capability. This should return with KErrPermissionDenied.	
+//! @SYMTestExpectedResults      KErrNone error code should be returned when the plug-in calls an API with ReadDeviceData capability, and KErrPermissionDenied otehrwise.
+//! @SYMPREQ            PREQ1645
+//! @SYMREQ             REQ8356
+
+//put the data file into the server data cage on Z:-drive
+RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\plugin_features.ini CreateEFMFile
+//place plugin files into appropriate locations
+//we have to copy/delete plugin files from a separate process since TEF framework doesn't have sufficient capabilities 
+// Copying the normal plugin into the plugin folder
+RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\normal_plugin.dll c:\sys\bin\normal_plugin.dll
+RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\normal_plugin.rsc c:\resource\plugins\normal_plugin.rsc
+//wait for plugins to be discovered and EFM server to be restarted
+DELAY 1000
+//run test to check plugin permissions
+RUN_TEST_STEP 100 efm_configured_testserver PluginCapabilitiesTest
+//wait for EFM server to terminate
+DELAY 1000
+//delete normal plugin files
+RUN_PROGRAM -1 pluginhelper.exe c:\sys\bin\normal_plugin.dll
+RUN_PROGRAM -1 pluginhelper.exe c:\resource\plugins\normal_plugin.rsc
+DELAY 1000
+//delete generated data file
+RUN_UTILS DeleteFile C:\Private\102836E5\features.dat
+END_TESTCASE SYSLIB-EFM-CT-4027
+
+START_TESTCASE SYSLIB-EFM-CT-4018
+//! @SYMTestCaseID      SYSLIB-EFM-CT-4018
+//! @SYMTestCaseDesc    Flag Validation Tests for plugin features
+//! @SYMTestPriority    Medium 
+//! @SYMTestActions     1) Create a plugin which publishes features with invalid flag combinations. 
+//!                    Plugin should publish one feature a time, and should publish new flag combination 
+//!                    every time it is invoked (this is achieved by creating a Publish&Subscribe property by the 
+//!                    client and placing the index of the flag combination into this property, and then 
+//!                   reading this property in the plugin in order to find out which flag combination to publish)
+//!                    2) RFeatureControl object is opened and information is requested on some feature (in this case KDefaultSupportedUid). 
+//!                    This action is repeated for every invalid flag combination possible placing the index of the combination into 
+//!                    the Publish&Subscribe property and using that in the corrupt plug in.
+//!                    3) Feature requests return KErrServerTerminated as the server panics after discovering invalid 
+//!                    flag combination.
+//! @SYMTestExpectedResults      KErrServerTerminated error code should be returned every time when we request feature support
+//! @SYMPREQ            PREQ1645
+//! @SYMREQ             REQ8200
+//!                    REQ7764
+
+//put the data file into the server data cage on Z:-drive
+RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\plugin_features.ini CreateEFMFile
+//place plugin files into appropriate locations
+//we have to copy/delete plugin files from a separate process since TEF framework doesn't have sufficient capabilities 
+// Copying the corrupt plugin into the plugin folder
+RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\corrupt_plugin.dll c:\sys\bin\corrupt_plugin.dll
+RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\corrupt_plugin.rsc c:\resource\plugins\corrupt_plugin.rsc
+//wait for plugins to be discovered and EFM server to be restarted
+DELAY 1000
+//run test to check invalid features support
+RUN_TEST_STEP 100 efm_configured_testserver InvalidFlagsPluginTest
+//wait for EFM server to terminate
+DELAY 1000
+//delete corrupt plugin files
+RUN_PROGRAM -1 pluginhelper.exe c:\sys\bin\corrupt_plugin.dll
+RUN_PROGRAM -1 pluginhelper.exe c:\resource\plugins\corrupt_plugin.rsc
+DELAY 1000
+//delete generated data file
+RUN_UTILS DeleteFile C:\Private\102836E5\features.dat
+END_TESTCASE SYSLIB-EFM-CT-4018
+
+START_TESTCASE SYSLIB-EFM-UT-4016
+//! @SYMTestCaseID 		SYSLIB-EFM-UT-4016
+//! @SYMTestCaseDesc  	Performs a combination test of normal and hanging plugins
+//! @SYMTestPriority 	Medium 
+//! @SYMTestActions 		Test case performs the following actions
+//!						1) Load a normal plug in which defines some features
+//!						2) Load a corrupt plugin which defines some features
+//!						3) Request any feature support
+//!						4) Check that the returned value is as expected (The result should be KServerTerminated for the request)
+//! @SYMTestExpectedResults 	All the functions in this test case should return expected results
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ              REQ8356
+
+//put the data file into the server data cage on Z:-drive
+RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\plugin_features.ini CreateEFMFile
+//place plugin files into appropriate locations
+//we have to copy/delete plugin files from a separate process since TEF framework doesn't have sufficient capabilities 
+// Loading the normal plugin
+RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\normal_plugin.dll c:\sys\bin\normal_plugin.dll
+RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\normal_plugin.rsc c:\resource\plugins\normal_plugin.rsc
+// Loading the Corrupted plugin
+RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\corrupt_plugin.dll c:\sys\bin\corrupt_plugin.dll
+RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\corrupt_plugin.rsc c:\resource\plugins\corrupt_plugin.rsc
+//wait for plugins to be discovered and EFM server to be restarted
+DELAY 1000
+//run test to check feature reconciliation between Z: drive and feature info plugins
+RUN_TEST_STEP 100 efm_configured_testserver CombinationNCPluginTest
+//wait for EFM server to terminate
+DELAY 1000
+//delete normal plugin files
+RUN_PROGRAM -1 pluginhelper.exe c:\sys\bin\normal_plugin.dll
+RUN_PROGRAM -1 pluginhelper.exe c:\resource\plugins\normal_plugin.rsc
+//delete the corrupted plugin files
+RUN_PROGRAM -1 pluginhelper.exe c:\sys\bin\corrupt_plugin.dll
+RUN_PROGRAM -1 pluginhelper.exe c:\resource\plugins\corrupt_plugin.rsc
+DELAY 1000
+//delete generated data file
+RUN_UTILS DeleteFile C:\Private\102836E5\features.dat
+END_TESTCASE SYSLIB-EFM-UT-4016
+
+START_TESTCASE SYSLIB-EFM-UT-4013
+//! @SYMTestCaseID 		SYSLIB-EFM-UT-4013
+//! @SYMTestCaseDesc  	Performs a combination test of normal and hanging plugins
+//! @SYMTestPriority 	Medium 
+//! @SYMTestActions 		Test case performs the following actions
+//!						1) Load a normal plug in which defines some features
+//!						2) Load a hanging plugin which defines some features
+//!						3) Request for the feature support of the normal plugin
+//!						4) Request for the feature support of the hanging plugin
+//!						5) Check that the returned values are as expected (The information for normal plugin request will be published and will return KFeatureSupported. The hanging will not and it will return KErrNotFound)
+//! @SYMTestExpectedResults 	All the functions in this test case should return expected results
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ              REQ8356
+
+//put the data file into the server data cage on Z:-drive
+RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\plugin_features.ini CreateEFMFile
+//place plugin files into appropriate locations
+//we have to copy/delete plugin files from a separate process since TEF framework doesn't have sufficient capabilities 
+// Loading the normal plugin
+RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\normal_plugin.dll c:\sys\bin\normal_plugin.dll
+RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\normal_plugin.rsc c:\resource\plugins\normal_plugin.rsc
+// Load the hanging plugin
+RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\hanging_plugin.dll c:\sys\bin\hanging_plugin.dll
+RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\hanging_plugin.rsc c:\resource\plugins\hanging_plugin.rsc
+//wait for plugins to be discovered and EFM server to be restarted
+DELAY 1000
+//run test to check feature reconciliation between Z: drive and feature info plugins
+RUN_TEST_STEP 100 efm_configured_testserver CombinationNHPluginTest
+//wait for EFM server to terminate
+DELAY 1000
+//delete normal plugin files
+RUN_PROGRAM -1 pluginhelper.exe c:\sys\bin\normal_plugin.dll
+RUN_PROGRAM -1 pluginhelper.exe c:\resource\plugins\normal_plugin.rsc
+//delete hanging plugin files
+RUN_PROGRAM -1 pluginhelper.exe c:\sys\bin\hanging_plugin.dll
+RUN_PROGRAM -1 pluginhelper.exe c:\resource\plugins\hanging_plugin.rsc
+DELAY 1000
+//delete generated data file
+RUN_UTILS DeleteFile C:\Private\102836E5\features.dat
+END_TESTCASE SYSLIB-EFM-UT-4013
+
+START_TESTCASE SYSLIB-EFM-UT-4012
+//! @SYMTestCaseID 		SYSLIB-EFM-UT-4012
+//! @SYMTestCaseDesc  	Load a normal and an enhanced plugins and check for feature values consitency
+//! @SYMTestPriority 	High 
+//! @SYMTestActions 		Test case performs the following actions
+//!						1) Load a normal plug in which defines 2 simple features A and B 
+//!						2) Load an enhanced plugin which defines 2 enhanced features B (with the same UID as in the simple plugin) and C.
+//!						3) Request for the feature support for A, B and C feature
+//!						4) Request for the feature data values for A, B and C feature
+//!						5) Check that the returned values are as expected (A should be 0 because a simple feature does not define a data field; B should be 0 if the simple plugin is loaded last, otherwise it should be 187; C should be 204)
+//! @SYMTestExpectedResults 	All the functions in this test case should return expected results
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ              REQ8356
+
+//put the data file into the server data cage on Z:-drive
+RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\plugin_features.ini CreateEFMFile
+//place plugin files into appropriate locations
+//we have to copy/delete plugin files from a separate process since TEF framework doesn't have sufficient capabilities 
+// Starting the normal plugin (ab_normal)
+RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\ab_normal_plugin.dll c:\sys\bin\ab_normal_plugin.dll
+RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\ab_normal_plugin.rsc c:\resource\plugins\ab_normal_plugin.rsc
+// Starting the enhanced plugin (bc_enhanced)
+RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\bc_enhanced_plugin.dll c:\sys\bin\bc_enhanced_plugin.dll
+RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\bc_enhanced_plugin.rsc c:\resource\plugins\bc_enhanced_plugin.rsc
+//wait for plugins to be discovered and EFM server to be restarted
+DELAY 1000
+//run test to check the consistency of the values of features A, B and C
+RUN_TEST_STEP 100 efm_configured_testserver SimpleEnhancedPluginTest	
+//wait for EFM server to terminate
+DELAY 1000
+//delete plugin simple files
+RUN_PROGRAM -1 pluginhelper.exe c:\sys\bin\ab_normal_plugin.dll
+RUN_PROGRAM -1 pluginhelper.exe c:\resource\plugins\ab_normal_plugin.rsc
+//delete plugin enhanced files
+RUN_PROGRAM -1 pluginhelper.exe c:\sys\bin\bc_enhanced_plugin.dll
+RUN_PROGRAM -1 pluginhelper.exe c:\resource\plugins\bc_enhanced_plugin.rsc
+//wait for EFM server to terminate
+DELAY 1000
+//delete generated data file
+RUN_UTILS DeleteFile C:\Private\102836E5\features.dat
+END_TESTCASE SYSLIB-EFM-UT-4012
+
+
+START_TESTCASE SYSLIB-EFM-PT-3672
+//! @SYMTestCaseID 		SYSLIB-EFM-PT-3672   
+//! @SYMTestCaseDesc  		Performance test case to benchmark EFM server startup time.
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		Create an object of RFeatureControl and measure the time required to execute RFeatureControl::Connect()
+//! @SYMTestExpectedResults 	Time spent to execute RFeatureControl::Connect() should not exceed the preset limit. 
+//!				The checks are only performed on hardware UREL builds 
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ              REQ8200
+
+
+//run startup performance test
+
+//put a file with several features and 1 DSR range into the emulated Z: folder
+RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\reconciliation_features.ini CreateEFMFileForZ
+RUN_TEST_STEP 300 efm_configured_testserver StartupPerformanceTest
+RUN_UTILS DeleteFile C:\Private\102836E5\features.dat
+//wait for the server to terminate
+DELAY 1000
+END_TESTCASE SYSLIB-EFM-PT-3672
+
+
+START_TESTCASE SYSLIB-EFM-CT-4009
+//feature flag validation tests
+
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-4009
+//! @SYMTestCaseDesc  		Flag Validation Tests for the ROM-based features
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		Flags with the invalid combinatios are added and created a feature dat file placed on into the emulated Z: drive. 
+//!				Try to create the server. Test is passed if the Panic is raised on the server side which results in KErrGeneral 
+//!				error code on the client side. 
+//! @SYMTestExpectedResults 	Test is passed if we get KErrGeneral as a result of the RFeatureControl request.
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ              REQ8200
+//!                     REQ7764
+
+
+RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\reconciliation_features.ini CreateEFMFileForTestCase8
+RUN_TEST_STEP  300 efm_configured_testserver FeatureManagerPanicswithInvaliedFlagsets
+RUN_UTILS DeleteFile C:\Private\102836E5\features.dat
+RUN_UTILS DeleteFile C:\Private\102836E5\runtime\features.dat
+DELAY 1000
+
+RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\reconciliation_features.ini CreateEFMFileForTestCase9
+RUN_TEST_STEP  300 efm_configured_testserver FeatureManagerPanicswithInvaliedFlagsets
+RUN_UTILS DeleteFile C:\Private\102836E5\features.dat
+RUN_UTILS DeleteFile C:\Private\102836E5\runtime\features.dat
+DELAY 1000
+
+RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\reconciliation_features.ini CreateEFMFileForTestCase10
+RUN_TEST_STEP  300 efm_configured_testserver FeatureManagerPanicswithInvaliedFlagsets
+RUN_UTILS DeleteFile C:\Private\102836E5\features.dat
+RUN_UTILS DeleteFile C:\Private\102836E5\runtime\features.dat
+DELAY 1000
+
+RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\reconciliation_features.ini CreateEFMFileForTestCase11
+RUN_TEST_STEP  300 efm_configured_testserver FeatureManagerPanicswithInvaliedFlagsets
+RUN_UTILS DeleteFile C:\Private\102836E5\features.dat
+RUN_UTILS DeleteFile C:\Private\102836E5\runtime\features.dat
+DELAY 1000
+
+RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\reconciliation_features.ini CreateEFMFileForTestCase12
+RUN_TEST_STEP  300 efm_configured_testserver FeatureManagerPanicswithInvaliedFlagsets
+RUN_UTILS DeleteFile C:\Private\102836E5\features.dat
+RUN_UTILS DeleteFile C:\Private\102836E5\runtime\features.dat
+DELAY 1000
+
+RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\reconciliation_features.ini CreateEFMFileForTestCase13
+RUN_TEST_STEP  300 efm_configured_testserver FeatureManagerPanicswithInvaliedFlagsets
+RUN_UTILS DeleteFile C:\Private\102836E5\features.dat
+RUN_UTILS DeleteFile C:\Private\102836E5\runtime\features.dat
+DELAY 1000
+
+RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\reconciliation_features.ini CreateEFMFileForTestCase14
+RUN_TEST_STEP  300 efm_configured_testserver FeatureManagerPanicswithInvaliedFlagsets
+RUN_UTILS DeleteFile C:\Private\102836E5\features.dat
+RUN_UTILS DeleteFile C:\Private\102836E5\runtime\features.dat
+DELAY 1000
+
+RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\reconciliation_features.ini CreateEFMFileForTestCase15
+RUN_TEST_STEP  300 efm_configured_testserver FeatureManagerPanicswithInvaliedFlagsets
+RUN_UTILS DeleteFile C:\Private\102836E5\features.dat
+RUN_UTILS DeleteFile C:\Private\102836E5\runtime\features.dat
+DELAY 1000
+
+RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\reconciliation_features.ini CreateEFMFileForTestCase16
+RUN_TEST_STEP  300 efm_configured_testserver FeatureManagerPanicswithInvaliedFlagsets
+RUN_UTILS DeleteFile C:\Private\102836E5\features.dat
+RUN_UTILS DeleteFile C:\Private\102836E5\runtime\features.dat
+DELAY 1000
+END_TESTCASE SYSLIB-EFM-CT-4009
+
+START_TESTCASE SYSLIB-EFM-CT-4017
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-4017
+//! @SYMTestCaseDesc  		Flag Validation Tests for the runtime features
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		Flags with the invalid combinatios are added and created a features.dat file placed into the emulated C: drive. 
+//!				Try to create the server and request support for the feature with invalid flag combination. 
+//! @SYMTestExpectedResults 	Test is passed if the server successfully starts, but the feature with invalid flag 
+//!				combination is ignored.
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ 			REQ8200
+//!                 REQ7764
+
+
+    RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\plugin_features.ini CreateFileNoFeatures
+    RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\reconciliation_features.ini CreateEFMFileForRuntimeInvalidFlagsetTest1
+    RUN_TEST_STEP  300 efm_configured_testserver FeatureManagerInvalidFlagsetsRuntime
+    RUN_UTILS DeleteFile C:\Private\102836E5\features.dat
+    RUN_UTILS DeleteFile C:\Private\102836E5\runtime\features.dat
+    DELAY 1000
+
+    RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\plugin_features.ini CreateFileNoFeatures
+    RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\reconciliation_features.ini CreateEFMFileForRuntimeInvalidFlagsetTest2
+    RUN_TEST_STEP  300 efm_configured_testserver FeatureManagerInvalidFlagsetsRuntime
+    RUN_UTILS DeleteFile C:\Private\102836E5\features.dat
+    RUN_UTILS DeleteFile C:\Private\102836E5\runtime\features.dat
+    DELAY 1000
+END_TESTCASE SYSLIB-EFM-CT-4017
+
+START_TESTCASE SYSLIB-EFM-CT-4010
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-4010
+//! @SYMTestCaseDesc  		Test case for RFeatureControl feature deleting
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		Test case performs the following actions:
+//!				1) Create a feature data file with 1 feature having “Modifiable” flag set, and a DSR and put it on Z: drive
+//!				2) Start-up the EFM server
+//!				3) Add a feature with the “Modifiable” flag set
+//!				4) Add a feature with the “Modifiable” flag unset
+//!				5) Add a feature that overrides a UID from DSR and set it to “Unsupported” state
+//!				6) Delete the feature from Z:-drive (KErrAccessDenied expected)
+//!				7) Delete the modifiable feature from C:-drive (KErrNone expected)
+//!				8) Delete the non-modifiable feature from C:-drive (KErrAccessDenied expected)
+//!				9) Delete a feature that doesn't exist (KErrNotFound return code expected)
+//!				10) Request support for the feature from DSR that has been overridden in the C-drive file and make sure that feature is reported as unsupported
+//!				11) Delete a feature from DSR that has been overridden in the C-drive file (KErrNone expected)
+//!				12) Delete a feature from DSR that has not been overridden in the C-drive file (KErrNotFound expected)
+//!				13) Request support for the feature from DSR that has been overridden in the C-drive file and make sure that the feature is reported as supported (since it was returned to DSR)
+//! @SYMTestExpectedResults 	For all scenarios return code should be equal to the expected value
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ  			REQ8194
+
+RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\reconciliation_features.ini CreateEFMFileForDelete
+RUN_TEST_STEP  300 efm_configured_testserver FeatureControlDelete
+RUN_UTILS DeleteFile C:\Private\102836E5\features.dat
+RUN_UTILS DeleteFile C:\Private\102836E5\runtime\features.dat
+DELAY 1000
+END_TESTCASE SYSLIB-EFM-CT-4010
+
+START_TESTCASE SYSLIB-EFM-CT-3623
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3623	
+//! @SYMTestCaseDesc  		Test handling of DSR features
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		Test creates a feature data file with 2 DSRs defined in it and performs various requests checking the correctness of DSR handling
+//! @SYMTestExpectedResults 	All APIs called by this test case should return expected results.
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ              REQ8181
+
+
+//create a file with 2 DSR ranges defined in it
+RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\dsr_features.ini CreateEFMFile
+RUN_TEST_STEP 100 efm_configured_testserver DSRTest
+//delete data file from the emulated Z: drive
+RUN_UTILS DeleteFile C:\Private\102836E5\features.dat
+RUN_UTILS DeleteFile C:\Private\102836E5\runtime\features.dat
+//wait for the EFM server to be terminated
+DELAY 1000
+END_TESTCASE SYSLIB-EFM-CT-3623
+
+//run persistence tests
+START_TESTCASE SYSLIB-EFM-CT-3671
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3671
+//! @SYMTestCaseDesc  		Test case to check the persistnce of the data. 
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		First read all feature files and runtime feature files. check for the validity of the 
+//!				features. Modify the data , reload the files and check for the persistance of the modified features.	
+//! @SYMTestExpectedResults 	All modifications should be persisted apart from the modifications of the features without the "persisted" flag
+//!				The features without the "persisted" flag should be reverted to the initial state after the server restart
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ 			    REQ7763
+
+
+//generate feature data file needed by this test case 
+RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\persistence_features.ini CreateEFMFile
+//check the validity of the data in the data file and perform modifications
+RUN_TEST_STEP 100 efm_configured_testserver PersistenceStoreSettingsTest
+//wait for the server to terminate
+DELAY 1000
+//reload feature data
+RUN_TEST_STEP 100 efm_configured_testserver PersistenceLoadSettingsTest
+//delete generated and persisted feature data file
+RUN_UTILS DeleteFile C:\Private\102836E5\features.dat
+RUN_UTILS DeleteFile C:\Private\102836E5\runtime\features.dat
+//wait for the server to terminate
+DELAY 1000
+END_TESTCASE SYSLIB-EFM-CT-3671
+
+START_TESTCASE SYSLIB-EFM-CT-4001
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-4001
+//! @SYMTestCaseDesc  		Checks that UIDs at each end of the range of
+//!                             a DSR are supported - i.e RFeatureControl
+//!                             FeatureSupported() returns KFeatureSupported
+//!                             on the end values and returns KErrNotFound
+//!                             just outside the range.
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		1) Create a feature data file with 1 DSR and
+//!                                no features defined.
+//!                             2) Create an object of RFeatureControl.
+//!                             3) Request feature support for a feature on
+//!                                the lower bound of the DSR (KFeatureSupported
+//!                                is expected).
+//!                             4) Request feature support for a feature on the
+//!                                upper bound of the DSR.
+//!                             5) Request feature support for a feature just
+//!                                below the lower bound of the DSR 
+//!                                (KErrNotFound is expected).
+//!                             6) Request feature support for a feature just
+//!                                above the lower the bound of the DSR
+//!                                (KFeatureSupported is expected).
+//!                             7) Request feature support for a feature just
+//!                                above the upper bound of the DSR
+//!                                (KErrNotFound is expected).
+//!                             8) Request feature support for a feature just
+//!                                below the upper bound of the DSR
+//!                                (KFeatureSupported is expected).
+//!                             9) Request feature support for a feature with
+//!                                Uid set to KMaxTInt (KErrNotFound is
+//!                                expected)
+//!                            10) Request feature support for a feature with
+//!                                Uid set to KMinTInt (KErrNotFound is
+//!                                expected)
+//! @SYMTestExpectedResults 	Error codes returned should be as described in
+//!                             the description.
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ 		    REQ8181
+//!                     REQ8200
+
+    RUN_TEST_STEP 100 tef_feature_generator CEFMTest z:\test\efm\scripts\dsr_features.ini CreateEFMFileForDSRBounds
+    RUN_TEST_STEP 300 efm_configured_testserver DSRBoundsTest
+    RUN_UTILS DeleteFile C:\Private\102836E5\features.dat
+    RUN_UTILS DeleteFile C:\Private\102836E5\runtime\features.dat
+//wait for the server to terminate
+    DELAY 1000
+END_TESTCASE SYSLIB-EFM-CT-4001
+
+
+
+//run test to check feature reconciliation between Z: drive and C: drive
+START_TESTCASE SYSLIB-EFM-UT-3673
+//! @SYMTestCaseID 		SYSLIB-EFM-UT-3673 
+//! @SYMTestCaseDesc  		Reconciliation of features from ROM and persisted feature file
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		Test case performs the following actions
+//!				1) Create feature data file for Z(file 1) and C:(file 2) drives
+//!				2) Define the same feature in both files
+//!				3) Set feature as unsupported in the file 1, and as supported in the file 2 (the feature should be reported as “supported”)
+//!				4) Create a blacklisted feature in the file 1 and try to override it in the file 2 (the feature should be reported as “unsupported”)
+//!				5) Start up EFM server
+//!				6) Request feature states and compare them against expected values
+//! @SYMTestExpectedResults 	Feature states should be exactly as expected
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ              REQ7764
+
+RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\reconciliation_features.ini CreateEFMFileForZ
+RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\reconciliation_features.ini CreateEFMFileForC
+RUN_TEST_STEP 100 efm_configured_testserver ReconciliationTest
+//delete Z:-drive and C:-drive based feature data files
+RUN_UTILS DeleteFile C:\Private\102836E5\features.dat
+RUN_UTILS DeleteFile C:\Private\102836E5\runtime\features.dat 
+DELAY 1000
+END_TESTCASE SYSLIB-EFM-UT-3673
+
+//run test to check feature reconciliation between Z: drive and feature info plugins
+START_TESTCASE SYSLIB-EFM-UT-3674
+//! @SYMTestCaseID 		SYSLIB-EFM-UT-3674    
+//! @SYMTestCaseDesc  		Reconciliation of features from ROM and feature plugins
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		Test case performs the following actions
+//!				1) Create feature data file for Z(file 1) and feature info plugin for C: drive
+//!				2) Define the same feature in the feature file and the feature info plugin
+//!				3) Set feature as unsupported in the file 1, and as supported in the plugin (the feature should be reported as “supported”)
+//!				4) Create a blacklisted feature in the file 1 and try to override it in the plugin (the feature should be reported as “unsupported”)
+//!				5) Start up EFM server
+//!				6) Request feature states and compare them against expected values
+//! @SYMTestExpectedResults 	Feature states should be exactly as expected
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ              REQ7764
+
+//put the data file into the server data cage on Z:-drive
+RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\reconciliation_features.ini CreateEFMFileForZDriveForPlugin
+RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\reconciliation_features.ini CreateEFMFileForCDriveForPlugin
+//place plugin files into appropriate locations
+//we have to copy/delete plugin files from a separate process since TEF framework doesn't have sufficient capabilities 
+RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\reconciliation_plugin.dll c:\sys\bin\reconciliation_plugin.dll
+RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\reconciliation_plugin.rsc c:\resource\plugins\reconciliation_plugin.rsc
+//wait for plugins to be discovered and EFM server to be restarted
+DELAY 1000
+//run test to check feature reconciliation between Z: drive and feature info plugins
+RUN_TEST_STEP 100 efm_configured_testserver ReconciliationTest
+//wait for EFM server to terminate
+DELAY 1000
+delete plugin files
+RUN_PROGRAM -1 pluginhelper.exe c:\sys\bin\reconciliation_plugin.dll
+RUN_PROGRAM -1 pluginhelper.exe c:\resource\plugins\reconciliation_plugin.rsc
+DELAY 1000
+//delete generated data file
+RUN_UTILS DeleteFile C:\Private\102836E5\features.dat
+
+END_TESTCASE SYSLIB-EFM-UT-3674
+
+//run test to check feature reconciliation between 2 emulated ROFS sections
+START_TESTCASE SYSLIB-EFM-CT-3675
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3675	
+//! @SYMTestCaseDesc  		Reconciliation of features from 2 emulated ROFS sections
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		Test case performs the following actions
+//!				1) Create feature data file for emulated ROFS1 rom section (file 1) and additional emulated ROFS2 section (file 2)
+//!				2) Define the same feature in both files
+//!				3) Set feature as unsupported in the file 1, and as supported in the file 2 (the feature should be reported as “supported”)
+//!				4) Create a blacklisted feature in the file 1 and try to override it in the file 2 ( the feature should be reported as “unsupported”)
+//!				5) Request feature states and compare them against expected valuese		
+//! @SYMTestExpectedResults 	All feature states should be exactly as expected
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ              REQ7764
+
+//delete feature data file from the emulated Z:-drive
+RUN_UTILS DeleteFile C:\Private\102836E5\features.dat 
+//create feature data files that emulate files from 2 ROFS sections
+RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\reconciliation_features.ini CreateEFMFileForSection1
+RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\reconciliation_features.ini CreateEFMFileForSection2
+//run test to check feature reconciliation between 2 ROFS sections
+RUN_TEST_STEP 100 efm_configured_testserver ReconciliationTest
+//delete feature data files from the emulated ROFS sections
+RUN_UTILS DeleteFile C:\Private\102836E5\features.dat[1-0]
+RUN_UTILS DeleteFile C:\Private\102836E5\features.dat[2-0]
+//wait for the EFM server to be terminated
+DELAY 1000
+END_TESTCASE SYSLIB-EFM-CT-3675
+
+//Plugin testing
+START_TESTCASE SYSLIB-EFM-UT-4006
+//! @SYMTestCaseID 		SYSLIB-EFM-UT-4006
+//! @SYMTestCaseDesc  		Normal use test case for plugin interface
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		Test case performs the following actions
+//!				1) Put a file defining one DSR into Z:-drive data cage 
+//!				2) Load a plug-in containing one supported and one unsupported feature and also marks the feature from DSR as unsupported; 
+//!				3) Request for the feature support for both supported and unsupported feature; 
+//!				4) Check that the returned result is as expected
+//!				5) Request for feature support for an unknown feature; check returned results
+//!				6) Check that the DSR feature is reported as “unsupported”
+//! @SYMTestExpectedResults 	All the functions in this test case should return expected results
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ             REQ7764
+//!                     REQ8356
+
+//put the data file into the server data cage on Z:-drive
+RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\plugin_features.ini CreateEFMFile
+//place plugin files into appropriate locations
+//we have to copy/delete plugin files from a separate process since TEF framework doesn't have sufficient capabilities 
+RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\normal_plugin.dll c:\sys\bin\normal_plugin.dll
+RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\normal_plugin.rsc c:\resource\plugins\normal_plugin.rsc
+//wait for plugins to be discovered and EFM server to be restarted
+DELAY 1000
+//run test to check feature reconciliation between Z: drive and feature info plugins
+RUN_TEST_STEP 100 efm_configured_testserver NormalPluginTest
+//wait for EFM server to terminate
+DELAY 1000
+//delete generated data file
+RUN_UTILS DeleteFile C:\Private\102836E5\features.dat
+//delete plugin files
+RUN_PROGRAM -1 pluginhelper.exe c:\sys\bin\normal_plugin.dll
+RUN_PROGRAM -1 pluginhelper.exe c:\resource\plugins\normal_plugin.rsc
+DELAY 1000
+END_TESTCASE SYSLIB-EFM-UT-4006
+
+START_TESTCASE SYSLIB-EFM-UT-4007
+//! @SYMTestCaseID 		SYSLIB-EFM-UT-4007
+//! @SYMTestCaseDesc  		Hanging plugin test
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		1) Create a plugin defining some feature after a timeout which is 1.5 times larger then the plugin cancellation timeout 
+//!				2) Start and open RFeatureControl instance and wait for the timeout which is 2 times larger then the plugin cancellation timeout; 
+//!				3) Request for the feature support for feature definedin the plugin.
+//!				4) If theplugin has been cancelled the feature will be undefined
+//! @SYMTestExpectedResults 	The feature defined in the plugin should be unknown, so we should get KErrNotFound error code.
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ              REQ8356
+
+//put the data file into the server data cage on Z:-drive
+RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\plugin_features.ini CreateFileNoFeatures
+//place plugin files into appropriate locations
+//we have to copy/delete plugin files from a separate process since TEF framework doesn't have sufficient capabilities 
+RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\hanging_plugin.dll c:\sys\bin\hanging_plugin.dll
+RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\hanging_plugin.rsc c:\resource\plugins\hanging_plugin.rsc
+//wait for plugins to be discovered and EFM server to be restarted
+DELAY 1000
+//run test to check feature reconciliation between Z: drive and feature info plugins
+RUN_TEST_STEP 100 efm_configured_testserver HangingPluginTest
+//wait for EFM server to terminate
+DELAY 1000
+//delete generated data file
+RUN_UTILS DeleteFile C:\Private\102836E5\features.dat
+//delete plugin files
+RUN_PROGRAM -1 pluginhelper.exe c:\sys\bin\hanging_plugin.dll
+RUN_PROGRAM -1 pluginhelper.exe c:\resource\plugins\hanging_plugin.rsc
+DELAY 1000
+END_TESTCASE SYSLIB-EFM-UT-4007
+
+START_TESTCASE SYSLIB-EFM-UT-4008
+//! @SYMTestCaseID 		SYSLIB-EFM-UT-4008
+//! @SYMTestCaseDesc  		Corrupt plugin test
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		Provide EFM with a plug-in that feeds corrupt data into EFM.
+//! @SYMTestExpectedResults 	We expect server to panic after discovering a corrupt plugin, so on the client side we expect KErrServerTerminated error code
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ              REQ8356
+
+//put the data file into the server data cage on Z:-drive
+RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\plugin_features.ini CreateFileNoFeatures
+//place plugin files into appropriate locations
+//we have to copy/delete plugin files from a separate process since TEF framework doesn't have sufficient capabilities 
+RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\corrupt_plugin.dll c:\sys\bin\corrupt_plugin.dll
+RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\corrupt_plugin.rsc c:\resource\plugins\corrupt_plugin.rsc
+//wait for plugins to be discovered and EFM server to be restarted
+DELAY 1000
+//run test to check feature reconciliation between Z: drive and feature info plugins
+RUN_TEST_STEP 100 efm_configured_testserver CorruptPluginTest
+//wait for EFM server to terminate
+DELAY 1000
+//delete generated data files
+RUN_UTILS DeleteFile C:\Private\102836E5\features.dat
+RUN_UTILS DeleteFile C:\Private\102836E5\runtime\features.dat
+//delete plugin files
+RUN_PROGRAM -1 pluginhelper.exe c:\sys\bin\corrupt_plugin.dll
+RUN_PROGRAM -1 pluginhelper.exe c:\resource\plugins\corrupt_plugin.rsc
+END_TESTCASE SYSLIB-EFM-UT-4008
+
+START_TESTCASE SYSLIB-EFM-UT-4014
+//! @SYMTestCaseID 		SYSLIB-EFM-UT-4014
+//! @SYMTestCaseDesc  		Missing and corrupt data files.
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		1) Create a feature set data file with a bad
+//!                                header. Create a CFeatureDiscovery object.
+//!                             2) Create a feature set data file with a bad
+//!                                DSR section (a low uid is > high uid).
+//!                                Create a CFeatureDiscovery object.
+//!                             3) Create a feature set data file with a
+//!                                missing DSR (header specifies 3, there are
+//!                                2). Create a CFeatureDiscovery object.
+//!                             4) Create a feature set data file with no
+//!                                DSR section. Create a CFeatureDiscovery
+//!                                object.
+//!                             5) Create a feature set data file with
+//!                                two overlapping DSRs. Create a
+//!                                CFeatureDiscovery object and check for
+//!                                supported features within both ranges.
+//!                             6) Create a CFeatureDiscovery object with
+//!                                no feature set data file present.
+//! @SYMTestExpectedResults 	1) The server should PANIC on startup.
+//!                             2) The server should PANIC on startup.
+//!                             3) The server should PANIC on startup.
+//!                             4) The server should PANIC on startup.
+//!                             5) The CFeatureDiscovery object will be
+//!                                created without error, features are
+//!                                supported over the range of both DSRs.
+//!                             6) The server should PANIC on startup.
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ              REQ7764
+//!                     REQ8200
+
+    RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\corruptdat.ini CreateEFMFileBadHeader
+    RUN_TEST_STEP  300 efm_configured_testserver CorruptFeatDatTest
+    DELAY 1000
+    RUN_UTILS DeleteFile C:\Private\102836E5\features.dat
+    RUN_UTILS DeleteFile C:\Private\102836E5\runtime\features.dat
+
+    RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\corruptdat.ini CreateEFMFileInvalidDSR
+    RUN_TEST_STEP  300 efm_configured_testserver CorruptFeatDatTest
+    DELAY 1000
+    RUN_UTILS DeleteFile C:\Private\102836E5\features.dat
+    RUN_UTILS DeleteFile C:\Private\102836E5\runtime\features.dat
+
+    RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\corruptdat.ini CreateEFMFileMissingDSR
+    RUN_TEST_STEP  300 efm_configured_testserver MissingDSRDatFileTest
+    DELAY 1000
+    RUN_UTILS DeleteFile C:\Private\102836E5\features.dat
+    RUN_UTILS DeleteFile C:\Private\102836E5\runtime\features.dat
+
+    RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\corruptdat.ini CreateEFMFileNoDSR
+    RUN_TEST_STEP  300 efm_configured_testserver CorruptFeatDatTest
+    DELAY 1000
+    RUN_UTILS DeleteFile C:\Private\102836E5\features.dat
+    RUN_UTILS DeleteFile C:\Private\102836E5\runtime\features.dat
+
+    RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\corruptdat.ini CreateEFMFileOverlappingDSR
+    RUN_TEST_STEP  300 efm_configured_testserver OverlappingDSRFeatDatTest
+    DELAY 1000
+    RUN_UTILS DeleteFile C:\Private\102836E5\features.dat
+    RUN_UTILS DeleteFile C:\Private\102836E5\runtime\features.dat
+
+    RUN_TEST_STEP  300 efm_configured_testserver MissingDatFileTest
+    DELAY 1000
+    RUN_UTILS DeleteFile C:\Private\102836E5\features.dat
+    RUN_UTILS DeleteFile C:\Private\102836E5\runtime\features.dat
+END_TESTCASE SYSLIB-EFM-UT-4014
+
+START_TESTCASE SYSLIB-EFM-UT-4015
+//! @SYMTestCaseID       SYSLIB-EFM-UT-4015
+//! @SYMTestCaseDesc     Slow start plugin test
+//! @SYMTestPriority     High 
+//! @SYMTestActions 		1) Create a plugin defining some feature. This
+//!                        contains a 200ms delay to slow down server
+//!                        startup.
+//!                     2) Concurrently run RFeatureControl::Open in
+//!                        four threads.
+//!                     3) Concurrently check for the feature in each
+//!                        thread.
+//! @SYMTestExpectedResults
+//!                     2) All four thread receive KErrNone from
+//!                        RFeatureControl::Open.
+//!                     3) All four thread receive true from
+//!                        RFeatureControl::IsSupported.
+//! @SYMPREQ             PREQ1645
+//! @SYMREQ              REQ8200
+//! 
+
+    //put the data file into the server data cage on Z:-drive
+    RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\plugin_features.ini CreateFileNoFeatures
+    //place plugin files into appropriate locations
+    //we have to copy/delete plugin files from a separate process since TEF framework doesn't have sufficient capabilities 
+    RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\slowstart_plugin.dll c:\sys\bin\slowstart_plugin.dll
+    RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\slowstart_plugin.rsc c:\resource\plugins\slowstart_plugin.rsc
+    //wait for plugins to be discovered and EFM server to be restarted
+    DELAY 1000
+    // Run four concurrent threads each checking for KErrNone on the control
+    // open and 'true' from IsSupported on our feature.
+    CONCURRENT
+        RUN_TEST_STEP 100 efm_configured_testserver SlowStartPluginTest
+        RUN_TEST_STEP 100 efm_configured_testserver SlowStartPluginTest
+        RUN_TEST_STEP 100 efm_configured_testserver SlowStartPluginTest
+        RUN_TEST_STEP 100 efm_configured_testserver SlowStartPluginTest
+    CONSECUTIVE
+    //wait for EFM server to terminate
+    DELAY 1000
+    //delete generated data file
+    RUN_UTILS DeleteFile C:\Private\102836E5\features.dat
+    //delete plugin files
+    RUN_PROGRAM -1 pluginhelper.exe c:\sys\bin\slowstart_plugin.dll
+    RUN_PROGRAM -1 pluginhelper.exe c:\resource\plugins\slowstart_plugin.rsc
+    DELAY 1000
+END_TESTCASE SYSLIB-EFM-UT-4015
+
+START_TESTCASE PDS-EFM-UT-4056
+//! @SYMTestCaseID           PDS-EFM-UT-4056
+//! @SYMTestCaseDesc         Generates a features.dat file with an incorrect
+//!                          header for latter tests.
+//! @SYMTestPriority         High
+//! @SYMTestActions          See description.
+//! @SYMTestExpectedResults  No errors should be reported.
+//! @SYMDEF  				DEF121940     
+    RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\plugin_features.ini CreateEFMFile
+END_TESTCASE PDS-EFM-UT-4056
+
+// make sure the runtime file does not exist
+RUN_UTILS MakeReadWrite C:\private\102836E5\runtime\features.dat
+RUN_UTILS DeleteFile C:\private\102836E5\runtime\features.dat
+
+DELAY 1000
+   
+START_TESTCASE SYSLIB-EFM-UT-4038
+//! @SYMTestCaseID           SYSLIB-EFM-UT-4038
+//! @SYMTestCaseDesc         Tests that a features.dat file with an incorrect header is detected as being corrupt
+//! 				when there are no plugins. 
+//! @SYMTestPriority         High
+//! @SYMTestActions          1. Use configured EFM server 
+//! 			2. Copy the corrupted features.dat file to C:\private\102836E5\runtime\
+//! 			3. Open a connection to featmgr
+//! 			4. Check that the C:\private\102836E5\runtime\features.dat does not exist
+//! 			5. Add a persisted uid 
+//! 			6. Check that the C:\private\102836E5\runtime\features.dat does now exist
+//! @SYMTestExpectedResults  There are no panics and the test passes. 
+//! @SYMDEF  				DEF121940  
+	RUN_UTILS MakeReadWrite C:\private\102836E5\runtime\features.dat
+	RUN_UTILS DeleteFile C:\private\102836E5\runtime\features.dat
+	RUN_UTILS CopyFile z:\test\efm\scripts\noheader.dat C:\private\102836E5\runtime\features.dat
+	RUN_UTILS MakeReadWrite C:\private\102836E5\runtime\features.dat
+	DELAY 1000
+	RUN_TEST_STEP 100 efm_configured_testserver CorruptRuntimeFeaturesStep
+	DELAY 1000
+	
+END_TESTCASE SYSLIB-EFM-UT-4038
+
+     
+START_TESTCASE SYSLIB-EFM-UT-4039
+//! @SYMTestCaseID           SYSLIB-EFM-UT-4039
+//! @SYMTestCaseDesc         Tests that a features.dat file with an incorrect header is detected as being corrupt
+//! 			with a correct plugin. 
+//! @SYMTestPriority         High
+//! @SYMTestActions          1. Use configured EFM server 
+//! 			2. Put the normal plugin files in c:\sys\bin\ and c:\resource\plugins\
+//! 			3. Copy the corrupted features.dat file to C:\private\102836E5\runtime\
+//! 			4. Open a connection to featmgr
+//! 			5. Check that the C:\private\102836E5\runtime\features.dat does not exist
+//! 			6. Add a persisted uid 
+//! 			7. Check that the C:\private\102836E5\runtime\features.dat does now exist
+//! @SYMTestExpectedResults  There are no panics and the test passes. 
+//! @SYMDEF  				DEF121940   
+	RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\normal_plugin.dll c:\sys\bin\normal_plugin.dll
+	RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\normal_plugin.rsc c:\resource\plugins\normal_plugin.rsc
+	RUN_UTILS MakeReadWrite C:\private\102836E5\runtime\features.dat
+	RUN_UTILS DeleteFile C:\private\102836E5\runtime\features.dat
+	RUN_UTILS CopyFile z:\test\efm\scripts\noheader.dat C:\private\102836E5\runtime\features.dat
+	RUN_UTILS MakeReadWrite C:\private\102836E5\runtime\features.dat
+	DELAY 1000
+	RUN_TEST_STEP 100 efm_configured_testserver CorruptRuntimeFeaturesStep
+	DELAY 1000
+	RUN_PROGRAM -1 pluginhelper.exe c:\sys\bin\normal_plugin.dll
+	RUN_PROGRAM -1 pluginhelper.exe c:\resource\plugins\normal_plugin.rsc  
+	
+END_TESTCASE SYSLIB-EFM-UT-4039
+	
+   
+START_TESTCASE SYSLIB-EFM-UT-4040
+//! @SYMTestCaseID           SYSLIB-EFM-UT-4040
+//! @SYMTestCaseDesc         Tests that a features.dat file with an incorrect header is detected as being corrupt
+//! with a plugin which should hang. 
+//! @SYMTestPriority         High
+//! @SYMTestActions          1. Use configured EFM server 
+//! 			2. Put the hanging plugin files in c:\sys\bin\ and c:\resource\plugins\
+//! 			3. Copy the corrupted features.dat file to C:\private\102836E5\runtime\
+//! 			4. Open a connection to featmgr
+//! 			5. Check that the C:\private\102836E5\runtime\features.dat does not exist
+//! 			6. Add a persisted uid 
+//! 			7. Check that the C:\private\102836E5\runtime\features.dat does now exist
+//! @SYMTestExpectedResults  There are no panics and the test passes. 
+//! @SYMDEF  				DEF121940  
+	RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\hanging_plugin.dll c:\sys\bin\hanging_plugin.dll
+	RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\hanging_plugin.rsc c:\resource\plugins\hanging_plugin.rsc
+	RUN_UTILS MakeReadWrite C:\private\102836E5\runtime\features.dat
+	RUN_UTILS DeleteFile C:\private\102836E5\runtime\features.dat
+	RUN_UTILS CopyFile z:\test\efm\scripts\noheader.dat C:\private\102836E5\runtime\features.dat
+	RUN_UTILS MakeReadWrite C:\private\102836E5\runtime\features.dat
+	DELAY 1000
+	RUN_TEST_STEP 100 efm_configured_testserver CorruptRuntimeFeaturesStep
+	DELAY 1000
+	RUN_PROGRAM -1 pluginhelper.exe c:\sys\bin\hanging_plugin.dll
+	RUN_PROGRAM -1 pluginhelper.exe c:\resource\plugins\hanging_plugin.rsc  
+	
+END_TESTCASE SYSLIB-EFM-UT-4040
+
+//////////////////////////////////////////////////////////////
+//														  	//
+//Tests for a features.dat file with corrupted features	  	//
+//															//
+//////////////////////////////////////////////////////////////
+
+//! @SYMTestCaseID           SYSLIB-EFM-UT-4041 
+//! @SYMTestCaseDesc         Tests that a features.dat file with part of a correct features.dat file removed and replaced
+//! with incorrect information this is when there are no plugins. 
+//! @SYMTestPriority         High
+//! @SYMTestActions          1. Use configured EFM server 
+//! 		2. Copy the corrupted features.dat file to C:\private\102836E5\runtime\
+//! 		3. Open a connection to featmgr
+//! 		4. Check that the C:\private\102836E5\runtime\features.dat does not exist
+//! 		5. Add a persisted uid 
+//! 		6. Check that the C:\private\102836E5\runtime\features.dat does now exist
+//! @SYMTestExpectedResults  There are no panics and the test passes. 
+//! @SYMDEF  				DEF121940      
+START_TESTCASE SYSLIB-EFM-UT-4041
+
+	RUN_UTILS MakeReadWrite C:\private\102836E5\runtime\features.dat
+	RUN_UTILS DeleteFile C:\private\102836E5\runtime\features.dat
+	RUN_UTILS CopyFile z:\test\efm\scripts\noheader.dat C:\private\102836E5\runtime\features.dat
+	RUN_UTILS MakeReadWrite C:\private\102836E5\runtime\features.dat
+	DELAY 1000
+	RUN_TEST_STEP 100 efm_configured_testserver CorruptRuntimeFeaturesStep
+	DELAY 1000
+	
+END_TESTCASE SYSLIB-EFM-UT-4041
+
+    
+START_TESTCASE SYSLIB-EFM-UT-4042
+//! @SYMTestCaseID           SYSLIB-EFM-UT-4042 
+//! @SYMTestCaseDesc         Tests that a features.dat file with part of a correct features.dat file removed and replaced
+//! with incorrect information this is when there is a normal plugin. 
+//! @SYMTestPriority         High
+//! @SYMTestActions          1. Use configured EFM server 
+//! 			2. Put the normal plugin files in c:\sys\bin\ and c:\resource\plugins\
+//! 			3. Copy the corrupted features.dat file to C:\private\102836E5\runtime\
+//! 			4. Open a connection to featmgr
+//! 			5. Check that the C:\private\102836E5\runtime\features.dat does not exist
+//! 			6. Add a persisted uid 
+//! 			7. Check that the C:\private\102836E5\runtime\features.dat does now exist
+//! @SYMTestExpectedResults  There are no panics and the test passes. 
+//! @SYMDEF  				DEF121940  
+	RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\normal_plugin.dll c:\sys\bin\normal_plugin.dll
+	RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\normal_plugin.rsc c:\resource\plugins\normal_plugin.rsc
+	RUN_UTILS MakeReadWrite C:\private\102836E5\runtime\features.dat
+	RUN_UTILS DeleteFile C:\private\102836E5\runtime\features.dat
+	RUN_UTILS CopyFile z:\test\efm\scripts\partial.dat C:\private\102836E5\runtime\features.dat
+	RUN_UTILS MakeReadWrite C:\private\102836E5\runtime\features.dat
+	DELAY 1000
+	RUN_TEST_STEP 100 efm_configured_testserver CorruptRuntimeFeaturesStep
+	DELAY 1000
+	RUN_PROGRAM -1 pluginhelper.exe c:\sys\bin\normal_plugin.dll
+	RUN_PROGRAM -1 pluginhelper.exe c:\resource\plugins\normal_plugin.rsc  
+	
+END_TESTCASE SYSLIB-EFM-UT-4042
+	
+	
+    
+START_TESTCASE SYSLIB-EFM-UT-4043
+//! @SYMTestCaseID           SYSLIB-EFM-UT-4043 
+//! @SYMTestCaseDesc         Tests that a features.dat file with part of a correct features.dat file removed and replaced
+//! with incorrect information this is when there is a plugin that should hang. 
+//! @SYMTestPriority         High
+//! @SYMTestActions          1. Use configured EFM server 
+//! 			2. Put the hanging plugin files in c:\sys\bin\ and c:\resource\plugins\
+//! 			3. Copy the corrupted features.dat file to C:\private\102836E5\runtime\
+//! 			4. Open a connection to featmgr
+//! 			5. Check that the C:\private\102836E5\runtime\features.dat does not exist
+//! 			6. Add a persisted uid 
+//! 			7. Check that the C:\private\102836E5\runtime\features.dat does now exist
+//! @SYMTestExpectedResults  There are no panics and the test passes. 
+//! @SYMDEF  				DEF121940    
+	RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\hanging_plugin.dll c:\sys\bin\hanging_plugin.dll
+	RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\hanging_plugin.rsc c:\resource\plugins\hanging_plugin.rsc
+	RUN_UTILS MakeReadWrite C:\private\102836E5\runtime\features.dat
+	RUN_UTILS DeleteFile C:\private\102836E5\runtime\features.dat
+	RUN_UTILS CopyFile z:\test\efm\scripts\partial.dat C:\private\102836E5\runtime\features.dat
+	RUN_UTILS MakeReadWrite C:\private\102836E5\runtime\features.dat
+	DELAY 1000
+	RUN_TEST_STEP 100 efm_configured_testserver CorruptRuntimeFeaturesStep
+	DELAY 1000
+	RUN_PROGRAM -1 pluginhelper.exe c:\sys\bin\hanging_plugin.dll
+	RUN_PROGRAM -1 pluginhelper.exe c:\resource\plugins\hanging_plugin.rsc  
+	
+END_TESTCASE SYSLIB-EFM-UT-4043
+ 
+RUN_UTILS DeleteFile C:\Private\102836E5\features.dat 
+RUN_UTILS DeleteFile C:\Private\102836E5\runtime\features.dat 
+
+      
+START_TESTCASE SYSLIB-EFM-UT-4045
+//! @SYMTestCaseID           SYSLIB-EFM-UT-4045 
+//! @SYMTestCaseDesc         Tests that a feature that has been read from the rom features.dat does not have its data
+//! overwritten when it is merged with a feature from a simple plugin.
+//! @SYMTestPriority         High
+//! @SYMTestActions          1. Use configured EFM server 
+//! 			2. Generate the rom features.dat
+//! 			3. Open a connection to featmgr
+//! 			4. Check that the feature data is not equal to 0
+//! 			5. Put the normal plugin files in c:\sys\bin\ and c:\resource\plugins\ 
+//! 			6. Open a connection to featmgr
+//! 			7. Check that the feature data is not equal to 0
+//! @SYMTestExpectedResults  There are no panics and the test passes. 
+//! @SYMDEF  				DEF121940  
+	RUN_TEST_STEP 100 tef_feature_generator CEFMTest z:\test\efm\scripts\plugin_features.ini CreateEFMFile
+	DELAY 1000
+	RUN_TEST_STEP 100 efm_configured_testserver SimpleMergePluginTestStep
+	DELAY 1000
+	RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\normal_plugin.dll c:\sys\bin\normal_plugin.dll
+	RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\normal_plugin.rsc c:\resource\plugins\normal_plugin.rsc
+	DELAY 1000
+	RUN_TEST_STEP 100 efm_configured_testserver CorruptRuntimeFeaturesStep
+	DELAY 1000
+	RUN_PROGRAM -1 pluginhelper.exe c:\sys\bin\normal_plugin.dll
+	RUN_PROGRAM -1 pluginhelper.exe c:\resource\plugins\normal_plugin.rsc  
+
+END_TESTCASE SYSLIB-EFM-UT-4045
+ 
+RUN_UTILS DeleteFile C:\Private\102836E5\features.dat 
+RUN_UTILS DeleteFile C:\Private\102836E5\runtime\features.dat      

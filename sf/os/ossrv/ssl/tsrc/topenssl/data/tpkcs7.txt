@@ -1,0 +1,17 @@
+openssl tpkcs7(3_50_2_6734) test_log p -> d
+openssl tpkcs7(3_50_2_6734) pkcs7 -in c:/testp7.pem -inform p -outform d -out c:/f.d
+openssl tpkcs7(3_50_2_6734) test_log p -> p
+openssl tpkcs7(3_50_2_6734) pkcs7 -in c:/testp7.pem -inform p -outform p -out c:/f.p
+openssl tpkcs7(3_50_2_6734) test_log d -> d
+openssl tpkcs7(3_50_2_6734) pkcs7 -in c:/f.d -inform d -outform d -out c:/ff.d1
+openssl tpkcs7(3_50_2_6734) test_log p -> d
+openssl tpkcs7(3_50_2_6734) pkcs7 -in c:/f.p -inform p -outform d -out c:/ff.d3
+openssl tpkcs7(3_50_2_6734) test_log d -> p
+openssl tpkcs7(3_50_2_6734) pkcs7 -in c:/f.d -inform d -outform p -out c:/ff.p1
+openssl tpkcs7(3_50_2_6734) test_log p -> p
+openssl tpkcs7(3_50_2_6734) pkcs7 -in c:/f.p -inform p -outform p -out c:/ff.p3
+openssl tpkcs7(3_50_2_6734) compare c:/testp7.pem C:/f.p
+openssl tpkcs7(3_50_2_6734) compare c:/testp7.pem C:/ff.p1
+openssl tpkcs7(3_50_2_6734) compare c:/testp7.pem C:/ff.p3
+openssl tpkcs7(3_50_2_6734) compare C:/f.p C:/ff.p1
+openssl tpkcs7(3_50_2_6734) compare C:/f.p C:/ff.p3

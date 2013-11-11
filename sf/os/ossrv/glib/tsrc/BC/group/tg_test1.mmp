@@ -1,0 +1,63 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:   ?Description
+*
+*/
+
+
+
+TARGET			tg_test1.exe
+TARGETTYPE	exe
+UID 		0x00000000 0xEf000004
+
+#if defined(EKA2)
+CAPABILITY      ALL -TCB
+/* Remove comments and replace 0x00000000 with correct vendor id */
+// VENDORID     0x00000000
+/* Remove comments and replace 0x00000000 with correct secure id */
+// SECUREID     0x00000000
+#endif
+
+MACRO	SYMBIAN
+
+SOURCEPATH      ../src
+SOURCE          tg_test1.c
+
+USERINCLUDE     ../inc 
+USERINCLUDE 	../tests/gobject
+//SYSTEMINCLUDE   /epoc32/include/osextensions/stdapis
+//SYSTEMINCLUDE   /epoc32/include/osextensions/stdapis/sys
+//SYSTEMINCLUDE   /epoc32/include/osextensions/stdapis/glib-2.0
+//SYSTEMINCLUDE   /epoc32/include/osextensions/stdapis/glib-2.0/glib
+
+SYSTEMINCLUDE   /epoc32/include/stdapis
+SYSTEMINCLUDE   /epoc32/include/stdapis/sys
+SYSTEMINCLUDE   /epoc32/include/stdapis/glib-2.0
+SYSTEMINCLUDE   /epoc32/include/stdapis/glib-2.0/glib
+
+SYSTEMINCLUDE   /epoc32/include 
+SYSTEMINCLUDE   /epoc32/include/internal
+
+LIBRARY         libglib.lib
+LIBRARY         libgobject.lib
+LIBRARY         libc.lib
+LIBRARY         libpthread.lib
+LIBRARY         euser.lib
+STATICLIBRARY   libcrt0.lib
+
+LANG            SC
+
+// End of File
+
+SMPSAFE

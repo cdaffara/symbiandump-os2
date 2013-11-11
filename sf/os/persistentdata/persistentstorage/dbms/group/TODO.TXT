@@ -1,0 +1,27 @@
+Things that could be done to DBMS -- 12 October 1998
+
+Query optimizer:
+
+	Optimize for clustering indexes (use S/T and G/H plans)
+		e.g. assume Auto-increment column => clustering
+		or measure the clustering in the stats
+
+	Optimize for multi-column lookup
+		e.g. For "a=v1 and b=v2" with index on (a,b)
+
+	Optimize for like-predicates
+		e.g. "x LIKE 'abc*'" => "x>='abc' AND x<'abd'" etc.
+
+	Query complexity-reduction by removing redundant predicates, e.g.
+		"x>4 AND x>3" => "x>4"
+		"x>4 OR x>3" => "x>3"
+		"x>-1" for unsigned x => trivially true
+
+	Better statistical data dn guesswork
+
+SQL/access plans:
+	
+	Support "DISTINCT" in the projection stage via a Hash-system or sorting
+
+
+

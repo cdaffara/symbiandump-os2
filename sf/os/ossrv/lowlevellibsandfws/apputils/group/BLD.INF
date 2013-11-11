@@ -1,0 +1,189 @@
+// Copyright (c) 1999-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// Application utilities (such as resource file handling)
+// 
+//
+
+/**
+ @file
+*/
+
+
+PRJ_PLATFORMS
+
+DEFAULT WINC
+
+//
+// InitilaiseLocale bldmake file
+//
+#include "../initLocale/group/bld.inf"
+#include "../bsul/group/bld.inf"
+
+#ifdef SYMBIAN_BAFL_MULTIPARTPARSER
+//Core OS extension
+#include "../multipartparser/group/bld.inf"
+#endif
+
+PRJ_EXPORTS
+// specify the source file followed by its destination here
+// copy will be used to copy the source file to its destination
+// If there is no destination then the source file will be copied
+// to the same name in \epoc32\include
+
+../inc/patchdata.h	SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(bafl/patchdata.h)
+../inc/babackup.h 	SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(babackup.h)
+../inc/backup_std.h	SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(bafl/backup_std.h)
+../inc/BACELL.H 	SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(bacell.h)
+../inc/BACLINE.H 	SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(bacline.h)
+../inc/BACLIPB.H 	SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(baclipb.h)
+../inc/BACNTF.H 	SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(bacntf.h)
+../inc/BADEF.RH 	/epoc32/include/badef.rh
+../inc/BADESCA.H 	SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(badesca.h)
+../inc/BAERRHAN.H 	SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(baerrhan.h)
+../inc/BAERROR.H 	SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(baerror.h)
+../inc/BAFINDF.H 	SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(bafindf.h)
+../inc/BAFLVER.H 	SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(baflver.h)
+../inc/BALIBA.H 	SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(baliba.h)
+../inc/BAMATCH.H 	SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(bamatch.h)
+../inc/BAMDESCA.H 	SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(bamdesca.h)
+../inc/BARSC.H 		SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(barsc.h)
+../inc/BARSREAD.H 	SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(barsread.h)
+../inc/BASCHED.H 	SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(basched.h)
+../inc/BASSND.H 	SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(bassnd.h)
+../inc/BAUTILS.H 	SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(bautils.h)
+../inc/BANAMEDPLUGINS.H SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(banamedplugins.h)
+../inc/stringpool.h 	SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(stringpool.h)
+../inc/stringpool.inl 	SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(stringpool.inl)
+../inc/StringTableSupport.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(stringtablesupport.h)
+../inc/Baksrv.h 	SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(baksrv.h)
+../inc/Babitflags.h 	SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(babitflags.h) 
+../inc/BaRsc2.h 	SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(barsc2.h)
+../inc/BaRsRead2.H 	SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(barsread2.h)
+../inc/BAERRRSVR.RH 	SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(baerrrsvr.rh)
+../inc/BaSPI.h 		SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(baspi.h)
+../inc/BAFLPAN.H 	SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(baflpan.h)
+../inc/BASSNDUID.h 	SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(bassnduid.h)
+../inc/uikon.rh 	/epoc32/include/uikon.rh
+
+../stringtools/stringtable.pl /epoc32/tools/stringtable.pl
+../inc/StringPoolErr.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(stringpoolerr.h)
+
+../group/bafl.iby			/epoc32/rom/include/bafl.iby
+
+// Note: this cre file is exported for testing and techview only. Not used in a device
+../group/100048aa.cre	z:/private/10202be9/100048aa.cre
+../group/backup_registration.xml	z:/private/100048aa/backup_registration.xml
+
+// ConfML files
+../conf/apputils.confml          OS_LAYER_EXPORTS_CONFML(apputils.confml)
+../conf/apputils_100048aa.crml   OS_LAYER_EXPORTS_CRML(apputils_100048aa.crml)
+
+//exporting .mk files manually for sirocco //to be removed after tools team make changes
+bafl_resource_files.mk  /epoc32/tools/makefile_templates/syslibs/test/bafl_resource_files.mk
+bafl_copytestfiles.mk  /epoc32/tools/makefile_templates/syslibs/test/bafl_copytestfiles.mk
+
+
+PRJ_MMPFILES
+
+../group/BAFL.MMP
+
+#ifndef WINC
+../group/Baksrv.mmp
+../group/Baksrvs.mmp
+#endif
+
+PRJ_TESTEXPORTS
+../group/bafltests.bat		/epoc32/data/z/system/test/bafltests.bat
+../group/BaflTests.iby		/epoc32/rom/include/bafltests.iby
+
+../tsrc/file1.txt		/epoc32/data/z/system/data/file1.txt
+../tsrc/file1.txt		/epoc32/data/z/file1.txt
+../tsrc/file1.txt		/epoc32/data/z/system/data/src/file1.txt
+../tsrc/file2.txt		/epoc32/data/z/system/data/dst/file2.txt
+../tsrc/file123456789.txt	/epoc32/data/z/system/data/file123456789.txt
+../tsrc/file2.txt		/epoc32/data/z/system/data/file2.txt
+../tsrc/file5.txt		/epoc32/data/z/system/data/file5.txt
+
+../tsrc/file1.txt		/epoc32/release/wins/udeb/z/file1.txt
+../tsrc/file1.txt		/epoc32/release/wins/urel/z/file1.txt
+../tsrc/file1.txt		/epoc32/release/winscw/udeb/z/file1.txt
+../tsrc/file1.txt		/epoc32/release/winscw/urel/z/file1.txt
+
+
+PRJ_TESTEXTENSIONS 
+	start extension syslibs/test/bafl_resource_files
+	end
+	start extension syslibs/test/bafl_copytestfiles
+	end
+
+PRJ_TESTMMPFILES
+// specify the .mmp files required for building any test programs here
+//
+// you can specify "manual" to denote that a test should be listed in a generated
+// batch file for running a group of tests which require user input during testing.
+// you can specify "support" to denote that a file is a test support file and should not
+// be listed in a batch file for running a group of tests
+// By default, each test will be listed in a batch file for running a group of tests
+// which can be left to run without requiring watching over by the person running the tests,
+// i.e. tests where no user input is required.  The default will apply if neither "manual"
+// or "support" is specified.
+
+../tsrc/t_strings/T_StringPoolTest.mmp
+../tsrc/T_BaflUtils.MMP
+
+../tsrc/T_CELL.MMP
+../tsrc/T_CLINE.MMP	support
+../tsrc/T_CLIPB.MMP
+../tsrc/T_CNTF.MMP
+../tsrc/T_DESCA.MMP
+../tsrc/T_LIBA.MMP
+../tsrc/T_LIBT.MMP support
+../tsrc/T_MATCH.MMP
+../tsrc/T_PTRCB.MMP
+../tsrc/T_PTRCA.MMP
+../tsrc/T_NamedPlugins.MMP
+../tsrc/T_FindFileByType.mmp
+../tsrc/T_RSC.MMP
+../tsrc/T_RSREAD.MMP
+../tsrc/T_SCHED.MMP
+../tsrc/T_SSND.MMP
+../tsrc/T_SSND1.MMP
+../tsrc/T_BaflUtilsImp.mmp
+../tsrc/T_RESOURCE_COMPRESSION.MMP
+../tsrc/T_RTextBuf.MMP
+../tsrc/T_BackupSrv.mmp
+../tsrc/T_BackupSrvCap.mmp
+../tsrc/t_backupsrvdefects.mmp
+../tsrc/T_BitFlags.mmp
+../tsrc/T_RSREAD2.MMP
+../tsrc/T_RESOURCE_COMPRESSION2.MMP
+../tsrc/T_RscPanic.mmp
+../tsrc/T_RscMem.mmp
+../tsrc/T_COMMAND.MMP	
+../tsrc/t_fileutils.mmp
+../tsrc/T_BaflDefect.mmp				 
+../tsrc/t_strings/T_StringpoolDefect.mmp
+../tsrc/t_strings/T_string.mmp
+../tsrc/t_bafllang.mmp
+../tsrc/T_SPI.MMP
+../tsrc/T_RSCARCHIVE.MMP
+../tsrc/T_BackupServerIPC.mmp
+../tsrc/T_BackupServerLauncher.mmp support
+../tsrc/t_baassert.mmp
+../tsrc/t_processkiller.mmp support
+
+//
+// TestExecute bldmake file
+//
+#include "../test/tef/group/bld.inf"

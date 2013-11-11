@@ -1,0 +1,45 @@
+// Copyright (c) 2001-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// T_TINTERNETDATETIME.MMP
+// 
+//
+
+TARGET			t_tinternetdatetime.exe
+TARGETTYPE		exe
+CAPABILITY TrustedUI ProtServ
+ 
+SOURCEPATH		../t_tinternetdate
+SOURCE			t_main.cpp 
+SOURCE			cconverttorfc1123formtest.cpp
+
+SOURCEPATH		../../internetdateutils
+SOURCE			tinternetdate.cpp
+SOURCE			tinternetdateparser.cpp
+
+SOURCEPATH     ../../inetprottextutils
+SOURCE		   inetprottextutils.cpp
+
+USERINCLUDE		. ../../inc ../IpuTestUtils
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+SYSTEMINCLUDE	/epoc32/include
+#else
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+#endif 
+LIBRARY			euser.lib iputestutils.lib 
+
+VENDORID 0x70000001
+
+// Allocated UID range for IWS tests are 0x102729D2 to 0x10272A35.  The UID name is KUidIWSTestSuit.
+UID 0x1000007A 0x102729D9
+SMPSAFE

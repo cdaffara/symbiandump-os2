@@ -1,0 +1,56 @@
+/*
+* Copyright (c) 2000-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* iso88599.cpl ISO-8859-9 converter
+*
+*/
+
+
+/**
+ @file
+*/
+
+TARGET			iso88599.dll
+TARGETTYPE		PLUGIN
+
+CAPABILITY		All -Tcb
+
+UID				0x10009D8D 0x102044F1
+VENDORID		0x70000001
+
+USERINCLUDE ../inc
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+SOURCEPATH		../src/plugins
+SOURCE			iso88599.cpp
+
+SOURCEPATH		/epoc32/build/generatedcpp/charconv
+SOURCE			g_iso88599.cpp
+
+SOURCEPATH		../resource
+START RESOURCE	iso88599.rss
+TARGETPATH		/resource/charconv
+LANG			sc
+END
+
+START RESOURCE	102044f1.rss
+TARGET			iso88599.rsc
+END
+
+LIBRARY			euser.lib
+LIBRARY			charconv.lib
+LIBRARY			ecom.lib
+
+SMPSAFE

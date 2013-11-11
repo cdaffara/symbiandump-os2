@@ -1,0 +1,83 @@
+	<task>
+		<type>ExecutableTestCaseTask</type>
+        <parameters>
+			<parameter value="t_ctframework.exe" name="file"/>
+			<parameter value="2800" name="timeout"/>
+			<parameter name="parser" value="RTestResultParser" />
+			<parameter name="result-file" value="c:\T_CTFrameworkLog.txt"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
+		</parameters>
+	</task>
+	<task>
+		<type>ExecutableTestCaseTask</type>
+		<parameters>
+			<parameter name="file" value="tocsp.exe"/>
+			<parameter name="parameters" value="c:\system\tocsp\scripts\OPENSSL.script1 c:\logs\testexecute\TOCSP_openssl.htm"/>
+			<parameter name="timeout" value="2800"/>
+			<parameter name="parser" value="RTestResultParser" />
+			<parameter name="result-file" value="c:\logs\testexecute\TOCSP_openssl.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
+		</parameters>
+	</task>
+	<task>
+		<type>ExecutableTestCaseTask</type>
+		<parameters>
+			<parameter name="file" value="tocsp.exe"/>
+			<parameter name="parameters" value="c:\system\tocsp\scripts\XCERT-LOCAL.script1 c:\logs\testexecute\xcert_local.htm"/>
+			<parameter name="timeout" value="2800"/>
+			<parameter name="parser" value="RTestResultParser" />
+			<parameter name="result-file" value="c:\logs\testexecute\xcert_local.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
+		</parameters>
+	</task>
+	<task>
+		<type>ExecutableTestCaseTask</type>
+		<parameters>
+			<parameter name="file" value="tocsp.exe"/>
+			<parameter name="parameters" value="c:\system\tocsp\scripts\OPENSSL-LOCAL.script1 c:\logs\testexecute\xcert_openssl_local.htm"/>
+			<parameter name="timeout" value="2800"/>
+			<parameter name="parser" value="RTestResultParser" />
+			<parameter name="result-file" value="c:\logs\testexecute\xcert_openssl_local.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
+		</parameters>
+	</task>
+	<task>
+		<type>ExecutableTestCaseTask</type>
+		<parameters>
+			<parameter name="file" value="tocsp.exe"/>
+			<parameter name="parameters" value="c:\system\tocsp\scripts\error.script1 c:\logs\testexecute\ocsp_error.htm"/>
+			<parameter name="timeout" value="2800"/>
+			<parameter name="parser" value="RTestResultParser" />
+			<parameter name="result-file" value="c:\logs\testexecute\ocsp_error.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
+		</parameters>
+	</task>
+	<task>
+		<type>ExecutableTestCaseTask</type>
+		<parameters>
+			<parameter name="file" value="tocsp.exe"/>
+			<parameter name="parameters" value="c:\SYSTEM\TOCSP\SCRIPTS\DefaultPolicy.script1 c:\logs\testexecute\TOCSP_DefaultPolicy.htm"/>
+			<parameter name="timeout" value="2800"/>
+			<parameter name="parser" value="RTestResultParser" />
+			<parameter name="result-file" value="c:\logs\testexecute\TOCSP_DefaultPolicy.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
+		</parameters>
+	</task>
+<finalization>
+	<task>
+		<type>FileDownloadTask</type>
+		<parameters>
+			<parameter name="src" value="c:\T_CTFrameworkLog.txt"/>
+			<parameter name="reboot-retry-count" value="1"/>
+			<parameter name="retry-count" value="1"/>
+		</parameters>
+	</task>
+</finalization>
+
+

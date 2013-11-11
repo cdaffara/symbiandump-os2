@@ -1,0 +1,42 @@
+// Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+TARGET			t_sqlapi2.exe
+TARGETTYPE		EXE
+CAPABILITY		None
+
+//To suppress the "#550-D: variable "KColTypes" was set but never used" warning
+OPTION ARMCC --diag_suppress 550
+
+EPOCHEAPSIZE 0x00020000 0x00200000	//The "stack overflow" test requires bigger heap
+
+UID				0 0x1111C1EF
+
+USERINCLUDE 	.
+USERINCLUDE		../INC
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+SOURCEPATH		../TEST
+SOURCE			t_sqlapi2.cpp
+
+LIBRARY			euser.lib 
+LIBRARY			efsrv.lib
+LIBRARY			sqldb.lib 
+LIBRARY			bafl.lib 
+LIBRARY			estor.lib 
+
+VENDORID		0x70000001
+
+SMPSAFE

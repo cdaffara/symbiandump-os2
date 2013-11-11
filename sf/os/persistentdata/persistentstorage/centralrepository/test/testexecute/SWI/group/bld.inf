@@ -1,0 +1,169 @@
+// Copyright (c) 2005-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+// To create test app and related files for SWI-BUR tests
+#include "../data/testapp/bld.inf"
+
+
+PRJ_TESTEXPORTS
+// Test Extension Makefiles
+centrep_copyincentrepsrv.mk    /epoc32/tools/makefile_templates/syslibs/test/centrep_copyincentrepsrv.mk
+centrep_copyincentrepsrv.meta  /epoc32/tools/makefile_templates/syslibs/test/centrep_copyincentrepsrv.meta
+centrep_copydatfile.mk         /epoc32/tools/makefile_templates/syslibs/test/centrep_copydatfile.mk
+centrep_copydatfile.meta       /epoc32/tools/makefile_templates/syslibs/test/centrep_copydatfile.meta
+
+
+//CentralRepository TestExecute Sub scripts
+../scripts/te_centrep_SWIsuite.script		z:/tef_centralrepository/te_centrep_swisuite.script
+../scripts/te_centrep_swisuite_pu_upgrade.script		z:/tef_centralrepository/te_centrep_swisuite_pu_upgrade.script
+../scripts/te_centrep_swisuite_sp_upgrade.script		z:/tef_centralrepository/te_centrep_swisuite_sp_upgrade.script
+../scripts/te_centrep_swisuite-pu-metadata.script		z:/tef_centralrepository/te_centrep_swisuite-pu-metadata.script
+../scripts/te_centrep_swisuite-sp-metadata.script		z:/tef_centralrepository/te_centrep_swisuite-sp-metadata.script
+../scripts/te_centrep_SWIsuite-PUnotify.script		z:/tef_centralrepository/te_centrep_swisuite-punotify.script
+../scripts/te_centrep_SWIsuite-SPnotify.script		z:/tef_centralrepository/te_centrep_swisuite-spnotify.script
+../scripts/te_centrep_swisuite_pu_cap.script		z:/tef_centralrepository/te_centrep_swisuite_pu_cap.script
+../scripts/te_centrep_swisuite_sp_cap.script		z:/tef_centralrepository/te_centrep_swisuite_sp_cap.script
+../scripts/te_centrep_SWI_BUR.script			z:/tef_centralrepository/te_centrep_swi_bur.script
+../scripts/te_centrep_SWIdefect.script		z:/tef_centralrepository/te_centrep_swidefect.script
+../scripts/te_centrep_SWIsuite-APP-SP.script		z:/tef_centralrepository/te_centrep_swisuite-app-sp.script
+../group/te_centrep_SWIsuite.iby   			/epoc32/rom/include/te_centrep_swisuite.iby
+
+//CentralRepository TestExecute additional files
+../config/SWI-SP-K1.ini						z:/tef_centralrepository/swi-sp-k1.ini
+../config/SWI-SP-K2.ini						z:/tef_centralrepository/swi-sp-k2.ini
+../config/SWI-SP-K3.ini						z:/tef_centralrepository/swi-sp-k3.ini
+../config/SWI-SP-K6.ini						z:/tef_centralrepository/swi-sp-k6.ini
+../config/SWI-PU-K1.ini						z:/tef_centralrepository/swi-pu-k1.ini
+../config/SWI-PU-K2.ini						z:/tef_centralrepository/swi-pu-k2.ini
+../config/SWI-PU-K3.ini						z:/tef_centralrepository/swi-pu-k3.ini
+../config/SWI-PU-K6.ini						z:/tef_centralrepository/swi-pu-k6.ini
+../config/SWI-PU-notify.ini						z:/tef_centralrepository/swi-pu-notify.ini
+../config/SWI-SP-notify.ini						z:/tef_centralrepository/swi-sp-notify.ini
+../config/SWI-PU-CAP-K4.ini						z:/tef_centralrepository/swi-pu-cap-k4.ini
+../config/SWI-SP-CAP-K4.ini						z:/tef_centralrepository/swi-sp-cap-k4.ini
+../config/SWI-CAP-K5.ini						z:/tef_centralrepository/swi-cap-k5.ini
+../config/SWI-BUR-KSX.ini						z:/tef_centralrepository/swi-bur-ksx.ini
+../config/SWI-KSD.ini						z:/tef_centralrepository/swi-ksd.ini
+../config/SWI-APP-SP.ini						z:/tef_centralrepository/swi-app-sp.ini
+../data/keyspaces/51551552.cre						z:/private/10202be9/51551552.cre
+../data/keyspaces/51551554.cre						z:/private/10202be9/51551554.cre
+../data/keyspaces/5155155F.cre						z:/private/10202be9/5155155f.cre
+../data/keyspaces/51551652.cre						z:/private/10202be9/51551652.cre
+
+
+// Copy in our swicertstore.dat so our signed sis files can install.
+../data/certstore/swicertstore.dat						z:/resource/swicertstore.dat
+./swicertstoredat.iby										/epoc32/rom/include/swicertstoredat.iby
+
+
+//define PDS_FULL_UI_TEST in the rom build command for Full S60 UI build
+#if defined(__SERIES60_) && defined(PDS_FULL_UI_TEST)
+
+// SP tests...
+../data/rnd_sis/KS12s.sis                       z:/tef_centralrepository/ks12s.sis
+../data/rnd_sis/KS14s.sis                       z:/tef_centralrepository/ks14s.sis
+../data/rnd_sis/KS2s.sis                        z:/tef_centralrepository/ks2s.sis
+../data/rnd_sis/KS22s.sis                       z:/tef_centralrepository/ks22s.sis
+../data/rnd_sis/KS3s.sis                        z:/tef_centralrepository/ks3s.sis
+../data/rnd_sis/KS4s.sis                        z:/tef_centralrepository/ks4s.sis
+../data/rnd_sis/KS41s.sis                       z:/tef_centralrepository/ks41s.sis
+../data/rnd_sis/KS51s.sis                       z:/tef_centralrepository/ks51s.sis
+../data/rnd_sis/KS62s.sis                       z:/tef_centralrepository/ks62s.sis
+
+// PU tests...
+../data/rnd_sis/KP12s.sis                       z:/tef_centralrepository/kp12s.sis
+../data/rnd_sis/KP14s.sis                       z:/tef_centralrepository/kp14s.sis
+../data/rnd_sis/KPS14s.sis                      z:/tef_centralrepository/kps14s.sis
+../data/rnd_sis/KP2s.sis                        z:/tef_centralrepository/kp2s.sis
+../data/rnd_sis/KP22s.sis                       z:/tef_centralrepository/kp22s.sis
+../data/rnd_sis/KP23s.sis                       z:/tef_centralrepository/kp23s.sis
+../data/rnd_sis/KP3s.sis                        z:/tef_centralrepository/kp3s.sis
+../data/rnd_sis/KP4s.sis                        z:/tef_centralrepository/kp4s.sis
+../data/rnd_sis/KP41s.sis                       z:/tef_centralrepository/kp41s.sis
+../data/rnd_sis/KPS4s.sis                       z:/tef_centralrepository/kps4s.sis
+../data/rnd_sis/KP62s.sis                       z:/tef_centralrepository/kp62s.sis
+../data/rnd_sis/KPS64s.sis                      z:/tef_centralrepository/kps64s.sis
+
+// SWI-BUR tests...
+../data/rnd_sis/APPXs.sis                       z:/tef_centralrepository/appxs.sis
+
+// SWI-APP tests
+../data/rnd_sis/APPYs.sis                       z:/tef_centralrepository/appys.sis
+../data/rnd_sis/KSYs.sis                        z:/tef_centralrepository/ksys.sis
+../data/rnd_sis/APPY1s.sis                      z:/tef_centralrepository/appy1s.sis
+../data/rnd_sis/KSY1s.sis                       z:/tef_centralrepository/ksy1s.sis
+../data/rnd_sis/APPY2s.sis                      z:/tef_centralrepository/appy2s.sis
+../data/rnd_sis/KSY2s.sis                       z:/tef_centralrepository/ksy2s.sis
+
+// SWI defect tests...
+../data/rnd_sis/KSDs.sis                        z:/tef_centralrepository/ksds.sis
+
+#else
+
+// SP tests...
+../data/techview_sis/KS12s.sis                      z:/tef_centralrepository/ks12s.sis
+../data/techview_sis/KS14s.sis                      z:/tef_centralrepository/ks14s.sis
+../data/techview_sis/KS2s.sis                       z:/tef_centralrepository/ks2s.sis
+../data/techview_sis/KS22s.sis                      z:/tef_centralrepository/ks22s.sis
+../data/techview_sis/KS3s.sis                       z:/tef_centralrepository/ks3s.sis
+../data/techview_sis/KS4s.sis                       z:/tef_centralrepository/ks4s.sis
+../data/techview_sis/KS41s.sis                      z:/tef_centralrepository/ks41s.sis
+../data/techview_sis/KS51s.sis                      z:/tef_centralrepository/ks51s.sis
+../data/techview_sis/KS62s.sis                      z:/tef_centralrepository/ks62s.sis
+
+// PU tests...
+../data/techview_sis/KP12s.sis                      z:/tef_centralrepository/kp12s.sis
+../data/techview_sis/KP14s.sis                      z:/tef_centralrepository/kp14s.sis
+../data/techview_sis/KPS14s.sis                     z:/tef_centralrepository/kps14s.sis
+../data/techview_sis/KP2s.sis                       z:/tef_centralrepository/kp2s.sis
+../data/techview_sis/KP22s.sis                      z:/tef_centralrepository/kp22s.sis
+../data/techview_sis/KP23s.sis                      z:/tef_centralrepository/kp23s.sis
+../data/techview_sis/KP3s.sis                       z:/tef_centralrepository/kp3s.sis
+../data/techview_sis/KP4s.sis                       z:/tef_centralrepository/kp4s.sis
+../data/techview_sis/KP41s.sis                      z:/tef_centralrepository/kp41s.sis
+../data/techview_sis/KPS4s.sis                      z:/tef_centralrepository/kps4s.sis
+../data/techview_sis/KP62s.sis                      z:/tef_centralrepository/kp62s.sis
+../data/techview_sis/KPS64s.sis                     z:/tef_centralrepository/kps64s.sis
+
+// SWI-BUR tests...
+../data/techview_sis/APPXs.sis                      z:/tef_centralrepository/appxs.sis
+
+// SWI-APP tests
+../data/techview_sis/APPYs.sis                      z:/tef_centralrepository/appys.sis
+../data/techview_sis/KSYs.sis                       z:/tef_centralrepository/ksys.sis
+../data/techview_sis/APPY1s.sis                     z:/tef_centralrepository/appy1s.sis
+../data/techview_sis/KSY1s.sis                      z:/tef_centralrepository/ksy1s.sis
+../data/techview_sis/APPY2s.sis                     z:/tef_centralrepository/appy2s.sis
+../data/techview_sis/KSY2s.sis                      z:/tef_centralrepository/ksy2s.sis
+
+// SWI defect tests...
+../data/techview_sis/KSDs.sis                       z:/tef_centralrepository/ksds.sis
+
+#endif //__SERIES60_
+
+PRJ_TESTMMPFILES
+// TestExecute test binaries
+Te_centrep_SWIsuite.mmp manual
+t_deletedirallfiles.mmp manual
+t_deletefileallfiles.mmp manual
+t_killprocess.mmp manual
+
+PRJ_TESTEXTENSIONS
+start extension syslibs/test/centrep_copyincentrepsrv
+end
+// This enforcement copy is here because of an overnight build issue where the build is not exporting a test version of
+// 'swicertstore.dat' because another version exists in the CBR. The following template extension makefile copies the test version over.
+start extension syslibs/test/centrep_copydatfile
+end

@@ -1,0 +1,1597 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+PRINT Run all tlargefile
+LOAD_SUITE tlargefile
+
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0001
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0001
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using creat64() and truncating to more than 2GB using truncate64()
+//!                         API Tested: creat64(), truncate64(), all stat functions
+//! @SYMTestExpectedResults Successfully able to create and truncate a file
+//! @SYMTestActions         1. Create a file using creat64()
+//!                         2. creat64() should return valid file descriptor.
+//!                         3. Use truncate64() to increase the size to more than 2GB.
+//!                         4. Should be successful.
+//!                         5. To validate get the size of a file using stat64()/fstat64()/lstat64()/__lxstat64()/__xstat64()
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 300 tlargefile TestLargeFileTruncate \tstdapis\tlargefile.ini Sectioncreateapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0001
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0002
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0002
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using open64() and truncating to more than 2GB using truncate64()
+//!                         API Tested: open64(), truncate64(), all stat functions
+//! @SYMTestExpectedResults Successfully able to create and truncate a file
+//! @SYMTestActions         1. Create a file using open64()
+//!                         2. open64() should return valid file descriptor.
+//!                         3. Use truncate64() to increase the size to more than 2GB.
+//!                         4. Should be successful.
+//!                         5. To validate get the size of a file using stat64()/fstat64()/lstat64()/__lxstat64()/__xstat64()
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 300 tlargefile TestLargeFileTruncate \tstdapis\tlargefile.ini Sectionopenapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0002
+
+
+
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0003
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0003
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using mkstemp64() and truncating to more than 2GB using truncate64()
+//!                         API Tested: mkstemp64(), truncate64(), all stat functions
+//! @SYMTestExpectedResults Successfully able to create and truncate a file
+//! @SYMTestActions         1. Create a file using mkstemp64()
+//!                         2. mkstemp64() should return valid file descriptor.
+//!                         3. Use truncate64() to increase the size to more than 2GB.
+//!                         4. Should be successful.
+//!                         5. To validate get the size of a file using stat64()/fstat64()/lstat64()/__lxstat64()/__xstat64()
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 300 tlargefile TestLargeFileTruncate \tstdapis\tlargefile.ini Sectionmkstempapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0003
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0004
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0004
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using fopen64() and truncating to more than 2GB using truncate64()
+//!                         API Tested: fopen64(), truncate64(), all stat functions
+//! @SYMTestExpectedResults Successfully able to create and truncate a file
+//! @SYMTestActions         1. Create a file using fopen64()
+//!                         2. fopen64() should return valid file pointer.
+//!                         3. Use truncate64() to increase the size to more than 2GB.
+//!                         4. Should be successful.
+//!                         5. To validate get the size of a file using stat64()/fstat64()/lstat64()/__lxstat64()/__xstat64()
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 300 tlargefile TestLargeFileTruncate \tstdapis\tlargefile.ini Sectionfopenapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0004
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0005
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0005
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using wcreat64() and truncating to more than 2GB using truncate64()
+//!                         API Tested: wcreat64(), truncate64(), all stat functions
+//! @SYMTestExpectedResults Successfully able to create and truncate a file
+//! @SYMTestActions         1. Create a file using wcreat64()
+//!                         2. wcreat64() should return valid file descriptor.
+//!                         3. Use truncate64() to increase the size to more than 2GB.
+//!                         4. Should be successful.
+//!                         5. To validate get the size of a file using wstat64()/stat64()/fstat64()/lstat64()/__lxstat64()/__xstat64()
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 300 tlargefile TestLargeFileTruncate \tstdapis\tlargefile.ini Sectionwcreateapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0005
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0006
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0006
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using wopen64() and truncating to more than 2GB using truncate64()
+//!                         API Tested: wopen64(), truncate64(), all stat functions
+//! @SYMTestExpectedResults Successfully able to create and truncate a file
+//! @SYMTestActions         1. Create a file using wopen64()
+//!                         2. wopen64() should return valid file descriptor.
+//!                         3. Use truncate64() to increase the size to more than 2GB.
+//!                         4. Should be successful.
+//!                         5. To validate get the size of a file using wstat64()/stat64()/fstat64()/lstat64()/__lxstat64()/__xstat64()
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 300 tlargefile TestLargeFileTruncate \tstdapis\tlargefile.ini Sectionwopenapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0006
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0007
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0007
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using wfopen64() and truncating to more than 2GB using truncate64()
+//!                         API Tested: wfopen64(), truncate64(), all stat functions
+//! @SYMTestExpectedResults Successfully able to create and truncate a file
+//! @SYMTestActions         1. Create a file using wfopen64()
+//!                         2. wfopen64() should return valid file pointer.
+//!                         3. Use truncate64() to increase the size to more than 2GB.
+//!                         4. Should be successful.
+//!                         5. To validate get the size of a file using wstat64()/stat64()/fstat64()/lstat64()/__lxstat64()/__xstat64()
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 300 tlargefile TestLargeFileTruncate \tstdapis\tlargefile.ini Sectionwfopenapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0007
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0008
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0008
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using open() with O_LARGEFILE flag set and truncating to more than 2GB using truncate64()
+//!                         API Tested: open(), truncate64(), all stat functions
+//! @SYMTestExpectedResults Successfully able to create and truncate a file
+//! @SYMTestActions         1. Create a file using open() with O_LARGEFILE flag set
+//!                         2. open() should return valid file descriptor.
+//!                         3. Use truncate64() to increase the size to more than 2GB.
+//!                         4. Should be successful.
+//!                         5. To validate get the size of a file using stat64()/fstat64()/lstat64()/__lxstat64()/__xstat64()
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 300 tlargefile TestLargeFileTruncate \tstdapis\tlargefile.ini SectionopenapiO_largefile
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0008
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0009
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0009
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using creat64() and truncating to more than 2GB using ftruncate64()
+//!                         API Tested: creat64(), ftruncate64(), all stat functions
+//! @SYMTestExpectedResults Successfully able to create and truncate a file
+//! @SYMTestActions         1. Create a file using creat64()
+//!                         2. creat64() should return valid file descriptor.
+//!                         3. Use ftruncate64() to increase the size to more than 2GB.
+//!                         4. Should be successful.
+//!                         5. To validate get the size of a file using stat64()/fstat64()/lstat64()/__lxstat64()/__xstat64()
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 300 tlargefile TestLargeFileFtruncate \tstdapis\tlargefile.ini Sectioncreateapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0009
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0010
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0010
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using open64() and truncating to more than 2GB using ftruncate64()
+//!                         API Tested: open64(), ftruncate64(), all stat functions
+//! @SYMTestExpectedResults Successfully able to create and truncate a file
+//! @SYMTestActions         1. Create a file using open64()
+//!                         2. open64() should return valid file descriptor.
+//!                         3. Use ftruncate64() to increase the size to more than 2GB.
+//!                         4. Should be successful.
+//!                         5. To validate get the size of a file using stat64()/fstat64()/lstat64()/__lxstat64()/__xstat64()
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 300 tlargefile TestLargeFileFtruncate \tstdapis\tlargefile.ini Sectionopenapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0010
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0011
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0011
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using mkstemp64() and truncating to more than 2GB using ftruncate64()
+//!                         API Tested: mkstemp64(), ftruncate64(), all stat functions
+//! @SYMTestExpectedResults Successfully able to create and truncate a file
+//! @SYMTestActions         1. Create a file using mkstemp64()
+//!                         2. mkstemp64() should return valid file descriptor.
+//!                         3. Use ftruncate64() to increase the size to more than 2GB.
+//!                         4. Should be successful.
+//!                         5. To validate get the size of a file using stat64()/fstat64()/lstat64()/__lxstat64()/__xstat64()
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 300 tlargefile TestLargeFileFtruncate \tstdapis\tlargefile.ini Sectionmkstempapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0011
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0012
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0012
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using fopen64() and truncating to more than 2GB using ftruncate64()
+//!                         API Tested: fopen64(), ftruncate64(), all stat functions
+//! @SYMTestExpectedResults Successfully able to create and truncate a file
+//! @SYMTestActions         1. Create a file using fopen64()
+//!                         2. fopen64() should return valid file pointer.
+//!                         3. Use ftruncate64() to increase the size to more than 2GB.
+//!                         4. Should be successful.
+//!                         5. To validate get the size of a file using stat64()/fstat64()/lstat64()/__lxstat64()/__xstat64()
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 300 tlargefile TestLargeFileFtruncate \tstdapis\tlargefile.ini Sectionfopenapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0012
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0013
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0013
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using tmpfile64() and truncating to more than 2GB using ftruncate64()
+//!                         API Tested: tmpfile64(), ftruncate64(), all stat functions
+//! @SYMTestExpectedResults Successfully able to create and truncate a file
+//! @SYMTestActions         1. Create a file using tmpfile64()
+//!                         2. tmpfile64() should return valid file pointer.
+//!                         3. Use ftruncate64() to increase the size to more than 2GB.
+//!                         4. Should be successful.
+//!                         5. To validate get the size of a file using stat64()/fstat64()/lstat64()/__lxstat64()/__xstat64()
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 300 tlargefile TestLargeFileFtruncate \tstdapis\tlargefile.ini Sectiontmpfileapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0013
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0014
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0014
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using wcreat64() and truncating to more than 2GB using ftruncate64()
+//!                         API Tested: wcreat64(), ftruncate64(), all stat functions
+//! @SYMTestExpectedResults Successfully able to create and truncate a file
+//! @SYMTestActions         1. Create a file using wcreat64()
+//!                         2. wcreat64() should return valid file descriptor.
+//!                         3. Use ftruncate64() to increase the size to more than 2GB.
+//!                         4. Should be successful.
+//!                         5. To validate get the size of a file using wstat64()/stat64()/fstat64()/lstat64()/__lxstat64()/__xstat64()
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 300 tlargefile TestLargeFileFtruncate \tstdapis\tlargefile.ini Sectionwcreateapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0014
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0015
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0015
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using wopen64() and truncating to more than 2GB using ftruncate64()
+//!                         API Tested: wopen64(), ftruncate64(), all stat functions
+//! @SYMTestExpectedResults Successfully able to create and truncate a file
+//! @SYMTestActions         1. Create a file using wopen64()
+//!                         2. wopen64() should return valid file descriptor.
+//!                         3. Use ftruncate64() to increase the size to more than 2GB.
+//!                         4. Should be successful.
+//!                         5. To validate get the size of a file using wstat64()/stat64()/fstat64()/lstat64()/__lxstat64()/__xstat64()
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 300 tlargefile TestLargeFileFtruncate \tstdapis\tlargefile.ini Sectionwopenapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0015
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0016
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0016
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using wfopen64() and truncating to more than 2GB using ftruncate64()
+//!                         API Tested: wfopen64(), ftruncate64(), all stat functions
+//! @SYMTestExpectedResults Successfully able to create and truncate a file
+//! @SYMTestActions         1. Create a file using wfopen64()
+//!                         2. wfopen64() should return valid file pointer.
+//!                         3. Use ftruncate64() to increase the size to more than 2GB.
+//!                         4. Should be successful.
+//!                         5. To validate get the size of a file using wstat64()/stat64()/fstat64()/lstat64()/__lxstat64()/__xstat64()
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 300 tlargefile TestLargeFileFtruncate \tstdapis\tlargefile.ini Sectionwfopenapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0016
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0017
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0017
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using open() using O_LARGEFILE flag and truncating to more than 2GB using ftruncate64()
+//!                         API Tested: open(), ftruncate64(), all stat functions
+//! @SYMTestExpectedResults Successfully able to create and truncate a file
+//! @SYMTestActions         1. Create a file using open() using O_LARGEFILE flag
+//!                         2. open() should return valid file descriptor.
+//!                         3. Use ftruncate64() to increase the size to more than 2GB.
+//!                         4. Should be successful.
+//!                         5. To validate get the size of a file using stat64()/fstat64()/lstat64()/__lxstat64()/__xstat64()
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 300 tlargefile TestLargeFileFtruncate \tstdapis\tlargefile.ini SectionopenapiO_largefile
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0017
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0018
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0018
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        Test case to create a file using open64() and writing more than 2GB of data to the file and validating using fgetpos64() and fsetpos64()
+//!                         API Tested: open64(), fgetpos64(), fsetpos64()
+//! @SYMTestExpectedResults Should successfully able to write to a file
+//! @SYMTestActions         1. Create a file using open64()
+//!                         2. open64() should return valid file descriptor.
+//!                         3. Write more than 2GB of data using fwrite() 
+//!                         4. Get the current position using fgetpos64()
+//!                         5. write n bytes using fwrite()
+//!                         6. Set the position back using fsetpos64()
+//!                         7. Again read n bytes from the file
+//!                         8. Both the times read from the file should be same.
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 300 tlargefile TestLargeFileReadWrite \tstdapis\tlargefile.ini Sectionopenapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0018
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0019
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0019
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        Test case to create a file using mkstemp64() and writing more than 2GB of data to the file and validating using fgetpos64() and fsetpos64()
+//!                         API Tested: mkstemp64(), fgetpos64(), fsetpos64()
+//! @SYMTestExpectedResults Should successfully able to write to a file
+//! @SYMTestActions         1. Create a file using mkstemp64()
+//!                         2. mkstemp64() should return valid file descriptor.
+//!                         3. Write more than 2GB of data using fwrite() 
+//!                         4. Get the current position using fgetpos64()
+//!                         5. write n bytes using fwrite()
+//!                         6. Set the position back using fsetpos64()
+//!                         7. Again read n bytes from the file
+//!                         8. Both the times read from the file should be same.
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 300 tlargefile TestLargeFileReadWrite \tstdapis\tlargefile.ini Sectionmkstempapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0019
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0020
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0020
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        Test case to create a file using fopen64() and writing more than 2GB of data to the file and validating using fgetpos64() and fsetpos64()
+//!                         API Tested: fopen64(), fgetpos64(), fsetpos64()
+//! @SYMTestExpectedResults Should successfully able to write to a file
+//! @SYMTestActions         1. Create a file using fopen64()
+//!                         2. fopen64() should return valid file pointer.
+//!                         3. Write more than 2GB of data using fwrite() 
+//!                         4. Get the current position using fgetpos64()
+//!                         5. write n bytes using fwrite()
+//!                         6. Set the position back using fsetpos64()
+//!                         7. Again read n bytes from the file
+//!                         8. Both the times read from the file should be same.
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 300 tlargefile TestLargeFileReadWrite \tstdapis\tlargefile.ini Sectionfopenapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0020
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0021
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0021
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        Test case to create a file using tmpfile64() and writing more than 2GB of data to the file and validating using fgetpos64() and fsetpos64()
+//!                         API Tested: tmpfile64(), fgetpos64(), fsetpos64()
+//! @SYMTestExpectedResults Should successfully able to write to a file
+//! @SYMTestActions         1. Create a file using tmpfile64()
+//!                         2. tmpfile64() should return valid file pointer.
+//!                         3. Write more than 2GB of data using fwrite() 
+//!                         4. Get the current position using fgetpos64()
+//!                         5. write n bytes using fwrite()
+//!                         6. Set the position back using fsetpos64()
+//!                         7. Again read n bytes from the file
+//!                         8. Both the times read from the file should be same.
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 300 tlargefile TestLargeFileReadWrite \tstdapis\tlargefile.ini Sectiontmpfileapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0021
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0022
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0022
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        Test case to create a file using wopen64() and writing more than 2GB of data to the file and validating using fgetpos64() and fsetpos64()
+//!                         API Tested: wopen64(), fgetpos64(), fsetpos64()
+//! @SYMTestExpectedResults Should successfully able to write to a file
+//! @SYMTestActions         1. Create a file using wopen64()
+//!                         2. wopen64() should return valid file descriptor.
+//!                         3. Write more than 2GB of data using fwrite() 
+//!                         4. Get the current position using fgetpos64()
+//!                         5. write n bytes using fwrite()
+//!                         6. Set the position back using fsetpos64()
+//!                         7. Again read n bytes from the file
+//!                         8. Both the times read from the file should be same.
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 300 tlargefile TestLargeFileReadWrite \tstdapis\tlargefile.ini Sectionwopenapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0022
+
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0023
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0023
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        Test case to create a file using wfopen64() and writing more than 2GB of data to the file and validating using fgetpos64() and fsetpos64()
+//!                         API Tested: wfopen64(), fgetpos64(), fsetpos64()
+//! @SYMTestExpectedResults Should successfully able to write to a file
+//! @SYMTestActions         1. Create a file using wfopen64()
+//!                         2. wfopen64() should return valid file pointer.
+//!                         3. Write more than 2GB of data using fwrite() 
+//!                         4. Get the current position using fgetpos64()
+//!                         5. write n bytes using fwrite()
+//!                         6. Set the position back using fsetpos64()
+//!                         7. Again read n bytes from the file
+//!                         8. Both the times read from the file should be same.
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 300 tlargefile TestLargeFileReadWrite \tstdapis\tlargefile.ini Sectionwfopenapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0023
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0024
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0024
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        Test case to create a file using open() with O_LARGEFILE enabled and writing more than 2GB of data to the file and validating using fgetpos64() and fsetpos64()
+//!                         API Tested: open(), fgetpos64(), fsetpos64()
+//! @SYMTestExpectedResults Should successfully able to write to a file
+//! @SYMTestActions         1. Create a file using open() with O_LARGEFILE enabled
+//!                         2. open() should return valid file descriptor.
+//!                         3. Write more than 2GB of data using fwrite() 
+//!                         4. Get the current position using fgetpos64()
+//!                         5. write n bytes using fwrite()
+//!                         6. Set the position back using fsetpos64()
+//!                         7. Again read n bytes from the file
+//!                         8. Both the times read from the file should be same.
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 300 tlargefile TestLargeFileReadWrite \tstdapis\tlargefile.ini SectionopenapiO_largefile
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0024
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0025
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0025
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using creat64() and trying to move the file position indicator beyond 2GB using fseeko64() and validating using ftello64()
+//!                         API Tested: creat64(), fseeko64(), ftello64()
+//! @SYMTestExpectedResults File should be created and must be able to seek beyond 2GB and validate using ftello64()
+//! @SYMTestActions         1. Create a file using creat64()
+//!                         2. creat64() should return valid file descriptor.
+//!                         3. Move the file position indicator beyond 2GB using fseeko64()
+//!                         4. file position indicator should be successfully moved beyond 2GB
+//!                         5. Validate based on ftello64()
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 200 tlargefile TestLargeFileFseeknTell \tstdapis\tlargefile.ini Sectioncreateapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0025
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0026
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0026
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using open64() and trying to move the file position indicator beyond 2GB using fseeko64() and validating using ftello64()
+//!                         API Tested: open64(), fseeko64(), ftello64()
+//! @SYMTestExpectedResults File should be created and must be able to seek beyond 2GB and validate using ftello64()
+//! @SYMTestActions         1. Create a file using open64()
+//!                         2. open64() should return valid file descriptor.
+//!                         3. Move the file position indicator beyond 2GB using fseeko64()
+//!                         4. file position indicator should be successfully moved beyond 2GB
+//!                         5. Validate based on ftello64()
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 200 tlargefile TestLargeFileFseeknTell \tstdapis\tlargefile.ini Sectionopenapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0026
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0027
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0027
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using mkstemp64() and trying to move the file position indicator beyond 2GB using fseeko64()  and validating using ftello64()
+//!                         API Tested: mkstemp64(), fseeko64(), ftello64()
+//! @SYMTestExpectedResults File should be created and must be able to seek beyond 2GB and validate using ftello64()
+//! @SYMTestActions         1. Create a file using mkstemp64()
+//!                         2. mkstemp64() should return valid file descriptor.
+//!                         3. Move the file position indicator beyond 2GB using fseeko64()
+//!                         4. file position indicator should be successfully moved beyond 2GB
+//!                         5. Validate based on ftello64()
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 200 tlargefile TestLargeFileFseeknTell \tstdapis\tlargefile.ini Sectionmkstempapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0027
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0028
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0028
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using fopen64() and trying to move the file position indicator beyond 2GB using fseeko64() and validating using ftello64()
+//!                         API Tested: fopen64(), fseeko64(), ftello64()
+//! @SYMTestExpectedResults File should be created and must be able to seek beyond 2GB and validate using ftello64()
+//! @SYMTestActions         1. Create a file using fopen64()
+//!                         2. fopen64() should return valid file pointer.
+//!                         3. Move the file position indicator beyond 2GB using fseeko64()
+//!                         4. file position indicator should be successfully moved beyond 2GB
+//!                         5. Validate based on ftello64()
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 200 tlargefile TestLargeFileFseeknTell \tstdapis\tlargefile.ini Sectionfopenapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0028
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0029
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0029
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using tmpfile64() and trying to move the file position indicator beyond 2GB using fseeko64() and validating using ftello64()
+//!                         API Tested: tmpfile64(), fseeko64(), ftello64()
+//! @SYMTestExpectedResults File should be created and must be able to seek beyond 2GB and validate using ftello64()
+//! @SYMTestActions         1. Create a file using tmpfile64()
+//!                         2. tmpfile64() should return valid file pointer.
+//!                         3. Move the file position indicator beyond 2GB using fseeko64()
+//!                         4. file position indicator should be successfully moved beyond 2GB
+//!                         5. Validate based on ftello64()
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 200 tlargefile TestLargeFileFseeknTell \tstdapis\tlargefile.ini Sectiontmpfileapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0029
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0030
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0030
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using wcreat64() and trying to move the file position indicator beyond 2GB using fseeko64() and validating using ftello64()
+//!                         API Tested: wcreat64(), fseeko64(), ftello64()
+//! @SYMTestExpectedResults File should be created and must be able to seek beyond 2GB and validate using ftello64()
+//! @SYMTestActions         1. Create a file using wcreat64()
+//!                         2. wcreat64() should return valid file descriptor.
+//!                         3. Move the file position indicator beyond 2GB using fseeko64()
+//!                         4. file position indicator should be successfully moved beyond 2GB
+//!                         5. Validate based on ftello64()
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 200 tlargefile TestLargeFileFseeknTell \tstdapis\tlargefile.ini Sectionwcreateapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0030
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0031
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0031
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using wopen64() and trying to move the file position indicator beyond 2GB using fseeko64() and validating using ftello64()
+//!                         API Tested: wopen64(), fseeko64(), ftello64()
+//! @SYMTestExpectedResults File should be created and must be able to seek beyond 2GB and validate using ftello64()
+//! @SYMTestActions         1. Create a file using wopen64()
+//!                         2. wopen64() should return valid file descriptor.
+//!                         3. Move the file position indicator beyond 2GB using fseeko64()
+//!                         4. file position indicator should be successfully moved beyond 2GB
+//!                         5. Validate based on ftello64()
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 200 tlargefile TestLargeFileFseeknTell \tstdapis\tlargefile.ini Sectionwopenapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0031
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0032
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0032
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using wfopen64() and trying to move the file position indicator beyond 2GB using fseeko64() and validating using ftello64()
+//!                         API Tested: wfopen64(), fseeko64(), ftello64()
+//! @SYMTestExpectedResults File should be created and must be able to seek beyond 2GB and validate using ftello64()
+//! @SYMTestActions         1. Create a file using wfopen64()
+//!                         2. wfopen64() should return valid file pointer.
+//!                         3. Move the file position indicator beyond 2GB using fseeko64()
+//!                         4. file position indicator should be successfully moved beyond 2GB
+//!                         5. Validate based on ftello64()
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 200 tlargefile TestLargeFileFseeknTell \tstdapis\tlargefile.ini Sectionwfopenapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0032
+
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0033
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0033
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using open() with O_LARGEFILE enabled and trying to move the file position indicator beyond 2GB using fseeko64() and validating using ftello64()
+//!                         API Tested: open(), fseeko64(), ftello64()
+//! @SYMTestExpectedResults File should be created and must be able to seek beyond 2GB and validate using ftello64()
+//! @SYMTestActions         1. Create a file using open() with O_LARGEFILE enabled
+//!                         2. open() should return valid file descriptor.
+//!                         3. Move the file position indicator beyond 2GB using fseeko64()
+//!                         4. file position indicator should be successfully moved beyond 2GB
+//!                         5. Validate based on ftello64()
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 200 tlargefile TestLargeFileFseeknTell \tstdapis\tlargefile.ini SectionopenapiO_largefile
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0033
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0034
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0034
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using creat64() and trying to move the file position indicator beyond 2GB using lseek64() and validating using ftello64()
+//!                         API Tested: creat64(), lseek64(), ftello64()
+//! @SYMTestExpectedResults File should be created and must be able to seek beyond 2GB and validate using ftello64()
+//! @SYMTestActions         1. Create a file using creat64()
+//!                         2. creat64() should return valid file descriptor.
+//!                         3. Move the file position indicator beyond 2GB using lseek64()
+//!                         4. file position indicator should be successfully moved beyond 2GB
+//!                         5. Validate based on ftello64()
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 200 tlargefile TestLargeFileLseeknTell \tstdapis\tlargefile.ini Sectioncreateapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0034
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0035
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0035
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using open64() and trying to move the file position indicator beyond 2GB using lseek64() and validating using ftello64()
+//!                         API Tested: open64(), lseek64(), ftello64()
+//! @SYMTestExpectedResults File should be created and must be able to seek beyond 2GB and validate using ftello64()
+//! @SYMTestActions         1. Create a file using open64()
+//!                         2. open64() should return valid file descriptor.
+//!                         3. Move the file position indicator beyond 2GB using lseek64()
+//!                         4. file position indicator should be successfully moved beyond 2GB
+//!                         5. Validate based on ftello64()
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 200 tlargefile TestLargeFileLseeknTell \tstdapis\tlargefile.ini Sectionopenapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0035
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0036
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0036
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using mkstemp64() and trying to move the file position indicator beyond 2GB using lseek64() and validating using ftello64()
+//!                         API Tested: mkstemp64(), lseek64(), ftello64()
+//! @SYMTestExpectedResults File should be created and must be able to seek beyond 2GB and validate using ftello64()
+//! @SYMTestActions         1. Create a file using mkstemp64()
+//!                         2. mkstemp64() should return valid file descriptor.
+//!                         3. Move the file position indicator beyond 2GB using lseek64()
+//!                         4. file position indicator should be successfully moved beyond 2GB
+//!                         5. Validate based on ftello64()
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 200 tlargefile TestLargeFileLseeknTell \tstdapis\tlargefile.ini Sectionmkstempapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0036
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0037
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0037
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using fopen64() and trying to move the file position indicator beyond 2GB using lseek64() and validating using ftello64()
+//!                         API Tested: fopen64(), lseek64(), ftello64()
+//! @SYMTestExpectedResults File should be created and must be able to seek beyond 2GB and validate using ftello64()
+//! @SYMTestActions         1. Create a file using fopen64()
+//!                         2. fopen64() should return valid file pointer.
+//!                         3. Move the file position indicator beyond 2GB using lseek64()
+//!                         4. file position indicator should be successfully moved beyond 2GB
+//!                         5. Validate based on ftello64()
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 200 tlargefile TestLargeFileLseeknTell \tstdapis\tlargefile.ini Sectionfopenapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0037
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0038
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0038
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using tmpfile64() and trying to move the file position indicator beyond 2GB using lseek64() and validating using ftello64()
+//!                         API Tested: tmpfile64(), lseek64(), ftello64()
+//! @SYMTestExpectedResults File should be created and must be able to seek beyond 2GB and validate using ftello64()
+//! @SYMTestActions         1. Create a file using tmpfile64()
+//!                         2. tmpfile64() should return valid file pointer.
+//!                         3. Move the file position indicator beyond 2GB using lseek64()
+//!                         4. file position indicator should be successfully moved beyond 2GB
+//!                         5. Validate based on ftello64()
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 200 tlargefile TestLargeFileLseeknTell \tstdapis\tlargefile.ini Sectiontmpfileapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0038
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0039
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0039
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using wcreat64() and trying to move the file position indicator beyond 2GB using lseek64() and validating using ftello64()
+//!                         API Tested: wcreat64(), lseek64(), ftello64()
+//! @SYMTestExpectedResults File should be created and must be able to seek beyond 2GB and validate using ftello64()
+//! @SYMTestActions         1. Create a file using wcreat64()
+//!                         2. wcreat64() should return valid file descriptor.
+//!                         3. Move the file position indicator beyond 2GB using lseek64()
+//!                         4. file position indicator should be successfully moved beyond 2GB
+//!                         5. Validate based on ftello64()
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 200 tlargefile TestLargeFileLseeknTell \tstdapis\tlargefile.ini Sectionwcreateapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0039
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0040
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0040
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using wopen64() and trying to move the file position indicator beyond 2GB using lseek64() and validating using ftello64()
+//!                         API Tested: wopen64(), lseek64(), ftello64()
+//! @SYMTestExpectedResults File should be created and must be able to seek beyond 2GB and validate using ftello64()
+//! @SYMTestActions         1. Create a file using wopen64()
+//!                         2. wopen64() should return valid file descriptor.
+//!                         3. Move the file position indicator beyond 2GB using lseek64()
+//!                         4. file position indicator should be successfully moved beyond 2GB
+//!                         5. Validate based on ftello64()
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 200 tlargefile TestLargeFileLseeknTell \tstdapis\tlargefile.ini Sectionwopenapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0040
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0041
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0041
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using wfopen64() and trying to move the file position indicator beyond 2GB using lseek64() and validating using ftello64()
+//!                         API Tested: wfopen64(), lseek64(), ftello64()
+//! @SYMTestExpectedResults File should be created and must be able to seek beyond 2GB and validate using ftello64()
+//! @SYMTestActions         1. Create a file using wfopen64()
+//!                         2. wfopen64() should return valid file pointer.
+//!                         3. Move the file position indicator beyond 2GB using lseek64()
+//!                         4. file position indicator should be successfully moved beyond 2GB
+//!                         5. Validate based on ftello64()
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 200 tlargefile TestLargeFileLseeknTell \tstdapis\tlargefile.ini Sectionwfopenapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0041
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0042
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0042
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using open() with O_LARGEFILE enabled and trying to move the file position indicator beyond 2GB using lseek64() and validating using ftello64()
+//!                         API Tested: open(), lseek64(), ftello64()
+//! @SYMTestExpectedResults File should be created and must be able to seek beyond 2GB and validate using ftello64()
+//! @SYMTestActions         1. Create a file using open()  with O_LARGEFILE enabled 
+//!                         2. open() should return valid file descriptor.
+//!                         3. Move the file position indicator beyond 2GB using lseek64()
+//!                         4. file position indicator should be successfully moved beyond 2GB
+//!                         5. Validate based on ftello64()
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 200 tlargefile TestLargeFileLseeknTell \tstdapis\tlargefile.ini SectionopenapiO_largefile
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0042
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0043
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0043
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using creat64() and trying to move the file position indicator beyond 2GB using fseeko64() and validating using fgetpos64()
+//!                         API Tested: creat64(), fseeko64(), fgetpos64(), fsetpos64()
+//! @SYMTestExpectedResults File should be created and must be able to seek beyond 2GB and validate using fgetpos64() and fsetpos64()
+//! @SYMTestActions         1. Create a file using creat64()
+//!                         2. creat64() should return valid file descriptor
+//!                         3. Move the file position indicator beyond 2GB using fseeko64()
+//!                         4. file position indicator should be successfully moved beyond 2GB
+//!                         5. get the current position using fgetpos64() 
+//!                         6. Move the file position indicator by n bytes using fseeko64()
+//!                         7. Set the file position back using fsetpos64()
+//!                         8. The string read after and before setting position should be same
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 200 tlargefile TestCreatenFseeknPos \tstdapis\tlargefile.ini Sectioncreateapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0043
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0044
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0044
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using open64() and trying to move the file position indicator beyond 2GB using fseeko64() and validating using fgetpos64()
+//!                         API Tested: open64(), fseeko64(), fgetpos64(), fsetpos64()
+//! @SYMTestExpectedResults File should be created and must be able to seek beyond 2GB and validate using fgetpos64() and fsetpos64()
+//! @SYMTestActions         1. Create a file using open64()
+//!                         2. open64() should return valid file descriptor
+//!                         3. Move the file position indicator beyond 2GB using fseeko64()
+//!                         4. file position indicator should be successfully moved beyond 2GB
+//!                         5. get the current position using fgetpos64() 
+//!                         6. Move the file position indicator by n bytes using fseeko64()
+//!                         7. Set the file position back using fsetpos64()
+//!                         8. The string read after and before setting position should be same
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 200 tlargefile TestCreatenFseeknPos \tstdapis\tlargefile.ini Sectionopenapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0044
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0045
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0045
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using mkstemp64() and trying to move the file position indicator beyond 2GB using fseeko64() and validating using fgetpos64()
+//!                         API Tested: mkstemp64(), fseeko64(), fgetpos64(), fsetpos64()
+//! @SYMTestExpectedResults File should be created and must be able to seek beyond 2GB and validate using fgetpos64() and fsetpos64()
+//! @SYMTestActions         1. Create a file using mkstemp64()
+//!                         2. mkstemp64() should return valid file descriptor
+//!                         3. Move the file position indicator beyond 2GB using fseeko64()
+//!                         4. file position indicator should be successfully moved beyond 2GB
+//!                         5. get the current position using fgetpos64() 
+//!                         6. Move the file position indicator by n bytes using fseeko64()
+//!                         7. Set the file position back using fsetpos64()
+//!                         8. The string read after and before setting position should be same
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 200 tlargefile TestCreatenFseeknPos \tstdapis\tlargefile.ini Sectionmkstempapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0045
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0046
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0046
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using fopen64() and trying to move the file position indicator beyond 2GB using fseeko64() and validating using fgetpos64()
+//!                         API Tested: fopen64(), fseeko64(), fgetpos64(), fsetpos64()
+//! @SYMTestExpectedResults File should be created and must be able to seek beyond 2GB and validate using fgetpos64() and fsetpos64()
+//! @SYMTestActions         1. Create a file using fopen64()
+//!                         2. fopen64() should return valid file pointer.
+//!                         3. Move the file position indicator beyond 2GB using fseeko64()
+//!                         4. file position indicator should be successfully moved beyond 2GB
+//!                         5. get the current position using fgetpos64() 
+//!                         6. Move the file position indicator by n bytes using fseeko64()
+//!                         7. Set the file position back using fsetpos64()
+//!                         8. The string read after and before setting position should be same
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 200 tlargefile TestCreatenFseeknPos \tstdapis\tlargefile.ini Sectionfopenapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0046
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0047
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0047
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using tmpfile64() and trying to move the file position indicator beyond 2GB using fseeko64() and validating using fgetpos64()
+//!                         API Tested: tmpfile64(), fseeko64(), fgetpos64(), fsetpos64()
+//! @SYMTestExpectedResults File should be created and must be able to seek beyond 2GB and validate using fgetpos64() and fsetpos64()
+//! @SYMTestActions         1. Create a file using tmpfile64()
+//!                         2. tmpfile64() should return valid file pointer.
+//!                         3. Move the file position indicator beyond 2GB using fseeko64()
+//!                         4. file position indicator should be successfully moved beyond 2GB
+//!                         5. get the current position using fgetpos64() 
+//!                         6. Move the file position indicator by n bytes using fseeko64()
+//!                         7. Set the file position back using fsetpos64()
+//!                         8. The string read after and before setting position should be same
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 200 tlargefile TestCreatenFseeknPos \tstdapis\tlargefile.ini Sectiontmpfileapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0047
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0048
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0048
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using wcreat64() and trying to move the file position indicator beyond 2GB using fseeko64() and validating using fgetpos64()
+//!                         API Tested: wcreat64(), fseeko64(), fgetpos64(), fsetpos64()
+//! @SYMTestExpectedResults File should be created and must be able to seek beyond 2GB and validate using fgetpos64() and fsetpos64()
+//! @SYMTestActions         1. Create a file using wcreat64()
+//!                         2. wcreat64() should return valid file descriptor
+//!                         3. Move the file position indicator beyond 2GB using fseeko64()
+//!                         4. file position indicator should be successfully moved beyond 2GB
+//!                         5. get the current position using fgetpos64() 
+//!                         6. Move the file position indicator by n bytes using fseeko64()
+//!                         7. Set the file position back using fsetpos64()
+//!                         8. The string read after and before setting position should be same
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 200 tlargefile TestCreatenFseeknPos \tstdapis\tlargefile.ini Sectionwcreateapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0048
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0049
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0049
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using wopen64() and trying to move the file position indicator beyond 2GB using fseeko64() and validating using fgetpos64()
+//!                         API Tested: wopen64(), fseeko64(), fgetpos64(), fsetpos64()
+//! @SYMTestExpectedResults File should be created and must be able to seek beyond 2GB and validate using fgetpos64() and fsetpos64()
+//! @SYMTestActions         1. Create a file using wopen64()
+//!                         2. wopen64() should return valid file descriptor
+//!                         3. Move the file position indicator beyond 2GB using fseeko64()
+//!                         4. file position indicator should be successfully moved beyond 2GB
+//!                         5. get the current position using fgetpos64() 
+//!                         6. Move the file position indicator by n bytes using fseeko64()
+//!                         7. Set the file position back using fsetpos64()
+//!                         8. The string read after and before setting position should be same
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 200 tlargefile TestCreatenFseeknPos \tstdapis\tlargefile.ini Sectionwopenapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0049
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0050
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0050
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using wfopen64() and trying to move the file position indicator beyond 2GB using fseeko64() and validating using fgetpos64()
+//!                         API Tested: wfopen64(), fseeko64(), fgetpos64(), fsetpos64()
+//! @SYMTestExpectedResults File should be created and must be able to seek beyond 2GB and validate using fgetpos64() and fsetpos64()
+//! @SYMTestActions         1. Create a file using wfopen64()
+//!                         2. wfopen64() should return valid file pointer.
+//!                         3. Move the file position indicator beyond 2GB using fseeko64()
+//!                         4. file position indicator should be successfully moved beyond 2GB
+//!                         5. get the current position using fgetpos64() 
+//!                         6. Move the file position indicator by n bytes using fseeko64()
+//!                         7. Set the file position back using fsetpos64()
+//!                         8. The string read after and before setting position should be same
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 200 tlargefile TestCreatenFseeknPos \tstdapis\tlargefile.ini Sectionwfopenapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0050
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0051
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0051
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using open() with O_LARGEFILE flag enabled and trying to move the file position indicator beyond 2GB using fseeko64() and validating using fgetpos64()
+//!                         API Tested: open(), fseeko64(), fgetpos64(), fsetpos64()
+//! @SYMTestExpectedResults File should be created and must be able to seek beyond 2GB and validate using fgetpos64() and fsetpos64()
+//! @SYMTestActions         1. Create a file using open() with O_LARGEFILE flag set
+//!                         2. open() should return valid file descriptor
+//!                         3. Move the file position indicator beyond 2GB using fseeko64()
+//!                         4. file position indicator should be successfully moved beyond 2GB
+//!                         5. get the current position using fgetpos64() 
+//!                         6. Move the file position indicator by n bytes using fseeko64()
+//!                         7. Set the file position back using fsetpos64()
+//!                         8. The string read after and before setting position should be same
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 200 tlargefile TestCreatenFseeknPos \tstdapis\tlargefile.ini SectionopenapiO_largefile
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0051
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0052
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0052
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using creat64() and trying to move the file position indicator beyond 2GB using lseek64() and validating using fgetpos64()
+//!                         API Tested: creat64(), lseek64(), fgetpos64(), fsetpos64()
+//! @SYMTestExpectedResults File should be created and must be able to seek beyond 2GB and validate using fgetpos64() and fsetpos64()
+//! @SYMTestActions         1. Create a file using creat64()
+//!                         2. creat64() should return valid file descriptor
+//!                         3. Move the file position indicator beyond 2GB using lseek64()
+//!                         4. file position indicator should be successfully moved beyond 2GB
+//!                         5. get the current position using fgetpos64() 
+//!                         6. Move the file position indicator by n bytes using lseek64()
+//!                         7. Set the file position back using fsetpos64()
+//!                         8. The string read after and before setting position should be same
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 200 tlargefile TestCreatenLseeknPos \tstdapis\tlargefile.ini Sectioncreateapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0052
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0053
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0053
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using open64() and trying to move the file position indicator beyond 2GB using lseek64() and validating using fgetpos64()
+//!                         API Tested: open64(), lseek64(), fgetpos64(), fsetpos64()
+//! @SYMTestExpectedResults File should be created and must be able to seek beyond 2GB and validate using fgetpos64() and fsetpos64()
+//! @SYMTestActions         1. Create a file using open64()
+//!                         2. open64() should return valid file descriptor
+//!                         3. Move the file position indicator beyond 2GB using lseek64()
+//!                         4. file position indicator should be successfully moved beyond 2GB
+//!                         5. get the current position using fgetpos64() 
+//!                         6. Move the file position indicator by n bytes using lseek64()
+//!                         7. Set the file position back using fsetpos64()
+//!                         8. The string read after and before setting position should be same
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 200 tlargefile TestCreatenLseeknPos \tstdapis\tlargefile.ini Sectionopenapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0053
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0054
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0054
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using mkstemp64() and trying to move the file position indicator beyond 2GB using lseek64() and validating using fgetpos64()
+//!                         API Tested: mkstemp64(), lseek64(), fgetpos64(), fsetpos64()
+//! @SYMTestExpectedResults File should be created and must be able to seek beyond 2GB and validate using fgetpos64() and fsetpos64()
+//! @SYMTestActions         1. Create a file using mkstemp64()
+//!                         2. mkstemp64() should return valid file descriptor
+//!                         3. Move the file position indicator beyond 2GB using lseek64()
+//!                         4. file position indicator should be successfully moved beyond 2GB
+//!                         5. get the current position using fgetpos64() 
+//!                         6. Move the file position indicator by n bytes using lseek64()
+//!                         7. Set the file position back using fsetpos64()
+//!                         8. The string read after and before setting position should be same
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 200 tlargefile TestCreatenLseeknPos \tstdapis\tlargefile.ini Sectionmkstempapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0054
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0055
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0055
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using fopen64() and trying to move the file position indicator beyond 2GB using lseek64() and validating using fgetpos64()
+//!                         API Tested: fopen64(), lseek64(), fgetpos64(), fsetpos64()
+//! @SYMTestExpectedResults File should be created and must be able to seek beyond 2GB and validate using fgetpos64() and fsetpos64()
+//! @SYMTestActions         1. Create a file using fopen64()
+//!                         2. fopen64() should return valid file pointer.
+//!                         3. Move the file position indicator beyond 2GB using lseek64()
+//!                         4. file position indicator should be successfully moved beyond 2GB
+//!                         5. get the current position using fgetpos64() 
+//!                         6. Move the file position indicator by n bytes using lseek64()
+//!                         7. Set the file position back using fsetpos64()
+//!                         8. The string read after and before setting position should be same
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 200 tlargefile TestCreatenLseeknPos \tstdapis\tlargefile.ini Sectionfopenapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0055
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0056
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0056
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using tmpfile64() and trying to move the file position indicator beyond 2GB using lseek64() and validating using fgetpos64()
+//!                         API Tested: tmpfile64(), lseek64(), fgetpos64(), fsetpos64()
+//! @SYMTestExpectedResults File should be created and must be able to seek beyond 2GB and validate using fgetpos64() and fsetpos64()
+//! @SYMTestActions         1. Create a file using tmpfile64()
+//!                         2. tmpfile64() should return valid file pointer.
+//!                         3. Move the file position indicator beyond 2GB using lseek64()
+//!                         4. file position indicator should be successfully moved beyond 2GB
+//!                         5. get the current position using fgetpos64() 
+//!                         6. Move the file position indicator by n bytes using lseek64()
+//!                         7. Set the file position back using fsetpos64()
+//!                         8. The string read after and before setting position should be same
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 200 tlargefile TestCreatenLseeknPos \tstdapis\tlargefile.ini Sectiontmpfileapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0056
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0057
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0057
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using wcreat64() and trying to move the file position indicator beyond 2GB using lseek64() and validating using fgetpos64()
+//!                         API Tested: wcreat64(), lseek64(), fgetpos64(), fsetpos64()
+//! @SYMTestExpectedResults File should be created and must be able to seek beyond 2GB and validate using fgetpos64() and fsetpos64()
+//! @SYMTestActions         1. Create a file using wcreat64()
+//!                         2. wcreat64() should return valid file descriptor
+//!                         3. Move the file position indicator beyond 2GB using lseek64()
+//!                         4. file position indicator should be successfully moved beyond 2GB
+//!                         5. get the current position using fgetpos64() 
+//!                         6. Move the file position indicator by n bytes using lseek64()
+//!                         7. Set the file position back using fsetpos64()
+//!                         8. The string read after and before setting position should be same
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 200 tlargefile TestCreatenLseeknPos \tstdapis\tlargefile.ini Sectionwcreateapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0057
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0058
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0058
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using wopen64() and trying to move the file position indicator beyond 2GB using lseek64() and validating using fgetpos64()
+//!                         API Tested: wopen64(), lseek64(), fgetpos64(), fsetpos64()
+//! @SYMTestExpectedResults File should be created and must be able to seek beyond 2GB and validate using fgetpos64() and fsetpos64()
+//! @SYMTestActions         1. Create a file using wopen64()
+//!                         2. wopen64() should return valid file descriptor
+//!                         3. Move the file position indicator beyond 2GB using lseek64()
+//!                         4. file position indicator should be successfully moved beyond 2GB
+//!                         5. get the current position using fgetpos64() 
+//!                         6. Move the file position indicator by n bytes using lseek64()
+//!                         7. Set the file position back using fsetpos64()
+//!                         8. The string read after and before setting position should be same
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 200 tlargefile TestCreatenLseeknPos \tstdapis\tlargefile.ini Sectionwopenapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0058
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0059
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0059
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using wfopen64() and trying to move the file position indicator beyond 2GB using lseek64() and validating using fgetpos64()
+//!                         API Tested: wfopen64(), lseek64(), fgetpos64(), fsetpos64()
+//! @SYMTestExpectedResults File should be created and must be able to seek beyond 2GB and validate using fgetpos64() and fsetpos64()
+//! @SYMTestActions         1. Create a file using wfopen64()
+//!                         2. wfopen64() should return valid file pointer.
+//!                         3. Move the file position indicator beyond 2GB using lseek64()
+//!                         4. file position indicator should be successfully moved beyond 2GB
+//!                         5. get the current position using fgetpos64() 
+//!                         6. Move the file position indicator by n bytes using lseek64()
+//!                         7. Set the file position back using fsetpos64()
+//!                         8. The string read after and before setting position should be same
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 200 tlargefile TestCreatenLseeknPos \tstdapis\tlargefile.ini Sectionwfopenapi
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0059
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0060
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0060
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To create a file using open() with O_LARGEFILE flag enabled and trying to move the file position indicator beyond 2GB using lseek64() and validating using fgetpos64()
+//!                         API Tested: open(), lseek64(), fgetpos64(), fsetpos64()
+//! @SYMTestExpectedResults File should be created and must be able to seek beyond 2GB and validate using fgetpos64() and fsetpos64()
+//! @SYMTestActions         1. Create a file using open() with O_LARGEFILE flag set
+//!                         2. open() should return valid file descriptor
+//!                         3. Move the file position indicator beyond 2GB using lseek64()
+//!                         4. file position indicator should be successfully moved beyond 2GB
+//!                         5. get the current position using fgetpos64() 
+//!                         6. Move the file position indicator by n bytes using lseek64()
+//!                         7. Set the file position back using fsetpos64()
+//!                         8. The string read after and before setting position should be same
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 200 tlargefile TestCreatenLseeknPos \tstdapis\tlargefile.ini SectionopenapiO_largefile
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0060
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0061
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0061
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To open a file using freopen64() and validating all file operations.
+//! @SYMTestExpectedResults Should successfully able to create a large file using freopen64()
+//! @SYMTestActions         1. Create a large file using using fopen64()
+//!                         2. Reopen a file using freopen64()
+//!                         3. Truncate more than 2GB
+//!                         4. Get the status of file using stat64()
+//!                         5. Write n bytes to a file
+//!                         6. Seek back and get the contents of file.
+//!                         7. Both the data read and written should be same.
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 300 tlargefile TestLargeFileFreopen \tstdapis\tlargefile.ini Sectionlargefilename
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0061
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0062
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0062
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To open a file using wfreopen64() and validating all file operations.
+//! @SYMTestExpectedResults Should successfully able to create a large file using wfreopen64()
+//! @SYMTestActions         1. Create a large file using using wfopen64()
+//!                         2. Reopen a file using wfreopen64()
+//!                         3. Truncate more than 2GB
+//!                         4. Get the status of file using stat64()
+//!                         5. Write n bytes to a file
+//!                         6. Seek back and get the contents of file.
+//!                         7. Both the data read and written should be same.
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 300 tlargefile TestLargeFileWfreopen \tstdapis\tlargefile.ini Sectionlargefilename
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0062
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0063
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0063
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To traverse a file tree containing large files in the tree
+//!                         API Tested: ftw64()
+//! @SYMTestExpectedResults Should successfully able to return the information about the file
+//! @SYMTestActions         1. Create more than 1 file using fopen64()
+//!                         2. fopen64() should return valid file descriptor.
+//!                         3. Use truncate64() to increase the size to more than 2GB.
+//!                         4. Call ftw64() to get the information about the these files
+//!                         5. The struct stat should be successfully able to return the above size.
+//!                         6. To validate get the size of a file using stat64()/fstat64()/lstat64()
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 300 tlargefile TestLargeFileFtw \tstdapis\tlargefile.ini Sectionftwfiles
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0063
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0064
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0064
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To scan the directory while returning the no. of directory entries and without sorting out the directory entries 
+//!                         API Tested: scandir64()
+//! @SYMTestExpectedResults Successfully should be able to retreive the directory entries
+//! @SYMTestActions         1. Create a large file f1 and a regular file f2 in a directory x.
+//!                         2. Truncate those files to more than 2GB of size
+//!                         3. Call scandir64() in the absence of compare function.
+//!                         4. scandir64() should successfully return the number of directory entries and pointer those directory entries
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 300 tlargefile TestNonsortScandir \tstdapis\tlargefile.ini Sectionnonsortscandir
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0064
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0065
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0065
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To scan the directory while returning the no. of directory entries and sorting out the directory entries 
+//!                         API Tested: scandir64()
+//! @SYMTestExpectedResults Successfully should be able to retreive the directory entries
+//! @SYMTestActions         1. Create a large file f1 and a regular file f2 in a directory x.
+//!                         2. Truncate those files to more than 2GB of size
+//!                         3. Call scandir64() in the absence of compare function.
+//!                         4. scandir64() should successfully return the number of directory entries and while sorting out those directory entries
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 300 tlargefile TestSortScandir \tstdapis\tlargefile.ini Sectionsortscandir
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0065
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0066
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0066
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To seek the contents in a large file using different values of whence
+//!                         API Tested: fseeko64()
+//! @SYMTestExpectedResults fseeko64() should be successfully able to seek into a large file at any position mentioned
+//! @SYMTestActions         1. Create a large file using creat64()
+//!                         2. Truncate it to less than 2GB using truncate64()
+//!                         3. Get the size of the file using stat64()
+//!                         4. Seek to the end of file using fseeko64() with SEEK_END as the parameter.
+//!                         5. Write n bytes at the end using fwrite()
+//!                         6. Get the size of the file again using stat64(), should be n +  above size returned.
+//!                         7. Using fseeko64()  with SEEK_CUR - nbytes read n bytes, should be the same data
+//!                         8. Seek to the beginning of file + more than 2GB.
+//!                         9. Read n bytes from there
+//!                         10. Again the data read should be same as above.
+//!                         11. Reading the data from SEEK_END - n bytes using fseeko64() should be same as above.
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 300 tlargefile TestLargeFileSeek \tstdapis\tlargefile.ini Sectionlargefilename
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0066
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0067
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0067
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To generate pathnames matching a pattern for large files
+//!                         API Tested: glob64(), globfree64()
+//! @SYMTestExpectedResults glob64() should be successfully able to retrieve the pathnames that are matching the pattern.
+//! @SYMTestActions         1. Create one large file and one regular file using open64() and open() respectively.
+//!                         2. Pass the pattern to be matched as the first parameter.
+//!                         3. Should successfully able to retrieve the matched pathname and pathname count in the glob64_t structure.
+//!                         4. Call globfree64() on the above structure.
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 300 tlargefile TestLargeFileGlob \tstdapis\tlargefile.ini Sectionglobfiles
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0067
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0068
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0068
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        Writing to the process's address space after been mapped to a large file using mmap64()
+//!                         API Tested: mmap64()
+//! @SYMTestExpectedResults Should successfully able to write to a mapped space and validate the same after reading from a file.
+//! @SYMTestActions         1. Create a large file
+//!                         2. Truncate to more than 2GB bytes.
+//!                         3. Map to the process's address.
+//!                         4. Write to the process's address
+//!                         5. Read from a file
+//!                         6. Both data written and read should be same.
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 300 tlargefile TestLargeFileMmapWrite \tstdapis\tlargefile.ini Sectionlargefilename
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0068
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0069
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0069
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        Reading from the process's address space after been mapped to a large file using mmap64()
+//!                         API Tested: mmap64()
+//! @SYMTestExpectedResults Should successfully able to access the process's address space that is been mapped
+//! @SYMTestActions         1. Create a large file using creat64()
+//!                         2. Truncate more than 2GB
+//!                         3. Write n bytes to a file
+//!                         3. Map the large file address greater than 2GB to a process address space
+//!                         4. Retreive n bytes from it.
+//!                         5. Both the data written and read should be same.
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 300 tlargefile TestLargeFileWriteMmap \tstdapis\tlargefile.ini Sectionlargefilename
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0069
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0070
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0070
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To read a directory which contains large file.
+//!                         API Tested: readdir64()
+//! @SYMTestExpectedResults readdir() should successfully able to retreive the information about  the large file
+//! @SYMTestActions         1. Create one large file  using creat64() and a regular file in a directory x
+//!                         2. Truncate the file to more than 2GB of size
+//!                         3. Open the directory X using opendir()
+//!                         4. Read the directory using readdir64()
+//!                         5. Should successfully return the pointer to struct dirent with the large file and its size
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 300 tlargefile TestLargeFileReaddir \tstdapis\tlargefile.ini Sectionreaddir
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0070
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0071
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0071
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        Test case to compare the two directory entries while both being a large file
+//!                         API Tested: alphasor64()
+//! @SYMTestExpectedResults alphasort64() should successfully able to compare the two directory entries
+//! @SYMTestActions         1. Create a large file1 in a directory x using creat64()
+//!                         2. Truncate the file to more than 2GB of size
+//!                         3. Create a lregular file2 in the same directory x using creat()
+//!                         4. Truncate a large file to more than 2GB of size and regular file to less than 2GB
+//!                         5. Open the directory X using opendir()
+//!                         6. Read the first directory entry using readdir64()
+//!                         7. Should successfully return the pointer to struct dirent with the large file1 and its size
+//!                         8. Read the second directory entry using readdir64()
+//!                         9. Should successfully return the pointer to struct dirent with the  file2 and its size
+//!                         10. Compare the name member of both the dirent structure returned by readdir using alphasor64()
+//!                         11. Should successfully return the value based on the name entry
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 300 tlargefile TestLargeFileAlphasort \tstdapis\tlargefile.ini Sectionalphasort
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0071
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0072
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0072
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To read a directory which contains large file.
+//!                         API Tested: wreaddir64()
+//! @SYMTestExpectedResults wreaddir() should successfully able to retreive the information about  the large file
+//! @SYMTestActions         1. Create one large file  using wcreat64() and a regular file in a directory x
+//!                         2. Truncate the file to more than 2GB of size
+//!                         3. Open the directory X using wopendir()
+//!                         4. Read the directory using wreaddir64()
+//!                         5. Should successfully return the pointer to struct dirent with the large file and its size
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 300 tlargefile TestLargeFileWreaddir \tstdapis\tlargefile.ini Sectionwreaddir
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0072
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0073
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0073
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To validate whether the file information is transferred properly between the child and parent process.
+//! @SYMTestExpectedResults Should successfully able to retreive the file status both in the child and parent process.
+//! @SYMTestActions         In parent process:
+//!                         1. Create a large  file using creat64()
+//!                         2. Seek to more than 2GB of data.
+//!                         3. Use fgetpos64() to get the current position
+//!                         4. Write n bytes of data to the file
+//!                         5. Spawn a process using posix_spawn() and popen()
+//!                         6. Seek back using fsetpos64()
+//!                         7. Read n bytes of data
+//!                         8. Both the data written in child and read in the parent should be same
+//!                         
+//!                         In child process
+//!                         1. Using the fd from the parent, seek n bytes back using fseeko64()
+//!                         2. Read those n bytes added in the parent process
+//!                         3. Both the data wrote in parent and read in child should be same
+//!                         4. Using fseek() move the current position back by those many bytes read
+//!                         5. Add again n bytes of different data to the file
+//!                         6. Return to the parent process.
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 300 tlargefile TestChildFileTransfer \tstdapis\tlargefile.ini Sectionlargefilename
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0073
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0074
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0074
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To set and get the file lock using fcntl() for entire large file using single fd with F_WRLCK type.
+//!                         API Tested: fcntl64()
+//! @SYMTestExpectedResults Should successfully able to lock the file.
+//! @SYMTestActions         1. Create a large file.
+//!                         2. Use fcntl64() with F_SETLK to lock the entire file for writing.
+//!                         3. Try to truncate the file to more than 2GB
+//!                         4. Should fail with EACCESS.
+//!                         5. Retrieve the file lock properties using fcntl64() with F_GETLK.
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 300 tlargefile TestFcntlwithSinglefd \tstdapis\tlargefile.ini Sectionfcntlfile
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0074
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0075
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0075
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        To set and get the file lock using fcntl() using double fds with F_WRLCK type.
+//!                         API Tested: fcntl64()
+//! @SYMTestExpectedResults Should successfully able to lock the file.
+//! @SYMTestActions         1. Create a large file.
+//!                         2. Try to truncate the file to more than 2GB
+//!                         3. Use fcntl64() with F_SETLK to lock the file.
+//!                         4. Open the same file again.
+//!                         5. try to write to a file with above fd, should fail with EACCESS.
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 300 tlargefile TestFcntlwithDoublefds \tstdapis\tlargefile.ini Sectionfcntlfile
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0075
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0076
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0076
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        Negative Test: To validate the failure conditions when offset value is negative
+//!                         API tested: truncate64(), ftruncate64(), fseeko64(), lseek64()
+//! @SYMTestExpectedResults All the apis should fail with EINVAL
+//! @SYMTestActions         1. Pass a negative value of offset to apis truncate64(), truncate54(), fseeko64(), lseek64()
+//!                         2. The above apis tested should return -1 and errno set EINVAL
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 200 tlargefile TestNegSmallOffsetValues \tstdapis\tlargefile.ini Sectionnegoffset
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0076
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0077
+//! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0077
+//! @SYMCreationDate        01/02/2009
+//! @SYMAuthor              Komala A
+//! @SYMTestType            CIT
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        Negative Test: To validate the failure conditions when offset value is equal to ULLONG_MAX
+//!                         API tested: truncate64(), ftruncate64(), fseeko64(), lseek64()
+//! @SYMTestExpectedResults All the apis should fail with EINVAL
+//! @SYMTestActions         1. Pass an offset value of ULLONG_MAX to apis truncate64(), ftruncate54(), fseeko64(), lseek64()
+//!                         2. The above apis tested should return -1 and errno set EINVAL
+//! @SYMTestStatus          3. Released
+RUN_TEST_STEP !Result=0 200 tlargefile TestNegLargeOffsetValues \tstdapis\tlargefile.ini Sectionlargefilename
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0077
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0078
+   //! @SYMTestCaseID          OPENENV-LIBC-CIT-TLARGEFILE-0078
+   //! @SYMCreationDate        20/08/2009
+   //! @SYMAuthor              Akanksha Koul
+   //! @SYMTestType            CIT
+   //! @SYMTestPriority        High
+   //! @SYMTestCaseDesc        To validate the locking of MAX_SIZE sized files 
+   //!                         API tested: fcntl()
+   //! @SYMTestExpectedResults All the apis should pass with KErrNone
+   //! @SYMTestActions         1. Open a file of size MAX_SIZE using open() and write lock portion of it using fcntl()
+   //!                         2. The above apis tested should return 0 
+   //! @SYMTestStatus          3. Released
+
+RUN_TEST_STEP !Result=0 10 tlargefile TestFcntlWriteLockwithMaxSize \tstdapis\tlargefile.ini Sectionfcntlfile
+END_TESTCASE OPENENV-LIBC-CIT-TLARGEFILE-0078

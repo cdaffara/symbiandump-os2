@@ -1,0 +1,668 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+// Streaming CAF Integration Tests
+
+PRINT Run PREQ782 Streaming CAF Integration Tests
+
+// Load Suite
+LOAD_SUITE tscaf
+
+
+//! @SYMTestCaseID 		SEC-SCAF-MISC-0001
+//! @SYMTestCaseDesc 		StartupComms
+
+START_TESTCASE SEC-SCAF-MISC-0001
+RUN_TEST_STEP 100 tscaf StartupCommsStep
+END_TESTCASE SEC-SCAF-MISC-0001
+
+
+//********************** SEC-SCAF-A : CONSUMER INTERFACE  **********************
+
+//! @SYMTestCaseID 		SEC-SCAF-A001
+//! @SYMTestCaseDesc 		Key stream decoder construction with a supported protected key stream description
+//! 				(keystreamdecoder_positiveconstruct)
+//! @SYMPREQ 			PREQ782
+//! @SYMREQ 			REQ7772, REQ7776, REQ7781, REQ7784, REQ7954
+//! @SYMTestPriority 		Critical
+//! @SYMTestStatus   		Implemented
+//! @SYMTestActions 		Preconditions:
+//!				• There are the necessary ROM based test stream agent plug-ins present that support 
+//!				the SDP media description supplied during construction of the key stream decoder.
+//!
+//!				Test Actions:
+//!				• Generate a protected key stream description.
+//!				• Generate an SDP media description for the key stream.
+//!				• Construct the key stream decoder using the protected stream description and SDP
+//!				media description objects previously generated.
+//!				• Destroy the key stream decoder object.
+//!
+//! @SYMTestExpectedResults 	• The key stream decoder is successfully created and destroyed.
+//! @SYMTestType 		CIT
+
+START_TESTCASE SEC-SCAF-A001
+RUN_TEST_STEP tscaf SCAFSetupRightsObjects z:\tcaf\tscaf\tscaf.ini Rights_Program
+RUN_TEST_STEP 100 tscaf SCAFKeyStreamDecoderConstruct z:\tcaf\tscaf\tscaf.ini keystreamdecoder_positiveconstruct
+END_TESTCASE SEC-SCAF-A001
+
+
+
+//! @SYMTestCaseID 		SEC-SCAF-A002
+//! @SYMTestCaseDesc 		Key stream decoder construction with an unsupported protected key stream description
+//! 				(keystreamdecoder_negativeconstruct)
+//! @SYMPREQ 			PREQ782
+//! @SYMREQ 			REQ7772, REQ7776, REQ7781, REQ7784, REQ7954
+//! @SYMTestPriority 		Critical
+//! @SYMTestStatus   		Implemented
+//! @SYMTestActions  		Preconditions:
+//!				• The ROM based test stream agent plug-ins present DO NOT support the SDP media 
+//!				description supplied during construction of the key stream decoder.
+//!			
+//!				Test Actions:
+//!				• Generate a protected key stream description.
+//!				• Generate an SDP media description for the key stream that is incompatible with all
+//!				available stream agent implementations.
+//!				• Construct the key stream decoder using the protected stream description and 
+//!				incompatible SDP media description objects previously generated.			
+//! @SYMTestExpectedResults 	• Construction of the key stream decoder leaves with the KErrCANoAgent error code.
+//! @SYMTestType 		CIT
+
+START_TESTCASE SEC-SCAF-A002
+RUN_TEST_STEP !Result=-17453 100 tscaf SCAFKeyStreamDecoderConstruct z:\tcaf\tscaf\tscaf.ini keystreamdecoder_negativeconstruct
+END_TESTCASE SEC-SCAF-A002
+
+
+
+//! @SYMTestCaseID 		SEC-SCAF-A004
+//! @SYMTestCaseDesc 		Querying attributes related to a key stream decoder
+//! 				(keystreamdecoder_positivequery)
+//! @SYMPREQ 			PREQ782
+//! @SYMREQ 			REQ7772, REQ7776, REQ7784, REQ7954
+//! @SYMTestPriority 		Critical
+//! @SYMTestStatus   		Implemented
+//! @SYMTestActions  		Preconditions:
+//!				• The necessary ROM based test stream agent plug-in is present that supports the SDP
+//!				media description 	
+//!				supplied during construction of the key stream decoder.
+//!				• There are two Rights Objects files (serviceProtectedRO and programProtectedRO) in
+//!				the private folder of the supporting test stream agent.
+//!				• The Rights Issuer URI of the serviceProtectedRO is set to “IssuerUriServiceProtectedRO”
+//!				and programProtectedRO is set to “IssuerUriProgramProtectedRO”
+//!			
+//!				Test Actions:
+//!				• Generate a protected key stream description.
+//!				• Generate an SDP media description for the key stream with an attribute requiring 
+//!				programProtectedRO
+//!				• Construct the key stream decoder using the protected stream description and SDP media 
+//!				description objects previously generated.
+//!				• Query the stream agent to determine whether the program is protected.
+//!				• Query the stream agent to determine whether the whole service is protected.
+//!				• Query the stream agent to retrieve the Rights Issuer URI.
+//!				• Destroy the key stream decoder object.
+//!				
+//! @SYMTestExpectedResults 	• The key stream decoder is successfully created.
+//!				• The program is protected but the whole service is not.
+//!				• The Rights Issuer URI retrieved is “IssuerUriProgramProtectedRO”
+//!
+//! @SYMTestType 		CIT
+
+START_TESTCASE SEC-SCAF-A004
+
+// Copy the necessary 'Program' Protected rights objects into the stream agent's private directory
+RUN_TEST_STEP tscaf SCAFSetupRightsObjects z:\tcaf\tscaf\tscaf.ini Rights_Program
+RUN_TEST_STEP tscaf SCAFKeyStreamDecoderAttributes z:\tcaf\tscaf\tscaf.ini keystreamdecoder_positivequery_programprotectedRO
+
+// Copy the necessary 'Service' Protected rights objects into the stream agent's private directory
+RUN_TEST_STEP tscaf SCAFSetupRightsObjects z:\tcaf\tscaf\tscaf.ini Rights_Service
+RUN_TEST_STEP tscaf SCAFKeyStreamDecoderAttributes z:\tcaf\tscaf\tscaf.ini keystreamdecoder_positivequery_serviceprotectedRO
+
+END_TESTCASE SEC-SCAF-A004
+
+
+
+//! @SYMTestCaseID 		SEC-SCAF-A005
+//! @SYMTestCaseDesc 		Querying attributes related to a key stream decoder with missing rights object
+//! 				(keystreamdecoder_missingrights)
+//! @SYMPREQ 			PREQ782
+//! @SYMREQ 			REQ7772, REQ7776, REQ7784, REQ7954
+//! @SYMTestPriority 		Critical
+//! @SYMTestStatus   		Implemented
+//! @SYMTestActions  		Preconditions:
+//!				• The necessary ROM based test stream agent plug-in is present that supports the SDP 
+//!				media description supplied during construction of the key stream decoder.
+//!				• The program protected rights object (programProtectedRO) exists in the private 
+//!				directory of the supporting test stream agent, but the service protected rights object 
+//!				(serviceProtectedRO) is missing.
+//!			
+//!				Test Actions:
+//!				• Generate a protected key stream description.
+//!				• Generate an SDP media description for the key stream with an attribute requiring 
+//!				serviceProtectedRO.
+//!				• Construct the key stream decoder using the protected stream description and SDP media 
+//!				description objects previously generated.
+//!				• Query the stream agent to determine whether the program is protected.
+//!				• Destroy the key stream decoder object.
+//!
+//! @SYMTestExpectedResults 	• Querying the stream agent results in a leave with error code KErrCANoRights, showing 
+//!				that serviceProtectedRO is missing.
+//!
+//! @SYMTestType 		CIT
+
+START_TESTCASE SEC-SCAF-A005
+
+RUN_TEST_STEP tscaf SCAFSetupRightsObjects z:\tcaf\tscaf\tscaf.ini Rights_None
+
+RUN_TEST_STEP !Result=-17452 tscaf SCAFKeyStreamDecoderAttributes z:\tcaf\tscaf\tscaf.ini keystreamdecoder_missingrights
+
+END_TESTCASE SEC-SCAF-A005
+
+
+
+//! @SYMTestCaseID 		SEC-SCAF-A006
+//! @SYMTestCaseDesc 		Querying attributes related to a key stream decoder with an expired rights object
+//! 				(keystreamdecoder_expiredrights)
+//! @SYMPREQ 			PREQ782
+//! @SYMREQ 			REQ7772, REQ7776, REQ7784, REQ7954
+//! @SYMTestPriority 		Critical
+//! @SYMTestStatus   		Implemented
+//! @SYMTestActions  		Preconditions:
+//!				• The necessary ROM based test stream agent plug-in is present that supports the SDP media
+//!				description supplied during construction of the key stream decoder.
+//!				• There is an expired Rights Object file (expiredRO) in the private folder of the supporting 
+//!				test stream agent.
+//!			
+//!				Test Actions:
+//!				• Generate a protected key stream description.
+//!				• Generate an SDP media description for the key stream with an attribute requiring expiredRo.
+//!				• Construct the key stream decoder using the protected stream description and SDP media 
+//!				description objects previously generated.
+//!				• Query the stream agent to determine whether the program is protected.
+//!				• Destroy the key stream decoder object.
+//!
+//! @SYMTestExpectedResults 	• Querying the stream agent results in a leave with error code KErrCANoPermission, showing
+//!				that expiredRo has expired.
+//!
+//! @SYMTestType 		CIT
+
+START_TESTCASE SEC-SCAF-A006
+
+RUN_TEST_STEP tscaf SCAFSetupRightsObjects z:\tcaf\tscaf\tscaf.ini Rights_Expired
+
+RUN_TEST_STEP !Result=-17451 tscaf SCAFKeyStreamDecoderAttributes z:\tcaf\tscaf\tscaf.ini keystreamdecoder_expiredrights
+
+END_TESTCASE SEC-SCAF-A006
+
+
+
+//! @SYMTestCaseID 		SEC-SCAF-A007
+//! @SYMTestCaseDesc 		Concurrent key stream decoder construction and querying
+//! 				(keystreamdecoder_concurrentquery)
+//! @SYMPREQ 			PREQ782
+//! @SYMREQ 			REQ7772, REQ7776, REQ7781, REQ7784, REQ7954
+//! @SYMTestPriority 		Critical
+//! @SYMTestStatus   		Implemented
+//! @SYMTestActions  		Preconditions:
+//!				The following test actions should be carried out concurrently in 3 separate threads:
+//!				• Generate a protected key stream description.
+//!				• Generate an SDP media description. Thread A should generate an SDP media description
+//!				supported by test stream agent plug-in A and Threads B & C should generate SDP media
+//!				description objects supported by test stream agent plug-in B.
+//!				• Construct a key stream decoder object using the generated protected key stream
+//!				description and SDP media description objects.
+//!				• When the key stream decoder has been constructed, query the attributes associated
+//!				with the stream agent.
+//!				• Destroy the key stream decoder object.
+//!
+//! @SYMTestExpectedResults 	• Each key stream decoder object should construct successfully.
+//!				• Checking the implementation attributes reveals that Thread A has invoked test stream
+//!				agent A and Thread B & C have invoked test stream agent B.
+//!
+//! @SYMTestType 		CIT
+
+START_TESTCASE SEC-SCAF-A007
+
+// Copy the necessary rights objects into the stream agent's private directory
+RUN_TEST_STEP tscaf SCAFSetupRightsObjects z:\tcaf\tscaf\tscaf.ini Rights_ServiceProgram
+
+CONCURRENT
+RUN_TEST_STEP tscaf SCAFKeyStreamDecoderAttributes z:\tcaf\tscaf\tscaf.ini keystreamdecoder_concurrentquery_threadA
+RUN_TEST_STEP tscaf SCAFKeyStreamDecoderAttributes z:\tcaf\tscaf\tscaf.ini keystreamdecoder_concurrentquery_threadB
+RUN_TEST_STEP tscaf SCAFKeyStreamDecoderAttributes z:\tcaf\tscaf\tscaf.ini keystreamdecoder_concurrentquery_threadC
+CONSECUTIVE
+
+END_TESTCASE SEC-SCAF-A007
+
+
+
+//! @SYMTestCaseID 		SEC-SCAF-A008
+//! @SYMTestCaseDesc 		Concurrent multi-thread usage of multiple key stream decoders
+//! 				(multikeystreamdecoders)
+//! @SYMPREQ 			PREQ782
+//! @SYMREQ 			REQ7772, REQ7775, REQ7776, REQ7781, REQ7784, REQ7954
+//! @SYMTestPriority 		Critical
+//! @SYMTestStatus   		Implemented
+//! @SYMTestActions  		Preconditions:
+//!				The following test actions should be carried out concurrently in 3 separate threads:
+//!				• Generate a protected key stream description.
+//!				• Generate an SDP media description (SDPa) for the key stream with an attribute
+//!				requiring serviceProtectedRO.
+//!				• Construct a key stream decoder object using the generated protected key stream
+//!				description and SDP media description object SDPa – decoderA.
+//!				• Generate another SDP media description (SDPb) for the key stream with an attribute
+//!				requiring programProtectedRO.
+//!				• Construct another key stream decoder object using the generated protected key stream
+//!				description and SDP media description object SDPb – decoderB.
+//!				• Query decoderA to retrieve the ‘Rights Issuer URI’ attribute from the invoked 
+//!				stream agent.
+//!				• Query decoderB to retrieve the ‘Rights Issuer URI’ attribute from the invoked 
+//!				stream agent.
+//!				• Destroy both key stream decoder objects.			
+//!
+//! @SYMTestExpectedResults 	• Each key stream decoder object should construct successfully.
+//!				• The Rights Issuer URI  attribute value retrieved from decoderA is 
+//!				“IssuerUriServiceProtectedRO”
+//!				• The Rights Issuer URI  attribute value retrieved from decoderB is 
+//!				“IssuerUriProgramProtectedRO”
+//!
+//! @SYMTestType 		CIT
+
+START_TESTCASE SEC-SCAF-A008
+
+// Copy the necessary rights objects into the stream agent's private directory
+RUN_TEST_STEP tscaf SCAFSetupRightsObjects z:\tcaf\tscaf\tscaf.ini Rights_ServiceProgram
+
+// 2 Key Stream Decoders, Invoking the same stream agent
+RUN_TEST_STEP tscaf SCAFMultiKeyStreamDecoders z:\tcaf\tscaf\tscaf.ini multikeystreamdecoders_singlethread_singleagent
+
+// 2 Key Stream Decoders, Invoking different stream agents
+RUN_TEST_STEP tscaf SCAFMultiKeyStreamDecoders z:\tcaf\tscaf\tscaf.ini multikeystreamdecoders_singlethread_multiagents
+
+// 3 concurrent threads, 2 key stream decoders per thread invoking the same agent
+CONCURRENT
+RUN_TEST_STEP tscaf SCAFMultiKeyStreamDecoders z:\tcaf\tscaf\tscaf.ini multikeystreamdecoders_concurrent_singleagent_threadA
+RUN_TEST_STEP tscaf SCAFMultiKeyStreamDecoders z:\tcaf\tscaf\tscaf.ini multikeystreamdecoders_concurrent_singleagent_threadB
+RUN_TEST_STEP tscaf SCAFMultiKeyStreamDecoders z:\tcaf\tscaf\tscaf.ini multikeystreamdecoders_concurrent_singleagent_threadC
+CONSECUTIVE
+
+// 3 concurrent threads, 2 key stream decoders per thread invoking different agents 
+CONCURRENT
+RUN_TEST_STEP tscaf SCAFMultiKeyStreamDecoders z:\tcaf\tscaf\tscaf.ini multikeystreamdecoders_concurrent_multiagents_threadA
+RUN_TEST_STEP tscaf SCAFMultiKeyStreamDecoders z:\tcaf\tscaf\tscaf.ini multikeystreamdecoders_concurrent_multiagents_threadB
+RUN_TEST_STEP tscaf SCAFMultiKeyStreamDecoders z:\tcaf\tscaf\tscaf.ini multikeystreamdecoders_concurrent_multiagents_threadC
+CONSECUTIVE
+
+END_TESTCASE SEC-SCAF-A008
+
+
+
+//******************	TEST STREAM AGENT UNIT TESTING	    *******************
+
+//! @SYMTestCaseID SEC-SCAF-S001
+//! @SYMTestCaseDesc A unit test step which tests the Test Streaming Agent
+//! 		     (StreamingTestAgent)
+//! @SYMREQ Req-b
+//! @SYMTestPriority Low
+//! @SYMTestActions A connection is established with the Test Agent Server via its client side and the closed.  
+//! @SYMTestExpectedResults Successful connection and disconnectiom to/from the Test Streaming Agent Server. 
+//! @SYMDevelopedForRelease Oghma
+
+START_TESTCASE SEC-SCAF-S001
+RUN_TEST_STEP 100 tscaf SCAFTestAgentServer
+END_TESTCASE SEC-SCAF-S001
+
+
+
+//************	SEC-SCAF-C : INTEROPERABILITY WITH DECODING STACK   ***********
+
+
+//! @SYMTestCaseID 		SEC-SCAF-C001
+//! @SYMTestCaseDesc 		Usage of key stream sink
+//! 				(keystreamsinks)
+//! @SYMPREQ 			PREQ782
+//! @SYMREQ 			REQ7774, REQ7778, REQ7786
+//! @SYMTestPriority 		Critical
+//! @SYMTestStatus   		Implemented
+//! @SYMTestActions  		Preconditions:
+//!				• There are the necessary ROM based test stream agent plug-ins present that support 
+//!				the SDP media description supplied during construction of each key stream decoder.
+//!				• There is a Right Object file in the private folder of the supporting test stream agent.
+//!
+//!				Test Actions:
+//!				• Create a key stream sink
+//!				• Create a plain key and encrypt it with the key extracted from the RO
+//!				• Connect to the Test Agent
+//!				• Send the key stream sink
+//!				• Send the encrypted string (a simple key stream)
+//!				• The test agent server decrypts the key stream by using the key from the RO.
+//!				• The test agent server processes the decrypted key (the key is written into a file 
+//!				defined in the key stream sink)
+//!				• Check whether the right plain key is written down 
+//!				• Destroy the key stream decoder object.				
+//!
+//! @SYMTestExpectedResults 	• The plain string is found in the predefined location.
+//!
+//! @SYMTestType 		CIT
+
+START_TESTCASE SEC-SCAF-C001
+RUN_TEST_STEP 100 tscaf SCAFKeyStreamSink z:\tcaf\tscaf\tscaf.ini sdp_service_protected
+END_TESTCASE SEC-SCAF-C001
+
+
+
+//! @SYMTestCaseID 		SEC-SCAF-C002
+//! @SYMTestCaseDesc 		Usage of key stream sinks in concurrent sessions
+//! 				(concurrent_keystreamsinks)
+//! @SYMPREQ 			PREQ782
+//! @SYMREQ 			REQ7774, REQ7778, REQ7786
+//! @SYMTestPriority 		Critical
+//! @SYMTestStatus   		Preconditions:
+//!				• There are the necessary ROM based test stream agent plug-ins present that support
+//!				the SDP media description supplied during construction of each key stream decoder.
+//!				• There are two Rights Object files (serviceProtectedRO and programProtectedRO) in the
+//!				private folder of each test stream agent.
+//!
+//!				Test Actions:
+//!				• Generate a protected key stream description.
+//!				• Generate an SDP media description (SDPa) for the key stream with an attribute requiring
+//!				serviceProtectedRO.
+//!				• Construct a key stream decoder object using the generated protected key stream 
+//!				description and SDP media description object SDPa – decoderA.
+//!				• Generate another SDP media description (SDPb) for the key stream with an attribute requiring 
+//!				programProtectedRO.
+//!				• Construct another key stream decoder object using the generated protected key stream 
+//!				description and SDP media description object SDPb – decoderB.
+//!				• Create plain_keyA
+//!				• Encrypt plain_keyA with encryption_keyA extracted from serviceProtectedRO
+//!				• Send the encrypted plain_keyA using decoderA
+//!				• Create plain_keyB
+//!				• Encrypt plain_keyB with encryption_keyB extracted from programProtectedRO
+//!				• Send the encrypted plain_keyB using decoderB
+//!				• Check whether stringA is in pathA and stringB is in pathB
+//!				• Destroy both key stream decoder objects.				
+//!
+//! @SYMTestExpectedResults 	• The plain strings are found in the predefined locations.
+//!
+//! @SYMTestType 		CIT
+
+START_TESTCASE SEC-SCAF-C002
+RUN_TEST_STEP 100 tscaf SCAFConcurrentKeyStreamSinks z:\tcaf\tscaf\tscaf.ini concurrent_keystreamsinks
+END_TESTCASE SEC-SCAF-C002
+
+
+
+//********************** SEC-SCAF-D : POST-ACQUISITION  **********************
+
+
+//! @SYMTestCaseID 		SEC-SCAF-D001
+//! @SYMTestCaseDesc 		Post-acquisition content protection
+//! 				(postacqusition)
+//! @SYMPREQ 			PREQ782
+//! @SYMREQ 			REQ7788
+//! @SYMTestPriority 		Critical
+//! @SYMTestStatus   		Implemented
+//! @SYMTestActions  		Preconditions:
+//!				The following test actions should be carried out:
+//!				• Copy  rorecordable.dr (a rights object where ECanExport and EMustProtectIfRecording
+//!				flags shall be set) and its post-acquistion rights object (ropostacquisition.dr) into
+//!				the private directory of the test agent server.
+//!			      	• Generate a test key stream description
+//!				• Generate an SDP media description for the key stream with an attribute requiring 
+//!				rorecordable.dr
+//!				• Construct the key stream decoder using the protected key stream description and SDP
+//!				media description objects previously generated.
+//!				• Query the stream agent to determine whether it is allowed to export and record the 
+//!				content.
+//!				• Request and gets a handle to the postacqusition rights object file
+//!				• Import the postacqusition rights object file to the post-acquisition caf agent
+//!                     	• Open a session to import the content
+//!				• Import the content to the post-acquisition caf agent	
+//!
+//! @SYMTestExpectedResults 	
+//!				• The protected stream is allowed to be recorded
+//!				• The test streaming agent returns a handle of the post-acquistion RO successfully
+//!				• The post-acquistion RO is successfully imported to the post-acquisition caf agent
+//!
+//! @SYMTestType 		CIT
+
+START_TESTCASE SEC-SCAF-D001
+
+RUN_TEST_STEP 100 tscaf SCAFPostAcquisition z:\tcaf\tscaf\tscaf.ini post_acquisition
+
+RUN_TEST_STEP 100 tscaf SCAFPostAcquisition z:\tcaf\tscaf\tscaf.ini post_acquisition_create_outputs
+
+END_TESTCASE SEC-SCAF-D001
+
+
+
+//********************** SEC-SCAF-E : INTEROPERABILITY WITH DECODING STACK - IPSEC    ***********
+
+RUN_SCRIPT z:\tcaf\tscaf\tscafipsec.script
+
+
+
+//********************** SEC-SCAF-G : SINGLE PROCESS STREAM AGENT TESTING  **********************
+
+//! @SYMTestCaseID 		SEC-SCAF-G001
+//! @SYMTestCaseDesc 		SPSA - Key stream decoder construction with a supported protected key stream description
+//! 				(spsa_keystreamdecoder_positiveconstruct)
+//! @SYMPREQ 			PREQ782
+//! @SYMREQ 			
+//! @SYMTestPriority 		High
+//! @SYMTestStatus   		Implemented
+//! @SYMTestActions  		Preconditions:
+//!				• The necessary ROM based ‘single process’ stream agent plug-in is present that supports
+//!				the SDP media description supplied during construction of the key stream decoder.
+//!
+//!				Test Actions:
+//!				• Run the test step actions as described in test case SEC-SCAF-A001.
+//!
+//! @SYMTestExpectedResults 	• The key stream decoder constructed by the single process stream agent is successfully 
+//!				created and destroyed.
+//!
+//! @SYMTestType 		CIT
+
+START_TESTCASE SEC-SCAF-G001
+RUN_TEST_STEP 100 tscaf SCAFKeyStreamDecoderConstruct z:\tcaf\tscaf\tscaf.ini spsa_keystreamdecoder_positiveconstruct
+END_TESTCASE SEC-SCAF-G001
+
+
+
+//! @SYMTestCaseID 		SEC-SCAF-G002
+//! @SYMTestCaseDesc 		SPSA - Querying attributes related to a key stream decoder
+//! 				(spsa_keystreamdecoder_positivequery)
+//! @SYMPREQ 			PREQ782
+//! @SYMREQ 			
+//! @SYMTestPriority 		High
+//! @SYMTestStatus   		Implemented
+//! @SYMTestActions  		Preconditions:
+//!				• The necessary ROM based ‘single process’ stream agent plug-in is present that supports
+//!				the SDP media description supplied during construction of the key stream decoder.
+//!				• The required Rights Object file is present in the private folder for the supporting 
+//!				single process stream agent.
+//!
+//!				Test Actions:
+//!				• Run the test step actions as described in test case SEC-SCAF-A004.				
+//!
+//! @SYMTestExpectedResults 	• The key stream decoder constructed by the single process stream agent is successfully
+//!				created.
+//!				• All of the expected attribute values match their corresponding values retrieved from
+//!				the key stream decoder.
+//!
+//! @SYMTestType 		CIT
+
+START_TESTCASE SEC-SCAF-G002
+
+// Copy the necessary 'Program' Protected rights objects into the single process stream agent's private directory
+RUN_TEST_STEP tscaf SCAFSetupRightsObjects z:\tcaf\tscaf\tscaf.ini Rights_Program_SingleProcessAgent
+RUN_TEST_STEP tscaf SCAFKeyStreamDecoderAttributes z:\tcaf\tscaf\tscaf.ini spsa_keystreamdecoder_positivequery_programprotectedRO
+
+// Copy the necessary 'Service' Protected rights objects into the single process stream agent's private directory
+RUN_TEST_STEP tscaf SCAFSetupRightsObjects z:\tcaf\tscaf\tscaf.ini Rights_Service_SingleProcessAgent
+RUN_TEST_STEP tscaf SCAFKeyStreamDecoderAttributes z:\tcaf\tscaf\tscaf.ini spsa_keystreamdecoder_positivequery_serviceprotectedRO
+
+END_TESTCASE SEC-SCAF-G002
+
+
+
+//! @SYMTestCaseID 		SEC-SCAF-G003
+//! @SYMTestCaseDesc 		SPSA - Concurrent multi-thread usage of multiple key stream decoders
+//! 				(spsa_multikeystreamdecoders)
+//! @SYMPREQ 			PREQ782
+//! @SYMREQ 			
+//! @SYMTestPriority 		High
+//! @SYMTestStatus   		Implemented
+//! @SYMTestActions  		Preconditions:
+//!				• The necessary ROM based ‘single process’ and ‘client-server’ stream agent plug-in
+//!				implementations are present that support the SDP media descriptions supplied during 
+//!				construction of the key stream decoders.
+//!				• The required Rights Object files are present in the private folder of the supporting
+//!				stream agents.
+//!
+//!				Test Actions:
+//!				The following test actions should be carried out concurrently in 3 separate threads 
+//!				(1 of the threads should instantiate a ‘single process’ stream agent, whereas the others
+//!				should instantiate ‘client-server’ based stream agents) :
+//!				
+//!				• Run the test step actions as described in test case SEC-SCAF-A008 				
+//!
+//! @SYMTestExpectedResults 	• Each of the key stream decoder objects that have been constructed by either a 
+//!				client-server or single process stream agent plug-in are created successfully.
+//!				• All of the expected attribute values match their corresponding values retrieved from
+//!				the associated key stream decoder.
+//!
+//! @SYMTestType 		CIT
+
+START_TESTCASE SEC-SCAF-G003
+
+// Copy the necessary rights objects into the stream agent's private directory (Client/Server Architecture)
+RUN_TEST_STEP tscaf SCAFSetupRightsObjects z:\tcaf\tscaf\tscaf.ini Rights_ServiceProgram
+
+// Copy the necessary rights objects into the stream agent's private directory (Single Process Stream Agent)
+RUN_TEST_STEP tscaf SCAFSetupRightsObjects z:\tcaf\tscaf\tscaf.ini Rights_ServiceProgram_SingleProcessAgent
+
+// 2 Key Stream Decoders, Invoking the same single process stream agent
+RUN_TEST_STEP tscaf SCAFMultiKeyStreamDecoders z:\tcaf\tscaf\tscaf.ini spsa_multikeystreamdecoders_singlethread_singleagent
+
+// 2 Key Stream Decoders, Invoking different stream agents (1 Single Process & 1 Client/Server)
+RUN_TEST_STEP tscaf SCAFMultiKeyStreamDecoders z:\tcaf\tscaf\tscaf.ini spsa_multikeystreamdecoders_singlethread_multiagents
+
+// 3 concurrent threads, 2 key stream decoders per thread invoking the same agent
+CONCURRENT
+RUN_TEST_STEP tscaf SCAFMultiKeyStreamDecoders z:\tcaf\tscaf\tscaf.ini spsa_multikeystreamdecoders_concurrent_singleagent_threadA
+RUN_TEST_STEP tscaf SCAFMultiKeyStreamDecoders z:\tcaf\tscaf\tscaf.ini multikeystreamdecoders_concurrent_singleagent_threadB
+RUN_TEST_STEP tscaf SCAFMultiKeyStreamDecoders z:\tcaf\tscaf\tscaf.ini multikeystreamdecoders_concurrent_singleagent_threadC
+CONSECUTIVE
+
+// 3 concurrent threads, 2 key stream decoders per thread invoking different agents (1 Single Process & 1 Client/Server)
+CONCURRENT
+RUN_TEST_STEP tscaf SCAFMultiKeyStreamDecoders z:\tcaf\tscaf\tscaf.ini spsa_multikeystreamdecoders_concurrent_multiagents_threadA
+RUN_TEST_STEP tscaf SCAFMultiKeyStreamDecoders z:\tcaf\tscaf\tscaf.ini spsa_multikeystreamdecoders_concurrent_multiagents_threadB
+RUN_TEST_STEP tscaf SCAFMultiKeyStreamDecoders z:\tcaf\tscaf\tscaf.ini spsa_multikeystreamdecoders_concurrent_multiagents_threadC
+CONSECUTIVE
+
+END_TESTCASE SEC-SCAF-G003
+
+
+
+//! @SYMTestCaseID 		SEC-SCAF-G004
+//! @SYMTestCaseDesc 		SPSA - Usage of key stream sink
+//! 				(spsa_keystreamsinks)
+//! @SYMPREQ 			PREQ782
+//! @SYMREQ 			
+//! @SYMTestPriority 		High
+//! @SYMTestStatus   		Implemented
+//! @SYMTestActions  		Preconditions:
+//!				• The necessary ROM based ‘single process’ stream agent plug-in is present that supports
+//!				the SDP media description supplied during construction of the key stream decoder.
+//!				• The required Rights Object file is present in the private folder for the supporting single
+//!				process stream agent.
+//!
+//!				Test Actions:
+//!				• Run the test step actions as described in test case SEC-SCAF-C001.				
+//!
+//! @SYMTestExpectedResults 	• The expected plain text string is found in the predefined location.
+//!
+//! @SYMTestType 		CIT
+
+START_TESTCASE SEC-SCAF-G004
+
+// Single Process Stream Agent Invoked
+RUN_TEST_STEP 100 tscaf SCAFKeyStreamSink z:\tcaf\tscaf\tscaf.ini spsa_keystreamink
+
+// 2 Single Process Stream Agents Invoked
+RUN_TEST_STEP 100 tscaf SCAFConcurrentKeyStreamSinks z:\tcaf\tscaf\tscaf.ini spsa_concurrent_keystreamsinks
+
+// 1 Single Process Stream Agent and 1 Client/Server Stream Agent Invoked
+RUN_TEST_STEP 100 tscaf SCAFConcurrentKeyStreamSinks z:\tcaf\tscaf\tscaf.ini spsa_cssa_concurrent_keystreamsinks
+
+END_TESTCASE SEC-SCAF-G004
+
+
+
+//! @SYMTestCaseID 		SEC-SCAF-G006
+//! @SYMTestCaseDesc 		SPSA - Testing IPSec integration with key stream decoder
+//! 				(spsa_ipsec_integration_decoder_automatic)
+//! @SYMPREQ 			PREQ782
+//! @SYMREQ 			
+//! @SYMTestPriority 		High
+//! @SYMTestStatus   		Implemented
+//! @SYMTestActions 		Preconditions:
+//!				• The necessary ROM based ‘single process’ stream agent plug-in is present that supports the
+//!				SDP media description supplied during construction of the key stream decoder.
+//!
+//!				Test Actions:
+//!				• Run the test step actions as described in test case SEC-SCAF-E015.
+//!
+//! @SYMTestExpectedResults 	• Associations was added 
+//!
+//! @SYMTestType 		CIT
+
+START_TESTCASE SEC-SCAF-G006
+
+RUN_TEST_STEP tscaf SCAFSetupRightsObjects z:\tcaf\tscaf\tscaf.ini Rights_Program_SingleProcessAgent
+
+//The time limit is disabled since this test is manual
+RUN_TEST_STEP -1 tscaf SCAFIpSecDecoderIntegration z:\tcaf\tscaf\tscaf.ini spsa_ipsec_integration_decoder_automatic
+
+END_TESTCASE SEC-SCAF-G006
+
+
+
+//********************** SEC-SCAF-H : REFERENCE AGENT TEST  **********************
+
+
+//! @SYMTestCaseID 		SEC-SCAF-H001
+//! @SYMTestCaseDesc 		Smoke testing for the Reference Agent
+//! 				(referenceagent)
+//! @SYMPREQ 			PREQ782
+//! @SYMREQ 			-------
+//! @SYMTestPriority 		Critical
+//! @SYMTestStatus   		Implemented
+//! @SYMTestActions  		
+//!				•	Generate a IPSec protected key stream description. 
+//!				•	Create a key stream sink from the protected key stream description.
+//!				•	Create a key stream decoder from an SDP message requiring the reference agent 
+//!					and the key stream sink.
+//!				•	Create a short term key message and write it to a predefined socket.
+//! @SYMTestExpectedResults 	
+//!				• Interfaces are invoked without leaves and panics.
+//!
+//! @SYMTestType 		CIT
+
+START_TESTCASE SEC-SCAF-H001
+
+RUN_TEST_STEP 100 tscaf SCAFRefAgent z:\tcaf\tscaf\tscaf.ini reference_agent
+
+END_TESTCASE SEC-SCAF-H001

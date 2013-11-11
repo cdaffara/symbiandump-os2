@@ -1,0 +1,35 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+START_TESTCASE DT-TEF-Utilities-0002
+//! @SYMTestCaseID          DT-TEF-Utilities-0002
+//! @SYMCreationDate        05-09-2008
+//! @SYMAuthor              extShuoHuang
+//! @SYMTestPriority        Low
+//! @SYMTestCaseDesc        this test TEFUtilityServer to parse buildinfo.txt.
+//! @SYMTestExpectedResults this read a buildinfo.txt that was export by this test bld.inf.
+//!                         So this output should be same in all version of Symbian platform.
+//!                         test case should pass.
+PRINT Test Step to print the OS build version to the log file output
+LOAD_SUITE TEFUtilityServer
+//this test case need copy buildinfo.txt to c:\TEFUtilityServer\data\buildinfo.txt
+// and it is hard coded.
+RUN_UTILS MkDir ${SYSDRIVE}\TEFUtilityServer\
+RUN_UTILS MkDir ${SYSDRIVE}\TEFUtilityServer\data\
+RUN_UTILS CopyFile z:\TEFUtilityServer\data\buildinfo.txt ${SYSDRIVE}\TEFUtilityServer\data\buildinfo.txt
+RUN_TEST_STEP	1000	TEFUtilityServer	PrintBuildInfo
+PRINT End of PrintBuildInfo Test Step
+END_TESTCASE DT-TEF-Utilities-0002

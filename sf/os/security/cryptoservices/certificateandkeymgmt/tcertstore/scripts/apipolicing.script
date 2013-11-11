@@ -1,0 +1,678 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+// Test cert store API policing of filetokens cert store
+
+// 
+
+// This test should be run in configuration 1, with only the file cert store
+
+// present
+
+
+
+// Test add CA
+
+// Test set app, set trust
+
+// Test not protected list, get, get apps, get trust, retrieve
+
+// Test remove CA
+
+// Test add user
+
+// Test not protected list, get
+
+// Test retrieve
+
+// Test remove user
+
+// Test add peer
+
+// Test retrieve
+
+// Test remove peer
+
+
+
+// 0. Setup
+
+
+
+START_TESTCASE                SEC-TCERTSTORE-APIPOLICING-0.1.1
+
+//! @SYMTestCaseID            SEC-TCERTSTORE-APIPOLICING-0.1.1
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Opening a CertificateAppInfoManager
+
+//! @SYMREQ                   REQ3466
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 0.1.1, Opening a CertificateAppInfoManager
+
+RUN_TEST_STEP                 -1    CTestHandler        initappmanager      
+
+END_TESTCASE                  SEC-TCERTSTORE-APIPOLICING-0.1.1
+
+
+
+
+
+START_TESTCASE                SEC-TCERTSTORE-APIPOLICING-0.1.2
+
+//! @SYMTestCaseID            SEC-TCERTSTORE-APIPOLICING-0.1.2
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Adding client A1
+
+//! @SYMREQ                   REQ3466
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 0.1.2, Adding client A1
+
+RUN_TEST_STEP                 -1    CTestHandler        addclient              apipolicing.ini   SEC-TCERTSTORE-APIPOLICING-0.1.2-001
+
+END_TESTCASE                  SEC-TCERTSTORE-APIPOLICING-0.1.2
+
+
+
+
+
+START_TESTCASE                SEC-TCERTSTORE-APIPOLICING-0.1.3
+
+//! @SYMTestCaseID            SEC-TCERTSTORE-APIPOLICING-0.1.3
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Adding client A2
+
+//! @SYMREQ                   REQ3466
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 0.1.3, Adding client A2
+
+RUN_TEST_STEP                 -1    CTestHandler        addclient              apipolicing.ini   SEC-TCERTSTORE-APIPOLICING-0.1.3-001
+
+END_TESTCASE                  SEC-TCERTSTORE-APIPOLICING-0.1.3
+
+
+
+
+
+START_TESTCASE                SEC-TCERTSTORE-APIPOLICING-0.1.4
+
+//! @SYMTestCaseID            SEC-TCERTSTORE-APIPOLICING-0.1.4
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Adding client A3
+
+//! @SYMREQ                   REQ3466
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 0.1.4, Adding client A3
+
+RUN_TEST_STEP                 -1    CTestHandler        addclient              apipolicing.ini   SEC-TCERTSTORE-APIPOLICING-0.1.4-001
+
+END_TESTCASE                  SEC-TCERTSTORE-APIPOLICING-0.1.4
+
+
+
+
+
+START_TESTCASE                SEC-TCERTSTORE-APIPOLICING-0.1.5
+
+//! @SYMTestCaseID            SEC-TCERTSTORE-APIPOLICING-0.1.5
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Adding client A4
+
+//! @SYMREQ                   REQ3466
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 0.1.5, Adding client A4
+
+RUN_TEST_STEP                 -1    CTestHandler        addclient              apipolicing.ini   SEC-TCERTSTORE-APIPOLICING-0.1.5-001
+
+END_TESTCASE                  SEC-TCERTSTORE-APIPOLICING-0.1.5
+
+
+
+
+
+START_TESTCASE                SEC-TCERTSTORE-APIPOLICING-0.1.6
+
+//! @SYMTestCaseID            SEC-TCERTSTORE-APIPOLICING-0.1.6
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Deleting the CertificateAppInfoManager
+
+//! @SYMREQ                   REQ3466
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 0.1.6, Deleting the CertificateAppInfoManager
+
+RUN_TEST_STEP                 -1    CTestHandler        deleteappmanager    
+
+END_TESTCASE                  SEC-TCERTSTORE-APIPOLICING-0.1.6
+
+
+
+
+
+START_TESTCASE                SEC-TCERTSTORE-APIPOLICING-0.2
+
+//! @SYMTestCaseID            SEC-TCERTSTORE-APIPOLICING-0.2
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Opening a writable certificate store manager
+
+//! @SYMREQ                   REQ3466
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 0.2, Opening a writable certificate store manager
+
+RUN_TEST_STEP                 -1    CTestHandler        init                   apipolicing.ini   SEC-TCERTSTORE-APIPOLICING-0.2-001
+
+END_TESTCASE                  SEC-TCERTSTORE-APIPOLICING-0.2
+
+
+
+
+
+START_TESTCASE                SEC-TCERTSTORE-APIPOLICING-0.3.1
+
+//! @SYMTestCaseID            SEC-TCERTSTORE-APIPOLICING-0.3.1
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Retrieving number of writable certificate store manager
+
+//! @SYMREQ                   REQ3466
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 0.3.1, Retrieving number of writable certificate store manager
+
+RUN_TEST_STEP                 -1    CTestHandler        CUnifiedCertStore_WritableCertStoreCount   apipolicing.ini   SEC-TCERTSTORE-APIPOLICING-0.3.1-001
+
+END_TESTCASE                  SEC-TCERTSTORE-APIPOLICING-0.3.1
+
+
+
+
+
+START_TESTCASE                SEC-TCERTSTORE-APIPOLICING-0.3.2
+
+//! @SYMTestCaseID            SEC-TCERTSTORE-APIPOLICING-0.3.2
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Retrieving number of read-only certificate store manager
+
+//! @SYMREQ                   REQ3466
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 0.3.2, Retrieving number of read-only certificate store manager
+
+RUN_TEST_STEP                 -1    CTestHandler        CUnifiedCertStore_ReadOnlyCertStoreCount   apipolicing.ini   SEC-TCERTSTORE-APIPOLICING-0.3.2-001
+
+END_TESTCASE                  SEC-TCERTSTORE-APIPOLICING-0.3.2
+
+
+
+
+
+START_TESTCASE                SEC-TCERTSTORE-APIPOLICING-0.3.3
+
+//! @SYMTestCaseID            SEC-TCERTSTORE-APIPOLICING-0.3.3
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Retrieving number of certificate store manager
+
+//! @SYMREQ                   REQ3466
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 0.3.3, Retrieving number of certificate store manager
+
+RUN_TEST_STEP                 -1    CTestHandler        CUnifiedCertStore_CertStoreCount   apipolicing.ini   SEC-TCERTSTORE-APIPOLICING-0.3.3-001
+
+END_TESTCASE                  SEC-TCERTSTORE-APIPOLICING-0.3.3
+
+
+
+
+
+START_TESTCASE                SEC-TCERTSTORE-APIPOLICING-0.4
+
+//! @SYMTestCaseID            SEC-TCERTSTORE-APIPOLICING-0.4
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Delete all certs
+
+//! @SYMREQ                   REQ3466
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 0.4, Delete all certs
+
+RUN_TEST_STEP                 -1    CTestHandler        deletecert             apipolicing.ini   SEC-TCERTSTORE-APIPOLICING-0.4-001
+
+END_TESTCASE                  SEC-TCERTSTORE-APIPOLICING-0.4
+
+
+
+
+
+START_TESTCASE                SEC-TCERTSTORE-APIPOLICING-0.5
+
+//! @SYMTestCaseID            SEC-TCERTSTORE-APIPOLICING-0.5
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Import a RSA key rsacertkey1
+
+//! @SYMREQ                   REQ3466
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 0.5, Import a RSA key rsacertkey1
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              apipolicing.ini   SEC-TCERTSTORE-APIPOLICING-0.5-001
+
+END_TESTCASE                  SEC-TCERTSTORE-APIPOLICING-0.5
+
+
+
+
+
+// 1. Test CA certificates
+
+
+
+START_TESTCASE                SEC-TCERTSTORE-APIPOLICING-1.1
+
+//! @SYMTestCaseID            SEC-TCERTSTORE-APIPOLICING-1.1
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Test add CA certificate protected by WriteDeviceData
+
+//! @SYMREQ                   REQ3466
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 1.1, Test add CA certificate protected by WriteDeviceData
+
+RUN_TEST_STEP                 -1    CTestHandler        policytest             apipolicing.ini   SEC-TCERTSTORE-APIPOLICING-1.1-001
+
+END_TESTCASE                  SEC-TCERTSTORE-APIPOLICING-1.1
+
+
+
+
+
+START_TESTCASE                SEC-TCERTSTORE-APIPOLICING-1.2
+
+//! @SYMTestCaseID            SEC-TCERTSTORE-APIPOLICING-1.2
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Test set apps and trust for protected by WriteDeviceData
+
+//! @SYMREQ                   REQ3466
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 1.2, Test set apps and trust for protected by WriteDeviceData
+
+RUN_TEST_STEP                 -1    CTestHandler        policytest             apipolicing.ini   SEC-TCERTSTORE-APIPOLICING-1.2-001
+
+END_TESTCASE                  SEC-TCERTSTORE-APIPOLICING-1.2
+
+
+
+
+
+START_TESTCASE                SEC-TCERTSTORE-APIPOLICING-1.3
+
+//! @SYMTestCaseID            SEC-TCERTSTORE-APIPOLICING-1.3
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Test list, retrieve get apps and get trust not protected by any capability for CA certs
+
+//! @SYMREQ                   REQ3466
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 1.3, Test list, retrieve get apps and get trust not protected by any capability for CA certs
+
+RUN_TEST_STEP                 -1    CTestHandler        policytest             apipolicing.ini   SEC-TCERTSTORE-APIPOLICING-1.3-001
+
+END_TESTCASE                  SEC-TCERTSTORE-APIPOLICING-1.3
+
+
+
+
+
+START_TESTCASE                SEC-TCERTSTORE-APIPOLICING-1.4
+
+//! @SYMTestCaseID            SEC-TCERTSTORE-APIPOLICING-1.4
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Test remove CA certificate protected by WriteDeviceData
+
+//! @SYMREQ                   REQ3466
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 1.4, Test remove CA certificate protected by WriteDeviceData
+
+RUN_TEST_STEP                 -1    CTestHandler        policytest             apipolicing.ini   SEC-TCERTSTORE-APIPOLICING-1.4-001
+
+END_TESTCASE                  SEC-TCERTSTORE-APIPOLICING-1.4
+
+
+
+
+
+// 2. Test user certificates
+
+
+
+START_TESTCASE                SEC-TCERTSTORE-APIPOLICING-2.1
+
+//! @SYMTestCaseID            SEC-TCERTSTORE-APIPOLICING-2.1
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Test add user certificate protected by WriteUserData
+
+//! @SYMREQ                   REQ3466
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 2.1, Test add user certificate protected by WriteUserData
+
+RUN_TEST_STEP                 -1    CTestHandler        policytest             apipolicing.ini   SEC-TCERTSTORE-APIPOLICING-2.1-001
+
+END_TESTCASE                  SEC-TCERTSTORE-APIPOLICING-2.1
+
+
+
+
+
+START_TESTCASE                SEC-TCERTSTORE-APIPOLICING-2.2
+
+//! @SYMTestCaseID            SEC-TCERTSTORE-APIPOLICING-2.2
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Test list not protected by any capability for user certs
+
+//! @SYMREQ                   REQ3466
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 2.2, Test list not protected by any capability for user certs
+
+RUN_TEST_STEP                 -1    CTestHandler        policytest             apipolicing.ini   SEC-TCERTSTORE-APIPOLICING-2.2-001
+
+END_TESTCASE                  SEC-TCERTSTORE-APIPOLICING-2.2
+
+
+
+
+
+START_TESTCASE                SEC-TCERTSTORE-APIPOLICING-2.3
+
+//! @SYMTestCaseID            SEC-TCERTSTORE-APIPOLICING-2.3
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Test retrieve protected by ReadUserData capability for user certs
+
+//! @SYMREQ                   REQ3466
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 2.3, Test retrieve protected by ReadUserData capability for user certs
+
+RUN_TEST_STEP                 -1    CTestHandler        policytest             apipolicing.ini   SEC-TCERTSTORE-APIPOLICING-2.3-001
+
+END_TESTCASE                  SEC-TCERTSTORE-APIPOLICING-2.3
+
+
+
+
+
+START_TESTCASE                SEC-TCERTSTORE-APIPOLICING-2.4
+
+//! @SYMTestCaseID            SEC-TCERTSTORE-APIPOLICING-2.4
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Test remove user certificate protected by WriteUserData
+
+//! @SYMREQ                   REQ3466
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 2.4, Test remove user certificate protected by WriteUserData
+
+RUN_TEST_STEP                 -1    CTestHandler        policytest             apipolicing.ini   SEC-TCERTSTORE-APIPOLICING-2.4-001
+
+END_TESTCASE                  SEC-TCERTSTORE-APIPOLICING-2.4
+
+
+
+
+
+// 3. Test peer certificates
+
+
+
+START_TESTCASE                SEC-TCERTSTORE-APIPOLICING-3.1
+
+//! @SYMTestCaseID            SEC-TCERTSTORE-APIPOLICING-3.1
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Test add peer certificate protected by WriteUserData
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 3.1, Test add peer certificate protected by WriteUserData
+
+RUN_TEST_STEP                 -1    CTestHandler        policytest             apipolicing.ini   SEC-TCERTSTORE-APIPOLICING-3.1-001
+
+END_TESTCASE                  SEC-TCERTSTORE-APIPOLICING-3.1
+
+
+
+
+
+START_TESTCASE                SEC-TCERTSTORE-APIPOLICING-3.2
+
+//! @SYMTestCaseID            SEC-TCERTSTORE-APIPOLICING-3.2
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Test list not protected by any capability for peer certs
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 3.2, Test list not protected by any capability for peer certs
+
+RUN_TEST_STEP                 -1    CTestHandler        policytest             apipolicing.ini   SEC-TCERTSTORE-APIPOLICING-3.2-001
+
+END_TESTCASE                  SEC-TCERTSTORE-APIPOLICING-3.2
+
+
+
+
+
+START_TESTCASE                SEC-TCERTSTORE-APIPOLICING-3.3
+
+//! @SYMTestCaseID            SEC-TCERTSTORE-APIPOLICING-3.3
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Test retrieve protected by ReadUserData capability for peer certs
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 3.3, Test retrieve protected by ReadUserData capability for peer certs
+
+RUN_TEST_STEP                 -1    CTestHandler        policytest             apipolicing.ini   SEC-TCERTSTORE-APIPOLICING-3.3-001
+
+END_TESTCASE                  SEC-TCERTSTORE-APIPOLICING-3.3
+
+
+
+
+
+START_TESTCASE                SEC-TCERTSTORE-APIPOLICING-3.4
+
+//! @SYMTestCaseID            SEC-TCERTSTORE-APIPOLICING-3.4
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Test remove peer certificate protected by WriteUserData
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 3.4, Test remove peer certificate protected by WriteUserData
+
+RUN_TEST_STEP                 -1    CTestHandler        policytest             apipolicing.ini   SEC-TCERTSTORE-APIPOLICING-3.4-001
+
+END_TESTCASE                  SEC-TCERTSTORE-APIPOLICING-3.4
+
+
+
+
+
+// 4. Cleanup
+
+
+
+START_TESTCASE                SEC-TCERTSTORE-APIPOLICING-4.1
+
+//! @SYMTestCaseID            SEC-TCERTSTORE-APIPOLICING-4.1
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Delete all certs
+
+//! @SYMREQ                   REQ3466
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) Delete all certs
+
+RUN_TEST_STEP                 -1    CTestHandler        deletecert             apipolicing.ini   SEC-TCERTSTORE-APIPOLICING-4.1-001
+
+END_TESTCASE                  SEC-TCERTSTORE-APIPOLICING-4.1
+
+
+
+
+
+START_TESTCASE                SEC-TCERTSTORE-APIPOLICING-4.2
+
+//! @SYMTestCaseID            SEC-TCERTSTORE-APIPOLICING-4.2
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Deleting the writable certificate store manager
+
+//! @SYMREQ                   REQ3466
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) Deleting the writable certificate store manager
+
+RUN_TEST_STEP                 -1    CTestHandler        delete              
+
+END_TESTCASE                  SEC-TCERTSTORE-APIPOLICING-4.2
+
+
+
+
+

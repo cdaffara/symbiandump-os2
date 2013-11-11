@@ -1,0 +1,44 @@
+// Copyright (c) 2004-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// The IBY file for the File URI handler Integration Test Suite
+// 
+//
+
+#ifndef __Test_File_Uri_Suite_IBY__
+
+#define __Test_File_Uri_Suite_IBY__
+
+// Test server
+#if (!defined EKA2)
+file=ABI_DIR\DEBUG_DIR\TestFileUriServer.exe		System\Libs\TestFileUriServer.exe
+#else
+file=ABI_DIR\DEBUG_DIR\TestFileUriServer.exe		Sys\Bin\TestFileUriServer.exe
+#endif
+
+// Script and ini files
+data=DATAZ_\TestData\Scripts\TestFileUriSuite.script	TestData\Scripts\TestFileUriSuite.script
+data=DATAZ_\TestData\Ini\TestFileUriSuite.ini		TestData\Ini\TestFileUriSuite.ini
+data=DATAZ_\TestData\Ini\TestFileUriSuite_Non_7_Bit.ini	TestData\Ini\TestFileUriSuite_Non_7_Bit.ini
+data=DATAZ_\TestData\Ini\TestFileUriSuite_16_Bit.ini	TestData\Ini\TestFileUriSuite_16_Bit.ini
+
+
+// The batch file to run the tests
+data=EPOCROOT##Epoc32\tools\TestFileUriSuite.bat	TestFileUriSuite.bat
+
+// Other dependencies
+#include <testexecute.iby>
+#include <INetProtUtil.iby>
+
+#endif
+

@@ -1,0 +1,146 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SUITE TEFPlatsec
+
+START_TESTCASE DT-TEF-Utilities-0005
+//! @SYMTestCaseID          DT-TEF-Utilities-0005
+//! @SYMCreationDate        05-09-2008
+//! @SYMAuthor              extShuoHuang
+//! @SYMTestPriority        Low
+//! @SYMTestCaseDesc        PletSec test case. set capblities then run server
+//! @SYMTestExpectedResults this test case should fail. launch  app test step can't run after change capblities.
+PRINT should be fail.because LaunchApp.
+//
+RUN_TEST_STEP 100 TEFPlatsec SetCapabilities ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini MESSAGING_CAP
+RUN_TEST_STEP 100 TEFPlatsec LaunchApp ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini CAP_LAUNCH
+RUN_TEST_STEP 100 TEFPlatsec Cleanup ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini MESSAGING_CAP
+//
+//clean then launch
+RUN_TEST_STEP 100 TEFPlatsec Cleanup ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini MESSAGING_CAP
+RUN_TEST_STEP 100 TEFPlatsec LaunchApp ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini CAP_LAUNCH
+//
+//
+RUN_TEST_STEP 100 TEFPlatsec SetCapabilities ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini COMMDB_CAP_MX_1
+RUN_TEST_STEP 100 TEFPlatsec LaunchApp ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini CAP_LAUNCH
+RUN_TEST_STEP 100 TEFPlatsec Cleanup ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini COMMDB_CAP_MX_1
+//
+//
+RUN_TEST_STEP 100 TEFPlatsec SetCapabilities ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini MESS_CAP_MX_2
+RUN_TEST_STEP 100 TEFPlatsec LaunchApp ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini CAP_LAUNCH
+RUN_TEST_STEP 100 TEFPlatsec Cleanup ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini MESS_CAP_MX_2
+//
+//
+RUN_TEST_STEP 100 TEFPlatsec SetCapabilities ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini TCB
+RUN_TEST_STEP 100 TEFPlatsec LaunchApp ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini CAP_LAUNCH
+RUN_TEST_STEP 100 TEFPlatsec Cleanup ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini TCB
+//
+//
+RUN_TEST_STEP 100 TEFPlatsec SetCapabilities ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini  ALLFILES
+RUN_TEST_STEP 100 TEFPlatsec LaunchApp ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini CAP_LAUNCH
+RUN_TEST_STEP 100 TEFPlatsec Cleanup ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini ALLFILES
+////
+RUN_TEST_STEP 100 TEFPlatsec SetCapabilities ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini  COMMDD
+RUN_TEST_STEP 100 TEFPlatsec LaunchApp ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini CAP_LAUNCH
+RUN_TEST_STEP 100 TEFPlatsec Cleanup ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini COMMDD
+////
+RUN_TEST_STEP 100 TEFPlatsec SetCapabilities ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini DISKADMIN
+RUN_TEST_STEP 100 TEFPlatsec LaunchApp ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini CAP_LAUNCH
+RUN_TEST_STEP 100 TEFPlatsec Cleanup ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini DISKADMIN
+////
+RUN_TEST_STEP 100 TEFPlatsec SetCapabilities ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini  DRM
+RUN_TEST_STEP 100 TEFPlatsec LaunchApp ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini CAP_LAUNCH
+RUN_TEST_STEP 100 TEFPlatsec Cleanup ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini DRM
+////
+RUN_TEST_STEP 100 TEFPlatsec SetCapabilities ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini  LOCALSERVICES
+RUN_TEST_STEP 100 TEFPlatsec LaunchApp ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini CAP_LAUNCH
+RUN_TEST_STEP 100 TEFPlatsec Cleanup ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini LOCALSERVICES
+////
+RUN_TEST_STEP 100 TEFPlatsec SetCapabilities ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini  LOCATION
+RUN_TEST_STEP 100 TEFPlatsec LaunchApp ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini CAP_LAUNCH
+RUN_TEST_STEP 100 TEFPlatsec Cleanup ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini LOCATION
+////
+RUN_TEST_STEP 100 TEFPlatsec SetCapabilities ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini  MULTIMEDIADD
+RUN_TEST_STEP 100 TEFPlatsec LaunchApp ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini CAP_LAUNCH
+RUN_TEST_STEP 100 TEFPlatsec Cleanup ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini MULTIMEDIADD
+////
+RUN_TEST_STEP 100 TEFPlatsec SetCapabilities ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini NETWORKCONTROL
+RUN_TEST_STEP 100 TEFPlatsec LaunchApp ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini CAP_LAUNCH
+RUN_TEST_STEP 100 TEFPlatsec Cleanup ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini NETWORKCONTROL
+////
+RUN_TEST_STEP 100 TEFPlatsec SetCapabilities ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini  NETWORKSERVICES
+RUN_TEST_STEP 100 TEFPlatsec LaunchApp ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini CAP_LAUNCH
+RUN_TEST_STEP 100 TEFPlatsec Cleanup ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini NETWORKSERVICES
+////
+RUN_TEST_STEP 100 TEFPlatsec SetCapabilities ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini  POWERMGMT
+RUN_TEST_STEP 100 TEFPlatsec LaunchApp ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini CAP_LAUNCH
+RUN_TEST_STEP 100 TEFPlatsec Cleanup ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini POWERMGMT
+//
+//
+RUN_TEST_STEP 100 TEFPlatsec SetCapabilities ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini  PROTSERV
+RUN_TEST_STEP 100 TEFPlatsec LaunchApp ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini CAP_LAUNCH
+RUN_TEST_STEP 100 TEFPlatsec Cleanup ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini PROTSERV
+//
+//
+RUN_TEST_STEP 100 TEFPlatsec SetCapabilities ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini  READDEVICEDATA
+RUN_TEST_STEP 100 TEFPlatsec LaunchApp ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini CAP_LAUNCH
+RUN_TEST_STEP 100 TEFPlatsec Cleanup ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini READDEVICEDATA
+//
+//
+RUN_TEST_STEP 100 TEFPlatsec SetCapabilities ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini  READUSERDATA
+RUN_TEST_STEP 100 TEFPlatsec LaunchApp ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini CAP_LAUNCH
+RUN_TEST_STEP 100 TEFPlatsec Cleanup ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini READUSERDATA
+//
+//
+RUN_TEST_STEP 100 TEFPlatsec SetCapabilities ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini  SURROUNDINGSDD
+RUN_TEST_STEP 100 TEFPlatsec LaunchApp ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini CAP_LAUNCH
+RUN_TEST_STEP 100 TEFPlatsec Cleanup ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini SURROUNDINGSDD
+//
+//
+RUN_TEST_STEP 100 TEFPlatsec SetCapabilities ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini  SWEVENT
+RUN_TEST_STEP 100 TEFPlatsec LaunchApp ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini CAP_LAUNCH
+RUN_TEST_STEP 100 TEFPlatsec Cleanup ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini SWEVENT
+//
+//
+RUN_TEST_STEP 100 TEFPlatsec SetCapabilities ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini  TRUSTEDUI
+RUN_TEST_STEP 100 TEFPlatsec LaunchApp ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini CAP_LAUNCH
+RUN_TEST_STEP 100 TEFPlatsec Cleanup ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini TRUSTEDUI
+//
+//
+RUN_TEST_STEP 100 TEFPlatsec SetCapabilities ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini  TRUSTEDUI
+RUN_TEST_STEP 100 TEFPlatsec LaunchApp ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini CAP_LAUNCH
+RUN_TEST_STEP 100 TEFPlatsec Cleanup ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini TRUSTEDUI
+//
+//
+RUN_TEST_STEP 100 TEFPlatsec SetCapabilities ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini  USERENVIRONMENT
+RUN_TEST_STEP 100 TEFPlatsec LaunchApp ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini CAP_LAUNCH
+RUN_TEST_STEP 100 TEFPlatsec Cleanup ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini USERENVIRONMENT
+//
+//
+RUN_TEST_STEP 100 TEFPlatsec SetCapabilities ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini  WRITEDEVICEDATA
+RUN_TEST_STEP 100 TEFPlatsec LaunchApp ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini CAP_LAUNCH
+RUN_TEST_STEP 100 TEFPlatsec Cleanup ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini WRITEDEVICEDATA
+//
+//
+RUN_TEST_STEP 100 TEFPlatsec SetCapabilities ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini  WRITEUSERDATA
+RUN_TEST_STEP 100 TEFPlatsec LaunchApp ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini CAP_LAUNCH
+RUN_TEST_STEP 100 TEFPlatsec Cleanup ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini WRITEUSERDATA
+//
+//
+RUN_TEST_STEP 100 TEFPlatsec SetCapabilities ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini  NONE
+RUN_TEST_STEP 100 TEFPlatsec LaunchApp ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini CAP_LAUNCH
+RUN_TEST_STEP 100 TEFPlatsec Cleanup ${SYSDRIVE}\testdata\configs\CapabilityPolicing.ini NONE
+END_TESTCASE DT-TEF-Utilities-0005

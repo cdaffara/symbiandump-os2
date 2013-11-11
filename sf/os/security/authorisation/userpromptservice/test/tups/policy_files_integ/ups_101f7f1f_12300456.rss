@@ -1,0 +1,90 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* Policy file 0, used by integration test
+*
+*/
+
+
+#include <ups/policies.rh>
+
+UID2 KUidUpsPolicyResourceFile
+UID3 0x101F7F1F
+
+// Test policy file for SMS messages
+RESOURCE POLICIES testpolicies
+	{
+	header = POLICY_HEADER
+		{
+		// use default client config 
+		policyevaluator = 0xE1111E11;
+		dialogcreator = 0xE1111D11;
+		};
+	policies = 
+		{
+		POLICY
+			{
+			// Silently accepts
+			sid_list = {0x80001234};
+			destination = "Hello mum";
+			options = KYes;
+			flags = 1;
+			},
+		POLICY
+			{
+			// Silently denial  
+			sid_list = {0x1234abcd,0x12349999,0x80001234};
+			destination = "hello moscu";
+			options = KNo;
+			flags = 2;
+			},
+		POLICY
+			{
+			// Silently approval  
+			sid_list = {0x1234abcd,0x101F7784,0x80001234};
+			destination = "hello habana";
+			options = KYes;
+			policyevaluator = 0xBAD00E10;
+			flags = 3;
+			},
+		POLICY
+			{
+			sid_list = {0x1234abcd,0x101F7784,0x80001234};
+			destination = "hello los angeles";
+			options = KYes|KAlways|KNever;
+			policyevaluator = 0xBAD00E10;
+			dialogcreator = 0xE1111D20;
+			flags = 4;
+			},
+		POLICY
+			{
+			sid_list = {0x1234abcd,0x101F7784,0x80001234};
+			destination = "hello london";
+			options = KYes|KAlways|KNever;
+			dialogcreator = 0xBAD00666;
+			flags = 5;
+			},						
+		POLICY
+			{
+			//  for any other client
+			sid_classes = KAllSids;            
+			destination = "*";
+			options = KYes|KAlways|KNever;
+			policyevaluator = 0xe1111e21;
+			dialogcreator = 0xe1111d21;
+			flags = 6;
+			}
+		};
+	}
+

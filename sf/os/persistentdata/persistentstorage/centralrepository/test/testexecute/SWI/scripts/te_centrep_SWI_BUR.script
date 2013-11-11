@@ -1,0 +1,127 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// @file
+// 
+//
+
+//! @SYMTestSuiteName PDS-TEF-CENTREP-SWISUITE
+//! @SYMScriptTestEnvironment TEF
+//! @internalComponent
+//! @test
+
+PRINT Run Argus Quality Initiative Central Repository-Secure Software Install-Secure Backup Engine Interaction Test Suite Tests
+
+LOAD_SUITE te_centrep_SWISuite
+LOAD_SUITE BURTestServer
+
+
+// Make sure test files don't already exist.
+RUN_UTILS DeleteFile c:\private\10202be9\e02819fc.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\e02819fc.cre
+RUN_UTILS DeleteFile c:\private\E02819fc\backup_registration.xml
+RUN_PROGRAM t_deletefileallfiles.exe c:\sys\bin\AppX.exe
+RUN_PROGRAM t_deletefileallfiles.exe c:\sys\hash\AppX.exe
+// Pre 9.6 only.
+RUN_PROGRAM t_deletefileallfiles.exe c:\sys\install\sisregistry\backup.lst
+
+
+START_TESTCASE SYSLIB-CENTRALREPOSITORY-SWI-BUR-CIT-1831
+//! @SYMTestCaseID          SYSLIB-CENTRALREPOSITORY-SWI-BUR-CIT-1831
+//! @SYMTestCaseDesc        Verify that default values of settings of a keyspace
+//!                        installed post-ROM build are properly backed up and
+//!                        restored to a clean device.
+//! @SYMTestPriority        High
+//! @SYMTestActions         A .sis file which contains an application together with its
+//!                        new keyspace (which does not previously exist) is installed.
+//!                        A setting in the keyspace is modified. A partial backup of the
+//!                        application is triggered. Necessary files from SBE, SWI and
+//!                        Centrep are deleted from C drive to simulate a format operation.
+//!                        A restore is triggered. The setting previously modified before
+//!                        backup is reset.
+//! @SYMTestExpectedResults The modified setting should still exist and should
+//!                        contain the original value it had when first installed.
+//!                        See the config file or test spec for expected results.
+//! @SYMREQ                 REQ0000
+
+	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryCheck z:\TEF_CentralRepository\SWI-BUR-KSX.ini BeforeWeStart
+	RUN_TEST_STEP 100 te_centrep_SWISuite InstallStep z:\TEF_CentralRepository\SWI-BUR-KSX.ini Install_KSX
+	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryCheck z:\TEF_CentralRepository\SWI-BUR-KSX.ini AfterInstall_KSX
+	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryFn z:\TEF_CentralRepository\SWI-BUR-KSX.ini UserModGives_KSXM
+
+	RUN_TEST_STEP -1 BURTestServer TestBackup z:\TEF_CentralRepository\SWI-BUR-KSX.ini Backup_Restore_KSXB
+
+//	Wait until backup finishes completely
+	DELAY 5000
+
+//	Simulate format...
+	RUN_UTILS DeleteFile c:\private\10202be9\e02819fc.cre
+	RUN_UTILS DeleteFile c:\private\10202be9\persists\e02819fc.cre
+	RUN_UTILS DeleteFile c:\private\E02819fc\backup_registration.xml
+	RUN_PROGRAM t_deletefileallfiles.exe c:\sys\bin\AppX.exe
+	RUN_PROGRAM t_deletefileallfiles.exe c:\sys\hash\AppX.exe
+	RUN_PROGRAM t_deletedirallfiles.exe c:\sys\install\sisregistry\e0202be9\
+	RUN_PROGRAM t_deletedirallfiles.exe c:\sys\install\sisregistry\102819fc\
+//	Kill SIS Registry server, otherwise it retains SIS registry information in cache.
+	RUN_PROGRAM t_killprocess.exe SisRegistryServer
+	RUN_PROGRAM t_killprocess.exe ScrServer
+//	Wait for the servers to be killed
+	DELAY 1000
+//	Make sure 'ScrServer' is not running before...
+	RUN_PROGRAM t_deletefileallfiles.exe  c:\sys\install\scr\scr.db
+//	Must also be deleted if we delete scr.db, so SWI knows to process ROM components again.
+	RUN_PROGRAM t_deletefileallfiles.exe  c:\sys\install\sisregistry\swiregfirstinit.log
+//	Pre 9.6 only.
+	RUN_UTILS DeleteFile c:\sys\install\sisregistry\backup.lst
+//	...complete.
+	
+	RUN_TEST_STEP -1 BURTestServer TestRestore z:\TEF_CentralRepository\SWI-BUR-KSX.ini Backup_Restore_KSXB
+
+	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryCheck z:\TEF_CentralRepository\SWI-BUR-KSX.ini AfterRestore_KSXB
+	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryFn z:\TEF_CentralRepository\SWI-BUR-KSX.ini UserModGives_KSXR
+	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryCheck z:\TEF_CentralRepository\SWI-BUR-KSX.ini AfterReset_KSX
+END_TESTCASE SYSLIB-CENTRALREPOSITORY-SWI-BUR-CIT-1831
+
+
+// Clean up the backup files.
+RUN_UTILS DeleteDirectory c:\BackupArchive\
+
+
+START_TESTCASE SYSLIB-CENTRALREPOSITORY-SWI-BUR-CIT-1832
+//! @SYMTestCaseID          SYSLIB-CENTRALREPOSITORY-SWI-BUR-CIT-1832
+//! @SYMTestCaseDesc        Verify that the ‘.sis’ installed in 
+//!                        SYSLIB-CENTRALREPOSITORY-SWI-BUR-CIT-1831 when removed
+//!                        correctly after restore removes the keyspace ‘KSBR’.
+//! @SYMTestPriority        High
+//! @SYMTestActions         Some user settings are created within the repository created
+//!                        by SYSLIB-CENTRALREPOSITORY-SWI-BUR-CIT-1831, giving KSBR.
+//!                        The ‘sis’ file containing the ‘Standard patch’ installed in
+//!                        SYSLIB-CENTRALREPOSITORY-SWI-BUR-CIT-1831 is removed.
+//! @SYMTestExpectedResults The keyspace created in SYSLIB-CENTRALREPOSITORY-SWI-BUR-CIT-1831
+//!                        no longer exists. It is not possible to create a CRepository object
+//!                        for this repository (and therefore it is not possible to read the
+//!                        settings installed in SYSLIB-CENTRALREPOSITORY-SWI-BUR-CIT-1831 or
+//!                        read the user settings just created).
+//!                        See the config file or test spec for expected results.
+//! @SYMREQ                 REQ0000
+
+	RUN_TEST_STEP 100 te_centrep_SWISuite UninstallStep z:\TEF_CentralRepository\SWI-BUR-KSX.ini Uninstall_KSXR
+END_TESTCASE SYSLIB-CENTRALREPOSITORY-SWI-BUR-CIT-1832
+
+
+// Delete installed files incase a failure in uninstall leaves some residue.
+RUN_UTILS DeleteFile c:\private\10202be9\e02819fc.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\e02819fc.cre
+RUN_UTILS DeleteFile c:\private\E02819fc\backup_registration.xml
+RUN_PROGRAM t_deletefileallfiles.exe c:\sys\bin\AppX.exe
+RUN_PROGRAM t_deletefileallfiles.exe c:\sys\hash\AppX.exe

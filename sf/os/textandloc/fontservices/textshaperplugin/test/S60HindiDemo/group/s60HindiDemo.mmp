@@ -1,0 +1,93 @@
+/*
+* Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* Series 60 version of Hindi Demo application
+*
+*/
+
+
+#include <data_caging_paths.hrh>
+
+// MCL 
+#ifdef __SECURE_DATA__
+
+TARGET			hindiDemo.exe
+TARGETTYPE		exe
+
+START RESOURCE	../src/hindiDemo.RSS
+HEADER
+TARGETPATH		/Resource/Apps
+end   // RESOURCE
+
+START RESOURCE	../src/hindiDemo_reg.rss
+DEPENDS hindidemo.rsg
+TARGETPATH		/private/10003a3f/apps
+END
+
+//START BITMAP	hindiDemo.mbm
+//TARGETPATH		/Resource/Apps
+//SOURCE			c8,1 ../aif/icon24.bmp ../aif/icon2m.bmp ../aif/icon32.bmp ../aif/icon3m.bmp ../aif/icon48.bmp ../aif/icon4m.bmp
+//END
+
+#else
+// 8.1 version
+
+TARGET          HindiDemo.app
+TARGETTYPE      app
+TARGETPATH      /system/apps/HindiDemo
+#endif
+
+
+UID             0x100039CE 0x1000006
+
+// CAP_APPLICATION is the usual default of all caps, but this app needs none, so removed
+// CAPABILITY      CAP_APPLICATION
+VENDORID        VID_DEFAULT
+LANG 01
+
+// icon
+//AIF HindiDemo.aif ../aif HindiIcon.rss c8 context_pane_icon.bmp context_pane_icon_mask.bmp list_icon.bmp list_icon_mask.bmp
+
+SOURCEPATH      ../src
+SOURCE 			MainViewcontainer.cpp
+SOURCE 			MainViewview.cpp
+SOURCE          HindiDemomain.cpp
+SOURCE          HindiDemoapp.cpp
+SOURCE          HindiDemodocument.cpp
+SOURCE          HindiDemoappui.cpp
+SOURCE          HindiDemoview.cpp
+SOURCE          HindiDemocontainer.cpp
+
+RESOURCE        HindiDemo.rss
+
+USERINCLUDE     ../inc
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+LIBRARY         euser.lib 
+LIBRARY         apparc.lib 
+LIBRARY         cone.lib 
+LIBRARY         eikcore.lib 
+LIBRARY         avkon.lib
+LIBRARY         egul.lib
+LIBRARY         eikcoctl.lib
+LIBRARY         bafl.lib
+LIBRARY         eikctl.lib
+LIBRARY         fbscli.lib
+LIBRARY         etext.lib
+LIBRARY         form.lib
+LIBRARY         gdi.lib
+LIBRARY         insock.lib
+LIBRARY         aknnotify.lib
+
+SMPSAFE

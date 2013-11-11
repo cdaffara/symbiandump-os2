@@ -1,0 +1,272 @@
+// Copyright (c) 2008-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// @file
+// 
+//
+
+//! @SYMTestSuiteName PDS-TEF-EFM-BURSUITE
+//! @SYMScriptTestEnvironment TEF
+//! @internalComponent
+//! @test
+
+PRINT Run all tef_efm_bursuite Suite Tests
+
+// -------------------------
+// Setup before any tests begin.
+// -------------------------
+
+// Set up a features.dat file for use during the backup and restore tests.
+// 
+LOAD_SUITE tef_feature_generator
+
+RUN_UTILS MkDir C:\Private\
+RUN_UTILS MkDir C:\Private\10205054\
+
+START_TESTCASE PDS-EFM-CT-4055
+//! @SYMTestCaseID           PDS-EFM-CT-4055
+//! @SYMTestCaseDesc         Create an feature data file for use by the
+//!                         subsequent tests.
+//! @SYMTestPriority         High
+//! @SYMTestActions          See description.
+//! @SYMTestExpectedResults  No error should be reported.
+//! @SYMDEF                  DEF107378
+    RUN_TEST_STEP  100 tef_feature_generator CEFMTest z:\test\efm\scripts\tef_efm_bursuite.ini CreateEFMFile
+END_TESTCASE PDS-EFM-CT-4055
+
+// Load up the BUR test suite of tests.
+// The test cases for Backup and Restore start here.
+ 
+LOAD_SUITE tef_efm_bursuite
+
+
+// -------------------------
+// Tests start here
+// -------------------------
+
+START_TESTCASE SYSLIB-EFM-CT-4046
+//! @SYMTestCaseID           SYSLIB-EFM-CT-4046
+//! @SYMTestCaseDesc         Test Backup & Restore functionality for normal operation
+//!							There are two test steps in this test case:
+//!							(A) Test that performs a simple backup process. This test also examines the 
+//!							registration xml file (simply to see if it exists). It signals that a backup
+//!							is about to take place, and then performs a copy() operation to save the file
+//!							into the backup archive, then signals that the backup has ended.
+//!							(B) This test performs a simple restore operation. This is identical to the
+//!							backup test, except for the "restore" signals and the copy operation takes place 
+//!							in the other direction.
+//! @SYMTestPriority         High
+//! @SYMTestActions          Check that the registration xml file exists then run a backup and then run a 
+//!							restore operation sequentally: this is a test for normal basic operation.
+//!							Test step A:
+//!								(1) Use BUR suite server server 
+//!								(2) Call Simulate_CheckRegFileL() to check for the existance of a backup 
+//!									xml registration file.
+//!								(3) Simulate a backup
+//!								(3) Call Simulate_StartBackupL() to signal a backup starting.
+//!								(4) Copy the file into the backup archive, to simulate a backup-copy operation. 
+//!									If the file cannot be copied, then the test result till be EFail, otherise 
+//!									it will pass on a successful copy.
+//!								(5) Call Simulate_EndBackupL() to signal a backup ending.
+//!								(6) Exit test cleanly.
+//!							Test step B:
+//!								(1) Use BUR suite server server 
+//!								(2) Simulate a backup
+//!								(3) Call Simulate_StartRestoreL() to signal a restore operation starting.
+//!								(4) Copy the file from the backup archive, to simulate a restore-copy operation. 
+//!									If the file cannot be copied, then the test result till be EFail, otherise 
+//!									it will pass on a successful copy.
+//!								(5) Call Simulate_EndRestoreL() to signal a restore ending.
+//!								(6) Exit test cleanly.
+//! @SYMTestExpectedResults	Test step A: TestStepResult() == EPass for a pass or == EFail otherwise 
+//!							The code will return EPass if the copy operation occured successfully, otherwise it 
+//!							will return EFail.
+//!							Test step B: TestStepResult() == EPass for a pass or == EFail otherwise
+//!							The code will return EPass if the copy operation occured successfully, otherwise 
+//!							it will return EFail.
+//! @SYMDEF                  DEF107378
+
+RUN_TEST_STEP  100  tef_efm_bursuite  BURStep  z:\test\efm\scripts\tef_efm_bursuite.ini  burbackup
+RUN_TEST_STEP  100  tef_efm_bursuite  BURStep  z:\test\efm\scripts\tef_efm_bursuite.ini  burrestore
+END_TESTCASE SYSLIB-EFM-CT-4046
+
+// -------------------------
+
+//START_TESTCASE SYSLIB-EFM-CT-4047
+//! @SYMTestCaseID           SYSLIB-EFM-CT-4047
+//! @SYMTestCaseDesc         Check that feature requests made during a BUR operation are queued and then 
+//!							implemented after the BUR operation has completed. This is to test the queue 
+//!							mechanism of the feature manager. 
+//!							There are two test steps in this test case:
+//!							(A) QueueBackupStep will test the queuing mechanism of the feature manager during
+//!								a backup procedure.
+//!							(B) QueueRestoreStep will test the queuing mechanism of the feature manager during
+//!								a restore procedure.
+//! @SYMTestPriority         High
+//! @SYMTestActions          (A) Complete a backup operation and queued requests have been implemented correctly.
+//!								(1) set up thread 
+//!								(2) Connect to Feature Manager
+//!								(3) Add the new feature for the first time
+//!								(4) Initialise the feature to be FALSE (disabled)
+//!								(5) Simulate a backup starting
+//!								(6) this sets feature to be TRUE (enabled) -- see thread function DoThreadActionL
+//!									(a) The thread's actions are to open a RFeatureControl and SetFeature on KNewUid1 
+//!										and then close the connection to the server. Upon an error, the 
+//!										SetTestStepResult function is called and the Test Step is set to EFail.
+//!										The thread finishes between steps (6) and (7).
+//!								(7) Simulate a backup ending
+//!								(8) We can now test the feature to see if it is supported or not. It should 
+//!									be supported because the request is queued-up during Simulate_StartBackupL 
+//!									and Simulate_EndBackupL and then committed at the end of Simulate_EndBackupL.
+//!								(9) Cleanup: Destroy thread and close all handles etc..
+//!							(B) Complete a restore operation and queued requests have been implemented correctly.
+//!								This test is more complicated than the backup test because there are two threads 
+//!								instead of one.
+//!								(1) set up threads 
+//!								(2) Connect to Feature Manager
+//!								(3) Add the new feature for the first time
+//!								(4) Initialise the feature to be ETrue (enabled)
+//!								(5) Simulate a backup starting, copying, and ending.
+//!								(6) Delete this feature all-together and prove it doesn't exist in memory.
+//!								(7) Start a restore operation.
+//!									See thread function DoThreadActionL (these threads does two things, see the
+//!									steps (8) and (9) below)
+//!									(a) thread uid1 -> SetFeature(EFalse) to disable the "restored" feature;
+//!									(b) thread uid2 -> AddFeature() to create a completely new feature;
+//!									There are no assumptions made about which thread will run first
+//!									wait for threads to call their Feature() functions then do the Restore copy().
+//!								(8) Async: Queue a pending SetFeature(EFalse) to disable the "restored" KNewUid1 
+//!									feature;
+//!									The thread's actions are to open a RFeatureControl and SetFeature on KNewUid1 
+//!									and then close the connection to the server. Upon an error, the SetTestStepResult 
+//!									function is called, and the Test Step is set to EFail.
+//!								(9) Async: Queue a pending AddFeature() to create a completely new feature;
+//!									The thread's actions are to open a RFeatureControl and AddFeature on KNewUid2 
+//!									and then close the connection to the server. Upon an error, the 
+//!									SetTestStepResult function  is called and the Test Step is set to EFail.
+//!								(10) End the restore operation in two steps (in the following order)
+//!									(a) re-read the new features;
+//! 								(b) commit the pending change requests;
+//!								(11) We can now test the features to see if they are supported or not. They should 
+//!									be supported because the requests are queued-up during Simulate_StartRestoreL and 
+//!									Simulate_EndRestoreL and then committed at the end of Simulate_EndRestoreL. 
+//!									This means two things:
+//!										[a] The restored feature KNewUid1 should be restored and end up as disabled 
+//!											if queuing worked
+//!										[b] A new feature KNewUid2 should be added.
+//!									So, when it all works:
+//!										[a] restored KUid1
+//!										[b] restored KUid2
+//!								(12) Cleanup: Destroy threads and close all handles etc..
+//! @SYMTestExpectedResults  TestStepResult() == EPass for a pass or == EFail otherwise
+//!							Upon an error, the SetTestStepResult function is called and the Test Step is set to EFail
+//!							on all occasions.
+//! @SYMDEF                  DEF107378
+
+//RUN_TEST_STEP  100  tef_efm_bursuite  QueueBackupStep
+//RUN_TEST_STEP  100  tef_efm_bursuite  QueueRestoreStep
+//END_TESTCASE SYSLIB-EFM-CT-4047
+
+// -------------------------
+
+//START_TESTCASE SYSLIB-EFM-CT-4048
+//! @SYMTestCaseID           SYSLIB-EFM-CT-4048
+//! @SYMTestCaseDesc         To test that a notification occurs when a feature is notified during a BUR operation. 
+//!							This is to test the queue mechanism of the feature manager. 
+//!							There are two test steps in this test case:
+//!							(A) NotifyBackupStep will test the notification mechanism of the feature 
+//!								manager during a backup procedure.
+//!							(B) NotifyRestoreStep will test the notification mechanism of the feature 
+//!								manager during a restore procedure.
+//! @SYMTestActions          See the description.
+//! @SYMTestPriority         High
+//! @SYMTestExpectedResults  A notification should take place for each of the changes, after the BUR 
+//!							operation has finished.
+//!							(A) Tests if a notification occurs when a feature is changed during a 
+//!								backup operation.
+//!								(1) Set up an active scheduler & install it
+//!								(2) Create a notification object
+//!								(3) Set up a thread to delete a feature
+//!								(4) Open a local control to add a feature
+//!								(5) Add a feature
+//!								(6) Request notification on UID1
+//!								(7) Simulate a backup
+//!								(8) Async: Delete the UID1 feature asynchronously during a backup
+//!								(9) Callback upon a change in the feature's status.
+//!									HandleNotifyChange()
+//!									We are notified of a change.. this should be Deleted.
+//!								(10) Tests if the correct change has occured for a specific stage of the 
+//!									test and stops the Scheduler.
+//!								(11) Simulate end backup.
+//! 							(12) Check to see if we have notification
+//! 							(13) Cleanup
+//!							(B) Tests if a notification occurs when a feature is changed during a 
+//!								restore operation. 
+//!								(1) Set up an active scheduler & install it.
+//!								(2) Open a local control to add a feature.
+//!								(3) Add a feature UID3 first.
+//!								(4) Set feature for KNewUid3 will be queued during backup.
+//!								(5) Add a feature UID2 first.
+//!								(6) set feature for KNewUid2 will be queued during backup.
+//!								(7) Do a backup:
+//!									(a) Simulate Start Backup
+//!									(b) Copy Feature File Backup
+//!									(c) Simulate End Backup
+//!								(8) Delete the backed up feature, so it will be re-added during a restore.
+//!								(9) Set feature for KNewUid3 to new data KChangeData
+//!								(10) Add a feature
+//!								(11) Set feature for KNewUid1 will be queued during backup
+//!								(12) Create a notification object
+//!								(13) Request notification on UID1, UID2 and UID3
+//!								(14) Simulate a restore
+//!								(15) Check to see if we have notification
+//!								(16) Callback upon a change in the feature's status.
+//!									Tests if the correct change has occured for a particular stage of the test and 
+//!									stops the Active Scheduler at the end of the test.
+//!									If we are notified of a change.. this should be Deleted 
+//!								(20) Cleanup
+//! @SYMDEF                  DEF107378
+
+
+//RUN_TEST_STEP 100 tef_efm_bursuite NotifyBackupStep
+//RUN_TEST_STEP 100 tef_efm_bursuite NotifyRestoreStep
+//END_TESTCASE SYSLIB-EFM-CT-4048
+
+// -------------------------
+
+
+START_TESTCASE SYSLIB-EFM-CT-4049
+//! @SYMTestCaseID           SYSLIB-EFM-CT-4049
+//! @SYMTestCaseDesc         Check the state machine is operating correctly. 
+//!							Call the BUR operations in the "wrong" order, to trigger the state machine error handling
+//!							functionality (and therefore the feature manager error handling code).
+//! @SYMTestPriority         High
+//! @SYMTestActions          Incorrect calling of BUR sequence operations (e.g. Backup start, Restore start)
+//!							(1) Set up thread 
+//!							(2) Simulate a backup
+//!							(3) Async: The thread's actions are to open a RFeatureControl and SetFeature 
+//!								on KNewUid1 and then close the connection to the server. Upon an error, the 
+//!								SetTestStepResult function is called and the Test Step is set to EFail.
+//!								set feature for KNewUid1
+//!							(4) Takes us into an error state
+//!							(5) Start restore and end backup
+//! @SYMTestExpectedResults  TestStepResult() == EPass for a pass or == EFail otherwise
+//!							Upon an error, the SetTestStepResult function is called and the Test Step is set to EFail
+//!							on all occasions.
+//! @SYMDEF                  DEF107378
+
+RUN_TEST_STEP 100 tef_efm_bursuite StateStep
+END_TESTCASE SYSLIB-EFM-CT-4049
+
+PRINT Complete tef_efm_bursuite
+

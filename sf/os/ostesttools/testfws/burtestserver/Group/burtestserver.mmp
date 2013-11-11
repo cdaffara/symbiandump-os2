@@ -1,0 +1,58 @@
+// Copyright (c) 2004-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// Using relative paths for sourcepath and user includes
+// 
+//
+
+
+// Target specification:
+    TARGET	BURTestServer.exe
+    TARGETTYPE  EXE
+    UID		0x1000007A 0x102050E4
+
+CAPABILITY ProtServ AllFiles WriteDeviceData ReadDeviceData
+
+// Source:
+SOURCEPATH		..\TestServer\src
+SOURCE			t_burtestserver.cpp
+SOURCE			t_storagemanager.cpp
+SOURCE 			t_asyncbackuptransferhandler.cpp
+
+SOURCEPATH		..\TestSteps\src
+SOURCE			t_burteststepbase.cpp
+SOURCE			t_teststepbackup.cpp
+SOURCE			t_teststeprestore.cpp
+SOURCE			t_teststepbackupasync.cpp
+SOURCE			t_teststeprestoreasync.cpp
+
+USERINCLUDE		..\TestServer\inc
+USERINCLUDE		..\TestSteps\inc
+//SYSTEMINCLUDE 	\epoc32\include
+//SYSTEMINCLUDE	\epoc32\include\test
+//SYSTEMINCLUDE	\epoc32\include\libc
+//SYSTEMINCLUDE	\epoc32\include\connect
+MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+LIBRARY			estlib.lib 
+LIBRARY			euser.lib
+LIBRARY			efsrv.lib
+LIBRARY			estor.lib
+LIBRARY			testexecuteutils.lib
+LIBRARY			testexecutelogclient.lib
+LIBRARY			sbeclient.lib
+LIBRARY			abclient.lib
+
+
+//EPOCHEAPSIZE 1024    1024000
+//EPOCSTACKSIZE 65536

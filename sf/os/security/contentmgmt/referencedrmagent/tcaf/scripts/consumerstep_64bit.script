@@ -1,0 +1,153 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+
+LOAD_SUITE tcaf
+
+RUN_UTILS MkDir c:\rta\
+RUN_UTILS MkDir c:\rta\testdata\
+RUN_UTILS MkDir c:\tcaf\
+RUN_UTILS MkDir c:\tcaf\testdata\
+RUN_UTILS MkDir c:\tcaf\testdata\TestAgentPrivateDir\
+
+RUN_UTILS CopyFile z:\rta\testdata\*.* c:\rta\testdata\*.*
+RUN_UTILS CopyFile z:\tcaf\testdata\*.* c:\tcaf\testdata\*.*
+RUN_UTILS CopyFile z:\tcaf\testdata\TestAgentPrivateDir\*.* c:\tcaf\testdata\TestAgentPrivateDir\*.*
+
+RUN_UTILS MakeReadWrite c:\tcaf\testdata\copyfile.txt
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONS-0031
+//! @SYMTestCaseDesc 		Plaintext File Size 
+//!				(PlainText_File_Size_64bit)
+//! @SYMPREQ			PREQ1725
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Checks that the size of the file reported by RFile is the same as the size reported by CAF (F32Agent). CAF opens the file using the given filename
+//! @SYMTestExpectedResults	Sizes are equal
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONS-0031
+RUN_TEST_STEP 100 tcaf CAFSizeStep64 c:\tcaf\consumerstep.ini CompareContentF32Agent
+END_TESTCASE SEC-CAF-CONS-0031
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONS-0032
+//! @SYMTestCaseDesc 		Plaintext File Read and Seek 
+//!				(PlainText_File_Read_and_Seek_64bit)
+//! @SYMPREQ			PREQ1725
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Checks that the data read from an RFile is the same as the data read from CAF (F32Agent). Caf opens the file using the given filename.
+//! @SYMTestExpectedResults	Data read is the same for both
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONS-0032
+RUN_TEST_STEP 100 tcaf CAFSeekReadStep64 c:\tcaf\consumerstep.ini CompareContentF32Agent
+END_TESTCASE SEC-CAF-CONS-0032
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONS-0033
+//! @SYMTestCaseDesc 		64Bit DRM File Size 
+//!				(DRM_File_Size_64bit)
+//! @SYMPREQ			PREQ1725
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Checks that the size of a plaintext file reported by RFile is the same as the size of the content within a DRM file reported by CAF (TestAgent). CAF opens the file using the given filename
+//! @SYMTestExpectedResults	Sizes are equal
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONS-0033
+RUN_TEST_STEP 100 tcaf CAFSizeStep64 c:\tcaf\consumerstep.ini CompareContentTestAgent
+END_TESTCASE SEC-CAF-CONS-0033
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONS-0034
+//! @SYMTestCaseDesc 		64 bit DRM File Read and Seek
+//!				(DRM_File_Read_and_Seek_64bit)
+//! @SYMPREQ			PREQ1725
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Checks that data read from a plaintext file by RFile is the same as data read from the content within a DRM file by CAF (TestAgent). CAF opens the file using the given filename
+//! @SYMTestExpectedResults	data read is the same for both
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONS-0034
+RUN_TEST_STEP 100 tcaf CAFSeekReadStep64 c:\tcaf\consumerstep.ini CompareContentTestAgent
+END_TESTCASE SEC-CAF-CONS-0034
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONS-0035
+//! @SYMTestCaseDesc 		Compare the size of the entire file opened with TestAgent vs RFile entire file
+//!				(Specific_ContentObject_File_Size_64Bit)
+//! @SYMREQ			PREQ1725
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Checks that the size of the file reported by RFile is the same as the size reported by CAF (F32Agent). Caf opens the file using a concatenated URI and UniqueId
+//! @SYMTestExpectedResults	Sizes are equal
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONS-0035
+RUN_TEST_STEP 100 tcaf CAFSizeStep64 c:\tcaf\consumerstep.ini CompareContentCombinedURI
+END_TESTCASE SEC-CAF-CONS-0035
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONS-0036
+//! @SYMTestCaseDesc 		Read and Seek through the entire file opened with TestAgent vs RFile entire file
+//!				(Specific_ContentObject_Read_and_Seek_64Bit)
+//! @SYMREQ			PREQ1725
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Checks that the data read from an RFile is the same as the data read from CAF (TestAgent). Caf opens the file using a concatenated URI and UniqueId
+//! @SYMTestExpectedResults	Data read is the same for both
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONS-0036
+RUN_TEST_STEP 100 tcaf CAFSeekReadStep64 c:\tcaf\consumerstep.ini CompareContentCombinedURI
+END_TESTCASE SEC-CAF-CONS-0036
+
+
+//!@file
+//!SYMTestCaseID 		SEC-CAF-CONS-0037
+//!SYMTestCaseDesc 		File with 2GB Size 
+//!SYMPREQ				PREQ1725
+//!SYMTestStatus		Implemented
+//!SYMTestPriority		High
+//!SYMTestActions		Checks that the size of the file(filesize is greater than 2GB) reported by RFile is the same as the size reported by CAF (F32Agent). CAF opens the file using the given filename
+//!SYMTestExpectedResults	Sizes are equal
+//!SYMTestType			CIT
+// Manual Test - Create relevant files before running this test
+//START_TESTCASE SEC-CAF-CONS-0037
+//RUN_TEST_STEP 100 tcaf CAFSizeStep64 c:\tcaf\consumerstep.ini Compare2GBContentF32Agent
+//START_TESTCASE SEC-CAF-CONS-0037
+
+
+//!@file
+//!SYMTestCaseID 		SEC-CAF-CONS-0038
+//!SYMTestCaseDesc 		Plaintext File (size greater than 2GB) Read and Seek 
+//!SYMPREQ				PREQ1725
+//!SYMTestStatus		Implemented
+//!SYMTestPriority		High
+//!SYMTestActions		Checks that the data read from an RFile is the same as the data read from CAF (F32Agent). Caf opens the file using the given filename.
+//!SYMTestExpectedResults	Data read is the same for both
+//!SYMTestType			CIT
+// Manual Test - Create relevant files before running this test
+//START_TESTCASE SEC-CAF-CONS-0038
+//RUN_TEST_STEP 100 tcaf CAFSeekReadStep64 c:\tcaf\consumerstep.ini Compare2GBContentF32Agent
+//START_TESTCASE SEC-CAF-CONS-0038
+
+
+RUN_UTILS Delete c:\supplied.drm
+RUN_UTILS Delete c:\receipt.txt
+RUN_UTILS Delete c:\OUTPUTFILE.DRM
+
+RUN_SCRIPT z:\tcaf\testcleanupstep.script
+
+

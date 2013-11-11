@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="com.nokia.tracecompiler" default="cc" basedir="..">
+
+	<target name="cc" depends="init, test, analyze" description="Run unit tests and analyze code"/>
+
+	<property name="javacVerbose" value="false"/>
+
+
+	<!-- declare ant4eclipse -->
+	<taskdef resource="net/sf/ant4eclipse/antlib.xml" />
+
+	
+	<!-- PMD configuration -->
+	<path id="pmd.lib" >
+    	<pathelement location="${ant.home}/lib/pmd-4.2.jar" />
+    	<pathelement location="${ant.home}/lib/asm-3.1.jar" />
+    	<pathelement location="${ant.home}/lib/jaxen-1.1.1.jar" />
+  	</path>
+	
+	<taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask" classpathref="pmd.lib" />
+
+	<!-- Init target -->
+	<target name="init">
+		<property environment="env"/>
+		<property name="testdata.dir" location="${env.EPOCROOT}testdata"/>
+		<property name="reports.dir" location="${env.EPOCROOT}testdata/reports"/>
+		<property name="hudson_reports.dir" location="reports"/>
+		
+		<echo>Cleaning the ${hudson_reports.dir}</echo>
+		<delete dir="${hudson_reports.dir}"/>
+		<echo>Creating the ${hudson_reports.dir} directory</echo>
+		<mkdir dir="${hudson_reports.dir}"/>
+	</target>
+
+	<!-- Test target -->
+	<target name="test" depends="init">
+		<ant antfile="group/build.xml" target="run_unit"/>
+		
+		<!-- Copy reports folder to reports forder in Hudson workspace, so reports can be used in Hudson -->
+		<copy todir="${hudson_reports.dir}">
+			<fileset dir="${reports.dir}"/>
+		</copy>
+	</target>
+
+	<!-- Analyze target -->
+	<target name="analyze" depends="init">
+		<!-- PMD -->
+		<pmd>
+			<!-- Rules -->
+			<ruleset>basic</ruleset>
+			<ruleset>codesize</ruleset>
+			<ruleset>coupling</ruleset>
+			<ruleset>design</ruleset>
+			<ruleset>strictexception</ruleset>
+			<ruleset>strings</ruleset>
+			<ruleset>sunsecure</ruleset>
+			<ruleset>unusedcode</ruleset>
+			
+			<!-- Output PMD report directly to reports forder in Hudson workspace, so report can be used in Hudson -->
+			<formatter type="xml" toFile="${hudson_reports.dir}/report.pmd.xml"/>
+			
+			<!-- Files to analyze -->
+			<fileset dir="../src/">
+				<include name="**/*.java"/>
+			</fileset>
+		</pmd>
+	</target>
+
+</project>

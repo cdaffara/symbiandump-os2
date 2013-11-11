@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SystemDefinition schema="3.0.0">
+ <package id="ostesttools" name="OS Test Tools" levels="fw trace">
+  <collection id="testconns" name="Test Connectivity" level="trace">
+    <component id="hti" filter="s60" name="Harmonized Test Interface" purpose="development">
+      <unit bldFile="testconns/hti/group"/>
+    </component>
+    <component id="statapi" filter="s60" name="STAT API" deprecated="^3" purpose="development" depends="sf:tef">
+      <unit bldFile="testconns/statapi/device/source/statapi/console"/>
+    </component>
+    <component id="statdesktop" filter="s60" name="STAT Desktop" deprecated="^3" purpose="development">
+      <unit bldFile="testconns/statdesktop/desktop/group"/>
+    </component>
+  </collection>
+  <collection id="testfws" name="Test Frameworks" level="fw">
+    <component id="stif" filter="s60" name="STIF Test Framework" purpose="development">
+      <unit bldFile="testfws/stif/group"/>
+    </component>
+    <component id="tef" filter="s60" name="Test Execute Framework v3" purpose="development">
+      <unit bldFile="testfws/testexecmdw/group"/>
+    </component>
+    <component id="symbianunittestfw" filter="s60" name="Symbian Unit Test Framework" introduced="^4" purpose="development">
+      <unit bldFile="testfws/symbianunittestfw/group"/>
+		</component>
+    <component id="burtestserver" filter="s60" name="Backup and Restore Test Server" purpose="development">
+      <unit bldFile="testfws/burtestserver/Group"/>
+    </component>
+  </collection>
+ </package>
+</SystemDefinition>

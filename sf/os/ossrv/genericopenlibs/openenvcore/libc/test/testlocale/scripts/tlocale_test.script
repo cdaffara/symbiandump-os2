@@ -1,0 +1,132 @@
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+PRINT Run all tlocale 
+LOAD_SUITE tlocale 
+
+CONSECUTIVE
+
+//
+//! @SYMTestCaseID		OPENENV-LIBC-CIT-TLOCALE-0001  
+//! @SYMPREQ 			PREQ 1440
+//! @SYMTestCaseDesc 		call localeconv and nl_langinfo api's with out any locale setting.
+//! @SYMTestPriority 		High 
+//! @SYMTestStatus 		Implemented   			  
+//! @SYMTestActions     	1.set the decimal separator,thousband separator,date format using TLocale
+//!                             2.call the localeconv,nl_langinfo api's and get the return structures
+//!                             3.compare the elements of the above structures with the TLocale values
+//! @SYMTestExpectedResults     The values returned form the TLocale and elements of the structure returned from the
+//!                             localeconv,TLocale and nl_langinfo should be same.
+//
+START_TESTCASE OPENENV-LIBC-CIT-TLOCALE-0001  
+RUN_TEST_STEP !Result=0 5 tlocale synclocale
+END_TESTCASE OPENENV-LIBC-CIT-TLOCALE-0001  
+
+//
+//! @SYMTestCaseID		OPENENV-LIBC-CIT-TLOCALE-0002  
+//! @SYMPREQ 			PREQ 1440
+//! @SYMTestCaseDesc 		set the locale to C and call the locale api's
+//! @SYMTestPriority 		High 
+//! @SYMTestStatus 		Implemented   			  
+//! @SYMTestActions     	1.set the locale to "C"
+//!                             2.call the localeconv and nl_langinfo
+//!                             3.test pass if the above api's didn't return NULL
+//! @SYMTestExpectedResults     The return values should not be NULL
+//
+START_TESTCASE OPENENV-LIBC-CIT-TLOCALE-0002
+RUN_TEST_STEP !Result=0 5 tlocale clocale  \tstdapis\tlocale.ini Section_Clocale
+END_TESTCASE OPENENV-LIBC-CIT-TLOCALE-0002
+
+//
+//! @SYMTestCaseID		OPENENV-LIBC-CIT-TLOCALE-0003  
+//! @SYMPREQ 			PREQ 1440
+//! @SYMTestCaseDesc 		call localeconv and nl_langinfo api's with some  locale setting and set with the system's locale with some dll setting.
+//! @SYMTestPriority 		High 
+//! @SYMTestStatus 		Implemented   			  
+//! @SYMTestActions     	1.set the locale to some locale setting
+//!                             2.set the system locale with the same setting as above
+//!                             3.call the localeconv,nl_langinfo api's and get the return structures
+//! @SYMTestExpectedResults     The values returned form the TLocale and elements of the structure returned from the
+//!                               localeconv,TLocale and nl_langinfo should be same.
+//
+
+START_TESTCASE OPENENV-LIBC-CIT-TLOCALE-0003
+RUN_TEST_STEP !Result=0 10 tlocale synclocalehybrid \tstdapis\tlocale.ini Section_SyncLocale_US
+RUN_TEST_STEP !Result=0 5 tlocale synclocalehybrid \tstdapis\tlocale.ini Section_SyncLocale_French
+RUN_TEST_STEP !Result=0 5 tlocale synclocalehybrid \tstdapis\tlocale.ini Section_SyncLocale_German
+RUN_TEST_STEP !Result=0 5 tlocale synclocalehybrid \tstdapis\tlocale.ini Section_SyncLocale_Italian
+RUN_TEST_STEP !Result=0 5 tlocale synclocalehybrid \tstdapis\tlocale.ini Section_SyncLocale_Dutch
+RUN_TEST_STEP !Result=0 5 tlocale synclocalehybrid \tstdapis\tlocale.ini Section_SyncLocale_UK
+END_TESTCASE  OPENENV-LIBC-CIT-TLOCALE-0003
+
+//
+//! @SYMTestCaseID		OPENENV-LIBC-CIT-TLOCALE-0004 
+//! @SYMPREQ 			PREQ 1440
+//! @SYMTestCaseDesc 		call strcoll with particular locale setting
+//! @SYMTestPriority 		High 
+//! @SYMTestStatus 		Implemented   			  
+//! @SYMTestActions     	1.Read the first string,second string and expected value from the test input file 
+//!                             2.set the locale to some locale setting
+//!                             3.call the strcoll and get the return value
+//! @SYMTestExpectedResults     The value returned form the strcoll and expected value should be same.
+//
+START_TESTCASE OPENENV-LIBC-CIT-TLOCALE-0004
+RUN_TEST_STEP !Result=0 5 tlocale strcoll_locale \tstdapis\tlocale.ini Section_strcoll_Equality_US
+RUN_TEST_STEP !Result=0 5 tlocale strcoll_locale \tstdapis\tlocale.ini Section_strcoll_Equality_Japanese
+RUN_TEST_STEP !Result=0 5 tlocale strcoll_locale \tstdapis\tlocale.ini Section_strcoll_Prefixes_Japanese
+RUN_TEST_STEP !Result=0 5 tlocale strcoll_locale \tstdapis\tlocale.ini Section_strcoll_Prefixes_US
+RUN_TEST_STEP !Result=0 5 tlocale strcoll_locale \tstdapis\tlocale.ini Section_strcoll_Katakana_Japanese
+RUN_TEST_STEP !Result=0 5 tlocale strcoll_locale \tstdapis\tlocale.ini Section_strcoll_Hirangana_Japanese
+RUN_TEST_STEP !Result=0 5 tlocale strcoll_locale \tstdapis\tlocale.ini Section_strcoll_LowerCase_Japanese
+RUN_TEST_STEP !Result=0 5 tlocale strcoll_locale \tstdapis\tlocale.ini Section_strcoll_LowerCase_US
+RUN_TEST_STEP !Result=0 5 tlocale strcoll_locale \tstdapis\tlocale.ini Section_strcoll_Uppercase_Japanese
+RUN_TEST_STEP !Result=0 5 tlocale strcoll_locale \tstdapis\tlocale.ini Section_strcoll_Uppercase_US
+RUN_TEST_STEP !Result=0 5 tlocale strcoll_locale \tstdapis\tlocale.ini Section_strcoll_HalfWidthKatakana_Japanese
+RUN_TEST_STEP !Result=0 5 tlocale strcoll_locale \tstdapis\tlocale.ini Section_strcoll_SameKatakana_Japanese
+RUN_TEST_STEP !Result=0 5 tlocale strcoll_locale \tstdapis\tlocale.ini Section_strcoll_SameHirangana_Japanese
+RUN_TEST_STEP !Result=0 5 tlocale strcoll_locale \tstdapis\tlocale.ini Section_strcoll_Katakana_Japanese
+RUN_TEST_STEP !Result=0 5 tlocale strcoll_locale \tstdapis\tlocale.ini Section_strcoll_HalfFullKatakana_Japanese
+RUN_TEST_STEP !Result=0 5 tlocale strcoll_locale \tstdapis\tlocale.ini Section_strcoll_SameKatakanaSmall_Japanese
+RUN_TEST_STEP !Result=0 5 tlocale strcoll_locale \tstdapis\tlocale.ini Section_strcoll_DifferentKatakana_Japanese
+RUN_TEST_STEP !Result=0 5 tlocale strcoll_locale \tstdapis\tlocale.ini Section_strcoll_HiranaganaKatakana_Japanese
+RUN_TEST_STEP !Result=0 5 tlocale strcoll_locale \tstdapis\tlocale.ini Section_strcoll_SameSound_Chinese
+RUN_TEST_STEP !Result=0 5 tlocale strcoll_locale \tstdapis\tlocale.ini Section_strcoll_DigitsLetters_Chinese
+RUN_TEST_STEP !Result=0 5 tlocale strcoll_locale \tstdapis\tlocale.ini Section_strcoll_FullHalfWidth_Chinese
+END_TESTCASE  OPENENV-LIBC-CIT-TLOCALE-0004
+
+//
+//! @SYMTestCaseID		OPENENV-LIBC-CIT-TLOCALE-0005
+//! @SYMPREQ 			PREQ 1440
+//! @SYMTestCaseDesc 		call strcoll with out any locale stetting
+//! @SYMTestPriority 		High 
+//! @SYMTestStatus 		Implemented   			  
+//! @SYMTestActions     	1.Read the first string,second string  from the test input file 
+//!                             2.call the strcoll with first string and second string as parameters and without any locale setting
+//!                             3.call the compare function of TDesc 
+//!                             4.test pass if the return value from compare and strcoll is same
+//! @SYMTestExpectedResults     The values returned from the compare and strcoll should be same.
+//
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLOCALE-0005
+RUN_TEST_STEP !Result=0 5 tlocale strcoll_synclocale \tstdapis\tlocale.ini Section_strcoll_synclocale
+END_TESTCASE  OPENENV-LIBC-CIT-TLOCALE-0005
+
+
+START_TESTCASE OPENENV-LIBC-CIT-TLOCALE-0006
+RUN_TEST_STEP !Result=0 5 tlocale testnewlocale
+END_TESTCASE  OPENENV-LIBC-CIT-TLOCALE-0006
+
+

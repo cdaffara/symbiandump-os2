@@ -1,0 +1,35 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SERVER te_RegBlockTestSuite 
+
+START_TESTCASE DT-TEF-TestBlock-0097
+//! @SYMTestCaseID          DT-TEF-TestBlock-0097
+//! @SYMCreationDate        03-07-2008
+//! @SYMAuthor              DavidZhang
+//! @SYMTestType            CT
+//! @SYMTestPriority        Medium
+//! @SYMTestCaseDesc        Check that !AsyncError on command's level works properly.
+//! @SYMTestExpectedResults The result of the test case must be PASS.
+//! @SYMTestActions         Activate and cancel the active object, use !AsyncError=-3 for the command that activates the active object.
+	START_TEST_BLOCK	100 te_RegBlockTestSuite ${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini
+		CREATE_OBJECT	te_RegBlockTestWrapper	TestCase092_obj
+		COMMAND		TestCase092_obj			AddActiveObjectToScheduler
+		COMMAND		!AsyncError=-3			TestCase092_obj			ActivateActiveObject		TestCase092_obj
+		COMMAND		TestCase092_obj			CancelActiveObject
+		OUTSTANDING
+	END_TEST_BLOCK
+END_TESTCASE DT-TEF-TestBlock-0097

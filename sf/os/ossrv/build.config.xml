@@ -1,0 +1,136 @@
+<?xml version="1.0"?>
+<!DOCTYPE SystemDefinition [
+ <!ELEMENT SystemDefinition (systemModel?, build?)>
+ <!ATTLIST SystemDefinition
+  name CDATA #REQUIRED
+  schema CDATA #REQUIRED>
+ <!ELEMENT systemModel (layer+)>
+ <!ELEMENT layer (logicalset* | module*)*>
+ <!ATTLIST layer
+  name CDATA #REQUIRED
+  levels CDATA #IMPLIED
+  span CDATA #IMPLIED>
+ <!ELEMENT logicalset (logicalsubset* | module* | unit* | package* | prebuilt*)*>
+ <!ATTLIST logicalset 
+  name CDATA #REQUIRED
+  levels CDATA #IMPLIED  
+  span CDATA #IMPLIED
+  level CDATA #IMPLIED>
+ <!ELEMENT logicalsubset (module* | unit* | package* | prebuilt*)*>
+ <!ATTLIST logicalsubset name CDATA #REQUIRED>
+ <!ELEMENT module (component* | unit* | package* | prebuilt*)*>
+ <!ATTLIST module
+  name CDATA #REQUIRED
+  level CDATA #IMPLIED>
+ <!ELEMENT component (unit* | package* | prebuilt*)*>
+ <!ATTLIST component name CDATA #REQUIRED>
+ <!ELEMENT unit EMPTY>
+ <!ATTLIST unit
+  unitID ID #REQUIRED
+  name CDATA #REQUIRED
+  mrp CDATA #REQUIRED
+  filter CDATA #IMPLIED
+  bldFile CDATA #REQUIRED
+  priority CDATA #IMPLIED
+  contract CDATA #IMPLIED>
+ <!ELEMENT package EMPTY>
+ <!ATTLIST package
+  name CDATA #REQUIRED
+  mrp CDATA #REQUIRED
+  filter CDATA #IMPLIED
+  contract CDATA #IMPLIED>
+ <!ELEMENT prebuilt EMPTY>
+ <!ATTLIST prebuilt
+  name CDATA #REQUIRED
+  version CDATA #REQUIRED
+  late (Y|N) #IMPLIED
+  filter CDATA #IMPLIED
+  contract CDATA #IMPLIED>
+ <!ELEMENT build (option* | target+ | targetList+ | unitList+ | configuration+)*>
+ <!ELEMENT unitList (unitRef+)>
+ <!ATTLIST unitList
+  name ID #REQUIRED
+  description CDATA #REQUIRED>
+ <!ELEMENT unitRef EMPTY>
+ <!ATTLIST unitRef unit IDREF #REQUIRED>
+ <!ELEMENT targetList EMPTY>
+ <!ATTLIST targetList
+  name ID #REQUIRED
+  description CDATA #REQUIRED
+  target IDREFS #REQUIRED>
+ <!ELEMENT target EMPTY>
+ <!ATTLIST target
+  name ID #REQUIRED
+  abldTarget CDATA #REQUIRED
+  description CDATA #REQUIRED>
+ <!ELEMENT option EMPTY>
+ <!ATTLIST option
+  name ID #REQUIRED
+  abldOption CDATA #REQUIRED
+  description CDATA #REQUIRED
+  enable (Y | N | y | n) #REQUIRED>
+ <!ELEMENT configuration (unitListRef+ | layerRef+ | task+)*>
+ <!ATTLIST configuration
+  name ID #REQUIRED
+  description CDATA #REQUIRED
+  filter CDATA #REQUIRED>
+ <!ELEMENT task ( unitListRef* , (buildLayer | specialInstructions))>
+ <!ELEMENT unitListRef EMPTY>
+ <!ATTLIST unitListRef unitList IDREF #REQUIRED>
+ <!ELEMENT layerRef EMPTY>
+ <!ATTLIST layerRef layerName CDATA #REQUIRED>
+ <!ELEMENT buildLayer EMPTY>
+ <!ATTLIST buildLayer
+  command CDATA #REQUIRED
+  targetList IDREFS #IMPLIED
+  unitParallel (Y | N | y | n) #REQUIRED
+  targetParallel (Y | N | y | n) #IMPLIED>
+ <!ELEMENT specialInstructions EMPTY>
+ <!ATTLIST specialInstructions
+  name CDATA #REQUIRED
+  cwd CDATA #REQUIRED
+  command CDATA #REQUIRED>
+  <!ENTITY layer_real_source_path "sf/os/ossrv" >
+]>
+
+<SystemDefinition name="goscode" schema="1.4.0">
+  <systemModel>
+    <layer name="os_layer">
+		<module name="Generic OS Services">
+			<unit name="openenvcore" unitID="sos.openenvcore" bldFile="&layer_real_source_path;/genericopenlibs/openenvcore/group" mrp="&layer_real_source_path;/genericopenlibs/openenvcore/group/openenv.mrp"/>
+			<unit name="liboil" unitID="sos.liboil" bldFile="&layer_real_source_path;/genericopenlibs/liboil/group" mrp="&layer_real_source_path;/genericopenlibs/liboil/group/oeaddons_liboil.mrp"/>
+			<unit name="cstdlib" unitID="sos.cstdlib" bldFile="&layer_real_source_path;/genericopenlibs/cstdlib/group" mrp="&layer_real_source_path;/genericopenlibs/cstdlib/group/syslibs_stdlib.mrp"/>
+			<unit name="cppstdlib" unitID="sos.cppstdlib" bldFile="&layer_real_source_path;/genericopenlibs/cppstdlib/group" mrp="&layer_real_source_path;/genericopenlibs/cppstdlib/group/openenv_libstdcpp.mrp"/>
+			<unit name="posixrealtimeextensions" unitID="sos.posixrealtimeextensions" bldFile="&layer_real_source_path;/genericopenlibs/posixrealtimeextensions/group" mrp="&layer_real_source_path;/genericopenlibs/posixrealtimeextensions/group/oeaddons_librt.mrp"/>
+			<unit name="ziplib" unitID="sos.ziplib" bldFile="&layer_real_source_path;/compressionlibs/ziplib/group" mrp="&layer_real_source_path;/compressionlibs/ziplib/group/syslibs_ezlib2.mrp"/>
+			<unit name="apputils" unitID="sos.apputils" bldFile="&layer_real_source_path;/lowlevellibsandfws/apputils/group" mrp="&layer_real_source_path;/lowlevellibsandfws/apputils/group/syslibs_bafl.mrp"/>
+			<unit name="genericusabilitylib" unitID="sos.genericusabilitylib" bldFile="&layer_real_source_path;/lowlevellibsandfws/genericusabilitylib/group" mrp="&layer_real_source_path;/lowlevellibsandfws/genericusabilitylib/group/syslibs_euserhl.mrp"/>
+			<unit name="pluginfw" unitID="sos.pluginfw" bldFile="&layer_real_source_path;/lowlevellibsandfws/pluginfw/group" mrp="&layer_real_source_path;/lowlevellibsandfws/pluginfw/group/syslibs_ecom3.mrp"/>
+			<unit name="httputils" unitID="sos.httputils" bldFile="&layer_real_source_path;/genericservices/httputils/group" mrp="&layer_real_source_path;/genericservices/httputils/group/application-protocols_inetprotutil.mrp"/>
+			<unit name="mimerecognitionfw" unitID="sos.mimerecognitionfw" bldFile="&layer_real_source_path;/genericservices/mimerecognitionfw/group" mrp="&layer_real_source_path;/genericservices/mimerecognitionfw/group/app-framework_emime.mrp"/>
+			<unit name="systemagent" unitID="sos.systemagent" bldFile="&layer_real_source_path;/genericservices/systemagent/group" mrp="&layer_real_source_path;/genericservices/systemagent/group/syslibs_sysagent2.mrp"/>
+			<unit name="taskscheduler" unitID="sos.taskscheduler" bldFile="&layer_real_source_path;/genericservices/taskscheduler/group" mrp="&layer_real_source_path;/genericservices/taskscheduler/group/syslibs_schsvr.mrp"/>
+			<unit name="s60compatibilityheaders" unitID="sos.s60compatibilityheaders" bldFile="&layer_real_source_path;/genericservices/s60compatibilityheaders/groupsymtb101sf" mrp="&layer_real_source_path;/genericservices/s60compatibilityheaders/groupsymtb101sf/tools_s60_header_compatsymtb101sf.mrp"/>
+		</module>
+    </layer>
+
+	<layer name="api_test_layer">
+		<module name="Generic OS Services">
+			<unit name="openenvcore" unitID="sos.openenvcore_test" bldFile="&layer_real_source_path;/genericopenlibs/openenvcore/group" mrp="&layer_real_source_path;/genericopenlibs/openenvcore/group/openenv.mrp"/>
+			<unit name="liboil" unitID="sos.liboil_test" bldFile="&layer_real_source_path;/genericopenlibs/liboil/tsrc/group" mrp=""/>
+			<unit name="cstdlib" unitID="sos.cstdlib_test" bldFile="&layer_real_source_path;/genericopenlibs/cstdlib/group" mrp="&layer_real_source_path;/genericopenlibs/cstdlib/group/syslibs_stdlib.mrp"/>
+			<unit name="cppstdlib" unitID="sos.cppstdlib_test" bldFile="&layer_real_source_path;/genericopenlibs/cppstdlib/stl/test/group" mrp=""/>
+			<unit name="posixrealtimeextensions" unitID="sos.posixrealtimeextensions_test" bldFile="&layer_real_source_path;/genericopenlibs/posixrealtimeextensions/group" mrp="&layer_real_source_path;/genericopenlibs/posixrealtimeextensions/group/oeaddons_librt.mrp"/>
+			<unit name="ziplib" unitID="sos.ziplib_test" bldFile="&layer_real_source_path;/compressionlibs/ziplib/group" mrp="&layer_real_source_path;/compressionlibs/ziplib/group/syslibs_ezlib2.mrp"/>
+			<unit name="genericusabilitylib" unitID="sos.genericusabilitylib_test" bldFile="&layer_real_source_path;/lowlevellibsandfws/genericusabilitylib/group" mrp="&layer_real_source_path;/lowlevellibsandfws/genericusabilitylib/group/syslibs_euserhl.mrp"/>
+			<unit name="httputils" unitID="sos.httputils_test" bldFile="&layer_real_source_path;/genericservices/httputils/group" mrp="&layer_real_source_path;/genericservices/httputils/group/application-protocols_inetprotutil.mrp"/>
+			<unit name="httputils" unitID="sos.httputils_test1" bldFile="&layer_real_source_path;/genericservices/httputils/Test/Integration/TestFileUriSuite" mrp=""/>
+			<unit name="httputils" unitID="sos.httputils_test2" bldFile="&layer_real_source_path;/genericservices/httputils/Test/Integration/TestInetProtUtilsSuite/group" mrp=""/>
+			<unit name="mimerecognitionfw" unitID="sos.mimerecognitionfw_test" bldFile="&layer_real_source_path;/genericservices/mimerecognitionfw/group" mrp="&layer_real_source_path;/genericservices/mimerecognitionfw/group/app-framework_emime.mrp"/>
+			<unit name="systemagent" unitID="sos.systemagent_test" bldFile="&layer_real_source_path;/genericservices/systemagent/group" mrp="&layer_real_source_path;/genericservices/systemagent/group/syslibs_sysagent2.mrp"/>
+			<unit name="taskscheduler" unitID="sos.taskscheduler_test" bldFile="&layer_real_source_path;/genericservices/taskscheduler/group" mrp="&layer_real_source_path;/genericservices/taskscheduler/group/syslibs_schsvr.mrp"/>
+		</module>
+	</layer>
+
+  </systemModel>
+</SystemDefinition>

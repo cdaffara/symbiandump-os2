@@ -1,0 +1,53 @@
+/*
+* Copyright (c) 2003-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* Marshalling code shared between client and server
+* fstokenshared.dll Marshalling code shared between client and server
+*
+*/
+
+
+/**
+ @file
+*/
+
+CAPABILITY All -TCB
+
+target fstokenshared.dll
+TARGETTYPE dll
+
+UID 0x1000008d 0x101FF731
+VENDORID 0x70000001
+
+DEFFILE fstokenshared_v2.def
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+USERINCLUDE  ../../../crypto/weakcrypto/inc
+USERINCLUDE  ../Inc 
+
+
+sourcepath ../source/shared
+source TokenDataMarshaller.cpp
+source CKeyInfo.cpp
+source DHParams.cpp
+source NullStream.cpp
+source CCertInfo.cpp
+
+sourcepath ../source/generic/common
+source dllentry.cpp
+
+library euser.lib estor.lib
+library ctframework.lib cryptography.lib
+
+SMPSAFE

@@ -1,0 +1,56 @@
+/*
+* Copyright (c) 2000-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* eucjp_packed.cpl EUC-JP(packed) converter wrapper
+*
+*/
+
+
+/**
+ @file
+*/
+
+TARGET			eucjp_packed.dll
+TARGETTYPE		PLUGIN
+
+CAPABILITY		All -Tcb
+
+UID				0x10009D8D 0x102044F4
+VENDORID		0x70000001
+
+USERINCLUDE     ../inc
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+SOURCEPATH		../src/plugins
+SOURCE			eucjp_packed.cpp
+
+SOURCEPATH		../resource
+START RESOURCE	eucjp_packed.rss
+LANG			sc
+TARGETPATH		/resource/charconv
+END
+
+START RESOURCE	102044f4.rss
+TARGET			eucjp_packed.rsc
+END
+
+LIBRARY			euser.lib
+LIBRARY			convutils.lib
+LIBRARY			jisx0201.lib
+LIBRARY			jisx0208.lib
+LIBRARY			jisx0212.lib
+LIBRARY			ecom.lib
+
+SMPSAFE

@@ -1,0 +1,54 @@
+// Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// @file 
+// @SYMPurpose streamingcaf.dll Content Access Framework implementation for Streaming DRM support
+// 
+//
+
+TARGET		streamingcaf.dll
+TARGETTYPE	DLL
+
+CAPABILITY	All -Tcb
+
+UID			0 0x10285888
+VENDORID	0x70000001
+
+SOURCEPATH	../source/
+
+SOURCE		keyassociation.cpp
+SOURCE		keystreamsink.cpp
+SOURCE		keystreamdecoder.cpp 
+SOURCE		streamagentinterface.cpp 
+SOURCE		streamagentfactory.cpp
+SOURCE		streamagentresolver.cpp
+SOURCE		streamagentinfo.cpp
+SOURCE		patchdata.cpp
+
+SOURCE		ipsec/ipseckeystreamsink.cpp 
+SOURCE		ipsec/ipseckeyassociation.cpp 
+SOURCE		ipsec/ipsecprotectedstreamdesc.cpp 
+
+USERINCLUDE	../inc/
+USERINCLUDE     ../../../cryptomgmtlibs/securitycommonutils/inc
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+LIBRARY		euser.lib 
+LIBRARY		lib_pfkey.lib
+LIBRARY		esock.lib
+LIBRARY		insock.lib
+LIBRARY		ecom.lib
+LIBRARY 	ipsecpolapi.lib
+LIBRARY     estor.lib caf.lib cafutils.lib efsrv.lib 
+SMPSAFE

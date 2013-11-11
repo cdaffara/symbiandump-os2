@@ -1,0 +1,103 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* Tests Accessing: SEC-UPS-A001>4, SEC-UPS-E031, SEC-UPS-G008
+* Service: 1000ABC1
+* Service: System Server 1 (0x101F7F1F)
+*
+*/
+
+
+#include <ups/policies.rh>
+
+UID2 KUidUpsPolicyResourceFile
+UID3 0x101F7F1F
+
+// Test policy file for SMS messages
+RESOURCE POLICIES testpolicies
+	{
+	header = POLICY_HEADER
+		{
+		// use default client config 
+		policyevaluator = 0xe1111e11;
+		dialogcreator = 0xe1111d11;
+		majorversion = 1;
+		minorversion = 1;
+		};
+	policies = 
+		{
+		POLICY
+			{
+			// Silently accepts calls to "999" from client 0x101F7784
+			sid_list = {0x101F7784};
+			destination = "999";
+			options = KYes;
+			flags = 0x01;
+			},
+		POLICY
+			{
+			// Silently denies call to "0800*" for client 0x101F7784
+			sid_list = {0x101F7784};
+			destination = "0800*";
+			options = KYes;
+			flags = 0x02;
+			},
+		POLICY
+			{
+			// Silently denies call to "0300*" for client 0x101F7784
+			sid_list = {0x101F7784};
+			destination = "0300*";
+			options = KNo;
+			flags = 0x03;
+			},
+		POLICY
+			{
+			// Allows dialog display protected clients to 020* numbers
+			sid_list = {0x101F7784,0x80001234};
+			destination = "020*";
+			options = KYes | KNo | KAlways | KNever;
+			policyevaluator = 0xe1111e31;
+			dialogcreator = 0xe1111d31;
+			flags = 0x04;
+			},
+		POLICY
+			{
+			// Allows dialog display protected clients to 0891* numbers
+			sid_list = {0x101F7784};
+			destination = "0891*";
+			options = KYes | KNo;
+			flags = 0x05;
+			},				
+		POLICY
+			{
+			// Allows dialog display protected clients to 0845* numbers
+			sid_list = {0x101F7784,0x80002222};
+			destination = "0845*";
+			options = KYes | KNo | KAlways | KNever;
+			flags = 0x06;
+			},
+		POLICY
+			{
+			// Allows dialog display protected clients to 0900* numbers
+			sid_classes = KProtectedSids;
+			destination = "0900*";
+			options = KYes | KNo | KSession;
+			policyevaluator = 0xe1111e21;
+			dialogcreator = 0xe1111d21;
+			flags = 0x07;
+			}
+		
+		};
+	}
+

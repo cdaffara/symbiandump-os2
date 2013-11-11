@@ -1,0 +1,151 @@
+===============================================================================
+
+RELEASE NOTES - ANALYZETOOL v1.10.1
+RELEASED 7th September 2010
+
+SUPPORTS SYMBIAN^1+
+
+===============================================================================
+
+Product Description:
+====================
+AnalyzeTool is a dynamic test tool that is used for testing Symbian software
+for memory and resource leaks and pinpointing the leaks from the source code.
+
+Main Features:
+==============
+- Pinpoints memoryleaks from target hardware and emulator to source code lines
+- Discovers resource leaks from processes
+- Command line interface and Carbide.c++ Extension
+
+===============================================================================
+
+
+What's New in v1.10.1
+====================
+
+- Fix: Wrong memory addresses in analyze output for subtests
+- Fix: Commandline engine fixes
+- Change: Reallocations support for Carbide
+
+===============================================================================
+
+Installation Notes:
+===================
+AnalyzeTool is typically preinstalled on ROM. If not, it can be added to the
+ROM with the .iby file. Alternatively, the .sis file can be found under the sis-
+directory, but the user need to sign it with their own developer certificate.
+In Nokia R&D environment, you can use directly the R&D-signed .sis file under the
+internal\sis directory.
+
+When signing with own developer certificate, the following capabilities are
+needed:
+  ReadDeviceData
+  WriteDeviceData
+  DiskAdmin
+  AllFiles
+  SwEvent
+  NetworkServices
+  LocalServices
+  ReadUserData
+  WriteUserData
+  Location
+  UserEnvironment
+  CommDD
+  PowerMgmt
+  MultimediaDD
+  DRM
+  TrustedUI
+  ProtServ
+  NetworkControl
+  SurroundingsDD
+  TCB
+
+When builing AnalyzeTool against S60 3.0 or 3.1, you may need to patch your SDK
+environment first with some fixes. For more information, please refer to the
+instructions under the "envpatcher" directory.
+
+===============================================================================
+
+System Requirements:
+====================
+Basic Requirements:
+- Any S60 3.x device or emulator environment
+
+===============================================================================
+
+Compatibility Issues:
+=====================
+N/A
+
+===============================================================================
+
+Known Issues:
+=============
+- Kernel analysis are not supported.
+
+- Switch allocator. AnalyzeTool change the application memory allocator to
+  AnalyzeTool own memory allocator and using the User::SwitchAllocator function
+  can lead to situation where the tested application does not work properly.
+  
+- AnalyzeTool hooked QT applications becomes too slow to run. Use small size
+  call stack(s) and new logging mode (external -tr). 
+
+- Stif test case with AnalyzeTool can inform wrong memory leak alert.
+
+- AnalyzeTool overwrites functions TInt User::ProcessCritical(TCritical
+  aCritical) and TInt User::SetProcessCritical(TCritical aCritical), but this
+  works only when the function is called from hooked exe application. So if
+  setting critical is done from DLL (even if it's hooked with AnalyzeTool) the
+  overwriting does not work and the process stays set critical during the
+  testing.
+
+- If hooked application is closed by calling User::Exit() from DLL instead of
+  .exe application AnalyzeTool reports "abnormal process end" and can't report
+  proper memory leaks.
+ 
+===============================================================================
+
+Version History:
+================
+
+
+Version 1.10.0 - 2nd July 2010
+==============================
+  
+- Change: Storage server was removed
+- Change: New trace format
+- Change: Logging to binary file added
+- Change: Capture of reallocations implemented
+
+===============================================================================
+
+Version 1.9.1 - 29th April 2010
+==============================
+- Change: Removed Avkon and Console UI's to simplify the maintenance of the
+  tool
+- Change: Middleware layer dependencies removed so AnalyzeTool can be now used
+  also in OS layer builds
+- Fix: Move all binaries to ROM instead of ROFS to avoid ROM build
+  dependencies issues in hooked components
+
+===============================================================================
+
+Version 1.9.0 - 8th April 2010
+==============================
+- Feature: Remove false positive memory leaks with better handling of global
+  variables
+- Feature: Automatic check of correct version of dbghelp.dll for better
+  emulator support
+- Change: HTI support removed
+- Fix: SBSVS variant compilation didn't work
+
+===============================================================================
+
+Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies).
+All rights reserved.
+
+This component and the accompanying materials are made available
+under the terms of "Eclipse Public License v1.0"
+which accompanies this distribution, and is available
+at the URL "http://www.eclipse.org/legal/epl-v10.html".

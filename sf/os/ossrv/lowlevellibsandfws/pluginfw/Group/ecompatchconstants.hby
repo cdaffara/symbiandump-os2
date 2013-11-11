@@ -1,0 +1,96 @@
+// Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// ROM-specific macros for syslibs_ecom component.
+// Intended for customisation by phone manufacturers.
+// Read ECOM How To FAQ.doc if need more information about the
+// patchable constants listed below.
+// 
+//
+
+#ifndef __ECOMPATCHCONSTANTS_HBY__
+#define __ECOMPATCHCONSTANTS_HBY__
+
+
+// Macro ECOM_PATCHDATA_KLISTIMPLBUFFERSIZE represents the
+// value of the patchable constant KListImplBufferSize. It is used
+// to define the size of the buffer that is pre-allocated on the
+// ECOM client side to hold data returned by the
+// REComSession::ListImplementations() API. ECOM How To FAQ
+// explains how to determine the optimum value for this constant.
+// The default value of KListImplBufferSize is 2048.
+// 
+// This patchable constant was first introduced in Symbian_OS_v9.3.
+// At that time ECOM How To FAQ advised device builders to use
+// the "patchdata" command directly in any obey file to patch this
+// constant. The old scheme has been deprecated and the macro below
+// is the supported published mechanism for changing this patchable
+// constant. Please ensure that if this constant
+// is patched in another obey file, do not uncomment the macro
+// definition below. Otherwise this constant will be patched twice
+// with unpredictable result.
+//
+// To patch this constant, remove the comment characters and replace 2048
+// with the desired value.
+
+// #define ECOM_PATCHDATA_KLISTIMPLBUFFERSIZE 2048
+
+
+// Macro ECOM_PATCHDATA_KDISCOVERYDISABLEDDRIVELIST represents the
+// value of the patchable constant KDiscoveryDisabledDriveList.
+// This constant lets licensees specify a list of drives which they
+// do not want ECOM to scan, e.g. because the drives can never have
+// valid plug-ins. 
+// This is a 32-bit integer with each bit representing a drive to disable:
+// 0x1 disables drive A, 0x2 disables drive B etc. There are only 25 drive
+// letters supported (A:->Y:) therefore the last 7 bits are ignored.
+// Note that Read-only internal drives cannot be disabled.
+// The default value of KDiscoveryDisabledDriveList is 0, meaning all
+// drives are enabled.
+//
+// To patch this constant, remove the comment characters and replace 0
+// with the desired value.
+
+// #define ECOM_PATCHDATA_KDISCOVERYDISABLEDDRIVELIST 0x0
+
+
+
+// Macro ECOM_PATCHDATA_KCUSTOMRESOLVERCACHESIZE represents the
+// value of the patchable constant KCustomResolverCacheSize.
+// This constant specifies the maximum number of resolver DLLs ECOM can cache.
+// When the cache queue is full, the next custom resolver DLL requested by
+// client will bump off the oldest DLL in the cache.
+// The default value of KCustomResolverCacheSize is 4, meaning ECOM will
+// cache maximum of four resolver DLLs.
+//
+// To patch this constant, remove the comment characters and replace 4
+// with the desired value.
+
+// #define ECOM_PATCHDATA_KCUSTOMRESOLVERCACHESIZE 4
+
+
+
+// Macro ECOM_PATCHDATA_KCUSTOMRESOLVERCACHETIMEOUT represents the
+// value of the patchable constant KCustomResolverCacheTimeout.
+// This constant specifies the timeout in microseconds that a resolver DLL is
+// kept in cache. When the time expires, the resolver DLL is released from
+// memory. The default value of KCustomResolverCacheTimeout is 4000000.
+// That means if no client uses a cached resolver DLL, the DLL will be
+// unloaded after four seconds.
+//
+// To patch this constant, remove the comment characters and replace 4000000
+// with the desired value.
+
+// #define ECOM_PATCHDATA_KCUSTOMRESOLVERCACHETIMEOUT 4000000
+
+#endif

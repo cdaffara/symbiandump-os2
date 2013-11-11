@@ -1,0 +1,88 @@
+// Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// logcli.dll Log engine, to be included in ROM only if logwrap.dll is included
+// logcli.rsc Resource definitions for log engine
+// 
+//
+
+/**
+ @file
+*/
+
+#include "LogEng.cfg"
+
+TARGET				logcli.dll
+CAPABILITY 			All -Tcb
+TARGETTYPE			dll
+UID					0x1000008d		0x10005343
+VENDORID 			0x70000001
+
+SMPSAFE
+//CodeWarrior compilation options - disable the "illegal pragma" warning
+OPTION CW -w noillpragmas
+
+SOURCEPATH			.
+DOCUMENT			LogEng.cfg
+
+SOURCEPATH			../LogCli/src
+SOURCE				LOGTYPE.CPP
+SOURCE				LOGCLI.CPP
+SOURCE				LOGDLL.CPP
+SOURCE				LOGFILT.CPP
+SOURCE				logpackage.cpp
+SOURCE				LOGVIEW.CPP
+SOURCE				LogViewObserver.cpp
+
+SOURCE				LogChangeDefinition.cpp
+SOURCE				logservcli.cpp
+SOURCE				logclientop.cpp
+SOURCE				LogClientObserver.cpp
+SOURCE				LogClientChangeObserver.cpp
+
+SOURCE				LogViewWindow.cpp
+SOURCE				LogViewWindowFetcher.cpp
+SOURCE				LogViewWindowLockObserver.cpp
+SOURCE				LogViewWindowChangeObserver.cpp
+
+SOURCE				LogCliServerShared.cpp
+
+USERINCLUDE			../LogCli/inc
+USERINCLUDE			../logcntmodel/inc
+USERINCLUDE			../Shared
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+LIBRARY				euser.lib
+LIBRARY				logwrap.lib
+LIBRARY				bafl.lib
+LIBRARY				estor.lib
+
+START WINS
+   BASEADDRESS 0x4AD80000
+END
+
+#ifdef MMPSWITCH_LOGGING_ENABLED
+LIBRARY				flogger.lib
+LIBRARY				efsrv.lib
+MACRO				LOGGING_ENABLED
+#endif
+
+#ifdef MMPSWITCH_LOGGING_CREATE_LOG_DIRECTORY
+MACRO				LOGGING_CREATE_LOG_DIRECTORY
+#endif
+
+#ifdef MMPSWITCH_LOGGING_WIPE_ON_BOOT
+MACRO				LOGGING_WIPE_ON_BOOT
+#endif
+
+

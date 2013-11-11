@@ -1,0 +1,51 @@
+// Copyright (c) 2005-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+TARGET        t_logsecurity.exe
+TARGETTYPE    exe
+
+CAPABILITY    All -TCB
+
+MACRO 	LOGSERV_CAPABILITY_TEST
+
+//CodeWarrior compilation options - disable the "illegal pragma" warning
+OPTION CW -w noillpragmas
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+USERINCLUDE ../test/inc
+USERINCLUDE ../LogServ/inc
+USERINCLUDE ../LogWrap/inc
+USERINCLUDE ../Shared
+
+SOURCEPATH	../test/src
+SOURCE        T_LogSecurity.cpp
+SOURCE        t_logutil.cpp
+
+SOURCEPATH	../LogServ/src
+SOURCE        logservsecurity.cpp
+SOURCE        LogServResourceInterpreter.cpp
+SOURCE        LogServPanic.cpp
+SOURCE        LogServSqlStrings.cpp
+
+LIBRARY       euser.lib 
+LIBRARY       efsrv.lib 
+LIBRARY       logwrap.lib 
+LIBRARY       logcli.lib 
+LIBRARY       bafl.lib 
+LIBRARY       edbms.lib
+
+VENDORID 0x70000001
+
+SMPSAFE

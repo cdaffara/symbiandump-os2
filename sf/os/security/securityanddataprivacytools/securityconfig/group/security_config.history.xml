@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<relnotes name="SECURITYCOMMON">
+  <purpose>
+	This component holds the common security subsystem settings intended to be customised by the licensee.
+  </purpose>
+
+  <defect number="PDEF129066" title="Pre-installed backed up content cannot be restored" revision="016">
+ 	A new feature has been added to SWI that allows a backup of an application to overwrite an application on the device if it already exists.The fix also includes improvements to the DEBUG logging for restore and fixes for some partial upgrade edge cases.This was also properly fixes a much older defect PDEF091134.
+</defect>  
+  <defect number="DEF132132" title="PREQ1269: SIFLauncher's configuration should be split into production and test" revision="016">
+    SIFLauncher's configuration has been splitted into production and test. 
+  </defect>
+
+  <defect number="PDEF131500" title="Inconsistencies in IBY file again" revision="015">
+    Source path of ocsppolicy.ini is changed from winscw folder to \epoc32\system\data folder in ocspconfig.iby file. 
+  </defect>
+
+  <defect number="DEF129121" title="scr.iby references missing files when building Techview " revision="014">
+    Refered to the generic data file's path; and cleanup the iby file. 	
+  </defect>
+
+  <deliverystep number="1117" name="PREQ1269: Crypto Services: Plugin management and highly desirable features
+ (Phase 2)" osproject="Diran" revision="013">
+	  <milestone project="GT0433" number="3.2"/>
+	  <preq number="1269" title="Universal Software Install Framework">
+		  1) Post-manufacture plugin management 2) Complex queries in the SCR
+			3) Additional smaller requirements and changes and 4) Improved security in the SCR
+	  </preq>
+  </deliverystep>
+
+  <deliverystep number="" name="PREQ2193 SMP-Safe Crypto Services Components" osproject="Diran" revision="012">
+	  <milestone project="GT0433" number="MS3.7"/>
+	  <preq number="2193" title="SMP-Safe Crypto Services Components">
+		  Add SMPSAFE keyword in SDP mmp files
+	  </preq>
+  </deliverystep>
+
+  <defect number="DEF128615" title="PREQ1269 - SCR database consumes much more disk space than SIS Registry" revision="011">
+    As N- series devices tend to have many in ROM components, most settings in the SCR DB were changed to favour ROM components as the default settings. Additionally, more settings were made optional for all components
+  </defect>
+
+  <deliverystep number="1116" name="PREQ1269: Crypto Services: Core Delivery" osproject="Diran" revision="010">
+    <milestone project="GT0433" number="MS3.1"/>
+    <preq number="1269" title="Universal Software Install Framework">
+      Delivers the main set of features for the Diran Early Phase. Includes the new components (SCR, SIF and STS), migration of the native installer to use       the new components and most reference code. Excludes non-mandatory features and post-production plugin management.
+    </preq>
+  </deliverystep>
+
+  <defect number="DEF126682" title="Hard Coded Paths in iby files." revision="009">
+    Hard Coded Paths in iby files changed to use EPOCROOT##
+  </defect>
+
+  <defect number="DEF123085" title="JMI in securityconfig needs to be put under ifdef " revision="008">
+    Put JMI code under SYMBIAN_JAVA_NOT_INCLUDED ifdef.
+  </defect>
+
+  <deliverystep number="959" name="CR1313: OCSP Changes for Cingular/AT&T" osproject="Sphinx" revision="007">
+	  <milestone project="GT0379" number="MS3.19"/>
+	  <cr number="1313" title="OCSP Changes for Cingular/AT&T">
+		OCSP Changes for Cingular/AT&T	  
+	  </cr>
+  </deliverystep>  
+  
+  <defect number="DEF111229" title="typo in securitypolicy.ini" revision="006">
+    Correction to a typographical error in SWI's config file and the code that reads it.
+  </defect>
+  
+  <defect number="DEF111099" title="IPR errors in security_ups.mrp" revision="005">
+    Move UPS configuration code to security_config and SWI observer plugni to security_swi.
+  </defect>
+
+  <defect number="PDEF102073" title="SWI does not supply logging" revision="004">
+    SWI now logs install and uninstall events internally.  This is enabled by adding MaxNumOfLogEnteries=N to swipolicy.ini where N is the maximum number of entries.  The default is 0.  This log can be accessed via RSisRegistrySession::RetrieveLogFileL()
+  </defect>
+
+  <defect number="DEF108606" title="More on Inconsistencies in some IBYs and bld.inf files" revision="003">
+    Dependency of Winscw build while building an Armv5 build has been removed
+  </defect>
+
+  <preq number="1182" title="GNU Make-based build system" revision="002">
+    TOOLS2 macro is added with TOOLS.
+  </preq>
+
+  <defect number="DEF095356" title="JMI does not check the extended key usage field of certificates." revision="001">
+    The alternative Code Signing OID field is added in the javahelper.rss file
+  </defect>
+</relnotes>

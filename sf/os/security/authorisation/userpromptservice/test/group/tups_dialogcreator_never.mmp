@@ -1,0 +1,54 @@
+/*
+* Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+/**
+ @file
+ @test
+*/
+
+target			tups_dialogcreator_never.dll
+capability		protserv trustedui
+targettype		plugin
+
+uid				0x0 0xE1111D60
+vendorid		0x70000001
+
+userinclude		../inc_private
+userinclude		../include
+userinclude		../tups_dialogcreator/source
+userinclude		../tups_dialogcreator/include
+
+macro			DIALOG_NEVER
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+sourcepath		../tups_dialogcreator/source
+source			tups_dialogcreator_noprops.cpp
+
+start resource	e1111d60.rss
+target			tups_dialogcreator_never.rsc
+end
+
+library			ecom.lib
+library 		euser.lib
+library			ipcstream.lib 
+library 		estor.lib
+library 		hash.lib
+library			upspolicies.lib
+library			upsnotifierutil.lib 
+SMPSAFE

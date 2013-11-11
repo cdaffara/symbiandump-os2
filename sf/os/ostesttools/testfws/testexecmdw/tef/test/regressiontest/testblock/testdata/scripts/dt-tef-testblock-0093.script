@@ -1,0 +1,36 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SERVER te_RegBlockTestSuite 
+
+START_TESTCASE DT-TEF-TestBlock-0093
+//! @SYMTestCaseID          DT-TEF-TestBlock-0093
+//! @SYMCreationDate        03-07-2008
+//! @SYMAuthor              DavidZhang
+//! @SYMTestType            CT
+//! @SYMTestPriority        Medium
+//! @SYMTestCaseDesc        Use ASYNC_DELAY to let an active object finish it's work
+//! @SYMTestExpectedResults The test case result must be PASS.
+//! @SYMTestActions         Create a test block, create an active object (RTimer) in the test block
+//!                         and activate it (for 100000 microseconds using After() function). Call ASYNC_DELAY
+//!                         command for a time sufficient to let the active object to finish it's work.
+	START_TEST_BLOCK	100 te_RegBlockTestSuite ${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini
+		CREATE_OBJECT	te_RegBlockTestWrapper	TestCase087_obj
+		COMMAND		TestCase087_obj			AddActiveObjectToScheduler
+		COMMAND		TestCase087_obj			ActivateActiveObject		TestCase087_obj
+		ASYNC_DELAY	200000
+	END_TEST_BLOCK
+END_TESTCASE DT-TEF-TestBlock-0093

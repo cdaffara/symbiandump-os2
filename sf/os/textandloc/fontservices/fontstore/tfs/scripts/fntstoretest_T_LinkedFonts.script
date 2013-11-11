@@ -1,0 +1,72 @@
+//
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+PRINT Run TLinkedFonts Font Store test 
+//
+LOAD_SUITE TFntStoreServer
+RUN_TEST_STEP 100 TFntStoreServer TLinkedFonts2
+RUN_TEST_STEP 100 TFntStoreServer TLinkedFontsUpdateStage1
+RUN_TEST_STEP 600 TFntStoreServer TLinkedFontsMemory
+
+RUN_UTILS MkDir c:\fntstoretest\
+RUN_UTILS copyFile z:\fntstoretest\tlinkedfontscomparison.ini c:\fntstoretest\tlinkedfontscomparison.ini
+RUN_UTILS MakeReadWrite c:\fntstoretest\tlinkedfontscomparison.ini
+
+RUN_TEST_STEP 180 TFntStoreServer TLinkedFontsComparison c:\fntstoretest\tlinkedfontscomparison.ini HashForAllTests
+
+//capability tests -- check to see if rasterizer installed
+RUN_UTILS copyFile z:\fntstoretest\tlinkedfontscapability.ini c:\fntstoretest\tlinkedfontscapability.ini
+RUN_UTILS MakeReadWrite c:\fntstoretest\tlinkedfontscapability.ini
+RUN_TEST_STEP 100 TFntStoreServer TLinkedFontsCapability c:\fntstoretest\tlinkedfontscapability.ini CheckLinkedFontsRasterizerInstalled
+
+//capability tests -- should succeed both register and fetch
+//this case needs to be run before the other capability tests to register the linked font which can be read
+//case 1
+RUN_TEST_STEP 100 TFntStoreServer TLinkedFontsCapability c:\fntstoretest\tlinkedfontscapability.ini TestReadWriteTest
+
+
+// from e32capability.h
+// ECapabilityReadDeviceData   = 4, 1<<4 = 16
+// ECapabilityWriteDeviceData  = 5, 1<<5 = 32
+
+
+//write only capability
+RUN_PROGRAM -1 setcap TFntStoreServer.exe 00000020 TFntStoreServerlnkwrite.exe
+LOAD_SUITE TFntStoreServerlnkwrite
+
+//write only succeeds
+RUN_TEST_STEP TFntStoreServerlnkwrite TLinkedFontsCapability c:\fntstoretest\tlinkedfontscapability.ini TestWriteOnlyTest
+
+//read only fails
+RUN_TEST_STEP 100 TFntStoreServerlnkwrite TLinkedFontsCapability c:\fntstoretest\tlinkedfontscapability.ini TestReadOnlyTestPanic
+
+//read only capability
+RUN_PROGRAM -1 setcap TFntStoreServer.exe 00000010 TFntStoreServerlnkread.exe
+LOAD_SUITE TFntStoreServerlnkread
+
+//read only succeeds
+RUN_TEST_STEP TFntStoreServerlnkread TLinkedFontsCapability c:\fntstoretest\tlinkedfontscapability.ini TestReadOnlyTest
+
+//write only fails
+RUN_TEST_STEP 100 TFntStoreServerlnkread TLinkedFontsCapability c:\fntstoretest\tlinkedfontscapability.ini TestWriteOnlyTestPanic
+
+
+// Set test server to have no Capabilitities
+RUN_PROGRAM -1 setcap TFntStoreServer.exe 00000000 TFntStoreServerlnk0000.exe
+LOAD_SUITE TFntStoreServerlnk0000
+RUN_TEST_STEP 100 TFntStoreServerlnk0000 TLinkedFontsCapability c:\fntstoretest\tlinkedfontscapability.ini TestWriteOnlyTestPanic
+RUN_TEST_STEP 100 TFntStoreServerlnk0000 TLinkedFontsCapability c:\fntstoretest\tlinkedfontscapability.ini TestReadOnlyTestPanic
+

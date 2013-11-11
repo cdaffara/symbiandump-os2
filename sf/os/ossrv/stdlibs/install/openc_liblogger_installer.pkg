@@ -1,0 +1,44 @@
+;
+; Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+; All rights reserved.
+; This component and the accompanying materials are made available
+; under the terms of "Eclipse Public License v1.0"
+; which accompanies this distribution, and is available
+; at the URL "http://www.eclipse.org/legal/epl-v10.html".
+;
+; Initial Contributors:
+; Nokia Corporation - initial contribution.
+;
+; Contributors:
+;
+; Description:   package file for ssl libraries
+;
+&EN
+
+;Header
+#{"DEBUG Library Installer"},(0x2001B28A),1,4,0, TYPE=SA
+
+;Supports S60 3.0 , 3.1 , 3.2 
+
+[0x101f7961],0, 0, 0 ,{"S60Product3rdEdition"}
+
+[0x102032be],0, 0, 0 ,{"S60Product3rdEditionFP1 "}
+
+[0x102752AE],0, 0, 0 ,{"S60Product3rdEditionFP2 "}
+
+
+;Localised Vendor name
+%{"Nokia"}
+
+;Unique Vendor name
+:"Nokia"
+
+
+IF NOT EXISTS ("Z:\System\install\openc_liblogger_stub.SIS") AND NOT EXISTS ("Z:\sys\bin\liblogger.dll")
+    ; S60 phones which donot have libraries in ROM
+          @"openc_liblogger_SA.sisx", (0x200110CD)
+ELSEIF EXISTS ("Z:\System\install\openc_liblogger_stub.SIS") AND EXISTS ("Z:\sys\bin\liblogger.dll")
+          @"openc_liblogger_SP.sisx", (0x200110CD)
+ELSEIF NOT EXISTS ("Z:\System\install\openc_liblogger_stub.SIS") AND EXISTS ("Z:\sys\bin\liblogger.dll")
+    ; Do nothing
+ENDIF

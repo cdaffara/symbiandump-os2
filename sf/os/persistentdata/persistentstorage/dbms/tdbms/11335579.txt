@@ -1,0 +1,30 @@
+;
+; This security policy file is used by the DBMS security tests.
+; There are 5 different DBMS tests:
+; (1) - A test application with capabilities, which satisfy database's schema security policy.
+; (2) - A test application with capabilities, which satisfy database's write security policy.
+; (3) - A test application with capabilities, which satisfy read security policy of table "A".
+; (4) - A test application with capabilities, which satisfy write security policy of table "B", although they cannot satisfy (UID: WRITE) policy.
+; (5) - A test application without capabilities.
+;
+[database]
+read	
+capability = None
+write
+capability = WriteUserData
+schema
+capability = NetworkServices
+
+[table]
+name = A
+read
+capability = PowerMgmt
+
+[table]
+name = B
+write
+capability = WriteDeviceData
+
+;Table C
+; It has explicitly specified security policies, so the database R/W security policies
+; will be used when table C is accessed.

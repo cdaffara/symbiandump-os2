@@ -1,0 +1,52 @@
+/*
+* Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  
+* TEFUtilityServer.mmp
+* Using relative paths for sourcepath and user includes
+*
+*/
+
+
+#if !(defined TEF_LITE_VERSION)
+TARGET      tefutilityserver.exe
+#else
+TARGET      tefutilityserverlite.exe
+#endif
+
+TARGETTYPE  exe
+UID         0x100039CE 0x10281AE1  
+
+CAPABILITY	All -TCB
+
+SOURCEPATH  			../src 
+
+SOURCE				tefutilityserver.cpp
+#if !(defined TEF_LITE_VERSION)
+SOURCE				tefbuildinfologstep.cpp
+#endif
+SOURCE				tefformatdrive.cpp
+
+USERINCLUDE		../inc 
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+
+LIBRARY     	euser.lib
+LIBRARY			testexecuteutils.lib
+LIBRARY			testexecutelogclient.lib
+#if !(defined TEF_LITE_VERSION)
+LIBRARY			bafl.lib
+#endif
+LIBRARY			efsrv.lib
+

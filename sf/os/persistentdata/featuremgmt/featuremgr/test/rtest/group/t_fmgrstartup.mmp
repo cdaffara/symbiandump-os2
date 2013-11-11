@@ -1,0 +1,59 @@
+// Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+TARGET			t_fmgrstartup.exe
+TARGETTYPE		exe
+UID             0x10205054 0x10205054
+
+MACRO       EXTENDED_FEATURE_MANAGER_TEST
+MACRO       FEATURE_MANAGER_STARTUP_TEST
+
+CAPABILITY      ProtServ ReadDeviceData AllFiles
+
+//CodeWarrior compilation options - disable the "illegal pragma" warning
+OPTION CW -w noillpragmas
+
+USERINCLUDE 	.
+USERINCLUDE		../../../inc
+USERINCLUDE		../../../src/inc
+USERINCLUDE		../../../src/serverexe
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+SOURCEPATH		../src
+SOURCE			t_fmgrstartup.cpp
+
+SOURCEPATH		../../../src/serverexe
+SOURCE			featmgrfeatureregistry.cpp
+SOURCE			featmgrfeatureentry.cpp
+SOURCE			featmgrsession.cpp
+SOURCE			featmgrserver.cpp
+SOURCE          burstate.cpp
+SOURCE          swilistener.cpp 
+SOURCE          featmgrpluginhandler.cpp
+SOURCE          featmgrtimer.cpp
+SOURCE          featmgrpatchdata.cpp
+
+SOURCEPATH      ../../../src/shared
+SOURCE          featurecmn.cpp
+
+LIBRARY         efsrv.lib
+LIBRARY         estor.lib
+LIBRARY         euser.lib
+LIBRARY         ecom.lib
+LIBRARY	        bafl.lib
+
+VENDORID		0x70000001
+
+SMPSAFE

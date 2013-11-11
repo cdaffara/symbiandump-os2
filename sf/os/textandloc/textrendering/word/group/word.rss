@@ -1,0 +1,1599 @@
+/*
+* Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+		     
+NAME "WORD"
+
+#include <techview/eikon.rh>
+#include <uiklafgt/eikcore.rsg>
+#include <eikctl.rsg>
+#include <eikcoctl.rsg>
+#include <eikfile.rsg>
+#include <eikprint.rsg>
+#include <eikon.mbg>
+
+#include <word.mbg>
+#include "WORD.HRH"
+
+/* TOOLBAR & TOOLBAND MEASUREMENTS */
+#define KWStdToolbandSpacer						10
+
+
+// Structure definition for the outline control
+
+STRUCT OUTLINE_CONTROL
+	{
+	WORD width=320;
+	WORD height=180;
+	}
+
+
+RESOURCE RSS_SIGNATURE { }
+
+RESOURCE TBUF { buf="Word"; } // default filename
+
+RESOURCE EIK_APP_INFO
+	{
+	hotkeys=r_word_hotkeys;
+	menubar=r_word_menubar;
+	toolbar=r_word_toolbar;
+	toolband=r_word_toolband;
+	}
+
+RESOURCE HOTKEYS r_word_hotkeys
+	{
+	control=
+		{
+		HOTKEY { command=EEikCmdEditSelectAll; key='a'; },
+		HOTKEY { command=EEikCmdFontBold; key='b'; },
+		HOTKEY { command=EEikCmdEditCopy; key='c'; },
+		HOTKEY { command=EEikCmdParaIndent; key='d'; },
+		HOTKEY { command=EEikCmdExit; key='e'; },
+		HOTKEY { command=EEikCmdSearchFind; key='f'; },
+		HOTKEY { command=EWordCmdGoTo; key='g'; },
+		HOTKEY { command=EEikCmdSearchReplace; key='h'; },
+		HOTKEY { command=EEikCmdFontItalic; key='i'; },
+		HOTKEY { command=EEikCmdSearchFindAgain; key='j'; },
+		HOTKEY { command=EWordCmdViewPreferences; key='k'; },
+		HOTKEY { command=EEikCmdZoomIn; key='m';},
+		HOTKEY { command=EEikCmdFileNew; key='n'; },
+		HOTKEY { command=EEikCmdFileOpen; key='o'; },
+		HOTKEY { command=EEikCmdPrintPrint; key='p'; },
+		HOTKEY { command=EEikCmdFileRevert; key='r'; },
+		HOTKEY { command=EEikCmdFileSave; key='s'; },
+		HOTKEY { command=EWordCmdToolbar; key='t';},
+		HOTKEY { command=EEikCmdFontUnderline; key='u'; },
+		HOTKEY { command=EEikCmdEditPaste; key='v'; },
+		HOTKEY { command=EWordCmdWrapToScreen; key='w'; },
+		HOTKEY { command=EEikCmdEditCut; key='x'; },
+		HOTKEY { command=EEikCmdEditRedo; key='y'; },
+		HOTKEY { command=EEikCmdEditUndo; key='z';}
+		};
+	shift_control=
+		{
+		HOTKEY { command=EEikCmdParaAlign; key='a'; },
+		HOTKEY { command=EWordCmdInsertBullet; key='b'; },
+		HOTKEY { command=EEikCmdInsertSymbol; key='c';},
+		HOTKEY { command=EEikCmdParaBorder; key='d'; },
+		HOTKEY { command=EWordCmdZoomSet; key='e'; },
+		HOTKEY { command=EEikCmdFontChange; key='f'; },
+		HOTKEY { command=EWordCmdStyleGallery; key='g'; },
+		HOTKEY { command=EWordCmdFormatBullet; key='h'; },
+		HOTKEY { command=EWordCmdRevertToStyleChar; key='i'; },
+		HOTKEY { command=EEikCmdEditPictureFormat; key='j'; },
+		HOTKEY { command=EWordCmdObjectPreferences; key='k'; },
+		HOTKEY { command=EWordCmdOutline; key='l'; },
+		HOTKEY { command=EEikCmdZoomOut; key='m';},
+		HOTKEY { command=EEikCmdParaSpacing; key='n'; },
+		HOTKEY { command=EWordCmdInsertObject; key='o';},
+		HOTKEY { command=EEikCmdPrintSetup; key='p'; },
+		HOTKEY { command=EWordCmdRevertToStylePara; key='r'; },
+		HOTKEY { command=EEikCmdFileSaveAs; key='s'; },
+		HOTKEY { command=EWordCmdToolband; key='t';},
+		HOTKEY { command=EWordCmdPageSetup; key='u'; },
+		HOTKEY { command=EEikCmdPrintPreview; key='v'; },
+		HOTKEY { command=EWordCmdCount; key='w'; },
+		HOTKEY { command=EEikCmdParaTabs; key='y';},
+		HOTKEY { command=EWordCmdReEditObject; key='z'; }
+		};
+	}		  
+		
+RESOURCE MENU_BAR r_word_menubar
+    {
+    titles=
+        {
+		MENU_TITLE { menu_pane=r_word_file_menu; txt="File"; },
+		MENU_TITLE { menu_pane=r_word_edit_menu; txt="Edit"; },
+		MENU_TITLE { menu_pane=r_word_view_menu; txt="View"; },
+		MENU_TITLE { menu_pane=r_word_insert_menu; txt="Insert"; },
+		MENU_TITLE { menu_pane=r_word_text_menu; txt="Text"; },
+		MENU_TITLE { menu_pane=r_word_paragraph_menu; txt="Paragraph"; },
+		MENU_TITLE { menu_pane=r_word_tools_menu; txt="Tools"; },
+		MENU_TITLE { menu_pane=r_word_test_menu; txt="Test"; }
+        };
+    }
+
+RESOURCE TOOLBAR r_word_toolbar
+    {
+	breadth=KEikStdToolBarWidth;
+	flags=EEikToolBarDelayActivation;
+    controls=
+        {
+		TBAR_CTRL 
+			{ 
+			type=EEikCtFileNameLabel; 
+			id=EWordCmdFileName; 
+			flags=EEikToolBarCtrlHasSetMinLength;
+			length=KEikStdFileNameLabelHeight;
+			},
+		TBAR_BUTTON { id=EWordCmdInsertSketch; flags=EEikToolBarCtrlHasSetMinLength; length=KEikStdToolBarButtonHeight; txt="Insert\nSketch"; layout=EEikCmdButTextRightPictureLeft|EEikCmdButDenseFont|EEikCmdButExcessToText; bmpid=EMbmEikonSketch; bmpmask=EMbmEikonSketchm; },
+		TBAR_BUTTON { id=EWordCmdInsertSheet; flags=EEikToolBarCtrlHasSetMinLength; length=KEikStdToolBarButtonHeight; txt="Insert\nGraph"; layout=EEikCmdButTextRightPictureLeft|EEikCmdButDenseFont|EEikCmdButExcessToText; bmpid=EMbmEikonChart; bmpmask=EMbmEikonChartm; },
+		TBAR_BUTTON { id=EEikCmdPrintPreview; flags=EEikToolBarCtrlHasSetMinLength; length=KEikStdToolBarButtonHeight; layout=EEikCmdButTextRightPictureLeft|EEikCmdButDenseFont|EEikCmdButExcessToText; txt="Print"; bmpid=EMbmEikonPrint; bmpmask=EMbmEikonPrintm; },
+		TBAR_CTRL { type=EEikCtSpacer; id=EWordCidToolbarSpacer; flags=EEikToolBarCtrlHasSetMinLength|EEikToolBarCtrlIsStretchable; length=0; control=SPACER; },
+		TBAR_CTRL
+			{
+			type=EEikCtClock;
+			id=0;
+			control=CLOCK { digitalresourceid=R_EIK_DIGITAL_CLOCK; analogresourceid=R_EIK_ANALOG_CLOCK; };
+			},
+		TBAR_CTRL { type=EEikCtSpacer; id=EWordCidToolbarSpacer; flags=EEikToolBarCtrlHasSetMinLength; length=KEikStdGapBelowClock; control=SPACER { color=EEikSpacerWhite; }; }
+        };
+    }
+
+RESOURCE TOOLBAND r_word_toolband
+    {
+	breadth=KEikStdToolBandHeight;
+	flags=EEikToolBarHorizontal|EEikToolBarDelayActivation;
+    controls=
+        {
+		TBAR_BUTTON 
+			{
+			id=EWordButtonStyle;
+			flags=EEikToolBarCtrlHasSetMinLength;
+			length=EEikStdLongTextPopoutToolBandButtonWidth;
+			behavior=EEikButReportOnPointerDown;
+			layout=EEikCmdButTextLeftPictureRight|EEikCmdButExcessToText;
+			txt="Normal";
+			bmpid=EMbmEikonDarrow; bmpmask=EMbmEikonDarrow;
+			},
+		TBAR_CTRL { type=EEikCtSpacer; id=EWordCidToolbarSpacer; flags=EEikToolBarCtrlHasSetMinLength; length=KWStdToolbandSpacer; control=SPACER { color=EEikSpacerDitheredGray; }; },
+		TBAR_BUTTON 
+			{
+			id=EWordButtonFont;
+			flags=EEikToolBarCtrlHasSetMinLength;
+			length=EEikStdLongTextPopoutToolBandButtonWidth;
+			behavior=EEikButReportOnPointerDown;
+			layout=EEikCmdButTextLeftPictureRight|EEikCmdButExcessToText;
+			txt=" Arial      ";
+			bmpid=EMbmEikonDarrow; bmpmask=EMbmEikonDarrow;
+			},
+		TBAR_BUTTON 
+			{
+			id=EWordButtonFontSize;
+			flags=EEikToolBarCtrlHasSetMinLength;
+			length=EEikStdShortTextPopoutToolBandButtonWidth;
+			behavior=EEikButReportOnPointerDown;
+			layout=EEikCmdButTextLeftPictureRight|EEikCmdButExcessToText;
+			txt=" 10pt";
+			bmpid=EMbmEikonDarrow; bmpmask=EMbmEikonDarrow;
+			},
+		TBAR_CTRL { type=EEikCtSpacer; id=EWordCidToolbarSpacer; flags=EEikToolBarCtrlHasSetMinLength; length=KWStdToolbandSpacer; control=SPACER { color=EEikSpacerDitheredGray; }; },
+        TBAR_BUTTON 
+			{
+			id=EEikCmdFontBold;
+			flags=EEikToolBarCtrlHasSetMinLength;
+			length=EEikStdTwoStateIconicToolBandButtonWidth;
+			behavior=EEikButLatches;
+			bmpid=EMbmEikonBold; bmpmask=EMbmEikonBoldm;
+			},
+        TBAR_BUTTON 
+			{
+			id=EEikCmdFontItalic;
+			flags=EEikToolBarCtrlHasSetMinLength;
+			length=EEikStdTwoStateIconicToolBandButtonWidth;
+			behavior=EEikButLatches;
+			bmpid=EMbmEikonItalic; bmpmask=EMbmEikonItalicm;
+			},
+        TBAR_BUTTON 
+			{
+			id=EEikCmdFontUnderline;
+			flags=EEikToolBarCtrlHasSetMinLength;
+			length=EEikStdTwoStateIconicToolBandButtonWidth;
+			behavior=EEikButLatches;
+			bmpid=EMbmEikonUline; bmpmask=EMbmEikonUline;
+			},
+		TBAR_CTRL { type=EEikCtSpacer; id=EWordCidToolbarSpacer; flags=EEikToolBarCtrlHasSetMinLength; length=KWStdToolbandSpacer; control=SPACER { color=EEikSpacerDitheredGray; }; },
+        TBAR_CTRL
+			{
+			type=EEikCtBitmapButton;
+			id=EWordButtonAlign;
+			flags=EEikToolBarCtrlHasSetMinLength;
+			length=EEikStdIconicPopoutToolBandButtonWidth;
+			control=BMPBUT
+				{
+				behavior=EEikButReportOnPointerDown;
+				layout=EEikCmdButFirstLeftSecondRight|EEikCmdButExcessToFirst;
+				bmp1id=EMbmEikonLefta; bmp1mask=EMbmEikonLefta;
+				bmp2id=EMbmEikonDarrow; bmp2mask=EMbmEikonDarrow;
+				};
+			},
+        TBAR_CTRL
+			{
+			type=EEikCtBitmapButton;
+			id=EWordButtonBorders;
+			flags=EEikToolBarCtrlHasSetMinLength;
+			length=EEikStdIconicPopoutToolBandButtonWidth;
+			control=BMPBUT
+				{
+				behavior=EEikButReportOnPointerDown;
+				layout=EEikCmdButFirstLeftSecondRight|EEikCmdButExcessToFirst;
+ 				bmp1file="*"; bmp1id=EMbmWordBordern; bmp1mask=EMbmWordBordernm;
+				bmp2id=EMbmEikonDarrow; bmp2mask=EMbmEikonDarrow;
+				};
+			},
+		TBAR_BUTTON 
+			{
+			id=EWordButtonBullets;
+			flags=EEikToolBarCtrlHasSetMinLength;
+			length=EEikStdTwoStateIconicToolBandButtonWidth;
+			behavior=EEikButLatches;
+			bmpid=EMbmEikonBullets; bmpmask=EMbmEikonBullets;
+			},
+		TBAR_CTRL { type=EEikCtSpacer; id=EWordCidToolbarSpacer; flags=EEikToolBarCtrlHasSetMinLength|EEikToolBarCtrlIsStretchable; length=0; control=SPACER { color=EEikSpacerDitheredGray; }; },
+		TBAR_CTRL 
+			{ 
+			type=EEikCtFileNameLabel; 
+			id=EWordCmdFileName; 
+			flags=EEikToolBarCtrlHasSetMinLength;
+			length=KEikStdFileNameLabelWidth;
+			}
+        };
+    }
+
+
+RESOURCE MENU_PANE r_word_file_menu
+    {
+    items=
+        {
+        MENU_ITEM
+            {
+			command=EEikCmdFileNew;
+            txt="Create new file"<KEllipsis>;
+            },
+        MENU_ITEM
+            {
+			command=EEikCmdFileOpen;
+            txt="Open file"<KEllipsis>;
+            flags=EEikMenuItemSeparatorAfter;
+            },
+        MENU_ITEM
+            {
+            cascade=r_word_printextra_menu;
+           	txt="Printing";
+            },
+        MENU_ITEM
+            {
+            cascade=r_word_fileoptions_menu;
+            txt="More";
+            flags=EEikMenuItemSeparatorAfter;
+            },
+        MENU_ITEM
+            {
+            command=EEikCmdExit;
+            txt="Close";
+            }
+        };
+    }
+
+RESOURCE MENU_PANE r_word_fileoptions_menu
+    {
+    items=
+        {
+        MENU_ITEM
+            {
+            command=EEikCmdFileSaveAs;
+            txt="Save as"<KEllipsis>;
+            },
+        MENU_ITEM
+            {
+            command=EEikCmdFileSave;
+            txt="Save";
+            },
+        MENU_ITEM
+            {
+            command=EEikCmdFileRevert;
+            txt="Revert to saved";
+            flags=EEikMenuItemSeparatorAfter;
+            },
+		MENU_ITEM
+			{
+			command=EWordCmdFileSaveAsTemplate;
+			txt="Save as template"<KEllipsis>;
+			},
+		MENU_ITEM
+			{
+			command=EWordCmdFileDeleteTemplate;
+			txt="Delete template"<KEllipsis>;
+            flags=EEikMenuItemSeparatorAfter;
+			},
+		MENU_ITEM
+			{
+			command=EEikCmdFileImport;
+			txt="Import text file"<KEllipsis>;
+			},
+		MENU_ITEM
+			{
+			command=EEikCmdFileExport;
+			txt="Export as text file"<KEllipsis>;
+			},
+		MENU_ITEM
+			{
+			command=EWordCmdHtmlImport;
+			txt="Import HTML file"<KEllipsis>;
+			}
+		};
+	}
+    
+RESOURCE MENU_PANE r_word_printextra_menu
+    {
+    items=
+        {
+        MENU_ITEM
+            {
+            command=EWordCmdPageSetup;
+            txt="Page setup"<KEllipsis>;
+            },
+        MENU_ITEM
+            {
+            command=EEikCmdPrintSetup;
+            txt="Print setup"<KEllipsis>;
+            },
+        MENU_ITEM
+            {
+            command=EEikCmdPrintPreview;
+            txt="Print preview"<KEllipsis>;
+            },
+        MENU_ITEM
+            {
+		    command=EEikCmdPrintPrint;
+            txt="Print"<KEllipsis>;
+            }
+        };
+    }
+
+RESOURCE MENU_PANE r_word_edit_menu
+    {
+    items=
+        {
+		MENU_ITEM
+			{
+			command=EEikCmdEditUndo;
+            txt="Undo";
+			},
+		MENU_ITEM
+			{
+			command=EEikCmdEditRedo;
+            txt="Redo";
+			flags=EEikMenuItemSeparatorAfter;
+			},
+        MENU_ITEM
+            {
+			command=EEikCmdEditCut;
+            txt="Cut";
+            },
+        MENU_ITEM
+            {
+            command=EEikCmdEditCopy;
+            txt="Copy";
+            },
+        MENU_ITEM
+            {
+            command=EEikCmdEditPaste;
+            txt="Paste";
+            },
+		MENU_ITEM
+            {
+            command=EEikCmdEditSelectAll;
+            txt="Select all";
+			flags=EEikMenuItemSeparatorAfter;
+            },
+        MENU_ITEM
+            {
+			cascade=r_word_editfind_menu;
+			txt="Find";
+            },
+		MENU_ITEM
+			{
+            cascade=r_word_editoptions_menu;
+            txt="Object";
+			}
+        };
+    }
+
+RESOURCE MENU_PANE r_word_editfind_menu
+	{
+	items=
+		{
+        MENU_ITEM
+            {
+			command=EEikCmdSearchFind;
+            txt="Find"<KEllipsis>;
+            },
+        MENU_ITEM
+            {
+			command=EEikCmdSearchFindAgain;
+            txt="Find next";
+            },
+        MENU_ITEM
+            {
+            command=EEikCmdSearchReplace;
+            txt="Replace"<KEllipsis>;
+            },
+        MENU_ITEM
+            {
+            command=EWordCmdGoTo;
+            txt="Go to"<KEllipsis>;
+            }
+		};
+	}
+
+RESOURCE MENU_PANE r_word_editoptions_menu
+    {
+    items=
+        {
+		MENU_ITEM
+            {
+            command=EWordCmdReEditObject;
+            txt="Edit object"<KEllipsis>;
+            },
+		MENU_ITEM
+            {
+			command=EEikCmdEditPictureFormat;
+			txt="Format object"<KEllipsis>;
+            }
+		};
+    }
+
+RESOURCE MENU_PANE r_word_insert_menu
+    {
+    items=
+        {
+        MENU_ITEM
+            {
+            command=EWordCmdInsertSketch;
+            txt="Sketch";
+            },
+        MENU_ITEM
+            {
+            command=EWordCmdInsertSheet;
+            txt="Graph";
+            },
+        MENU_ITEM
+            {
+            command=EWordCmdInsertObject;
+            txt="Other object"<KEllipsis>;
+			flags=EEikMenuItemSeparatorAfter;
+            },
+        MENU_ITEM
+            {
+			command=EWordCmdInsertPageBreak;
+            txt="Page break";
+			extratxt="Ctrl+Enter";
+            },
+        MENU_ITEM
+            {
+            command=EWordCmdInsertLineBreak;
+            txt="Line break";
+			extratxt="Shift+Enter";
+			flags=EEikMenuItemSeparatorAfter;
+            },
+        MENU_ITEM
+            {
+			command=EEikCmdInsertSymbol;
+            txt="Special character"<KEllipsis>;
+            }
+		};
+	}
+
+RESOURCE MENU_PANE r_word_paragraph_menu
+    {
+    items=
+        {
+		MENU_ITEM
+            {
+      		command=EEikCmdParaIndent;
+			txt="Indents"<KEllipsis>;
+            },
+		MENU_ITEM
+            {
+            command=EEikCmdParaTabs;
+            txt="Tab positions"<KEllipsis>;
+            },
+		MENU_ITEM
+            {
+			command=EEikCmdParaSpacing;
+			txt="Line spacing"<KEllipsis>;
+            },
+		MENU_ITEM
+            {
+			command=EEikCmdParaBorder;
+			txt="Borders"<KEllipsis>;
+			},
+		MENU_ITEM
+            {
+			cascade=r_word_para_alignment_menu;
+            txt="Alignment";
+            },
+		MENU_ITEM
+			{
+			cascade=r_word_para_bullets_menu;
+			txt="Bullets";
+			},
+		MENU_ITEM
+			{
+			command=EWordCmdRevertToStylePara;
+			txt="Remove formatting";
+			flags=EEikMenuItemSeparatorAfter;
+			},
+		MENU_ITEM
+			{
+            command=EWordCmdStyleGallery;
+            txt="Style gallery"<KEllipsis>;
+			}
+		};
+    }
+
+RESOURCE MENU_PANE r_word_para_bullets_menu
+    {
+    items=
+        {
+        MENU_ITEM
+            {
+            command=EWordCmdInsertBullet;
+            txt="Insert";
+            },
+        MENU_ITEM
+            {
+            command=EWordCmdFormatBullet;
+            txt="Format"<KEllipsis>;
+			}
+		};
+    }
+
+RESOURCE MENU_PANE r_word_para_alignment_menu
+    {
+    items=
+        {
+        MENU_ITEM
+            {
+            command=EWordCmdAlignLeft;
+            txt="Left";
+            flags=EEikMenuItemRadioStart;
+            },
+        MENU_ITEM
+            {
+            command=EWordCmdAlignRight;
+            txt="Right";
+            flags=EEikMenuItemRadioMiddle;
+            },
+        MENU_ITEM
+            {
+            command=EWordCmdAlignCenter;
+            txt="Centred";
+            flags=EEikMenuItemRadioMiddle;
+            },
+        MENU_ITEM
+            {
+            command=EWordCmdAlignJustify;
+            txt="Justified";
+            flags=EEikMenuItemRadioEnd;
+            }
+		};
+    }
+
+RESOURCE MENU_PANE r_word_text_menu
+    {
+    items=
+        {
+        MENU_ITEM
+            {
+            command=EEikCmdFontBold;
+            txt="Bold";
+			flags=EEikMenuItemCheckBox;
+            },
+        MENU_ITEM
+            {
+            command=EEikCmdFontItalic;
+	        txt="Italic";
+ 			flags=EEikMenuItemCheckBox;
+            },
+        MENU_ITEM
+            {
+            command=EEikCmdFontUnderline;
+            txt="Underline";
+			flags=EEikMenuItemSeparatorAfter|EEikMenuItemCheckBox;
+            },
+		MENU_ITEM
+			{
+			command=EWordCmdRevertToStyleChar;
+			txt="Remove formatting";
+			flags=EEikMenuItemSeparatorAfter;
+			},
+        MENU_ITEM
+            {
+            command=EEikCmdFontChange;
+            txt="Font"<KEllipsis>;
+            }
+        };
+    }  
+
+RESOURCE MENU_PANE r_word_tools_menu
+    {
+    items=
+        {
+		MENU_ITEM
+            {
+			command=EWordCmdViewPreferences;
+            txt="View preferences"<KEllipsis>;
+			},
+ 		MENU_ITEM
+            {
+			command=EWordCmdObjectPreferences;
+            txt="Object preferences"<KEllipsis>;
+ 			flags=EEikMenuItemSeparatorAfter;
+			},
+       MENU_ITEM
+           {
+            command=EWordCmdCount;
+            txt="Word count";
+            },
+       MENU_ITEM
+            {
+            command=EEikCmdPrintPaginate;
+            txt="Paginate";
+ 			flags=EEikMenuItemSeparatorAfter;
+            },
+        MENU_ITEM
+            {
+            cascade=r_word_tools_infrared;
+			txt="Infrared";
+            }
+        };
+    }
+
+RESOURCE MENU_PANE r_word_test_menu
+    {
+    items=
+        {
+		MENU_ITEM
+            {
+			cascade=r_word_keyboard_menu;
+            txt="Keyboard";
+			},
+ 		MENU_ITEM
+            {
+			command=EWordCmdHighlight;
+            txt="Highlight";
+			flags=EEikMenuItemCheckBox;
+			},
+ 		MENU_ITEM
+            {
+			command=EWordCmdShadow;
+            txt="Shadow";
+			flags=EEikMenuItemCheckBox;
+			},
+ 		MENU_ITEM
+            {
+			command=EWordCmdCustomHighlight;
+            txt="Custom highlight";
+			flags=EEikMenuItemCheckBox;
+			},
+		MENU_ITEM
+            {
+			cascade=r_word_picture_alignment_menu;
+            txt="Picture alignment";
+            },
+		MENU_ITEM
+            {
+			cascade=r_word_cursor_style_menu;
+            txt="Cursor style";
+            },
+		MENU_ITEM
+			{
+			command=EWordCmdRuledPaper;
+			txt="Ruled paper";
+			flags=EEikMenuItemCheckBox;
+			},
+		MENU_ITEM
+			{
+			command=EWordCmdBackgroundBitmap;
+			txt="Background bitmap";
+			flags=EEikMenuItemCheckBox;
+			},
+		MENU_ITEM
+			{
+			command=EWordCmdUpperCase;
+			txt="Uppercase";
+			flags=EEikMenuItemCheckBox;
+			},
+		MENU_ITEM
+			{
+			command=EWordCmdBenchmark;
+			txt="Benchmark reformatting";
+			},
+		MENU_ITEM
+			{
+			command=EWordCmdTruncateWithEllipsis;
+			txt="Truncate with ellipsis";
+			flags=EEikMenuItemCheckBox;
+			},
+		MENU_ITEM
+			{
+			command=EWordCmdWrapOn;
+			txt="Wrap on";
+			},
+		MENU_ITEM
+			{
+			command=EWordCmdWrapOff;
+			txt="Wrap off";
+			},
+		MENU_ITEM
+			{
+			command=EWordCmdInsertPicture;
+			txt="Insert Picture";
+			},
+		MENU_ITEM
+			{
+			cascade=r_word_positioning_hint_test_menu;
+			txt="Set cursor positioning hint";
+			},
+		MENU_ITEM
+			{
+			cascade=r_word_undo_test_menu;
+			txt="Undo tests";
+			},
+		MENU_ITEM
+			{
+			cascade=r_word_selection_highlight_menu;
+			txt="Selection Highlight";
+			}
+        };
+    }
+
+RESOURCE MENU_PANE r_word_positioning_hint_test_menu
+	{
+	items=
+		{
+		MENU_ITEM
+			{
+			command=EWordCmdPositioningHintNeutral;
+			txt="Neutral";
+			flags=EEikMenuItemRadioStart;
+			},
+		MENU_ITEM
+			{
+			command=EWordCmdPositioningHintInsertLeftToRight;
+			txt="Inserting strong left to right";
+			flags=EEikMenuItemRadioMiddle;
+			},
+		MENU_ITEM
+			{
+			command=EWordCmdPositioningHintInsertRightToLeft;
+			txt="Inserting strong right to left";
+			flags=EEikMenuItemRadioEnd;
+			}
+		};
+	}
+
+RESOURCE MENU_PANE r_word_undo_test_menu
+	{
+	items=
+		{
+		MENU_ITEM
+			{
+			command=EWordCmdUndoTestNotUndoable;
+			txt="Not Undoable Command";
+			}
+		};
+	}
+
+RESOURCE MENU_PANE r_word_picture_alignment_menu
+    {
+    items=
+        {
+        MENU_ITEM
+            {
+            command=EWordCmdPictureAlignTop;
+            txt="Top";
+            flags=EEikMenuItemRadioStart;
+            },
+        MENU_ITEM
+            {
+            command=EWordCmdPictureAlignBottom;
+            txt="Bottom";
+            flags=EEikMenuItemRadioMiddle;
+            },
+        MENU_ITEM
+            {
+            command=EWordCmdPictureAlignCenter;
+            txt="Centred";
+            flags=EEikMenuItemRadioMiddle;
+            },
+        MENU_ITEM
+            {
+            command=EWordCmdPictureAlignBaseline;
+            txt="Baseline";
+            flags=EEikMenuItemRadioEnd;
+            }
+		};
+    }
+
+RESOURCE MENU_PANE r_word_selection_highlight_menu
+    {
+    items=
+        {
+        MENU_ITEM
+            {
+            command=EWordCmdSelectionHighlightNormal;
+            txt="Normal";
+            flags=EEikMenuItemRadioStart;
+            },
+        MENU_ITEM
+            {
+            command=EWordCmdSelectionHighlightCustom1;
+            txt="Blue XOR";
+            flags=EEikMenuItemRadioMiddle;
+            },
+        MENU_ITEM
+            {
+            command=EWordCmdSelectionHighlightCustom2;
+            txt="White on red";
+            flags=EEikMenuItemRadioEnd;
+            }
+		};
+    }
+
+RESOURCE MENU_PANE r_word_cursor_style_menu
+    {
+    items=
+        {
+        MENU_ITEM
+            {
+            command=EWordCmdCursorStyleFlash;
+            txt="Flash";
+			flags=EEikMenuItemCheckBox;
+            },
+		MENU_ITEM
+			{
+			command=EWordCmdCursorStyleHeavy;
+			txt="Heavy";
+			flags=EEikMenuItemCheckBox;
+			},
+		MENU_ITEM
+			{
+			command=EWordCmdCursorStyleRed;
+			txt="Red";
+			flags=EEikMenuItemCheckBox;
+			},
+        MENU_ITEM
+            {
+            command=EWordCmdCursorStyleVertical;
+            txt="Vertical";
+            flags=EEikMenuItemRadioStart;
+            },
+        MENU_ITEM
+            {
+            command=EWordCmdCursorStyleUnderlineNext;
+            txt="Underline next character";
+            flags=EEikMenuItemRadioMiddle;
+            },
+        MENU_ITEM
+            {
+            command=EWordCmdCursorStyleUnderlinePrev;
+            txt="Underline previous character";
+            flags=EEikMenuItemRadioEnd;
+            }
+		};
+    }
+
+RESOURCE MENU_PANE r_word_keyboard_menu
+    {
+    items=
+        {
+		MENU_ITEM
+            {
+			command=EWordCmdStandardKeyboard;
+            txt="Standard (Latin) keyboard";
+			flags=EEikMenuItemRadioStart;
+			},
+		MENU_ITEM
+            {
+			command=EWordCmdArabicKeyboard;
+            txt="Arabic keyboard";
+			flags=EEikMenuItemRadioMiddle;
+			},
+		MENU_ITEM
+            {
+			command=EWordCmdGreekKeyboard;
+            txt="Greek keyboard";
+			flags=EEikMenuItemRadioMiddle;
+			},
+		MENU_ITEM
+            {
+			command=EWordCmdRussianKeyboard;
+            txt="Russian keyboard";
+			flags=EEikMenuItemRadioMiddle;
+			},
+		MENU_ITEM
+			{
+			command=EWordCmdChineseOn;
+			txt="Chinese FEP on";
+			flags=EEikMenuItemRadioMiddle;
+			},
+		MENU_ITEM
+			{
+			command=EWordCmdChineseOff;
+			txt="Chinese FEP off";
+			flags=EEikMenuItemRadioEnd;
+			}
+		};
+	}
+
+RESOURCE MENU_PANE r_word_tools_infrared
+	{
+	items=
+		{
+        MENU_ITEM
+            {
+			command=EEikCmdIrdaSend;
+			txt="Send";
+            },
+        MENU_ITEM
+            {
+            command=EEikCmdIrdaReceive;
+            txt="Receive";
+            }
+		};
+	}
+
+RESOURCE MENU_PANE r_word_view_menu
+    {
+    items=
+        {
+        MENU_ITEM
+            {
+			command=EEikCmdZoomIn;
+            txt="Zoom in";
+            },
+        MENU_ITEM
+            {
+            command=EEikCmdZoomOut;
+            txt="Zoom out";
+			},
+        MENU_ITEM
+            {
+            command=EWordCmdZoomSet;
+            txt="Set zoom"<KEllipsis>;
+  			flags=EEikMenuItemSeparatorAfter;
+			},
+		MENU_ITEM
+            {
+            command=EWordCmdToolbar;
+            txt="Show toolbar";
+			flags=EEikMenuItemCheckBox;
+            },
+		MENU_ITEM
+            {
+            command=EWordCmdToolband;
+            txt="Show top toolbar";
+			flags=EEikMenuItemCheckBox;
+            },
+        MENU_ITEM
+            {
+			command=EWordCmdWrapToScreen;
+            txt="Wrap to screen";
+			flags=EEikMenuItemSeparatorAfter|EEikMenuItemCheckBox;
+            },
+		MENU_ITEM
+			{
+			command=EWordCmdOutline;
+			txt="Outline"<KEllipsis>;
+			}
+		};
+	}
+
+RESOURCE DIALOG r_word_dialog_goto
+    {
+    flags=EEikDialogFlagWait;
+    title="Go to page";
+	buttons=R_EIK_BUTTONS_CANCEL_OK;
+    items=
+        {
+        DLG_LINE
+            {
+            prompt="Go to page";
+            type=EEikCtNumberEditor;
+            id=EWordCidPageNumber;
+			control=NUMBER_EDITOR { min=0; max=99999; };
+			},
+		DLG_LINE
+			{
+			prompt="Pages in this file:";
+            type=EEikCtLabel;
+			id=EWordCidPages;
+			control=LABEL { txt=""; };
+			}
+		};
+    }
+
+
+RESOURCE DIALOG r_word_dialog_outline
+    {
+    flags=EEikDialogFlagWait|EEikDialogFlagButtonsRight;
+    title="Document outline";
+	buttons=r_word_outline_buttons;
+    items=
+        {
+		DLG_LINE
+			{
+            type=EWordCtOutlineNav;
+			id=EWordCidOutline;
+            control=OUTLINE_CONTROL
+				{
+				width=390;
+				height=180;
+				};
+			}
+		};
+    }
+
+RESOURCE DLG_BUTTONS r_word_outline_buttons
+    {
+    buttons=
+        {
+        DLG_BUTTON { id=EWordBidOpenAll; button=CMBUT {txt="Open all";}; hotkey='Y'; },
+        DLG_BUTTON { id=EWordBidCloseAll; button=CMBUT {txt="Close all";}; hotkey='U'; },
+        DLG_BUTTON { id=EEikBidCancel; button=CMBUT {txt="Done";}; hotkey=EEikBidCancel; },
+        DLG_BUTTON { id=EEikBidOk; button= CMBUT {txt="Go to";}; hotkey=EEikBidOk; }
+      };
+    }
+
+RESOURCE DIALOG r_word_dialog_bullet
+	{
+    flags=EEikDialogFlagWait|EEikDialogFlagButtonsRight;
+	title="Select bullet character";
+	buttons=r_word_buttons_bullet;
+    items=
+        {
+		DLG_LINE
+			{
+            type=EEikCtCharMap;
+			id=EWordCidBulletCharMap;
+            // no value
+			}
+		};
+	}
+
+RESOURCE DLG_BUTTONS r_word_buttons_bullet
+    {
+    buttons=
+        {
+		DLG_BUTTON { id=EWordCidFormatBullet; button=CMBUT {txt="Format"<KEllipsis>;}; hotkey='F'; },
+        DLG_BUTTON { id=EEikBidCancel; button=CMBUT {txt="Cancel";}; hotkey=EEikBidCancel; flags=0;},
+        DLG_BUTTON { id=EEikBidOk; button= CMBUT {txt="OK";}; hotkey=EEikBidOk; flags=0; }
+      };
+    }
+
+RESOURCE DIALOG r_word_dialog_format_bullet
+	{
+    flags=EEikDialogFlagWait|EEikDialogFlagButtonsRight;
+	title="Format bullet character";
+	buttons=R_EIK_BUTTONS_CANCEL_OK;
+	items=
+		{
+		DLG_LINE
+			{
+			type=EWordCtBulletPreviewLabel;
+			prompt="Bullet";
+			id=EWordCidBulletCharacter;
+			control=LABEL { vert_align=EEikLabelAlignVCenter; txt=""; };
+			},
+		DLG_LINE
+			{
+			type=EEikCtGraySelector;
+			prompt="Colour";
+			id=EWordCidBulletColor;
+			control=GRAYSEL { flags=EEikGraySelDisplay4Gray; };
+			},
+		DLG_LINE
+			{
+			type=EEikCtChoiceList;
+			prompt="Size";
+			id=EWordCidBulletHeight;
+			control=CHOICELIST { };
+			},
+		DLG_LINE
+			{
+			type=EEikCtCheckBox;
+			prompt="Indent";
+			id=EWordCidBulletIndent;
+			}
+		};
+	}
+
+RESOURCE DIALOG r_word_dialog_style_gallery
+    {
+    title="Style gallery";
+    flags=EEikDialogFlagWait|EEikDialogFlagDensePacking; // |EEikDialogFlagButtonsRight
+	buttons=r_word_buttons_styleoption;
+    items=
+        {
+        DLG_LINE
+            {
+			type = EEikCtColListBox;
+			id=EWordCidStyleNameList;
+            control=LISTBOX 
+				{
+				height=4;
+				};
+           	},
+        DLG_LINE
+            {
+			type=EEikCtGlobalTextEditor;
+			id=EWordCidStyleInfo;
+			control=GTXTED
+				{
+				width=252;
+				height=50;
+				numlines=3;
+				flags=EEikEdwinDisplayOnly|EEikEdwinNoAutoSelection|EEikEdwinInclusiveSizeFixed;
+				};
+           	}
+		};
+    }
+
+
+RESOURCE DLG_BUTTONS r_word_buttons_styleoption
+    {
+    buttons=
+        {
+		DLG_BUTTON { id=EWordCidAddStyle; button=CMBUT {txt="New"<KEllipsis>;}; hotkey='N'; },
+		DLG_BUTTON { id=EWordCidModifyStyle; button=CMBUT {txt="Modify"<KEllipsis>;}; hotkey='M'; },
+		DLG_BUTTON { id=EEikBidDelete; button=CMBUT {txt="Delete";}; hotkey=EEikBidDelete; },
+        DLG_BUTTON { id=EEikBidCancel; button=CMBUT {txt="Cancel";}; hotkey=EEikBidCancel; flags	=0; },
+        DLG_BUTTON { id=EEikBidOk; button=CMBUT {txt="Apply";}; hotkey=EEikBidOk; }
+      };
+    }
+
+RESOURCE DIALOG r_word_dialog_style_format
+    {
+    title="Add new style";
+    flags=EEikDialogFlagWait;
+	buttons=r_word_buttons_styleaddoption;
+    items=
+        {
+        DLG_LINE
+            {
+            type=EEikCtEdwin;
+            prompt="Name";
+			id=EWordCidStyleName;
+            control= EDWIN { width=10; maxlength=32; };
+           	},
+		DLG_LINE
+			{
+			type=EWordCtStyleShortcutKeyEditor;
+			prompt="Shortcut key: Ctrl+Fn+";
+			id=EWordCidHotKey;
+			},
+		DLG_LINE
+			{
+            id=EWordCidBullet;
+            type=EEikCtCheckBox;
+            prompt="Insert bullet";
+            },		
+		DLG_LINE
+			{
+			id=EWordCidOutline;
+			type=EEikCtNumberEditor;
+			prompt="Outline level";
+            control=NUMBER_EDITOR {min=0; max=99; };
+			}
+		};
+    }
+
+
+RESOURCE MENU_PANE r_word_style_format_menu
+    {
+    items=
+        {
+        MENU_ITEM
+            {
+            command=EEikCmdFontChange;
+            txt="Font"<KEllipsis>;
+            },
+		MENU_ITEM
+            {
+            command=EEikCmdParaIndent;
+            txt="Indents"<KEllipsis>;
+            },
+		MENU_ITEM
+            {
+            command=EEikCmdParaTabs;
+            txt="Tab positions"<KEllipsis>;
+            },
+		MENU_ITEM
+            {
+            command=EEikCmdParaSpacing;
+            txt="Line spacing"<KEllipsis>;
+            },
+        MENU_ITEM
+            {
+            command=EEikCmdParaBorder;
+            txt="Borders"<KEllipsis>;
+            },
+		MENU_ITEM
+			{
+			command=EWordCmdFormatBullet;
+			txt="Bullets"<KEllipsis>;
+			},
+        MENU_ITEM
+            {
+            command=EEikCmdParaAlign;
+            txt="Alignment"<KEllipsis>;
+            }
+		};
+    }
+
+RESOURCE DLG_BUTTONS r_word_buttons_styleaddoption
+	{
+	buttons=
+		{
+		DLG_BUTTON { id=EWordCidFormatList;
+					 buttontype=EEikCtMenuButton;
+					 button=MNBUT { popout=r_word_style_format_menu;
+								    txt="Format"; bmpfile="z:\\system\\data\\eikon.mbm";
+									bmpid=EMbmEikonSarrow;
+									bmpmask=EMbmEikonSarrow;
+								  };
+					hotkey='F';
+					},
+		DLG_BUTTON { id=EEikBidCancel; button=CMBUT{ txt="Cancel";}; hotkey=EEikBidCancel; flags=0; },
+		DLG_BUTTON { id=EEikBidOk; button=CMBUT{ txt="OK";}; hotkey=EEikBidOk; flags=0; }
+		};
+	}
+
+RESOURCE ARRAY r_word_view_pref_array
+	{
+	items=
+		{
+		LBUF { txt="All"; },
+		LBUF { txt="Some"; },
+		LBUF { txt="None"; }
+		};
+	}
+
+RESOURCE DIALOG r_word_dialog_view_preferences
+	{
+    flags=EEikDialogFlagWait|EEikDialogFlagButtonsRight; 
+	title="View preferences";
+	buttons=R_EIK_BUTTONS_CANCEL_OK;
+    items=
+        {
+		DLG_LINE
+            {
+            prompt="Show tabs";
+            type=EEikCtCheckBox;
+			id=EWordCidTab;
+            },
+        DLG_LINE
+            {
+            prompt="Show spaces";
+            type=EEikCtCheckBox;
+			id=EWordCidSpaces;
+            },
+        DLG_LINE
+            {
+            prompt="Show non-breaking spaces";
+            type=EEikCtCheckBox;
+			id=EWordCidNonBreakingSpace;
+            },
+        DLG_LINE
+            {
+            prompt="Show paragraph ends";
+            type=EEikCtCheckBox;
+			id=EWordCidParaEnds;
+            },
+        DLG_LINE
+            {
+            prompt="Show forced line breaks";
+            type=EEikCtCheckBox;
+			id=EWordCidForcedLineBreaks;
+            },
+        DLG_LINE
+            {
+            prompt="Show hard hyphens";
+            type=EEikCtCheckBox;
+			id=EWordCidHardHyphens;
+            }
+		};
+	}
+
+RESOURCE DIALOG r_word_dialog_object_preferences
+	{
+    flags=EEikDialogFlagWait|EEikDialogFlagButtonsRight;
+	title="Object preferences";
+	buttons=R_EIK_BUTTONS_CANCEL_OK;
+    items=
+		{
+        DLG_LINE
+            {
+            prompt="Show new sketch as icon";
+            type=EEikCtCheckBox;
+			id=EWordCidShowSketch;
+            },
+        DLG_LINE
+            {
+            prompt="Show new graph as icon";
+            type=EEikCtCheckBox;
+			id=EWordCidShowGraph;
+            }
+		};
+	}
+
+RESOURCE DIALOG r_word_dialog_zoom_set
+	{
+	flags=EEikDialogFlagWait;
+    title="Set zoom factor";
+	buttons=R_EIK_BUTTONS_CANCEL_OK;
+	items=
+		{
+		DLG_LINE
+            {
+		    type=EEikCtNumberEditor;
+            prompt="Zoom to";
+			trailer="%";
+		    id=EWordCidZoomSet;
+			control= NUMBER_EDITOR {min=1;max=200;};
+			}
+	    };
+    }
+
+RESOURCE DIALOG r_word_template_file_new
+    {
+    flags=EEikDialogFlagWait;
+    title="Open file";
+    buttons=R_EIK_BUTTONS_BROWSE_CANCEL_OK;
+    items=
+        {
+        DLG_LINE
+            {
+            prompt="Name";
+            type=EEikCtFileNameEd;
+            id=EEikCidFileNameEd;
+            control=FILENAMEEDITOR {};
+            },
+        DLG_LINE
+            {
+            prompt="Folder";
+            type=EEikCtFolderNameSel;
+            id=EEikCidFolderNameSel;
+            control=FOLDERNAMESELECTOR {};
+            },
+        DLG_LINE
+            {
+            prompt="Disk";
+            type=EEikCtDriveNameSel;
+            id=EEikCidDriveNameSel;
+            control=DRIVENAMESELECTOR {};
+            },
+        DLG_LINE
+            {
+			type=EEikCtCheckBox;
+            prompt="Use new file";
+			id=EEikCidUseNewFileChbx;
+            },
+		DLG_LINE
+			{
+			prompt="Template";
+			type=EWordUnifiedFileNameSelector;
+            id=EEikCtUnifiedFileSel;
+			control=UNIFIEDNAMESELECTOR {};
+   			}
+        };
+    }
+
+RESOURCE DIALOG r_word_template_save_as
+    {
+    flags=EEikDialogFlagWait;
+    title="Save as template";
+    buttons=R_EIK_BUTTONS_CANCEL_OK;
+    items=
+        {
+		DLG_LINE
+			{
+			type=EEikCtLabel;
+			id=EWordCidTemplateSaveAsLabel1;
+			control=LABEL
+				{
+				horiz_align=EEikLabelAlignHLeft;
+				standard_font=EEikLabelFontAnnotation;
+				txt = "To save as a standard template, save with the name \"Normal\""; 
+				};
+			},
+        DLG_LINE
+            {
+            prompt="Template name";
+            type=EEikCtFileNameEd;
+            id=EEikCidFileNameEd;
+            control=FILENAMEEDITOR {};
+            },
+        DLG_LINE
+            {
+            prompt="Disk";
+            type=EEikCtDriveNameSel;
+            id=EEikCidDriveNameSel;
+            control=DRIVENAMESELECTOR {};
+            }
+        };
+    }
+
+RESOURCE DIALOG r_word_template_delete
+    {
+    flags=EEikDialogFlagWait;
+    title="Delete template";
+    buttons=R_EIK_BUTTONS_CANCEL_OK;
+    items=
+        {
+		DLG_LINE
+			{
+			type=EEikCtLabel;
+			id=EEikCtLabel;
+			control=LABEL
+				{
+				horiz_align=EEikLabelAlignHLeft;
+				standard_font=EEikLabelFontAnnotation;
+				txt = "You can only delete templates you created yourself"; 
+				};
+			},
+		DLG_LINE
+			{
+			prompt="Template to delete";
+			type=EEikCtUnifiedFileSel;
+            id=EEikCtUnifiedFileSel;
+			control=UNIFIEDNAMESELECTOR {};
+			}
+        };
+    }
+
+/* NORMAL TEMPLATE FILE NAME */
+RESOURCE TBUF r_word_normal_template_file_name { buf="Normal"; }
+RESOURCE TBUF r_word_blank_template_file_name { buf="Blank"; }
+/* TEMPLATE MESSAGES */
+RESOURCE TBUF r_word_template_saving_file { buf="Saving template"; }
+RESOURCE TBUF r_word_template_delete_confirmation_pre { buf="Delete template \""; } // max length 30
+RESOURCE TBUF r_word_template_delete_confirmation_post { buf="\"?"; } // max length 30
+RESOURCE TBUF r_word_template_not_available { buf="Template not available"; }
+RESOURCE TBUF32 r_word_template_saved_message { buf="Template saved as %S"; }
+
+/* FILE OPERATIONS TEXT */
+RESOURCE TBUF r_word_document_unchanged { buf="File has not changed"; }
+RESOURCE TBUF r_word_text_import_dialog_title { buf="Import text file"; }
+RESOURCE TBUF r_word_html_import_dialog_title { buf="Import HTML file"; }
+RESOURCE TBUF r_word_text_export_dialog_title { buf="Export text file"; }
+RESOURCE TBUF r_word_file_read_only { buf="This file is read-only"; }
+RESOURCE TBUF r_word_file_save_read_only { buf="Read-only file"; }
+RESOURCE TBUF r_word_file_create_file { buf="Creating file from template"; }
+
+/* SPELLING DIALOGS TEXT */
+RESOURCE TBUF r_word_spell_no_suggestions { buf="No suggestions"; } // max length 30
+RESOURCE TBUF r_word_spell_correction { buf="Enter a correction"; }
+RESOURCE TBUF r_word_spell_unrecognized_word { buf="Unrecognised word \"%S\""; } // max length 40
+RESOURCE TBUF r_word_spell_one_unrecognized_word { buf="1 unrecognised word"; } // max length 32
+RESOURCE TBUF r_word_spell_many_unrecognized_words { buf="%D unrecognised words"; } // max length 29
+RESOURCE TBUF r_word_spell_one_unrecognized_word_in_selection { buf="1 unrecognised word in the selection"; } // max length 52
+RESOURCE TBUF r_word_spell_many_unrecognized_words_in_selection { buf="%D unrecognised words in the selection"; } // max length 49
+RESOURCE TBUF r_word_spell_load_dictionary { buf="Opening dictionaries... "; }
+RESOURCE TBUF r_word_spell_user_dict_not_enabled { buf="Personal dictionary is not enabled"; } 
+RESOURCE TBUF r_word_spell_dict_not_available { buf="Personal dictionary is not available"; } 
+RESOURCE TBUF r_word_spell_selection { buf="Spell checking selection"; } // dialog title
+RESOURCE TBUF r_word_spell_not_started { buf="Cannot start spell checker"; } 
+RESOURCE TBUF r_word_spell_information { buf="Information"; } 
+RESOURCE TBUF r_word_spell_nothing_to_check { buf="No words to spell check"; } 
+
+/* STYLE DIALOGS TEXT */
+RESOURCE TBUF r_word_style_revert_title { buf= "Revert to style"; }
+RESOURCE TBUF r_word_style_revert_char { buf= "Remove manual character formatting"; }
+RESOURCE TBUF r_word_style_revert_para { buf= "Remove manual paragraph formatting"; }
+RESOURCE TBUF r_word_styleformat_title_modify { buf= "Modify \"%S\""; } // max length 24
+RESOURCE TBUF r_word_styleformat_title_add { buf= "Add new style"; }
+RESOURCE TBUF r_word_normal { buf="Normal"; }  // KMaxParagraphStyleName length = 32
+RESOURCE TBUF r_word_nostylename { buf="Type in a style name";}
+RESOURCE TBUF r_word_stylenameexists { buf="Style with this name already exists"; }
+RESOURCE TBUF r_word_close { buf="Close"; }  // max length 20
+RESOURCE TBUF r_word_delete_style_title { buf="Delete style \"%S\""; }
+RESOURCE TBUF r_word_hotkeyexists { buf="Shortcut is currently assigned to \"%S\""; } // max length 48
+RESOURCE TBUF r_word_hotkey_invalid { buf="Invalid shortcut - letter or number only"; }
+RESOURCE TBUF r_word_hotkey { buf="Ctrl+Fn+"; }   // max length 20
+RESOURCE ARRAY r_word_style_gallery_descriptions
+    {
+/* DO NOT REORDER THE FOLLOWING RESOURCES */
+    items=
+        {
+		LBUF { txt=""; },
+		LBUF { txt=""; },
+		LBUF { txt="Left indent"; },
+		LBUF { txt="Right indent"; },
+		LBUF { txt="1st line indent"; },
+		LBUF { txt=""; },
+		LBUF { txt=""; },
+		LBUF { txt="Line spacing"; },
+		LBUF { txt=""; },
+		LBUF { txt="Sp before"; },
+		LBUF { txt="Sp after"; },
+		LBUF { txt="Keep together"; },
+		LBUF { txt="Keep with next"; },
+		LBUF { txt="Start new page"; },
+		LBUF { txt="Widow/orphan"; },
+		LBUF { txt=""; },
+		LBUF { txt="Border margin"; },
+		LBUF { txt="Top border"; },
+		LBUF { txt="Bottom border"; },
+		LBUF { txt="Left border"; },
+		LBUF { txt="Right border"; },
+		LBUF { txt="Bullet"; },
+		LBUF { txt=""; },
+		LBUF { txt="Tab"; },
+		LBUF { txt="Italic"; },
+		LBUF { txt="Bold"; },
+		LBUF { txt="Superscript"; },
+		LBUF { txt="Subscript"; },
+		LBUF { txt="Underline"; },
+		LBUF { txt="Strikethrough"; },
+		LBUF { txt="Left aligned"; },
+		LBUF { txt="Centred"; },
+		LBUF { txt="Right aligned"; },
+		LBUF { txt="Justified"; }
+        };
+    }
+
+
+/* MISCELLANEOUS TEXT */
+RESOURCE TBUF r_word_font_units { buf=" pt";}
+RESOURCE TBUF r_word_no_words { buf="Words: %d"; }
+
+RESOURCE TBUF r_word_no_outline { buf="Nothing to show in outline"; }
+RESOURCE TBUF r_word_normal_outline { buf="Not available for Normal style";}
+RESOURCE TBUF r_word_outline { buf = "Outlining..."; }
+RESOURCE TBUF r_word_expand_outline { buf = "Expanding Items..."; }
+RESOURCE TBUF r_word_collapse_outline { buf = "Collapsing Items..."; }
+
+RESOURCE TBUF r_word_not_undoable_title { buf = "This operation cannot be undone"; }
+RESOURCE TBUF r_word_not_undoable_text { buf = "would you like to proceed anyway?"; }
+
+RESOURCE TBUF r_word_no_html_converter { buf = "Converter not available"; }
+RESOURCE TBUF r_word_no_text_to_paste { buf="There is no text on the clipboard"; }
+
+/* CONFIRMATION DIALOGS TEXT */
+RESOURCE ARRAY r_word_confirmation_texts
+	{
+/* DO NOT REORDER THE FOLLOWING RESOURCES */
+	items=
+		{
+		LBUF {txt="Revert to saved?"; },
+		LBUF {txt="All changes will be lost"; }
+		};
+	}

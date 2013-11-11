@@ -1,0 +1,55 @@
+// Copyright (c) 2003-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+//RTEST
+TARGET			t_xmlparserheap.exe
+TARGETTYPE		exe
+
+VENDORID		0x70000001
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_ESTLIB_SYSTEMINCLUDE 
+
+USERINCLUDE		../../../src
+USERINCLUDE		../../../src/expat-1.95.5/lib
+USERINCLUDE		../../../../xmlfw/test/rtest/tsrc
+USERINCLUDE		../../../../xmlfw/inc
+
+SOURCEPATH		../tsrc
+SOURCE			t_xmlparserheap.cpp
+
+SOURCEPATH		../../../../xmlfw/test/rtest/tsrc
+SOURCE			contenthandlers.cpp
+
+SOURCEPATH		../../../../xmlfw/src/xmlframework
+SOURCE			charsetconverter.cpp
+
+SOURCEPATH		../../../src
+SOURCE			xmlparserplugin.cpp
+SOURCE			cexpat.cpp
+
+SOURCEPATH		../../../src/expat-1.95.5/lib
+SOURCE			xmlparse.c
+SOURCE			xmlrole.c
+SOURCE			xmltok.c
+
+LIBRARY			bafl.lib
+LIBRARY			charconv.lib
+LIBRARY			efsrv.lib
+LIBRARY			euser.lib
+LIBRARY			estlib.lib
+LIBRARY			xmlframework.lib
+
+SMPSAFE

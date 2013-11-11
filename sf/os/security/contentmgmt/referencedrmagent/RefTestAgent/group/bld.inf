@@ -1,0 +1,98 @@
+/*
+* Copyright (c) 2003-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* Reference Test Agent for Content Access Framework
+*
+*/
+
+
+/**
+ @file
+*/
+
+PRJ_PLATFORMS
+DEFAULT
+
+PRJ_EXPORTS
+// ROMKIT includes
+../inc/rta.iby /epoc32/rom/include/rta.iby
+
+// settings for RTA
+../settings.ini z:/rta/settings.ini
+
+
+PRJ_MMPFILES
+
+#ifndef TOOLS
+#ifndef TOOLS2
+RTAvirtualfile.mmp
+RTAparser.mmp
+RTAArchive.mmp
+RTAclient.mmp
+RTAserver.mmp
+reftestagent.mmp
+
+// Streaming Reference Agent
+sraclient.mmp
+sraserver.mmp
+sraplugin.mmp
+srautils.mmp
+// Local SDP codec library. Made this local to avoid the dependency on middleware layer.
+../localsdp/group/localsdpcodec.mmp
+#endif // TOOLS2
+#endif // TOOLS
+
+PRJ_TESTMMPFILES
+
+#ifndef TOOLS
+#ifndef TOOLS2
+dummytestagent.mmp
+rtautils.mmp
+#endif // TOOLS2
+#endif // TOOLS
+
+PRJ_TESTEXPORTS
+// Reference Test Agent
+
+../RTAUtils/scripts/rta.script		z:/rta/rta.script
+#ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+../RTAUtils/scripts/rta_64bit.script		z:/rta/rta_64bit.script
+#endif // SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+../RTAUtils/scripts/rta.ini		z:/rta/rta.ini
+../RTAUtils/testdata/sample.txt		z:/rta/testdata/sample.txt
+../RTAUtils/testdata/content.xml 	z:/rta/testdata/content.xml
+../RTAUtils/testdata/content2.xml 	z:/rta/testdata/content2.xml
+../RTAUtils/testdata/content3.xml 	z:/rta/testdata/content3.xml
+../RTAUtils/testdata/rights.xml 	z:/rta/testdata/rights.xml
+../RTAUtils/testdata/rights2.xml 	z:/rta/testdata/rights2.xml
+../RTAUtils/testdata/rights3.xml 	z:/rta/testdata/rights3.xml
+../RTAUtils/testdata/stringattributes.xml 	z:/rta/testdata/stringattributes.xml
+../RTAUtils/testdata/AudioContent.xml 	z:/rta/testdata/audiocontent.xml
+../RTAUtils/testdata/AudioRights.xml 	z:/rta/testdata/audiorights.xml
+../RTAUtils/testdata/AudioTst.wav 	z:/rta/testdata/audiotst.wav
+../RTAUtils/testdata/rights_v0.db   z:/rta/testdata/rights_v0.db
+../RTAUtils/testdata/corruptcontent.content   z:/rta/testdata/corruptcontent.content
+../RTAUtils/testdata/negativelengthcontent.content   z:/rta/testdata/negativelengthcontent.content
+../RTAUtils/testdata/containeruniqueidboundarycheck.xml   z:/rta/testdata/containeruniqueidboundarycheck.xml
+../RTAUtils/testdata/containernouniqueid.xml   z:/rta/testdata/containernouniqueid.xml
+../RTAUtils/testdata/containeremptyuniqueid.xml   z:/rta/testdata/containeremptyuniqueid.xml
+../RTAUtils/testdata/contentnameboundarycheck.xml   z:/rta/testdata/contentnameboundarycheck.xml
+../RTAUtils/testdata/contentuniqueidboundarycheck.xml   z:/rta/testdata/contentuniqueidboundarycheck.xml
+../RTAUtils/testdata/contentnouniqueid.xml   z:/rta/testdata/contentnouniqueid.xml
+../RTAUtils/testdata/contentemptyuniqueid.xml   z:/rta/testdata/contentemptyuniqueid.xml
+
+// ROM test iby
+../inc/rtatest.iby /epoc32/rom/include/rtatest.iby
+../inc/rtautils.iby /epoc32/rom/include/rtautils.iby
+

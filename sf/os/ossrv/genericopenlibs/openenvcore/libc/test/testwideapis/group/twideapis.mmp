@@ -1,0 +1,45 @@
+// Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// Name        : twideapis.mmp
+// 
+//
+
+TARGET      twideapis.exe
+
+//Add your platform security capabilities 
+
+CAPABILITY  NONE
+TARGETTYPE  exe
+UID         0x1000008D 0x1028308C
+
+SOURCEPATH		..\src
+SOURCE			twideapisserver.cpp
+SOURCE			twideapis.cpp
+SOURCE			twideapisblocks.cpp
+
+USERINCLUDE ..\inc
+
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_LIBC_SYSTEMINCLUDE
+
+LIBRARY 		euser.lib  c32.lib
+LIBRARY        		libc.lib
+LIBRARY			testexecuteutils.lib
+LIBRARY			testexecutelogclient.lib
+
+STATICLIBRARY libcrt0.lib
+
+SMPSAFE
+

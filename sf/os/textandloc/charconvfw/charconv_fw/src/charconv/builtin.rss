@@ -1,0 +1,51 @@
+/*
+* Copyright (c) 2000-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+#include "builtin.rls"  // localisable text
+#include <uikon.rh>
+
+STRUCT NAMED_CHARACTER_SET
+	{
+	LONG identifier;
+	STRUCT name; // an LBUF
+	}
+
+STRUCT ARRAY_OF_NAMED_CHARACTER_SETS
+	{
+	STRUCT arrayofnamedcharacersets[]; // an array of NAMED_CHARACTER_SET
+	}
+
+NAME BUIL
+
+RESOURCE RSS_SIGNATURE {}
+
+RESOURCE ARRAY_OF_NAMED_CHARACTER_SETS
+	{
+	arrayofnamedcharacersets=
+		{
+		NAMED_CHARACTER_SET {identifier=0x1000582c; name=LBUF {txt=STRING_Utf7;};},
+		NAMED_CHARACTER_SET {identifier=0x1000582d; name=LBUF {txt=STRING_Utf8;};},
+		NAMED_CHARACTER_SET {identifier=0x1000582e; name=LBUF {txt=STRING_ImapUtf7;};}, // KCharacterSetIdentifierImapUtf7
+		NAMED_CHARACTER_SET {identifier=0x1000582f; name=LBUF {txt=STRING_JavaUtf8;};}, // KCharacterSetIdentifierJavaConformantUtf8
+		NAMED_CHARACTER_SET {identifier=0x100012b6; name=LBUF {txt=STRING_Cp1252;};},
+		NAMED_CHARACTER_SET {identifier=0x10003b10; name=LBUF {txt=STRING_Iso88591;};},
+		NAMED_CHARACTER_SET {identifier=0x10004cc6; name=LBUF {txt=STRING_Ascii;};},
+		NAMED_CHARACTER_SET {identifier=0x100053ab; name=LBUF {txt=STRING_Sms7Bit;};} // KCharacterSetIdentifierSms7Bit
+		};
+	}
+

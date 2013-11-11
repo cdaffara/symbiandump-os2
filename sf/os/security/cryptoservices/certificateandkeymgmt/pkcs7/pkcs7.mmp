@@ -1,0 +1,68 @@
+/*
+* Copyright (c) 2003-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+/**
+@file
+
+@SYMPurpose pkcs7.dll Manages PKCS#7 signed objects
+*/
+
+
+target		pkcs7.dll
+CAPABILITY	All -Tcb
+targettype	dll
+
+// 	KSharedLibraryUID	KPKCS7
+UID	0x1000008d			0x101FCF81
+VENDORID 0x70000001	
+
+USERINCLUDE .
+USERINCLUDE ../inc
+USERINCLUDE ../../../crypto/weakcrypto/inc
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+SOURCEPATH	.
+
+SOURCE pkcs7asn1.cpp
+SOURCE pkcs7issuerserial.cpp
+SOURCE pkcs7signerinfo.cpp
+SOURCE pkcs7excert.cpp
+
+SOURCE pkcs7contentinfo_v2.cpp
+SOURCE pkcs7signedobject_v2.cpp
+SOURCE pkcs7digestinfo.cpp
+SOURCE pkcs7encrypteddataobject.cpp
+SOURCE cmssignedobject.cpp
+SOURCE cmscontentinfo.cpp
+SOURCE cmssignerinfo.cpp
+SOURCE cmscertchoice.cpp
+SOURCE cmssigneridentifier.cpp
+SOURCE cmsutils.cpp
+
+
+LIBRARY euser.lib 
+LIBRARY x509.lib 
+LIBRARY x500.lib 
+LIBRARY crypto.lib 
+LIBRARY asn1.lib
+LIBRARY hash.lib
+LIBRARY pbe.lib cryptography.lib asnpkcs.lib
+
+DEFFILE pkcs7_v2.def
+
+SMPSAFE
+

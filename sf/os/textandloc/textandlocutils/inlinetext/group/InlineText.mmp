@@ -1,0 +1,46 @@
+/*
+* Copyright (c) 2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Project definition file for project the inlinetext DLL
+*
+*/
+
+
+//#include <data_caging_paths.hrh>
+//#include <bldvariant.hrh>
+
+TARGET                  inlinetext.dll
+TARGETTYPE              dll
+UID                     0x1000008d 0x2000B00D
+
+//CAPABILITY              CAP_GENERAL_DLL
+CAPABILITY				ALL -TCB
+//VENDORID                VID_DEFAULT
+VENDORID                0x101FB657
+
+SMPSAFE
+
+SOURCEPATH              ../src
+SOURCE                  InlineTextBase.cpp  
+SOURCE                  InlineTextCompositeSource.cpp  
+SOURCE                  InlineTextNoMatchesIndicatorSource.cpp  
+
+USERINCLUDE             ../inc
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+LIBRARY                 euser.lib
+LIBRARY                 efsrv.lib
+LIBRARY                 tagma.lib
+LIBRARY                 etext.lib
+LIBRARY                 bafl.lib
+LIBRARY                 estor.lib

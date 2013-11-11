@@ -1,0 +1,42 @@
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// NOTE: On h/w this test will leave the EComServer up as it is a client test.
+// Clients have no direct access to the servers.
+// Therefore test_harness tests may fail with -11, if run directly after
+// 
+//
+
+UID 0x101FB5A8 0x10009E2C
+
+TARGET      t_ecomssadisabled.exe			//RTEST
+TARGETTYPE  exe
+
+SOURCEPATH  ../../Framework/EcomSsaDisabledTest
+SOURCE      t_EcomSsaDisabled.cpp
+SOURCEPATH  ../../Framework/frame
+SOURCE      EComSessionAux.cpp
+SOURCEPATH  ../EcomTestUtils
+SOURCE      EcomTestIniFileUtils.cpp
+SOURCE      EcomTestCompTestabilityUtils.cpp
+
+USERINCLUDE    ../../Test_Bed/inc ../../Framework/frame ../EcomTestUtils ../../Framework/inc
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+LIBRARY     euser.lib ecom.lib
+LIBRARY     bafl.lib efsrv.lib
+LIBRARY	    ecomtestutils.lib
+LIBRARY	    hal.lib
+
+
+SMPSAFE

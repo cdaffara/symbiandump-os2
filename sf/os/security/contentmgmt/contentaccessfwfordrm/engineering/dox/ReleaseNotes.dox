@@ -1,0 +1,101 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// <hr>
+// to enum TStringAttribute.  Adding these new attributes allows CAF to better support the OMA DRM v2 DCF specification.
+// <hr>
+// processes using this API no long have to hold the DRM capability. The DRM 
+// capability must only be enforced by Content Access Agents on APIs that 
+// manipulate rights or that handle the plain text form of protected/encryted 
+// rights or content.
+// <hr>
+// 'KCafLoadPostProductionAgents' held in a new patchdata.cpp file. Also updated
+// caf.iby obey file to allow this variable to be set by licensees. The 
+// compile-time macro CAF_LOAD_POST_PRODUCTION_AGENTS has now become a ROM 
+// <hr>
+// <hr>
+// <hr>
+// <hr>
+// <hr>
+// This release of CAF is scheduled for Mike (v9.1) 
+// <hr>
+// <hr>
+// 
+//
+
+/**
+ @page CAFReleaseNotes CAF v2.19 Release Notes
+ @section CAFChanges_2_19 New in CAF v2.19
+ @li Added new value EContentVersion to enum TAttribute.  Added two new values EContentLocation and ERightsIssuerURI
+ @section CAFChanges_2_18 New in CAF v2.18
+ @li Removed the capability requirement on users of the CImportFile API. Client
+ @section CAFChanges_2_17 New in CAF v2.17
+ @li Added new patchable boolean variable to caf.dll called 
+ build-time macro. See @ref licenseesROMOnly.
+ @section CAFChanges_2_16 New in CAF v2.16
+ @li Added new entry in TStringAttribute for the TransactionID and updated the CAF API?SPI accordingly, to allow applications to retrieve thsi new attribute from the a content object.
+ @li Adding this new attribute makes CAF compliant to the OMA DRM v2 and the DCF Format.
+ @section CAFChanges_2_15 New in CAF v2.15
+ @li Licensee considerations section of API documentation updated.
+ @section CAFChanges_2_14 New in CAF v2.14
+ @li API documentation has been updated to clarify the usage of the asynchronous APIs.
+ @li New section 'Making an asynchronous SendReceive() call in an agent plugin' added to .chm file.
+ @section CAFChanges_2_13 New in CAF v2.13
+ @li Added new error codes: KErrCACorruptContent and KErrCACorruptRights.
+ @li API documentation has been updated for the majority of APIs and SPIs to reflect changes. 
+ @section AppSince10 CAF v1.0 Compatibilty
+ @li It will be binary compatible for applications currently using CAF v1.0
+ @li There are several deprecated functions which will be removed in a future release
+ @li It<b> will not</b> be source compatible for Content Access Agents implementing the CAF v1.0 API, they will need significant modifications to work with this release of CAF
+ @li Content Access Agent inteface UID changed to \c 0x10204740 for CAF v2.0 agents. This prevents CAF v2.0 trying to load CAF v1.0 agents and vice versa
+ @section CAFChanges_2_12 New in CAF v2.12
+ @li <code>ContentAccess::CData</code> objects can now be constructed without a CContent object
+ @li <code>ContentAccess::CContent</code> and <code>ContentAccess::CData</code> objects can now be created by supplying a URI or by passing an open RFile handle
+ @li <code>ContentAccess::CContent</code> now allows applications to browse the contents of files containing more than one content object, see @ref Listing
+ @li <code>ContentAccess::CData</code> now allows applications to read a particular content object within a file, see @ref CAFCData
+ @li Concept of a virtual path has been introduced to identify content within a file, see @ref VirtualPaths 
+ @li Added new attribute functions to <code>ContentAccess::CContent</code> and <code>ContentAccess::CManager</code> to query attributes related to a virtual path
+ @li Added <code>ContentAccess::RAttributeSet</code> and <code>ContentAccess::RStringAttributeSet</code> to allow several attributes to be queried in one function call
+ @li File management functions similar to \c RFs added to <code>ContentAccess::CManager</code>.
+ @li Agent management functions added to <code>ContentAccess::CManager</code> so applications can configure or query a particular agent
+ @li Event Notification functions added to <code>ContentAccess::CContent</code> and <code>ContentAccess::CManager</code>. The events currently relate to changes in the rights status of a content object.
+ @li Agent specific commands supported on <code>ContentAccess::CContent</code> and <code>ContentAccess::CManager</code>.
+ @li <code>ContentAccess::CSupplier</code> and <code>ContentAccess::CImportFile</code> now allow the client to supply output file handles for the agent to write to. See <code>ContentAccess::CImportFile::ContinueWithNewOutputFile()</code>
+ @li <code>ContentAccess::CContent</code>, <code>ContentAccess::CData</code> and <code>ContentAccess::CImportFile</code> now use less memory 
+ @li <code>ContentAccess::CAgentConsumer</code> has been renamed <code>ContentAccess::CAgentData</code>
+ @li <code>ContentAccess::CAgentSupplier</code> has been renamed <code>ContentAccess::CAgentImportFile</code>
+ @li <code>ContentAccess::CAgentRightsManager</code> added to the agent interface
+ @li Added <code>ContentAccess::CContentIterator</code> to simplify discovery of content objects
+ @li Added template class <code>ContentAccess::RStreamablePtrArray</code> that simplifies the task of transferring arrays across the client server boundary.
+ @li Agents will implement the user interface. Applications can request to suppress the agent UI using the <code>SetProperty()</code> function (e.g. <code>ContentAccess::CContent::SetProperty()</code>). See @ref CAFUI
+ @li <code>KDefaultContentObject</code> string introduced to identify that the client wants to open the default content object within the file. The default is used automatically if no UniqueId is specified. If the client specifies the UniqueId <code>KNullDesC16()</code>, the file will be opened in exactly the same way as an \c RFile, no translation will occur.
+ @li <code>ContentAccess::CData::SetQosL()</code> renamed to <code>ContentAccess::CData::SetProperty()</code>. Allows it to apply to other aspects of an agent without causing confusion
+ @li Removed <code>"const"</code> from <code>ContentAccess::CData::Read()</code> and <code>ContentAccess::CData::Seek()</code> functions so agents can maintain an internal state if necessary
+ @li Allow applications to include all of CAF by just doing <code>#include \<caf//caf.h\></code>
+ @li Agent server private directories are mapped from <code>\\private\\SID\\</code> to <code>\\private\\agentname\\</code>
+ @section CAFDeprecated Deprecated code in CAF v2.12
+ @li Deprecated the <code>ContentAccess::CAttribute</code> class since it did not work well with multiple content object files
+ @li Deprecated <code>ContentAccess::CCafMimeHeader</code> and <code>ContentAccess::CMimeFieldAndData</code>, replaced with more generic <code>ContentAccess::CMetaDataArray</code> and <code>ContentAccess::CMetaData</code>
+ @li Deprecated <code>ContentAccess::TMimeFields</code>, not needed by new APIs
+ @li Deprecated <code>ContentAccess::CBitset</code> class, no longer required when retrieving attributes with new APIs
+ @li Deprecated <code>ContentAccess::TCAFUtilsPanics</code> used by <code>ContentAccess::CBitset</code>
+ @li Deprecated <code>void CData::SetQosL(TQosAttribute aQosAttr, TInt aValue)</code> (see <code>ContentAccess::CData::SetQosL()</code>), \n replaced by <code>ContentAccess::CData::SetProperty()</code>. 
+ @li Deprecated <code>ContentAccess::TQosAttribute</code>, replaced by <code>ContentAccess::TAgentProperty</code>
+ @li Deprecated <code>CAttribute* CContent::NewAttributeL(TBool aPreloaded)</code> (see <code>ContentAccess::CContent::NewAttributeL()</code>).
+ @li Deprecated <code>CAttribute* CContent::NewAttributeL(TBool aPreloaded, TContentShareMode aShareMode)</code> (see <code>ContentAccess::CContent::NewAttributeL()</code>). 
+ @li Deprecated <code>ContentAccess::CContent::OpenContentL(TIntent, TContentShareMode)</code> function (see <code>ContentAccess::CContent::OpenContentL()</code>). \n The <code>ContentAccess::TContentShareMode</code> is now on the <code>ContentAccess::CContent::NewL()</code>. 
+ @li Deprecated <code>TBool CData::GetMimeTypeL(TDes8& aMimeType) const;</code> (see <code>ContentAccess::CData::GetMimeTypeL()</code>), can now retrieve this from string attributes. 
+ @li Deprecated <code>static void  CManager::DeleteFileL (const TDesC &aFileName);</code> (see <code>ContentAccess::CManager::DeleteFileL()</code>), \n replaced with non leaving function <code>ContentAccess::CManager::DeleteFile()</code>. 
+ @li Deprecated <code>CImportFile * CSupplier::ImportFileL (CCafMimeHeader &aMimeHeader, const TDesC &aSuggestedFileName);</code> (see <code>ContentAccess::CSupplier::ImportFileL()</code>), \n replaced with function that takes a <code>ContentAccess::CMetaDataArray</code>. 
+ @li Deprecated <code>CAttribute &  CSupplierOutputFile::AttributesL (TBool aPreloaded);</code> (see <code>ContentAccess::CSupplierOutputFile::AttributesL()</code>) \n since <code>ContentAccess::CAttribute</code> is deprecated. 
+*/

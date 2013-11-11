@@ -1,0 +1,53 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+PRINT Authentication Server tests...
+
+// Prepare a clone of TAuthSvr to possess authserver's SID.
+// This is required for modifying the authserver's central repository file.
+// This clone must be deleted at the end of the test.
+
+LOAD_SUITE tAuthSvr
+
+//
+//! @SYMTestCaseID SEC-FSTOKEN-KEYSTORE-0002
+//! @SYMTestCaseDesc An authclient successfully authenticates where the user specifies the auth method
+//!                  given that no preferred method exists
+//! 		     (Authenticate13_UserSelectsMethod)
+//! 
+//! @SYMTestPriority Medium
+//! @SYMTestActions  Have 3 plugins that support default data and are active, all trained with the default identity
+//!                  and a second identity
+//!                  Call authenticate, expecting the 2nd identity with a freshness of 0 seconds and an auth expression
+//!                  of (2nd OR 3rd plugin). Supply correct input for the 3rd plugin, but wrong info for the 2nd plugin
+//!                  Call authenticate, expecting the 2nd identity with a freshness of 300 seconds and an auth
+//!                  expression of (Default AND 2nd plugin). Supply wrong input for the 2nd plugin and the default plugin
+//! @SYMTestExpectedResults All plugins are successfully registered.
+//!
+//! @SYMDevelopedForRelease Intulo
+
+START_TESTCASE SEC-FSTOKEN-KEYSTORE-0001
+RUN_TEST_STEP !Result=0 100	tAuthSvr 	REG_IDENTITY	c:\tkeystore\scripts\registration.ini RegisterSecond
+END_TESTCASE SEC-FSTOKEN-KEYSTORE-0001
+
+
+START_TESTCASE Remove_PinPlugin_Data
+RUN_UTILS DeleteFile C:\pinplugin_inactive.txt
+RUN_UTILS DeleteFile  C:\t_pinplugindlg_in.dat
+RUN_UTILS DeleteFile  C:\t_pinplugindlg_out.dat
+END_TESTCASE Remove_PinPlugin_Data
+
+

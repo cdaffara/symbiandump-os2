@@ -1,0 +1,67 @@
+/*
+* Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+TARGET		  t_charconvfwserver.exe
+TARGETTYPE	  exe
+UID 0x1000007A 0xE27AD85E
+//UID			 0 0xE27AD85D
+
+CAPABILITY		ProtServ
+
+USERINCLUDE	 ../inc
+USERINCLUDE	 ../test/rtest/tsrc/inc
+USERINCLUDE	 ../test/rtest/tsrc/otherutf
+
+APP_LAYER_SYSTEMINCLUDE 
+OS_LAYER_LIBC_SYSTEMINCLUDE 
+
+
+SOURCEPATH		../test
+//SOURCEPATH		../test/rtest/tsrc/otherutf
+
+
+SOURCE			t_charconvfwserver.cpp
+SOURCEPATH		../test/rtest/tsrc/utf
+SOURCE			tsimple7.cpp
+SOURCE			tsimple8.cpp
+SOURCE			trfc1642.cpp
+SOURCE			tcomp7.cpp
+SOURCE			tcomp8.cpp
+SOURCE			trealut8.cpp
+SOURCE			trealuni.cpp
+SOURCE			terror.cpp
+SOURCE			tnewlin7.cpp
+SOURCE			tjava.cpp
+SOURCE			tpartial.cpp
+SOURCE			timap.cpp
+
+SOURCEPATH		../test/rtest/tsrc/main
+SOURCE	        t_memory.cpp
+
+
+LIBRARY		euser.lib
+LIBRARY		charconv.lib
+LIBRARY		efsrv.lib
+LIBRARY		utf8.lib
+LIBRARY		utf7.lib
+LIBRARY	    testexecuteutils.lib 
+LIBRARY	    testexecutelogclient.lib
+
+#ifdef ENABLE_ABIV2_MODE
+DEBUGGABLE_UDEBONLY
+#endif

@@ -1,0 +1,137 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+#ifndef __TUPS_INTEG_IBY__
+#define __TUPS_INTEG_IBY__
+
+#include <tups_examples.iby>
+
+define ZDRIVE \epoc32\data\Z
+
+REM executables and DDLs exports 
+
+file=ABI_DIR\BUILD_DIR\tupsinteg_1.exe					\sys\bin\tupsinteg_1.exe
+// setcap only works on exes put in ROM via DATA directive, but the exported data version may not be runnable
+data=ABI_DIR\BUILD_DIR\tupsinteg_1.exe					\sys\bin\tupsinteg_data.exe
+file=ABI_DIR\BUILD_DIR\tupsinteg_unprotected.exe			\sys\bin\tupsinteg_unprotected.exe
+file=ABI_DIR\BUILD_DIR\tups_sys_server01.exe				\sys\bin\tups_sys_server01.exe
+file=ABI_DIR\BUILD_DIR\tups_sys_server02.exe				\sys\bin\tups_sys_server02.exe
+file=ABI_DIR\BUILD_DIR\tups_sys_server03.exe				\sys\bin\tups_sys_server03.exe
+file=ABI_DIR\BUILD_DIR\tups_nopolicies_server.exe			\sys\bin\tups_nopolicies_server.exe
+file=ABI_DIR\BUILD_DIR\tups_clientapi_sysserver.dll			\sys\bin\tups_clientapi_sysserver.dll
+file=ABI_DIR\BUILD_DIR\tups_install.exe						\sys\bin\tups_install.exe
+file=ABI_DIR\BUILD_DIR\tups_backuprestore.exe				\sys\bin\tups_backuprestore.exe
+
+REM ECOM Plug-ins and ressource files
+
+ECOM_PLUGIN(tups_dialogcreator01.dll, tups_dialogcreator01.rsc)
+ECOM_PLUGIN(tups_dialogcreator02.dll, tups_dialogcreator02.rsc)
+ECOM_PLUGIN(tups_dialogcreator03.dll, tups_dialogcreator03.rsc)
+ECOM_PLUGIN(tups_dialogcreator_session.dll, tups_dialogcreator_session.rsc)
+ECOM_PLUGIN(tups_dialogcreator_always.dll, tups_dialogcreator_always.rsc)
+ECOM_PLUGIN(tups_dialogcreator_never.dll, tups_dialogcreator_never.rsc)
+
+ECOM_PLUGIN(tups_policyevaluator01.dll, tups_policyevaluator01.rsc)
+ECOM_PLUGIN(tups_policyevaluator02.dll, tups_policyevaluator02.rsc)
+ECOM_PLUGIN(tups_policyevaluator03.dll, tups_policyevaluator03.rsc)
+ECOM_PLUGIN(tups_policyevaluator_noprops.dll, tups_policyevaluator_noprops.rsc)
+
+#ifndef __TEXTSHELL_OBY__
+ECOM_PLUGIN(tups_notifier.dll, tups_notifier.rsc)
+#endif
+
+REM integration test policy files export
+
+data=ZDRIVE\private\10283558\policies\ups_101f7f1f_00000000.rsc	\private\10283558\policies\ups_101f7f1f_00000000.rsc
+data=ZDRIVE\private\10283558\policies\ups_101f7faa_00000000.rsc	\private\10283558\policies\ups_101f7faa_00000000.rsc
+data=ZDRIVE\private\10283558\policies\ups_101f7fbb_00000000.rsc	\private\10283558\policies\ups_101f7fbb_00000000.rsc
+
+data=ZDRIVE\private\10283558\policies\ups_101f7f1f_12300456.rsc	\private\10283558\policies\ups_101f7f1f_12300456.rsc
+data=ZDRIVE\private\10283558\policies\ups_101f7f1f_1230045b.rsc	\private\10283558\policies\ups_101f7f1f_1230045b.rsc
+data=ZDRIVE\private\10283558\policies\ups_101f7f1f_12300777.rsc	\private\10283558\policies\ups_101f7f1f_12300777.rsc
+
+data=ZDRIVE\private\10283558\policies\ups_101f7f1f_bad00001.rsc	\private\10283558\policies\ups_101f7f1f_bad00001.rsc
+data=ZDRIVE\private\10283558\policies\ups_101f7f1f_bad00002.rsc	\private\10283558\policies\ups_101f7f1f_bad00002.rsc
+
+data=ZDRIVE\private\10283558\policies\ups_101f7f1f_1000abc1.rsc	\private\10283558\policies\ups_101f7f1f_1000abc1.rsc
+data=ZDRIVE\private\10283558\policies\ups_101f7faa_1000abc1.rsc	\private\10283558\policies\ups_101f7faa_1000abc1.rsc
+data=ZDRIVE\private\10283558\policies\ups_101f7fbb_1000abc1.rsc	\private\10283558\policies\ups_101f7fbb_1000abc1.rsc
+
+data=ZDRIVE\private\10283558\policies\ups_101f7f1f_1000dddd.rsc	\private\10283558\policies\ups_101f7f1f_1000dddd.rsc
+data=ZDRIVE\private\10283558\policies\ups_101f7f1f_1000ddd2.rsc	\private\10283558\policies\ups_101f7f1f_1000ddd2.rsc
+
+data=ZDRIVE\private\10283558\policies\ups_101f7f1f_1000a00a.rsc	\private\10283558\policies\ups_101f7f1f_1000a00a.rsc
+data=ZDRIVE\private\10283558\policies\ups_101f7f1f_1000a00b.rsc	\private\10283558\policies\ups_101f7f1f_1000a00b.rsc
+data=ZDRIVE\private\10283558\policies\ups_101f7f1f_1000a00c.rsc	\private\10283558\policies\ups_101f7f1f_1000a00c.rsc
+data=ZDRIVE\private\10283558\policies\ups_101f7f1f_1000a00d.rsc	\private\10283558\policies\ups_101f7f1f_1000a00d.rsc
+data=ZDRIVE\private\10283558\policies\ups_101f7f1f_1000a00e.rsc	\private\10283558\policies\ups_101f7f1f_1000a00e.rsc
+
+data=ZDRIVE\private\10283558\policies\ups_101f7f1f_c00cace1.rsc	\private\10283558\policies\ups_101f7f1f_c00cace1.rsc
+data=ZDRIVE\private\10283558\policies\ups_101f7faa_c00cace1.rsc	\private\10283558\policies\ups_101f7faa_c00cace1.rsc
+data=ZDRIVE\private\10283558\policies\ups_101f7fbb_c00cace1.rsc	\private\10283558\policies\ups_101f7fbb_c00cace1.rsc
+
+data=ZDRIVE\private\10283558\policies\ups_101f7784_00000666.rsc	\private\10283558\policies\ups_101f7784_00000666.rsc 
+
+data=ZDRIVE\private\10283558\policies\ups_101f7f1f_b1000011.rsc	\private\10283558\policies\ups_101f7f1f_b1000011.rsc
+data=ZDRIVE\private\10283558\policies\ups_101f7f1f_b1000012.rsc	\private\10283558\policies\ups_101f7f1f_b1000012.rsc
+data=ZDRIVE\private\10283558\policies\ups_101f7faa_b1000021.rsc	\private\10283558\policies\ups_101f7faa_b1000021.rsc
+data=ZDRIVE\private\10283558\policies\ups_101f7faa_b1000022.rsc	\private\10283558\policies\ups_101f7faa_b1000022.rsc
+data=ZDRIVE\private\10283558\policies\ups_101f7fbb_b1000031.rsc	\private\10283558\policies\ups_101f7fbb_b1000031.rsc
+data=ZDRIVE\private\10283558\policies\ups_101f7fbb_b1000032.rsc	\private\10283558\policies\ups_101f7fbb_b1000032.rsc
+
+data=ZDRIVE\private\10283558\policies\ups_101f7f1f_b1100011.rsc	\private\10283558\policies\ups_101f7f1f_b1100011.rsc
+data=ZDRIVE\private\10283558\policies\ups_101f7f1f_b1100012.rsc	\private\10283558\policies\ups_101f7f1f_b1100012.rsc
+data=ZDRIVE\private\10283558\policies\ups_101f7faa_b1100021.rsc	\private\10283558\policies\ups_101f7faa_b1100021.rsc
+data=ZDRIVE\private\10283558\policies\ups_101f7faa_b1100022.rsc	\private\10283558\policies\ups_101f7faa_b1100022.rsc
+data=ZDRIVE\private\10283558\policies\ups_101f7fbb_b1100031.rsc	\private\10283558\policies\ups_101f7fbb_b1100031.rsc 
+data=ZDRIVE\private\10283558\policies\ups_101f7fbb_b1100032.rsc	\private\10283558\policies\ups_101f7fbb_b1100032.rsc 
+
+data=ZDRIVE\private\10283558\policies\ups_101f7f1f_1000e032.rsc	\private\10283558\policies\ups_101f7f1f_1000e032.rsc
+data=ZDRIVE\private\10283558\policies\ups_101f7f1f_1000e033.rsc	\private\10283558\policies\ups_101f7f1f_1000e033.rsc
+data=ZDRIVE\private\10283558\policies\ups_101f7f1f_1000e034.rsc	\private\10283558\policies\ups_101f7f1f_1000e034.rsc
+data=ZDRIVE\private\10283558\policies\ups_101f7f1f_1000e035.rsc	\private\10283558\policies\ups_101f7f1f_1000e035.rsc
+data=ZDRIVE\private\10283558\policies\ups_101f7f1f_1000daa1.rsc	\private\10283558\policies\ups_101f7f1f_1000daa1.rsc
+
+data=ZDRIVE\private\10283558\policies\ups_101f7f1f_1000d004.rsc	\private\10283558\policies\ups_101f7f1f_1000d004.rsc
+data=ZDRIVE\private\10283558\policies\ups_101f7faa_1000d004.rsc	\private\10283558\policies\ups_101f7faa_1000d004.rsc
+data=ZDRIVE\private\10283558\policies\ups_101f7fbb_1000d004.rsc	\private\10283558\policies\ups_101f7fbb_1000d004.rsc
+data=ZDRIVE\private\10283558\policies\ups_101f7f1f_0000aaa1.rsc	\private\10283558\policies\ups_101f7f1f_0000aaa1.rsc
+data=ZDRIVE\private\10283558\policies\ups_101f7f1f_0000aaa3.rsc	\private\10283558\policies\ups_101f7f1f_0000aaa3.rsc
+
+data=ZDRIVE\private\10283558\policies\ups_101f7790_00000666.rsc	\private\10283558\policies\ups_101f7790_00000666.rsc
+data=ZDRIVE\private\10283558\policies\ups_101f7f1f_1000b012.rsc	\private\10283558\policies\ups_101f7f1f_1000b012.rsc
+data=ZDRIVE\private\10283558\policies\ups_101f7f1f_00000666.rsc	\private\10283558\policies\ups_101f7f1f_00000666.rsc
+data=ZDRIVE\private\10283558\policies\ups_101f7f1f_00000999.rsc	\private\10283558\policies\ups_101f7f1f_00000999.rsc
+
+data=ZDRIVE\private\10283558\policies\ups_101f7790_100C5678.rsc	\private\10283558\policies\ups_101f7790_100C5678.rsc
+data=ZDRIVE\private\10283558\policies\ups_101f7f1f_100C5678.rsc	\private\10283558\policies\ups_101f7f1f_100C5678.rsc
+
+REM Integration test scripts exports 
+data = ZDRIVE\tups\integ\scripts\tups_integ.ini					\tups\integ\scripts\tups_integ.ini
+data = ZDRIVE\tups\integ\scripts\tups_integ.script 				\tups\integ\scripts\tups_integ.script
+data = ZDRIVE\tups\integ\scripts\tups_properties.ini 			\tups\integ\scripts\tups_properties.ini
+data = ZDRIVE\tups\integ\scripts\tups_integ_post1.script		\tups\integ\scripts\tups_integ_post1.script
+data = ZDRIVE\tups\integ\scripts\tups_integ_post1_check.script	\tups\integ\scripts\tups_integ_post1_check.script
+
+REM Integration test corrupted databases exports 
+data = ZDRIVE\tups\integ\corrupted_db_integ\ups_corrupted1.db	\tups\integ\corrupted_db_integ\ups_corrupted1.db
+data = ZDRIVE\tups\integ\corrupted_db_integ\ups_corrupted2.db	\tups\integ\corrupted_db_integ\ups_corrupted2.db
+
+
+
+#endif

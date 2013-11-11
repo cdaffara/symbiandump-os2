@@ -1,0 +1,184 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+//Name		liboil.mmp
+
+TARGET		  liboil.dll
+TARGETTYPE	  dll
+UID		  0x20004c45 0x2001101E
+
+CAPABILITY        ALL -TCB
+VENDORID          0x101FB657		
+
+EPOCALLOWDLLDATA
+
+USERINCLUDE	 		../inc
+
+SYSTEMINCLUDE   /epoc32/include
+SYSTEMINCLUDE   /epoc32/include/platform
+SYSTEMINCLUDE   /epoc32/include/stdapis
+SYSTEMINCLUDE  /epoc32/include/stdapis/liboil
+SYSTEMINCLUDE		/epoc32/include/stdapis/sys
+
+OPTION ARMCC --diag_suppress 1495
+MACRO 	HAVE_CONFIG_H
+
+MACRO   OIL_ENABLE_UNSTABLE_API
+
+SOURCEPATH	  		../src
+
+
+SOURCE liboilcpu.c
+/*
+#if defined(__WINSCW__) || defined(__WINS__)
+SOURCE liboilcpu-x86.c  
+#else
+SOURCE liboilcpu-arm.c
+#endif
+*/
+//#ifdef __ARMCC__
+SOURCE liboilcpu-arm.c
+//#else 
+//SOURCE liboilcpu-x86.c
+//#endif
+
+SOURCE liboildebug.c
+SOURCE liboilfault.c
+SOURCE liboilfunction.c
+SOURCE liboilmarshal.c
+SOURCE liboilprofile.c
+SOURCE liboilprototype.c
+SOURCE liboilrandom.c
+SOURCE liboiltest.c
+SOURCE liboilutils.c
+SOURCE liboiltrampolines.c
+SOURCE null.c
+//SOURCE  liboil_wsd.cpp
+
+SOURCE addc.c
+SOURCE argb_paint.c
+SOURCE ayuv2argb.c
+SOURCE clamp.c
+SOURCE copy_s.c
+SOURCE convert.c
+SOURCE diff8x8.c
+SOURCE diffsquaresum_f32.c
+
+//SOURCE clamp_sse.c
+//#include "amd64.mmpi"
+
+
+#include "c.mmpi"
+#include "colorsapce.mmpi"
+#include "conv.mmpi"
+#include "copy.mmpi"
+#include "dct.mmpi"
+#include "simdpack.mmpi"
+#include "utf8.mmpi"
+//#include "fb.mmpi"
+
+/*
+#if defined (WINS)
+#include "i386.mmpi"
+#include "i386_amd64.mmpi"
+#else
+#include "arm.mmpi"
+#endif
+*/
+
+//#ifdef __ARMCC__
+#include "arm.mmpi"
+//#endif
+
+#include "jpeg.mmpi"
+#include "math.mmpi"
+#include "md5.mmpi"
+//#include "mmx.mmpi"
+
+
+#include "ref.mmpi"
+#include "deprecated.mmpi"
+
+SOURCEPATH   ../src
+SOURCE  deprecated/vectoradd_s_c_dep.c liboilarray.c composite_s.c copy8x8_s.c //utf8_s.c
+
+LIBRARY				euser.lib
+LIBRARY				libc.lib
+LIBRARY             libm.lib
+//LIBRARY				ewsd.lib
+LANG            	SC
+
+SMPSAFE
+
+
+
+
+
+
+
+
+
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	    
+

@@ -1,0 +1,46 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+// Uses sid of EComserver process to allow access to private dir.
+UID 			0x101FB5A8 0x10009D8F
+
+TARGET      t_defaultresolver.exe		//RTEST
+TARGETTYPE  exe
+
+SOURCEPATH  ../../Framework/DefaultResolverTest
+SOURCE      t_defaultresolver.cpp
+
+SOURCEPATH	../../Framework/frame
+SOURCE		BackupNotifier.cpp clientrequest.cpp DefaultResolver.cpp Discoverer.cpp DowngradePath.cpp
+SOURCE		EComEntry.cpp EComServer.cpp EComServerSession.cpp ImplementationInformation.cpp resolvercache.cpp
+SOURCE		LoadManager.cpp Registrar.cpp RegistryData.cpp RomOnlyResolver.cpp UnloadPolicy.cpp
+SOURCE		EComEntryBase.cpp ServerStartupManager.cpp TestHarnessDomainMember.cpp
+SOURCE		DriveInfo.cpp
+SOURCE		EComPerformance.cpp
+SOURCE		FileUtils.cpp
+SOURCE		EComPatchDataConstantv2.cpp
+SOURCE		RegistryResolveTransaction.cpp
+SOURCE		ParseImplementationData.cpp
+
+USERINCLUDE    ../../Test_Bed/inc ../../Framework/frame ../../Framework/inc
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+LIBRARY		estor.lib euser.lib bafl.lib efsrv.lib domaincli.lib ecom.lib
+LIBRARY bsul.lib hal.lib
+
+
+VENDORID 0x70000001
+
+SMPSAFE

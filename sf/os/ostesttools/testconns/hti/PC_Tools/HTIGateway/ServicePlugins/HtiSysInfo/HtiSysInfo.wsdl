@@ -1,0 +1,1095 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="HtiSysInfo"
+ targetNamespace="urn:hti"
+ xmlns:tns="urn:hti"
+ xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+ xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+ xmlns:ns1="urn:hti"
+ xmlns:SOAP="http://schemas.xmlsoap.org/wsdl/soap/"
+ xmlns:MIME="http://schemas.xmlsoap.org/wsdl/mime/"
+ xmlns:DIME="http://schemas.xmlsoap.org/ws/2002/04/dime/wsdl/"
+ xmlns:WSDL="http://schemas.xmlsoap.org/wsdl/"
+ xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+<types>
+
+ <schema targetNamespace="urn:hti"
+  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:ns1="urn:hti"
+  xmlns="http://www.w3.org/2001/XMLSchema"
+  elementFormDefault="unqualified"
+  attributeFormDefault="unqualified">
+  <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+  <simpleType name="NetworkMode">
+   <restriction base="xsd:string">
+    <enumeration value="NetworkModeGsm"/>
+    <enumeration value="NetworkModeUmts"/>
+    <enumeration value="NetworkModeDual"/>
+   </restriction>
+  </simpleType>
+  <simpleType name="DateFormat">
+   <restriction base="xsd:string">
+    <enumeration value="DateFormatAmerican"/>
+    <enumeration value="DateFormatEuropean"/>
+    <enumeration value="DateFormatJapanese"/>
+   </restriction>
+  </simpleType>
+  <simpleType name="TimeFormat">
+   <restriction base="xsd:string">
+    <enumeration value="TimeFormat12h"/>
+    <enumeration value="TimeFormat24h"/>
+   </restriction>
+  </simpleType>
+  <simpleType name="ClockFormat">
+   <restriction base="xsd:string">
+    <enumeration value="ClockFormatAnalogue"/>
+    <enumeration value="ClockFormatDigital"/>
+   </restriction>
+  </simpleType>
+  <simpleType name="HsdpaStatus">
+   <restriction base="xsd:string">
+    <enumeration value="HsdpaDisabled"/>
+    <enumeration value="HsdpaEnabled"/>
+   </restriction>
+  </simpleType>
+  <complexType name="HtiTime">
+   <sequence>
+     <element name="year" type="xsd:unsignedShort" minOccurs="1" maxOccurs="1"/>
+     <element name="month" type="xsd:unsignedByte" minOccurs="1" maxOccurs="1"/>
+     <element name="day" type="xsd:unsignedByte" minOccurs="1" maxOccurs="1"/>
+     <element name="hour" type="xsd:unsignedByte" minOccurs="1" maxOccurs="1"/>
+     <element name="minute" type="xsd:unsignedByte" minOccurs="1" maxOccurs="1"/>
+     <element name="second" type="xsd:unsignedByte" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="HtiBatteryStatus">
+   <sequence>
+     <element name="batteryBars" type="xsd:unsignedByte" minOccurs="1" maxOccurs="1"/>
+     <element name="chargingStatus" type="xsd:unsignedByte" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <!-- operation request element -->
+  <element name="attribute" type="xsd:int"/>
+  <!-- operation response element -->
+  <element name="halAttribute" type="xsd:int"/>
+  <!-- operation response element -->
+  <element name="imei" type="xsd:string"/>
+  <!-- operation response element -->
+  <element name="swVersion" type="xsd:string"/>
+  <!-- operation response element -->
+  <element name="langVersion" type="xsd:string"/>
+  <!-- operation response element -->
+  <element name="swLangVersion" type="xsd:string"/>
+  <!-- operation response element -->
+  <element name="userAgentString" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="time" type="ns1:HtiTime"/>
+  <!-- operation response element -->
+  <element name="returnHtiTime" type="ns1:HtiTime"/>
+  <!-- operation request element -->
+  <element name="dateFormat" type="ns1:DateFormat"/>
+  <!-- operation request element -->
+  <element name="dateSeparator" type="xsd:unsignedByte"/>
+  <!-- operation request element -->
+  <element name="timeFormat" type="ns1:TimeFormat"/>
+  <!-- operation request element -->
+  <element name="timeSeparator" type="xsd:unsignedByte"/>
+  <!-- operation request element -->
+  <element name="clockFormat" type="ns1:ClockFormat"/>
+  <!-- operation response element -->
+  <element name="freeRAM" type="xsd:unsignedInt"/>
+  <!-- operation response element -->
+  <element name="usedRAM" type="xsd:unsignedInt"/>
+  <!-- operation response element -->
+  <element name="totalRAM" type="xsd:unsignedInt"/>
+  <!-- operation request element -->
+  <element name="RAMToBeLeftOver" type="xsd:unsignedInt"/>
+  <!-- operation request element -->
+  <element name="driveLetter" type="xsd:string"/>
+  <!-- operation response element -->
+  <element name="freeDiskSpace" type="xsd:unsignedLong"/>
+  <!-- operation response element -->
+  <element name="usedDiskSpace" type="xsd:unsignedLong"/>
+  <!-- operation response element -->
+  <element name="totalDiskSpace" type="xsd:unsignedLong"/>
+  <!-- operation request element -->
+  <element name="diskSpaceToBeLeftOver" type="xsd:unsignedLong"/>
+  <!-- operation request element -->
+  <element name="lightTarget" type="xsd:unsignedByte"/>
+  <!-- operation response element -->
+  <element name="lightStatus" type="xsd:unsignedByte"/>
+  <!-- operation request element -->
+  <element name="duration" type="xsd:unsignedShort"/>
+  <!-- operation request element -->
+  <element name="intensity" type="xsd:unsignedByte"/>
+  <!-- operation request element -->
+  <element name="fadeIn" type="xsd:unsignedByte"/>
+  <!-- operation request element -->
+  <element name="fadeOut" type="xsd:unsignedByte"/>
+  <!-- operation request element -->
+  <element name="onDuration" type="xsd:unsignedShort"/>
+  <!-- operation request element -->
+  <element name="offDuration" type="xsd:unsignedShort"/>
+  <!-- operation request element -->
+  <element name="timeout" type="xsd:unsignedByte"/>
+  <!-- operation response element -->
+  <element name="mode" type="ns1:NetworkMode"/>
+  <!-- operation request element -->
+  <element name="status" type="ns1:HsdpaStatus"/>
+  <!-- operation request element -->
+  <element name="btOn" type="xsd:boolean"/>
+  <!-- operation request element -->
+  <element name="force" type="xsd:boolean"/>
+  <!-- operation request element -->
+  <element name="discoverable" type="xsd:boolean"/>
+  <!-- operation request element -->
+  <element name="enableSAP" type="xsd:boolean"/>
+  <!-- operation request element -->
+  <element name="btName" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="closeConnections" type="xsd:boolean"/>
+  <!-- operation response element -->
+  <element name="deleteCount" type="xsd:int"/>
+  <!-- operation request element -->
+  <element name="keyLockOn" type="xsd:boolean"/>
+  <!-- operation request element -->
+  <element name="showNote" type="xsd:boolean"/>
+  <!-- operation request element -->
+  <element name="seconds" type="xsd:int"/>
+  <!-- operation response element -->
+  <element name="returnHtiBatteryStatus" type="ns1:HtiBatteryStatus"/>
+  <!-- operation response element -->
+  <element name="signalBars" type="xsd:int"/>
+  <!-- operation request element -->
+  <element name="filePath" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="skinName" type="xsd:string"/>
+ </schema>
+
+</types>
+
+<message name="getHalAttributeRequest">
+ <part name="attribute" element="ns1:attribute"/>
+</message>
+
+<message name="getHalAttributeResponse">
+ <part name="halAttribute" element="ns1:halAttribute"/>
+</message>
+
+<message name="getImeiRequest">
+</message>
+
+<message name="getImeiResponse">
+ <part name="imei" element="ns1:imei"/>
+</message>
+
+<message name="getSwVersionRequest">
+</message>
+
+<message name="getSwVersionResponse">
+ <part name="swVersion" element="ns1:swVersion"/>
+</message>
+
+<message name="getLangVersionRequest">
+</message>
+
+<message name="getLangVersionResponse">
+ <part name="langVersion" element="ns1:langVersion"/>
+</message>
+
+<message name="getSwLangVersionRequest">
+</message>
+
+<message name="getSwLangVersionResponse">
+ <part name="swLangVersion" element="ns1:swLangVersion"/>
+</message>
+
+<message name="getUserAgentStringRequest">
+</message>
+
+<message name="getUserAgentStringResponse">
+ <part name="userAgentString" element="ns1:userAgentString"/>
+</message>
+
+<message name="setHomeTime">
+ <part name="time" element="ns1:time"/>
+</message>
+
+<message name="setHomeTimeResponse">
+</message>
+
+<message name="getHomeTime">
+</message>
+
+<message name="getHomeTimeResponse">
+ <part name="returnHtiTime" element="ns1:returnHtiTime"/>
+</message>
+
+<message name="setDateTimeFormat">
+ <part name="dateFormat" element="ns1:dateFormat"/>
+ <part name="dateSeparator" element="ns1:dateSeparator"/>
+ <part name="timeFormat" element="ns1:timeFormat"/>
+ <part name="timeSeparator" element="ns1:timeSeparator"/>
+ <part name="clockFormat" element="ns1:clockFormat"/>
+</message>
+
+<message name="setDateTimeFormatResponse">
+</message>
+
+<message name="getFreeRAMRequest">
+</message>
+
+<message name="getFreeRAMResponse">
+ <part name="freeRAM" element="ns1:freeRAM"/>
+</message>
+
+<message name="getUsedRAMRequest">
+</message>
+
+<message name="getUsedRAMResponse">
+ <part name="usedRAM" element="ns1:usedRAM"/>
+</message>
+
+<message name="getTotalRAMRequest">
+</message>
+
+<message name="getTotalRAMResponse">
+ <part name="totalRAM" element="ns1:totalRAM"/>
+</message>
+
+<message name="eatRAMRequest">
+ <part name="RAMToBeLeftOver" element="ns1:RAMToBeLeftOver"/>
+</message>
+
+<message name="eatRAMResponse">
+ <part name="freeRAM" element="ns1:freeRAM"/>
+</message>
+
+<message name="releaseRAMRequest">
+</message>
+
+<message name="releaseRAMResponse">
+ <part name="freeRAM" element="ns1:freeRAM"/>
+</message>
+
+<message name="getFreeDiskSpaceRequest">
+ <part name="driveLetter" element="ns1:driveLetter"/>
+</message>
+
+<message name="getFreeDiskSpaceResponse">
+ <part name="freeDiskSpace" element="ns1:freeDiskSpace"/>
+</message>
+
+<message name="getUsedDiskSpaceRequest">
+ <part name="driveLetter" element="ns1:driveLetter"/>
+</message>
+
+<message name="getUsedDiskSpaceResponse">
+ <part name="usedDiskSpace" element="ns1:usedDiskSpace"/>
+</message>
+
+<message name="getTotalDiskSpaceRequest">
+ <part name="driveLetter" element="ns1:driveLetter"/>
+</message>
+
+<message name="getTotalDiskSpaceResponse">
+ <part name="totalDiskSpace" element="ns1:totalDiskSpace"/>
+</message>
+
+<message name="eatDiskSpaceRequest">
+ <part name="driveLetter" element="ns1:driveLetter"/>
+ <part name="diskSpaceToBeLeftOver" element="ns1:diskSpaceToBeLeftOver"/>
+</message>
+
+<message name="eatDiskSpaceResponse">
+ <part name="freeDiskSpace" element="ns1:freeDiskSpace"/>
+</message>
+
+<message name="releaseDiskSpaceRequest">
+ <part name="driveLetter" element="ns1:driveLetter"/>
+</message>
+
+<message name="releaseDiskSpaceResponse">
+ <part name="freeDiskSpace" element="ns1:freeDiskSpace"/>
+</message>
+
+<message name="lightStatusRequest">
+ <part name="lightTarget" element="ns1:lightTarget"/>
+</message>
+
+<message name="lightStatusResponse">
+ <part name="lightStatus" element="ns1:lightStatus"/>
+</message>
+
+<message name="lightOn">
+ <part name="lightTarget" element="ns1:lightTarget"/>
+ <part name="duration" element="ns1:duration"/>
+ <part name="intensity" element="ns1:intensity"/>
+ <part name="fadeIn" element="ns1:fadeIn"/>
+</message>
+
+<message name="lightOnResponse">
+</message>
+
+<message name="lightOff">
+ <part name="lightTarget" element="ns1:lightTarget"/>
+ <part name="duration" element="ns1:duration"/>
+ <part name="fadeOut" element="ns1:fadeOut"/>
+</message>
+
+<message name="lightOffResponse">
+</message>
+
+<message name="lightBlink">
+ <part name="lightTarget" element="ns1:lightTarget"/>
+ <part name="duration" element="ns1:duration"/>
+ <part name="onDuration" element="ns1:onDuration"/>
+ <part name="offDuration" element="ns1:offDuration"/>
+ <part name="intensity" element="ns1:intensity"/>
+</message>
+
+<message name="lightBlinkResponse">
+</message>
+
+<message name="lightRelease">
+</message>
+
+<message name="lightReleaseResponse">
+</message>
+
+<message name="screenSaverDisable">
+</message>
+
+<message name="screenSaverDisableResponse">
+</message>
+
+<message name="screenSaverEnable">
+</message>
+
+<message name="screenSaverEnableResponse">
+</message>
+
+<message name="screenSaverTimeout">
+ <part name="timeout" element="ns1:timeout"/>
+</message>
+
+<message name="screenSaverTimeoutResponse">
+</message>
+
+<message name="getNetworkModeRequest">
+</message>
+
+<message name="getNetworkModeResponse">
+ <part name="mode" element="ns1:mode"/>
+</message>
+
+<message name="setNetworkMode">
+ <part name="mode" element="ns1:mode"/>
+</message>
+
+<message name="setNetworkModeResponse">
+</message>
+
+<message name="setNetworkModeNoReboot">
+ <part name="mode" element="ns1:mode"/>
+</message>
+
+<message name="setNetworkModeNoRebootResponse">
+</message>
+
+<message name="setHsdpaStatus">
+ <part name="status" element="ns1:status"/>
+</message>
+
+<message name="setHsdpaStatusResponse">
+</message>
+
+<message name="irActivate">
+</message>
+
+<message name="irActivateResponse">
+</message>
+
+<message name="btPowerState">
+ <part name="btOn" element="ns1:btOn"/>
+ <part name="force" element="ns1:force"/>
+</message>
+
+<message name="btPowerStateResponse">
+</message>
+
+<message name="btSettings">
+ <part name="discoverable" element="ns1:discoverable"/>
+ <part name="enableSAP" element="ns1:enableSAP"/>
+ <part name="btName" element="ns1:btName"/>
+</message>
+
+<message name="btSettingsResponse">
+</message>
+
+<message name="btDeletePairingsRequest">
+ <part name="closeConnections" element="ns1:closeConnections"/>
+ <part name="btName" element="ns1:btName"/>
+</message>
+
+<message name="btDeletePairingsResponse">
+ <part name="deleteCount" element="ns1:deleteCount"/>
+</message>
+
+<message name="keyLockToggle">
+ <part name="keyLockOn" element="ns1:keyLockOn"/>
+ <part name="showNote" element="ns1:showNote"/>
+</message>
+
+<message name="keyLockToggleResponse">
+</message>
+
+<message name="autoKeyLockTime">
+ <part name="seconds" element="ns1:seconds"/>
+</message>
+
+<message name="autoKeyLockTimeResponse">
+</message>
+
+<message name="emptyDrmRightsDb">
+</message>
+
+<message name="emptyDrmRightsDbResponse">
+</message>
+
+<message name="batteryStatus">
+</message>
+
+<message name="batteryStatusResponse">
+ <part name="returnHtiBatteryStatus" element="ns1:returnHtiBatteryStatus"/>
+</message>
+
+<message name="signalStrengthRequest">
+</message>
+
+<message name="signalStrengthResponse">
+ <part name="signalBars" element="ns1:signalBars"/>
+</message>
+
+<message name="updateMediaGallery">
+ <part name="filePath" element="ns1:filePath"/>
+</message>
+
+<message name="updateMediaGalleryResponse">
+</message>
+
+<message name="activateSkin">
+ <part name="skinName" element="ns1:skinName"/>
+</message>
+
+<message name="activateSkinResponse">
+</message>
+
+<portType name="HtiSysInfoPortType">
+ <operation name="getHalAttribute">
+  <documentation>Service definition of function ns1__getHalAttribute</documentation>
+  <input message="tns:getHalAttributeRequest"/>
+  <output message="tns:getHalAttributeResponse"/>
+ </operation>
+ <operation name="getImei">
+  <documentation>Service definition of function ns1__getImei</documentation>
+  <input message="tns:getImeiRequest"/>
+  <output message="tns:getImeiResponse"/>
+ </operation>
+ <operation name="getSwVersion">
+  <documentation>Service definition of function ns1__getSwVersion</documentation>
+  <input message="tns:getSwVersionRequest"/>
+  <output message="tns:getSwVersionResponse"/>
+ </operation>
+ <operation name="getLangVersion">
+  <documentation>Service definition of function ns1__getLangVersion</documentation>
+  <input message="tns:getLangVersionRequest"/>
+  <output message="tns:getLangVersionResponse"/>
+ </operation>
+ <operation name="getSwLangVersion">
+  <documentation>Service definition of function ns1__getSwLangVersion</documentation>
+  <input message="tns:getSwLangVersionRequest"/>
+  <output message="tns:getSwLangVersionResponse"/>
+ </operation>
+ <operation name="getUserAgentString">
+  <documentation>Service definition of function ns1__getUserAgentString</documentation>
+  <input message="tns:getUserAgentStringRequest"/>
+  <output message="tns:getUserAgentStringResponse"/>
+ </operation>
+ <operation name="setHomeTime">
+  <documentation>Service definition of function ns1__setHomeTime</documentation>
+  <input message="tns:setHomeTime"/>
+  <output message="tns:setHomeTimeResponse"/>
+ </operation>
+ <operation name="getHomeTime">
+  <documentation>Service definition of function ns1__getHomeTime</documentation>
+  <input message="tns:getHomeTime"/>
+  <output message="tns:getHomeTimeResponse"/>
+ </operation>
+ <operation name="setDateTimeFormat">
+  <documentation>Service definition of function ns1__setDateTimeFormat</documentation>
+  <input message="tns:setDateTimeFormat"/>
+  <output message="tns:setDateTimeFormatResponse"/>
+ </operation>
+ <operation name="getFreeRAM">
+  <documentation>Service definition of function ns1__getFreeRAM</documentation>
+  <input message="tns:getFreeRAMRequest"/>
+  <output message="tns:getFreeRAMResponse"/>
+ </operation>
+ <operation name="getUsedRAM">
+  <documentation>Service definition of function ns1__getUsedRAM</documentation>
+  <input message="tns:getUsedRAMRequest"/>
+  <output message="tns:getUsedRAMResponse"/>
+ </operation>
+ <operation name="getTotalRAM">
+  <documentation>Service definition of function ns1__getTotalRAM</documentation>
+  <input message="tns:getTotalRAMRequest"/>
+  <output message="tns:getTotalRAMResponse"/>
+ </operation>
+ <operation name="eatRAM">
+  <documentation>Service definition of function ns1__eatRAM</documentation>
+  <input message="tns:eatRAMRequest"/>
+  <output message="tns:eatRAMResponse"/>
+ </operation>
+ <operation name="releaseRAM">
+  <documentation>Service definition of function ns1__releaseRAM</documentation>
+  <input message="tns:releaseRAMRequest"/>
+  <output message="tns:releaseRAMResponse"/>
+ </operation>
+ <operation name="getFreeDiskSpace">
+  <documentation>Service definition of function ns1__getFreeDiskSpace</documentation>
+  <input message="tns:getFreeDiskSpaceRequest"/>
+  <output message="tns:getFreeDiskSpaceResponse"/>
+ </operation>
+ <operation name="getUsedDiskSpace">
+  <documentation>Service definition of function ns1__getUsedDiskSpace</documentation>
+  <input message="tns:getUsedDiskSpaceRequest"/>
+  <output message="tns:getUsedDiskSpaceResponse"/>
+ </operation>
+ <operation name="getTotalDiskSpace">
+  <documentation>Service definition of function ns1__getTotalDiskSpace</documentation>
+  <input message="tns:getTotalDiskSpaceRequest"/>
+  <output message="tns:getTotalDiskSpaceResponse"/>
+ </operation>
+ <operation name="eatDiskSpace">
+  <documentation>Service definition of function ns1__eatDiskSpace</documentation>
+  <input message="tns:eatDiskSpaceRequest"/>
+  <output message="tns:eatDiskSpaceResponse"/>
+ </operation>
+ <operation name="releaseDiskSpace">
+  <documentation>Service definition of function ns1__releaseDiskSpace</documentation>
+  <input message="tns:releaseDiskSpaceRequest"/>
+  <output message="tns:releaseDiskSpaceResponse"/>
+ </operation>
+ <operation name="lightStatus">
+  <documentation>Service definition of function ns1__lightStatus</documentation>
+  <input message="tns:lightStatusRequest"/>
+  <output message="tns:lightStatusResponse"/>
+ </operation>
+ <operation name="lightOn">
+  <documentation>Service definition of function ns1__lightOn</documentation>
+  <input message="tns:lightOn"/>
+  <output message="tns:lightOnResponse"/>
+ </operation>
+ <operation name="lightOff">
+  <documentation>Service definition of function ns1__lightOff</documentation>
+  <input message="tns:lightOff"/>
+  <output message="tns:lightOffResponse"/>
+ </operation>
+ <operation name="lightBlink">
+  <documentation>Service definition of function ns1__lightBlink</documentation>
+  <input message="tns:lightBlink"/>
+  <output message="tns:lightBlinkResponse"/>
+ </operation>
+ <operation name="lightRelease">
+  <documentation>Service definition of function ns1__lightRelease</documentation>
+  <input message="tns:lightRelease"/>
+  <output message="tns:lightReleaseResponse"/>
+ </operation>
+ <operation name="screenSaverDisable">
+  <documentation>Service definition of function ns1__screenSaverDisable</documentation>
+  <input message="tns:screenSaverDisable"/>
+  <output message="tns:screenSaverDisableResponse"/>
+ </operation>
+ <operation name="screenSaverEnable">
+  <documentation>Service definition of function ns1__screenSaverEnable</documentation>
+  <input message="tns:screenSaverEnable"/>
+  <output message="tns:screenSaverEnableResponse"/>
+ </operation>
+ <operation name="screenSaverTimeout">
+  <documentation>Service definition of function ns1__screenSaverTimeout</documentation>
+  <input message="tns:screenSaverTimeout"/>
+  <output message="tns:screenSaverTimeoutResponse"/>
+ </operation>
+ <operation name="getNetworkMode">
+  <documentation>Service definition of function ns1__getNetworkMode</documentation>
+  <input message="tns:getNetworkModeRequest"/>
+  <output message="tns:getNetworkModeResponse"/>
+ </operation>
+ <operation name="setNetworkMode">
+  <documentation>Service definition of function ns1__setNetworkMode</documentation>
+  <input message="tns:setNetworkMode"/>
+  <output message="tns:setNetworkModeResponse"/>
+ </operation>
+ <operation name="setNetworkModeNoReboot">
+  <documentation>Service definition of function ns1__setNetworkModeNoReboot</documentation>
+  <input message="tns:setNetworkModeNoReboot"/>
+  <output message="tns:setNetworkModeNoRebootResponse"/>
+ </operation>
+ <operation name="setHsdpaStatus">
+  <documentation>Service definition of function ns1__setHsdpaStatus</documentation>
+  <input message="tns:setHsdpaStatus"/>
+  <output message="tns:setHsdpaStatusResponse"/>
+ </operation>
+ <operation name="irActivate">
+  <documentation>Service definition of function ns1__irActivate</documentation>
+  <input message="tns:irActivate"/>
+  <output message="tns:irActivateResponse"/>
+ </operation>
+ <operation name="btPowerState">
+  <documentation>Service definition of function ns1__btPowerState</documentation>
+  <input message="tns:btPowerState"/>
+  <output message="tns:btPowerStateResponse"/>
+ </operation>
+ <operation name="btSettings">
+  <documentation>Service definition of function ns1__btSettings</documentation>
+  <input message="tns:btSettings"/>
+  <output message="tns:btSettingsResponse"/>
+ </operation>
+ <operation name="btDeletePairings">
+  <documentation>Service definition of function ns1__btDeletePairings</documentation>
+  <input message="tns:btDeletePairingsRequest"/>
+  <output message="tns:btDeletePairingsResponse"/>
+ </operation>
+ <operation name="keyLockToggle">
+  <documentation>Service definition of function ns1__keyLockToggle</documentation>
+  <input message="tns:keyLockToggle"/>
+  <output message="tns:keyLockToggleResponse"/>
+ </operation>
+ <operation name="autoKeyLockTime">
+  <documentation>Service definition of function ns1__autoKeyLockTime</documentation>
+  <input message="tns:autoKeyLockTime"/>
+  <output message="tns:autoKeyLockTimeResponse"/>
+ </operation>
+ <operation name="emptyDrmRightsDb">
+  <documentation>Service definition of function ns1__emptyDrmRightsDb</documentation>
+  <input message="tns:emptyDrmRightsDb"/>
+  <output message="tns:emptyDrmRightsDbResponse"/>
+ </operation>
+ <operation name="batteryStatus">
+  <documentation>Service definition of function ns1__batteryStatus</documentation>
+  <input message="tns:batteryStatus"/>
+  <output message="tns:batteryStatusResponse"/>
+ </operation>
+ <operation name="signalStrength">
+  <documentation>Service definition of function ns1__signalStrength</documentation>
+  <input message="tns:signalStrengthRequest"/>
+  <output message="tns:signalStrengthResponse"/>
+ </operation>
+ <operation name="updateMediaGallery">
+  <documentation>Service definition of function ns1__updateMediaGallery</documentation>
+  <input message="tns:updateMediaGallery"/>
+  <output message="tns:updateMediaGalleryResponse"/>
+ </operation>
+ <operation name="activateSkin">
+  <documentation>Service definition of function ns1__activateSkin</documentation>
+  <input message="tns:activateSkin"/>
+  <output message="tns:activateSkinResponse"/>
+ </operation>
+</portType>
+
+<binding name="HtiSysInfo" type="tns:HtiSysInfoPortType">
+ <SOAP:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+ <operation name="getHalAttribute">
+  <SOAP:operation style="rpc" soapAction="HtiSysInfo"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="getImei">
+  <SOAP:operation style="rpc" soapAction="HtiSysInfo"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="getSwVersion">
+  <SOAP:operation style="rpc" soapAction="HtiSysInfo"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="getLangVersion">
+  <SOAP:operation style="rpc" soapAction="HtiSysInfo"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="getSwLangVersion">
+  <SOAP:operation style="rpc" soapAction="HtiSysInfo"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="getUserAgentString">
+  <SOAP:operation style="rpc" soapAction="HtiSysInfo"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="setHomeTime">
+  <SOAP:operation style="rpc" soapAction="HtiSysInfo"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="getHomeTime">
+  <SOAP:operation style="rpc" soapAction="HtiSysInfo"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="setDateTimeFormat">
+  <SOAP:operation style="rpc" soapAction="HtiSysInfo"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="getFreeRAM">
+  <SOAP:operation style="rpc" soapAction="HtiSysInfo"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="getUsedRAM">
+  <SOAP:operation style="rpc" soapAction="HtiSysInfo"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="getTotalRAM">
+  <SOAP:operation style="rpc" soapAction="HtiSysInfo"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="eatRAM">
+  <SOAP:operation style="rpc" soapAction="HtiSysInfo"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="releaseRAM">
+  <SOAP:operation style="rpc" soapAction="HtiSysInfo"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="getFreeDiskSpace">
+  <SOAP:operation style="rpc" soapAction="HtiSysInfo"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="getUsedDiskSpace">
+  <SOAP:operation style="rpc" soapAction="HtiSysInfo"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="getTotalDiskSpace">
+  <SOAP:operation style="rpc" soapAction="HtiSysInfo"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="eatDiskSpace">
+  <SOAP:operation style="rpc" soapAction="HtiSysInfo"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="releaseDiskSpace">
+  <SOAP:operation style="rpc" soapAction="HtiSysInfo"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="lightStatus">
+  <SOAP:operation style="rpc" soapAction="HtiSysInfo"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="lightOn">
+  <SOAP:operation style="rpc" soapAction="HtiSysInfo"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="lightOff">
+  <SOAP:operation style="rpc" soapAction="HtiSysInfo"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="lightBlink">
+  <SOAP:operation style="rpc" soapAction="HtiSysInfo"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="lightRelease">
+  <SOAP:operation style="rpc" soapAction="HtiSysInfo"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="screenSaverDisable">
+  <SOAP:operation style="rpc" soapAction="HtiSysInfo"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="screenSaverEnable">
+  <SOAP:operation style="rpc" soapAction="HtiSysInfo"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="screenSaverTimeout">
+  <SOAP:operation style="rpc" soapAction="HtiSysInfo"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="getNetworkMode">
+  <SOAP:operation style="rpc" soapAction="HtiSysInfo"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="setNetworkMode">
+  <SOAP:operation style="rpc" soapAction="HtiSysInfo"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="setNetworkModeNoReboot">
+  <SOAP:operation style="rpc" soapAction="HtiSysInfo"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="setHsdpaStatus">
+  <SOAP:operation style="rpc" soapAction="HtiSysInfo"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="irActivate">
+  <SOAP:operation style="rpc" soapAction="HtiSysInfo"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="btPowerState">
+  <SOAP:operation style="rpc" soapAction="HtiSysInfo"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="btSettings">
+  <SOAP:operation style="rpc" soapAction="HtiSysInfo"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="btDeletePairings">
+  <SOAP:operation style="rpc" soapAction="HtiSysInfo"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="keyLockToggle">
+  <SOAP:operation style="rpc" soapAction="HtiSysInfo"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="autoKeyLockTime">
+  <SOAP:operation style="rpc" soapAction="HtiSysInfo"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="emptyDrmRightsDb">
+  <SOAP:operation style="rpc" soapAction="HtiSysInfo"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="batteryStatus">
+  <SOAP:operation style="rpc" soapAction="HtiSysInfo"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="signalStrength">
+  <SOAP:operation style="rpc" soapAction="HtiSysInfo"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="updateMediaGallery">
+  <SOAP:operation style="rpc" soapAction="HtiSysInfo"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="activateSkin">
+  <SOAP:operation style="rpc" soapAction="HtiSysInfo"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+</binding>
+
+<service name="HtiSysInfo">
+ <documentation>gSOAP 2.7.6b generated service definition</documentation>
+ <port name="HtiSysInfo" binding="tns:HtiSysInfo">
+  <SOAP:address location="http://localhost:2000"/>
+ </port>
+</service>
+
+</definitions>

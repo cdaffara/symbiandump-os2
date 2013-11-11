@@ -1,0 +1,384 @@
+
+// ///////////////////////////////////////////////////////////////////////////
+//
+// Used by Robustness.script, SYSLIB-SQL-CIT-1705.
+//
+// This config file defines operations to test robustness of the SQLite
+// system, under low disk conditions.
+//
+[Top]
+Delete0=T:\Robustness0.db
+ExpectedError0=KErrNotFound
+Create1=T:\Robustness0.db
+Exec2=Create Table Sometable(Someint int primary key, Somereal real, Sometext text);
+// Add a small amount of data and check it.
+NewBlock3=AddBlock10-1
+NewBlock4=CheckBlock10-1
+// Fill the disk to within 100K of full. First fill to within 150k so we have
+// an easy way of quickly getting 50K of disk back - by deleting 'fillfile'.
+NewBlock5=FillDisk150K
+NewBlock6=FillDisk100K
+
+NoOperation7=
+// Fill the disk until an out of disk error occurs. Then close the
+// database because once it's reported a disk full error all bets are off..
+NewBlock8=FillDisk1
+Close9=
+
+// This will return things to 50K of disk free (because we filled to 150K,
+// then to 100K with this file).
+Delete10=T:\fillfile.txt
+
+// Re-open the database. This is the point of the test - the database should
+// still be usable.
+Open11=T:\Robustness0.db
+
+// Delete the data that we used to fill the disk. This is easy, our 'AddBlock'
+// data has 'Someint' values that are negative, the filldisk data is positive.
+Exec12=Delete From Sometable where Someint >= 0;
+
+// Check the original block is still ok...
+NewBlock13=CheckBlock10-1
+
+NewBlock14=AddBlock10-2
+NewBlock15=CheckBlock10-2
+
+Close16=
+Delete17=T:\Robustness0.db
+Delete18=T:\fillfile2.txt
+EndBlock19=
+
+// Add two records to the table.
+[AddBlock2-1]
+Prepare0=Insert into Sometable(Someint, Somereal, Sometext) values(:FInt, :FReal, :FText);
+Function1=WriteBigTable
+LowCount=-30
+HighCount=-29
+CountStep=1
+Multiplier=-1.859785
+Text=Z:\TEF_SQL\TestData\reference1.txt
+EventuallyExpectedError=KErrNone
+St_Close2=
+EndBlock3=
+
+// Add ten records to the table.
+[AddBlock10-1]
+Prepare0=Insert into Sometable(Someint, Somereal, Sometext) values(:FInt, :FReal, :FText);
+Function1=WriteBigTable
+LowCount=-20
+HighCount=-11
+CountStep=1
+Multiplier=-1.859785
+Text=Z:\TEF_SQL\TestData\reference1.txt
+EventuallyExpectedError=KErrNone
+St_Close2=
+EndBlock3=
+
+// Add ten different records to the table.
+[AddBlock10-2]
+Prepare0=Insert into Sometable(Someint, Somereal, Sometext) values(:FInt, :FReal, :FText);
+Function1=WriteBigTable
+LowCount=-10
+HighCount=-1
+CountStep=1
+Multiplier=-1.859785
+Text=Z:\TEF_SQL\TestData\reference1.txt
+EventuallyExpectedError=KErrNone
+St_Close2=
+EndBlock3=
+
+// Check the records added by AddBlock10-1
+[CheckBlock10-1]
+Prepare0=Select * from Sometable;
+Next1=KSqlAtRow
+Function2=ReadBigTable
+LowCount=-20
+HighCount=-11
+CountStep=1
+Multiplier=-1.859785
+Text=Z:\TEF_SQL\TestData\reference1.txt
+EventuallyExpectedError=KErrNone
+St_Close3=
+EndBlock4=
+// Check both blocks.
+[CheckBlock10-2]
+Prepare0=Select * from Sometable;
+Next1=KSqlAtRow
+Function2=ReadBigTable
+LowCount=-20
+HighCount=-1
+CountStep=1
+Multiplier=-1.859785
+Text=Z:\TEF_SQL\TestData\reference1.txt
+EventuallyExpectedError=KErrNone
+St_Close3=
+EndBlock4=
+
+
+// /////////////////////////////////////////////////////////////////////////// 
+
+// Fill the disk to within 4M of full. Unnecessary on the emulator.
+[FillDisk4M]
+EndBlock0=
+
+// Fill the disk to within 150K of full.
+[FillDisk150K]
+Function0=NearFillDisk
+FillFile=T:\fillfile2.txt
+DiskFree=153600
+EndBlock1=
+
+// Fill the disk to within 100K of full.
+[FillDisk100K]
+Function0=NearFillDisk
+FillFile=T:\fillfile.txt
+DiskFree=102400
+EndBlock1=
+
+// Use 8k text chunks to fill the disk up not so quickly.
+[FillDisk1]
+Prepare0=Insert into Sometable(Someint, Somereal, Sometext) values(:FInt, :FReal, :FText);
+Function1=WriteBigTable
+LowCount=0
+HighCount=999999
+CountStep=1
+Multiplier=299792458
+Text=Z:\TEF_SQL\TestData\reference1.txt
+EventuallyExpectedError=KErrDiskFull
+St_Close2=
+EndBlock3=
+
+// Fill the disk with small records, slow. We should close the database once the
+// i/o error has been seen - unless we have space reserved.
+[FillDisk2]
+Prepare0=Insert into Sometable(Someint, Somereal, Sometext) values(:FInt, :FReal, :FText);
+Function1=WriteBigTable
+LowCount=1000000
+HighCount=1999999
+CountStep=1
+Multiplier=299792458
+Text=S
+EventuallyExpectedError=KErrDiskFull
+St_Close2=
+EndBlock3=
+
+// ///////////////////////////////////////////////////////////////////////////
+//
+// Used by SYSLIB-SQL-CIT-1741
+// 
+// This block has two concurrent, synchronized threads. It checks that
+// a database can be modified when the disk is utterly full if disk space
+// has been reserved, looks for appropriate errors and so forth.
+//
+// This block is initially triggered by 'FillTest' which is working
+// on a separate db on the same disk at the same time.
+[DeleteTest]
+WaitA0=1
+Delete1=T:\Robustness5.db
+ExpectedError1=KErrNotFound
+
+Create2=T:\Robustness5.db
+// Reserve 100K of space.
+ReserveDriveSpace3=102400
+Exec4=Create Table Sometable(Someint int primary key, Somereal real, Sometext text);
+NoOperation5=
+
+// Fill the disk to within 100K of full.
+NewBlock6=FillDisk100K
+
+// Fill the remaining 100K with db writes. Do NOT close - we have reserved space.
+NewBlock7=FillDisk1
+
+// Get the reserved space.
+GetReserveAccess8=
+
+// And add two more records. No error should occur, we have reserved space now.
+// Two of these records is <15K.
+NewBlock9=AddBlock2-1
+NoOperation10=
+
+// Wake up 'FillTest'. There is very little disk space left (<8k?) at this
+// point but it will be using very small records so it'll manage some.
+SignalB11=1
+// Goes to FillTest Step 7.
+WaitA12=1
+
+// FillTest has filled the disk remaining with small records.
+// Our reserved disk space is actually shared so the following delete will
+// fail - the reserve has gone. Two records, about 15k.
+Exec13=delete from Sometable where Someint>=0 and Someint<2;
+ExpectedError13=KErrDiskFull
+ReleaseReserveAccess14=
+LastErrorMessage15=
+SignalB16=1
+WaitA17=1
+// Goes to FillTest Step 13.
+
+// Right, we're done. Clean up. Try releasing the reserve again, just to
+// see if it will break anything.. Naturally we must do this before the
+// RSqlDatabase::Close, we must have a valid object to do anything.
+ReleaseReserveAccess18=
+FreeReservedSpace19=
+Close20=
+Delete21=T:\Robustness5.db
+Delete22=T:\fillfile.txt
+EndBlock23=
+
+// Runs concurrently with DeleteTest.
+[FillTest]
+Delete0=T:\Robustness4.db
+ExpectedError0=KErrNotFound
+Create1=T:\Robustness4.db
+Exec2=Create Table Sometable(Someint int primary key, Somereal real, Sometext text);
+// Add some data to the database.
+NewBlock3=AddBlock10-1
+NewBlock4=CheckBlock10-1
+// Now trigger the 'DeleteTest' block - this fills the whole disk with a
+// separate database and signals us back when it's done.
+SignalA5=1
+// Goes to DeleteTest step 1.
+WaitB6=1
+// Attempt to add more data to our database.  Some will work, especially as
+// our records are small. The 'FillTest-1' block is expecting an error.
+Prepare7=Insert into Sometable(Someint, Somereal, Sometext) values(:FInt, :FReal, :FText);
+NewBlock8=FillTest-1
+St_Close9=
+
+// Wake up 'DeleteTest' again. It's going to delete a record or two.
+// Goes to DeleteTest Step 13.
+SignalA10=1
+WaitB11=1
+NoOperation12=
+
+// We can't do any db operations now - this thread never had reserved disk space
+// so all we can do is close down.
+
+Close13=
+Delete14=T:\Robustness4.db
+NoOperation15=
+// Goes to DeleteTest step 18.
+SignalA16=1
+EndBlock17=
+
+// Called by FillTest. Fills the (small) amount of remaining disk.
+[FillTest-1]
+Function0=WriteBigTable
+LowCount=12000000
+HighCount=12999999
+CountStep=1
+Multiplier=299792458
+Text=Shine On You Crazy Diamond
+EventuallyExpectedError=KErrDiskFull
+EndBlock1=
+
+// ///////////////////////////////////////////////////////////////////////////
+//
+// Used by SYSLIB-SQL-CIT-1704
+//
+// Here we create a database and add some data to it. Then we ATTACH another
+// database (creating it in the process) on a completely different partition.
+// We fill that partition with 'FillDisk' and then try to add one more record,
+// which should fail. Then we attempt to delete the attached database,
+// expecting 'KErrInUse', then we DETACH it and once more try to write to it,
+// which of course fails. Then we delete it.
+[Attach]
+Delete0=C:\Robustness2.db
+ExpectedError0=KErrNotFound
+Delete1=T:\Robustness3.db
+ExpectedError1=KErrNotFound
+Create2=C:\Robustness2.db
+NoOperation3=
+Exec4=Create Table Maintable(MyInt int primary key, MyReal real, MyText text);
+NewBlock5=AttachAddBlock
+
+Exec6=Attach "T:\Robustness3.db" as TheAttached;
+Exec7=Create Table TheAttached.Sometable(Someint int, Somereal real, Sometext text);
+
+// Fill the disk to within 100K of full (with a file..)
+NewBlock8=FillDisk150K
+NewBlock9=FillDisk100K
+
+// Fill up the drive with the attached database, first with big records,
+// then small.
+NewBlock10=FillDisk1
+Close11=
+
+// Re-open and re-attach.. Fill right to the limit with small records.
+Open12=C:\Robustness2.db
+Exec13=Attach "T:\Robustness3.db" as TheAttached;
+NewBlock14=FillDisk2
+Close15=
+
+// Re-open and re-attach...
+Open16=C:\Robustness2.db
+Exec17=Attach "T:\Robustness3.db" as TheAttached;
+
+// Verify we can add no more.
+Exec18=Insert into Sometable values(-90009, 2.718281828, "Hovercraft");
+ExpectedError18=KErrDiskFull
+
+// Close, re-open and re-attach, bets are off once we have a disk error.
+Close19=
+Open20=C:\Robustness2.db
+Exec21=Attach "T:\Robustness3.db" as TheAttached;
+
+// Verify the attached db is locked.
+Delete22=T:\Robustness3.db
+ExpectedError22=KErrInUse
+
+// Beyond this point we can't expect anything to work (necessarily) because
+// there isn't any disk space left. So grab free off 50K to make sure
+// (the fill to within 100K of full file which was created after filling
+// to within 150K of full).
+Delete23=T:\fillfile.txt
+NoOperation24=
+NoOperation25=
+
+// The number of lines common to both tables is highly dependent on exactly
+// how much space was left when the disk was filled. We really can't know
+// how many lines there will be so lets just check there are some.. Even
+// this might fail if the amount of space was very small..
+Prepare26=Select * from Maintable, Sometable where(MyInt = Someint);
+Next27=KSqlAtRow
+Next28=KSqlAtRow
+// Keep the reserve for the moment or we can't be sure things will run.
+
+// We're in the middle of an RSqlStatement operation so this detach will
+// fail.
+Exec29=Detach TheAttached;
+ExpectedError29=KSqlErrGeneral
+LastErrorMessage30=database TheAttached is locked
+// Statement has NOT expired, because DETACH should have failed..
+Next31=KSqlAtRow
+St_Close32=
+Exec33=Detach TheAttached;
+Exec34=Select * from Sometable;
+ExpectedError34=KSqlErrGeneral
+LastErrorMessage35=no such table: Sometable
+
+// Now try to delete it again. This attempt should be successful.
+Delete36=T:\Robustness3.db
+// This test has been done before..
+Delete37=C:\Robustness2.db
+ExpectedError37=KErrInUse
+ReleaseReserveAccess38=
+FreeReservedSpace39=
+Close40=
+Delete41=C:\Robustness2.db
+Delete42=T:\fillfile2.txt
+EndBlock43=
+
+// Just add a little to the database..
+[AttachAddBlock]
+Prepare0=Insert into Maintable(MyInt, MyReal, MyText) values(:FInt, :FReal, :FText);
+Function1=WriteBigTable
+LowCount=0
+HighCount=49
+CountStep=1
+Multiplier=9.869604401
+Text=Hey, here's some text.
+EventuallyExpectedError=KErrNone
+St_Close2=
+EndBlock3=
+
+

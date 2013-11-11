@@ -1,0 +1,102 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// edbms.dll Database management - client and server
+// 
+//
+
+/**
+ @file
+*/
+
+// Define this macro only when the edbms.mmh file is present in 
+// the /epoc32/include folder. 
+#ifdef SYMBIAN_CUSTOM_DBMS_CACHE_SIZES
+#include "edbms.mmh"
+#endif
+
+// The project release file
+SOURCEPATH	../group
+
+// The component build proper...
+
+target		edbms.dll
+
+targettype	dll
+
+userinclude	 ../inc
+userinclude	 ../Inc2
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+SOURCEPATH	../udbms
+source		UD_UTL.CPP Ud_Assert.cpp
+source		UD_CACHE.CPP UD_DRVR.CPP UD_ROW.CPP UD_TEXT.CPP UD_COMP.CPP
+source		UD_CLI.CPP UD_DBS.CPP UD_OBSVR.CPP UD_INCR.CPP UD_CURS.CPP
+source		Ud_drvr2.cpp
+
+SOURCEPATH	../utable
+source		UT_UTL.CPP
+source		UT_DBS.CPP UT_SCHMA.CPP UT_TRANS.CPP UT_INCR.CPP
+source		UT_TABLE.CPP UT_ROW.CPP UT_REC.CPP
+source		UT_CURS.CPP UT_BUF.CPP
+source		UT_DASRC.CPP UT_TBSRC.CPP UT_RSTRT.CPP UT_PRJCT.CPP UT_WIN.CPP
+source		UT_ORDER.CPP
+source		UT_QUERY.CPP UT_DML.CPP
+
+SOURCEPATH	../usql
+source		UQ_UTL.CPP
+source		UQ_LEXER.CPP UQ_PARSE.CPP
+source		UQ_DDL.CPP
+source		UQ_EVAL.CPP UQ_MULTI.CPP UQ_BOUND.CPP UQ_LIT.CPP
+source		UQ_NULL.CPP UQ_LIKE.CPP UQ_COMP.CPP
+source		Uq_Parse2.cpp
+
+SOURCEPATH	../ustor
+source		US_UTL.CPP US_CLI.CPP
+source		US_SCHMA.CPP US_DBS.CPP US_RCOVR.CPP US_COMP.CPP
+source		US_TABLE.CPP US_REC.CPP US_CLSTR.CPP US_INDEX.CPP
+source		US_FILE.CPP
+
+SOURCEPATH	../sdbms
+source		SD_UTL.CPP SD_BUF.CPP
+source		SD_CLI.CPP SD_OBJ.CPP SD_CURS.CPP SD_DBS.CPP SD_INCR.CPP SD_OBSVR.CPP
+source		SD_SRV.CPP SD_SESS.CPP SD_SRC.CPP Sd_DriveSpace.cpp
+source		Sd_Strings.cpp
+source		Sd_DbProps2.cpp 
+source		Sd_Sess2.cpp
+source		Sd_Cli2.cpp
+source		Sd_dbs2.cpp
+source		Sd_DbList2.cpp
+source		Sd_buf2.cpp
+source		Sd_PolicyProxy2.cpp
+
+SOURCEPATH	../security
+SOURCE      SC_PassAllPolicy.cpp
+SOURCE      SC_Main.cpp SC_Policy.cpp SC_StrmIn.cpp SC_Reader.cpp SC_Builder.cpp
+SOURCE      SC_DomainLoader.cpp SC_PolicySpace.cpp
+
+        deffile		edbms4.def
+
+library		euser.lib efsrv.lib estor.lib
+
+start wins
+baseaddress	0x41000000
+end
+
+capability	All -Tcb
+
+uid		0x1000008d 0x10003b0e
+
+vendorid	0x70000001
+
+SMPSAFE

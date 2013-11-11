@@ -1,0 +1,42 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// halsettings.exe for Initialise and Persistence of HAL attributes
+// When macro defined trace messages are compiled in and sent to RDebug
+// This line must always be commented before submitting to the MCL. See haldebug.h
+// MACRO HALSETTINGS_TRACE
+// 
+//
+
+/**
+ @file 
+*/
+
+TARGET        halsettings.exe
+TARGETTYPE    exe
+UID           0 0x102825B1
+VENDORID	  0x70000001
+//High process priority slightly reduces the chance of it being run twice concurrently 
+EPOCPROCESSPRIORITY high
+CAPABILITY WriteDeviceData PowerMgmt MultimediaDD 
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+USERINCLUDE   ../src/inc
+SOURCEPATH    ../src/halsettings
+SOURCE        halsettings.cpp halfiles.cpp halpatchdata.cpp
+
+LIBRARY       euser.lib bafl.lib efsrv.lib hal.lib
+
+
+
+SMPSAFE

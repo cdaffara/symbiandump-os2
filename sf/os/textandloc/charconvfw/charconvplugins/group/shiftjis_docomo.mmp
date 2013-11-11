@@ -1,0 +1,60 @@
+/*
+* Copyright (c) 2000-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* Alternative version of ShiftJIS plug-in converter wrapper - links with
+* shiftjis_docomo_shared to implement conversion of NTT Docomo specific
+* Shift-JIS codes, i.e. "Emoji" characters. 
+* Note : This plugin has common interface and implementation UIDs with the 
+* shiftjis_kddiau plugin. See Shift-JIS_HowTo.doc for more information
+* on the impact of this.
+* shiftjis_docomo.cpl Alternative version of ShiftJIS converter wrapper 
+*
+*/
+
+
+/**
+ @file
+*/
+
+TARGET			shiftjis_ntt_docomo.dll
+TARGETTYPE		PLUGIN
+
+CAPABILITY		All -Tcb
+
+UID				0x10009D8D 0x102044E8
+VENDORID		0x70000001
+
+USERINCLUDE ../inc
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+USERINCLUDE		../src/inc
+
+SOURCEPATH		../src/plugins
+SOURCE			shiftjis.cpp
+
+SOURCEPATH		../resource
+START RESOURCE	shiftjis.rss
+TARGETPATH		/resource/charconv
+LANG			sc
+END
+
+START RESOURCE	102044e8.rss
+TARGET			shiftjis_ntt_docomo.rsc
+END
+
+LIBRARY			euser.lib
+LIBRARY			shiftjis_docomo_shared.lib
+LIBRARY			ecom.lib
+
+SMPSAFE

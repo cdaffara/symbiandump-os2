@@ -1,0 +1,38 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+*
+*/
+
+#ifndef __LOGENG_IBY__
+#define __LOGENG_IBY__
+
+#include <dbms.iby>
+
+REM The Log Engine
+
+#ifndef NO_LOG_ENGINE_IN_ROM
+file=ABI_DIR\BUILD_DIR\logwrap.dll	System\Libs\LogWrap.dll
+file=ABI_DIR\BUILD_DIR\logcli.dll	System\Libs\LogCli.dll
+file=ABI_DIR\BUILD_DIR\logcntmodel.dll	System\Libs\LogCntModel.dll
+file=ABI_DIR\BUILD_DIR\logserv.exe	System\Programs\LogServ.exe
+
+data=ZPRIVATE\101f401d\backup_registration.xml private\101f401d\backup_registration.xml
+
+#include "logeng.hby"
+#else
+file=ABI_DIR\BUILD_DIR\logstub.dll	System\Libs\LogWrap.dll
+#endif
+
+#endif

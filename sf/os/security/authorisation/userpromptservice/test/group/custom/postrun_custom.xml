@@ -1,0 +1,23 @@
+	<task>
+		<type>ExecutableTestCaseTask</type>
+        <parameters>
+			<parameter value="tmsgapp.exe" name="file"/>
+			<parameter value="2800" name="timeout"/>
+			<parameter name="parser" value="RTestResultParser" />
+			<parameter name="result-file" value="c:\tmsgapp.log"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
+		</parameters>
+	</task>
+<finalization>
+	<task>
+		<type>FileDownloadTask</type>
+		<parameters>
+			<parameter name="src" value="c:\tmsgapp.log"/>
+			<parameter name="reboot-retry-count" value="1"/>
+			<parameter name="retry-count" value="1"/>
+		</parameters>
+	</task>
+</finalization>
+
+

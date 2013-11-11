@@ -1,0 +1,176 @@
+/*
+* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* Cryptographic algorithms - en/decryption, signing, verification, hashing
+*
+*/
+
+
+/**
+ @file
+*/
+
+
+
+PRJ_PLATFORMS
+default winc
+
+PRJ_EXPORTS
+../inc/cryptopanic.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(cryptopanic.h)
+../inc/hash.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(hash.h)
+../inc/random.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(random.h)
+../inc/randsvr.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(randsvr.h)
+../inc/randcliserv.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(randcliserv.h)
+../inc/pkcs5kdf.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(pkcs5kdf.h)
+../inc/pkcs12kdf.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(pkcs12kdf.h)
+
+../inc/crypto.iby /epoc32/rom/include/crypto.iby
+../inc/hash.iby /epoc32/rom/include/hash.iby
+../inc/random.iby /epoc32/rom/include/random.iby
+../inc/pbe.iby /epoc32/rom/include/pbe.iby
+
+
+
+#ifndef SYMBIAN_CRYPTOSPI
+#ifndef TOOLS // Don't build anything for tools
+#ifndef TOOLS2 // Don't build anything for tools2
+
+// For EKA1 arm builds, things that use long long support don't get built for thumb
+
+PRJ_MMPFILES
+cryptolib.mmp
+#ifndef MARM_THUMB
+crypto.mmp	BUILD_AS_ARM //	Don't build for thumb
+#endif
+hash.mmp
+randsvr.mmp
+random.mmp
+pbe.mmp
+
+#ifdef WINS
+cryptoswitch.mmp
+#endif
+
+PRJ_TESTMMPFILES
+tasymmetric.mmp
+#ifndef MARM_THUMB
+tbigint.mmp  BUILD_AS_ARM // Don't build for thumb
+#endif
+tpkcs5kdf.mmp 
+tpbe.mmp	
+tsymmetric.mmp
+thash.mmp
+trandom.mmp
+tpaddingServer.mmp
+
+#endif // TOOLS2
+#endif //TOOLS
+
+
+PRJ_TESTEXPORTS
+
+// bigint
+../test/tbigint/scripts/tbasicmathstests.txt /epoc32/winscw/c/tbigint/tbasicmathstests.txt
+../test/tbigint/scripts/tconstructiontests.txt /epoc32/winscw/c/tbigint/tconstructiontests.txt
+../test/tbigint/scripts/tprimegen.txt /epoc32/winscw/c/tbigint/tprimegen.txt
+../test/tbigint/scripts/tmontgomerytests.txt /epoc32/winscw/c/tbigint/tmontgomerytests.txt
+../test/tbigint/scripts/tprimetests.txt /epoc32/winscw/c/tbigint/tprimetests.txt
+../test/tbigint/scripts/tprimetests2.txt /epoc32/winscw/c/tbigint/tprimetests2.txt
+../test/tbigint/scripts/tprimefailuretests.txt /epoc32/winscw/c/tbigint/tprimefailuretests.txt
+../test/tbigint/scripts/tperformancetests.txt /epoc32/winscw/c/tbigint/tperformancetests.txt
+
+../test/tpkcs5kdf/scripts/tpkcs12kdftests.txt /epoc32/winscw/c/tpkcs5kdf/tpkcs12kdftests.txt
+
+// pbe
+../test/tpbe/scripts/tpbetests_v2.txt /epoc32/winscw/c/tpbe/tpbetests_v2.txt
+../test/tpbe/Data/strong.dat /epoc32/winscw/c/tpbe/strong.dat
+../test/tpbe/Data/weak.dat /epoc32/winscw/c/tpbe/weak.dat
+../test/tpbe/Data/pkcs5-orig.dat /epoc32/winscw/c/tpbe/pkcs5-orig.dat
+../test/tpbe/Data/pkcs12-first.dat /epoc32/winscw/c/tpbe/pkcs12-first.dat
+
+// Asymmetric
+../test/tasymmetric/scripts/tasymmetrictests.txt /epoc32/winscw/c/tasymmetric/tasymmetrictests.txt
+
+../test/tasymmetric/scripts/asymmetricPerformance.txt /epoc32/winscw/c/tasymmetric/asymmetricperformance.txt
+
+// Symmetric
+../test/tsymmetric/scripts/tsymmetrictests.txt /epoc32/winscw/c/tsymmetric/tsymmetrictests.txt
+
+../test/tsymmetric/scripts/tsymmetricperformancetests.txt /epoc32/winscw/c/tsymmetric/tsymmetricperformancetests.txt
+
+../test/tsymmetric/scripts/symmetricOOMtests.txt /epoc32/winscw/c/tsymmetric/symmetricoomtests.txt
+
+../test/tsymmetric/scripts/AESECBVectorsScript.txt /epoc32/winscw/c/tsymmetric/aesecbvectorsscript.txt
+../test/tsymmetric/scripts/AESECB_KAT_VT.txt /epoc32/winscw/c/tsymmetric/aesecb_kat_vt.txt
+../test/tsymmetric/scripts/AESECB_KAT_VK.txt /epoc32/winscw/c/tsymmetric/aesecb_kat_vk.txt
+
+../test/tsymmetric/scripts/AESMonteCarloEncryptECB128.txt /epoc32/winscw/c/tsymmetric/aesmontecarloencryptecb128.txt
+../test/tsymmetric/scripts/AESMonteCarloEncryptECB192.txt /epoc32/winscw/c/tsymmetric/aesmontecarloencryptecb192.txt
+../test/tsymmetric/scripts/AESMonteCarloEncryptECB256.txt /epoc32/winscw/c/tsymmetric/aesmontecarloencryptecb256.txt
+
+../test/tsymmetric/scripts/AESMonteCarloDecryptECB128.txt /epoc32/winscw/c/tsymmetric/aesmontecarlodecryptecb128.txt
+../test/tsymmetric/scripts/AESMonteCarloDecryptECB192.txt /epoc32/winscw/c/tsymmetric/aesmontecarlodecryptecb192.txt
+../test/tsymmetric/scripts/AESMonteCarloDecryptECB256.txt /epoc32/winscw/c/tsymmetric/aesmontecarlodecryptecb256.txt
+
+../test/tsymmetric/scripts/AESMonteCarloEncryptCBC128.txt /epoc32/winscw/c/tsymmetric/aesmontecarloencryptcbc128.txt
+../test/tsymmetric/scripts/AESMonteCarloEncryptCBC192.txt /epoc32/winscw/c/tsymmetric/aesmontecarloencryptcbc192.txt
+../test/tsymmetric/scripts/AESMonteCarloEncryptCBC256.txt /epoc32/winscw/c/tsymmetric/aesmontecarloencryptcbc256.txt
+
+../test/tsymmetric/scripts/AESMonteCarloDecryptCBC128.txt /epoc32/winscw/c/tsymmetric/aesmontecarlodecryptcbc128.txt
+../test/tsymmetric/scripts/AESMonteCarloDecryptCBC192.txt /epoc32/winscw/c/tsymmetric/aesmontecarlodecryptcbc192.txt
+../test/tsymmetric/scripts/AESMonteCarloDecryptCBC256.txt /epoc32/winscw/c/tsymmetric/aesmontecarlodecryptcbc256.txt
+
+//	Hash
+../test/thash/testdata/hmacmd2.dat	/epoc32/winscw/c/thash/hmacmd2.dat
+../test/thash/testdata/hmacmd5.dat	/epoc32/winscw/c/thash/hmacmd5.dat
+../test/thash/testdata/hmacmd4.dat	/epoc32/winscw/c/thash/hmacmd4.dat 
+../test/thash/testdata/hmacsha1.dat	/epoc32/winscw/c/thash/hmacsha1.dat
+../test/thash/testdata/hmacsha224.dat	/epoc32/winscw/c/thash/hmacsha224.dat
+../test/thash/testdata/hmacsha256.dat	/epoc32/winscw/c/thash/hmacsha256.dat
+../test/thash/testdata/hmacsha384.dat	/epoc32/winscw/c/thash/hmacsha384.dat
+../test/thash/testdata/hmacsha512.dat	/epoc32/winscw/c/thash/hmacsha512.dat
+../test/thash/testdata/md2.dat		/epoc32/winscw/c/thash/md2.dat
+../test/thash/testdata/md5.dat		/epoc32/winscw/c/thash/md5.dat
+../test/thash/testdata/sha1.dat		/epoc32/winscw/c/thash/sha1.dat
+../test/thash/testdata/md4.dat		/epoc32/winscw/c/thash/md4.dat
+../test/thash/testdata/md4_largedata1.txt	/epoc32/winscw/c/thash/md4_largedata1.txt
+../test/thash/testdata/md4_largedata2.txt	/epoc32/winscw/c/thash/md4_largedata2.txt
+../test/thash/testdata/md4_largedata3.txt	/epoc32/winscw/c/thash/md4_largedata3.txt
+../test/thash/testdata/448bit_data.txt		/epoc32/winscw/c/thash/448bit_data.txt
+../test/thash/testdata/512bit_data.txt		/epoc32/winscw/c/thash/512bit_data.txt
+../test/thash/testdata/512bitdata_largerkey.txt	/epoc32/winscw/c/thash/512bitdata_largerkey.txt
+../test/thash/testdata/largerthanblocksizedata_key.txt	/epoc32/winscw/c/thash/largerthanblocksizedata_key.txt
+../test/thash/testdata/sha224.dat	/epoc32/winscw/c/thash/sha224.dat
+../test/thash/testdata/sha256.dat	/epoc32/winscw/c/thash/sha256.dat
+../test/thash/testdata/sha384.dat	/epoc32/winscw/c/thash/sha384.dat
+../test/thash/testdata/sha512.dat	/epoc32/winscw/c/thash/sha512.dat
+
+
+//	Padding
+../test/tpadding/scripts/tpadSSLv3.ini		/epoc32/winscw/c/tpadding/tpadsslv3.ini
+../test/tpadding/scripts/tpadpkcs7.ini		/epoc32/winscw/c/tpadding/tpadpkcs7.ini
+../test/tpadding/scripts/tpaddingnone.ini	/epoc32/winscw/c/tpadding/tpaddingnone.ini
+../test/tpadding/scripts/tpadding.script	/epoc32/winscw/c/tpadding/tpadding.script
+../test/tpadding/scripts/tpaddingudeb.script	/epoc32/winscw/c/tpadding/tpaddingudeb.script
+
+
+// ROMKIT includes
+../inc/cryptotests.iby /epoc32/rom/include/cryptotests.iby
+../inc/hashtests.iby /epoc32/rom/include/hashtests.iby
+../inc/pbetests.iby /epoc32/rom/include/pbetests.iby
+../inc/randomtests.iby /epoc32/rom/include/randomtests.iby
+../inc/pkcs5kdftests.iby /epoc32/rom/include/pkcs5kdftests.iby
+../inc/paddingtests.iby /epoc32/rom/include/paddingtests.iby
+
+#endif // SYMBIAN_CRYPTOSPI

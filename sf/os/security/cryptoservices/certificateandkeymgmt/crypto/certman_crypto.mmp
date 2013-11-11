@@ -1,0 +1,53 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+/**
+@file
+
+@SYMPurpose crypto.dll Certificate management base classes and interface to crypto algorithms
+*/
+
+TARGET        crypto.dll
+CAPABILITY All
+TARGETTYPE    DLL
+
+UID    0x1000008d 0x10005e0b
+VENDORID 0x70000001
+
+SOURCEPATH	.
+SOURCE        Signed.cpp cryptomain.cpp
+
+USERINCLUDE ../inc
+USERINCLUDE ../../../crypto/weakcrypto/inc
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+LIBRARY	euser.lib estor.lib 
+LIBRARY cryptography.lib hash.lib
+
+START WINS
+    BASEADDRESS 0x745f0000
+END
+
+#ifdef WINSCW
+DEFFILE CRYPTO.def
+#endif
+
+#ifdef ARMV5
+DEFFILE crypto.def
+#endif
+SMPSAFE

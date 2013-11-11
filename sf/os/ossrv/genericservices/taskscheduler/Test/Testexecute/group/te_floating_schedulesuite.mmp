@@ -1,0 +1,56 @@
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+          TARGET      te_floating_schedulesuite.exe
+          TARGETTYPE  exe
+          UID             0x1000007A 0x101F7784
+
+//Please add any change under here
+SOURCEPATH  ../src
+SOURCE		Te_floating_scheduleSuiteServer.cpp
+SOURCE		Te_floating_scheduleSuiteStepBase.cpp
+SOURCE		persist_hometimeStep.cpp
+SOURCE		persist_utcStep.cpp
+SOURCE		persist_mixedStep.cpp
+SOURCE		persist_hometime_floatStep.cpp
+SOURCE		transient_hometimeStep.cpp
+SOURCE		transient_utcStep.cpp
+SOURCE		transient_mixedStep.cpp
+SOURCE		transient_hometime_floatStep.cpp	
+SOURCE		hometime_floatStep.cpp
+SOURCE		DEF061595_Step.cpp
+
+USERINCLUDE	../src
+USERINCLUDE	../../TSUtils
+USERINCLUDE	../../../INC
+
+MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+
+
+LIBRARY 	euser.lib
+LIBRARY		testexecuteutils.lib 
+LIBRARY		testexecutelogclient.lib 
+
+LIBRARY		schsvr.lib
+LIBRARY		efsrv.lib
+LIBRARY		tsutils_tsk.lib
+library		tzclient.lib
+
+// WDD capability required for RTz::SetTimeZoneL()
+CAPABILITY WriteDeviceData
+
+SMPSAFE

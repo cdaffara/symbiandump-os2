@@ -1,0 +1,122 @@
+/** @file  ../include/setjmp.h
+@internalComponent
+*/
+
+/** @fn  longjmp(jmp_buf __jmpb, int __retval)
+@param __jmpb
+@param __retval
+
+Refer to  setjmp() for the documentation
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  setjmp(jmp_buf __jmpb)
+@param __jmpb
+
+Note: This description also covers the following functions -
+ longjmp()  _setjmp()  _longjmp() 
+
+@return   If the return is from a direct invocation, the setjmp function returns 0. If the return is from a call to longjmp(),
+setjmp() returns a non-zero value.
+After the longjmp is completed, program execution continues as if
+the corresponding invocation of setjmp() had just returned the
+value specified by __retval. If __retval is 0, setjmp() returns 1.
+
+  The setjmp, and _setjmp functions save their calling environment in __jmpb. Each of these functions returns 0.
+
+ The corresponding longjmp functions restore the environment saved by their most recent respective
+invocations
+of the setjmp function.
+They then return so that program execution continues as if the corresponding
+invocation of the setjmp call had just returned the value specified by __retval, instead of 0.
+
+ The longjmp routines may not be called after the routine which called the setjmp routines returns.
+
+ All accessible objects have values as of the time longjmp routine was called, except that the values of objects of automatic storage
+invocation duration that do not have the volatile
+type and have been changed between the setjmp invocation and longjmp call are indeterminate.
+
+ The setjmp / longjmp pairs save and restore the signal mask while _setjmp / _longjmp pairs save and restore only the register set and the stack.
+
+Examples:
+@code
+#include <setjmp.h>
+#include <stdio.h>
+#include <stdlib.h>
+  
+static void f1( int, int, int );
+static void f2( void );
+static jmp_buf jmpbuffer;
+  
+int main()
+{
+        int count;
+        register int val;
+        volatile int sum;
+  
+        count = 2; val = 3; sum = 4;
+  
+        if ( setjmp( jmpbuffer ) != 0 )
+        {
+    printf("in main: count = %d, val = %d, sum = %d
+", count, val, sum );
+    exit(0);
+  }
+  
+        f1(97, 98, 99 );
+  
+        return 0;
+}
+   
+static void f1 (int i, int j, int k )
+{
+          printf("in f1: count = %d, val = %d, sum = %d
+", i, j , k );
+    f2();
+}
+   
+static void f2( void )
+{
+    longjmp( jmpbuffer, 1 );
+}
+
+@endcode
+ Output
+@code
+in f1: count = 97, val = 98, sum = 99
+in main: count = 2, val = 3, sum = 4
+
+@endcode
+
+Limitations: 
+
+The signal related functionalities aren't applicable to the Symbian 
+OS implementation as there is no support for signals. This means that the setjmp and _setjmp routines have the same functionality and so do longjmp and _longjmp . 
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def	_setjmp
+
+The _longjmp() and _setjmp() functions shall be equivalent to longjmp() and setjmp(), respectively, with the additional restriction that _longjmp() and _setjmp() shall not manipulate the signal mask.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def	_longjmp
+
+The _longjmp() and _setjmp() functions shall be equivalent to longjmp() and setjmp(), respectively, with the additional restriction that _longjmp() and _setjmp() shall not manipulate the signal mask.
+
+@publishedAll
+@externallyDefinedApi
+*/

@@ -1,0 +1,58 @@
+/*
+* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Project definition file for project WLAN NIF
+*
+*/
+
+/*
+* %version: 8 %
+*/
+
+#include <platform_paths.hrh>
+
+TARGET          wlannwif.dll
+TARGETTYPE      PLUGIN
+
+UID             0x10009d8d 0x2001b2d1
+VENDORID        0x101fb657
+
+SOURCEPATH      ../src
+SOURCE          WlanCfproto.cpp
+SOURCE          wlanmcprfactory.cpp
+SOURCE          ecom_impl.cpp
+
+USERINCLUDE     ../inc
+USERINCLUDE     ../../inc
+OS_LAYER_SYSTEMINCLUDE
+
+START RESOURCE 2001B2D1.rss
+TARGET wlannwif.rsc
+END
+
+LIBRARY         euser.lib
+LIBRARY         esocksvr.lib 
+LIBRARY         wlannif.lib 
+LIBRARY         esock.lib
+LIBRARY         insock.lib
+LIBRARY         netmeta.lib
+LIBRARY         commsfw.lib
+LIBRARY         nodemessages.lib
+LIBRARY         meshmachine.lib
+LIBRARY         netinterfaces.lib
+LIBRARY         factories.lib
+LIBRARY         serverden.lib
+
+#include "comms-infras/commsdebugutility.mmh"
+
+CAPABILITY CommDD PowerMgmt ReadDeviceData WriteDeviceData TrustedUI ProtServ NetworkControl NetworkServices LocalServices ReadUserData WriteUserData

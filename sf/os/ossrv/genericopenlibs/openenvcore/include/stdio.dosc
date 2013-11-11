@@ -1,0 +1,3765 @@
+/** @file ../include/stdio.h
+@internalComponent
+*/
+
+/** @fn  clearerr(FILE *fp)
+@param fp
+
+Note: This description also covers the following functions -
+ feof()  ferror()  fileno() 
+
+  The function clearerr clears the end-of-file and error indicators for the stream pointed
+to by fp.
+
+ The function feof tests the end-of-file indicator for the stream pointed to by fp, returning non-zero if it is set.
+The end-of-file indicator can only be cleared by the function clearerr.
+
+ The function ferror tests the error indicator for the stream pointed to by fp, returning non-zero if it is set.
+The error indicator can only be reset by the clearerr function.
+
+ The function fileno examines the argument fp and returns its integer descriptor.
+ 
+Examples:
+@code
+/* this program shows finding error set using ferror 
+ * and clearing it using clearerr functions */
+#include <stdio.h>
+int main()
+{
+        char a;
+        if( set_fmode('t') != 0 )					// setting text-mode as default file opening mode throughout the appln.
+        	{
+        	printf("Failed to set text-mode\n");
+        	return -1;
+        	}
+        FILE* fp = fopen("c:\input.txt", "w");
+        fprintf(fp, "%s", "abcdefghijklmn");
+        fprintf(fp, "%c", '');
+        fprintf(fp, "%s", "fdsfdsafsdabcdefghijklmn");
+        fclose(fp);
+        fp=fopen("c:\input.txt","r");
+        if (fp == NULL)
+                {
+                printf("fopen failed");
+                return -1;
+                }
+        else
+                {
+                fwrite(&a;, sizeof(char), 1, fp);
+                if (ferror (fp))
+                        printf("error set in file stream");
+                else
+                        {
+                        fclose(fp);
+                        return -1;
+                        }
+                clearerr(fp);
+                if (!ferror(fp))
+                        printf("error cleared in file stream");
+                else printf("error still unexpected set in file stream");
+                fclose (fp);
+                }
+        return 0;
+}
+
+@endcode
+@code
+Output
+
+error set in file stream
+error cleared in file stream
+
+@endcode
+@see open()
+@see flockfile()
+@see set_fmode() 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fclose(FILE *fp)
+@param fp
+@return   Upon successful completion 0 is returned.
+Otherwise, EOF is returned and the global variable errno is set to indicate the error.
+In either case no further access to the stream is possible.
+
+  The fclose function dissociates the named stream from its underlying file or set of functions. If the stream was 
+being used for output any buffered data is written first using fflush .
+
+Examples:
+@code
+/* this program shows opening and closing of a file using fclose api */
+#include <stdio.h>
+int main()
+{
+        FILE *fp;
+        if( set_fmode('t') != 0 )					// setting text-mode as default file opening mode throughout the appln.
+        	{
+        	printf("Failed to set text-mode\n");
+        	return -1;
+        	}
+        fp = fopen("c:\input.txt", "w+");
+        if(fp == NULL)
+                {               
+                printf("file opening failed");
+                return -1;
+                }
+        
+        printf("file opened successfully: Perform file operations now");
+        
+        if(!fclose(fp))
+                {
+                printf("file closed successfully");
+                return 0;
+                }
+        else
+                {
+                printf("file closing failed");
+                return -1;
+                }
+}
+
+@endcode
+@code
+Output
+
+file opened successfully: Perform file operations now
+file closed successfully
+
+@endcode
+
+Notes:
+
+ The fclose function
+does not handle NULL arguments; they will result in a segmentation
+violation.
+This is intentional - it makes it easier to make sure programs written
+under are bug free. This behaviour is an implementation detail and programs should not 
+rely upon it. 
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  feof(FILE *fp)
+@param fp
+
+Refer to  clearerr() for the documentation
+@see open()
+@see flockfile()
+@see set_fmode()
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  ferror(FILE *fp)
+@param fp
+
+Refer to  clearerr() for the documentation
+@see open()
+@see flockfile()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fseeko(FILE *stream, off_t offset, int whence)
+@param stream
+@param offset
+@param whence
+
+For full documentation see: http://opengroup.org/onlinepubs/007908775/xsh/fseek.html
+
+@see fseek()
+ 
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fseeko64(FILE *stream, off64_t offset, int whence)
+@param stream
+@param offset
+@param whence
+
+For full documentation see: http://www.unix.org/version2/whatsnew/lfs20mar.html#3.0
+
+@see fseeko()
+ 
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  ftello(FILE *stream)
+@param stream
+
+For full documentation see: http://opengroup.org/onlinepubs/007908775/xsh/fseek.html
+
+@see ftell()
+ 
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  ftello64(FILE *stream)
+@param stream
+
+For full documentation see: http://www.unix.org/version2/whatsnew/lfs20mar.html#3.0
+
+@see ftello()
+ 
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fflush(FILE *fp)
+@param fp
+
+@return   Upon successful completion 0 is returned.
+Otherwise, EOF is returned and the global variable errno is set to indicate the error.
+
+The function fflush forces a write of all buffered data for the given output or update fp via the stream's underlying write function.
+The open status of the stream is unaffected.
+
+ If the fp argument is NULL, fflush flushes all open output streams.
+ 
+Examples:
+@code
+/* this program shows flushing user space buffered data using fflush */
+#include <stdio.h>
+int main()
+{
+        FILE *fp = NULL;
+        int retval = 0;
+        char name[20] = "c:\flush1.txt";
+        if( set_fmode('t') != 0 )					// setting text-mode as default file opening mode throughout the appln.
+        	{
+        	printf("Failed to set text-mode\n");
+        	return -1;
+        	}
+        fp = fopen(name, "w+"); 
+        if(fp == NULL)
+                {               
+                printf("Error : File open");
+                return -1;
+                }
+        setvbuf(fp, NULL, _IOFBF, 100);  // set to full buffering with NULL buffer      
+        fprintf(fp, "we are trying to buffer 100 characters at once with NULL buffer.");
+        
+        retval = fflush(fp);
+        if (retval)
+                {               
+                printf("fflush failed");
+                fclose(fp);
+                unlink(name);
+                return -1;
+                }
+        else printf("Buffer successfully flushed");
+        fclose(fp);
+        unlink(name);
+        return 0;
+}
+
+@endcode
+@code
+Output
+
+we are trying to buffer 100 characters at once with NULL buffer.
+Buffer successfully flushed
+
+@endcode
+@see write()
+@see fclose()
+@see fopen()
+@see setbuf()
+@see set_fmode()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fgetc(FILE *fp)
+@param fp
+
+Note: This description also covers the following functions -
+ getc()  getc_unlocked()  getchar()  getchar_unlocked()  getw() 
+
+@return   If successful, these routines return the next requested object
+from the stream. Character values are returned as an unsigned char converted to an int. 
+If the stream is at end-of-file or a read error occurs,
+the routines return EOF. The routines and ferror must be used to distinguish between end-of-file and error.
+If an error occurs, the global variable errno is set to indicate the error.
+The end-of-file condition is remembered, even on a terminal, and all
+subsequent attempts to read will return EOF until the condition is cleared with
+
+  The fgetc function
+obtains the next input character (if present) from the stream pointed at by stream, or the next character pushed back on the stream via ungetc.
+
+ The getc function
+acts essentially identically to fgetc, but is a macro that expands in-line.
+
+ The getchar function
+is equivalent to getc (stdin.);
+
+ The getw function
+obtains the next int
+(if present)
+from the stream pointed at by stream.
+
+ The getc_unlocked and getchar_unlocked functions are equivalent to getc and getchar respectively,
+except that the caller is responsible for locking the stream
+with flockfile before calling them.
+These functions may be used to avoid the overhead of locking the stream
+for each character, and to avoid input being dispersed among multiple
+threads reading from the same stream.
+
+Examples:
+@code
+/* this program shows reading from file using getc */
+/* consider input.txt has the following content: */
+/* hi */
+#include <stdio.h>
+int main(void)
+{
+        int retval;
+        FILE *fp = NULL;
+        if( set_fmode('t') != 0 )					// setting text-mode as default file opening mode throughout the appln.
+        	{
+        	printf("Failed to set text-mode\n");
+        	return -1;
+        	}
+        fp = fopen("c:\input.txt", "w");
+        fprintf(fp, "%s", "abcdefghijklmn");
+        fprintf(fp, "%c", '\n');
+        fprintf(fp, "%s", "fdsfdsafsdabcdefghijklmn");
+        fclose(fp);
+        fp = fopen("C:\input.txt","r");
+        if(fp == NULL)
+        {
+        printf("fopen failed");
+        return -1;
+        }
+        while((int)(retval = getc(fp) )!= EOF)
+        {
+        printf("%c", retval);
+        }
+        fclose(fp);
+        return 0;
+}
+
+@endcode
+@code
+Output
+
+hi
+
+@endcode
+@see ferror()
+@see flockfile()
+@see fopen()
+@see fread()
+@see getwc()
+@see putc()
+@see ungetc()
+@see set_fmode()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fgetpos(FILE * fp, fpos_t * pos)
+@param fp
+@param pos
+Refer to  fseek() for the documentation
+@see lseek()
+@see ungetc()
+@see ungetwc()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fgetpos64(FILE * fp, fpos64_t * pos)
+@param fp
+@param pos
+
+For full documentation see: http://www.unix.org/version2/whatsnew/lfs20mar.html#3.0
+
+
+@see fgetpos()
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fgets(char *buf, int n, FILE *fp)
+@param buf
+@param n
+@param fp
+
+Note: This description also covers the following functions -
+ gets() 
+
+@return   Upon successful completion fgets and gets return a pointer to the string. If end-of-file occurs before any 
+characters are read they return NULL and the buffer contents remain unchanged. If an error occurs they 
+return NULL and the buffer contents are indeterminate. The fgets and gets functions do not distinguish between end-of-file and error and 
+callers must use feof and ferror to determine which occurred.
+
+  The fgets function reads at most one less than the number of characters 
+specified by n from the given stream and stores them in the string buf. Reading stops when a newline character is found, at end-of-file or 
+error. The newline, if any, is retained. If any characters are read, and there is no error, a \\0 character is appended to end the string.
+
+The gets function is equivalent to fgets with an infinite size and a stream of stdin,
+except that the newline character (if any) is not stored in the string.
+It is the caller's responsibility to ensure that the input line,if any, is sufficiently short to fit in the string.
+
+Examples:
+@code
+/* this program shows reading characters from a file using fgets */
+/* consider input.txt has the following content: */
+/* abcdefghijklmn */
+/* fdsfdsafsdabcdefghijklmn */
+#include <stdio.h>
+int main(void)
+{
+        char buf[20];
+        FILE *fp = NULL;
+        if( set_fmode('t') != 0 )					// setting text-mode as default file opening mode throughout the appln.
+        	{
+        	printf("Failed to set text-mode\n");
+        	return -1;
+        	}
+       	fp = fopen("c:\input.txt", "w");
+        fprintf(fp, "%s", "abcdefghijklmn");
+        fprintf(fp, "%c", "");
+        fprintf(fp, "%s", "fdsfdsafsdabcdefghijklmn");
+        fclose(fp);
+                
+        fp = fopen("C:\input.txt","r");
+        if(fp == NULL)
+                {
+                printf("fopen failed");
+                return -1;
+                }
+        if(fgets(buf,18,fp) != NULL)
+                printf("%s", buf);
+        else
+                printf("Buffer is empty");
+        
+        buf[0] = '\0';
+        if(fgets(buf,2,fp) != NULL)
+                printf("%s", buf);
+        else
+                printf("Buffer is empty");
+        fclose(fp);     
+        return 0;
+}
+
+@endcode
+@code
+Output
+
+abcdefghijklmn
+fdsfdsafsdabcdefghijklmn
+
+@endcode
+
+Security considerations:
+
+ The gets function cannot be used securely.
+Because of its lack of bounds checking,and the inability for the calling program
+to reliably determine the length of the next incoming line,the use of this function enables malicious users
+to arbitrarily change a running program's functionality through a buffer overflow attack.
+It is strongly suggested that the fgets function be used in all cases.
+@see feof()
+@see ferror()
+@see fgetln()
+@see set_fmode()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fopen(const char *file, const char *mode)
+@param file
+@param mode
+
+Note: This description also covers the following functions -
+ fdopen()  freopen() 
+
+@return   Upon successful completion fopen, fdopen and freopen return a FILE pointer.
+Otherwise, NULL is returned and the global variable errno is set to indicate the error.
+
+ Note: To open file in text-mode use set_fmode() prior to fopen() or at the start of appln. Default file opening mode in symbian is binary. 
+       For more details, see set_fmode(). 
+	          
+The  fopen function opens the file whose name is the string pointed to by  file and associates a stream with it.
+
+The argument mode points to a string beginning with one of the following sequences (Additional characters may follow these sequences.):
+@code
+"r" 	Open file in text mode if text-mode is set using set_fmode(), otherwise opens in default binary mode for reading. The stream is positioned at the beginning of the file.
+"r+" 	Open file in text mode if text-mode is set using set_fmode(), otherwise opens in default binary mode for reading and writing. The stream is positioned at the beginning of the file.
+"w" 	Truncate to zero length or create file in text mode if text-mode is set using set_fmode(), otherwise opens in default binary mode for writing. The stream is positioned at the beginning of the file.
+"w+" 	Open file in text mode if text-mode is set using set_fmode(), otherwise opens in default binary mode for reading and writing. The file is created if it does not exist, otherwise it is truncated. The stream is positioned at the beginning of the file.
+"a" 	Open file in text mode if text-mode is set using set_fmode(), otherwise opens in default binary mode for writing. The file is created if it does not exist. The stream is positioned at the end of the file. Subsequent writes to the file will always end up at the then current end of file, irrespective of any intervening fseek or similar.
+"a+" 	Open file in text mode if text-mode is set using set_fmode(), otherwise opens in default binary mode for reading and writing. The file is created if it does not exist. The stream is positioned at the end of the file. Subsequent writes to the file will always end up at the then current end of file, irrespective of any intervening fseek or similar.
+@endcode
+The mode string can also include the letter "b" either as a third character or as a character between the characters in any of the two-character strings described above while explicitly specifying binary mode.
+
+The mode string can also include the letter "t" either as a third character or as a character between the characters in any of the two-character strings described above while explicitly specifying text mode.
+
+Reads and writes may be intermixed on read/write streams in any order, and do not require an intermediate seek as in previous versions of stdio. This is not portable to other systems, however; ANSI C requires that a file positioning function intervene between output and input, unless an input operation encounters end-of-file.
+
+The fdopen function associates a stream with the existing file descriptor, fildes. The mode of the stream must be compatible with the mode of the file descriptor. When the stream is closed via fclose, fildes is closed also.
+
+The freopen function opens the file whose name is the string pointed to by path and associates the stream pointed to by stream with it. The original stream (if it exists) is closed. The mode argument is used just as in the fopen function.
+
+If the file argument is NULL, freopen attempts to re-open the file associated with stream with a new mode. The new mode must be compatible with the mode that the stream was originally opened with:
+@code
+    * Streams originally opened with mode "r" can only be reopened with that same mode.
+    * Streams originally opened with mode "a" can be reopened with the same mode, or mode "w."
+    * Streams originally opened with mode "w" can be reopened with the same mode, or mode "a."
+    * Streams originally opened with mode "r+," "w+," or "a+" can be reopened with any mode. 
+@endcode
+The primary use of the freopen function is to change the file associated with a standard text stream (stderr, stdin, or stdout). 
+
+
+
+Examples:
+@code
+/* This program shows opening a file in default binary mode with write combination,write data and close */
+/* again open in append mode and write data */
+/* Check file c:\fopen.txt */
+#include <stdio.h>
+int main(void)
+{
+        FILE *fp;       
+        char name[20] = "c:\fopen1.txt";
+        
+        if ((fp = fopen (name, "w")) == NULL)	// Opens file in default binary mode
+        {
+        printf("Error creating file");
+        return -1;
+        }
+        printf("Opened file");
+        fprintf(fp, "helloworld\n");
+        printf("Wrote to file");
+      	fclose (fp);
+      	printf("Closed file");
+      	if ((fp = fopen (name, "a")) == NULL)
+      		{
+      		printf("Error opening file");
+      		return -1;
+      		}
+      	printf("Opened file for appending");
+	    fprintf(fp, "fine");
+	    fclose (fp);
+	    printf("closed file, check output in c:\ fopen.txt file");
+	    unlink(name);
+	    return 0;
+}
+
+@endcode
+@code
+Output
+
+Opened file
+Wrote to file
+Closed file
+Opened file for appending
+closed file, check output in c:\fopen.txt file
+
+Note: fopen.txt file contains:-
+helloworld\nfine
+
+@endcode
+
+
+@code
+/* This program shows opening a file explicitly in text-mode using set_fmode() with write combination,write data and close */
+/* again open in append mode and write data */
+/* Check file c:\fopen.txt */
+#include <stdio.h>
+int main(void)
+{
+        FILE *fp;       
+        char name[20] = "c:\fopen1.txt";
+        if( set_fmode('t') != 0 )
+        	{
+        	printf("Failed to set text-mode\n");
+        	return -1;
+        	}
+        if(get_fmode() != 't')
+        	{
+        	printf(" Failed to retrieve the text-mode set using set_fmode()\n");
+        	return -1;
+        	}
+        if ((fp = fopen (name, "w")) == NULL) // Opens file in text-mode
+        {
+        printf("Error creating file");
+        return -1;
+        }
+        printf("Opened file");
+        fprintf(fp, "helloworld\n");
+        printf("Wrote to file");
+      	fclose (fp);
+      	printf("Closed file");
+      	if ((fp = fopen (name, "a")) == NULL)
+      		{
+      		printf("Error opening file");
+      		return -1;
+      		}
+      	printf("Opened file for appending");
+	    fprintf(fp, "fine");
+	    fclose (fp);
+	    printf("closed file, check output in c:\ fopen.txt file");
+	    unlink(name);
+	    return 0;
+}
+
+@endcode
+@code
+Output
+
+Opened file
+Wrote to file
+Closed file
+Opened file for appending
+closed file, check output in c:\fopen.txt file
+
+Note: fopen.txt file contains:-
+helloworld
+fine
+
+@endcode
+
+
+Notes:
+
+ -# Mode values for group and others are be ignored. 
+ -# The execute bit and setuid on exec bit are ignored. 
+ -# The default working directory of a process is initialized to C:\\private\\UID 
+  (UID of the calling application) and any data written into this directory persists 
+  between phone resets. 
+ -# If the specified file is a symbolic link and the file it is pointing to 
+  is invalid the symbolic link file will be automatically removed.
+
+Limitations: 
+
+A file in cannot be created with write-only permission and attempting to 
+create one will result in a file with read-write permission. Creating a new file 
+with the O_CREAT flag does not alter the time stamp of its parent directory. The 
+newly created entry has only two time stamps: access and modification. Creation 
+time stamp is not supported and access time stamp is initially equal to modification 
+time stamp. open, fclose and fflush.
+
+KErrNotReady of symbian error code is mapped to ENOENT, which typically means drive
+not found or filesystem not mounted on the drive.
+
+@see open()
+@see fclose()
+@see fileno()
+@see fseek()
+@see set_fmode()
+@see get_fmode()
+
+
+
+@capability Deferred @ref RFs::Entry(const TDesC16&, TEntry&)
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fopen64(const char *file, const char *mode)
+@param file
+@param mode
+
+
+@return   Upon successful completion fopen64() return a FILE pointer.
+Otherwise, NULL is returned and the global variable errno is set to indicate the error.
+
+For full documentation see: http://www.unix.org/version2/whatsnew/lfs20mar.html#3.0
+
+@see fopen()
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fprintf(FILE *fp, const char *fmt, ...)
+@param fp
+@param fmt
+@param ...
+
+Refer to  printf() for the documentation
+@see printf()
+@see scanf()
+@see setlocale()
+@see wprintf()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fputc(int c, FILE *fp)
+@param c
+@param fp
+
+Note: This description also covers the following functions -
+ putc()  putc_unlocked()  putchar()  putchar_unlocked()  putw() 
+
+@return   The functions, fputc, putc, putchar, putc_unlocked, and putchar_unlocked return the character written.
+If an error occurs, the value EOF is returned.
+The putw function returns 0 on success; EOF is returned if a write error occurs,
+or if an attempt is made to write to a read-only stream.
+
+The fputc function writes the character c (converted to an "unsigned char")
+to the output stream pointed to by fp.
+
+The putc macro that is identically to fputc, but is a macro that expands in-line.
+It may evaluate stream more than once, so arguments given to putc should not be expressions with potential side effects.
+
+The putchar function is identical to putc with an output stream of stdout.
+
+The putw function writes the specified int to the named output stream.
+
+ The putc_unlocked and putchar_unlocked functions are equivalent to putc and putchar respectively,
+except that the caller is responsible for locking the stream with flockfile before calling them.
+These functions may be used to avoid the overhead of locking the stream for each character,
+and to avoid output being interspersed from multiple threads writing to the same stream.
+	
+	
+Examples:
+@code
+#include <stdio.h>
+int main()
+{
+        FILE * fp;
+        if( set_fmode('t') != 0 )					// setting text-mode as default file opening mode throughout the appln.
+        	{
+        	printf("Failed to set text-mode\n");
+        	return -1;
+        	}
+        fp=fopen("C:\input.txt","w+");
+        
+        if(fp==NULL)
+                {
+                printf("file opening failed");
+                return -1;
+                }
+        if(putc('a',fp)!='a')
+                {
+                printf("putc failed");
+                fclose(fp);
+                return -1;
+                }
+        else printf("character successfully put by putc");
+        
+        fclose(fp);
+        return 0;
+}
+
+@endcode
+@code
+Output
+
+character successfully put by putc
+
+@endcode
+@see ferror()
+@see flockfile()
+@see fopen()
+@see getc()
+@see putwc()
+@see set_fmode() 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fputs(const char *s, FILE *fp)
+@param s
+@param fp
+
+Note: This description also covers the following functions -
+ puts() 
+
+@return   The fputs function returns 0 on success and EOF on error. The puts function returns a nonnegative integer on success and EOF on error.
+
+  The function fputs writes the string pointed to by s to the stream pointed to by fp.
+
+ The function puts writes the string s, and a terminating newline character,
+to the stream stdout.
+
+
+Examples:
+@code
+/*this program shows writing characters from a file using fputs */
+/* consider input.txt has the following content: */
+/* hello world */
+#include <stdio.h>
+int main(void)
+{
+        int wretval;    
+        char rs1[50],rs2[50];
+        char *rptr;
+        int retval;
+        FILE *fp = NULL;
+        if( set_fmode('t') != 0 )					// setting text-mode as default file opening mode throughout the appln.
+        	{
+        	printf("Failed to set text-mode\n");
+        	return -1;
+        	}
+        fp = fopen("c:\input.txt", "w");
+        fprintf(fp, "%s", "abcdefghijklmn");
+        fprintf(fp, "%c", "");
+        fprintf(fp, "%s", "fdsfdsafsdabcdefghijklmn");
+        fclose(fp);
+        fp = fopen("c:\input.txt","r");
+        if(fp == NULL)
+        {
+        printf("fopen failed");
+        return -1;
+        }
+        rptr = fgets(rs1,12,fp);
+        if(rptr == NULL)
+        {
+        printf("fgets failed");
+        fclose(fp);
+        return -1;
+        }
+        fclose(fp);
+        fp = fopen("c:\puts1.txt","w+");
+        if(fp == NULL)
+        {
+        printf("fopen failed");
+        return -1;
+        }
+        wretval = fputs(rs1,fp);
+        if(wretval == EOF)
+        {
+        printf("fputs failed");
+        fclose(fp);
+        return -1;
+        }
+        fclose(fp);
+        fp = fopen("C:\puts1.txt","r");
+        if(fp == NULL)
+        {
+        printf("fopen failed");
+        return -1;
+        }
+        rptr = fgets(rs2,12,fp);
+        if(rptr == NULL)
+        {
+        printf("fgets failed");
+        fclose(fp);
+        return -1;
+        }
+        printf("file reading returned \"%s\",rs2);
+        fclose(fp);
+        unlink("C:\puts1.txt");
+        
+        return 0;
+}
+
+@endcode
+@code
+Output
+
+file reading returned "abcdefghijk"
+
+@endcode
+@see ferror()
+@see fputws()
+@see putc()
+@see set_fmode() 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fread(void * buf, size_t size, size_t count, FILE * fp)
+@param buf
+@param size
+@param count
+@param fp
+
+Note: This description also covers the following functions -
+ fwrite() 
+
+@return   The functions fread and fwrite advance the file position indicator for the stream
+by the number of bytes read or written.
+They return the number of objects read or written.
+If an error occurs, or the end-of-file is reached,
+the return value is a short object count (or zero). The function fread does not distinguish between end-of-file and error. Callers 
+  must use feof and ferror to determine which occurred. The function fwrite returns a value less than count only if a write error has occurred.
+
+  The function fread reads count objects, each size bytes long, from the stream pointed to by fp, storing them at the location given by buf.
+
+ The function fwrite writes count objects, each size bytes long, to the stream pointed to by fp, obtaining them from the location given by buf.
+ 
+
+Examples:
+@code
+/* this program shows reading characters from a file using fread */
+/* consider input.txt has the following content: */
+/* hi */
+#include <stdio.h>
+int main()
+{
+        char a; 
+        FILE *fp = NULL;
+        if( set_fmode('t') != 0 )					// setting text-mode as default file opening mode throughtout the appln.
+        	{
+        	printf("Failed to set text-mode\n");
+        	return -1;
+        	}
+        fp = fopen("c:\input.txt", "w");
+        fprintf(fp, "%s", "abcdefghijklmn");
+        fprintf(fp, "%c", '\n');
+        fprintf(fp, "%s", "fdsfdsafsdabcdefghijklmn");
+        fclose(fp);
+        fp = fopen("c:\input.txt", "r");
+        if (fp == NULL)
+                {
+                printf ("fopen failed");
+                return -1;
+                }
+        // read single chars at a time, stopping on EOF or error:
+        while (fread(&a;, sizeof(char), 1, fp), !feof(fp) && !ferror(fp))
+                {
+                printf("I read \"%c\",a);
+                }
+        if (ferror(fp)) //Some error occurred
+                {
+                fclose(fp);
+                return -1;
+                }
+        fclose(fp);
+        return 0;
+}
+
+@endcode
+@code
+Output
+
+I read "h"
+I read "i"
+
+@endcode
+@see read()
+@see write()
+@see set_fmode() 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  freopen(const char *file, const char *mode, FILE *fp)
+@param file
+@param mode
+@param fp
+
+Refer to  fopen() for the documentation
+@see open()
+@see fclose()
+@see fileno()
+@see fseek()
+
+
+
+@capability Deferred @ref RFs::Entry(const TDesC16&, TEntry&)
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  freopen64(const char *file, const char *mode, FILE *fp)
+@param file
+@param mode
+@param fp
+
+For full documentation see: http://www.unix.org/version2/whatsnew/lfs20mar.html#3.0
+
+@see freopen()
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fscanf(FILE *  fp, const char *  fmt, ...)
+@param fp
+@param fmt
+@param ...
+
+Refer to  scanf() for the documentation
+@see getc()
+@see mbrtowc()
+@see printf()
+@see strtod()
+@see strtol()
+@see strtoul()
+@see wscanf()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fseek(FILE *fp, long offset, int whence)
+@param fp
+@param offset
+@param whence
+
+Note: This description also covers the following functions -
+ ftell()  rewind()  fgetpos()  fsetpos() 
+
+@return   The rewind function returns no value. 
+Upon successful completion ftell returns the current offset. Otherwise -1 is returned and the   global variable errno is set to indicate the error.
+
+The  fseek function sets the file position indicator for the stream pointed to by  fp. 
+The new position, measured in bytes, is obtained by adding  offset bytes to the position specified by  whence. 
+If  whence is set to  SEEK_SET,  SEEK_CUR, or  SEEK_END, the offset is relative to the start of the file, 
+the current position indicator, or end-of-file, respectively. 
+A successful call to the  fseek function clears the end-of-file indicator for the stream and 
+undoes any effects of the ungetc and ungetwc functions on the same stream.
+The fseek function call does not allows the file offset to be set beyond the end of the existing end-of-file of the file.
+
+The ftell function obtains the current value of the file position indicator for the stream pointed to by fp.
+
+The rewind function sets the file position indicator for the stream pointed to by fp to the beginning of the file. It is equivalent to:
+
+@code
+     (void)fseek(fp, 0L, SEEK_SET)
+
+@endcode
+
+except that the error indicator for the stream is also cleared. 
+Since rewind does not return a value, an application wishing to detect errors should clear errno, 
+then call rewind, and if errno is non-zero, assume an error has occurred. 
+The fgetpos and fsetpos functions are alternate interfaces for retrieving and setting the current position 
+in the file, similar to ftell and fseek, except that the current position is stored in an opaque object of 
+type fpos_t pointed to by pos. These functions provide a portable way to seek to offsets larger than those that 
+can be represented by a long int. They may also store additional state information in the fpos_t object to 
+facilitate seeking within files containing multibyte characters with state-dependent encodings. 
+Although fpos_t has traditionally been an integral type, applications cannot assume that it is; 
+in particular, they must not perform arithmetic on objects of this type. 
+If the stream is a wide character stream, the position specified by the combination of offset and whence must 
+contain the first byte of a multibyte sequence.
+
+Notes:  Specific to text-mode Support:
+	   1.	To open file in text-mode use set_fmode() prior to fopen() or at the start of appln. Default file opening mode in symbian is binary. 
+            For more details, see set_fmode(). 
+       2.   Offset set using fseek() in text-mode will not be appropriate because every newline will be converted to symbian specific
+       		line-encodings( \n --> \r\n), thereby returning inappropriate offset values.
+       		Thus, fseek(), ftell() will not return values as expected by the User. 
+       3.   Offset value returned from ftell() can be used to pass to fseek() and 
+       		will not affect the functionality of any next read, write operations.
+
+
+Examples:
+@code
+/* this program shows setting file offset using fseek */
+#include <stdio.h>
+int main(void)
+{       
+        int retval;
+        FILE *fp = NULL;
+        if( set_fmode('t') != 0 )					// setting text-mode as default file opening mode throughtout the appln.
+        	{
+        	printf("Failed to set text-mode\n");
+        	return -1;
+        	}
+        fp = fopen("c:\input.txt", "w"); // opens file in default binary mode, hence fseek() works fine.
+        fprintf(fp, "%s", "abcdefghijklmn");
+        fprintf(fp, "%c", '');
+        fprintf(fp, "%s", "fdsfdsafsdabcdefghijklmn");
+        fclose(fp);
+        fp = fopen("c:\input.txt", "r");
+        if (fp == NULL)
+        {
+        printf ("fopen failed");
+        return -1;
+        }
+        retval = fseek(fp, 3, SEEK_SET); // seek to the 20th byte of the file
+        if (retval)
+        {
+        printf ("fseek failed");
+        return -1;
+        }
+        
+        long pos = ftell(fp);
+        if (pos ==3)
+        {       
+        printf("offset setting proper");
+        }
+        fclose(fp);
+        return 0;
+}
+
+@endcode
+@code
+Output
+
+offset setting proper
+
+@endcode
+
+
+
+
+@see lseek()
+@see ungetc()
+@see ungetwc()
+@see set_fmode()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fsetpos(FILE *iop, const fpos_t *pos)
+@param iop
+@param pos
+
+Refer to  fseek() for the documentation
+@see lseek()
+@see ungetc()
+@see ungetwc()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fsetpos64(FILE *iop, const fpos64_t *pos)
+@param iop
+@param pos
+
+For full documentation see: http://www.unix.org/version2/whatsnew/lfs20mar.html#3.0
+
+@see fsetpos()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  ftell(FILE *fp)
+@param fp
+
+Refer to  fseek(), set_fmode() for the documentation
+@see lseek()
+@see ungetc()
+@see ungetwc()
+@see set_fmode()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fwrite(const void *  buf, size_t size, size_t count, FILE *  fp)
+@param buf
+@param size
+@param count
+@param fp
+
+Refer to  fread() for the documentation
+@see read()
+@see write()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  getc(FILE *fp)
+@param fp
+
+Refer to  fgetc() for the documentation
+@see ferror()
+@see flockfile()
+@see fopen()
+@see fread()
+@see getwc()
+@see putc()
+@see ungetc()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  getchar()
+@param 
+
+Refer to  fgetc() for the documentation
+@see ferror()
+@see flockfile()
+@see fopen()
+@see fread()
+@see getwc()
+@see putc()
+@see ungetc()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  gets(char *str)
+@param str
+
+Refer to  fgets() for the documentation
+@see feof()
+@see ferror()
+@see fgetln()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  perror(const char *string)
+@param string
+
+Note: This description also covers the following functions -
+ strerror()  strerror_r() 
+
+@return   strerror function returns the appropriate error description string, 
+  or an unknown error message if the error code is unknown. The value of errno 
+  is not changed for a successful call and is set to a nonzero value upon error. 
+  The strerror_r function returns 0 on success and -1 on failure, setting 
+  errno.
+
+  The strerror , strerror_r and perror functions look up the error message string corresponding to an
+error number.
+
+ The strerror function accepts an error number argument errnum and returns a pointer to the corresponding
+message string.
+
+ The strerror_r function renders the same result into strerrbuf for a maximum of buflen characters and returns 0 upon success.
+
+ The perror function finds the error message corresponding to the current
+value of the global variable errno and writes it, followed by a newline, to the
+standard error file descriptor.
+If the argument string is non- NULL and does not point to the null character,
+this string is prepended to the message
+string and separated from it by
+a colon and space (": ");
+otherwise, only the error message string is printed.
+
+ If the error number is not recognized, these functions return an error message
+string containing "Unknown error: "
+followed by the error number in decimal.
+The strerror and strerror_r functions return EINVAL as a warning.
+Error numbers recognized by this implementation fall in
+the range 0 \< errnum \< sys_nerr .
+
+ If insufficient storage is provided in strerrbuf (as specified in buflen )
+to contain the error string, strerror_r returns ERANGE and strerrbuf will contain an error message that has been truncated and NUL terminated to fit the length specified by buflen .
+
+ The message strings can be accessed directly using the external
+array sys_errlist .
+The external value sys_nerr contains a count of the messages in sys_errlist .
+The use of these variables is deprecated; strerror or strerror_r should be used instead.
+
+Examples:
+@code
+#include <string.h>
+#include <stdio.h>
+#include <errno.h>
+int main()
+{
+    char *ptr = strerror(ERANGE);
+    printf("strerror(ERANGE) = %s",ptr);
+    return 0;
+}
+
+@endcode
+@code
+Output
+
+strerror(ERANGE) = Numerical result out of range
+
+@endcode
+@see intro()
+
+
+Bugs:
+
+ For unknown error numbers, the strerror function will return its result in a static buffer which
+may be overwritten by subsequent calls. The return type for strerror is missing a type-qualifier; it should actually be const char * . Programs that use the deprecated sys_errlist variable often fail to compile because they declare it
+inconsistently. 
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  printf(const char *fmt, ...)
+@param fmt
+@param ...
+
+Note: This description also covers the following functions -
+ fprintf()  sprintf()  snprintf()  asprintf()  vprintf()  vfprintf()  vsprintf()  vsnprintf()  vasprintf() 
+
+@return   Upon successful return, these functions return the number of characters printed (not including the trailing \\0 used to  end  output  to  strings).
+The functions snprintf and vsnprintf do not write more than size bytes (including the trailing \\0). 
+If the output was truncated due to this limit then the return value
+is the number of characters (not including the trailing \\0)
+which would have been written to  the  final  string  if  enough
+space  had  been  available.  Thus,  a return value of size or more
+means that the output was truncated. 
+If an output error is encountered, a negative value is returned.
+
+The  printf family of functions produces output according to a  format as described below. The  printf and  vprintf functions write output to  stdout, the standard output stream;  fprintf and  vfprintf write output to the given output  stream;  sprintf,  snprintf,  vsprintf, and  vsnprintf write to the character string  str; and  asprintf and  vasprintf dynamically allocate a new string with malloc.
+
+These functions write the output under the control of a format string that specifies how subsequent arguments (or arguments accessed via the variable-length argument facilities of stdarg ) are converted for output.
+
+These functions return the number of characters printed (not including the trailing '\\0' used to end output to strings) or a negative value if an output error occurs, except for snprintf and vsnprintf, which return the number of characters that would have been printed if the size were unlimited (again, not including the final '\\0').
+
+The asprintf and vasprintf functions set *ret to be a pointer to a buffer sufficiently large to hold the formatted string. This pointer should be passed to free to release the allocated storage when it is no longer needed. If sufficient space cannot be allocated, asprintf and vasprintf will return -1 and set ret to be a NULL pointer.
+
+The snprintf and vsnprintf functions will write at most size -1 of the characters printed into the output string (the size'th character then gets the terminating '\\0' );if the return value is greater than or equal to the size argument, the string was too short and some of the printed characters were discarded. The output is always null-terminated.
+
+The sprintf and vsprintf functions effectively assume an infinite size.
+
+@code
+The format string is composed of zero or more directives: ordinary characters (not % ), which are copied unchanged to the output stream; and conversion specifications, each of which results in fetching zero or more subsequent arguments. Each conversion specification is introduced by the % character. The arguments must correspond properly (after type promotion) with the conversion specifier. After the %, the following appear in sequence:
+
+    * An optional field, consisting of a decimal digit string followed by a $, specifying the next argument to access. If this field is not provided, the argument following the last argument accessed will be used. Arguments are numbered starting at 1. If unaccessed arguments in the format string are interspersed with ones that are accessed the results will be indeterminate.
+    * Zero or more of the following flags:
+      '#' 	The value should be converted to an "alternate form." For c, d, i, n, p, s, and u conversions, this option has no effect. For o conversions, the precision of the number is increased to force the first character of the output string to a zero (except if a zero value is printed with an explicit precision of zero). For x and X conversions, a non-zero result has the string '0x' (or '0X' for X conversions) prepended to it. For a, A, e, E, f, F, g, and G conversions, the result will always contain a decimal point, even if no digits follow it (normally, a decimal point appears in the results of those conversions only if a digit follows). For g and G conversions, trailing zeros are not removed from the result as they would otherwise be.
+      '0(zero)' 	Zero padding. For all conversions except n, the converted value is padded on the left with zeros rather than blanks. If a precision is given with a numeric conversion (d, i, o, u, i, x, and X), the 0 flag is ignored.
+      '-' 	A negative field width flag; the converted value is to be left adjusted on the field boundary. Except for n conversions, the converted value is padded on the right with blanks, rather than on the left with blanks or zeros. A - overrides a 0 if both are given.
+      ' (space)' 	A blank should be left before a positive number produced by a signed conversion (a, A, d, e, E, f, F, g, G, or i).
+      '+' 	A sign must always be placed before a number produced by a signed conversion. A + overrides a space if both are used.
+      ''' 	Decimal conversions (d, u, or i) or the integral portion of a floating point conversion (f or F) should be grouped and separated by thousands using the non-monetary separator returned by localeconv.
+    * An optional decimal digit string specifying a minimum field width. If the converted value has fewer characters than the field width, it will be padded with spaces on the left (or right, if the left-adjustment flag has been given) to fill out the field width.
+    * An optional precision, in the form of a period . followed by an optional digit string. If the digit string is omitted, the precision is taken as zero. This gives the minimum number of digits to appear for d, i, o, u, x, and X conversions, the number of digits to appear after the decimal-point for a, A, e, E, f, and F conversions, the maximum number of significant digits for g and G conversions, or the maximum number of characters to be printed from a string for s conversions.
+    * An optional length modifier, that specifies the size of the argument. The following length modifiers are valid for the d, i, n, o, u, x, or X conversion:
+
+      Modifier        d, i              o, u, x, X                n
+      hh              signed char       unsigned char             signed char *
+      h               short             unsigned short            short *
+      l (ell)         long              unsigned long             long *
+      ll (ell ell)    long long         unsigned long long        long long *
+      j               intmax_t          uintmax_t                 intmax_t *
+      t               ptrdiff_t         (see note)                ptrdiff_t *
+      z               (see note)        size_t                    (see note)
+      q (deprecated)  quad_t            u_quad_t                  quad_t *    
+
+
+      Note: the t modifier, when applied to a o, u, x, or X conversion, indicates that the argument is of an unsigned type equivalent in size to a ptrdiff_t. The z modifier, when applied to a d or i conversion, indicates that the argument is of a signed type equivalent in size to a size_t. Similarly, when applied to an n conversion, it indicates that the argument is a pointer to a signed type equivalent in size to a size_t.
+
+      The following length modifier is valid for the a, A, e, E, f, F, g, or G conversion:
+
+      Modifier    a, A, e, E, f, F, g, G
+      l (ell)     double (ignored, same behavior as without it)
+      L           long double
+
+
+      The following length modifier is valid for the c or s conversion:
+
+      Modifier    c         s
+      l (ell)     wint_t    wchar_t *
+
+
+    * A character that specifies the type of conversion to be applied. 
+
+A field width or precision, or both, may be indicated by an asterisk '*' or an asterisk followed by one or more decimal digits and a '\$' instead of a digit string. In this case, an int argument supplies the field width or precision. A negative field width is treated as a left adjustment flag followed by a positive field width; a negative precision is treated as though it were missing. If a single format directive mixes positional (nn$) and non-positional arguments, the results are undefined.
+@endcode
+@code
+The conversion specifiers and their meanings are:
+diouxX
+ 	The int (or appropriate variant) argument is converted to signed decimal (d and i), unsigned octal (o,) unsigned decimal (u,) or unsigned hexadecimal (x and X) notation. The letters "abcdef" are used for x conversions; the letters "ABCDEF" are used for X conversions. The precision, if any, gives the minimum number of digits that must appear; if the converted value requires fewer digits, it is padded on the left with zeros.
+DOU 	The long int argument is converted to signed decimal, unsigned octal, or unsigned decimal, as if the format had been ld, lo, or lu respectively. These conversion characters are deprecated, and will eventually disappear.
+eE 	The double argument is rounded and converted in the style [-d . ddd e \*[Pm] dd] where there is one digit before the decimal-point character and the number of digits after it is equal to the precision; if the precision is missing, it is taken as 6; if the precision is zero, no decimal-point character appears. An E conversion uses the letter 'E' (rather than 'e') to introduce the exponent. The exponent always contains at least two digits; if the value is zero, the exponent is 00.
+
+For a, A, e, E, f, F, g, and G conversions, positive and negative infinity are represented as inf and -inf respectively when using the lowercase conversion character, and INF and -INF respectively when using the uppercase conversion character. Similarly, NaN is represented as nan when using the lowercase conversion, and NAN when using the uppercase conversion.
+fF 	The double argument is rounded and converted to decimal notation in the style [-ddd . ddd,] where the number of digits after the decimal-point character is equal to the precision specification. If the precision is missing, it is taken as 6; if the precision is explicitly zero, no decimal-point character appears. If a decimal point appears, at least one digit appears before it.
+gG 	The double argument is converted in style f or e (or F or E for G conversions). The precision specifies the number of significant digits. If the precision is missing, 6 digits are given; if the precision is zero, it is treated as 1. Style e is used if the exponent from its conversion is less than -4 or greater than or equal to the precision. Trailing zeros are removed from the fractional part of the result; a decimal point appears only if it is followed by at least one digit.
+aA 	The double argument is rounded and converted to hexadecimal notation in the style [-0x h . hhhp[\*[Pm]d,]] where the number of digits after the hexadecimal-point character is equal to the precision specification. If the precision is missing, it is taken as enough to represent the floating-point number exactly, and no rounding occurs. If the precision is zero, no hexadecimal-point character appears. The p is a literal character 'p' and the exponent consists of a positive or negative sign followed by a decimal number representing an exponent of 2. The A conversion uses the prefix "0X" (rather than "0x"), the letters "ABCDEF" (rather than "abcdef)" to represent the hex digits, and the letter 'P' (rather than 'p') to separate the mantissa and exponent.
+
+Note that there may be multiple valid ways to represent floating-point numbers in this hexadecimal format. For example, 0x3.24p+0, 0x6.48p-1 and 0xc.9p-2 are all equivalent. The format chosen depends on the internal representation of the number, but the implementation guarantees that the length of the mantissa will be minimized. Zeroes are always represented with a mantissa of 0 (preceded by a '-' if appropriate) and an exponent of +0.
+C 	Treated as c with the l (ell) modifier.
+c 	The int argument is converted to an unsigned char , and the resulting character is written.
+
+If the l (ell) modifier is used, the wint_t argument shall be converted to a wchar_t, and the (potentially multi-byte) sequence representing the single wide character is written, including any shift sequences. If a shift sequence is used, the shift state is also restored to the original state after the character.
+S 	Treated as s with the l (ell) modifier.
+s 	The char * argument is expected to be a pointer to an array of character type (pointer to a string). Characters from the array are written up to (but not including) a terminating NUL character; if a precision is specified, no more than the number specified are written. If a precision is given, no null character need be present; if the precision is not specified, or is greater than the size of the array, the array must contain a terminating NUL character.
+
+If the l (ell) modifier is used, the wchar_t * argument is expected to be a pointer to an array of wide characters (pointer to a wide string). For each wide character in the string, the (potentially multi-byte) sequence representing the wide character is written, including any shift sequences. If any shift sequence is used, the shift state is also restored to the original state after the string. Wide characters from the array are written up to (but not including) a terminating wide NUL character; if a precision is specified, no more than the number of bytes specified are written (including shift sequences). Partial characters are never written. If a precision is given, no null character need be present; if the precision is not specified, or is greater than the number of bytes required to render the multibyte representation of the string, the array must contain a terminating wide NUL character.
+p 	The void * pointer argument is printed in hexadecimal (as if by '%#x' or '%#lx' ).
+n 	The number of characters written so far is stored into the integer indicated by the int * (or variant) pointer argument. No argument is converted.
+ % 	A '%' is written. No argument is converted. The complete conversion specification is '%%'.
+
+@endcode
+
+The decimal point character is defined in the program's locale (category LC_NUMERIC ).
+
+In no case does a non-existent or small field width cause truncation of a numeric field; if the result of a conversion is wider than the field width, the field is expanded to contain the conversion result. 
+
+
+
+Examples:
+
+ To print a date and time in the form "Sunday, July 3, 10:02",
+where weekday and month are pointers to strings:
+@code
+#include <stdio.h>
+fprintf(stdout, "%s, %s %d, %.2d:%.2d
+",
+        weekday, month, day, hour, min);
+
+@endcode
+ To print pi
+to five decimal places:
+@code
+#include <math.h>
+#include <stdio.h>
+fprintf(stdout, "pi = %.5f
+", 4 * atan(1.0));
+
+@endcode
+ To allocate a 128 byte string and print into it:
+@code
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdarg.h>
+char *newfmt(const char *fmt, ...)
+{
+        char *p;
+        va_list ap;
+        if ((p = malloc(128)) == NULL)
+                return (NULL);
+        va_start(ap, fmt);
+        (void) vsnprintf(p, 128, fmt, ap);
+        va_end(ap);
+        return (p);
+}
+
+@endcode
+@code
+/* this program shows printing onto the console using printf */
+#include <stdio.h>
+int main(void)
+{
+        char * msg="hello world";
+        printf("%s",msg);
+        return 0;
+}
+
+@endcode
+@code
+Output
+
+hello world
+
+@endcode
+@code
+/* this program shows reading from console using scanf */
+#include <stdio.h>
+int main(void)
+{
+        char msg[100];
+        printf("enter message to be printed");
+        scanf("%s",msg);
+        printf("message entered is: %s",msg);
+        return 0;
+}
+
+@endcode
+@code
+Output
+
+enter message to be printed
+hello (assuming this is user input)
+message entered is: hello
+
+@endcode
+
+Security considerations:
+
+ The sprintf and vsprintf functions are easily misused in a manner which enables malicious users
+to arbitrarily change a running program's functionality through
+a buffer overflow attack.
+Because sprintf and vsprintf assume an infinitely long string,
+callers must be careful not to overflow the actual space;
+this is often hard to assure.
+For safety, programmers should use the snprintf interface instead.
+
+ The printf and sprintf family of functions are also easily misused in a manner
+allowing malicious users to arbitrarily change a running program's
+functionality by either causing the program
+to print potentially sensitive data "left on the stack",
+or causing it to generate a memory fault or bus error
+by dereferencing an invalid pointer. \%n can be used to write arbitrary data to potentially carefully-selected
+addresses.
+Programmers are therefore strongly advised to never pass untrusted strings
+as the format argument, as an attacker can put format specifiers in the string
+to mangle your stack,
+leading to a possible security hole.
+This holds true even if the string was built using a function like snprintf, as the resulting string may still contain user-supplied conversion specifiers
+for later interpolation by printf. Always use the proper secure idiom:
+
+@code     
+snprintf(buffer, sizeof(buffer), "%s", string);
+@endcode
+@return   None of these functions support long double length modifiers. Floating point 
+format specifiers support a maximum precision of 15 digits.
+
+@see printf()
+@see scanf()
+@see setlocale()
+@see wprintf()
+
+
+Bugs:
+
+ The conversion formats \%D, \%O, and \%U are not standard and
+are provided only for backward compatibility.
+The effect of padding the \%p format with zeros (either by the 0 flag or by specifying a precision), and the benign effect (i.e., none)
+of the \# flag on \%n and \%p conversions, as well as other
+nonsensical combinations such as \%Ld, are not standard; such combinations
+should be avoided. The printf family of functions do not correctly handle multibyte characters in the format argument. 
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  putc(int c, FILE *fp)
+@param c
+@param fp
+
+Refer to  fputc() for the documentation
+@see ferror()
+@see flockfile()
+@see fopen()
+@see getc()
+@see putwc()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  putchar(int c)
+@param c
+
+Refer to  fputc() for the documentation
+@see ferror()
+@see flockfile()
+@see fopen()
+@see getc()
+@see putwc()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  puts(const char *str)
+@param str
+
+Refer to  fputs() for the documentation
+@see ferror()
+@see fputws()
+@see putc()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  remove(const char *file)
+@param file
+@return   Upon successful completion, reomve return 0.
+Otherwise, -1 is returned and the global variable errno is set to indicate the error.
+
+  The remove function removes the file or directory specified by file.
+
+ If file specifies a directory, remove (file); is the equivalent of rmdir (file); Otherwise, it is the equivalent of unlink (file);
+ 
+
+Examples:
+@code
+/* this program shows deleting a file using remove */
+#include <stdio.h>
+int main()
+{
+        char *name = "C:\input.txt";
+        FILE *fp = NULL;
+        if( set_fmode('t') != 0 )					// setting text-mode as default file opening mode throughtout the appln.
+        	{
+        	printf("Failed to set text-mode\n");
+        	return -1;
+        	}
+        fp = fopen(name, "w+");
+        if (fp == NULL)
+                {
+                printf ("fopen failed");
+                return -1;
+                }
+        fprintf(fp,"hello world");
+        fclose(fp);
+        
+        remove(name);
+        fp=fopen(name,"r");
+        if (fp == NULL)
+                {
+                printf ("file has been deleted already");
+                }
+        else
+                {
+                printf("remove failed");
+                return -1;
+                }
+        
+        return 0;
+}
+
+@endcode
+@code
+Output
+
+file has been deleted already
+
+@endcode
+
+Limitations:
+
+- The file parameter of the remove() function should not exceed 256 characters in length.
+- P.I.P.S. only simulates link files and does not distinguish between hard and symbolic links.
+- KErrNotReady of Symbian error code is mapped to ENOENT, which typically means drive
+not found or filesystem not mounted on the drive.
+
+@see rmdir()
+@see unlink()
+@see set_fmode()
+
+
+@capability Deferred @ref RFs::RmDir(const TDesC16&)
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  rename(const char *oldpath, const char *newpath)
+@param oldpath
+@param newpath
+@return   The rename() function returns the value 0 if successful; otherwise the
+value -1 is returned and the global variable errno is set to indicate the
+error.
+
+  The rename system call
+causes the link named oldpath to be renamed as to. If to exists, it is first removed.
+Both oldpath and newpath must be of the same type (that is, both directories or both
+non-directories), and must reside on the same file system.
+
+ If the final component of oldpath is a symbolic link,
+the symbolic link is renamed,
+not the file or directory to which it points.
+
+ If a file with a symbolic link pointing to it is renamed, then
+a subsequent open call on the symbolic link file would automatically remove the link file, i.e
+consider a symbolic file link.x pointing to a file abc.x. If the file abc.x is
+renamed to abcd.x then, a subsequent open call on link.x file would automatically remove link.x file.
+
+ Note:
+ -# rename() does not differentiate between hard and soft links.
+ -# If the specified file is a  dangling link file, then this  link file will be automatically removed.
+
+
+
+ Limitations:
+
+ - The to and from parameters in rename() shouldn't exceed 256 characters.
+ - The rename() function fails if either from or to parameters refer to a file in use (that is, if either file is held open by a process).
+ - The parent directory time stamps are not affected when rename() creates a new entry. The time stamps for the new entry like time of last access
+   is equal to time of last data modification. The time of last file status change for any file would be 0.
+ - KErrNotReady of Symbian error code is mapped to ENOENT, which typically means drive
+not found or filesystem not mounted on the drive.
+
+Examples:
+@code
+/*
+ * Detailed description: This sample code demonstrates usage of rename system call.
+ *
+ * Preconditions: Example.cfg file should be present in the current working directory.
+ */
+#include <stdio.h>
+int main()
+{
+  if(rename("Example.txt" , "Example2.txt") < 0 )  {
+     printf("Failed to rename Example.txt");
+     return -1;
+  }
+  printf("Rename successful");
+  return 0;
+}
+
+@endcode
+@code
+Output
+
+Rename successful
+
+@endcode
+@see open()
+@see symlink()
+
+@capability Deferred @ref RFs::Rename(const TDesC16&, const TDesC16&)
+@capability Deferred @ref RFs::Entry(const TDesC16&, TEntry&)
+@capability Deferred @ref RFs::RmDir(const TDesC16&)
+@capability Deferred @ref RFs::SetAtt(const TDesC16&, unsigned, unsigned)
+@capability Deferred @ref RFs::Delete(const TDesC16&)
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  rewind(FILE *fp)
+@param fp
+
+Refer to  fseek() for the documentation
+@see lseek()
+@see ungetc()
+@see ungetwc()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  scanf(const char *  fmt, ...)
+@param fmt
+@param ...
+
+Note: This description also covers the following functions -
+ fscanf()  sscanf()  vscanf()  vsscanf()  vfscanf() 
+
+@return   These functions return the number of input items assigned, which 
+can be fewer than provided for, or even zero, in the event of a matching failure. 
+Zero indicates that, while there was input available, no conversions were assigned; 
+typically this is due to an invalid input character, such as an alphabetic character 
+for a '\%d' conversion. The value EOF is returned if an input failure occurs before any conversion such 
+as an end-of-file occurs. If an error or end-of-file occurs after conversion has 
+begun, the number of conversions which were successfully completed is returned.
+
+ 
+
+ The scanf family of functions scans input according to a format as described below. This format may contain conversion specifiers; the results from such conversions, if any, are 
+  stored through the pointer arguments. The scanf function reads input from the standard input stream stdin, fscanf reads input from the stream pointer stream, and sscanf reads its input from the character string pointed to by str. The vfscanf function is analogous to vfprintf and reads input from the stream pointer stream using a variable argument list of pointers (see stdarg).
+
+ The vscanf function scans a variable argument list from the standard input 
+  and the vsscanf function scans it from a string; these are analogous to the vprintf and vsprintf functions respectively. Each successive pointer argument must correspond properly with each successive conversion 
+  specifier (but see the * conversion below). All conversions are introduced by the \% (percent sign) character. The format string may also contain other characters. White space (such as 
+  blanks, tabs, or newlines) in the format string match any amount of white space, including none, in the 
+  input. Everything else matches only itself. Scanning stops when an input character 
+  does not match such a format character. Scanning also stops when an input conversion 
+  cannot be made (see below).
+  
+
+Examples:
+@code
+/* this program shows scanning from file using fscanf */
+#include <stdio.h>
+int main(void)
+{
+        char x;
+        int ret;
+        char* filename="c:\ScanfTest1.txt";
+        FILE *fp = NULL;
+        if( set_fmode('t') != 0 )					// setting text-mode as default file opening mode throughtout the appln.
+        	{
+        	printf("Failed to set text-mode\n");
+        	return -1;
+        	}
+        fp=fopen(filename,"w");
+        fprintf(fp,"%s","abcdesdafg");
+        fclose(fp);
+        fp=fopen(filename,"r");
+        ret=fscanf(fp,"%c",&x;);
+        fclose(fp);
+        printf("fscanf returned:%c",x);
+        unlink(filename);
+        getchar();
+        if(ret!= 1)
+                return -1;
+        else
+                return 0;
+}
+
+@endcode
+@code
+Output
+
+fscanf returned:a
+
+
+@endcode
+Examples:
+@code
+/* this program shows scanning from file using fscanf */
+#include <stdio.h>
+int main(void)
+{
+        char x;
+        int ret;
+        char* filename="c:\ScanfTest1.txt";
+        FILE *fp = NULL;
+        if( set_fmode('t') != 0 )					// setting text-mode as default file opening mode throughtout the appln.
+        	{
+        	printf("Failed to set text-mode\n");
+        	return -1;
+        	}
+        fp=fopen(filename,"w");
+        fprintf(fp,"%s","abcdesdafg");
+        fclose(fp);
+        fp=fopen(filename,"r");
+        ret=fscanf(fp,"%c",&x;);
+        fclose(fp);
+        printf("fscanf returned:%c",x);
+        unlink(filename);
+        getchar();
+        if(ret!= 1)
+                return -1;
+        else
+                return 0;
+}
+
+@endcode
+@code
+Output
+
+fscanf returned:a
+
+
+@endcode
+@return   None of these functions support long double data types.
+
+@see getc()
+@see mbrtowc()
+@see printf()
+@see strtod()
+@see strtol()
+@see strtoul()
+@see wscanf()
+@see set_fmode() 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  setbuf(FILE *  fp, char *  buf)
+@param fp
+@param buf
+
+Note: This description also covers the following functions -
+ setbuffer()  setlinebuf()  setvbuf() 
+
+The three types of buffering available are unbuffered, block buffered, and line buffered. When an output stream is unbuffered, information appears on the destination file or terminal as soon as written; when it is block buffered many characters are saved up and written as a block; when it is line buffered characters are saved up until a newline is output or input is read from any stream attached to a terminal device (typically  stdin). The function fflush may be used to force the block out early.
+
+Normally all files are block buffered. When the first I/O operation occurs on a file, malloc is called, and an optimally-sized buffer is obtained. If a stream refers to a terminal (as stdout normally does) it is line buffered. The standard error stream stderr is always unbuffered.
+
+The setvbuf function may be used to alter the buffering behavior of a stream. The mode argument must be one of the following three macros:
+
+@code
+_IONBF
+ 	unbuffered
+_IOLBF
+ 	line buffered
+_IOFBF
+ 	fully buffered
+@endcode
+
+The size argument may be given as zero to obtain deferred optimal-size buffer allocation as usual. If it is not zero, then except for unbuffered files, the buf argument should point to a buffer at least size bytes long; this buffer will be used instead of the current buffer. If buf is not NULL, it is the caller's responsibility to free this buffer after closing the stream.
+
+The setvbuf function may be used at any time, but may have peculiar side effects (such as discarding input or flushing output) if the stream is "active". Portable applications should call it only once on any given stream, and before any I/O is performed.
+
+The other three calls are, in effect, simply aliases for calls to setvbuf. Except for the lack of a return value, the setbuf function is exactly equivalent to the call
+
+@code
+     setvbuf(stream, buf, buf ? _IOFBF : _IONBF, BUFSIZ);
+@endcode
+
+The setbuffer function is the same, except that the size of the buffer is up to the caller, rather than being determined by the default BUFSIZ. The setlinebuf function is exactly equivalent to the call:
+@code
+     setvbuf(stream, (char *)NULL, _IOLBF, 0);
+@endcode
+
+
+Examples:
+@code
+/* this program shows setting up a buffer using setbuf * /
+#include <stdio.h>
+int main()
+{
+        FILE *fp = NULL;
+        char FullBuf[100];
+        char msg[100];
+        char * rptr;
+        char name[20] = "c:\setbuf1.txt";
+        if( set_fmode('t') != 0 )					// setting text-mode as default file opening mode throughtout the appln.
+        	{
+        	printf("Failed to set text-mode\n");
+        	return -1;
+        	}
+        fp = fopen(name, "w+");
+        if (fp == NULL)
+                {
+                printf ("fopen failed");
+                return -1;
+                }
+        setbuf(fp, FullBuf);  // Fully buffered
+        if (ferror(fp))
+                {
+                printf ("setbuf failed");
+                fclose(fp);
+                unlink(name);
+                return -1;
+                }
+        fprintf(fp, "we are trying to buffer 20 characters at once ");
+        
+        fclose(fp);
+        fp=fopen(name,"r");
+        rptr = fgets(msg,100,fp);
+        if(rptr == NULL)
+                {
+                printf("fgets failed");
+                fclose(fp);
+                return -1;
+                }
+        printf("file reading returned \"%s\",msg);
+        fclose(fp);
+        
+        unlink(name);
+        return 0;
+}
+
+@endcode
+@code
+Output
+
+file reading returned "we are trying to buffer 20 characters at once"
+
+
+@endcode
+@see fopen()
+@see fread()
+@see malloc()
+@see printf()
+@see set_fmode() 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  setvbuf(FILE * fp, char *  buf, int mode, size_t size)
+@param fp
+@param buf
+@param mode
+@param size
+
+Refer to  setbuf() for the documentation
+@see fopen()
+@see fread()
+@see malloc()
+@see printf()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  sprintf(char *  str, const char *  fmt, ...)
+@param str
+@param fmt
+@param ...
+
+Refer to  printf() for the documentation
+@see printf()
+@see scanf()
+@see setlocale()
+@see wprintf()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  sscanf(const char *  str, const char * fmt, ...)
+@param str
+@param fmt
+@param ...
+
+Refer to  scanf() for the documentation
+@see getc()
+@see mbrtowc()
+@see printf()
+@see strtod()
+@see strtol()
+@see strtoul()
+@see wscanf()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  tmpfile(void)
+
+
+Note: This description also covers the following functions -
+ tmpnam()  tempnam() 
+
+@return   The tmpfile function
+returns a pointer to an open file stream on success, and a NULL pointer
+on error. The tmpnam and tempfile functions
+return a pointer to a file name on success, and a NULL pointer
+on error.
+
+  The tmpfile function
+returns a pointer to a stream associated with a file descriptor returned
+by the routine mkstemp .
+The created file is unlinked before tmpfile returns, causing the file to be automatically deleted when the last
+reference to it is closed.
+The file is opened with the access value 'w+'.
+The file is created in the directory determined by the environment variable TMPDIR if set.
+The default location if TMPDIR is not set is /tmp .
+
+@code
+ The tmpnam function returns a pointer to a file name, in the P_tmpdir directory, which did not reference an existing file at some 
+  indeterminate point in the past. P_tmpdir is defined in the include file #include <stdio.h>. If the argument str is non- NULL , the file name is copied to the buffer it references. Otherwise, 
+  the file name is copied to a static buffer. In either case, tmpnam returns a pointer to the file name.
+@endcode
+ The buffer referenced by str is expected to be at least L_tmpnam bytes in length. L_tmpnam is defined in the include file \#include \<stdio.h\>.
+
+ The tempnam function
+is similar to tmpnam ,
+but provides the ability to specify the directory which will
+contain the temporary file and the file name prefix.
+
+ The environment variable TMPDIR (if set), the argument tmpdir (if non- NULL ),
+the directory P_tmpdir ,
+and the directory /tmp are tried, in the listed order, as directories in which to store the
+temporary file.
+
+ The argument prefix , if non- NULL , is used to specify a file name prefix, which will be the 
+  first part of the created file name. The tempnam function allocates memory in which to store the file name; 
+  the returned pointer may be used as a subsequent argument to free .
+
+Examples:
+@code
+#include<stdio.h> //SEEK_SET, printf, tmpfile, FILE
+#include<sys/stat.h> //S_IWUSR
+ 
+int main()
+{
+//create the tmp directory
+ mkdir("c:\tmp", S_IWUSR);
+ 
+//call tmpfile to create a tempory file
+ FILE* fp = tmpfile();
+ char buf[10];
+ 
+ if(fp)
+ {
+     //write onto the file
+     fprintf(fp, "%s", "hello");
+     fflush(fp);
+  
+     //seek to the beginning of the file
+     fseek(fp, SEEK_SET, 0); //beg of the file
+  
+     //read from the file
+     fscanf(fp, "%s", buf);
+     fflush(fp);
+ 
+     //close the file
+     fclose(fp);
+ }
+ 
+ printf("buf read: %s", buf);
+ 
+ return 0;
+}
+
+@endcode
+@code
+Output
+
+buf read: hello
+
+@endcode
+@code
+#include<stdio.h> //tmpnam, printf, FILE
+#include<sys/stat.h> //S_IWUSR
+#include<errno.h> //errno
+  
+int main()
+{
+ //create a directory c:\system emp
+ mkdir("c:\system\temp", S_IWUSR);
+  
+ char buf[L_tmpnam];
+ char rbuf[10];
+  
+ //call tmpnam() to create a file
+ char *rval = tmpnam(buf);
+  
+ errno = 0;
+ //open the file with the name returned by tmpnam()
+ FILE *fp = fopen(buf, "w");
+  
+ if (fp == NULL)
+ {
+     printf("fopen of file returned by tmpnam() failed - errno %d ", errno);
+     return -1;
+ }
+    
+ if(fp)
+ {
+    fprintf(fp, "%s", "check");
+    fclose(fp);
+ }
+   
+ fp = fopen(buf, "r");
+  
+ if(fp)
+ {
+     fscanf(fp, "%s", rbuf);
+     fclose(fp);
+ }
+  
+ printf("read from file: %s", rbuf);
+ printf("argument buf: %s", buf);
+ printf("return value: %s", rval);
+  
+ return 0;
+}
+
+@endcode
+@code
+Output
+
+read from file: check
+argument buf: /System/temp/tmp.0.U9UPTx
+return value: /System/temp/tmp.0.U9UPTx
+
+@endcode
+
+Limitations:
+
+- The str parameter in tmpnam() respectively should not exceed 256 characters in length.
+- The tmpdir parameter in tempnam() respectively should not exceed 256 characters in length. 
+
+@see mktemp()
+
+
+
+@capability Deferred @ref RFs::Entry(const TDesC16&, TEntry&)
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  tmpfile64(void)
+
+For full documentation see: http://www.unix.org/version2/whatsnew/lfs20mar.html#3.0
+
+@see tmpfile()
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  tmpnam(char *str)
+@param str
+
+Refer to  tmpfile() for the documentation
+@see mktemp()
+
+
+
+@capability Deferred @ref RFs::MkDir(const TDesC16&)
+@capability Deferred @ref RFs::Entry(const TDesC16&, TEntry&)
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  ungetc(int c, FILE *fp)
+@param c
+@param fp
+@return   The ungetc function returns the character pushed-back after the conversion,
+or EOF if the operation fails.
+If the value of the argument c character equals EOF ,
+the operation will fail and the fp will remain unchanged.
+
+  The ungetc function pushes the character c (converted to an unsigned char)
+back onto the input stream pointed to by fp .
+The pushed-back characters will be returned by subsequent reads on the
+stream (in reverse order).
+A successful intervening call,
+using the same stream,
+to one of the file positioning functions
+( fsetpos or rewind )
+will discard the pushed back characters.
+
+ One character of push-back is guaranteed,
+but as long as there is sufficient memory,
+an effectively infinite amount of pushback is allowed.
+
+ If a character is successfully pushed-back,
+the end-of-file indicator for the stream is cleared.
+The file-position indicator is decremented
+by each successful call to ungetc ;
+if its value was 0 before a call, its value is unspecified after
+the call.
+
+
+Examples:
+@code
+/* this pushing character to file stream using ungetc */
+#include <stdio.h>
+int main(void)
+{
+        int c;
+        FILE *fp = NULL;
+        if( set_fmode('t') != 0 )					// setting text-mode as default file opening mode throughtout the appln.
+        	{
+        	printf("Failed to set text-mode\n");
+        	return -1;
+        	}
+        fp = fopen("c:\input.txt", "w");
+        fprintf(fp, "%s", "abcdefghijklmn");
+        fprintf(fp, "%c", '');
+        fprintf(fp, "%s", "fdsfdsafsdabcdefghijklmn");
+        fclose(fp);
+        char * name = "C:\input.txt";
+        fp = fopen(name, "w+");
+        if (fp == NULL)
+                {
+                printf ("fopen failed");
+                return -1;
+                }
+        if(ungetc('a',fp)!='a') printf("ungetc failed");
+        
+        fseek(fp,-1,SEEK_CUR);
+        c=getc(fp);
+        printf("character read from stream is \"%c\",c);
+        fclose(fp);
+}
+
+@endcode
+@code
+Output
+
+ character read from stream is "a"
+
+@endcode
+@see fseek()
+@see getc()
+@see ungetwc()
+@see set_fmode() 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  vfprintf(FILE *fp, const char *fmt0, va_list ap)
+@param fp
+@param fmt0
+@param ap
+
+Refer to  printf() for the documentation
+@see printf()
+@see scanf()
+@see setlocale()
+@see wprintf()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  vprintf(const char *  fmt, va_list ap)
+@param fmt
+@param ap
+
+Refer to  printf() for the documentation
+@see printf()
+@see scanf()
+@see setlocale()
+@see wprintf()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  vsprintf(char *  str, const char *fmt, va_list ap)
+@param str
+@param fmt
+@param ap
+
+Refer to  printf() for the documentation
+@see printf()
+@see scanf()
+@see setlocale()
+@see wprintf()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  snprintf(char *  str, size_t n, const char *  fmt, ...)
+@param str
+@param n
+@param fmt
+@param ...
+
+Refer to  printf() for the documentation
+@see printf()
+@see scanf()
+@see setlocale()
+@see wprintf()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  vfscanf(FILE *  stream, const char *  format, va_list ap)
+@param stream
+@param format
+@param ap
+
+Refer to  scanf() for the documentation
+@see getc()
+@see mbrtowc()
+@see printf()
+@see strtod()
+@see strtol()
+@see strtoul()
+@see wscanf()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  vscanf(const char *fmt, va_list ap)
+@param fmt
+@param ap
+
+Refer to  scanf() for the documentation
+@see getc()
+@see mbrtowc()
+@see printf()
+@see strtod()
+@see strtol()
+@see strtoul()
+@see wscanf()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  vsnprintf(char *  str, size_t n, const char *  fmt, va_list ap)
+@param str
+@param n
+@param fmt
+@param ap
+
+Refer to  printf() for the documentation
+@see printf()
+@see scanf()
+@see setlocale()
+@see wprintf()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  vsscanf(const char *  str, const char *  format, va_list ap)
+@param str
+@param format
+@param ap
+
+Refer to  scanf() for the documentation
+@see getc()
+@see mbrtowc()
+@see printf()
+@see strtod()
+@see strtol()
+@see strtoul()
+@see wscanf()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fdopen(int fd, const char *mode)
+@param fd
+@param mode
+
+Refer to  fopen() for the documentation
+@see open()
+@see fclose()
+@see fileno()
+@see fseek()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fileno(FILE *fp)
+@param fp
+
+Refer to  clearerr() for the documentation
+@see open()
+@see flockfile()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  popen(const char *command, const char *mode)
+@param command
+@param mode
+
+Notes:
+
+1. This description also covers the pclose() function.
+
+2. When a child process created using popen() exits, the parent process receives a SIGCHLD signal.
+
+@return   The popen function returns NULL if the fork
+or pipe calls fail,
+or if it cannot allocate memory. The pclose function returns -1 if stream is not associated with a "popened" command, if stream already "pclosed" or if wait4
+returns an error.
+
+  The popen function opens a process by creating a pipe, forking, and invoking 
+the shell. Since a pipe is by definition unidirectional, the type argument may specify only reading or writing, not both. The resulting 
+stream is correspondingly read-only ("r") or write-only "w". If type is anything 
+other than this the behavior is undefined.
+
+ The command argument is a pointer to a null-terminated string containing a shell command line.
+This command is passed to /bin/sh using the - c flag; interpretation, if any, is performed by the shell.
+
+ The return value from popen is a normal standard I/O stream in all respects save that it must be closed with pclose rather than fclose. Writing to such a stream writes to the standard input of the 
+  command. The command's standard output is the same as that of the process 
+  that called popen, unless this is altered by the command itself. Conversely, reading 
+  from a "popened" stream reads the command's standard output, and the command's 
+  standard input is the same as that of the process that called popen.
+
+ Note that output popen streams are fully buffered by default.
+
+ The pclose function waits for the associated process to terminate
+and returns the exit status of the command
+as returned by
+wait4.
+
+
+
+@see pipe()
+@see fclose()
+@see fflush()
+@see fopen()
+@see system()
+
+
+Bugs:
+
+ Since the standard input of a command opened for reading
+shares its seek offset with the process that called popen, if the original process has done a buffered read,
+the command's input position may not be as expected.
+Similarly, the output from a command opened for writing
+may become intermingled with that of the original process.
+The latter can be avoided by calling fflush before popen. Failure to execute the shell
+is indistinguishable from the shell's failure to execute command,
+or an immediate exit of the command.
+The only hint is an exit status of 127. The popen function
+always calls sh and never calls csh. 
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn popen3(const char *file, const char *cmd, char** envp, int fds[3])
+
+Open stdin, stdout, and stderr streams and start external executable.
+
+Note: When a child process created using popen3() exits, the parent process receives a SIGCHLD signal.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  ftrylockfile(FILE *fp)
+@param fp
+
+Refer to  flockfile() for the documentation
+@see getc_unlocked()
+@see putc_unlocked()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  flockfile(FILE *fp)
+@param fp
+
+Note: This description also covers the following functions -
+ ftrylockfile()  funlockfile() 
+
+@return   The flockfile and funlockfile functions return no value. The ftrylockfile function
+returns zero if the stream was successfully locked,non-zero otherwise.
+
+These functions provide explicit application-level locking of stdio streams.
+They can be used to avoid output from multiple threads being interspersed,
+input being dispersed among multiple readers, and to avoid the overhead
+of locking the stream for each operation.
+
+ The flockfile function acquires an exclusive lock on the specified stream. 
+  If another thread has already locked the stream flockfile will block until the lock is released.
+
+ The ftrylockfile function is a non-blocking version of flockfile; if the lock cannot be acquired immediately ftrylockfile returns non-zero instead of blocking.
+
+ The funlockfile function releases the lock on a stream acquired by an earlier call to flockfile or ftrylockfile.
+
+ These functions behave as if there is a lock count associated with each stream. 
+  Each time flockfile is called on the stream the count is incremented and each 
+  time funlockfile is called on the stream the count is decremented. The 
+  lock is only actually released when the count reaches zero.
+  
+  
+Examples:
+@code
+#include <stdio.h>
+#include <unistd.h>
+#include <pthread.h> //link to the lib -libpthread
+ 
+void* somefun(void* args)
+{
+FILE *fp = (FILE *)args;
+printf("in thr 2");
+flockfile(fp);
+printf("aquired lock!");
+fputc('a', fp); //fputc_unlocked() is more relevant
+printf("after a from thr 2");
+sleep(3);
+printf("after sleep from thr 2");
+fputc('b', fp);
+printf("after b from thr 2");
+fputc('c', fp);
+printf("after c from thr 2");
+funlockfile(fp);
+fclose(fp);
+}
+int main()
+{
+pthread_t obj;
+FILE *fp = NULL;
+if( set_fmode('t') != 0 )					// setting text-mode as default file opening mode throughtout the appln.
+	{
+    printf("Failed to set text-mode\n");
+    return -1;
+	}
+fp = fopen("c:\chk.txt", "w");
+if(fp)
+{
+        flockfile(fp);
+        fputc('x', fp); //fputc_unlocked() is more relevant
+        printf("after x from thr 1");
+        sleep(5);
+        printf("after sleep from thr 1");
+        pthread_create(&obj;, NULL, somefun, fp);
+        printf("after calling thr 2 from thr 1");
+        fputc('y', fp);
+        printf("after y from thr 1");
+        fputc('z', fp);
+        printf("after z from thr 1");
+        funlockfile(fp);
+        printf("gave up lock in thr 1");
+}
+pthread_exit((void *)0);
+}
+
+@endcode
+@code
+Output
+
+after x from thr 1
+after sleep from thr 1
+in thr 2
+after calling thr 2 from thr 1
+after y from thr 1
+after z from thr 1
+gave up lock in thr 1
+acquired lock!
+after a from thr 2
+after sleep from thr 2
+after b from thr 2
+after c from thr 2
+  
+Note: The printing takes quite some time and hence the
+output may not look exactly like the above one.
+(try printing to the files if you are very particular)
+ 
+
+@endcode
+@code
+#include <stdio.h>
+#include <unistd.h>
+#include <pthread.h> //link to lib -libpthread
+#include <errno.h>
+ 
+void* somefun(void* args)
+{
+ 
+FILE *fp = (FILE *)args;
+ 
+printf("in thr 2
+");
+ 
+int i = ftrylockfile(fp);
+if(i == 0)
+{
+        printf("aquired lock!");
+        fputc('a', fp);
+        printf("after a from thr 2");
+        sleep(3);
+        printf("after sleep from thr 2");
+        fputc('b', fp);
+        printf("after b from thr 2");
+        fputc('c', fp);
+        printf("after c from thr 2");
+        funlockfile(fp);
+        printf("gave up lock in thr 2");
+}
+else
+        printf("couldn't aquire lock");
+}
+int main()
+{
+pthread_t obj;
+FILE *fp = NULL;
+if( set_fmode('t') != 0 )					// setting text-mode as default file opening mode throughtout the appln.
+	{
+    printf("Failed to set text-mode\n");
+    return -1;
+	}
+fp = fopen("c:\chk.txt", "w");
+ 
+if(fp)
+{
+        flockfile(fp);
+        fputc('x', fp);
+        printf("after x from thr 1");
+        sleep(5);
+        printf("after sleep from thr 1");
+        pthread_create(&obj;, NULL, somefun, fp);
+        printf("after calling thr 2 from thr 1");
+        fputc('y', fp);
+        printf("after y from thr 1");
+        fputc('z', fp);
+        printf("after z from thr 1");
+        funlockfile(fp);
+        printf("gave up lock in thr 1");
+        sleep(5);
+        fclose(fp);
+}
+pthread_exit((void *)0);
+}
+
+@endcode
+@code
+Output
+
+after x from thr 1
+after sleep from thr 1
+in thr 2
+couldn't acquire lock
+after calling thr 2 from thr 1
+after y from thr 1
+after z from thr 1
+gave up lock in thr 1
+  
+Note: The printing takes quite some time and hence the
+output may not look exactly like the above one.
+(try printing to the files if you are very particular)
+  
+
+@endcode
+@see getc_unlocked()
+@see putc_unlocked()
+@see set_fmode() 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  funlockfile(FILE *fp)
+@param fp
+
+Refer to  flockfile() for the documentation
+@see getc_unlocked()
+@see putc_unlocked()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  getc_unlocked(FILE *fp)
+@param fp
+
+Refer to  fgetc() for the documentation
+@see ferror()
+@see flockfile()
+@see fopen()
+@see fread()
+@see getwc()
+@see putc()
+@see ungetc()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  getchar_unlocked(void)
+
+
+Refer to  fgetc() for the documentation
+@see ferror()
+@see flockfile()
+@see fopen()
+@see fread()
+@see getwc()
+@see putc()
+@see ungetc()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  putc_unlocked(int ch, FILE *fp)
+@param ch
+@param fp
+
+Refer to  fputc() for the documentation
+@see ferror()
+@see flockfile()
+@see fopen()
+@see getc()
+@see putwc()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  putchar_unlocked(int ch)
+@param ch
+
+Refer to  fputc() for the documentation
+@see ferror()
+@see flockfile()
+@see fopen()
+@see getc()
+@see putwc()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  getw(FILE *fp)
+@param fp
+
+Refer to  fgetc() for the documentation
+@see ferror()
+@see flockfile()
+@see fopen()
+@see fread()
+@see getwc()
+@see putc()
+@see ungetc()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  putw(int w, FILE *fp)
+@param w
+@param fp
+
+Refer to  fputc() for the documentation
+@see ferror()
+@see flockfile()
+@see fopen()
+@see getc()
+@see putwc()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn tempnam(const char *, const char *)
+Refer to tmpfile() for the documentation
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  asprintf(char **str, const char *fmt, ...)
+@param str
+@param fmt
+@param ...
+
+Refer to  printf() for the documentation
+@see printf()
+@see scanf()
+@see setlocale()
+@see wprintf()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  setbuffer(FILE *fp, char *buf, int size)
+@param fp
+@param buf
+@param size
+
+Refer to  setbuf() for the documentation
+@see fopen()
+@see fread()
+@see malloc()
+@see printf()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  setlinebuf(FILE *fp)
+@param fp
+
+Refer to  setbuf() for the documentation
+@see fopen()
+@see fread()
+@see malloc()
+@see printf()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  vasprintf(char **str, const char *fmt, va_list ap)
+@param str
+@param fmt
+@param ap
+
+Refer to  printf() for the documentation
+@see printf()
+@see scanf()
+@see setlocale()
+@see wprintf()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  ftruncate(int fd, off_t length)
+@param fd
+@param length
+
+Refer to  truncate() for the documentation
+@see open()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  lseek(int fildes, off_t offset, int whence)
+@param fildes
+@param offset
+@param whence
+@return   Upon successful completion, lseek returns the resulting offset location as measured in bytes from the
+beginning of the file.
+Otherwise,
+a value of -1 is returned and errno is set to indicate
+the error.
+
+The  lseek system call repositions the offset of the file descriptor  fildes to the argument  offset according to the directive  whence. 
+The argument  fildes must be an open file descriptor. The  lseek system call repositions the file position pointer associated with the file descriptor  fildes as follows:
+@code
+	If whence is SEEK_SET, the offset is set to offset bytes.
+	If whence is SEEK_CUR, the offset is set to its current location plus offset bytes.
+	If whence is SEEK_END, the offset is set to the size of the file plus offset bytes.
+@endcode
+Some devices are incapable of seeking. The value of the pointer associated with such a device is undefined.
+
+Note: lseek function allows the file offset to be set beyond the existing end-of-file, data in the seeked slot is undefined, and hence the read operation in seeked slot is 
+undefined untill data is actually written into it. lseek beyond existing end-of-file increases the file size accordingly.
+
+
+
+Examples:
+@code
+/* Detailed description  : Example for lseek usage.*/
+#include <stdio.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <sys/types.h>
+int main()
+{
+int fd = 0;
+ fd = open("lseek.txt"  , O_CREAT | O_RDWR , 0666);
+  if(lseek(fd , 0 , SEEK_SET) < 0 ) {
+     printf("Lseek on file lseek.txt failed");
+      return -1;
+  }
+  printf("Lseek on lseek.txt passed ");
+ return 0;
+}
+
+@endcode
+@code
+Output
+
+Lseek on lseek.txt passed
+
+@endcode
+@see dup()
+@see open()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @fn  truncate(const char *path, off_t length)
+@param path
+@param length
+
+Note: This description also covers the following functions -
+ ftruncate() 
+
+@return   Upon successful completion, both truncate() and ftruncate() return 0; otherwise, 
+they return -1 and set errno to indicate the error.
+
+  The truncate system call
+causes the file named by path or referenced by fd to be truncated to length bytes in size.
+If the file
+was larger than this size, the extra data
+is lost.
+If the file was smaller than this size,
+it will be extended as if by writing bytes with the value zero.
+With ftruncate ,
+the file must be open for writing.
+
+Examples:
+@code
+//example for truncate
+#include<unistd.h>
+#include<stdio.h>
+#include <sys/stat.h>
+int test_truncate()
+{
+        int retVal, retVal2, retSize, retSize2;
+        struct stat buf;
+        ssize_t size;
+        char *buffer = "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwx";
+        int fp = open("c:	est.txt", O_RDWR|O_CREAT);
+        size = write(fp,buffer,50);
+        close(fp);
+        retVal2 = stat("c:	est.txt", &buf; );
+        if ( !retVal2 )
+        {
+        retSize = buf.st_size;
+        printf("Size before: %d", retSize);
+        retVal = truncate("c:	est.txt", retSize/2 );
+        }
+        else
+        {
+        printf("Failed");
+        }
+        retVal2 = stat( "c:	est.txt", &buf; );
+        if ( !retVal2 )
+                {
+                retSize2 = buf.st_size;
+                if( retSize2 == (retSize/2 ) )
+                        {
+                        printf("Size after: %d", retSize2);
+                        printf("Truncate passed");
+                        return 0;
+                        }
+                else
+                        {
+                        printf("Failed");
+                        return -1;
+                        }
+                }
+        else
+                {
+                printf("Failed");
+                return -1;
+                }
+}
+
+Output
+Size before: 50
+Size after: 25
+Ttruncate Passed
+@endcode
+
+@code
+//example for ftruncate
+#include<unistd.h>
+#include<stdio.h>
+int test_ftruncate()
+{
+//assuming that the file exists and has some //data in it
+   int fp = open("c:	est.txt", O_RDWR);
+   int retVal, retVal2, retSize, retSize2;
+   struct stat buf;
+   if(fp != -1)
+   {
+     retVal2 = fstat( fp, &buf; );
+     if ( !retVal2 )
+     {
+        retSize = buf.st_size;
+        printf("Size before: %d", retSize);
+        retVal = ftruncate( fp, retSize/2 );
+        close(fp);
+     }
+     else
+     {
+        printf("Failed");
+     }
+     fp = open("c:	est.txt", O_RDONLY);
+     if((fp != -1) && (!retVal))
+     {
+        retVal2 = fstat( fp, &buf; );
+        if ( !retVal2 )
+        {
+          retSize2 = buf.st_size;
+          if( retSize2 == (retSize/2 ) )
+          {
+            printf("Size after: %d", retSize2);
+            printf("Ftruncate Passed");
+          }
+          else
+          {
+            printf("Failed");
+          }
+     }
+     else
+     {
+       printf("Failed");
+     }
+  }
+}
+
+Output
+Size before: 100
+Size after: 50
+Ftruncate Passed
+
+@endcode
+@see open()
+
+
+Bugs:
+
+ These calls should be generalized to allow ranges
+of bytes in a file to be discarded. Use of truncate to extend a file is not portable. 
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn int setecho(int fd, uint8_t echoval)
+@param fd
+@param echoval
+
+Turns On/Off the echo for the input characters.
+If echoval is 0, the echo is turned off and nothing gets echoed on the console.
+If echoval is 1, the echo is turned on.
+If echoval is anything else, the echo is turned off and the given printable character
+will be echoed instead the actual input character.
+
+Notes:
+The given fd should be that of a console.
+If the stdio redirection server is used to redirect the stdin/stdout of a process and
+if the given fd maps to one of those, then the stdin will only be affected by this call.
+Write operations on this fd will not be affected.
+The earlier behavior is retained if setecho() fails.
+
+@return Upon successfull completion it returns 0, otherwise -1, setting the errno.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def va_list
+
+The type va_list is defined for variables used to traverse the list.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def vfscanf
+
+To be used for vfscanf(..)
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def __SNBF	
+
+unbuffered 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def __SRD	
+
+OK to read
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def __SLBF	
+
+line buffered
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def __SWR	
+
+OK to write
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def __SRW	
+
+open for reading & writing
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def __SEOF	
+
+found EOF
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def __SERR	
+
+found error
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def __SMBF	
+
+_buf is from malloc
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def __SAPP	
+
+fdopen()ed in append mode
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def __SSTR	
+
+this is an sprintf or snprintf string 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def __SOPT	
+
+do fseek() optimization
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def __SNPT	
+
+do not do fseek() optimization 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def __SOFF	
+
+set iff _offset is in fact correct
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def __SMOD	
+
+true; fgetln modified _p text
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def __SALC	
+
+allocate string space dynamically
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def __SIGN	
+
+ignore this file in _fwalk
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _IOFBF	
+
+setvbuf should set fully buffered
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _IOLBF	
+
+setvbuf should set line buffered 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _IONBF	
+
+setvbuf should set unbuffered 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def BUFSIZ	
+
+size of buffer used by setbuf 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def EOF	
+
+End of file
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def FOPEN_MAX
+
+must be less than OPEN_MAX
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def FILENAME_MAX
+
+must be less than PATH_MAX 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def SEEK_END
+
+set file offset to EOF plus offset
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def SEEK_CUR
+
+set file offset to current plus offset
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def SEEK_SET
+
+set file offset to offset
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def TMP_MAX
+
+temporary max value
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def L_tmpnam
+
+must be == PATH_MAX
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def stdin
+
+standard input variable
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def stdout
+
+standard output variable
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def stderr
+
+standard error variable
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def L_cuserid
+
+size for cuserid(3)
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def L_ctermid
+
+size for ctermid(3)
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def __isthreaded
+
+defined to isthreaded()
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def feof(p)
+
+Functions defined in ANSI C standard.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def ferror(p)
+
+Functions defined in ANSI C standard.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def clearerr(p)
+
+Functions defined in ANSI C standard.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def fileno(p)
+
+Functions defined in ANSI C standard.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def getc(fp)
+
+Functions defined in ANSI C standard.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def getchar()
+
+Defined to getc(stdin)
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def putchar(x)
+
+defined to putc(x,stdout)
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @struct __sbuf
+
+stdio buffers 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @var __sbuf::_base
+Pointer to the buffer
+*/
+
+/** @var __sbuf::_size
+size of the buffer
+*/
+
+/** @struct __sFILE
+
+stdio state file variables.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @typedef  typedef __off_t fpos_t
+
+Represents file position
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @typedef  typedef __off_t fpos64_t
+
+Represents large file position
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @typedef  typedef	__size_t	size_t
+
+A type to define sizes of strings and memory blocks.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @typedef  typedef	__va_list	va_list
+
+A void pointer which can be interpreted as an argument list.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @fn tmpdirname(void)
+
+@return Upon successful completion tmpdirname() will return the path of the private directory of that process.
+
+Note:String that the function will return is not to be modified.
+
+Examples:
+
+@code
+
+/* Illustrates how to use tmpdirname() API */
+#include <stdio.h>
+int main()
+	{
+	char *ptr;
+	ptr=tmpdirname();
+	printf("%s\n",ptr);
+	return 0;	
+	}
+@endcode
+
+@publishedAll
+@released
+*/
+
+/** @fn  set_fmode(char mode)
+@param mode
+@return  set_fmode() returns 0 on success, otherwise returns -1 with an errno set to EINVAL. 
+
+set_fmode(), get_fmode() are used to provide text-mode support.
+
+Using set_fmode(), User can set file opening mode explicitly to either text or binary i.e. it can take only 't' or 'b' as parameter.
+
+Notes: 1>. User is supposed to use this before opening a file or at the start of the application. The mode that is set using set_fmode()
+      is fixed till the file is closed or till the application terminates.  In case the user wants to change the mode once the file
+      has been opened and before it is closed, the buffer needs to be flushed explicitly.
+      
+      2>. If the user mixes the two file modes, there might be unexpected behaviour.
+	  For example, a file is opened in text mode, written with 20 bytes and closed. 
+	  Again the file is opened in binary mode and 20 bytes is read. If the 20 bytes written earlier had '\n's among them, 
+	  the read data will not be complete.
+	   
+Examples:
+@code
+/*
+ * Detailed description : To set the mode of a file to either text/binary explicitly
+ */
+#include <stdio.h>
+int main() 
+{
+  int ret;
+  ret = set_fmode('t');	
+  if(ret != 0 ) 
+  {
+     printf("Failed to set text mode\n") ;
+     return -1 ;
+  }
+  printf("Successfully able to set text mode\n") ;
+  if (get_fmode() != 't')
+  {
+     printf("Failed to Retrieve file-mode\n") ;
+     return -1 ;      
+  }	
+  printf("Successfully able to Retrieve file-mode\n") ;
+  getchar();
+  return 0 ;
+}
+
+@endcode
+
+@see get_fmode()
+@see fopen()
+@see fclose()
+@see setvbuf()
+@see ftell()
+@see fseek()
+@see fread()
+@see fwrite()
+@see fputs()
+@see fputc()
+@see fgets()
+@see fgetc()
+@see fprintf()
+@see fscanf()
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  get_fmode( )
+@return   get_fmode() returns the current file open mode as either 't' or 'b'. 't' is returned if text-mode is set 
+		  explicitly using set_fmode(), otherwise 'b' binary-mode is returned which is default in symbian.
+		   
+Examples:
+@code
+/*
+ * Detailed description : To Retrieve the current mode of a file
+ */
+#include <stdio.h>
+int main() 
+{
+  int ret;
+  ret = set_fmode('t');	
+  if(ret != 0 ) 
+  {
+     printf("Failed to set text mode\n") ;
+     return -1 ;
+  }
+  printf("Successfully able to set text mode\n") ;
+  if (get_fmode() != 't')
+  {
+     printf("Failed to Retrieve file-mode\n") ;
+     return -1 ;      
+  }	
+  printf("Successfully able to Retrieve file-mode\n") ;
+  getchar();
+  return 0 ;
+}
+
+@endcode
+
+Examples:
+@code
+/*
+ * Detailed description : General example to illustrate set_fmode(), get_fmode()
+ */
+#include <stdio.h>
+int main()
+{
+    char *data = "helloworld\nfine";
+    char *p = NULL;
+    int ret = 0;
+    FILE *fw = NULL, *fr = NULL;
+    
+    ret = set_fmode('t');                   			// To set text-mode using set_fmode()
+	if(ret != 0 ) 
+		{
+		printf("Failed to set text mode") ;
+		return -1 ;
+		}
+	if (get_fmode() != 't')
+		{
+		printf("Failed to Retrieve file-mode") ;
+		return -1 ;      
+		}	
+
+    fw = fopen("c:\\temp_tc.txt", "w");
+    int count = fwrite(data, 1, strlen(data), fw);
+	if(count != strlen(data))
+		{
+		printf("fwrite() failed\n");
+		goto end;
+		}
+    fclose(fw);
+    fw = fopen("c:\\temp_tc_out.txt", "w");
+    fr = fopen("c:\\temp_tc.txt", "r");
+    p = (char *)malloc(count+1);                        // extra one is for holding '\0'
+	if( !p )
+		{
+		printf("malloc() failed\n");
+		goto end;
+		}
+    char *retn = fgets(p, count, fr);
+    //ret = fread(p, 1, 11, fr);
+    if(strlen(p) != 11)
+        {
+        printf("1st read failed\n");
+        goto end;
+        }
+    int pos = ftell(fr);                              	// 12 -> offset
+    printf("pos After 1st read: %d\n", pos);
+    fseek(fr,pos,SEEK_SET);
+    ret = fread(p+11,1,4,fr);
+    if( ret != 4)
+        {
+        printf("Failed to read using fread()\n");
+        goto end;
+        }
+    p[count] = '\0';
+    pos = ftell(fr);                            		// 16 -> offset
+    printf("pos After 2nd read: %d\n", pos);
+    getchar();
+    count = fwrite(p, 1, strlen(p), fw);
+    if(count != strlen(p))
+        {
+        printf(" Failed to write onto another file\n");
+        getchar();
+        }
+    else
+        {
+        printf("Passed to write onto another file\n");
+        getchar();
+        }
+	end: 
+	if(p)
+		{
+		free(p);
+		p = NULL;
+		}
+	if(fr)
+		fclose(fr);
+	if(fw)
+		fclose(fw);
+    return 0;                                                   
+} 
+@endcode
+
+@code
+
+Output:
+pos After 1st read: 12
+pos After 2nd read: 20
+Passed to write onto another file
+
+@endcode
+
+@see set_fmode()
+
+@publishedAll
+@externallyDefinedApi
+*/

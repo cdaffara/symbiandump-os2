@@ -1,0 +1,284 @@
+/** @file  ../include/sys/time.h
+@internalComponent
+*/
+
+/** @fn  adjtime(const struct timeval *delta, struct timeval *olddelta)
+@param delta
+@param olddelta
+@return   A successful call will return 0 while a failure will return -1
+
+ 
+
+ The adjtime system call makes small adjustments to the system time (as 
+  returned by gettimeofday ) by advancing it the amount 
+  specified by the timeval delta .
+
+ If delta is negative, the clock is still incremented by the positive of 
+  delta until the correction is complete. Thus, the time is always a monotonically 
+  increasing function and time correction from an earlier call to adjtime might not have finished when adjtime is called again. In such cases the structure pointed to by olddelta will contain, upon return, the number of microseconds still 
+  to be corrected from the earlier call. Otherwise the values will be set to 0
+
+ This call may be used by time servers that synchronize the clock.
+
+Examples:
+@code
+#include <sys/time.h>
+#include <stdio.h>
+int main()
+{
+        //Fill the input struct with 100 microseconds
+        const struct timeval delta = {0, 100};
+        struct timeval  olddelta;
+        int retval;
+        retval = adjtime (&delta;, &olddelta;); //Call adjtime
+        printf("adjtime returned %d",retval);
+        return 0;
+}
+
+@endcode
+ Output
+@code
+adjtime returned 0
+
+@endcode
+@see gettimeofday()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  gettimeofday(struct timeval *tp, struct timezone *tzp)
+@param tp
+@param tzp
+@return   The gettimeofday function returns 0 for success, or -1  for  failure.
+
+  The system's notion of the current Greenwich time and the current time
+zone is obtained with the gettimeofday system call, and set with the settimeofday system call.
+The time is expressed in seconds and microseconds
+since midnight (0 hour), January 1, 1970.
+The resolution of the system
+clock is hardware dependent, and the time may be updated continuously or
+in "ticks."
+If tp or tzp is NULL, the associated time
+information will not be returned or set.
+
+ The structures pointed to by tp and tzp are defined in \#include \<sys/time.h\> as:
+
+@code
+struct timeval {
+longtv_sec;/* seconds since Jan. 1, 1970 */
+longtv_usec;/* and microseconds */
+};
+@endcode
+
+@code
+struct timezone {
+inttz_minuteswest; /* minutes west of Greenwich */
+inttz_dsttime;/* type of dst correction */
+};
+@endcode
+
+ The timezone structure indicates the local time zone (measured in minutes of time 
+  westward from Greenwich) and a flag that, if nonzero, indicates that Daylight 
+  Saving time applies locally during the appropriate part of the year.
+
+Examples:
+@code
+#include <stdio.h>
+#include <sys/time.h>
+ 
+int main()
+{
+  struct timeval *tv;
+  struct timezone *tz;
+  int i = gettimeofday(tv, tz);
+      
+  printf("tv: %d, %d", tv->tv_sec, tv->tv_usec);
+  printf("tz: %d, %d", tz->tz_minuteswest, tz->tz_dsttime);
+  return 0;
+}
+
+@endcode
+ Output
+@code
+tv: 1474660693, -326937770
+tz: 7804688, 3
+
+@endcode
+@see adjtime()
+@see clock_gettime()
+@see ctime()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  utimes(const char *filename, const struct timeval *tvp)
+@param filename
+@param tvp
+
+Note: This description also covers the following functions -
+ lutimes()  futimes() 
+
+@return   Upon successful completion, the value 0 is returned; otherwise the
+value -1 is returned and the global variable errno is set to indicate the
+error.
+
+  The utimes function sets the access and modification times of the file pointed 
+to by the path argument to the value of the times argument.
+ The utimes function allows time specifications accurate to the microsecond.
+
+ For utimes , the times argument is an array of timeval structures. The first array 
+  member represents the date and time of last access and the second member represents the date and time of last modification. 
+  The times in the timeval structure are measured in seconds and microseconds since the Epoch, although rounding toward 
+  the nearest second may occur.
+
+ If the times argument is a null pointer, the access and modification times 
+  of the file are set to the current time.
+
+Examples:
+@code
+/*  Detailed description: Sample usage of utimes system call.
+ *  Preconditions: Example.txt file should exist in the working directory
+ */
+#include <sys/types.h>
+#include <utime.h>
+#include <sys/time.h>
+int main()
+{
+  struct timeval Tim[1] ;
+ Tim[0].tv_sec = 0 ;
+ Tim[0].tv_usec = 0 ;
+  if(utimes("Example.txt"  , Tim) < 0 )
+  {
+     printf("Utimes system call failed") ;
+     return -1 ;
+  }
+  printf("Utimes call succeded") ;
+ return 0 ;
+}
+
+@endcode
+@see stat()
+@see utime()
+
+
+
+@capability Deferred @ref RFs::SetModified(const TDesC16&, const TTime&)
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @fn bintime_addx(struct bintime *bt, uint64_t x)
+
+Static inline funtion. Function for reading the time.
+
+@publishedAll
+@released
+*/
+
+/** @fn  bintime_add(struct bintime *bt, const struct bintime *bt2)
+
+Static inline funtion. Function for reading the time.
+
+@publishedAll
+@released
+*/
+
+/** @fn  bintime_sub(struct bintime *bt, const struct bintime *bt2)
+
+Static inline funtion. Function for reading the time.
+
+@publishedAll
+@released
+*/
+
+
+/** @fn bintime2timespec(const struct bintime *bt, struct timespec *ts)
+
+Static inline funtion
+
+@publishedAll
+@released
+*/
+
+/** @fn  timespec2bintime(const struct timespec *ts, struct bintime *bt)
+
+Static inline funtion
+
+@publishedAll
+@released
+*/
+
+/** @fn  bintime2timeval(const struct bintime *bt, struct timeval *tv)
+
+Static inline funtion
+
+@publishedAll
+@released
+*/
+
+
+/** @fn timeval2bintime(const struct timeval *tv, struct bintime *bt)
+
+Static inline funtion
+
+@publishedAll
+@released
+*/
+
+/** @struct itimerval 
+
+Includes the following members,
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @var itimerval::it_interval
+timer interval
+*/
+
+/** @var itimerval::it_value
+current value 
+*/
+
+/** @struct clockinfo 
+
+Getkerninfo clock information structure
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @var clockinfo::hz
+clock frequency 
+*/
+
+/** @var clockinfo::tick
+micro-seconds per hz tick
+*/
+
+/** @var clockinfo::spare
+current value 
+*/
+
+/** @var clockinfo::stathz
+statistics clock frequency
+*/
+
+/** @var clockinfo::profhz
+profiling clock frequency
+*/
+
+
+
+

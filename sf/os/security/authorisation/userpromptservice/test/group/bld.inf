@@ -1,0 +1,80 @@
+/*
+* Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* TUPS integration build file
+*
+*/
+
+
+/**
+ @file
+*/
+
+PRJ_EXPORTS
+
+PRJ_MMPFILES
+
+PRJ_TESTEXPORTS
+
+
+//// test scripts ////
+../tups/scripts/tups_properties.ini     z:/tups/integ/scripts/tups_properties.ini
+../tups/scripts/tups_integ.script  		z:/tups/integ/scripts/tups_integ.script
+../tups/scripts/tups_integ.ini     		z:/tups/integ/scripts/tups_integ.ini
+../tups/scripts/tups_integ_pre.bat		z:/tups/integ/scripts/tups_integ_pre.bat
+../tups/scripts/tups_integ_post.bat		z:/tups/integ/scripts/tups_integ_post.bat
+../tups/scripts/tups_networkingupsdisable.bat	z:/tups/integ/scripts/tups_networkingupsdisable.bat
+../tups/scripts/tups_integ_post1.script		z:/tups/integ/scripts/tups_integ_post1.script
+../tups/scripts/tups_integ_post1_check.script	z:/tups/integ/scripts/tups_integ_post1_check.script
+
+
+//// corrupted data bases
+../tups/corrupted_db_integ/ups_corrupted1.db     z:/tups/integ/corrupted_db_integ/ups_corrupted1.db
+../tups/corrupted_db_integ/ups_corrupted2.db     z:/tups/integ/corrupted_db_integ/ups_corrupted2.db
+
+
+PRJ_TESTMMPFILES
+
+#ifndef TOOLS
+#ifndef TOOLS2
+#ifndef GCCXML
+
+tupsinteg.mmp
+tupsinteg_unprotected.mmp
+tups_clientapi_sysserver.mmp
+tups_system_server01.mmp
+tups_system_server02.mmp
+tups_system_server03.mmp
+tups_policyevaluator01.mmp
+tups_policyevaluator02.mmp
+tups_policyevaluator03.mmp
+tups_policyevaluator_noprops.mmp
+tups_policyevaluator05.mmp
+tups_dialogcreator01.mmp
+tups_dialogcreator02.mmp
+tups_dialogcreator03.mmp
+tups_dialogcreator_session.mmp
+tups_dialogcreator_always.mmp
+tups_dialogcreator_never.mmp
+tups_dialogcreator07.mmp
+//tups_notifier.mmp
+tups_nopolicies_server.mmp
+
+tupsinteg_post1.mmp  // target need to be deleted after sis creation 
+
+gnumakefile ../tups/packages/testromstub.mak
+
+#endif
+#endif
+#endif

@@ -1,0 +1,52 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// Resource file for the Multiple ROM Image Example Collection
+// To be used with the full Client / Server architecture.
+// This is one of the resource files for the multiple rom image test for CR0759.
+// 
+//
+
+#include <ecom/registryinfo.rh>
+
+// Conditional compile, depending on locale
+#if defined LANGUAGE_02   // if language code is for French
+ #include "MultipleImageExample_02.rls"
+#elif defined LANGUAGE_03 // if language code is for German
+ #include "MultipleImageExample_03.rls"
+#else                     // if language code is default: UK English
+ #include "MultipleImageExample_sc.rls"
+#endif 
+
+RESOURCE REGISTRY_INFO theInfo
+	{
+	dll_uid = 0x10282315;
+	interfaces = 
+		{
+		INTERFACE_INFO
+			{
+			interface_uid = 0x10282307;
+			implementations = 
+				{
+				IMPLEMENTATION_INFO
+					{
+					implementation_uid = 0x10282316;
+					version_no = 1;
+					display_name = STRING_displayNameH;
+					default_data = "Multiple Image Example H - version 1";
+					}
+				};
+			}
+		};
+	}
+

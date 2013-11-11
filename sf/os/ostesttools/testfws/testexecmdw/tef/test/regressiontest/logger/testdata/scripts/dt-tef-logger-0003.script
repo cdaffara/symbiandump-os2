@@ -1,0 +1,43 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SERVER TEF_LoggerTestBlock -SharedData
+
+START_TESTCASE DT-TEF-Logger-0003
+//! @SYMTestCaseID          DT-TEF-Logger-0003
+//! @SYMCreationDate        09-07-2008
+//! @SYMAuthor              extshuohuang
+//! @SYMTestPriority        High
+//! @SYMTestCaseDesc        Test GetCPPModuleName() function. this api will exact cpp file name from your input.
+//!                         This test case will test fowlloing situtations:
+//!                         1. "A.cpp"
+//!                         2. "\A.cpp"
+//!                         3. "dir\A.cpp"
+//!                         4. "DIR\DIR\"
+//!                         5. "DIR\DIR1"
+//!                         6. "c:\"
+//!                         7. ""
+//!                         8. "c:\fulltpath\to\file.cpp"
+//!                         
+//!                         HTML log test
+//! @SYMTestExpectedResults all the commands should Pass. because this API will no fail at all.
+//!                         
+	START_TEST_BLOCK 100	TEF_LoggerTestBlock ${SYSDRIVE}\TestData\configs\loggerTest.ini
+		CREATE_OBJECT	TEFLoggerTestWrapper	TLogSeverity		
+		COMMAND		TLogSeverity			GetCPPModuleName
+	END_TEST_BLOCK
+END_TESTCASE DT-TEF-Logger-0003
+

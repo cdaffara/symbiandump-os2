@@ -1,0 +1,94 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+
+#include <platform_paths.hrh>
+
+
+
+// General properties
+TARGET          libdbus-utils.dll
+TARGETTYPE      dll
+UID 0x1000008d 0x20010154
+
+#ifndef WINSCW
+EPOCALLOWDLLDATA
+#endif
+
+LANG            SC
+CAPABILITY All -Tcb
+VENDORID 	0x101FB657
+
+// Macros
+MACRO 			SYMBIAN
+MACRO 			HAVE_CONFIG_H
+MACRO			HAVE_ERRNO_H
+MACRO           DBUS_COMPILATION
+MACRO           DBUS_ENABLE_VERBOSE_MODE
+MACRO			DBUS_BUILD_TESTS
+//MACRO           DBUS_STATIC_LIBARARY_BUILD
+SOURCEPATH 		../dbus
+
+
+// Source files  for libconvience
+// from Makefile
+SOURCE dbus-auth-util.c
+SOURCE dbus-mainloop.c
+SOURCE dbus-marshal-byteswap-util.c
+SOURCE dbus-marshal-recursive-util.c
+SOURCE dbus-marshal-validate-util.c
+SOURCE dbus-message-factory.c
+SOURCE dbus-message-util.c
+SOURCE dbus-shell.c
+SOURCE dbus-spawn.c
+SOURCE dbus-string-util.c
+SOURCE dbus-sysdeps-util.c
+SOURCE dbus-sysdeps-util-unix.c
+SOURCE dbus-userdb-util.c
+
+SOURCE	libdbus_convenience_wsd.cpp
+// User include paths
+USERINCLUDE     ../dbus
+USERINCLUDE     ..\
+
+
+                                      
+// System include paths
+OS_LAYER_SYSTEMINCLUDE
+OS_LAYER_LIBC_SYSTEMINCLUDE
+OS_LAYER_DBUS_SYSTEMINCLUDE
+
+
+
+LIBRARY libdbus.lib
+LIBRARY libc.lib
+LIBRARY libpthread.lib
+LIBRARY euser.lib
+#ifdef WINSCW
+LIBRARY ewsd.lib
+#endif
+
+
+
+
+
+
+//No Libraries needed as it is built statically
+
+
+SMPSAFE

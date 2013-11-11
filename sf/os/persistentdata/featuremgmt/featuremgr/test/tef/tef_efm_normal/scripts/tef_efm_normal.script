@@ -1,0 +1,35 @@
+// Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+// @file
+//
+
+//! @SYMTestSuiteName SYSLIB-TEF-EFM-NORMAL
+//! @SYMScriptTestEnvironment TEF
+//! @internalComponent
+//! @test
+
+//backup the persisted feature data file if there is one
+RUN_UTILS MkDir c:\test\
+RUN_UTILS CopyFile c:\private\10205054\features.dat c:\test\features.dat
+//run full capability script
+RUN_SCRIPT z:\test\efm\scripts\tef_efm_fullcap.script
+//run low capability script
+RUN_SCRIPT z:\test\efm\scripts\tef_efm_lowcap.script
+//delete newly generated feature data file
+RUN_UTILS DeleteFile c:\private\10205054\features.dat
+//restore the persisted feature data file
+RUN_UTILS CopyFile c:\test\features.dat c:\private\10205054\features.dat 
+//deleted the file that was backed up (if any)
+RUN_UTILS DeleteFile c:\test\features.dat

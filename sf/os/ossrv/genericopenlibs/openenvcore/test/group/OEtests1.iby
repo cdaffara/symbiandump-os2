@@ -1,0 +1,579 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+#ifndef __OETESTS_IBY__
+#define __OETESTS_IBY__
+
+//#include "rta.iby"
+#include "openenv.iby"
+#include "oe_autotest.iby"
+#include "testexecute.iby"
+#include "ced.iby"
+
+data=EPOCROOT##epoc32\WINSCW\c\ethernetced.xml  \ethernetced.xml
+
+file=ABI_DIR\BUILD_DIR\testharness.dll	sys\bin\testharness.dll
+
+
+//libdl
+file=ABI_DIR\BUILD_DIR\arithmeticoper1.dll			sys\bin\arithmeticoper1.dll
+file=ABI_DIR\BUILD_DIR\arithmeticoper2.dll			sys\bin\arithmeticoper2.dll
+file=ABI_DIR\BUILD_DIR\arithmeticoper3.dll			sys\bin\arithmeticoper3.dll
+file=ABI_DIR\BUILD_DIR\arithmeticoper4.dll			sys\bin\arithmeticoper4.dll
+file=ABI_DIR\BUILD_DIR\dll1.dll			sys\bin\dll1.dll
+//stdioserver
+file=ABI_DIR\BUILD_DIR\stdioserver.exe	sys\bin\stdioserver.exe
+
+file=ABI_DIR\BUILD_DIR\swiconsole.exe	sys\bin\swiconsole.exe
+data = EPOCROOT##epoc32\release\winscw\udeb\Z\private\20004f10\swiconsole.rsc    private\20004f10\swiconsole.rsc
+data = EPOCROOT##epoc32\WINSCW\c\resource\resource.SIS  \resource.SIS
+
+
+
+//exes
+file=ABI_DIR\BUILD_DIR\tprogname.exe	sys\bin\tprogname.exe
+file=ABI_DIR\BUILD_DIR\tlibcwchar.exe	sys\bin\tlibcwchar.exe
+file=ABI_DIR\BUILD_DIR\tlibcbackend.exe	sys\bin\tlibcbackend.exe
+file=ABI_DIR\BUILD_DIR\tbackenddes.exe	sys\bin\tbackenddes.exe
+file=ABI_DIR\BUILD_DIR\tsyscalls.exe	sys\bin\tsyscalls.exe
+file=ABI_DIR\BUILD_DIR\tifioctls.exe	sys\bin\tifioctls.exe
+file=ABI_DIR\BUILD_DIR\tstdlib.exe		sys\bin\tstdlib.exe
+file=ABI_DIR\BUILD_DIR\abort_test.exe	sys\bin\abort_test.exe
+file=ABI_DIR\BUILD_DIR\tstdio.exe		sys\bin\tstdio.exe
+file=ABI_DIR\BUILD_DIR\tpipe.exe		sys\bin\tpipe.exe
+file=ABI_DIR\BUILD_DIR\tstring.exe		sys\bin\tstring.exe
+file=ABI_DIR\BUILD_DIR\tctype.exe		sys\bin\tctype.exe
+file=ABI_DIR\BUILD_DIR\tinet.exe		sys\bin\tinet.exe
+file=ABI_DIR\BUILD_DIR\tlink.exe		sys\bin\tlink.exe
+file=ABI_DIR\BUILD_DIR\tmkfifo.exe		sys\bin\tmkfifo.exe
+file=ABI_DIR\BUILD_DIR\tmmap.exe		sys\bin\tmmap.exe
+file=ABI_DIR\BUILD_DIR\tmsgqueue.exe		sys\bin\tmsgqueue.exe
+file=ABI_DIR\BUILD_DIR\tnetdb.exe		sys\bin\tnetdb.exe
+file=ABI_DIR\BUILD_DIR\tregex.exe		sys\bin\tregex.exe
+file=ABI_DIR\BUILD_DIR\tsemaphore.exe		sys\bin\tsemaphore.exe
+file=ABI_DIR\BUILD_DIR\tshm.exe		sys\bin\tshm.exe
+file=ABI_DIR\BUILD_DIR\tsocket.exe		sys\bin\tsocket.exe
+file=ABI_DIR\BUILD_DIR\tsyssim.exe		sys\bin\tsyssim.exe
+file=ABI_DIR\BUILD_DIR\tsysunistd.exe		sys\bin\tsysunistd.exe
+file=ABI_DIR\BUILD_DIR\ttime_blr.exe		sys\bin\ttime_blr.exe
+file=ABI_DIR\BUILD_DIR\twctype.exe		sys\bin\twctype.exe
+file=ABI_DIR\BUILD_DIR\tselect.exe		sys\bin\tselect.exe
+file=ABI_DIR\BUILD_DIR\taeselect.exe		sys\bin\taeselect.exe
+file=ABI_DIR\BUILD_DIR\tdb_blr.exe		sys\bin\tdb_blr.exe
+
+file=ABI_DIR\BUILD_DIR\tconddestroy.exe		sys\bin\tconddestroy.exe
+file=ABI_DIR\BUILD_DIR\tcondinit.exe		sys\bin\tcondinit.exe
+file=ABI_DIR\BUILD_DIR\tmutex.exe		sys\bin\tmutex.exe
+file=ABI_DIR\BUILD_DIR\tpthread.exe		sys\bin\tpthread.exe
+file=ABI_DIR\BUILD_DIR\thybridthreads.exe	sys\bin\thybridthreads.exe
+file=ABI_DIR\BUILD_DIR\tpthreadonce.exe		sys\bin\tpthreadonce.exe
+file=ABI_DIR\BUILD_DIR\tsemdestroy.exe		sys\bin\tsemdestroy.exe
+file=ABI_DIR\BUILD_DIR\tsemgetvalue.exe		sys\bin\tsemgetvalue.exe
+file=ABI_DIR\BUILD_DIR\tseminit.exe		sys\bin\tseminit.exe
+file=ABI_DIR\BUILD_DIR\tsemopen.exe		sys\bin\tsemopen.exe
+file=ABI_DIR\BUILD_DIR\tsempost.exe		sys\bin\tsempost.exe
+file=ABI_DIR\BUILD_DIR\tsemtrywait.exe		sys\bin\tsemtrywait.exe
+file=ABI_DIR\BUILD_DIR\tsemwait.exe		sys\bin\tsemwait.exe
+file=ABI_DIR\BUILD_DIR\tcondbroadcast.exe	sys\bin\tcondbroadcast.exe
+file=ABI_DIR\BUILD_DIR\tcondsignal.exe		sys\bin\tcondsignal.exe
+file=ABI_DIR\BUILD_DIR\tcondwait.exe		sys\bin\tcondwait.exe
+file=ABI_DIR\BUILD_DIR\tsemtimedwait.exe	sys\bin\tsemtimedwait.exe
+file=ABI_DIR\BUILD_DIR\tfloat_blr.exe		sys\bin\tfloat_blr.exe
+file=ABI_DIR\BUILD_DIR\tdouble_blr.exe		sys\bin\tdouble_blr.exe
+file=ABI_DIR\BUILD_DIR\tldouble_blr.exe		sys\bin\tldouble_blr.exe
+file=ABI_DIR\BUILD_DIR\tloc_blr.exe		sys\bin\tloc_blr.exe
+#ifdef SYMBIAN_OE_ENHANCED_LOCALE_SUPPORT
+file=ABI_DIR\BUILD_DIR\tlocale.exe		sys\bin\tlocale.exe
+#endif
+file=ABI_DIR\BUILD_DIR\tmisc.exe		sys\bin\tmisc.exe
+file=ABI_DIR\BUILD_DIR\posix_spawn.exe		sys\bin\posix_spawn.exe
+file=ABI_DIR\BUILD_DIR\twchar.exe		sys\bin\twchar.exe
+file=ABI_DIR\BUILD_DIR\twcharapi.exe		sys\bin\twcharapi.exe
+file=ABI_DIR\BUILD_DIR\twideapis.exe		sys\bin\twideapis.exe
+file=ABI_DIR\BUILD_DIR\tftw.exe			sys\bin\tftw.exe
+file=ABI_DIR\BUILD_DIR\tlocalsocket.exe		sys\bin\tlocalsocket.exe
+file=ABI_DIR\BUILD_DIR\tsample.exe		    sys\bin\tsample.exe
+file=ABI_DIR\BUILD_DIR\tmulticastclient.exe	sys\bin\tmulticastclient.exe
+file=ABI_DIR\BUILD_DIR\tredirectionserver.exe		sys\bin\tredirectionserver.exe
+
+
+//libdl
+file=ABI_DIR\BUILD_DIR\tdl.exe				sys\bin\tdl.exe
+
+//glob
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tglob_test.script \tstdapis\tglob_test.script
+file = ABI_DIR\BUILD_DIR\tglob.exe		sys\bin\tglob.exe
+//pipe exes
+
+file=ABI_DIR\BUILD_DIR\TPopenReadChildPopen.exe	        	sys\bin\TPopenReadChildPopen.exe
+file=ABI_DIR\BUILD_DIR\TPopenreadWriteChild.exe		        sys\bin\TPopenreadWriteChild.exe
+file=ABI_DIR\BUILD_DIR\TPopenWriteChildPopen.exe		sys\bin\TPopenWriteChildPopen.exe
+file=ABI_DIR\BUILD_DIR\TPopen3ReadWriteChild.exe		sys\bin\TPopen3ReadWriteChild.exe
+file=ABI_DIR\BUILD_DIR\TPopenWriteChildPopen.exe		system\TPopenWriteChildPopen1.exe
+
+//fopen test exes
+file=ABI_DIR\BUILD_DIR\fopen_test.exe		           sys\bin\fopen_test.exe
+
+//system exes
+file=ABI_DIR\BUILD_DIR\tstdlib_helloworld.exe	        	sys\bin\tstdlib_helloworld.exe
+file=ABI_DIR\BUILD_DIR\tstdlib_test_exit.exe		        sys\bin\tstdlib_test_exit.exe
+file=ABI_DIR\BUILD_DIR\tstdlib_test_exit4.exe		        sys\bin\tstdlib_test_exit4.exe
+file=ABI_DIR\BUILD_DIR\tstdlib_test_exit5.exe		        sys\bin\tstdlib_test_exit5.exe
+file=ABI_DIR\BUILD_DIR\tstdlib_test_exit6.exe		        sys\bin\tstdlib_test_exit6.exe
+file=ABI_DIR\BUILD_DIR\tstdlib_test_exitE.exe			sys\bin\tstdlib_test_exitE.exe
+file=ABI_DIR\BUILD_DIR\tstdlib_testabort.exe			sys\bin\tstdlib_testabort.exe
+file=ABI_DIR\BUILD_DIR\tstdlib_testexit.exe	        	sys\bin\tstdlib_testexit.exe
+file=ABI_DIR\BUILD_DIR\tstdlib_testexitec.exe		        sys\bin\tstdlib_testexitec.exe
+file=ABI_DIR\BUILD_DIR\tstdlib_testsystem.exe			sys\bin\tstdlib_testsystem.exe
+file=ABI_DIR\BUILD_DIR\helloworld_waitpid.exe			sys\bin\helloworld_waitpid.exe
+file=ABI_DIR\BUILD_DIR\greaterthan16kreadwriteserver.exe	sys\bin\greaterthan16kreadwriteserver.exe
+file=ABI_DIR\BUILD_DIR\childopenexclusivelock.exe		sys\bin\childopenexclusivelock.exe
+//semaphore exes
+file=ABI_DIR\BUILD_DIR\Tsemundo1.exe 		        	sys\bin\Tsemundo1.exe
+file=ABI_DIR\BUILD_DIR\Tsemundo2.exe 		        	sys\bin\Tsemundo2.exe
+file=ABI_DIR\BUILD_DIR\Tsemundo3.exe 		        	sys\bin\Tsemundo3.exe
+file=ABI_DIR\BUILD_DIR\Tsemundo4.exe 		        	sys\bin\Tsemundo4.exe
+file=ABI_DIR\BUILD_DIR\Tsemundo5.exe 		        	sys\bin\Tsemundo5.exe
+
+//popen3 test exes
+file=ABI_DIR\BUILD_DIR\PipeReadTransfer.exe         	sys\bin\PipeReadTransfer.exe
+file=ABI_DIR\BUILD_DIR\PipeWriteTransfer.exe			sys\bin\PipeWriteTransfer.exe
+file=ABI_DIR\BUILD_DIR\TPopen3FdTransfer.exe			sys\bin\TPopen3FdTransfer.exe
+
+//popen exes
+file=ABI_DIR\BUILD_DIR\popen_testwrite.exe				sys\bin\popen_testwrite.exe
+
+//.script, .ini
+//libc
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tprogname.script	\tstdapis\tprogname.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tlibcbackend.script	\tstdapis\tlibcbackend.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tbackenddes.script		\tstdapis\tbackenddes.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tlibcbackend.ini	\tstdapis\tlibcbackend.ini
+
+
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tlibcwchar.script	\tstdapis\tlibcwchar.script
+
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tsyscalls.script	\tstdapis\tsyscalls.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tsyscallsfcntl.script	\tstdapis\tsyscallsfcntl.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tsyscalls1.script	\tstdapis\tsyscalls1.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tsyscalls2.script	\tstdapis\tsyscalls2.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tsyscalls.ini		\tstdapis\tsyscalls.ini
+
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tifioctls_hw.script	\tstdapis\tifioctls_hw.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tifioctls_hw_manual.script	\tstdapis\tifioctls_hw_manual.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tifioctls.ini	\tstdapis\tifioctls.ini
+
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tstdlib.script	\tstdapis\tstdlib.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tstdlib.ini	\tstdapis\tstdlib.ini
+
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tstdio_auto.script	\tstdapis\tstdio_auto.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tstdio_filemode.script	\tstdapis\tstdio_filemode.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tstdio_manual.script	\tstdapis\tstdio_manual.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tstdio_fileop.script	\tstdapis\tstdio_fileop.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tstdio.ini	\tstdapis\tstdio.ini
+
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tpipe.script	\tstdapis\tpipe.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tpipe.ini	\tstdapis\tpipe.ini
+
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tstring.script	\tstdapis\tstring.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tstring.ini	\tstdapis\tstring.ini
+
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tctype.script		\tstdapis\tctype.script
+
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tinet.script		\tstdapis\tinet.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tinet.ini		\tstdapis\tinet.ini
+
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tlink.script		\tstdapis\tlink.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tlink.ini		\tstdapis\tlink.ini
+
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tmkfifo.script		\tstdapis\tmkfifo.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tmkfifo.ini		\tstdapis\tmkfifo.ini
+
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tmmap.script		\tstdapis\tmmap.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tmmap.ini		\tstdapis\tmmap.ini
+
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tmsgqueue.script		\tstdapis\tmsgqueue.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tmsgqueue.ini		\tstdapis\tmsgqueue.ini
+
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tnetdb.script		\tstdapis\tnetdb.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tnetdb.ini		\tstdapis\tnetdb.ini
+
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tregex.script		\tstdapis\tregex.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tregex.ini	        \tstdapis\tregex.ini
+
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tsemaphore.script		\tstdapis\tsemaphore.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tsemaphore.ini		\tstdapis\tsemaphore.ini
+
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tshm.script		\tstdapis\tshm.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tshm.ini		\tstdapis\tshm.ini
+
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tsocket_hw.script		\tstdapis\tsocket_hw.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tsocket.ini		\tstdapis\tsocket.ini
+
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tsyssim.script		\tstdapis\tsyssim.script
+
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tsysunistd.script		\tstdapis\tsysunistd.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tsysunistd.ini		\tstdapis\tsysunistd.ini
+
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\ttime_blr.script		\tstdapis\ttime_blr.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\ttime_blr.ini		\tstdapis\ttime_blr.ini
+
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\twctype.script		\tstdapis\twctype.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\twctype.ini		\tstdapis\twctype.ini
+
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tselect.script		\tstdapis\tselect.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tselect.ini		\tstdapis\tselect.ini
+
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\taeselect.script		\tstdapis\taeselect.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tdb_blr.script		\tstdapis\tdb_blr.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tdb_blr.ini		\tstdapis\tdb_blr.ini
+
+
+data = EPOCROOT##epoc32\data\z\tstdapis\tmisc.script		\tstdapis\tmisc.script
+data = EPOCROOT##epoc32\data\z\tstdapis\tmisc.ini		\tstdapis\tmisc.ini
+
+data = EPOCROOT##epoc32\data\z\tstdapis\tredirectionserver.script		\tstdapis\tredirectionserver.script
+data = EPOCROOT##epoc32\data\z\tstdapis\twchar.script		\tstdapis\twchar.script
+data = EPOCROOT##epoc32\data\z\tstdapis\twcharapi.script		\tstdapis\twcharapi.script
+data = EPOCROOT##epoc32\data\z\tstdapis\twcharapi.ini		\tstdapis\twcharapi.ini
+data = EPOCROOT##epoc32\data\z\tstdapis\twideapis.script		\tstdapis\twideapis.script
+data = EPOCROOT##epoc32\data\z\tstdapis\twideapis.ini		\tstdapis\twideapis.ini
+
+data = EPOCROOT##epoc32\winscw\c\tstdapis\tftw.script		\tstdapis\tftw.script
+data = EPOCROOT##epoc32\winscw\c\tstdapis\tftw.ini		\tstdapis\tftw.ini
+
+data = EPOCROOT##epoc32\winscw\c\tstdapis\tmulticastclient.script \tstdapis\tmulticastclient.script
+
+data = EPOCROOT##epoc32\winscw\c\tstdapis\tlocalsocket.script 	\tstdapis\tlocalsocket.script
+data = EPOCROOT##epoc32\winscw\c\tstdapis\tlocalsocket.ini 	\tstdapis\tlocalsocket.ini
+
+#ifdef SYMBIAN_OE_ENHANCED_LOCALE_SUPPORT
+// locale
+data = EPOCROOT##epoc32\winscw\c\tstdapis\tlocale_test.script 	\tstdapis\tlocale_test.script
+data = EPOCROOT##epoc32\winscw\c\tstdapis\tlocale_ctype.script 	\tstdapis\tlocale_ctype.script
+data = EPOCROOT##epoc32\winscw\c\tstdapis\tlocale.script 	\tstdapis\tlocale.script
+data = EPOCROOT##epoc32\winscw\c\tstdapis\tlocale.ini	        \tstdapis\tlocale.ini
+#endif
+//libpthread
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tconddestroy.script	\tstdapis\tconddestroy.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tcondinit.script	\tstdapis\tcondinit.script
+
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tmutex.script		\tstdapis\tmutex.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tmutex.ini		\tstdapis\tmutex.ini
+
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tpthread.script		\tstdapis\tpthread.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tpthread.ini		\tstdapis\tpthread.ini
+
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\thybridthreads.script		\tstdapis\thybridthreads.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\thybridthreads.ini		\tstdapis\thybridthreads.ini
+
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tpthreadonce.script		\tstdapis\tpthreadonce.script
+
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tsemdestroy.script	\tstdapis\tsemdestroy.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tsemgetvalue.script	\tstdapis\tsemgetvalue.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tseminit.script		\tstdapis\tseminit.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tsemopen.script		\tstdapis\tsemopen.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tsempost.script		\tstdapis\tsempost.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tsemtrywait.script	\tstdapis\tsemtrywait.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tsemwait.script		\tstdapis\tsemwait.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tcondbroadcast.script		\tstdapis\tcondbroadcast.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tcondsignal.script		\tstdapis\tcondsignal.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tcondwait.script		\tstdapis\tcondwait.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tsemtimedwait.script		\tstdapis\tsemtimedwait.script
+
+//libm
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tfloat_blr.script	\tstdapis\tfloat_blr.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tfloat_blr.ini		\tstdapis\tfloat_blr.ini
+
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tdouble_blr.script	\tstdapis\tdouble_blr.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tdouble_pow.script	\tstdapis\tdouble_pow.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tdouble_misc.script	\tstdapis\tdouble_misc.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tdouble_blr.ini		\tstdapis\tdouble_blr.ini
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tldouble_blr.script	\tstdapis\tldouble_blr.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tldouble_pow.script	\tstdapis\tldouble_pow.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tldouble_misc.script	\tstdapis\tldouble_misc.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tldouble_blr.ini	\tstdapis\tldouble_blr.ini
+
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tloc_blr.script			\tstdapis\tloc_blr.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tloc_blr1.ini			\tstdapis\tloc_blr1.ini
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tloc_blr2.ini			\tstdapis\tloc_blr2.ini
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tloc_blr_iconv.ini		\tstdapis\tloc_blr_iconv.ini
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tloc_blr_posix.ini		\tstdapis\tloc_blr_posix.ini
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tloc_blr_variant1.ini		\tstdapis\tloc_blr_variant1.ini
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tloc_blr_variant2.ini		\tstdapis\tloc_blr_variant2.ini
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tloc_blr_variant3.ini		\tstdapis\tloc_blr_variant3.ini
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tloc_blr_variant4.ini		\tstdapis\tloc_blr_variant4.ini
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tloc_blr_variant5.ini		\tstdapis\tloc_blr_variant5.ini
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tloc_blr_variant6.ini		\tstdapis\tloc_blr_variant6.ini
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tloc_blr_variant7.ini		\tstdapis\tloc_blr_variant7.ini
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tloc_blr_variant8.ini		\tstdapis\tloc_blr_variant8.ini
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tloc_blr_variant9.ini		\tstdapis\tloc_blr_variant9.ini
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tloc_blr_variant10.ini		\tstdapis\tloc_blr_variant10.ini
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tloc_blr_variant11.ini		\tstdapis\tloc_blr_variant11.ini
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tloc_blr_variant13.ini		\tstdapis\tloc_blr_variant13.ini
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tloc_blr_variant14.ini		\tstdapis\tloc_blr_variant14.ini
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tloc_blr_variant15.ini		\tstdapis\tloc_blr_variant15.ini
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tloc_blr_variant16.ini		\tstdapis\tloc_blr_variant16.ini
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tloc_blr_variant17.ini		\tstdapis\tloc_blr_variant17.ini
+
+//libdl
+data = EPOCROOT##epoc32\winscw\c\tstdapis\tdl.ini				\tstdapis\tdl.ini
+data = EPOCROOT##epoc32\winscw\c\tstdapis\tdl.script			\tstdapis\tdl.script
+
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\cleanup_cdrive.bat		\tstdapis\cleanup_cdrive.bat
+
+//captests
+
+
+
+data=ABI_DIR\BUILD_DIR\setcap.exe				Sys\bin\setcap.exe
+data=ABI_DIR\BUILD_DIR\tfcntlcap.exe				Sys\bin\tfcntlcap.exe
+data=ABI_DIR\BUILD_DIR\tsystimecap.exe				Sys\bin\tsystimecap.exe
+data=ABI_DIR\BUILD_DIR\tutimecap.exe				Sys\bin\tutimecap.exe
+data=ABI_DIR\BUILD_DIR\tipccap.exe				Sys\bin\tipccap.exe
+data=ABI_DIR\BUILD_DIR\tstdiocap.exe				Sys\bin\tstdiocap.exe
+data=ABI_DIR\BUILD_DIR\tunistdcap.exe				Sys\bin\tunistdcap.exe
+data=ABI_DIR\BUILD_DIR\twcharcap.exe				Sys\bin\twcharcap.exe
+data=ABI_DIR\BUILD_DIR\tstatcap.exe				Sys\bin\tstatcap.exe
+data=ABI_DIR\BUILD_DIR\tsocketcap.exe				Sys\bin\tsocketcap.exe
+data=ABI_DIR\BUILD_DIR\tioccomcap.exe				Sys\bin\tioccomcap.exe
+data = EPOCROOT##epoc32\release\ARMV5\urel\z\sys\file.txt			Sys\file.txt
+data = EPOCROOT##epoc32\release\ARMV5\urel\z\sys\file1.txt		Sys\file1.txt
+data = EPOCROOT##epoc32\release\ARMV5\urel\z\sys\file10.txt		Sys\file10.txt
+data = EPOCROOT##epoc32\release\ARMV5\urel\z\sys\file4.txt		Sys\file4.txt
+data = EPOCROOT##epoc32\release\ARMV5\urel\z\sys\file5.txt		Sys\file5.txt
+data = EPOCROOT##epoc32\release\ARMV5\urel\z\sys\file6.txt		Sys\file6.txt
+data = EPOCROOT##epoc32\release\ARMV5\urel\z\sys\file7.txt		Sys\file7.txt
+data = EPOCROOT##epoc32\release\ARMV5\urel\z\sys\file8.txt		Sys\file8.txt
+data = EPOCROOT##epoc32\release\ARMV5\urel\z\sys\file9.txt		Sys\file9.txt
+data = EPOCROOT##epoc32\release\ARMV5\urel\z\sys\fopen1.txt		Sys\fopen1.txt
+data = EPOCROOT##epoc32\release\ARMV5\urel\z\sys\ufile.txt		Sys\ufile.txt
+data = EPOCROOT##epoc32\release\ARMV5\urel\z\sys\ufile3.txt		Sys\ufile3.txt
+data = EPOCROOT##epoc32\release\ARMV5\urel\z\sys\wfile.txt		Sys\wfile.txt
+data = EPOCROOT##epoc32\release\ARMV5\urel\z\sys\wfile1.txt		Sys\wfile1.txt
+data = EPOCROOT##epoc32\release\ARMV5\urel\z\sys\wfile3.txt		Sys\wfile3.txt
+data = EPOCROOT##epoc32\release\ARMV5\urel\z\sys\wtemp1\wfk.txt		Sys\wtemp1\wfk.txt
+data = EPOCROOT##epoc32\release\ARMV5\urel\z\sys\temp1\fk.txt		Sys\temp1\fk.txt
+data = EPOCROOT##epoc32\release\ARMV5\urel\z\sys\temp2\fk.txt		Sys\temp2\fk.txt
+data = EPOCROOT##epoc32\release\ARMV5\urel\z\private\10202be9\file.txt		private\10202be9\file.txt	
+data = EPOCROOT##epoc32\release\ARMV5\urel\z\private\10202be9\file1.txt		private\10202be9\file1.txt
+data = EPOCROOT##epoc32\release\ARMV5\urel\z\private\10202be9\file10.txt		private\10202be9\file10.txt
+data = EPOCROOT##epoc32\release\ARMV5\urel\z\private\10202be9\file4.txt		private\10202be9\file4.txt
+data = EPOCROOT##epoc32\release\ARMV5\urel\z\private\10202be9\file5.txt		private\10202be9\file5.txt
+data = EPOCROOT##epoc32\release\ARMV5\urel\z\private\10202be9\file6.txt		private\10202be9\file6.txt
+data = EPOCROOT##epoc32\release\ARMV5\urel\z\private\10202be9\file7.txt		private\10202be9\file7.txt
+data = EPOCROOT##epoc32\release\ARMV5\urel\z\private\10202be9\file8.txt		private\10202be9\file8.txt
+data = EPOCROOT##epoc32\release\ARMV5\urel\z\private\10202be9\file9.txt		private\10202be9\file9.txt
+data = EPOCROOT##epoc32\release\ARMV5\urel\z\private\10202be9\fopen1.txt		private\10202be9\fopen1.txt
+data = EPOCROOT##epoc32\release\ARMV5\urel\z\private\10202be9\ufile.txt		private\10202be9\ufile.txt
+data = EPOCROOT##epoc32\release\ARMV5\urel\z\private\10202be9\ufile3.txt		private\10202be9\ufile3.txt
+data = EPOCROOT##epoc32\release\ARMV5\urel\z\private\10202be9\wfile.txt		private\10202be9\wfile.txt
+data = EPOCROOT##epoc32\release\ARMV5\urel\z\private\10202be9\wfile1.txt		private\10202be9\wfile1.txt
+data = EPOCROOT##epoc32\release\ARMV5\urel\z\private\10202be9\wfile3.txt		private\10202be9\wfile3.txt
+data = EPOCROOT##epoc32\release\ARMV5\urel\z\private\10202be9\wtemp1\wfk.txt       private\10202be9\wtemp1\wfk.txt
+data = EPOCROOT##epoc32\release\ARMV5\urel\z\private\10202be9\temp1\fk.txt	        private\10202be9\temp1\fk.txt
+data = EPOCROOT##epoc32\release\ARMV5\urel\z\private\10202be9\temp2\fk.txt	        private\10202be9\temp2\fk.txt
+
+
+//scripts for captests
+
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tfcntl_captest.script	\tstdapis\tfcntl_captest.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tsystime_captest.script	\tstdapis\tsystime_captest.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tutime_captest.script   \tstdapis\tutime_captest.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tstdio_captest.script   \tstdapis\tstdio_captest.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tunistd_captest.script	\tstdapis\tunistd_captest.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\twchar_captest.script	\tstdapis\twchar_captest.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tstat_captest.script    \tstdapis\tstat_captest.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tipc_captest.script     \tstdapis\tipc_captest.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tioccom_captest.script	\tstdapis\tioccom_captest.script
+
+#ifdef SYMBIAN_OE_POSIX_SIGNALS
+//signal tests
+file=ABI_DIR\BUILD_DIR\tblocksignal.exe 	sys\bin\tblocksignal.exe
+file=ABI_DIR\BUILD_DIR\sigpause.exe 		sys\bin\sigpause.exe
+file=ABI_DIR\BUILD_DIR\tsendsignal.exe  	sys\bin\tsendsignal.exe
+file=ABI_DIR\BUILD_DIR\raisesignal.exe  	sys\bin\raisesignal.exe
+file=ABI_DIR\BUILD_DIR\raisesignal1.exe  	sys\bin\raisesignal1.exe
+file=ABI_DIR\BUILD_DIR\receivesignal.exe  	sys\bin\receivesignal.exe
+file=ABI_DIR\BUILD_DIR\sendsignal.exe  	        sys\bin\sendsignal.exe
+file=ABI_DIR\BUILD_DIR\sendsignaltoself.exe  	sys\bin\sendsignaltoself.exe
+file=ABI_DIR\BUILD_DIR\tmiscsignal.exe  	sys\bin\tmiscsignal.exe
+file=ABI_DIR\BUILD_DIR\inheritsignal.exe  	sys\bin\inheritsignal.exe
+file=ABI_DIR\BUILD_DIR\killself.exe  		sys\bin\killself.exe
+file=ABI_DIR\BUILD_DIR\ttrapsignal.exe  	sys\bin\ttrapsignal.exe
+file=ABI_DIR\BUILD_DIR\defaulthandler.exe  	sys\bin\defaulthandler.exe
+file=ABI_DIR\BUILD_DIR\twaitsignal.exe  	sys\bin\twaitsignal.exe
+file=ABI_DIR\BUILD_DIR\sendsigtoparent.exe  	sys\bin\sendsigtoparent.exe
+data=ABI_DIR\BUILD_DIR\tcapsignal.exe   	sys\bin\tcapsignal.exe
+file=ABI_DIR\BUILD_DIR\kill.exe   		sys\bin\kill.exe
+
+
+//scripts for signal test cases
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tblocksignal.script	\tstdapis\tblocksignal.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tsendsignal.script	\tstdapis\tsendsignal.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tmiscsignal.script	\tstdapis\tmiscsignal.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\ttrapsignal.script	\tstdapis\ttrapsignal.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\twaitsignal.script	\tstdapis\twaitsignal.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\twaitsignal1.script	\tstdapis\twaitsignal1.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\twaitsignal2.script	\tstdapis\twaitsignal2.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tsignal_captest.script	\tstdapis\tsignal_captest.script
+
+
+
+//data file for signal test cases
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tblocksignal.ini	\tstdapis\tblocksignal.ini
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tsendsignal.ini	\tstdapis\tsendsignal.ini
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tmiscsignal.ini   	\tstdapis\tmiscsignal.ini
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\ttrapsignal.ini	\tstdapis\ttrapsignal.ini
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\twaitsignal.ini   	\tstdapis\twaitsignal.ini
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\oetests_signals_hw.bat	\oetests_signals_hw.bat
+#endif /* SYMBIAN_OE_POSIX_SIGNALS */
+
+//librt tests
+#ifdef SYMBIAN_OE_LIBRT
+file=ABI_DIR\BUILD_DIR\tsharedmemory.exe 	sys\bin\tsharedmemory.exe
+file=ABI_DIR\BUILD_DIR\openshmem.exe	 	sys\bin\openshmem.exe
+file=ABI_DIR\BUILD_DIR\openshmem_popen.exe  	sys\bin\openshmem_popen.exe
+file=ABI_DIR\BUILD_DIR\tclock.exe		sys\bin\tclock.exe
+file=ABI_DIR\BUILD_DIR\getclockid.exe	  	sys\bin\getclockid.exe
+data=ABI_DIR\BUILD_DIR\tcapclock.exe	 	sys\bin\tcapclock.exe
+file=ABI_DIR\BUILD_DIR\ttimer.exe	  	sys\bin\ttimer.exe
+
+//scripts for librt test cases
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tsharedmemory.script	\tstdapis\tsharedmemory.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tclock.script		\tstdapis\tclock.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tclock_captest.script	\tstdapis\tclock_captest.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\ttimer_hw.script		\tstdapis\ttimer_hw.script
+
+//data file for librt test cases
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tsharedmemory.ini	\tstdapis\tsharedmemory.ini
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tclock.ini		\tstdapis\tclock.ini
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\ttimer.ini		\tstdapis\ttimer.ini
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\oetests_librt_hw.bat		\oetests_librt_hw.bat
+#endif /* SYMBIAN_OE_LIBRT */
+
+//large file test cases
+#ifdef SYMBIAN_OE_LARGE_FILE_SUPPORT
+file=ABI_DIR\BUILD_DIR\tlargefile.exe 	sys\bin\tlargefile.exe
+file=ABI_DIR\BUILD_DIR\filetransfer.exe	 	sys\bin\filetransfer.exe
+
+//script file
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tlargefile.script	\tstdapis\tlargefile.script
+
+//data file
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tlargefile.ini	\tstdapis\tlargefile.ini
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\largefilesettings.bat		\largefilesettings.bat
+#endif /* SYMBIAN_OE_LARGE_FILE_SUPPORT */
+
+//batch file
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\OETests_hw.bat	\OETests_hw.bat
+data = EPOCROOT##epoc32\WINSCW\C\data.txt		\tstdapis\data.txt 
+//data = EPOCROOT##epoc32\WINSCW\c\tstdapis\autoexec.bat	\autoexec.bat
+
+//tmisc
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\config_tmisc.ini	\system\tstdapis\config_tmisc.ini
+
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\input.txt	\input.txt
+
+//tredirectionserver
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tredirectionserver\config_null.ini	\system\tstdapis\tredirectionserver\config_null.ini
+
+data = EPOCROOT##epoc32\WINSCW\c\data\input	 \input
+
+
+//libdl
+data = EPOCROOT##epoc32\WINSCW\C\tstdapis\arithmeticoper5.dat	\tstdapis\arithmeticoper5.dat
+
+//glob
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tglob_test.script		private\10207369\globdir\tmp-1.txt
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tglob_test.script		private\10207369\globdir\tmp-2.txt
+
+//offsetof exe
+file=ABI_DIR\BUILD_DIR\toffsetof.exe	        		sys\bin\toffsetof.exe
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\toffsetof.script		\tstdapis\toffsetof.script
+
+//liblogger
+file=ABI_DIR\BUILD_DIR\tliblogger.exe	        		sys\bin\tliblogger.exe
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tliblogger.script 		\tstdapis\tliblogger.script
+
+//tsetjmp
+file=ABI_DIR\BUILD_DIR\tsetjmp.exe	        		sys\bin\tsetjmp.exe
+file=ABI_DIR\BUILD_DIR\childprocessfileappend.exe 	sys\bin\childprocessfileappend.exe
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tsetjmp.script 		\tstdapis\tsetjmp.script
+data = EPOCROOT##epoc32\WINSCW\c\tstdapis\tsetjmp.ini 		\tstdapis\tsetjmp.ini
+#ifndef SYMBIAN_DISTINCT_LOCALE_MODEL
+file=ABI_DIR\BUILD_DIR\elocl.01     	   sys\bin\elocl.01
+#endif
+
+
+//Locales for tstdlib
+#ifdef SYMBIAN_DISTINCT_LOCALE_MODEL
+
+
+file=ABI_DIR\BUILD_DIR\elocl_lan.002			sys\bin\elocl_lan.002
+
+
+file=ABI_DIR\BUILD_DIR\elocl_lan.004			sys\bin\elocl_lan.004
+file=ABI_DIR\BUILD_DIR\elocl_lan.005			sys\bin\elocl_lan.005
+
+
+file=ABI_DIR\BUILD_DIR\elocl_lan.018			sys\bin\elocl_lan.018
+file=ABI_DIR\BUILD_DIR\elocl_lan.019			sys\bin\elocl_lan.019
+file=ABI_DIR\BUILD_DIR\elocl_lan.029			sys\bin\elocl_lan.029
+
+
+file=ABI_DIR\BUILD_DIR\elocl_lan.032			sys\bin\elocl_lan.032
+file=ABI_DIR\BUILD_DIR\elocl_lan.095			sys\bin\elocl_lan.095
+file=ABI_DIR\BUILD_DIR\elocl_lan.1034			sys\bin\elocl_lan.1034
+
+
+
+
+file=ABI_DIR\BUILD_DIR\elocl_reg.056			sys\bin\elocl_reg.056
+file=ABI_DIR\BUILD_DIR\elocl_reg.158			sys\bin\elocl_reg.158
+file=ABI_DIR\BUILD_DIR\elocl_reg.250			sys\bin\elocl_reg.250
+file=ABI_DIR\BUILD_DIR\elocl_reg.380			sys\bin\elocl_reg.380
+file=ABI_DIR\BUILD_DIR\elocl_reg.392			sys\bin\elocl_reg.392
+file=ABI_DIR\BUILD_DIR\elocl_reg.528			sys\bin\elocl_reg.528
+file=ABI_DIR\BUILD_DIR\elocl_reg.724			sys\bin\elocl_reg.724
+
+
+file=ABI_DIR\BUILD_DIR\elocl_col.002			sys\bin\elocl_col.002
+file=ABI_DIR\BUILD_DIR\elocl_col.019			sys\bin\elocl_col.019
+file=ABI_DIR\BUILD_DIR\elocl_col.029			sys\bin\elocl_col.029
+file=ABI_DIR\BUILD_DIR\elocl_col.032			sys\bin\elocl_col.032
+file=ABI_DIR\BUILD_DIR\elocl_col.1034			sys\bin\elocl_col.1034
+
+#else
+ 
+data=ABI_DIR\BUILD_DIR\elocl.10	     	   		sys\bin\elocl.10	 
+file=ABI_DIR\BUILD_DIR\elocl.18	     	   		sys\bin\elocl.18
+
+#ifdef SYMBIAN_OE_ENHANCED_LOCALE_SUPPORT
+file=ABI_DIR\BUILD_DIR\elocl.32     	   sys\bin\elocl.32	 
+file=ABI_DIR\BUILD_DIR\elocl.31     	   sys\bin\elocl.31
+file=ABI_DIR\BUILD_DIR\elocl.02   	   sys\bin\elocl.02
+file=ABI_DIR\BUILD_DIR\elocl.03  	   sys\bin\elocl.03
+file=ABI_DIR\BUILD_DIR\elocl.04  	   sys\bin\elocl.04
+file=ABI_DIR\BUILD_DIR\elocl.05  	   sys\bin\elocl.05
+file=ABI_DIR\BUILD_DIR\elocl.19	           sys\bin\elocl.19
+file=ABI_DIR\BUILD_DIR\elocl.29	           sys\bin\elocl.29
+#endif
+#endif
+
+#endif
+
+
+

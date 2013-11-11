@@ -1,0 +1,100 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+// multiplecertstoresfilter1.txt
+
+// 
+
+// Test the ordering and filting in & out of multiple certores implementation which required in PREQ226 MIDP 2.0 support.
+
+// The file contains different sets of certstore orders as input and expect ordering results as output.
+
+// These tests need to have thwsimcertstores.dll,
+
+// thwwimcertstores.dll and thwuicccertstores.dll enabled
+
+
+
+// Note: The in-source test tag is only added to the new tests for PREQ226. The tests without test tag is the existing tests
+
+// in the certstore component, which are used to set up the environment needed by the PREQ226 tests.
+
+
+
+START_TESTCASE                UCTSSEC-CT-WMODEUCTWITHSS1.20
+
+//! @SYMTestCaseID            UCTSSEC-CT-WMODEUCTWITHSS1.20
+
+//! @file                     
+
+//! @SYMTestCaseDesc          The test is to open one UnifiedCertStore in write mode with the
+
+//!                           sequence of Software, SIM, WIM and UICC certstore implementations, and expect the correct order. The test needs
+
+//!                           thwsimcertstores.dll, thwwimcertstores.dll and thwuicccertstores.dll enabled.
+
+//! @SYMPREQ                  226
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 1.20,Opening a writable certificate store manager
+
+//!                           2) 0.1,Deleting the writable certificate store manager
+
+RUN_TEST_STEP                 -1    CTestHandler        init                   multiplecertstoresfilter2.ini   UCTSSEC-CT-WMODEUCTWITHSS1.20-001
+
+RUN_TEST_STEP                 -1    CTestHandler        delete              
+
+END_TESTCASE                  UCTSSEC-CT-WMODEUCTWITHSS1.20
+
+
+
+
+
+START_TESTCASE                UCTSSEC-CT-RMODEUCTWITHSS5.3-0002
+
+//! @SYMTestCaseID            UCTSSEC-CT-RMODEUCTWITHSS5.3-0002
+
+//! @file                     
+
+//! @SYMTestCaseDesc          The test is to open one UnifiedCertStore in read mode with the
+
+//!                           sequence of WIM, SIM, Software and UICC cerstore implementations, and expect the correct order. The test needs
+
+//!                           thwsimcertstores.dll, thwwimcertstores.dll and thwuicccertstores.dll enabled.
+
+//! @SYMPREQ                  226
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) 5.20,Opening a read-only certificate store manager
+
+//!                           2) 0.2,Deleting the read-only certificate store manager
+
+RUN_TEST_STEP                 -1    CTestHandler        init                   multiplecertstoresfilter2.ini   UCTSSEC-CT-RMODEUCTWITHSS5.3-001
+
+RUN_TEST_STEP                 -1    CTestHandler        delete              
+
+END_TESTCASE                  UCTSSEC-CT-RMODEUCTWITHSS5.3-0002
+
+
+
+
+

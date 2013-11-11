@@ -1,0 +1,66 @@
+/*
+* Copyright (c) 2008-2010 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+TARGET        certapp.exe
+TARGETTYPE    exe
+
+SOURCEPATH ../utils
+SOURCE logger.cpp
+SOURCE stringconv.cpp
+SOURCE utils.cpp
+SOURCE openssl_license.cpp
+SOURCE filestream.cpp
+
+SOURCEPATH ../store--
+SOURCE e32base.cpp
+SOURCE e32cons.cpp
+SOURCE s32buf.cpp
+SOURCE s32file.cpp
+SOURCE us_func.cpp
+SOURCE us_ucmp.cpp
+SOURCE utf.cpp
+
+SOURCEPATH ../encdec
+SOURCE certclients.cpp
+SOURCE filecertstore.cpp
+SOURCE swicertstore.cpp
+SOURCE certinfo.cpp
+SOURCE encdec.cpp
+SOURCE appuidmap.cpp
+SOURCE x509utils.cpp
+SOURCE capabilityset.cpp
+
+SOURCEPATH ..
+SOURCE certapp.cpp
+
+USERINCLUDE .. ../utils ../store-- ../encdec
+
+USERINCLUDE ../store--
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+USERINCLUDE ../../../openssllib/import/inc/openssl
+USERINCLUDE ../../../openssllib/import/inc
+
+#ifndef TOOLS2_LINUX
+STATICLIBRARY		eay32 zlib
+#else
+STATICLIBRARY		crypto zlib
+#endif
+
+MACRO	_UNICODE UNICODE
+SMPSAFE

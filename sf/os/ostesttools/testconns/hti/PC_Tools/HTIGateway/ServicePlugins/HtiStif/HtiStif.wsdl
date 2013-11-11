@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="HtiStif"
+ targetNamespace="urn:hti"
+ xmlns:tns="urn:hti"
+ xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+ xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+ xmlns:ns1="urn:hti"
+ xmlns:SOAP="http://schemas.xmlsoap.org/wsdl/soap/"
+ xmlns:MIME="http://schemas.xmlsoap.org/wsdl/mime/"
+ xmlns:DIME="http://schemas.xmlsoap.org/ws/2002/04/dime/wsdl/"
+ xmlns:WSDL="http://schemas.xmlsoap.org/wsdl/"
+ xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+<types>
+
+ <schema targetNamespace="urn:hti"
+  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:ns1="urn:hti"
+  xmlns="http://www.w3.org/2001/XMLSchema"
+  elementFormDefault="unqualified"
+  attributeFormDefault="unqualified">
+  <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+  <complexType name="HtiStifResult">
+   <sequence>
+     <element name="caseId" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="caseResult" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="executionResult" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="resultDescription" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+   </sequence>
+  </complexType>
+  <complexType name="ArrayOfstring">
+   <complexContent>
+    <restriction base="SOAP-ENC:Array">
+     <sequence>
+      <element name="item" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+     </sequence>
+     <attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="xsd:string[]"/>
+    </restriction>
+   </complexContent>
+  </complexType>
+  <!-- operation request element -->
+  <element name="iniFile" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="moduleName" type="xsd:string"/>
+  <!-- operation response element -->
+  <element name="moduleNameLoaded" type="xsd:string"/>
+  <!-- operation response element -->
+  <element name="moduleNameUnloaded" type="xsd:string"/>
+  <!-- operation response element -->
+  <element name="testCases" type="ns1:ArrayOfstring"/>
+  <!-- operation request element -->
+  <element name="testCaseIndex" type="xsd:int"/>
+  <!-- operation response element -->
+  <element name="testCaseId" type="xsd:int"/>
+  <!-- operation response element -->
+  <element name="returnHtiStifResult" type="ns1:HtiStifResult"/>
+  <!-- operation request element -->
+  <element name="testCaseFile" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="deviceId" type="xsd:int"/>
+  <!-- operation request element -->
+  <element name="host" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="message" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="attribute" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="value" type="xsd:string"/>
+ </schema>
+
+</types>
+
+<message name="openStif">
+ <part name="iniFile" element="ns1:iniFile"/>
+</message>
+
+<message name="openStifResponse">
+</message>
+
+<message name="closeStif">
+</message>
+
+<message name="closeStifResponse">
+</message>
+
+<message name="loadStifTestModuleRequest">
+ <part name="moduleName" element="ns1:moduleName"/>
+ <part name="iniFile" element="ns1:iniFile"/>
+</message>
+
+<message name="loadStifTestModuleResponse">
+ <part name="moduleNameLoaded" element="ns1:moduleNameLoaded"/>
+</message>
+
+<message name="unloadStifTestModuleRequest">
+ <part name="moduleName" element="ns1:moduleName"/>
+</message>
+
+<message name="unloadStifTestModuleResponse">
+ <part name="moduleNameUnloaded" element="ns1:moduleNameUnloaded"/>
+</message>
+
+<message name="listStifTestCasesRequest">
+ <part name="moduleName" element="ns1:moduleName"/>
+</message>
+
+<message name="listStifTestCasesResponse">
+ <part name="testCases" element="ns1:testCases"/>
+</message>
+
+<message name="startStifTestCaseRequest">
+ <part name="moduleName" element="ns1:moduleName"/>
+ <part name="testCaseIndex" element="ns1:testCaseIndex"/>
+</message>
+
+<message name="startStifTestCaseResponse">
+ <part name="testCaseId" element="ns1:testCaseId"/>
+</message>
+
+<message name="cancelStifTestCase">
+ <part name="testCaseId" element="ns1:testCaseId"/>
+</message>
+
+<message name="cancelStifTestCaseResponse">
+</message>
+
+<message name="pauseStifTestCase">
+ <part name="testCaseId" element="ns1:testCaseId"/>
+</message>
+
+<message name="pauseStifTestCaseResponse">
+</message>
+
+<message name="resumeStifTestCase">
+ <part name="testCaseId" element="ns1:testCaseId"/>
+</message>
+
+<message name="resumeStifTestCaseResponse">
+</message>
+
+<message name="queryStifTestCaseResult">
+ <part name="testCaseId" element="ns1:testCaseId"/>
+</message>
+
+<message name="queryStifTestCaseResultResponse">
+ <part name="returnHtiStifResult" element="ns1:returnHtiStifResult"/>
+</message>
+
+<message name="runStifTestCase">
+ <part name="moduleName" element="ns1:moduleName"/>
+ <part name="testCaseIndex" element="ns1:testCaseIndex"/>
+</message>
+
+<message name="runStifTestCaseResponse">
+ <part name="returnHtiStifResult" element="ns1:returnHtiStifResult"/>
+</message>
+
+<message name="addStifTestCaseFile">
+ <part name="moduleName" element="ns1:moduleName"/>
+ <part name="testCaseFile" element="ns1:testCaseFile"/>
+</message>
+
+<message name="addStifTestCaseFileResponse">
+</message>
+
+<message name="removeStifTestCaseFile">
+ <part name="moduleName" element="ns1:moduleName"/>
+ <part name="testCaseFile" element="ns1:testCaseFile"/>
+</message>
+
+<message name="removeStifTestCaseFileResponse">
+</message>
+
+<message name="setDeviceId">
+ <part name="deviceId" element="ns1:deviceId"/>
+</message>
+
+<message name="setDeviceIdResponse">
+</message>
+
+<message name="register">
+ <part name="host" element="ns1:host"/>
+</message>
+
+<message name="registerResponse">
+</message>
+
+<message name="deregister">
+ <part name="host" element="ns1:host"/>
+</message>
+
+<message name="deregisterResponse">
+</message>
+
+<message name="stifMessage">
+ <part name="message" element="ns1:message"/>
+</message>
+
+<message name="stifMessageResponse">
+</message>
+
+<message name="setAttribute">
+ <part name="attribute" element="ns1:attribute"/>
+ <part name="value" element="ns1:value"/>
+</message>
+
+<message name="SetAttributeResponse">
+</message>
+
+<portType name="HtiStifPortType">
+ <operation name="openStif">
+  <documentation>Service definition of function ns1__openStif</documentation>
+  <input message="tns:openStif"/>
+  <output message="tns:openStifResponse"/>
+ </operation>
+ <operation name="closeStif">
+  <documentation>Service definition of function ns1__closeStif</documentation>
+  <input message="tns:closeStif"/>
+  <output message="tns:closeStifResponse"/>
+ </operation>
+ <operation name="loadStifTestModule">
+  <documentation>Service definition of function ns1__loadStifTestModule</documentation>
+  <input message="tns:loadStifTestModuleRequest"/>
+  <output message="tns:loadStifTestModuleResponse"/>
+ </operation>
+ <operation name="unloadStifTestModule">
+  <documentation>Service definition of function ns1__unloadStifTestModule</documentation>
+  <input message="tns:unloadStifTestModuleRequest"/>
+  <output message="tns:unloadStifTestModuleResponse"/>
+ </operation>
+ <operation name="listStifTestCases">
+  <documentation>Service definition of function ns1__listStifTestCases</documentation>
+  <input message="tns:listStifTestCasesRequest"/>
+  <output message="tns:listStifTestCasesResponse"/>
+ </operation>
+ <operation name="startStifTestCase">
+  <documentation>Service definition of function ns1__startStifTestCase</documentation>
+  <input message="tns:startStifTestCaseRequest"/>
+  <output message="tns:startStifTestCaseResponse"/>
+ </operation>
+ <operation name="cancelStifTestCase">
+  <documentation>Service definition of function ns1__cancelStifTestCase</documentation>
+  <input message="tns:cancelStifTestCase"/>
+  <output message="tns:cancelStifTestCaseResponse"/>
+ </operation>
+ <operation name="pauseStifTestCase">
+  <documentation>Service definition of function ns1__pauseStifTestCase</documentation>
+  <input message="tns:pauseStifTestCase"/>
+  <output message="tns:pauseStifTestCaseResponse"/>
+ </operation>
+ <operation name="resumeStifTestCase">
+  <documentation>Service definition of function ns1__resumeStifTestCase</documentation>
+  <input message="tns:resumeStifTestCase"/>
+  <output message="tns:resumeStifTestCaseResponse"/>
+ </operation>
+ <operation name="queryStifTestCaseResult">
+  <documentation>Service definition of function ns1__queryStifTestCaseResult</documentation>
+  <input message="tns:queryStifTestCaseResult"/>
+  <output message="tns:queryStifTestCaseResultResponse"/>
+ </operation>
+ <operation name="runStifTestCase">
+  <documentation>Service definition of function ns1__runStifTestCase</documentation>
+  <input message="tns:runStifTestCase"/>
+  <output message="tns:runStifTestCaseResponse"/>
+ </operation>
+ <operation name="addStifTestCaseFile">
+  <documentation>Service definition of function ns1__addStifTestCaseFile</documentation>
+  <input message="tns:addStifTestCaseFile"/>
+  <output message="tns:addStifTestCaseFileResponse"/>
+ </operation>
+ <operation name="removeStifTestCaseFile">
+  <documentation>Service definition of function ns1__removeStifTestCaseFile</documentation>
+  <input message="tns:removeStifTestCaseFile"/>
+  <output message="tns:removeStifTestCaseFileResponse"/>
+ </operation>
+ <operation name="setDeviceId">
+  <documentation>Service definition of function ns1__setDeviceId</documentation>
+  <input message="tns:setDeviceId"/>
+  <output message="tns:setDeviceIdResponse"/>
+ </operation>
+ <operation name="register">
+  <documentation>Service definition of function ns1__register</documentation>
+  <input message="tns:register"/>
+  <output message="tns:registerResponse"/>
+ </operation>
+ <operation name="deregister">
+  <documentation>Service definition of function ns1__deregister</documentation>
+  <input message="tns:deregister"/>
+  <output message="tns:deregisterResponse"/>
+ </operation>
+ <operation name="stifMessage">
+  <documentation>Service definition of function ns1__stifMessage</documentation>
+  <input message="tns:stifMessage"/>
+  <output message="tns:stifMessageResponse"/>
+ </operation>
+ <operation name="setAttribute">
+  <documentation>Service definition of function ns1__setAttribute</documentation>
+  <input message="tns:setAttribute"/>
+  <output message="tns:SetAttributeResponse"/>
+ </operation>
+</portType>
+
+<binding name="HtiStif" type="tns:HtiStifPortType">
+ <SOAP:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+ <operation name="openStif">
+  <SOAP:operation style="rpc" soapAction="HtiStif"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="closeStif">
+  <SOAP:operation style="rpc" soapAction="HtiStif"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="loadStifTestModule">
+  <SOAP:operation style="rpc" soapAction="HtiStif"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="unloadStifTestModule">
+  <SOAP:operation style="rpc" soapAction="HtiStif"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="listStifTestCases">
+  <SOAP:operation style="rpc" soapAction="HtiStif"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="startStifTestCase">
+  <SOAP:operation style="rpc" soapAction="HtiStif"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="cancelStifTestCase">
+  <SOAP:operation style="rpc" soapAction="HtiStif"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="pauseStifTestCase">
+  <SOAP:operation style="rpc" soapAction="HtiStif"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="resumeStifTestCase">
+  <SOAP:operation style="rpc" soapAction="HtiStif"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="queryStifTestCaseResult">
+  <SOAP:operation style="rpc" soapAction="HtiStif"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="runStifTestCase">
+  <SOAP:operation style="rpc" soapAction="HtiStif"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="addStifTestCaseFile">
+  <SOAP:operation style="rpc" soapAction="HtiStif"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="removeStifTestCaseFile">
+  <SOAP:operation style="rpc" soapAction="HtiStif"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="setDeviceId">
+  <SOAP:operation style="rpc" soapAction="HtiStif"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="register">
+  <SOAP:operation style="rpc" soapAction="HtiStif"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="deregister">
+  <SOAP:operation style="rpc" soapAction="HtiStif"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="stifMessage">
+  <SOAP:operation style="rpc" soapAction="HtiStif"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="setAttribute">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+</binding>
+
+<service name="HtiStif">
+ <documentation>gSOAP 2.7.6b generated service definition</documentation>
+ <port name="HtiStif" binding="tns:HtiStif">
+  <SOAP:address location="http://localhost:2000"/>
+ </port>
+</service>
+
+</definitions>

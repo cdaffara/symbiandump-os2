@@ -1,0 +1,158 @@
+/*
+ * Copyright (c) 2008-2009 Nokia Corporation and/or its subsidiary(- *   * ies).
+ * All rights reserved.
+ * This component and the accompanying materials are made available
+ * under the terms of the License "Eclipse Public License v1.0"
+ * which accompanies this distribution, and is available
+ * at the URL "http://www.eclipse.org/legal/epl-v10.html".
+ *
+ * Initial Contributors:
+ * Nokia Corporation - initial contribution.
+ *
+ * Contributors:
+ *
+ * Description:
+ * Name       : new
+ * Part of    : standard c++ library.
+ *
+ */
+
+
+#ifndef _SYMCPP_NEW_H_
+#define _SYMCPP_NEW_H_
+
+
+#ifndef _STLP_FEATURES_H
+#  include <stl/config/features.h>
+#endif
+
+
+
+# ifdef __EABI__
+#  include <stl/_cstddef.h> //Include the STLP internal header to make macros/typedefs expected of <csddef> available.
+#  define _STLP_CSTDDEF		//Define this macro so that <cstddef> doesn't get included by new_eabi.h
+
+#include "exception"
+
+namespace std
+{
+	typedef unsigned size_t;
+
+	class bad_alloc : public exception
+		{
+	public:
+		IMPORT_C bad_alloc() __NO_THROW;
+		IMPORT_C bad_alloc(const bad_alloc&) __NO_THROW;
+		IMPORT_C bad_alloc& operator=(const bad_alloc&) __NO_THROW;  // { return *this;}
+
+		IMPORT_C virtual ~bad_alloc() __NO_THROW;  // {}
+		IMPORT_C virtual const char* what() const __NO_THROW; //  { return "bad_alloc";}
+		};
+	
+	struct nothrow_t {};
+	extern const nothrow_t nothrow;
+
+	typedef void (*new_handler)();
+
+	IMPORT_C new_handler set_new_handler(new_handler) __NO_THROW;
+}
+
+// Single-object form
+
+IMPORT_C void* operator new(std::size_t) __THROW(std::bad_alloc);
+IMPORT_C void  operator delete(void*) __NO_THROW;
+
+IMPORT_C void* operator new(std::size_t, const std::nothrow_t&) __NO_THROW;
+IMPORT_C void  operator delete(void*, const std::nothrow_t&) __NO_THROW;
+
+#ifndef __PLACEMENT_NEW_INLINE
+	#define __PLACEMENT_NEW_INLINE
+	inline void* operator new(std::size_t, void* p) __NO_THROW
+		{
+		return p;
+		}
+
+	inline void operator delete(void*, void*) __NO_THROW
+		{
+		}
+#endif
+
+// Array form
+
+IMPORT_C void* operator new[](std::size_t) __THROW(std::bad_alloc);
+IMPORT_C void  operator delete[](void*) __NO_THROW;
+
+IMPORT_C void* operator new[](std::size_t, const std::nothrow_t&) __NO_THROW;
+IMPORT_C void  operator delete[](void*, const std::nothrow_t&) __NO_THROW;
+
+#ifndef __PLACEMENT_VEC_NEW_INLINE
+	#define __PLACEMENT_VEC_NEW_INLINE 
+	inline void* operator new[](std::size_t, void* p) __NO_THROW
+		{
+		return p;
+		}
+
+	inline void operator delete[](void*, void*) __NO_THROW
+		{
+		}
+#endif
+
+// Symbian additions (not part of standard C++).
+IMPORT_C void* operator new(std::size_t, std::size_t) __NO_THROW;
+IMPORT_C void  operator delete(void*, std::size_t) __NO_THROW;
+
+
+
+
+
+# else
+#  include <exception>
+#  include <stl/_cstddef.h>
+#  include <e32def.h>
+namespace std {
+
+	struct nothrow_t { };
+	extern const nothrow_t nothrow;
+
+	class bad_alloc : public exception {
+	public :
+		bad_alloc () __NO_THROW {};
+		bad_alloc ( const bad_alloc &) __NO_THROW {};
+		bad_alloc & operator =( const bad_alloc &) __NO_THROW { return *this;}
+		virtual const char * what () const __NO_THROW { return "bad_alloc";}
+	};
+
+	typedef void (* new_handler )();
+	new_handler set_new_handler ( new_handler new_p ) __NO_THROW;
+}
+
+IMPORT_C void* operator new    (std::size_t) __THROW(std::bad_alloc);
+IMPORT_C void  operator delete (void*)       __NO_THROW;
+
+IMPORT_C void* operator new    (std::size_t, const std::nothrow_t&) __NO_THROW;
+IMPORT_C void  operator delete (void*, const std::nothrow_t&)       __NO_THROW;
+
+IMPORT_C void* operator new[]    (std::size_t) __THROW(std::bad_alloc);
+IMPORT_C void  operator delete[] (void*)       __NO_THROW;
+
+IMPORT_C void* operator new[]    (std::size_t, const std::nothrow_t&) __NO_THROW;
+IMPORT_C void  operator delete[] (void*, const std::nothrow_t&)       __NO_THROW;
+
+#   ifndef __PLACEMENT_NEW_INLINE
+#   define __PLACEMENT_NEW_INLINE
+inline void* operator new(std::size_t, void* aBase) __NO_THROW
+	{return aBase;}
+
+inline void operator delete(void*,  void*)  __NO_THROW	{} 
+#   endif //__PLACEMENT_NEW_INLINE
+
+#   ifndef __PLACEMENT_VEC_NEW_INLINE
+#   define __PLACEMENT_VEC_NEW_INLINE
+inline void* operator new[](std::size_t, void* aBase)  __NO_THROW
+	{return aBase;}
+
+inline void operator delete[](void* , void*)  __NO_THROW {}
+#   endif //__PLACEMENT_VEC_NEW_INLINE
+
+# endif //__EABI__
+#endif //_SYMCPP_NEW_H_

@@ -1,0 +1,73 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// @file
+// 
+//
+
+//! @SYMTestSuiteName PDS-TEF-CENTREP-SWISUITE
+//! @SYMScriptTestEnvironment TEF
+//! @internalComponent
+//! @test
+
+PRINT Run MD (meta-data) installation te_centrep_SWI Suite Tests
+
+LOAD_SUITE te_centrep_SWISuite
+
+RUN_UTILS MkDir c:\private\
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551652.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551652.txt
+
+START_TESTCASE SYSLIB-CENTRALREPOSITORY-SWI-CIT-MD-0001
+//! @SYMTestCaseID SYSLIB-CENTRALREPOSITORY-SWI-CIT-MD-0001
+//! @SYMTestCaseDesc  Verify that a ROM supplied keyspace, K6, can be upgraded
+//!                  and tested for meta-data with user upgrade, a ‘PU’ installation and uninstallation.
+//! @SYMTestPriority  High
+//! @SYMTestActions   A keyspace exists in ROM (K6) defining various integer,
+//!                  real settings and containing platsec and
+//!                  meta-data information.
+//!                  Some new, user settings are created. Some existing ROM
+//!                  settings are user-modified, giving us KP6.1.
+//!                  The keyspace KP6.1 is checked for expected meta-data values.
+//!                  A PU ‘partial upgrade ‘.sis’ file which attempts to
+//!                  upgrade this ROM keyspace is installed. Repository
+//!                  settings holding integers and real numbers are
+//!                  added and changed by this installation. The end result is
+//!                  KP6.2.
+//!                  The keyspace KP6.2 is checked for expected meta-data values.
+//!                  An SP ‘standard patch’  ‘.sis’ file was installed. 
+//!                  The install of this 'SP' is just for uninstallation purpose.
+//!                  After un-installation keyspace is checked for expected meta-data values.
+//! @SYMTestExpectedResults
+//!                  See the test specification for a table of results. This
+//!                  can be found here:
+//!                  V:\Dev\GT\GT 0219 Mike System Libraries\Test\[08] Test Specifications\SGL.GT0219.228 vX.X CenRep SWI InteractionTest Specification.doc
+//!                  You can also check the SWI-PU-K6.ini config file.
+//! @SYMDEF           DEF091758
+
+
+	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryCheck z:\TEF_CentralRepository\SWI-PU-K6.ini BeforeWeStart_1
+ 	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryFn z:\TEF_CentralRepository\SWI-PU-K6.ini UserModGivesKP61
+	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryCheck z:\TEF_CentralRepository\SWI-PU-K6.ini Check_KP61_KeySpace
+
+	RUN_TEST_STEP 100 te_centrep_SWISuite InstallStep z:\TEF_CentralRepository\SWI-PU-K6.ini Install_KP62
+	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryCheck z:\TEF_CentralRepository\SWI-PU-K6.ini Check_KP62_KeySpace
+
+	RUN_TEST_STEP 100 te_centrep_SWISuite InstallStep z:\TEF_CentralRepository\SWI-PU-K6.ini Install_KPS64
+	RUN_TEST_STEP 100 te_centrep_SWISuite UninstallAugStep z:\TEF_CentralRepository\SWI-PU-K6.ini UnInstallKPS64
+	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryCheck z:\TEF_CentralRepository\SWI-PU-K6.ini Check_KP65_KeySpace
+
+END_TESTCASE SYSLIB-CENTRALREPOSITORY-SWI-CIT-MD-0001
+
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551652.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551652.txt

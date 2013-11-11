@@ -1,0 +1,55 @@
+/*
+* Copyright (c) 2008-2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Inline functions of Generic WLAN Plugin
+*
+*/
+
+/*
+* %version: 3 %
+*/
+
+#ifndef WLANPLUGINCLIENT_INL
+#define WLANPLUGINCLIENT_INL
+
+// ---------------------------------------------------------
+// CGenericWlanPluginClient::NewL
+// ---------------------------------------------------------
+inline CGenericWlanPluginClient* CGenericWlanPluginClient::NewL( const TUid uid )
+    {
+    TAny* interface = REComSession::CreateImplementationL( uid,
+        _FOFF( CGenericWlanPluginClient, iInstanceIdentifier ) );
+    return reinterpret_cast<CGenericWlanPluginClient*>( interface );
+    }
+    
+// ---------------------------------------------------------
+// CGenericWlanPluginClient::~CGenericWlanPluginClient
+// ---------------------------------------------------------
+inline CGenericWlanPluginClient::~CGenericWlanPluginClient()
+    {
+    REComSession::DestroyedImplementation( iInstanceIdentifier );
+    }
+
+// ---------------------------------------------------------
+// CGenericWlanPluginClient::ListImplementationsL
+// ---------------------------------------------------------
+inline void CGenericWlanPluginClient::ListImplementationsL(
+        RImplInfoPtrArray& aImplInfoArray)
+    {
+    const TUid KGenericWlanPluginInterfaceUid = { 0x20012484 };
+    
+    REComSession::ListImplementationsL(KGenericWlanPluginInterfaceUid,
+            aImplInfoArray);
+    }
+
+#endif // WLANPLUGINCLIENT_INL

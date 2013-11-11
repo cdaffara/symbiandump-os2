@@ -1,0 +1,569 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+//! @file
+//! @SYMTestSuiteName SEC-CERTMAN
+//! @SYMScriptTestEnvironment The script has no specific test environment requirements. 
+//! @SYMScriptPurpose Test the published API functions of CPKIXCertChain.
+
+LOAD_SUITE tpkixcert_tefserver
+
+
+//! @SYMTestCaseID 		SEC-CERTMAN-PKIXCERT-DATETIME-0001
+//! @SYMTestCaseDesc 		Testing CPKIXCertChain date and time checking behaviour during certificate validation.
+//! @SYMCR 			1240
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		1)	Construct the certificate chain. 
+//! 				2) Call CPKIXCertChain::ValidateL() passing in a validation time where the certificate chain has expired.  
+//! 				3) Call CPKIXCertChain::SetValidityPeriodCheckFatal() passing in EFalse.  
+//! 				4) Call CPKIXCertChain::ValidateL() passing in a validation time where the certificate chain has expired.  
+//! 				5) Call CPKIXCertChain::SetValidityPeriodCheckFatal() passing in ETrue. 
+//! 				6) Call CPKIXCertChain::ValidateL() passing in a validation time where the certificate chain has expired.  
+//! 				7) Cleanup the certificate chain and utility classes. 
+//! @SYMTestExpectedResults 	Calls 2 and 6 should fail with EDateOutOfRange.  Call 4 should pass with EValidatedOK but report the warning EDateOutOfRange through both the old warnings API(CPKIXValidationResult::Warnings()) and the new one(CCertificateWarning::Warnings()).
+//! @SYMTestType 		CIT
+//! @SYMTestPurpose 		1) Check that current behaviour has not been altered and we still fail to validate out of date certificate chains.  
+//! 				2) Check that new behaviour works correctly by allowing a certificate chain with an invalid date to validate successfully when explicitly told to.  
+//! 				3) Then ensure this has left the system in the correct state to maintain normal behaviour.
+START_TESTCASE 			SEC-CERTMAN-PKIXCERT-DATETIME-0001
+RUN_TEST_STEP 100 tpkixcert_tefserver DateTimeFatalValidateTest c:\tpkixcert_tef\scripts\validatetests.ini ExpiredDateTime
+END_TESTCASE 			SEC-CERTMAN-PKIXCERT-DATETIME-0001
+
+
+//! @SYMTestCaseID 		SEC-CERTMAN-PKIXCERT-DATETIME-0002
+//! @SYMTestCaseDesc 		TestingCPKIXCertChain date and time checking behaviour during certificate validation.
+//! @SYMCR 			1240
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		1)	Construct the certificate chain. 
+//! 				2) Call CPKIXCertChain::ValidateL() passing in a validation time where the certificate chain has not yet become valid.  
+//! 				3) Call CPKIXCertChain::SetValidityPeriodCheckFatal() passing in EFalse.  
+//! 				4) Call CPKIXCertChain::ValidateL() passing in a validation time where the certificate chain has not yet become valid.  
+//! 				5) Call CPKIXCertChain::SetValidityPeriodCheckFatal() passing in ETrue. 
+//! 				6) Call CPKIXCertChain::ValidateL() passing in a validation time where the certificate chain has not yet become valid.  
+//! 				7) Cleanup the certificate chain and utility classes. 
+//! @SYMTestExpectedResults 	Calls 2 and 6 should fail with EDateOutOfRange.  Call 4 should pass with EValidatedOK but report the warning EDateOutOfRange through both the old warnings API(CPKIXValidationResult::Warnings()) and the new one(CCertificateWarning::Warnings()).
+//! @SYMTestType 		CIT
+//! @SYMTestPurpose 		1) Check that current behaviour has not been altered and we still fail to validate out of date certificate chains.  
+//! 				2) Check that new behaviour works correctly by allowing a certificate chain with an invalid date to validate successfully when explicitly told to.  
+//! 				3) Then ensure this has left the system in the correct state to maintain normal behaviour.
+START_TESTCASE 			SEC-CERTMAN-PKIXCERT-DATETIME-0002
+RUN_TEST_STEP 100 tpkixcert_tefserver DateTimeFatalValidateTest c:\tpkixcert_tef\scripts\validatetests.ini InvalidDateTime
+END_TESTCASE 			SEC-CERTMAN-PKIXCERT-DATETIME-0002
+
+
+//! @SYMTestCaseID 		SEC-CERTMAN-PKIXCERT-DATETIME-0003
+//! @SYMTestCaseDesc 		TestingCPKIXCertChain date and time checking behaviour during certificate validation.
+//! @SYMCR 			1240
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		1)	Construct the certificate chain. 
+//! 				2) Call CPKIXCertChain::ValidateL() passing in a validation time where the certificate chain is valid.  
+//! 				3) Call CPKIXCertChain::SetValidityPeriodCheckFatal() passing in EFalse.  
+//! 				4) Call CPKIXCertChain::ValidateL() passing in a validation time where the certificate chain is valid.  
+//! 				5) Call CPKIXCertChain::SetValidityPeriodCheckFatal() passing in ETrue. 
+//! 				6) Call CPKIXCertChain::ValidateL() passing in a validation time where the certificate chain is valid.  
+//! 				7) Cleanup the certificate chain and utility classes. 
+//! @SYMTestExpectedResults 	Calls 2, 4 and 6 should validate successfully with EValidatedOK.
+//! @SYMTestType 		CIT
+//! @SYMTestPurpose 		1) Check that current behaviour has not been altered and we still fail to validate out of date certificate chains.  
+//! 				2) Check that new behaviour works correctly by allowing a certificate chain with an invalid date to validate successfully when explicitly told to.  
+//! 				3) Then ensure this has left the system in the correct state to maintain normal behaviour.
+START_TESTCASE 			SEC-CERTMAN-PKIXCERT-DATETIME-0003
+RUN_TEST_STEP 100 tpkixcert_tefserver DateTimeFatalValidateTest c:\tpkixcert_tef\scripts\validatetests.ini ValidDateTime
+END_TESTCASE 			SEC-CERTMAN-PKIXCERT-DATETIME-0003
+
+
+//! @SYMTestCaseID 		SEC-CERTMAN-PKIXCERT-CRITEXT-0001
+//! @SYMTestCaseDesc 		Test correct behaviour of customisable supported critical extension processing.
+//! @SYMCR 1399
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		1) Construct the certificate chain.
+//! 				2) Set the supported OID list to the default OIDs and the new ones through a call to CPKIXCertChain::SetSupportedCriticalExtensionsL(). 
+//! 				3) Call CPKIXCertChain::ValidateL(). 
+//! 				4) Ensure all critical extensions encountered are supported and that the certificate and certificate index information in the results match up with the correct certificates. 
+//! 				5) Cleanup the certificate chain and utility classes. 
+//! @SYMTestExpectedResults 	Chain should validate successfully.  All critical extensions should be reported through the new certificate warnings API (CCertificateWarning::CriticalExtensionsFound()).
+//! @SYMTestType 		CIT
+//! @SYMTestPurpose 		Test we correctly report the full gamut of possible critical extension patterns we may be expected to deal with in a certificate chain – multiple extensions in one certificate, multiple extensions spanning multiple certificates and the same extension in multiple certificates.
+START_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0001
+RUN_TEST_STEP 100 tpkixcert_tefserver ValidateCertChain c:\tpkixcert_tef\scripts\validatetests.ini CustomCriticalExts
+RUN_TEST_STEP 100 tpkixcert_tefserver ValidateCertChain c:\tpkixcert_tef\scripts\validatetests.ini CustomCriticalExts1
+END_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0001
+
+
+//! @SYMTestCaseID 		SEC-CERTMAN-PKIXCERT-CRITEXT-0002
+//! @SYMTestCaseDesc 		Test old and new warnings API for consistency and backwards compatibility.
+//! @SYMCR 			1399
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		1)	Construct the certificate chain.  
+//! 				2)	Set the supported OID list to the default OIDs and the new ones through a call to CPKIXCertChain::SetSupportedCriticalExtensionsL().  
+//! 				3) 	Call CPKIXCertChain::ValidateL().  
+//! 				4)	Compare resultant warnings.  
+//! 				5)	Cleanup the certificate chain and utility classes. 
+//! @SYMTestExpectedResults 	Chain should validate successfully.  Each of the recognised critical extensions should be reported both as a warning through the old warnings return and through the new API CCertificateWarning::CriticalExtensionsFound().  CCertificateWarning::Warnings() should contain the other warnings found in CPKIXValidationResult::Warnings().  The new returns mechanism should have no additional warnings.
+//! @SYMTestType 		CIT
+//! @SYMTestPurpose 		Ensure backwards compatibility of old style warning reporting and ensure the new warning returns match up with this.
+START_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0002
+RUN_TEST_STEP 100 tpkixcert_tefserver ValidateCertChain c:\tpkixcert_tef\scripts\validatetests.ini Warnings
+END_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0002
+
+
+//! @SYMTestCaseID 		SEC-CERTMAN-PKIXCERT-CRITEXT-0003
+//! @SYMTestCaseDesc 		Check supported OID list processing resilience.
+//! @SYMCR 			1399
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		1)	Construct certificate chain.
+//! 				2)	Set the supported OID list to the default OIDs and a new invalid format OID through a call to CPKIXCertChain::SetSupportedCriticalExtensionsL().
+//! 				3)	Call CPKIXCertChain::ValidateL(). 
+//! 				4) 	Cleanup the certificate chain and utility classes. 
+//! @SYMTestExpectedResults 	Chain should validate successfully with EValidatedOK with expected warnings returned.
+//! @SYMTestType 		CIT
+//! @SYMTestPurpose 		Check the code is resilient to badly formed OID data being passed in to the supported OID list.
+START_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0003
+RUN_TEST_STEP 100 tpkixcert_tefserver ValidateCertChain c:\tpkixcert_tef\scripts\validatetests.ini BadOidValue
+END_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0003
+
+
+//! @SYMTestCaseID 		SEC-CERTMAN-PKIXCERT-CRITEXT-0004
+//! @SYMTestCaseDesc 		Check supported OID list processing resilience.
+//! @SYMCR 			1399
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		1)	Construct certificate chain. 
+//! 				2)	Set the supported OID list to an empty one through a call to CPKIXCertChain::SetSupportedCriticalExtensionsL().  
+//! 				3) Call CPKIXCertChain::ValidateL(). 
+//! 				4)	Cleanup the certificate chain and utility classes. 
+//! @SYMTestExpectedResults 	Chain should error with EUnrecognizedCriticalExtension (it is necessary for the CA to contain a critical extension).
+//! @SYMTestType 		CIT
+//! @SYMTestPurpose 		Check the code is resilient to an empty supported OID list.
+START_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0004
+RUN_TEST_STEP 100 tpkixcert_tefserver ValidateCertChain c:\tpkixcert_tef\scripts\validatetests.ini EmptySupportedOidList
+END_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0004
+
+
+//! @SYMTestCaseID 		SEC-CERTMAN-PKIXCERT-CRITEXT-0005
+//! @SYMTestCaseDesc 		Test the Append API for manipulating supported OID list for correct behaviour.
+//! @SYMCR 			1399
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		1)	Construct the certificate chain.  
+//! 				2)	Append a collection of new OIDs through CPKIXCertChain::AddSupportedCriticalExtensionsL().  
+//! 				3) 	Call CPKIXCertChain::ResetSupportedCriticalExtsToDefaultL().  
+//! 				4)	Append a collection of OIDs already in the supported list through CPKIXCertChain::AddSupportedCriticalExtensionsL().   
+//! 				5) 	Call CPKIXCertChain::ResetSupportedCriticalExtsToDefaultL().  
+//! 				6)	Append a collection of OIDs with duplicates within the collection.  
+//! 				7) 	Call CPKIXCertChain::ResetSupportedCriticalExtsToDefaultL().  
+//! 				8)	Append an empty collection of OIDs through CPKIXCertChain::AddSupportedCriticalExtensionsL().  
+//! 				9) 	Cleanup the certificate chain and utility classes.  
+//! @SYMTestExpectedResults 	Supported OID list should be updated correctly in each case.
+//! @SYMTestType 		CIT
+//! @SYMTestPurpose 		Ensure OIDs are added to the supported list, that the result contains no duplicates and no errors are reported.
+START_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0005
+RUN_TEST_STEP 100 tpkixcert_tefserver AddSupportedOidsTest c:\tpkixcert_tef\scripts\apitests.ini NewOids
+RUN_TEST_STEP 100 tpkixcert_tefserver AddSupportedOidsTest c:\tpkixcert_tef\scripts\apitests.ini AlreadySupportedOids
+RUN_TEST_STEP 100 tpkixcert_tefserver AddSupportedOidsTest c:\tpkixcert_tef\scripts\apitests.ini OidsWithDuplicates
+RUN_TEST_STEP 100 tpkixcert_tefserver AddSupportedOidsTest c:\tpkixcert_tef\scripts\apitests.ini NoOids
+END_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0005
+
+
+//! @SYMTestCaseID 		SEC-CERTMAN-PKIXCERT-CRITEXT_OOM-0005
+//! @SYMTestCaseDesc 		Test the Append API for manipulating supported OID list for correct behaviour.
+//! @SYMCR 			1399
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		OOM loop around steps 1 to 9:
+//!				1)	Construct the certificate chain.  
+//! 				2)	Append a collection of new OIDs through CPKIXCertChain::AddSupportedCriticalExtensionsL().  
+//! 				3) 	Call CPKIXCertChain::ResetSupportedCriticalExtsToDefaultL().  
+//! 				4)	Append a collection of OIDs already in the supported list through CPKIXCertChain::AddSupportedCriticalExtensionsL().   
+//! 				5) 	Call CPKIXCertChain::ResetSupportedCriticalExtsToDefaultL().  
+//! 				6)	Append a collection of OIDs with duplicates within the collection.  
+//! 				7) 	Call CPKIXCertChain::ResetSupportedCriticalExtsToDefaultL().  
+//! 				8)	Append an empty collection of OIDs through CPKIXCertChain::AddSupportedCriticalExtensionsL().  
+//! 				9) 	Cleanup the certificate chain and utility classes.  
+//! @SYMTestExpectedResults 	There should be no memory leaks at any stage.
+//! @SYMTestType 		CIT
+//! @SYMTestPurpose		 Ensure OIDs are added to the supported list, that the result contains no duplicates and no errors are reported.
+START_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT_OOM-0005
+RUN_TEST_STEP 100 tpkixcert_tefserver AddSupportedOidsTest c:\tpkixcert_tef\scripts\apitests.ini OomNewOids
+RUN_TEST_STEP 100 tpkixcert_tefserver AddSupportedOidsTest c:\tpkixcert_tef\scripts\apitests.ini OomAlreadySupportedOids
+RUN_TEST_STEP 100 tpkixcert_tefserver AddSupportedOidsTest c:\tpkixcert_tef\scripts\apitests.ini OomOidsWithDuplicates
+RUN_TEST_STEP 100 tpkixcert_tefserver AddSupportedOidsTest c:\tpkixcert_tef\scripts\apitests.ini OomNoOids
+END_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT_OOM-0005
+
+
+//! @SYMTestCaseID 		SEC-CERTMAN-PKIXCERT-CRITEXT-0006
+//! @SYMTestCaseDesc 		Test the Remove API for manipulating supported OID list for correct behaviour.
+//! @SYMCR 1399
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		1)	Construct the certificate chain.  
+//! 				2)	Remove a collection of OIDs currently supported in the list through CPKIXCertChain::RemoveSupportedCriticalExtensions().  
+//! 				3) 	Call CPKIXCertChain::ResetSupportedCriticalExtsToDefaultL().  
+//! 				4)	Remove a collection of OIDs not currently supported in the list through CPKIXCertChain::RemoveSupportedCriticalExtensions().   
+//! 				5) 	Call CPKIXCertChain::ResetSupportedCriticalExtsToDefaultL().  
+//! 				6)	Remove an empty collection of OIDs through CPKIXCertChain::AddSupportedCriticalExtensionsL().  
+//! 				7) 	Cleanup the certificate chain and utility classes.  
+//! @SYMTestExpectedResults 	Supported OID list should be updated correctly in each case.
+//! @SYMTestType 		CIT
+//! @SYMTestPurpose 		Ensure OIDs are removed from the supported list and no errors are reported.
+START_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0006
+RUN_TEST_STEP 100 tpkixcert_tefserver RemoveSupportedOidsTest c:\tpkixcert_tef\scripts\apitests.ini NewOids
+RUN_TEST_STEP 100 tpkixcert_tefserver RemoveSupportedOidsTest c:\tpkixcert_tef\scripts\apitests.ini AlreadySupportedOids
+RUN_TEST_STEP 100 tpkixcert_tefserver RemoveSupportedOidsTest c:\tpkixcert_tef\scripts\apitests.ini SupportedOidsWithDuplicates
+RUN_TEST_STEP 100 tpkixcert_tefserver RemoveSupportedOidsTest c:\tpkixcert_tef\scripts\apitests.ini NoOids
+END_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0006
+
+
+//! @SYMTestCaseID 		SEC-CERTMAN-PKIXCERT-CRITEXT_OOM-0006
+//! @SYMTestCaseDesc 		Test the Remove API for manipulating supported OID list for correct behaviour.
+//! @SYMCR 			1399
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		OOM loop around steps 1 to 7:
+//!				1)	Construct the certificate chain.  
+//! 				2)	Remove a collection of OIDs currently supported in the list through CPKIXCertChain::RemoveSupportedCriticalExtensions().  
+//! 				3) 	Call CPKIXCertChain::ResetSupportedCriticalExtsToDefaultL().  
+//! 				4)	Remove a collection of OIDs not currently supported in the list through CPKIXCertChain::RemoveSupportedCriticalExtensions().   
+//! 				5) 	Call CPKIXCertChain::ResetSupportedCriticalExtsToDefaultL().  
+//! 				6)	Remove an empty collection of OIDs through CPKIXCertChain::AddSupportedCriticalExtensionsL().  
+//! 				7) 	Cleanup the certificate chain and utility classes.  
+//! @SYMTestExpectedResults 	There should be no memory leaks at any stage.
+//! @SYMTestType 		CIT
+//! @SYMTestPurpose 		Ensure OIDs are removed from the supported list and no errors are reported.
+START_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT_OOM-0006
+RUN_TEST_STEP 100 tpkixcert_tefserver RemoveSupportedOidsTest c:\tpkixcert_tef\scripts\apitests.ini OomNewOids
+RUN_TEST_STEP 100 tpkixcert_tefserver RemoveSupportedOidsTest c:\tpkixcert_tef\scripts\apitests.ini OomAlreadySupportedOids
+RUN_TEST_STEP 100 tpkixcert_tefserver RemoveSupportedOidsTest c:\tpkixcert_tef\scripts\apitests.ini OomSupportedOidsWithDuplicates
+RUN_TEST_STEP 100 tpkixcert_tefserver RemoveSupportedOidsTest c:\tpkixcert_tef\scripts\apitests.ini OomNoOids
+END_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT_OOM-0006
+
+
+//! @SYMTestCaseID 		SEC-CERTMAN-PKIXCERT-CRITEXT-0007
+//! @SYMTestCaseDesc 		Test the Reset API for manipulating supported OID list for correct behaviour.
+//! @SYMCR 			1399
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		1)	Construct the certificate chain.   
+//! 				2) 	Call CPKIXCertChain::ResetSupportedCriticalExtsToDefaultL() with an empty supported OID list.     
+//! 				3) 	Call CPKIXCertChain::ResetSupportedCriticalExtsToDefaultL() on a non empty, no default (one new OID added and one default OID removed)
+//!					supported OID list.  
+//! 				4) 	Cleanup the certificate chain and utility classes.  
+//! @SYMTestExpectedResults 	Supported OID list should be updated correctly in each case.
+//! @SYMTestType 		CIT
+//! @SYMTestPurpose 		Ensure the supported OID list is reset to the default values correctly.
+START_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0007
+RUN_TEST_STEP 100 tpkixcert_tefserver ResetSupportedOidsTest c:\tpkixcert_tef\scripts\apitests.ini NoOids
+RUN_TEST_STEP 100 tpkixcert_tefserver ResetSupportedOidsTest c:\tpkixcert_tef\scripts\apitests.ini OneAddedOneRemoved
+END_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0007
+
+
+//! @SYMTestCaseID 		SEC-CERTMAN-PKIXCERT-CRITEXT_OOM-0007
+//! @SYMTestCaseDesc 		Test the Reset API for manipulating supported OID list for correct behaviour.
+//! @SYMCR 			1399
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		OOM loop around steps 1 to 4:
+//!				1)	Construct the certificate chain.   
+//! 				2) 	Call CPKIXCertChain::ResetSupportedCriticalExtsToDefaultL() with an empty supported OID list.     
+//! 				3) 	Call CPKIXCertChain::ResetSupportedCriticalExtsToDefaultL() on a non empty, no default (one new OID added and one default OID removed)
+//!					supported OID list.  
+//! 				4) 	Cleanup the certificate chain and utility classes.  
+//! @SYMTestExpectedResults 	There should be no memory leaks at any stage.
+//! @SYMTestType 		CIT
+//! @SYMTestPurpose 		Ensure the supported OID list is reset to the default values correctly.
+START_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT_OOM-0007
+RUN_TEST_STEP 100 tpkixcert_tefserver ResetSupportedOidsTest c:\tpkixcert_tef\scripts\apitests.ini OomNoOids
+RUN_TEST_STEP 100 tpkixcert_tefserver ResetSupportedOidsTest c:\tpkixcert_tef\scripts\apitests.ini OomOneAddedOneRemoved
+END_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT_OOM-0007
+
+
+//! @SYMTestCaseID 		SEC-CERTMAN-PKIXCERT-CRITEXT-0008
+//! @SYMTestCaseDesc 		Test the Set API for manipulating supported OID list for correct behaviour.
+//! @SYMCR 			1399
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		1)	Construct the certificate chain.  
+//! 				2)	Set an empty collection of OIDs through CPKIXCertChain::SetSupportedCriticalExtensionsL().  
+//! 				3)	Call CPKIXCertChain::ResetSupportedCriticalExtsToDefaultL().  
+//! 				4)	Set a collection of non empty (one new OID and one default OID removed) collection of OIDs through CPKIXCertChain::SetSupportedCriticalExtensionsL().   
+//! 				5) 	Call CPKIXCertChain::ResetSupportedCriticalExtsToDefaultL().  
+//! 				6)	Set the same collection of OIDs as is currently supported through CPKIXCertChain::SetSupportedCriticalExtensionsL().  
+//! 				7) 	Call CPKIXCertChain::ResetSupportedCriticalExtsToDefaultL().  
+//! 				8)	Set a collection of OIDs containing internal duplicates through CPKIXCertChain::SetSupportedCriticalExtensionsL().  
+//! 				9) 	Cleanup the certificate chain and utility classes.  
+//! @SYMTestExpectedResults 	Supported OID list should be updated correctly in each case.
+//! @SYMTestType 		CIT
+//! @SYMTestPurpose 		Ensure supported OID list is updated correctly, the result contains no duplicates and no errors are reported.
+START_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0008
+RUN_TEST_STEP 100 tpkixcert_tefserver SetSupportedOidsTest c:\tpkixcert_tef\scripts\apitests.ini NoOids
+RUN_TEST_STEP 100 tpkixcert_tefserver SetSupportedOidsTest c:\tpkixcert_tef\scripts\apitests.ini OneAddedOneRemoved
+RUN_TEST_STEP 100 tpkixcert_tefserver SetSupportedOidsTest c:\tpkixcert_tef\scripts\apitests.ini CurrentlySupported
+RUN_TEST_STEP 100 tpkixcert_tefserver SetSupportedOidsTest c:\tpkixcert_tef\scripts\apitests.ini OidsWithDuplicates
+END_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0008
+
+
+//! @SYMTestCaseID 		SEC-CERTMAN-PKIXCERT-CRITEXT_OOM-0008
+//! @SYMTestCaseDesc 		Test the Set API for manipulating supported OID list for correct behaviour.
+//! @SYMCR 			1399
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		OOM loop around steps 1 to 9:
+//!				1)	Construct the certificate chain.  
+//! 				2)	Set an empty collection of OIDs through CPKIXCertChain::SetSupportedCriticalExtensionsL().  
+//! 				3) 	Call CPKIXCertChain::ResetSupportedCriticalExtsToDefaultL().  
+//! 				4)	Set a collection of non empty (one new OID and one default OID removed) collection of OIDs through CPKIXCertChain::SetSupportedCriticalExtensionsL().   
+//! 				5) 	Call CPKIXCertChain::ResetSupportedCriticalExtsToDefaultL().  
+//! 				6)	Set the same collection of OIDs as is currently supported through CPKIXCertChain::SetSupportedCriticalExtensionsL().  
+//! 				7) 	Call CPKIXCertChain::ResetSupportedCriticalExtsToDefaultL().  
+//! 				8)	Set a collection of OIDs containing internal duplicates through CPKIXCertChain::SetSupportedCriticalExtensionsL().  
+//! 				9) 	Cleanup the certificate chain and utility classes.  
+//! @SYMTestExpectedResults 	There should be no memory leaks at any stage.
+//! @SYMTestType 		CIT
+//! @SYMTestPurpose 		Ensure supported OID list is updated correctly, the result contains no duplicates and no errors are reported.
+START_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT_OOM-0008
+RUN_TEST_STEP 100 tpkixcert_tefserver SetSupportedOidsTest c:\tpkixcert_tef\scripts\apitests.ini OomNoOids
+RUN_TEST_STEP 100 tpkixcert_tefserver SetSupportedOidsTest c:\tpkixcert_tef\scripts\apitests.ini OomOneAddedOneRemoved
+RUN_TEST_STEP 100 tpkixcert_tefserver SetSupportedOidsTest c:\tpkixcert_tef\scripts\apitests.ini OomCurrentlySupported
+RUN_TEST_STEP 100 tpkixcert_tefserver SetSupportedOidsTest c:\tpkixcert_tef\scripts\apitests.ini OomOidsWithDuplicates
+END_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT_OOM-0008
+
+
+//! @SYMTestCaseID 		SEC-CERTMAN-PKIXCERT-CRITEXT-0009
+//! @SYMTestCaseDesc 		Test CPKIXCertChain::ValidateL() code fails correctly.
+//! @SYMCR 			1399
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		1)	Construct the certificate chain.  
+//! 				2)	Set the supported OID list to the default OIDs and the new one through a call to CPKIXCertChain::SetSupportedCriticalExtensionsL().
+//! 				3) 	Call CPKIXCertChain::ValidateL(). The default OID value for KExtendedKeyUsage is not set.
+//! 				4)	Ensure the correct error value is returned  
+//! 				5)	Cleanup the certificate chain and utility classes. 
+//! @SYMTestExpectedResults 	The validation should return with EUnrecognisedCriticalExtension
+//! @SYMTestType 		CIT
+//! @SYMTestPurpose 		Ensure we fail correctly for critical extension OIDs encountered that are outside the specified list that we recognise.
+START_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0009
+RUN_TEST_STEP 100 tpkixcert_tefserver ValidateCertChain c:\tpkixcert_tef\scripts\validatetests.ini Missing_ExtendedKeyUsage
+END_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0009
+
+
+//! @SYMTestCaseID 		SEC-CERTMAN-PKIXCERT-CRITEXT-0010
+//! @SYMTestCaseDesc 		Test CPKIXCertChain::ValidateL() code fails correctly.
+//! @SYMCR 			1399
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		1)	Construct the certificate chain.  
+//! 				2)	Set the supported OID list to the default OIDs and the new one through a call to CPKIXCertChain::SetSupportedCriticalExtensionsL().
+//! 				3) 	Call CPKIXCertChain::ValidateL(). The default OID value for KPolicyMapping is not set.
+//! 				4)	Ensure the correct error value is returned  
+//! 				5)	Cleanup the certificate chain and utility classes. 
+//! @SYMTestExpectedResults 	The validation should return with EUnrecognisedCriticalExtension
+//! @SYMTestType 		CIT
+//! @SYMTestPurpose 		Ensure we fail correctly for critical extension OIDs encountered that are outside the specified list that we recognise.
+START_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0010
+RUN_TEST_STEP 100 tpkixcert_tefserver ValidateCertChain c:\tpkixcert_tef\scripts\validatetests.ini Missing_PolicyMapping
+END_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0010
+
+
+//! @SYMTestCaseID 		SEC-CERTMAN-PKIXCERT-CRITEXT-0011
+//! @SYMTestCaseDesc 		Test CPKIXCertChain::ValidateL() code fails correctly.
+//! @SYMCR 			1399
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		1)	Construct the certificate chain.  
+//! 				2)	Set the supported OID list to the default OIDs and the new one through a call to CPKIXCertChain::SetSupportedCriticalExtensionsL().
+//! 				3) 	Call CPKIXCertChain::ValidateL(). The default OID value for KDeviceListConstraint is not set.
+//! 				4)	Ensure the correct error value is returned  
+//! 				5)	Cleanup the certificate chain and utility classes. 
+//! @SYMTestExpectedResults 	The validation should return with EUnrecognisedCriticalExtension
+//! @SYMTestType 		CIT
+//! @SYMTestPurpose 		Ensure we fail correctly for critical extension OIDs encountered that are outside the specified list that we recognise.
+START_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0011
+RUN_TEST_STEP 100 tpkixcert_tefserver ValidateCertChain c:\tpkixcert_tef\scripts\validatetests.ini Missing_DeviceIdListConstraint
+END_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0011
+
+
+//! @SYMTestCaseID 		SEC-CERTMAN-PKIXCERT-CRITEXT-0012
+//! @SYMTestCaseDesc 		Test CPKIXCertChain::ValidateL() code fails correctly.
+//! @SYMCR 			1399
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		1)	Construct the certificate chain.  
+//! 				2)	Set the supported OID list to the default OIDs and the new one through a call to CPKIXCertChain::SetSupportedCriticalExtensionsL().
+//! 				3) 	Call CPKIXCertChain::ValidateL(). The default OID value for KSidListConstraint is not set.
+//! 				4)	Ensure the correct error value is returned  
+//! 				5)	Cleanup the certificate chain and utility classes. 
+//! @SYMTestExpectedResults 	The validation should return with EUnrecognisedCriticalExtension
+//! @SYMTestType 		CIT
+//! @SYMTestPurpose 		Ensure we fail correctly for critical extension OIDs encountered that are outside the specified list that we recognise.
+START_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0012
+RUN_TEST_STEP 100 tpkixcert_tefserver ValidateCertChain c:\tpkixcert_tef\scripts\validatetests.ini Missing_SidListConstraint
+END_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0012
+
+
+//! @SYMTestCaseID 		SEC-CERTMAN-PKIXCERT-CRITEXT-0013
+//! @SYMTestCaseDesc 		Test CPKIXCertChain::ValidateL() code fails correctly.
+//! @SYMCR 			1399
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		1)	Construct the certificate chain.  
+//! 				2)	Set the supported OID list to the default OIDs and the new one through a call to CPKIXCertChain::SetSupportedCriticalExtensionsL().
+//! 				3) 	Call CPKIXCertChain::ValidateL(). The default OID value for KVidListConstraint is not set.
+//! 				4)	Ensure the correct error value is returned  
+//! 				5)	Cleanup the certificate chain and utility classes. 
+//! @SYMTestExpectedResults 	The validation should return with EUnrecognisedCriticalExtension
+//! @SYMTestType 		CIT
+//! @SYMTestPurpose 		Ensure we fail correctly for critical extension OIDs encountered that are outside the specified list that we recognise.
+START_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0013
+RUN_TEST_STEP 100 tpkixcert_tefserver ValidateCertChain c:\tpkixcert_tef\scripts\validatetests.ini Missing_VidListConstraint
+END_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0013
+
+
+//! @SYMTestCaseID 		SEC-CERTMAN-PKIXCERT-CRITEXT-0014
+//! @SYMTestCaseDesc 		Test CPKIXCertChain::ValidateL() code fails correctly.
+//! @SYMCR 			1399
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		1)	Construct the certificate chain.  
+//! 				2)	Set the supported OID list to the default OIDs and the new one through a call to CPKIXCertChain::SetSupportedCriticalExtensionsL().
+//! 				3) 	Call CPKIXCertChain::ValidateL(). The default OID value for KCapabilitiesConstraint is not set.
+//! 				4)	Ensure the correct error value is returned  
+//! 				5)	Cleanup the certificate chain and utility classes. 
+//! @SYMTestExpectedResults 	The validation should return with EUnrecognisedCriticalExtension
+//! @SYMTestType 		CIT
+//! @SYMTestPurpose 		Ensure we fail correctly for critical extension OIDs encountered that are outside the specified list that we recognise.
+START_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0014
+RUN_TEST_STEP 100 tpkixcert_tefserver ValidateCertChain c:\tpkixcert_tef\scripts\validatetests.ini Missing_CapabilitiesConstraint
+END_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0014
+
+
+//! @SYMTestCaseID 		SEC-CERTMAN-PKIXCERT-CRITEXT-0015
+//! @SYMTestCaseDesc 		Test CPKIXCertChain::ValidateL() code fails correctly.
+//! @SYMCR 1399
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		1)	Construct the certificate chain.  
+//! 				2)	Set the supported OID list to the default OIDs and the new one through a call to CPKIXCertChain::SetSupportedCriticalExtensionsL().
+//! 				3) 	Call CPKIXCertChain::ValidateL(). The default OID value for KCertPolicies is not set.
+//! 				4)	Ensure the correct error value is returned  
+//! 				5)	Cleanup the certificate chain and utility classes. 
+//! @SYMTestExpectedResults 	The validation should return with EUnrecognisedCriticalExtension
+//! @SYMTestType 		CIT
+//! @SYMTestPurpose 		Ensure we fail correctly for critical extension OIDs encountered that are outside the specified list that we recognise.
+START_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0015
+RUN_TEST_STEP 100 tpkixcert_tefserver ValidateCertChain c:\tpkixcert_tef\scripts\validatetests.ini Missing_CertPolicies
+END_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0015
+
+
+//! @SYMTestCaseID 		SEC-CERTMAN-PKIXCERT-CRITEXT-0016
+//! @SYMTestCaseDesc 		Test CPKIXCertChain::ValidateL() code fails correctly.
+//! @SYMCR 			1399
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		1)	Construct the certificate chain.  
+//! 				2)	Set the supported OID list to the default OIDs and the new one through a call to CPKIXCertChain::SetSupportedCriticalExtensionsL().
+//! 				3) 	Call CPKIXCertChain::ValidateL(). The default OID value for KPolicyConstraints is not set.
+//! 				4)	Ensure the correct error value is returned  
+//! 				5)	Cleanup the certificate chain and utility classes. 
+//! @SYMTestExpectedResults 	The validation should return with EUnrecognisedCriticalExtension
+//! @SYMTestType 		CIT
+//! @SYMTestPurpose 		Ensure we fail correctly for critical extension OIDs encountered that are outside the specified list that we recognise.
+START_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0016
+RUN_TEST_STEP 100 tpkixcert_tefserver ValidateCertChain c:\tpkixcert_tef\scripts\validatetests.ini Missing_PolicyConstraint
+END_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0016
+
+
+//! @SYMTestCaseID 		SEC-CERTMAN-PKIXCERT-CRITEXT-0017
+//! @SYMTestCaseDesc 		Test CPKIXCertChain::ValidateL() code fails correctly.
+//! @SYMCR 			1399
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		1)	Construct the certificate chain.  
+//! 				2)	Set the supported OID list to the default OIDs and the new one through a call to CPKIXCertChain::SetSupportedCriticalExtensionsL().
+//! 				3) 	Call CPKIXCertChain::ValidateL(). The default OID value for KNameConstraints is not set.
+//! 				4)	Ensure the correct error value is returned  
+//! 				5)	Cleanup the certificate chain and utility classes. 
+//! @SYMTestExpectedResults 	The validation should return with EUnrecognisedCriticalExtension
+//! @SYMTestType 		CIT
+//! @SYMTestPurpose 		Ensure we fail correctly for critical extension OIDs encountered that are outside the specified list that we recognise.
+START_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0017
+RUN_TEST_STEP 100 tpkixcert_tefserver ValidateCertChain c:\tpkixcert_tef\scripts\validatetests.ini Missing_NameConstraint
+END_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0017
+
+
+//! @SYMTestCaseID 		SEC-CERTMAN-PKIXCERT-CRITEXT-0018
+//! @SYMTestCaseDesc 		Test CPKIXCertChain::ValidateL() code fails correctly.
+//! @SYMCR 			1399
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		1)	Construct the certificate chain.  
+//! 				2)	Set the supported OID list to the default OIDs and the new one through a call to CPKIXCertChain::SetSupportedCriticalExtensionsL().
+//! 				3) 	Call CPKIXCertChain::ValidateL(). The default OID value for KBasicConstraints is not set.
+//! 				4)	Ensure the correct error value is returned  
+//! 				5)	Cleanup the certificate chain and utility classes. 
+//! @SYMTestExpectedResults	The validation should return with EUnrecognisedCriticalExtension
+//! @SYMTestType 		CIT
+//! @SYMTestPurpose 		Ensure we fail correctly for critical extension OIDs encountered that are outside the specified list that we recognise.
+START_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0018
+RUN_TEST_STEP 100 tpkixcert_tefserver ValidateCertChain c:\tpkixcert_tef\scripts\validatetests.ini Missing_BasicConstraint
+END_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0018
+
+
+//! @SYMTestCaseID 		SEC-CERTMAN-PKIXCERT-CRITEXT-0019
+//! @SYMTestCaseDesc 		Test CPKIXCertChain::ValidateL() code fails correctly.
+//! @SYMCR 			1399
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		1)	Construct the certificate chain.  
+//! 				2)	Set the supported OID list to the default OIDs and the new one through a call to CPKIXCertChain::SetSupportedCriticalExtensionsL().
+//! 				3) 	Call CPKIXCertChain::ValidateL(). The default OID value for KKeyUsage is not set.
+//! 				4)	Ensure the correct error value is returned  
+//! 				5)	Cleanup the certificate chain and utility classes. 
+//! @SYMTestExpectedResults 	The validation should return with EUnrecognisedCriticalExtension
+//! @SYMTestType 		CIT
+//! @SYMTestPurpose 		Ensure we fail correctly for critical extension OIDs encountered that are outside the specified list that we recognise.
+START_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0019
+RUN_TEST_STEP 100 tpkixcert_tefserver ValidateCertChain c:\tpkixcert_tef\scripts\validatetests.ini Missing_KeyUsage
+END_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0019
+
+
+//! @SYMTestCaseID 		SEC-CERTMAN-PKIXCERT-CRITEXT-0020
+//! @SYMTestCaseDesc 		Test CPKIXCertChain::ValidateL() code fails correctly.
+//! @SYMCR 			1399
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		1)	Construct the certificate chain.  
+//! 				2)	Set the supported OID list to the default OIDs and the new one through a call to CPKIXCertChain::SetSupportedCriticalExtensionsL().
+//! 				3) 	Call CPKIXCertChain::ValidateL(). The default OID value for KSubjectAltName is not set.
+//! 				4)	Ensure the correct error value is returned  
+//! 				5)	Cleanup the certificate chain and utility classes. 
+//! @SYMTestExpectedResults 	The validation should return with EUnrecognisedCriticalExtension
+//! @SYMTestType 		CIT
+//! @SYMTestPurpose 		Ensure we fail correctly for critical extension OIDs encountered that are outside the specified list that we recognise.
+START_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0020
+RUN_TEST_STEP 100 tpkixcert_tefserver ValidateCertChain c:\tpkixcert_tef\scripts\validatetests.ini Missing_SubjectAltName
+END_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0020
+
+
+//! @SYMTestCaseID 		SEC-CERTMAN-PKIXCERT-CRITEXT-0021
+//! @SYMTestCaseDesc 		Test CPKIXCertChain::ValidateL() code fails correctly.
+//! @SYMCR 			1399
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		1)	Construct the certificate chain.  
+//! 				2)	Set the supported OID list to the default OIDs and the new one through a call to CPKIXCertChain::SetSupportedCriticalExtensionsL().
+//! 				3) 	Call CPKIXCertChain::ValidateL(). The default OID value for KInhibitAnyPolicy is not set.
+//! 				4)	Ensure the correct error value is returned  
+//! 				5)	Cleanup the certificate chain and utility classes. 
+//! @SYMTestExpectedResults 	The validation should return with EUnrecognisedCriticalExtension
+//! @SYMTestType 		CIT
+//! @SYMTestPurpose 		Ensure we fail correctly for critical extension OIDs encountered that are outside the specified list that we recognise.
+START_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0021
+RUN_TEST_STEP 100 tpkixcert_tefserver ValidateCertChain c:\tpkixcert_tef\scripts\validatetests.ini Missing_InhibitAnyPolicy
+END_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0021
+
+
+//! @SYMTestCaseID 		SEC-CERTMAN-PKIXCERT-CRITEXT-0022
+//! @SYMTestCaseDesc		Test CPKIXCertChain::ValidateL() code fails correctly.
+//! @SYMCR 			1399
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		1)	Construct the certificate chain.  
+//! 				2)	Set the supported OID list to the default OIDs and the new one through a call to CPKIXCertChain::SetSupportedCriticalExtensionsL().
+//! 				3) 	Call CPKIXCertChain::ValidateL(). The default OID value for KTestOid is not set.
+//! 				4)	Ensure the correct error value is returned  
+//! 				5)	Cleanup the certificate chain and utility classes. 
+//! @SYMTestExpectedResults 	The validation should return with EUnrecognisedCriticalExtension
+//! @SYMTestType 		CIT
+//! @SYMTestPurpose 		Ensure we fail correctly for critical extension OIDs encountered that are outside the specified list that we recognise.
+START_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0022
+RUN_TEST_STEP 100 tpkixcert_tefserver ValidateCertChain c:\tpkixcert_tef\scripts\validatetests.ini Missing_TestOid
+END_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0022

@@ -1,0 +1,34 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+Load_Server Te_RegScriptCommandServer
+
+START_TESTCASE DT-TEF-ScriptCommand-0008
+//! @SYMTestCaseID          DT-TEF-ScriptCommand-0008
+//! @SYMCreationDate        26-06-2008
+//! @SYMAuthor              DavidZhang
+//! @SYMTestType            CT
+//! @SYMTestPriority        Medium
+//! @SYMTestCaseDesc        Test "run_program" script command.
+//! @SYMTestExpectedResults The &quot;timew.exe&quot; file should be started and terminated after timeout.
+//!                         The test result should be pass.
+//! @SYMTestActions         Run timew.exe with the timeout 5 seconds.
+	RUN_TEST_STEP 10 Te_RegScriptCommandServer CheckProgram ${SYSDRIVE}\testdata\configs\te_regscriptcommandtest.ini ScriptCommand_0008
+	PRINT THE TIME APPLICATION WILL NOW BE LAUNCHED AND WILL EXIT AFTER 5 SECONDS
+	RUN_PROGRAM 5 eshell.exe
+	RUN_TEST_STEP 10 Te_RegScriptCommandServer CheckProgram ${SYSDRIVE}\testdata\configs\te_regscriptcommandtest.ini ScriptCommand_0008
+	RUN_TEST_STEP 10 Te_RegScriptCommandServer CheckLogFile ${SYSDRIVE}\testdata\configs\te_regscriptcommandtest.ini ScriptCommand_0008
+END_TESTCASE DT-TEF-ScriptCommand-0008

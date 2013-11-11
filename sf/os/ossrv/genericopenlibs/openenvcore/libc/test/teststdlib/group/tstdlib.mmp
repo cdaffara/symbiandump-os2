@@ -1,0 +1,56 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// Name        : tchildpopendisp.cpp
+// 
+//
+
+TARGET      tstdlib.exe
+
+//Add your platform security capabilities 
+
+CAPABILITY  NONE
+TARGETTYPE  exe
+UID         0x1000008D 0x1028308C
+
+
+//TARGETPATH      ?target_path
+
+SOURCEPATH		..\src
+SOURCE			tstdlibserver.cpp
+SOURCE			tstdlib.cpp
+SOURCE			tstdlibblocks.cpp
+
+//USERINCLUDE		.  
+
+MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_LIBC_SYSTEMINCLUDE
+
+USERINCLUDE 	..\inc
+USERINCLUDE     ..\..\..\..\backend\inc
+USERINCLUDE 	..\..\..\..\backend\ipcserver\ipccli\inc
+
+
+LIBRARY		    libc.lib
+LIBRARY         libm.lib
+LIBRARY         libpthread.lib
+LIBRARY 		backend.lib
+
+LIBRARY 		euser.lib efsrv.lib ecom.lib bafl.lib c32.lib XmlFramework.lib hash.lib
+LIBRARY			testexecuteutils.lib
+LIBRARY			testexecutelogclient.lib
+
+STATICLIBRARY libcrt0.lib
+
+SMPSAFE

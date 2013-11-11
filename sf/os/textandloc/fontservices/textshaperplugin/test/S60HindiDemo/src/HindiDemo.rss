@@ -1,0 +1,208 @@
+/*
+* Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+NAME BTST
+
+#include <techview/eikon.rh>
+#include <techview/eikon.rsg>
+#include <avkon.rh>
+#include <avkon.rsg>
+
+#include "HindiDemo.hrh"
+#include "HindiDemo.loc"
+
+#ifdef RD_SCALABLE_UI
+#include <appinfo.rh>
+#endif
+
+CHARACTER_SET UTF8
+
+RESOURCE RSS_SIGNATURE { }
+RESOURCE TBUF r_default_document_name { buf=""; }
+RESOURCE EIK_APP_INFO{
+        status_pane = r_hindidemo_statuspane;
+}
+
+RESOURCE MENU_BAR r_shared_imenubar1
+  {
+  titles =
+    {
+    MENU_TITLE
+      {
+      menu_pane = r_shared_imenupane1;
+      txt = "iMenuTitle1";
+      }
+    };
+  }
+
+RESOURCE MENU_PANE r_shared_imenupane1
+  	{
+  	items =
+	 	{
+	    MENU_ITEM
+	      	{
+	      	command = 1001;
+	      	cascade = r_shared_imenupane3;
+	      	txt = "Font size";
+	      	},
+	    MENU_ITEM
+	      	{
+	      	command = 1002;
+	      	cascade = r_shared_imenupane2;
+	      	txt = "Change Sample";
+	     	},
+	    MENU_ITEM
+	      	{
+	      	command = 1019;
+	      	cascade = r_selectfont_menupane;
+	      	txt = "Change Font";
+	     	},
+	    MENU_ITEM
+	      	{
+	      	command = 1020;
+	      	txt = "List Fonts";
+	     	},
+	    MENU_ITEM
+	      	{
+	      	command = 1015;
+	      	txt = "Copyright";
+	     	}
+	  	};
+ 	}
+
+
+RESOURCE MENU_PANE r_shared_imenupane2
+  {
+  items =
+    {
+    MENU_ITEM
+      {
+      command = 1009;
+      txt = "Sample1";
+      },
+    MENU_ITEM
+      {
+      command = 1010;
+      txt = "Sample2";
+      },
+    MENU_ITEM
+      {
+      command = 1011;
+      txt = "Sample3";
+      },
+    MENU_ITEM
+      {
+      command = 1012;
+      txt = "Test1";
+      }
+    };
+  }
+
+RESOURCE MENU_PANE r_shared_imenupane3
+  {
+  items =
+    {
+    MENU_ITEM
+      {
+      command = 1013;
+      txt = "Increase Font";
+      },
+    MENU_ITEM
+      {
+      command = 1014;
+      txt = "Decrease Font";
+      }
+    };
+  }
+  
+RESOURCE MENU_PANE r_selectfont_menupane
+  {
+  items =
+    {
+    MENU_ITEM
+      {
+      command = 1017;
+      txt = "Next Font";
+      },
+    MENU_ITEM
+      {
+      command = 1018;
+      txt = "Last Font";
+      }
+    };
+  }
+
+
+RESOURCE AVKON_VIEW r_hindidemo
+  {
+  menubar = r_shared_imenubar1;
+  cba = R_AVKON_SOFTKEYS_OPTIONS_EXIT;
+  }
+
+RESOURCE CONTEXT_PANE r_hindidemo_iakncontextpane1
+  {
+  }
+
+RESOURCE TITLE_PANE r_hindidemo_iakntitlepane1
+  {
+  txt = "Hindi Demo";
+  }
+
+RESOURCE STATUS_PANE_APP_MODEL r_hindidemo_statuspane
+  {
+  }
+
+RESOURCE AVKON_SETTING_ITEM_LIST r_hindidemo_settingitemlist
+  {
+  flags = 0;
+  title = "";
+  initial_number = 1;
+  }
+
+RESOURCE AVKON_VIEW r_mainview
+  {
+  menubar = r_shared_imenubar1;
+  cba = R_AVKON_SOFTKEYS_OPTIONS_EXIT;
+  }
+
+RESOURCE CONTEXT_PANE r_mainview_iakncontextpane1
+  {
+  }
+
+RESOURCE TITLE_PANE r_mainview_iakntitlepane1
+  {
+  txt = "Hindi Demo";
+  }
+
+RESOURCE STATUS_PANE_APP_MODEL r_mainview_statuspane
+  {
+  }
+
+
+// 9.1 MCL only -     
+RESOURCE LOCALISABLE_APP_INFO r_lai
+	{
+	short_caption = "Hi";
+	caption_and_icon =
+		CAPTION_AND_ICON_INFO
+		{
+			caption = "HindiDemo";
+/*			number_of_icons = 2; // each icon must be a bitmap/mask pair
+			icon_file = "z:\\resource\\apps\\hindiDemo.mbm";
+*/		
+		};							
+	}   

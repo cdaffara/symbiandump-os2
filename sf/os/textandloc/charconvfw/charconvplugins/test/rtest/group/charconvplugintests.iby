@@ -1,0 +1,213 @@
+/*
+* Copyright (c) 2008-2010 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+
+#ifndef __CHARCONVPLUGINTESTS_IBY__
+#define __CHARCONVPLUGINTESTS_IBY__
+
+// batch file that runs all automatic charconv tests
+data=ZSYSTEM\test\charconvplugintests.bat		test\charconvplugintests.bat
+
+#include <Charconv_Chinese_Simplfied.iby>
+#include <Charconv_Chinese_Traditional.iby >
+#include <charconv_japanese.iby>
+#include <Charconv_ISO8859X.iby>
+#include <Charconv_Codepage.iby>
+#include <charconv_sms7bit.iby>
+#include <charconv_gsm7_turkish.iby>
+#include <charconv_s60.iby>
+#include <charconv_portuguese_smsencoding.iby>
+#include <charconv_spanish_smsencoding.iby>
+
+data=ZRESOURCE\charconv\Tsnm.snm			Resource\charconv\Tsnm.snm
+
+#ifndef __UCS2_PLUGIN__
+#define __UCS2_PLUGIN__
+ECOM_PLUGIN(UCS2.DLL, 102044FE.RSC)
+#endif
+ECOM_PLUGIN(SHIFTJIS_SAMPLE_EXTENSION.DLL, 102044FF.RSC)
+ECOM_PLUGIN(tis1620.dll, tis1620.rsc)
+
+// test version of J5 and shiftjis plugins using kddiau version of shiftjis
+ECOM_PLUGIN(test_j5_kddiau.dll, 01000002.rsc)
+ECOM_PLUGIN(shiftjis_kddiau_test.dll, 01000000.rsc)
+
+// test version of xS60 eucjp_packed, also need dependent dll
+//ECOM_PLUGIN(eucjp_packed_2_test.dll, 01000004.rsc)
+// test version of xS60 iso2022jp, also need dependent dll
+//ECOM_PLUGIN(iso2022jp_2_test.dll, 01000006.rsc)
+// test version of xS60 iso2022jp1, also need dependent dll
+//ECOM_PLUGIN(iso2022jp1_2_test.dll, 01000008.rsc)
+
+data=EPOCROOT##epoc32\data\z\test\data\swedish.txt		test\Data\swedish.txt
+data=EPOCROOT##epoc32\data\z\test\data\finnish.txt		test\Data\finnish.txt
+data=EPOCROOT##epoc32\data\z\test\data\Ansi.test		test\data\Ansi.test	
+data=EPOCROOT##epoc32\data\z\test\data\ansi.uni			test\data\ansi.uni		
+data=EPOCROOT##epoc32\data\z\test\data\imode.test		test\data\imode.test	
+data=EPOCROOT##epoc32\data\z\test\data\imode.uni		test\data\imode.uni	
+data=EPOCROOT##epoc32\data\z\test\data\imode_not_mapped.uni	test\data\imode_not_mapped.uni	
+data=EPOCROOT##epoc32\data\z\test\data\JpEUC-J.test		test\data\JpEUC-J.test
+data=EPOCROOT##epoc32\data\z\test\data\JpEUC-J.uni		test\data\JpEUC-J.uni
+data=EPOCROOT##epoc32\data\z\test\data\JpJIS.test		test\data\JpJIS.test	
+data=EPOCROOT##epoc32\data\z\test\data\JpJIS.uni		test\data\JpJIS.uni	
+data=EPOCROOT##epoc32\data\z\test\data\JpSJIS.test		test\data\JpSJIS.test	
+data=EPOCROOT##epoc32\data\z\test\data\JpSJIS.uni		test\data\JpSJIS.uni	
+data=EPOCROOT##epoc32\data\z\test\data\JpUnicode.test		test\data\JpUnicode.test
+data=EPOCROOT##epoc32\data\z\test\data\JpUnicode.uni		test\data\JpUnicode.uni
+data=EPOCROOT##epoc32\data\z\test\data\JpUTF8.test		test\data\JpUTF8.test	
+data=EPOCROOT##epoc32\data\z\test\data\JpUTF8.uni		test\data\JpUTF8.uni	
+data=EPOCROOT##epoc32\data\z\test\data\mopera.test		test\data\mopera.test	
+data=EPOCROOT##epoc32\data\z\test\data\mopera.uni		test\data\mopera.uni	
+data=EPOCROOT##epoc32\data\z\test\data\mopera_not_mapped.uni	test\data\mopera_not_mapped.uni	
+data=EPOCROOT##epoc32\data\z\test\data\MScodefont.test		test\data\MScodefont.test
+data=EPOCROOT##epoc32\data\z\test\data\MScodefont.uni		test\data\MScodefont.uni
+data=EPOCROOT##epoc32\data\z\test\data\S-JIS.test  		test\data\S-JIS.test	
+data=EPOCROOT##epoc32\data\z\test\data\S-JIS.uni  		test\data\S-JIS.uni	
+data=EPOCROOT##epoc32\data\z\test\data\S-JIS_docomo.uni  	test\data\S-JIS_docomo.uni	
+
+// Work around for DEF063276
+data=DATAZ_\test\data\KOriginalSms7Bit.dat	test\data\KOriginalSms7Bit.dat
+data=DATAZ_\test\data\originalJis.dat 		test\data\originalJis.dat
+data=DATAZ_\test\data\KLittleEndian.dat 	test\data\KLittleEndian.dat
+data=DATAZ_\test\data\KBigEndian.dat 		test\data\KBigEndian.dat
+// work around for DEF089572
+data=DATAZ_\test\data\KSMS7bit.dat 		test\data\KSMS7bit.dat
+
+//test extendedsms
+data=EPOCROOT##epoc32\data\z\test\data\extendedsms_for_input.dat	test\data\extendedsms_for_input.dat	
+data=EPOCROOT##epoc32\data\z\test\data\extendedsms_for_expect.dat	test\data\extendedsms_for_expect.dat		
+data=EPOCROOT##epoc32\data\z\test\data\extendedsms_uni_expect.dat	test\data\extendedsms_uni_expect.dat
+data=EPOCROOT##epoc32\data\z\test\data\extendedsms_uni_input.dat	test\data\extendedsms_uni_input.dat
+
+//test turkish locking
+data=EPOCROOT##epoc32\data\z\test\data\turkish_locking_gsm7ext_uni_input.dat	test\data\turkish_locking_gsm7ext_uni_input.dat	
+data=EPOCROOT##epoc32\data\z\test\data\turkish_locking_gsm7ext_for_input.dat	test\data\turkish_locking_gsm7ext_for_input.dat		
+data=EPOCROOT##epoc32\data\z\test\data\turkish_locking_gsm7ext_uni_expect.dat	test\data\turkish_locking_gsm7ext_uni_expect.dat
+data=EPOCROOT##epoc32\data\z\test\data\turkish_locking_gsm7ext_for_expect.dat	test\data\turkish_locking_gsm7ext_for_expect.dat
+
+//test turkish locking single
+data=EPOCROOT##epoc32\data\z\test\data\turkish_locking_single_uni_input.dat	test\data\turkish_locking_single_uni_input.dat	
+data=EPOCROOT##epoc32\data\z\test\data\turkish_locking_single_for_input.dat	test\data\turkish_locking_single_for_input.dat		
+data=EPOCROOT##epoc32\data\z\test\data\turkish_locking_single_uni_expect.dat	test\data\turkish_locking_single_uni_expect.dat
+data=EPOCROOT##epoc32\data\z\test\data\turkish_locking_single_for_expect.dat	test\data\turkish_locking_single_for_expect.dat
+
+//test turkish single
+data=EPOCROOT##epoc32\data\z\test\data\gsm7_turkish_single_uni_input.dat	test\data\gsm7_turkish_single_uni_input.dat	
+data=EPOCROOT##epoc32\data\z\test\data\gsm7_turkish_single_for_input.dat	test\data\gsm7_turkish_single_for_input.dat		
+data=EPOCROOT##epoc32\data\z\test\data\gsm7_turkish_single_uni_expect.dat	test\data\gsm7_turkish_single_uni_expect.dat
+data=EPOCROOT##epoc32\data\z\test\data\gsm7_turkish_single_for_expect.dat	test\data\gsm7_turkish_single_for_expect.dat
+
+//test protuguese 
+data=EPOCROOT##epoc32\data\z\test\data\gsm7_portuguese_single_for_expect.dat	test\data\gsm7_portuguese_single_for_expect.dat	
+data=EPOCROOT##epoc32\data\z\test\data\gsm7_portuguese_single_for_input.dat	test\data\gsm7_portuguese_single_for_input.dat		
+data=EPOCROOT##epoc32\data\z\test\data\gsm7_portuguese_single_uni_expect.dat	test\data\gsm7_portuguese_single_uni_expect.dat
+data=EPOCROOT##epoc32\data\z\test\data\gsm7_portuguese_single_uni_input.dat	test\data\gsm7_portuguese_single_uni_input.dat
+
+data=EPOCROOT##epoc32\data\z\test\data\portuguese_locking_gsm7ext_for_expect.dat	test\data\portuguese_locking_gsm7ext_for_expect.dat	
+data=EPOCROOT##epoc32\data\z\test\data\portuguese_locking_gsm7ext_for_input.dat	test\data\portuguese_locking_gsm7ext_for_input.dat		
+data=EPOCROOT##epoc32\data\z\test\data\portuguese_locking_gsm7ext_uni_expect.dat	test\data\portuguese_locking_gsm7ext_uni_expect.dat
+data=EPOCROOT##epoc32\data\z\test\data\portuguese_locking_gsm7ext_uni_input.dat	test\data\portuguese_locking_gsm7ext_uni_input.dat
+
+data=EPOCROOT##epoc32\data\z\test\data\portuguese_locking_single_for_expect.dat	test\data\portuguese_locking_single_for_expect.dat	
+data=EPOCROOT##epoc32\data\z\test\data\portuguese_locking_single_for_input.dat	test\data\portuguese_locking_single_for_input.dat		
+data=EPOCROOT##epoc32\data\z\test\data\portuguese_locking_single_uni_expect.dat	test\data\portuguese_locking_single_uni_expect.dat
+data=EPOCROOT##epoc32\data\z\test\data\portuguese_locking_single_uni_input.dat	test\data\portuguese_locking_single_uni_input.dat
+
+//test spanish
+
+data=EPOCROOT##epoc32\data\z\test\data\gsm7_spanish_single_for_expect.dat	test\data\gsm7_spanish_single_for_expect.dat	
+data=EPOCROOT##epoc32\data\z\test\data\gsm7_spanish_single_for_input.dat	test\data\gsm7_spanish_single_for_input.dat		
+data=EPOCROOT##epoc32\data\z\test\data\gsm7_spanish_single_uni_expect.dat	test\data\gsm7_spanish_single_uni_expect.dat
+data=EPOCROOT##epoc32\data\z\test\data\gsm7_spanish_single_uni_input.dat	test\data\gsm7_spanish_single_uni_input.dat
+
+//test KOI8R
+data=EPOCROOT##epoc32\data\z\test\data\KOI8R_for_expect.dat	test\data\KOI8R_for_expect.dat	
+data=EPOCROOT##epoc32\data\z\test\data\KOI8R_for_input.dat	test\data\KOI8R_for_input.dat		
+data=EPOCROOT##epoc32\data\z\test\data\KOI8R_uni_expect.dat	test\data\KOI8R_uni_expect.dat
+data=EPOCROOT##epoc32\data\z\test\data\KOI8R_uni_input.dat	test\data\KOI8R_uni_input.dat
+
+//test KOI8U
+data=EPOCROOT##epoc32\data\z\test\data\KOI8U_for_expect.dat	test\data\KOI8U_for_expect.dat	
+data=EPOCROOT##epoc32\data\z\test\data\KOI8U_for_input.dat	test\data\KOI8U_for_input.dat		
+data=EPOCROOT##epoc32\data\z\test\data\KOI8U_uni_expect.dat	test\data\KOI8U_uni_expect.dat
+data=EPOCROOT##epoc32\data\z\test\data\KOI8U_uni_input.dat	test\data\KOI8U_uni_input.dat
+
+//test TIS_620
+data=EPOCROOT##epoc32\data\z\test\data\TIS_620_for_expect.dat	test\data\TIS_620_for_expect.dat	
+data=EPOCROOT##epoc32\data\z\test\data\TIS_620_for_input.dat	test\data\TIS_620_for_input.dat		
+data=EPOCROOT##epoc32\data\z\test\data\TIS_620_uni_expect.dat	test\data\TIS_620_uni_expect.dat
+data=EPOCROOT##epoc32\data\z\test\data\TIS_620_uni_input.dat	test\data\TIS_620_uni_input.dat
+
+//test win874
+data=EPOCROOT##epoc32\data\z\test\data\win874_for_expect.dat	test\data\win874_for_expect.dat	
+data=EPOCROOT##epoc32\data\z\test\data\win874_for_input.dat	test\data\win874_for_input.dat		
+data=EPOCROOT##epoc32\data\z\test\data\win874_uni_expect.dat	test\data\win874_uni_expect.dat
+data=EPOCROOT##epoc32\data\z\test\data\win874_uni_input.dat	test\data\win874_uni_input.dat
+
+//test win1250
+data=EPOCROOT##epoc32\data\z\test\data\win1250_for_expect.dat	test\data\win1250_for_expect.dat	
+data=EPOCROOT##epoc32\data\z\test\data\win1250_for_input.dat	test\data\win1250_for_input.dat		
+data=EPOCROOT##epoc32\data\z\test\data\win1250_uni_expect.dat	test\data\win1250_uni_expect.dat
+data=EPOCROOT##epoc32\data\z\test\data\win1250_uni_input.dat	test\data\win1250_uni_input.dat
+
+//test win1251
+data=EPOCROOT##epoc32\data\z\test\data\win1251_for_expect.dat	test\data\win1251_for_expect.dat	
+data=EPOCROOT##epoc32\data\z\test\data\win1251_for_input.dat	test\data\win1251_for_input.dat		
+data=EPOCROOT##epoc32\data\z\test\data\win1251_uni_expect.dat	test\data\win1251_uni_expect.dat
+data=EPOCROOT##epoc32\data\z\test\data\win1251_uni_input.dat	test\data\win1251_uni_input.dat
+
+//test win1253
+data=EPOCROOT##epoc32\data\z\test\data\win1253_for_expect.dat	test\data\win1253_for_expect.dat	
+data=EPOCROOT##epoc32\data\z\test\data\win1253_for_input.dat	test\data\win1253_for_input.dat		
+data=EPOCROOT##epoc32\data\z\test\data\win1253_uni_expect.dat	test\data\win1253_uni_expect.dat
+data=EPOCROOT##epoc32\data\z\test\data\win1253_uni_input.dat	test\data\win1253_uni_input.dat
+
+//test win1254
+data=EPOCROOT##epoc32\data\z\test\data\win1254_for_expect.dat	test\data\win1254_for_expect.dat	
+data=EPOCROOT##epoc32\data\z\test\data\win1254_for_input.dat	test\data\win1254_for_input.dat		
+data=EPOCROOT##epoc32\data\z\test\data\win1254_uni_expect.dat	test\data\win1254_uni_expect.dat
+data=EPOCROOT##epoc32\data\z\test\data\win1254_uni_input.dat	test\data\win1254_uni_input.dat
+
+//test win1255
+data=EPOCROOT##epoc32\data\z\test\data\win1255_for_expect.dat	test\data\win1255_for_expect.dat	
+data=EPOCROOT##epoc32\data\z\test\data\win1255_for_input.dat	test\data\win1255_for_input.dat		
+data=EPOCROOT##epoc32\data\z\test\data\win1255_uni_expect.dat	test\data\win1255_uni_expect.dat
+data=EPOCROOT##epoc32\data\z\test\data\win1255_uni_input.dat	test\data\win1255_uni_input.dat
+
+//test win1256
+data=EPOCROOT##epoc32\data\z\test\data\win1256_for_expect.dat	test\data\win1256_for_expect.dat	
+data=EPOCROOT##epoc32\data\z\test\data\win1256_for_input.dat	test\data\win1256_for_input.dat		
+data=EPOCROOT##epoc32\data\z\test\data\win1256_uni_expect.dat	test\data\win1256_uni_expect.dat
+data=EPOCROOT##epoc32\data\z\test\data\win1256_uni_input.dat	test\data\win1256_uni_input.dat
+
+//test win1257
+data=EPOCROOT##epoc32\data\z\test\data\win1257_for_expect.dat	test\data\win1257_for_expect.dat	
+data=EPOCROOT##epoc32\data\z\test\data\win1257_for_input.dat	test\data\win1257_for_input.dat		
+data=EPOCROOT##epoc32\data\z\test\data\win1257_uni_expect.dat	test\data\win1257_uni_expect.dat
+data=EPOCROOT##epoc32\data\z\test\data\win1257_uni_input.dat	test\data\win1257_uni_input.dat
+
+//test win1258
+data=EPOCROOT##epoc32\data\z\test\data\win1258_for_expect.dat	test\data\win1258_for_expect.dat	
+data=EPOCROOT##epoc32\data\z\test\data\win1258_for_input.dat	test\data\win1258_for_input.dat		
+data=EPOCROOT##epoc32\data\z\test\data\win1258_uni_expect.dat	test\data\win1258_uni_expect.dat
+data=EPOCROOT##epoc32\data\z\test\data\win1258_uni_input.dat	test\data\win1258_uni_input.dat
+
+file=ABI_DIR\BUILD_DIR\t_charconvpluginserver.exe	Sys\Bin\t_charconvpluginserver.exe
+file=ABI_DIR\BUILD_DIR\shiftjis_kddiau_shared.dll	Sys\Bin\shiftjis_kddiau_shared.dll
+
+#endif

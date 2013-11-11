@@ -1,0 +1,63 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+// ctframework.mmp
+
+/**
+@file
+
+@SYMPurpose ctframework.dll Crypto token framework
+*/
+
+OPTION CW   -w off
+TARGET			ctframework.dll
+
+CAPABILITY All
+
+TARGETTYPE		dll
+
+UID	0x1000008d 	0x101F4E47
+VENDORID 0x70000001
+
+
+DEFFILE			CTFRAMEWORK_V2.def
+USERINCLUDE 	../inc/ct
+USERINCLUDE 	../inc
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+SOURCEPATH		../source/ctframework
+SOURCE			MCTToken.cpp
+SOURCE			MCTTokenInterface.cpp
+SOURCE 			MCTTokenObject.cpp
+SOURCE			CCTTokenType.cpp
+SOURCE			Cctcertinfo.cpp
+SOURCE			Ccertattributefilter.cpp
+SOURCE			Tcttokenobjecthandle.cpp
+SOURCE			Tcttokenhandle.cpp
+SOURCE			SecurityDialog.cpp
+SOURCE			MCTKeyStore.cpp
+SOURCE			KeyUsage.cpp
+SOURCE			certificateapps.cpp
+SOURCE			CTLogger.cpp
+
+LIBRARY	euser.lib estor.lib 
+#ifdef __CT_LOGGING__
+DEBUGLIBRARY EFSRV.LIB
+#endif
+
+SMPSAFE

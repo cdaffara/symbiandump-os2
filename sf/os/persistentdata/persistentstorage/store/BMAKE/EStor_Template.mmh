@@ -1,0 +1,53 @@
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// ESTOR.MMH
+// estor.mmh Stream store management - default file buffer size,
+// max read ahead value and file block size.
+// This file is an example file that may be copied, modified and 
+// installed as \epoc32\include\Estor.mmh file to customise buffer handling
+// in the Store component. Also, SYMBIAN_CUSTOM_STORE_BUFFER_SIZES must be 
+// defined in the related \epoc32\include\variant\Symbian_OS_v<N>.hrh file,
+// where <N> is the OS version number, like 9.1.
+// This file is not expected to be directly modified.
+// NOTE: Changing the value of these macros will affect RAM usage in 
+// store/stream processing system wide and should not be undertaken lightly.
+// Default file buffer size in bytes used in RFileBuf objects.
+// It can't be less than 1536 bytes. 
+// 
+//
+
+/**
+ @file
+ @publishedPartner
+*/
+MACRO DEFAULT_FILE_BUF_SIZE=4096
+
+/**
+Maximum RFileBuf read ahead value in bytes. This defines the number of bytes
+read into the file buffer when buffer underflow occurs.
+It can't be less than 512 bytes and must not be greater 
+than DEFAULT_FILE_BUF_SIZE.
+@publishedPartner
+*/
+MACRO MAX_READ_AHEAD_VALUE=2048
+
+/**
+File system block size to be assumed by RFileBuf. It is used in buffer underflow
+to perform block aligned reads to load the buffer.
+It can't be less than 512 bytes and must not be greater
+then MAX_READ_AHEAD_VALUE. Also, FILE_BLOCK_SIZE value must be power of 2.
+@publishedPartner
+*/
+MACRO FILE_BLOCK_SIZE=1024
+

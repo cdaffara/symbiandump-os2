@@ -1,0 +1,2482 @@
+// Script 2: Test authentication, paspphrase caching, etc
+
+////////////////////////////////////////////////////////////////////////////////
+// 0. Initialisation
+////////////////////////////////////////////////////////////////////////////////
+
+// First we delete the keystore data file, so that we know we are setting the
+// passphrase with our first key add operation.
+// Then we set up some keys for the rest of the test script to use:
+//
+// Key:     Type:
+// banana	RSA
+// mango	DSA
+// tomato	DH
+
+
+//   test passphrase timeout affects all keys, and all processes
+
+<action>
+	<actionname>0.1, Delete keystore data file</actionname>
+	<actiontype>deletekeystoredata</actiontype>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>0.2, Opening key store in manager mode</actionname>
+	<actiontype>init</actiontype>
+	<actionbody>
+		<mode>manager</mode>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>0.3 Delete everything</actionname>
+	<actiontype>deletekeys</actiontype>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+////////////////////////////////////////////////////////////////////////////////
+// 1. Test passphrase caching
+////////////////////////////////////////////////////////////////////////////////
+
+// 1.1 Test adding a key leaves it open and with default timeout of 30 seconds
+
+<action>
+	<actionname>1.1.1, Add key banana</actionname>
+	<actiontype>addkey</actiontype>
+	<actionbody>
+		<keyusage>allusagesbutNR</keyusage>
+		<keysize>512</keysize>
+		<keylabel>banana</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>create flyingelephant</passphrase>
+	</actionbody>
+	<actionresult> <return>KErrNone</return> </actionresult>
+</action>
+
+<action>
+	<actionname>1.1.2, Get timeout, expect default of 30 seconds</actionname>
+	<actiontype>gettimeout</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+		<timeout>30</timeout>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.1.3, Get time remaining, expect 30 seconds</actionname>
+	<actiontype>timeremaining</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+		<timeout>30</timeout>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.1.4, Sign, don't expect passphrase prompt</actionname>
+	<actiontype>sign</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+		<open>RSA</open>
+		<text>This is text of 20 .</text>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.1.5, Add key mango</actionname>
+	<actiontype>addkey</actiontype>
+	<actionbody>
+		<keyusage>DSAUsage</keyusage>
+		<keysize>512</keysize>
+		<keylabel>mango</keylabel>
+		<keyalgorithm>DSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.1.6, Add key tomato</actionname>
+	<actiontype>addkey</actiontype>
+	<actionbody>
+		<keyusage>Derive</keyusage>
+		<keysize>512</keysize>
+		<keylabel>tomato</keylabel>
+		<keyalgorithm>DH</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+	</actionbody>
+	<actionresult> <return>KErrNone</return> </actionresult>
+</action>
+
+<action>
+	<actionname>1.1.7, Check everything added ok</actionname>
+	<actiontype>listkeys</actiontype>
+	<actionbody>
+		<foundkey>banana</foundkey>
+		<foundkey>mango</foundkey>
+		<foundkey>tomato</foundkey>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.1.8, Set passphrase timeout to "don't cache"</actionname>
+	<actiontype>settimeout</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+		<timeout>0</timeout>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+// 1.2 Test getting and setting the timeout works
+
+// 1.2.1 Test setting timeout via keystore
+
+<action>
+	<actionname>1.2.1.1, Set passphrase timeout to 5 seconds via keystore</actionname>
+	<actiontype>settimeout</actiontype>
+	<actionbody>
+		<timeout>5</timeout>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.2.1.2, Get timeout on banana, expect 5 seconds</actionname>
+	<actiontype>gettimeout</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+		<timeout>5</timeout>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.2.1.3, Get timeout on mango, expect 5 seconds</actionname>
+	<actiontype>gettimeout</actiontype>
+	<actionbody>
+		<keylabel>mango</keylabel>
+		<timeout>5</timeout>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.2.1.4, Get timeout on tomato, expect 5 seconds</actionname>
+	<actiontype>gettimeout</actiontype>
+	<actionbody>
+		<keylabel>tomato</keylabel>
+		<timeout>5</timeout>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+// 1.2.2 Test setting timeout via auth object
+
+<action>
+	<actionname>1.2.2.1, Set passphrase timeout to 10 seconds via auth object</actionname>
+	<actiontype>authsettimeout</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+		<timeout>10</timeout>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.2.2.3, Get timeout on banana, expect 10 seconds</actionname>
+	<actiontype>gettimeout</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+		<timeout>10</timeout>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.2.2.4, Get timeout on mango, expect 10 seconds</actionname>
+	<actiontype>gettimeout</actiontype>
+	<actionbody>
+		<keylabel>mango</keylabel>
+		<timeout>10</timeout>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.2.1.5, Get timeout on tomato, expect 10 seconds</actionname>
+	<actiontype>gettimeout</actiontype>
+	<actionbody>
+		<keylabel>tomato</keylabel>
+		<timeout>10</timeout>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+// 1.3 Test cached passphrases expire and that we can get the time remaining
+
+<action>
+	<actionname>1.3.1, Get time remaining, expect 0 cos no passphrase cached</actionname>
+	<actiontype>timeremaining</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+		<timeout>0</timeout>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.3.2, Sign, expect passphrase prompt</actionname>
+	<actiontype>sign</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+		<open>RSA</open>
+		<text>This is text of 20 .</text>
+		<passphrase>flyingelephant</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.3.3, Get time remaining</actionname>
+	<actiontype>timeremaining</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+		<timeout>10</timeout>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.3.4, Wait 5 seconds</actionname>
+	<actiontype>sleep</actiontype>
+	<actionbody>
+		<seconds>5</seconds>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.3.5, Get time remaining, expect 5 seconds</actionname>
+	<actiontype>timeremaining</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+		<timeout>5</timeout>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.3.6, Sign, don't expect passphrase prompt</actionname>
+	<actiontype>sign</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+		<open>RSA</open>
+		<text>This is text of 20 .</text>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.3.7, Wait another 5 seconds</actionname>
+	<actiontype>sleep</actiontype>
+	<actionbody>
+		<seconds>5</seconds>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.3.8, Get time remaining, expect 0 again</actionname>
+	<actiontype>timeremaining</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+		<timeout>0</timeout>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.3.9, Sign, expect passphrase prompt</actionname>
+	<actiontype>sign</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+		<open>RSA</open>
+		<text>This is text of 20 .</text>
+		<passphrase>flyingelephant</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+// 1.4 Test auth object open and close
+
+<action>
+	<actionname>1.4.1.1, Close object</actionname>
+	<actiontype>authclose</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.4.1.2, Sign, expect passphrase prompt</actionname>
+	<actiontype>sign</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+		<open>RSA</open>
+		<text>This is text of 20 .</text>
+		<passphrase>flyingelephant</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.4.1.3, Sign again, don't expect passphrase prompt</actionname>
+	<actiontype>sign</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+		<open>RSA</open>
+		<text>This is text of 20 .</text>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.4.1.4, Close object</actionname>
+	<actiontype>authclose</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.4.1.5, Open banana</actionname>
+	<actiontype>authopen</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+		<passphrase>flyingelephant</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.4.1.6, Sign again, don't expect passphrase prompt</actionname>
+	<actiontype>sign</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+		<open>RSA</open>
+		<text>This is text of 20 .</text>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+// 1.4.2 Test that opening/closing a key opens/closes keys all keys we can use
+
+<action>
+	<actionname>1.4.2.1, Open mango, don't expect passphrase prompt</actionname>
+	<actiontype>authopen</actiontype>
+	<actionbody>
+		<keylabel>mango</keylabel>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.4.2.2, Close object</actionname>
+	<actiontype>authclose</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.4.2.3, Open mango, expect passphrase prompt</actionname>
+	<actiontype>authopen</actiontype>
+	<actionbody>
+		<keylabel>mango</keylabel>
+		<passphrase>flyingelephant</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.4.2.4, Close object again</actionname>
+	<actiontype>authclose</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+// 1.4.3 Test that the user gets three attempts to enter the passphrase
+
+<action>
+	<actionname>1.4.3.1, Open banana with wrong passphrase, test that we get only three attempts</actionname>
+	<actiontype>authopen</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+		<passphrase>wrong</passphrase>
+		<passphrase>wrong</passphrase>
+		<passphrase>wrong</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrBadPassphrase</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.4.3.2, Open banana, get passphrase right on second attempt</actionname>
+	<actiontype>authopen</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+		<passphrase>wrong</passphrase>
+		<passphrase>flyingelephant</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.4.3.3, Close banana</actionname>
+	<actiontype>authclose</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.4.3.4, Open banana, get passphrase right on last attempt</actionname>
+	<actiontype>authopen</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+		<passphrase>wrong</passphrase>
+		<passphrase>wrong</passphrase>
+		<passphrase>flyingelephant</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+////////////////////////////////////////////////////////////////////////////////
+// 2. Test list protected objects
+////////////////////////////////////////////////////////////////////////////////
+
+<action>
+	<actionname>2.1, List protected objects for banana</actionname>
+	<actiontype>listprotectedobjects</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+		<foundkey>banana</foundkey>
+		<foundkey>mango</foundkey>
+		<foundkey>tomato</foundkey>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>2.2, List protected objects for mango</actionname>
+	<actiontype>listprotectedobjects</actiontype>
+	<actionbody>
+		<keylabel>mango</keylabel>
+		<foundkey>banana</foundkey>
+		<foundkey>mango</foundkey>
+		<foundkey>tomato</foundkey>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>2.3, List protected objects for tomato</actionname>
+	<actiontype>listprotectedobjects</actiontype>
+	<actionbody>
+		<keylabel>tomato</keylabel>
+		<foundkey>banana</foundkey>
+		<foundkey>mango</foundkey>
+		<foundkey>tomato</foundkey>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+////////////////////////////////////////////////////////////////////////////////
+// 3. Test changing the passphrase
+////////////////////////////////////////////////////////////////////////////////
+
+<action>
+	<actionname>3.1, Set passphrase timeout to 30 seconds</actionname>
+	<actiontype>settimeout</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+		<timeout>30</timeout>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>3.2, Sign with banana, cache passphrase</actionname>
+	<actiontype>sign</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+		<open>RSA</open>
+		<text>This is text of 20 .</text>
+		<passphrase>flyingelephant</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>3.3.1, Attempt to change the passphrase, but supply wrong current passphrase</actionname>
+	<actiontype>changepassphrase</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+		<passphrase>change wrong1 redfox</passphrase>
+		<passphrase>change wrong2 redfox</passphrase>
+		<passphrase>change wrong3 redfox</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrBadPassphrase</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>3.3.2, Sign with the key, expect passphrase still cached</actionname>
+	<actiontype>sign</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+		<open>RSA</open>
+		<text>This is text of 20 .</text>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>3.4, Change the passphrase</actionname>
+	<actiontype>changepassphrase</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+		<passphrase>change flyingelephant redfox</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>3.5, Sign but supply the old passphrase, expect failure</actionname>
+	<actiontype>sign</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+		<open>RSA</open>
+		<text>This is text of 20 .</text>
+		<passphrase>flyingelephant</passphrase>
+		<passphrase>flyingelephant</passphrase>
+		<passphrase>flyingelephant</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrBadPassphrase</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>3.6, Sign with correct passphrase</actionname>
+	<actiontype>sign</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+		<open>RSA</open>
+		<text>This is text of 20 .</text>
+		<passphrase>redfox</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>3.7, Set passphrase timeout back to "don't cache"</actionname>
+	<actiontype>settimeout</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+		<timeout>0</timeout>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+////////////////////////////////////////////////////////////////////////////////
+// 4. Test unblocking the passphrase
+////////////////////////////////////////////////////////////////////////////////
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+// 5. Test relocking the store
+////////////////////////////////////////////////////////////////////////////////
+
+<action>
+	<actionname>5.1.1, Opening second unified key store</actionname>
+	<actiontype>init</actiontype>
+	<actionbody>
+		<mode>manager</mode>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>5.1.2, Set passphrase timeout to 30 seconds</actionname>
+	<actiontype>settimeout</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+		<timeout>30</timeout>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>5.2, Sign, expect passphrase prompt</actionname>
+	<actiontype>sign</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+		<open>RSA</open>
+		<text>This is text of 20 .</text>
+		<passphrase>redfox</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>5.3, Close object via 2nd key store</actionname>
+	<actiontype>authclose</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+		<keystore>1</keystore>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>5.4, Sign, don't expect passphrase prompt</actionname>
+	<actiontype>sign</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+		<open>RSA</open>
+		<text>This is text of 20 .</text>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>5.5, Relock store via 2nd key store</actionname>
+	<actiontype>relockstore</actiontype>
+	<actionbody>
+		<keystore>1</keystore>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>5.6, Sign, expect passphrase prompt</actionname>
+	<actiontype>sign</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+		<open>RSA</open>
+		<text>This is text of 20 .</text>
+		<passphrase>redfox</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>5.7.1, Close key store 2</actionname>
+	<actiontype>delete</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>5.7.2, Set passphrase timeout back to "don't cache"</actionname>
+	<actiontype>settimeout</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+		<timeout>0</timeout>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+////////////////////////////////////////////////////////////////////////////////
+// 6. Test security policies
+////////////////////////////////////////////////////////////////////////////////
+
+// 6.1 Test default policy is to police based on SID of the creator
+
+<action>
+	<actionname>6.1.1, Get default use policy</actionname>
+	<actiontype>getusepolicy</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+	</actionbody>
+	<actionresult>
+		<policy>
+			<secureid>0x101F7E95</secureid>
+		</policy>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>6.1.2, Get default management policy</actionname>
+	<actiontype>getmanagementpolicy</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+	</actionbody>
+	<actionresult>
+		<policy>
+			<secureid>0x101F7E95</secureid>
+		</policy>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+// 6.2 Test setting policies for the keys
+
+<action>
+	<actionname>6.2.1, Set banana's use policy based on SID and capabilities</actionname>
+	<actiontype>setusepolicy</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+		<policy>
+			<secureid>0x101FFFFF</secureid>
+			<capability>DRM</capability>
+			<capability>ReadUserData</capability>
+		</policy>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>6.2.2, Check banana's use policy set correctly</actionname>
+	<actiontype>getusepolicy</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+	</actionbody>
+	<actionresult>
+		<policy>
+			<secureid>0x101FFFFF</secureid>
+			<capability>DRM</capability>
+			<capability>ReadUserData</capability>
+		</policy>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>6.2.3, Set mango's use policy based on VID and capabilities</actionname>
+	<actiontype>setusepolicy</actiontype>
+	<actionbody>
+		<keylabel>mango</keylabel>
+		<policy>
+			<vendorid>0x70000007</vendorid>
+			<capability>DRM</capability>
+			<capability>ReadUserData</capability>
+		</policy>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>6.2.4, Check mango's use policy set correctly</actionname>
+	<actiontype>getusepolicy</actiontype>
+	<actionbody>
+		<keylabel>mango</keylabel>
+	</actionbody>
+	<actionresult>
+		<policy>
+			<vendorid>0x70000007</vendorid>
+			<capability>DRM</capability>
+			<capability>ReadUserData</capability>
+		</policy>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>6.2.5, Set tomato's use policy based on just capabilities</actionname>
+	<actiontype>setusepolicy</actiontype>
+	<actionbody>
+		<keylabel>tomato</keylabel>
+		<policy>
+			<capability>DRM</capability>
+			<capability>ReadUserData</capability>
+			<capability>WriteUserData</capability>
+			<capability>ReadDeviceData</capability>
+			<capability>WriteDeviceData</capability>
+		</policy>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>6.2.6, Check tomato's use policy set correctly</actionname>
+	<actiontype>getusepolicy</actiontype>
+	<actionbody>
+		<keylabel>tomato</keylabel>
+	</actionbody>
+	<actionresult>
+		<policy>
+			<capability>DRM</capability>
+			<capability>ReadUserData</capability>
+			<capability>WriteUserData</capability>
+			<capability>ReadDeviceData</capability>
+			<capability>WriteDeviceData</capability>
+		</policy>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>6.2.7.1, Test we can't set management policy that doesn't include the calling process</actionname>
+	<actiontype>setmanagementpolicy</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+		<policy>
+			<capability>DRM</capability>
+			<capability>ReadUserData</capability>
+			<capability>WriteUserData</capability>
+			<capability>NetworkControl</capability>
+		</policy>
+	</actionbody>
+	<actionresult>
+		<return>KErrArgument</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>6.2.7.2, Test we can't set management policy that doesn't include the calling process</actionname>
+	<actiontype>setmanagementpolicy</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+		<policy>
+			<secureid>0x101F7E96</secureid>
+			<capability>DRM</capability>
+			<capability>ReadUserData</capability>
+			<capability>WriteUserData</capability>
+		</policy>
+	</actionbody>
+	<actionresult>
+		<return>KErrArgument</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>6.2.7.3, Test we can't set management policy that doesn't include the calling process</actionname>
+	<actiontype>setmanagementpolicy</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+		<policy>
+			<vendorid>0x70000002</vendorid>
+			<capability>DRM</capability>
+			<capability>ReadUserData</capability>
+			<capability>WriteUserData</capability>
+		</policy>
+	</actionbody>
+	<actionresult>
+		<return>KErrArgument</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>6.2.7.4, Set banana's management policy based on just capabilities</actionname>
+	<actiontype>setmanagementpolicy</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+		<policy>
+			<capability>DRM</capability>
+			<capability>ReadUserData</capability>
+			<capability>WriteUserData</capability>
+		</policy>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>6.2.8, Check banana's management policy set correctly</actionname>
+	<actiontype>getmanagementpolicy</actiontype>
+	<actionbody>
+		<keylabel>banana</keylabel>
+	</actionbody>
+	<actionresult>
+		<policy>
+			<capability>DRM</capability>
+			<capability>ReadUserData</capability>
+			<capability>WriteUserData</capability>
+		</policy>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>6.2.9, Set mango's management policy based on SID and capabilities</actionname>
+	<actiontype>setmanagementpolicy</actiontype>
+	<actionbody>
+		<keylabel>mango</keylabel>
+		<policy>
+			<secureid>0x101F7E95</secureid>
+			<capability>ReadUserData</capability>
+			<capability>DRM</capability>
+			<capability>ReadDeviceData</capability>
+		</policy>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>6.2.10, Check mango's management policy set correctly</actionname>
+	<actiontype>getmanagementpolicy</actiontype>
+	<actionbody>
+		<keylabel>mango</keylabel>
+	</actionbody>
+	<actionresult>
+		<policy>
+			<secureid>0x101F7E95</secureid>
+			<capability>ReadUserData</capability>
+			<capability>DRM</capability>
+			<capability>ReadDeviceData</capability>
+		</policy>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>6.2.11, Set tomato's management policy based on VID and capabilities</actionname>
+	<actiontype>setmanagementpolicy</actiontype>
+	<actionbody>
+		<keylabel>tomato</keylabel>
+		<policy>
+			<vendorid>0x70000001</vendorid>
+			<capability>ReadUserData</capability>
+			<capability>DRM</capability>
+			<capability>WriteDeviceData</capability>
+		</policy>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>6.2.12, Check tomato's management policy set correctly</actionname>
+	<actiontype>getmanagementpolicy</actiontype>
+	<actionbody>
+		<keylabel>tomato</keylabel>
+	</actionbody>
+	<actionresult>
+		<policy>
+			<vendorid>0x70000001</vendorid>
+			<capability>ReadUserData</capability>
+			<capability>DRM</capability>
+			<capability>WriteDeviceData</capability>
+		</policy>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+// 6.3 Test enforcement of security policies
+
+<action>
+	<actionname>6.3.1, Test use policy enforcement for SID and capabilities</actionname>
+	<actiontype>policytest</actiontype>
+	<actionbody>
+		<testexe>t_keystore.exe</testexe>
+		<excludedcapabilities>
+			<capability>TCB</capability>
+		</excludedcapabilities>
+		<policy>
+			<secureid>0x101FFFFF</secureid>
+			<capability>DRM</capability>
+			<capability>ReadUserData</capability>
+		</policy>
+
+		<preactions>
+			<action>
+				<actionname>1, Open key store in manager mode</actionname>
+				<actiontype>init</actiontype>
+				<actionbody>
+					<mode>manager</mode>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</preactions>
+
+		<passactions>
+			<action>
+				<actionname>2, Get key info</actionname>
+				<actiontype>getkeyinfo</actiontype>
+				<actionbody>
+					<keylabel>banana</keylabel>
+					<keyusage>allusagesbutNR</keyusage>
+					<keysize>512</keysize>
+					<keyalgorithm>RSA</keyalgorithm>
+					<keyaccesstype>Extractable</keyaccesstype>
+					<keyaccesstype>Local</keyaccesstype>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>3, Sign</actionname>
+				<actiontype>sign</actiontype>
+				<actionbody>
+					<keylabel>banana</keylabel>
+					<open>RSA</open>
+					<text>This is text of 20 .</text>
+					<passphrase>redfox</passphrase>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>4, Decrypt</actionname>
+				<actiontype>decrypt</actiontype>
+				<actionbody>
+					<keylabel>banana</keylabel>
+					<text>Ook!</text>
+					<passphrase>redfox</passphrase>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</passactions>
+
+		<failactions>
+			<action>
+				<actionname>2, Get key info</actionname>
+				<actiontype>getkeyinfo</actiontype>
+				<actionbody>
+					<keylabel>banana</keylabel>
+					<keyusage>allusagesbutNR</keyusage>
+					<keysize>512</keysize>
+					<keyalgorithm>RSA</keyalgorithm>
+					<keyaccesstype>Extractable</keyaccesstype>
+					<keyaccesstype>Local</keyaccesstype>
+				</actionbody>
+				<actionresult>
+					<return>KErrPermissionDenied</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>3, Sign</actionname>
+				<actiontype>sign</actiontype>
+				<actionbody>
+					<keylabel>banana</keylabel>
+					<open>RSA</open>
+					<text>This is text of 20 .</text>
+				</actionbody>
+				<actionresult>
+					<return>KErrPermissionDenied</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>4, Decrypt</actionname>
+				<actiontype>decrypt</actiontype>
+				<actionbody>
+					<keylabel>banana</keylabel>
+					<text>Ook!</text>
+				</actionbody>
+				<actionresult>
+					<return>KErrPermissionDenied</return>
+				</actionresult>
+			</action>
+		</failactions>
+
+		<postactions>
+			<action>
+				<actionname>5, Close key store</actionname>
+				<actiontype>delete</actiontype>
+				<actionbody></actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</postactions>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>6.3.2, Test use policy enforcement for VID and capabilities</actionname>
+	<actiontype>policytest</actiontype>
+	<actionbody>
+		<testexe>t_keystore.exe</testexe>
+		<excludedcapabilities>
+			<capability>TCB</capability>
+		</excludedcapabilities>
+		<policy>
+			<vendorid>0x70000007</vendorid>
+			<capability>DRM</capability>
+			<capability>ReadUserData</capability>
+		</policy>
+
+		<preactions>
+			<action>
+				<actionname>1, Open key store in manager mode</actionname>
+				<actiontype>init</actiontype>
+				<actionbody>
+					<mode>manager</mode>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</preactions>
+
+		<passactions>
+			<action>
+				<actionname>2, Get key info</actionname>
+				<actiontype>getkeyinfo</actiontype>
+				<actionbody>
+					<keylabel>mango</keylabel>
+					<keyusage>allusagesbutNR</keyusage>
+					<keysize>512</keysize>
+					<keyalgorithm>DSA</keyalgorithm>
+					<keyaccesstype>Extractable</keyaccesstype>
+					<keyaccesstype>Local</keyaccesstype>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>3, Sign</actionname>
+				<actiontype>sign</actiontype>
+				<actionbody>
+					<keylabel>mango</keylabel>
+					<open>DSA</open>
+					<text>This is text of 20 .</text>
+					<passphrase>redfox</passphrase>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</passactions>
+
+		<failactions>
+			<action>
+				<actionname>2, Get key info</actionname>
+				<actiontype>getkeyinfo</actiontype>
+				<actionbody>
+					<keylabel>mango</keylabel>
+					<keyusage>allusagesbutNR</keyusage>
+					<keysize>512</keysize>
+					<keyalgorithm>DSA</keyalgorithm>
+					<keyaccesstype>Extractable</keyaccesstype>
+					<keyaccesstype>Local</keyaccesstype>
+				</actionbody>
+				<actionresult>
+					<return>KErrPermissionDenied</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>3, Sign</actionname>
+				<actiontype>sign</actiontype>
+				<actionbody>
+					<keylabel>mango</keylabel>
+					<open>DSA</open>
+					<text>This is text of 20 .</text>
+				</actionbody>
+				<actionresult>
+					<return>KErrPermissionDenied</return>
+				</actionresult>
+			</action>
+		</failactions>
+
+		<postactions>
+			<action>
+				<actionname>4, Close key store</actionname>
+				<actiontype>delete</actiontype>
+				<actionbody></actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</postactions>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>6.3.3, Test use policy enforcement for just capabilities</actionname>
+	<actiontype>policytest</actiontype>
+	<actionbody>
+		<testexe>t_keystore.exe</testexe>
+		<excludedcapabilities>
+			<capability>TCB</capability>
+		</excludedcapabilities>
+		<policy>
+			<capability>DRM</capability>
+			<capability>ReadUserData</capability>
+			<capability>WriteUserData</capability>
+			<capability>ReadDeviceData</capability>
+			<capability>WriteDeviceData</capability>
+		</policy>
+
+		<preactions>
+			<action>
+				<actionname>1, Open key store in manager mode</actionname>
+				<actiontype>init</actiontype>
+				<actionbody>
+					<mode>manager</mode>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</preactions>
+
+		<passactions>
+			<action>
+				<actionname>2, Get key info</actionname>
+				<actiontype>getkeyinfo</actiontype>
+				<actionbody>
+					<keylabel>tomato</keylabel>
+					<keyusage>allusagesbutNR</keyusage>
+					<keysize>512</keysize>
+					<keyalgorithm>DH</keyalgorithm>
+					<keyaccesstype>Extractable</keyaccesstype>
+					<keyaccesstype>Local</keyaccesstype>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>2, Test derive</actionname>
+				<actiontype>derive</actiontype>
+				<actionbody>
+					<keylabel>tomato</keylabel>
+					<n>DA9A18547FF03B385CC16508C173A7EF4EB61CB40EF8FEF3B31F145051676166BCDC3FE6B799FC394D08C26385F9413F896E09117E46209D6923602683CEA100924A6EE695281775C619DAA94EA8CB3691B4275B0183F1D39639EBC92995FE645D6C1BC28D409E585549BBD2C5DCDD6C208B04EADD8B7A6D997F72CBAD88390F</n>
+					<g>02</g>
+					<passphrase>redfox</passphrase>
+					<passphrase>redfox</passphrase>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</passactions>
+
+		<failactions>
+			<action>
+				<actionname>2, Get key info</actionname>
+				<actiontype>getkeyinfo</actiontype>
+				<actionbody>
+					<keylabel>tomato</keylabel>
+					<keyusage>allusagesbutNR</keyusage>
+					<keysize>512</keysize>
+					<keyalgorithm>DH</keyalgorithm>
+					<keyaccesstype>Extractable</keyaccesstype>
+					<keyaccesstype>Local</keyaccesstype>
+				</actionbody>
+				<actionresult>
+					<return>KErrPermissionDenied</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>2, Test derive</actionname>
+				<actiontype>derive</actiontype>
+				<actionbody>
+					<keylabel>tomato</keylabel>
+					<n>DA9A18547FF03B385CC16508C173A7EF4EB61CB40EF8FEF3B31F145051676166BCDC3FE6B799FC394D08C26385F9413F896E09117E46209D6923602683CEA100924A6EE695281775C619DAA94EA8CB3691B4275B0183F1D39639EBC92995FE645D6C1BC28D409E585549BBD2C5DCDD6C208B04EADD8B7A6D997F72CBAD88390F</n>
+					<g>02</g>
+				</actionbody>
+				<actionresult>
+					<return>KErrPermissionDenied</return>
+				</actionresult>
+			</action>
+		</failactions>
+
+		<postactions>
+			<action>
+				<actionname>3, Close key store</actionname>
+				<actiontype>delete</actiontype>
+				<actionbody></actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</postactions>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>6.3.4, Test banana's management policy enforcement (just capabilities)</actionname>
+	<actiontype>policytest</actiontype>
+	<actionbody>
+		<testexe>t_keystore.exe</testexe>
+		<excludedcapabilities>
+			<capability>TCB</capability>
+		</excludedcapabilities>
+		<policy>
+			<capability>DRM</capability>
+			<capability>ReadUserData</capability>
+			<capability>WriteUserData</capability>
+		</policy>
+
+		<preactions>
+			<action>
+				<actionname>1, Open key store in manager mode</actionname>
+				<actiontype>init</actiontype>
+				<actionbody>
+					<mode>manager</mode>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</preactions>
+
+		<passactions>
+
+			<action>
+				<actionname>1, Export</actionname>
+				<actiontype>exportkey</actiontype>
+				<actionbody>
+					<ExportFile>exported_banana.der</ExportFile>
+					<keyusage>allusagesbutNR</keyusage>
+					<keylabel>banana</keylabel>
+					<keyalgorithm>RSA</keyalgorithm>
+					<encrypted>0</encrypted>
+					<passphrase>redfox</passphrase>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>2, Export encrypted</actionname>
+				<actiontype>exportkey</actiontype>
+				<actionbody>
+					<ExportFile>exported_encrypted_banana.der</ExportFile>
+					<keyusage>allusagesbutNR</keyusage>
+					<keylabel>banana</keylabel>
+					<keyalgorithm>RSA</keyalgorithm>
+					<encrypted>1</encrypted>
+					<passphrase>redfox</passphrase>
+					<passphrase>export clanger</passphrase>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>3, Check use policy</actionname>
+				<actiontype>getusepolicy</actiontype>
+				<actionbody>
+					<keylabel>banana</keylabel>
+				</actionbody>
+				<actionresult>
+					<policy>
+						<secureid>0x101FFFFF</secureid>
+						<capability>DRM</capability>
+						<capability>ReadUserData</capability>
+					</policy>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>4, Set use policy</actionname>
+				<actiontype>setusepolicy</actiontype>
+				<actionbody>
+					<keylabel>banana</keylabel>
+					<policy>
+						<capability>ReadUserData</capability>
+						<capability>WriteUserData</capability>
+					</policy>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>5, Check use policy</actionname>
+				<actiontype>getusepolicy</actiontype>
+				<actionbody>
+					<keylabel>banana</keylabel>
+				</actionbody>
+				<actionresult>
+					<policy>
+						<capability>ReadUserData</capability>
+						<capability>WriteUserData</capability>
+					</policy>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>6, Check management policy</actionname>
+				<actiontype>getmanagementpolicy</actiontype>
+				<actionbody>
+					<keylabel>banana</keylabel>
+				</actionbody>
+				<actionresult>
+					<policy>
+						<capability>DRM</capability>
+						<capability>ReadUserData</capability>
+						<capability>WriteUserData</capability>
+					</policy>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>7, Set management policy</actionname>
+				<actiontype>setmanagementpolicy</actiontype>
+				<actionbody>
+					<keylabel>banana</keylabel>
+					<policy>
+						<capability>ReadUserData</capability>
+						<capability>WriteUserData</capability>
+					</policy>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>8, Check management policy</actionname>
+				<actiontype>getmanagementpolicy</actiontype>
+				<actionbody>
+					<keylabel>banana</keylabel>
+				</actionbody>
+				<actionresult>
+					<policy>
+						<capability>ReadUserData</capability>
+						<capability>WriteUserData</capability>
+					</policy>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>9, Delete key</actionname>
+				<actiontype>deletekeys</actiontype>
+				<actionbody>
+					<keylabel>banana</keylabel>
+					<deletecount>1</deletecount>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+
+		</passactions>
+
+		<failactions>
+
+			<action>
+				<actionname>1, Export</actionname>
+				<actiontype>exportkey</actiontype>
+				<actionbody>
+					<ExportFile>exported_banana.der</ExportFile>
+					<keyusage>allusagesbutNR</keyusage>
+					<keylabel>banana</keylabel>
+					<keyalgorithm>RSA</keyalgorithm>
+					<encrypted>0</encrypted>
+				</actionbody>
+				<actionresult>
+					<return>KErrPermissionDenied</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>2, Export encrypted</actionname>
+				<actiontype>exportkey</actiontype>
+				<actionbody>
+					<ExportFile>exported_encrypted_banana.der</ExportFile>
+					<keyusage>allusagesbutNR</keyusage>
+					<keylabel>banana</keylabel>
+					<keyalgorithm>RSA</keyalgorithm>
+					<encrypted>1</encrypted>
+				</actionbody>
+				<actionresult>
+					<return>KErrPermissionDenied</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>3, Set use policy</actionname>
+				<actiontype>setusepolicy</actiontype>
+				<actionbody>
+					<keylabel>banana</keylabel>
+					<policy>
+						<capability>ReadUserData</capability>
+						<capability>WriteUserData</capability>
+					</policy>
+				</actionbody>
+				<actionresult>
+					<return>KErrPermissionDenied</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>5, Set management policy</actionname>
+				<actiontype>setmanagementpolicy</actiontype>
+				<actionbody>
+					<keylabel>banana</keylabel>
+					<policy>
+						<capability>ReadUserData</capability>
+						<capability>WriteUserData</capability>
+					</policy>
+				</actionbody>
+				<actionresult>
+					<return>KErrPermissionDenied</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>7, Delete key</actionname>
+				<actiontype>deletekeys</actiontype>
+				<actionbody>
+					<keylabel>banana</keylabel>
+				</actionbody>
+				<actionresult>
+					<return>KErrPermissionDenied</return>
+				</actionresult>
+			</action>
+
+		</failactions>
+
+		<postactions>
+			<action>
+				<actionname>4, Close key store</actionname>
+				<actiontype>delete</actiontype>
+				<actionbody></actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</postactions>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>6.3.5, Test mango's management policy enforcement (SID and capabilities)</actionname>
+	<actiontype>policytest</actiontype>
+	<actionbody>
+		<testexe>t_keystore.exe</testexe>
+		<excludedcapabilities>
+			<capability>TCB</capability>
+		</excludedcapabilities>
+		<policy>
+			<secureid>0x101F7E95</secureid>
+			<capability>ReadUserData</capability>
+			<capability>DRM</capability>
+			<capability>ReadDeviceData</capability>
+		</policy>
+
+		<preactions>
+			<action>
+				<actionname>1, Open key store in manager mode</actionname>
+				<actiontype>init</actiontype>
+				<actionbody>
+					<mode>manager</mode>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</preactions>
+
+		<passactions>
+
+			<action>
+				<actionname>2, Export</actionname>
+				<actiontype>exportkey</actiontype>
+				<actionbody>
+					<ExportFile>exported_mango.der</ExportFile>
+					<keyusage>DSAUsage</keyusage>
+					<keylabel>mango</keylabel>
+					<keyalgorithm>DSA</keyalgorithm>
+					<encrypted>0</encrypted>
+					<passphrase>redfox</passphrase>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>3, Export encrypted</actionname>
+				<actiontype>exportkey</actiontype>
+				<actionbody>
+					<ExportFile>exported_encrypted_mango.der</ExportFile>
+					<keyusage>DSAUsage</keyusage>
+					<keylabel>mango</keylabel>
+					<keyalgorithm>DSA</keyalgorithm>
+					<encrypted>1</encrypted>
+					<passphrase>redfox</passphrase>
+					<passphrase>export clanger</passphrase>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>4, Check use policy</actionname>
+				<actiontype>getusepolicy</actiontype>
+				<actionbody>
+					<keylabel>mango</keylabel>
+				</actionbody>
+				<actionresult>
+					<policy>
+						<vendorid>0x70000007</vendorid>
+						<capability>DRM</capability>
+						<capability>ReadUserData</capability>
+					</policy>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>5, Set use policy</actionname>
+				<actiontype>setusepolicy</actiontype>
+				<actionbody>
+					<keylabel>mango</keylabel>
+					<policy>
+						<capability>ReadUserData</capability>
+						<capability>WriteUserData</capability>
+					</policy>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>6, Check use policy</actionname>
+				<actiontype>getusepolicy</actiontype>
+				<actionbody>
+					<keylabel>mango</keylabel>
+				</actionbody>
+				<actionresult>
+					<policy>
+						<capability>ReadUserData</capability>
+						<capability>WriteUserData</capability>
+					</policy>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>7, Check management policy</actionname>
+				<actiontype>getmanagementpolicy</actiontype>
+				<actionbody>
+					<keylabel>mango</keylabel>
+				</actionbody>
+				<actionresult>
+					<policy>
+						<secureid>0x101F7E95</secureid>
+						<capability>ReadUserData</capability>
+						<capability>DRM</capability>
+						<capability>ReadDeviceData</capability>
+					</policy>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>8, Set management policy</actionname>
+				<actiontype>setmanagementpolicy</actiontype>
+				<actionbody>
+					<keylabel>mango</keylabel>
+					<policy>
+						<capability>DRM</capability>
+						<capability>ReadDeviceData</capability>
+					</policy>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>9, Check management policy</actionname>
+				<actiontype>getmanagementpolicy</actiontype>
+				<actionbody>
+					<keylabel>mango</keylabel>
+				</actionbody>
+				<actionresult>
+					<policy>
+						<capability>DRM</capability>
+						<capability>ReadDeviceData</capability>
+					</policy>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>10, Delete key</actionname>
+				<actiontype>deletekeys</actiontype>
+				<actionbody>
+					<keylabel>mango</keylabel>
+					<deletecount>1</deletecount>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+
+		</passactions>
+
+		<failactions>
+
+			<action>
+				<actionname>2, Export</actionname>
+				<actiontype>exportkey</actiontype>
+				<actionbody>
+					<ExportFile>exported_mango.der</ExportFile>
+					<keyusage>DSAUsage</keyusage>
+					<keylabel>mango</keylabel>
+					<keyalgorithm>DSA</keyalgorithm>
+					<encrypted>0</encrypted>
+				</actionbody>
+				<actionresult>
+					<return>KErrPermissionDenied</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>3, Export encrypted</actionname>
+				<actiontype>exportkey</actiontype>
+				<actionbody>
+					<ExportFile>exported_encrypted_mango.der</ExportFile>
+					<keyusage>DSAUsage</keyusage>
+					<keylabel>mango</keylabel>
+					<keyalgorithm>DSA</keyalgorithm>
+					<encrypted>1</encrypted>
+				</actionbody>
+				<actionresult>
+					<return>KErrPermissionDenied</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>4, Set use policy</actionname>
+				<actiontype>setusepolicy</actiontype>
+				<actionbody>
+					<keylabel>mango</keylabel>
+					<policy>
+						<capability>ReadUserData</capability>
+						<capability>WriteUserData</capability>
+					</policy>
+				</actionbody>
+				<actionresult>
+					<return>KErrPermissionDenied</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>5, Set management policy</actionname>
+				<actiontype>setmanagementpolicy</actiontype>
+				<actionbody>
+					<keylabel>mango</keylabel>
+					<policy>
+						<capability>DRM</capability>
+						<capability>ReadDeviceData</capability>
+					</policy>
+				</actionbody>
+				<actionresult>
+					<return>KErrPermissionDenied</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>6, Delete key</actionname>
+				<actiontype>deletekeys</actiontype>
+				<actionbody>
+					<keylabel>mango</keylabel>
+				</actionbody>
+				<actionresult>
+					<return>KErrPermissionDenied</return>
+				</actionresult>
+			</action>
+
+		</failactions>
+
+		<postactions>
+			<action>
+				<actionname>11, Close key store</actionname>
+				<actiontype>delete</actiontype>
+				<actionbody></actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</postactions>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>6.3.6, Test tomato's management policy enforcement (VID and capabilities)</actionname>
+	<actiontype>policytest</actiontype>
+	<actionbody>
+		<testexe>t_keystore.exe</testexe>
+		<excludedcapabilities>
+			<capability>TCB</capability>
+		</excludedcapabilities>
+		<policy>
+			<vendorid>0x70000001</vendorid>
+			<capability>ReadUserData</capability>
+			<capability>DRM</capability>
+			<capability>WriteDeviceData</capability>
+		</policy>
+
+		<preactions>
+			<action>
+				<actionname>1, Open key store in manager mode</actionname>
+				<actiontype>init</actiontype>
+				<actionbody>
+					<mode>manager</mode>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</preactions>
+
+		<passactions>
+
+			<action>
+				<actionname>2, Check use policy</actionname>
+				<actiontype>getusepolicy</actiontype>
+				<actionbody>
+					<keylabel>tomato</keylabel>
+				</actionbody>
+				<actionresult>
+					<policy>
+						<capability>DRM</capability>
+						<capability>ReadUserData</capability>
+						<capability>WriteUserData</capability>
+						<capability>ReadDeviceData</capability>
+						<capability>WriteDeviceData</capability>
+					</policy>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>3, Set use policy</actionname>
+				<actiontype>setusepolicy</actiontype>
+				<actionbody>
+					<keylabel>tomato</keylabel>
+					<policy>
+						<capability>ReadUserData</capability>
+						<capability>WriteUserData</capability>
+					</policy>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>4, Check use policy</actionname>
+				<actiontype>getusepolicy</actiontype>
+				<actionbody>
+					<keylabel>tomato</keylabel>
+				</actionbody>
+				<actionresult>
+					<policy>
+						<capability>ReadUserData</capability>
+						<capability>WriteUserData</capability>
+					</policy>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>5, Check management policy</actionname>
+				<actiontype>getmanagementpolicy</actiontype>
+				<actionbody>
+					<keylabel>tomato</keylabel>
+				</actionbody>
+				<actionresult>
+					<policy>
+						<vendorid>0x70000001</vendorid>
+						<capability>ReadUserData</capability>
+						<capability>DRM</capability>
+						<capability>WriteDeviceData</capability>
+					</policy>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>6, Set management policy</actionname>
+				<actiontype>setmanagementpolicy</actiontype>
+				<actionbody>
+					<keylabel>tomato</keylabel>
+					<policy>
+						<capability>DRM</capability>
+						<capability>WriteDeviceData</capability>
+					</policy>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>7, Check management policy</actionname>
+				<actiontype>getmanagementpolicy</actiontype>
+				<actionbody>
+					<keylabel>tomato</keylabel>
+				</actionbody>
+				<actionresult>
+					<policy>
+						<capability>DRM</capability>
+						<capability>WriteDeviceData</capability>
+					</policy>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>8, Delete key</actionname>
+				<actiontype>deletekeys</actiontype>
+				<actionbody>
+					<keylabel>tomato</keylabel>
+					<deletecount>1</deletecount>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+
+		</passactions>
+
+		<failactions>
+
+			<action>
+				<actionname>2, Set use policy</actionname>
+				<actiontype>setusepolicy</actiontype>
+				<actionbody>
+					<keylabel>tomato</keylabel>
+					<policy>
+						<capability>ReadUserData</capability>
+						<capability>WriteUserData</capability>
+					</policy>
+				</actionbody>
+				<actionresult>
+					<return>KErrPermissionDenied</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>3, Set management policy</actionname>
+				<actiontype>setmanagementpolicy</actiontype>
+				<actionbody>
+					<keylabel>tomato</keylabel>
+					<policy>
+						<capability>DRM</capability>
+						<capability>WriteDeviceData</capability>
+					</policy>
+				</actionbody>
+				<actionresult>
+					<return>KErrPermissionDenied</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>4, Delete key</actionname>
+				<actiontype>deletekeys</actiontype>
+				<actionbody>
+					<keylabel>tomato</keylabel>
+				</actionbody>
+				<actionresult>
+					<return>KErrPermissionDenied</return>
+				</actionresult>
+			</action>
+
+		</failactions>
+
+		<postactions>
+			<action>
+				<actionname>9, Close key store</actionname>
+				<actiontype>delete</actiontype>
+				<actionbody></actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</postactions>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+////////////////////////////////////////////////////////////////////////////////
+// 7. Test policing of other APIs
+////////////////////////////////////////////////////////////////////////////////
+
+// 7.1 Test set timeout is policed with WriteDeviceData capability
+
+<action>
+	<actionname>7.1, Test policing of set timeout</actionname>
+	<actiontype>policytest</actiontype>
+	<actionbody>
+		<testexe>t_keystore.exe</testexe>
+		<excludedcapabilities>
+			<capability>TCB</capability>
+		</excludedcapabilities>
+		<policy>
+			<capability>WriteDeviceData</capability>
+		</policy>
+
+		<preactions>
+			<action>
+				<actionname>Open key store in manager mode</actionname>
+				<actiontype>init</actiontype>
+				<actionbody>
+					<mode>manager</mode>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</preactions>
+
+		<passactions>
+			<action>
+				<actionname>0.7.2, Set passphrase timeout to "don't cache"</actionname>
+				<actiontype>settimeout</actiontype>
+				<actionbody>
+					<timeout>0</timeout>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</passactions>
+
+		<failactions>
+			<action>
+				<actionname>0.7.2, Set passphrase timeout to "don't cache"</actionname>
+				<actiontype>settimeout</actiontype>
+				<actionbody>
+					<timeout>0</timeout>
+				</actionbody>
+				<actionresult>
+					<return>KErrPermissionDenied</return>
+				</actionresult>
+			</action>
+		</failactions>
+
+		<postactions>
+			<action>
+				<actionname>Close key store</actionname>
+				<actiontype>delete</actiontype>
+				<actionbody></actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</postactions>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>7.2, Test policing of create and import by WriteUserData</actionname>
+	<actiontype>policytest</actiontype>
+	<actionbody>
+		<testexe>t_keystore.exe</testexe>
+		<excludedcapabilities>
+			<capability>TCB</capability>
+		</excludedcapabilities>
+		<policy>
+			<capability>WriteUserData</capability>
+		</policy>
+
+		<preactions>
+			<action>
+				<actionname>1, Open key store</actionname>
+				<actiontype>init</actiontype>
+				<actionbody>
+					<mode>manager</mode>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</preactions>
+
+		<passactions>
+			<action>
+				<actionname>2, Create key</actionname>
+				<actiontype>addkey</actiontype>
+				<actionbody>
+					<keyusage>allusagesbutNR</keyusage>
+					<keysize>512</keysize>
+					<keylabel>raspberry</keylabel>
+					<keyalgorithm>RSA</keyalgorithm>
+					<keyaccesstype>Extractable</keyaccesstype>
+					<keystore>0</keystore>
+					<passphrase>create pinkcloud</passphrase>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>3, Import key</actionname>
+				<actiontype>importkey</actiontype>
+				<actionbody>
+					<ImportData>pkcs8rsa.001</ImportData>
+					<keyusage>allusagesbutNR</keyusage>
+					<keylabel>blueberry</keylabel>
+					<keyaccesstype>Extractable</keyaccesstype>
+					<passphrase>pinkcloud</passphrase>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</passactions>
+
+		<failactions>
+			<action>
+				<actionname>2, Create key</actionname>
+				<actiontype>addkey</actiontype>
+				<actionbody>
+					<keyusage>allusagesbutNR</keyusage>
+					<keysize>512</keysize>
+					<keylabel>raspberry</keylabel>
+					<keyalgorithm>RSA</keyalgorithm>
+					<keyaccesstype>Extractable</keyaccesstype>
+					<keystore>0</keystore>
+				</actionbody>
+				<actionresult>
+					<return>KErrPermissionDenied</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>3, Import key</actionname>
+				<actiontype>importkey</actiontype>
+				<actionbody>
+					<ImportData>pkcs8rsa.001</ImportData>
+					<keyusage>allusagesbutNR</keyusage>
+					<keylabel>blueberry</keylabel>
+					<keyaccesstype>Extractable</keyaccesstype>
+				</actionbody>
+				<actionresult>
+					<return>KErrPermissionDenied</return>
+				</actionresult>
+			</action>
+		</failactions>
+
+		<postactions>
+			<action>
+				<actionname>5, Close key store</actionname>
+				<actiontype>delete</actiontype>
+				<actionbody></actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</postactions>
+
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>7.3, Test policing of list by ReadUserData</actionname>
+	<actiontype>policytest</actiontype>
+	<actionbody>
+		<testexe>t_keystore.exe</testexe>
+		<excludedcapabilities>
+			<capability>TCB</capability>
+		</excludedcapabilities>
+		<policy>
+			<capability>ReadUserData</capability>
+		</policy>
+
+		<preactions>
+			<action>
+				<actionname>1, Open key store</actionname>
+				<actiontype>init</actiontype>
+				<actionbody>
+					<mode>manager</mode>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</preactions>
+
+		<passactions>
+			<action>
+				<actionname>2, List keys</actionname>
+				<actiontype>listkeys</actiontype>
+				<actionbody>
+					<foundkey>raspberry</foundkey>
+					<foundkey>blueberry</foundkey>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</passactions>
+
+		<failactions>
+			<action>
+				<actionname>2, List keys</actionname>
+				<actiontype>listkeys</actiontype>
+				<actionbody>
+				</actionbody>
+				<actionresult>
+					<return>KErrPermissionDenied</return>
+				</actionresult>
+			</action>
+		</failactions>
+
+		<postactions>
+			<action>
+				<actionname>4, Close key store</actionname>
+				<actiontype>delete</actiontype>
+				<actionbody></actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</postactions>
+
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+////////////////////////////////////////////////////////////////////////////////
+// Cleanup
+////////////////////////////////////////////////////////////////////////////////
+
+<action>
+	<actionname>8.0, List keys</actionname>
+	<actiontype>listkeys</actiontype>
+	<actionbody>
+		<foundkey>raspberry</foundkey>
+		<foundkey>blueberry</foundkey>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>8.1, Delete keys</actionname>
+	<actiontype>deletekeys</actiontype>
+	<actionbody>
+		<deletecount>2</deletecount>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>8.2, Close key store</actionname>
+	<actiontype>delete</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>8.3, Sleep 5 seconds</actionname>
+	<actiontype>sleep</actiontype>
+	<actionbody>
+          <seconds>5</seconds>
+        </actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>8.4, Check for server heap error</actionname>
+	<actiontype>checkserverheaperror</actiontype>
+	<actionbody>
+    </actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>

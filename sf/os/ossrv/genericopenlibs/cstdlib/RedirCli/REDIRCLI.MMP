@@ -1,0 +1,48 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// redircli.dll C standard input/output stream handling (STDIN, STDOUT, STDERR)
+// 
+//
+
+/**
+ @file
+*/
+
+
+TARGET			redircli.dll
+CAPABILITY All -Tcb
+
+TARGETTYPE		dll
+
+SOURCEPATH	../RedirCli
+
+SOURCE			REDIRCLI.CPP STREAM.CPP
+
+LIBRARY			euser.lib
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+USERINCLUDE ../INC
+
+DEFFILE			redircli2.def
+
+NOSTRICTDEF
+
+START WINS
+BASEADDRESS		0x43550000
+END
+
+UID		0x1000008d 0x100053e3	// KSharedLibraryUid KUidRedirCli
+VENDORID 0x70000001
+
+
+SMPSAFE

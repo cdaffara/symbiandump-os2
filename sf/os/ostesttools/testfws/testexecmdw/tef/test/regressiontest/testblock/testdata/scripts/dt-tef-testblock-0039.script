@@ -1,0 +1,39 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SERVER te_RegBlockTestSuite 
+
+START_TESTCASE DT-TEF-TestBlock-0039
+//! @SYMTestCaseID          DT-TEF-TestBlock-0039
+//! @SYMCreationDate        03-07-2008
+//! @SYMAuthor              DavidZhang
+//! @SYMTestType            CT
+//! @SYMTestPriority        Medium
+//! @SYMTestCaseDesc        If a test  block expects result FAIL and several commands set the result to FAIL but the last command sets the block result to PASS then the test case must fail.
+//! @SYMTestExpectedResults The test case result must be FAIL.
+//! @SYMTestActions         1. Use a test block with a TEF parameter !Result=Fail.
+//!                         2. Call several commands that set the test block result to FAIL.
+//!                         3. Call a command that sets the test block result to PASS.
+	PRINT This test case will be failed.
+	START_TEST_BLOCK	100 te_RegBlockTestSuite ${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini
+		CREATE_OBJECT	te_RegBlockTestWrapper	DummyObj
+		COMMAND		DummyObj		SetBlockResult			BlockResult_Fail
+		COMMAND		DummyObj		SetBlockResult			BlockResult_Fail
+		COMMAND		DummyObj		SetBlockResult			BlockResult_Fail
+		COMMAND		DummyObj		SetBlockResult			BlockResult_Fail
+		COMMAND		DummyObj		SetBlockResult			BlockResult_Pass
+	END_TEST_BLOCK		!Result=Fail
+END_TESTCASE DT-TEF-TestBlock-0039

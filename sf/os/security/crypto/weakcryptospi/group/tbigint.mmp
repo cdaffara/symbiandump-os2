@@ -1,0 +1,50 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+/**
+@file
+
+@SYMPurpose tbigint.exe Test harness for bigint implementation
+*/
+
+TARGET	tbigint.exe
+TARGETTYPE	exe
+UID 0x10000079 0x10001011
+VENDORID 0x70000001
+
+SOURCEPATH	../test/tbigint
+SOURCE tbigintmain.cpp tconstructionvector.cpp tconstructionfb.cpp
+SOURCE tbasicmathsvector.cpp tbasicmathsfb.cpp
+SOURCE tmontgomeryvector.cpp tmontgomeryfb.cpp
+SOURCE tutils.cpp tprimevector.cpp tmontgomeryperformance.cpp
+SOURCE tprimegenperformance.cpp tprimevectorperformance.cpp
+SOURCE tprimegen.cpp tprimegenvector.cpp
+
+// Include bigint code, so we can test non-public functionality
+
+SOURCEPATH		../source/bigint
+SOURCE			windowslider.cpp algorithms.cpp bigint.cpp mont.cpp rinteger.cpp
+SOURCE			primes.cpp
+
+
+USERINCLUDE ../inc
+USERINCLUDE ../../../cryptomgmtlibs/securitytestfw/test/testhandler2
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+LIBRARY	euser.lib efsrv.lib t_testhandler2.lib random.lib
+SMPSAFE

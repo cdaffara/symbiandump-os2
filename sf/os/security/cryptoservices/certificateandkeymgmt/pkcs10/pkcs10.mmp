@@ -1,0 +1,55 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+/**
+@file
+
+@SYMPurpose pkcs10.dll Implements PKCS#10 certificate request
+*/
+
+TARGET        pkcs10.dll
+CAPABILITY 	  All -Tcb
+TARGETTYPE    DLL
+
+UID    0x1000008d 0x101F6B8C
+VENDORID 0x70000001
+
+USERINCLUDE ../inc
+SOURCEPATH	.
+
+SOURCE        pkcs10.cpp
+SOURCE 		  pkcs10attr.cpp
+SOURCE		  keyhelper.cpp
+SOURCE		  pkcs9attr.cpp
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+USERINCLUDE ../../../crypto/weakcrypto/inc
+
+LIBRARY euser.lib asn1.lib x500.lib x509.lib ctframework.lib hash.lib
+LIBRARY cryptography.lib crypto.lib
+
+START WINS
+    BASEADDRESS 0x745d0000
+END
+
+
+#ifdef WINSCW
+DEFFILE PKCS10.DEF
+#else
+DEFFILE pkcs10.def
+#endif
+SMPSAFE

@@ -1,0 +1,48 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SERVER te_RegBlockTestSuite -SharedData
+
+START_TESTCASE DT-TEF-TestBlock-0009
+//! @SYMTestCaseID          DT-TEF-TestBlock-0009
+//! @SYMCreationDate        03-07-2008
+//! @SYMAuthor              DavidZhang
+//! @SYMTestType            CT
+//! @SYMTestPriority        Medium
+//! @SYMTestCaseDesc        Use START_REPEAT and END_REPEAT to call a test block multiple times.
+//! @SYMTestExpectedResults The test completes without errors and the counter's value at the end of the test case must be 11.
+//! @SYMTestActions         1. Use a test block to create and store object
+//!                         2. Inside a START_REPEAT/END_REPEAT use a test block that restores the object, increases
+//!                         a counter's value and stores the object again.
+//!                         The START_REPEAT block is configured to be repeated 11 times.
+//!                         3. In the last test block check the counter's value, it should be equal to 11.
+	START_TEST_BLOCK	100 te_RegBlockTestSuite ${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini
+		CREATE_OBJECT	te_RegBlockTestWrapper	DummyObj
+		COMMAND		DummyObj			New				TestCase045_value_0
+		STORE		DummyObj
+	END_TEST_BLOCK
+	START_REPEAT	${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini TestCase045_times_to_repeat	times_to_repeat
+		START_TEST_BLOCK	100 te_RegBlockTestSuite ${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini
+			RESTORE_OBJECT	te_RegBlockTestWrapper	DummyObj
+			COMMAND		DummyObj			IncreaseObjectValue
+			STORE		DummyObj
+		END_TEST_BLOCK
+	END_REPEAT
+	START_TEST_BLOCK	100 te_RegBlockTestSuite ${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini
+		RESTORE_OBJECT	te_RegBlockTestWrapper	DummyObj
+		COMMAND		DummyObj			GetDataObject			TestCase045_value_11
+	END_TEST_BLOCK
+END_TESTCASE DT-TEF-TestBlock-0009

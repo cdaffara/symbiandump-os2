@@ -1,0 +1,65 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+/**
+@file
+
+@SYMPurpose t_certstore.exe Test harness for certification store
+*/
+
+TARGET	t_certstore.exe
+TARGETTYPE	exe
+
+UID 0x10000079 0x10001011
+VENDORID 0x70000001
+
+CAPABILITY WriteDeviceData ReadUserData WriteUserData
+
+SOURCEPATH	.
+SOURCE t_certstore.cpp
+SOURCE t_certstoreactions.cpp t_certstoreactionsclient.cpp
+SOURCE T_unifiedcertstoreremove.cpp
+SOURCE T_unifiedcertstoreapplications.cpp
+SOURCE T_unifiedcertstorecount.cpp
+SOURCE T_unifiedcertstorewritablecertstorecount.cpp
+SOURCE T_unifiedcertstorereadonlycertstorecount.cpp
+SOURCE T_unifiedcertstorecertstorecount.cpp
+SOURCE t_certstoreout.cpp t_certstoreactionsfilecertstore.cpp
+SOURCE T_certstoreactionshandle.cpp T_unifiedcertstoreactiongetcert.cpp
+SOURCE t_concurrentcertstore.cpp
+SOURCE T_ccttokentypeinfoattributes.cpp
+SOURCE t_certstoretests.cpp
+SOURCE T_unifiedcertstoreadd.cpp
+SOURCE t_filter.cpp
+SOURCE T_certstoreactionslistcertificates.cpp
+SOURCE t_retrieve.cpp
+SOURCE t_testcertfordeletable.cpp
+SOURCE t_swicertstoreactions.cpp 
+
+USERINCLUDE .
+USERINCLUDE ../tcertcommon
+USERINCLUDE ../../filebasedcertificateandkeystores/test/tfiletokens
+USERINCLUDE ../../../crypto/weakcrypto/inc
+USERINCLUDE ../../../cryptomgmtlibs/securitytestfw/test/testhandler2
+USERINCLUDE ../../../cryptomgmtlibs/securitytestfw/test/testutil/client
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+LIBRARY	euser.lib estor.lib efsrv.lib x509.lib certstore.lib wtlscert.lib
+LIBRARY ctframework.lib t_testhandler2.lib ecom.lib tfiletokens.lib testutilclient.lib
+LIBRARY ctfinder.lib swicertstore.lib crypto.lib x500.lib
+SMPSAFE

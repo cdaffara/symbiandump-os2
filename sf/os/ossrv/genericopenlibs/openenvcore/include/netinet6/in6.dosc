@@ -1,0 +1,820 @@
+/** @file ../include/netinet6/in6.h
+@internalComponent
+*/
+
+/** @struct in6_addr
+
+IPv6 address
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @var in6_addr::__u6_addr
+128-bit IP6 address
+*/
+
+/** @def  s6_addr
+
+__u6_addr.__u6_addr8
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def  INET6_ADDRSTRLEN
+
+INTET6 address length
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @struct sockaddr_in6
+
+Socket address for IPv6
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @var sockaddr_in6::sin6_family
+AF_INET6
+*/
+
+/** @var sockaddr_in6::sin6_port
+Transport layer port X
+*/
+
+/** @var sockaddr_in6::sin6_addr
+IP6 address 
+*/
+
+/** @var sockaddr_in6::sin6_flowinfo
+IP6 flow information
+*/
+
+/** @var sockaddr_in6::sin6_scope_id
+scope zone index 
+*/
+
+/** @var sockaddr_in6::sin6_len
+length of this struct
+*/
+
+
+/** @def IN6ADDR_ANY_INIT
+
+To handle IP6 addresses
+
+@publishedAll
+@released
+*/
+
+
+/** @def IN6ADDR_LOOPBACK_INIT
+
+To handle IP6 addresses
+
+@publishedAll
+@released
+*/
+
+
+/** @def IN6ADDR_NODELOCAL_ALLNODES_INIT 
+
+To handle IP6 addresses
+
+@publishedAll
+@released
+*/
+
+
+/** @def IN6ADDR_INTFACELOCAL_ALLNODES_INIT 
+
+To handle IP6 addresses
+
+@publishedAll
+@released
+*/
+
+
+/** @def IN6ADDR_LINKLOCAL_ALLNODES_INIT 
+
+To handle IP6 addresses
+
+@publishedAll
+@released
+*/
+
+
+/** @def IN6ADDR_LINKLOCAL_ALLROUTERS_INIT 
+
+To handle IP6 addresses
+
+@publishedAll
+@released
+*/
+
+
+/** @def IN6_ARE_ADDR_EQUAL(a, b)
+
+Equality. NOTE: Some of kernel programming environment (for example, openbsd or sparc) does not supply memcmp().  For userland memcmp() is preferred as it is in ANSI standard.
+
+@publishedAll
+@released
+*/
+
+
+/** @def IN6_IS_ADDR_UNSPECIFIED(a)
+
+Unspecified
+
+@publishedAll
+@released
+*/
+
+
+/** @def IN6_IS_ADDR_LOOPBACK(a)	
+
+Loopback
+
+@publishedAll
+@released
+*/
+
+
+/** @def IN6_IS_ADDR_V4COMPAT(a)
+
+IPv4 compatible
+
+@publishedAll
+@released
+*/
+
+
+/** @def IN6_IS_ADDR_V4MAPPED(a)	
+
+Mapped
+
+@publishedAll
+@released
+*/
+
+
+
+/** @def IN6_IS_ADDR_LINKLOCAL(a)
+
+Unicast Scope. Note that we must check topmost 10 bits only, not 16 bits (see RFC2373).
+
+@publishedAll
+@released
+*/
+
+
+/** @def IN6_IS_ADDR_MC_NODELOCAL(a)
+
+Multicast Scope
+
+@publishedAll
+@released
+*/
+
+
+/** @def IN6_IS_ADDR_MC_LINKLOCAL(a) 
+
+Multicast Scope
+
+@publishedAll
+@released
+*/
+
+
+/** @def IN6_IS_ADDR_MC_SITELOCAL(a)
+
+Multicast Scope
+
+@publishedAll
+@released
+*/
+
+
+/** @def IN6_IS_ADDR_MC_ORGLOCAL(a)
+
+Multicast Scope
+
+@publishedAll
+@released
+*/
+
+/** @def IN6_IS_ADDR_MC_GLOBAL(a)
+
+Multicast Scope
+
+@publishedAll
+@released
+*/
+
+
+
+/** @def  IPV6_UNICAST_HOPS
+
+int; IP6 hops
+	
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def  IPV6_MULTICAST_IF	
+
+u_int; set or get IP6 multicast if
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def  IPV6_MULTICAST_HOPS	
+
+int; set or get IP6 multicast hops 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def  IPV6_MULTICAST_LOOP	
+
+u_int; set or get IP6 multicast loopback
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @struct ipv6_mreq	
+
+Argument structure for IPV6_JOIN_GROUP and IPV6_LEAVE_GROUP.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def IPV6_SOCKOPT_RESERVED1	
+
+reserved for future use
+
+@publishedAll
+@released
+*/
+
+/** @def IPV6_JOIN_GROUP	
+
+ip6_mreq; join a group membership
+	
+@publishedAll
+@released
+*/
+
+
+/** @def IPV6_LEAVE_GROUP	
+
+ip6_mreq; leave a group membership 
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPV6_PORTRANGE		
+
+int; range to choose for unspec port
+
+@publishedAll
+@released
+*/
+
+
+/** @def ICMP6_FILTER		
+
+icmp6_filter; icmp6 filter
+
+@publishedAll
+@released
+*/
+
+
+
+/** @def IPV6_RTHDRDSTOPTS	
+
+ip6_dest; send dst option before rthdr
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPV6_RECVPKTINFO	
+
+bool; recv if, dst addr 
+
+@publishedAll
+@released
+*/
+
+
+
+/** @def IPV6_RECVHOPLIMIT	
+
+bool; recv hop limit
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPV6_RECVRTHDR		
+
+bool; recv routing header
+
+@publishedAll
+@released
+*/
+
+
+
+/** @def IPV6_RECVHOPOPTS	
+
+bool; recv hop-by-hop option
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPV6_RECVPKTINFO	
+
+bool; recv if, dst addr
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPV6_RECVHOPLIMIT	
+
+bool; recv hop limit
+
+@publishedAll
+@released
+*/
+
+/** @def IPV6_RECVRTHDR		
+
+bool; recv routing header 
+
+@publishedAll
+@released
+*/
+
+/** @def IPV6_RECVHOPOPTS	
+
+bool; recv hop-by-hop option
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPV6_RECVDSTOPTS	
+
+bool; recv dst option after rthdr
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPV6_USE_MIN_MTU	
+
+bool; send packets at the minimum MTU
+
+@publishedAll
+@released
+*/
+
+
+
+/** @def IPV6_RECVPATHMTU	
+
+bool; notify an according MTU
+
+@publishedAll
+@released
+*/
+
+
+
+/** @def IPV6_PATHMTU		
+
+mtuinfo; get the current path MTU (sopt), 4 bytes int; MTU notification (cmsg)
+@publishedAll
+@released
+*/
+
+
+/** @def IPV6_PKTINFO		
+
+in6_pktinfo; send if, src addr
+
+@publishedAll
+@released
+*/
+
+/** @def IPV6_HOPLIMIT	
+
+int; send hop limit
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPV6_NEXTHOP		
+
+sockaddr; next hop addr 
+
+@publishedAll
+@released
+*/
+
+/** @def IPV6_DSTOPTS		
+
+ip6_dest; send dst option befor rthdr
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPV6_RTHDR		
+
+new socket options introduced in RFC3542. ip6_dest; send dst option before rthdr
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPV6_PORTRANGE_DEFAULT	
+
+Argument for IPV6_PORTRANGE: - which range to search when port is unspecified at bind() or connect(). default range.
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPV6_PORTRANGE_HIGH	
+
+Argument for IPV6_PORTRANGE: - which range to search when port is unspecified at bind() or connect()."high" - request firewall bypass
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPV6_PORTRANGE_LOW	
+
+Argument for IPV6_PORTRANGE: - which range to search when port is unspecified at bind() or connect(). "low" - vouchsafe security
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPV6PROTO_MAXID	
+
+Definitions for inet6 sysctl operations.
+
+@publishedAll
+@released
+*/
+
+
+/** @def  IPV6CTL_FORWARDING	
+
+Names for IP sysctl objects. act as router.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def  IPV6CTL_RTEXPIRE	
+
+cloned route expiration time
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def  IPV6CTL_RTMINEXPIRE	
+
+min value for expiration time
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def  IPV6CTL_RTMAXCACHE	
+
+trigger level for dynamic expire 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def  IPV6CTL_RR_PRUNE	
+
+Names for IP sysctl objects. walk timer for router renumbering.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def  IPV6CTL_USE_DEPRECATED	
+
+Names for IP sysctl objects. use deprecated addr (RFC2462 5.5.4)
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def  IPV6CTL_KAME_VERSION	
+
+Names for IP sysctl objects. 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def  IPV6CTL_GIF_HLIM	
+
+Names for IP sysctl objects. default HLIM for gif encap packet.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def  IPV6CTL_DEFMCASTHLIM		
+
+Names for IP sysctl objects. 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def  IPV6CTL_DAD_COUNT	
+
+Names for IP sysctl objects. 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def  IPV6CTL_AUTO_FLOWLABEL
+
+Names for IP sysctl objects. 
+	
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def  IPV6CTL_KEEPFAITH	
+
+Names for IP sysctl objects. 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def  IPV6CTL_LOG_INTERVAL	
+
+Names for IP sysctl objects. 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def  IPV6CTL_HDRNESTLIMIT	
+
+Names for IP sysctl objects. 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def  IPV6CTL_SENDREDIRECTS	
+
+Names for IP sysctl objects. may send redirects when forwarding.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def  IPV6CTL_DEFHLIM	
+
+Names for IP sysctl objects. default Hop-Limit.
+	
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def  IPV6CTL_MAXFRAGPACKETS	
+
+max packets reassembly queue
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def  IPV6CTL_ACCEPT_RTADV	
+
+Names for IP sysctl objects
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def IPV6CTL_FORWSRCRT	
+
+forward source-routed dgrams
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPV6CTL_STATS		
+
+stats
+
+@publishedAll
+@released
+*/
+
+/** @def IPV6CTL_MRTSTATS	
+
+multicast forwarding stats
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPV6CTL_MRTPROTO	
+
+multicast routing protocol
+
+@publishedAll
+@released
+*/
+
+
+
+/** @def IPV6CTL_SOURCECHECK	
+
+verify source route and intf 
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPV6CTL_SOURCECHECK_LOGINT 
+
+minimume logging interval
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPV6CTL_V6ONLY		
+
+cloned route expiration time 
+
+@publishedAll
+@released
+*/
+
+/** @def IPV6CTL_USETEMPADDR	
+
+use temporary addresses (RFC3041)
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPV6CTL_TEMPPLTIME	
+
+preferred lifetime for tmpaddrs
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPV6CTL_TEMPVLTIME	
+
+valid lifetime for tmpaddrs
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPV6CTL_AUTO_LINKLOCAL	
+
+automatic link-local addr assign
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPV6CTL_RIP6STATS	
+
+raw_ip6 stats
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPV6CTL_PREFER_TEMPADDR	
+
+prefer temporary addr as src
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPV6CTL_ADDRCTLPOLICY	
+
+get or set address selection policy
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPV6CTL_MAXFRAGS	
+
+max fragments
+
+@publishedAll
+@released
+*/
+
+
+/** @def IPV6CTL_STEALTH	
+
+New entries should be added here from current IPV6CTL_MAXID value. to define items, should talk with KAME guys first, for BSD compatibility 42-44 is already used in KAME 	
+
+@publishedAll
+@released
+*/
+
+
+
+/** @def IPV6CTL_MAXID		
+
+MAXID
+
+@publishedAll
+@released
+*/
+
+
+
+
+

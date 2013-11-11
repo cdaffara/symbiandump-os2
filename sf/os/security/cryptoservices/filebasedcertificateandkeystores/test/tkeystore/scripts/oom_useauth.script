@@ -1,0 +1,378 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+START_TESTCASE                SEC-OOM_USEAUTH-0001
+
+//! @SYMTestCaseID            SEC-OOM_USEAUTH-0001
+
+//! @SYMTestCaseDesc          
+
+//! @SYMTestActions           1) 1, Delete keystore data file
+
+//!                           2) None
+
+RUN_TEST_STEP                 -1    CTestHandler        deletekeystoredata  
+
+RUN_TEST_STEP                 -1    CTestHandler        startmemfailure     
+
+END_TESTCASE                  SEC-OOM_USEAUTH-0001
+
+
+
+
+
+START_TESTCASE                SEC-OOM_USEAUTH-0002
+
+//! @SYMTestCaseID            SEC-OOM_USEAUTH-0002
+
+//! @SYMTestCaseDesc          Start of testing
+
+//! @SYMTestActions           1) 1.2,Opening key store in manager mode
+
+//!                           2) 1.2.0.1 NOT A TEST Delete everything
+
+//!                           3) 2,Add a key
+
+RUN_TEST_STEP                 -1    CTestHandler        init                   oom_useauth.ini   SEC-OOM_USEAUTH-0002-001
+
+RUN_TEST_STEP                 -1    CTestHandler        deletekeys          
+
+RUN_TEST_STEP                 -1    CTestHandler        addkey                 oom_useauth.ini   SEC-OOM_USEAUTH-0002-003
+
+END_TESTCASE                  SEC-OOM_USEAUTH-0002
+
+
+
+
+
+START_TESTCASE                SEC-OOM_USEAUTH-0003
+
+//! @SYMTestCaseID            SEC-OOM_USEAUTH-0003
+
+//! @SYMTestCaseDesc          /////////////////////////////////////////////////////////////////////////////
+
+//!                           Test case 3: List the keys, should only find "Banana"
+
+//!                           /////////////////////////////////////////////////////////////////////////////
+
+//! @SYMTestActions           1) 3 List everything
+
+//!                           2) 3.1,Get it again
+
+//!                           3) 3.2,Open it
+
+//!                           4) 3.3,Open a banana for decrypt
+
+//!                           5) 3.4, Sign with a banana, 20 char text
+
+//!                           6) 3.5, Sign digest with a banana
+
+//!                           7) 3.6, Decrypt with a banana
+
+RUN_TEST_STEP                 -1    CTestHandler        listkeys               oom_useauth.ini   SEC-OOM_USEAUTH-0003-001
+
+RUN_TEST_STEP                 -1    CTestHandler        getkeyinfo             oom_useauth.ini   SEC-OOM_USEAUTH-0003-002
+
+RUN_TEST_STEP                 -1    CTestHandler        open                   oom_useauth.ini   SEC-OOM_USEAUTH-0003-003
+
+RUN_TEST_STEP                 -1    CTestHandler        open                   oom_useauth.ini   SEC-OOM_USEAUTH-0003-004
+
+RUN_TEST_STEP                 -1    CTestHandler        sign                   oom_useauth.ini   SEC-OOM_USEAUTH-0003-005
+
+RUN_TEST_STEP                 -1    CTestHandler        sign                   oom_useauth.ini   SEC-OOM_USEAUTH-0003-006
+
+RUN_TEST_STEP                 -1    CTestHandler        decrypt                oom_useauth.ini   SEC-OOM_USEAUTH-0003-007
+
+END_TESTCASE                  SEC-OOM_USEAUTH-0003
+
+
+
+
+
+START_TESTCASE                SEC-OOM_USEAUTH-0004
+
+//! @SYMTestCaseID            SEC-OOM_USEAUTH-0004
+
+//! @SYMTestCaseDesc          /////////////////////////////////////////////////////////////////////////////
+
+//!                           Test case 4: Delete "Banana" key
+
+//!                           /////////////////////////////////////////////////////////////////////////////
+
+//! @SYMTestActions           1) 4. Delete the key
+
+RUN_TEST_STEP                 -1    CTestHandler        deletekeys             oom_useauth.ini   SEC-OOM_USEAUTH-0004-001
+
+END_TESTCASE                  SEC-OOM_USEAUTH-0004
+
+
+
+
+
+START_TESTCASE                SEC-OOM_USEAUTH-0005
+
+//! @SYMTestCaseID            SEC-OOM_USEAUTH-0005
+
+//! @SYMTestCaseDesc          /////////////////////////////////////////////////////////////////////////////
+
+//!                           Test case 5: List the keys, should find nothing
+
+//!                           /////////////////////////////////////////////////////////////////////////////
+
+//! @SYMTestActions           1) 5 List everything
+
+//!                           2) 6,Add a larger key
+
+//!                           3) 7,Add a key with a very long label
+
+//!                           4) 8,Get that key again
+
+//!                           5) 9,Open that key again
+
+//!                           6) 1.1.5.6,Add a key
+
+//!                           7) 1.1.5.6.1, Sign with a carrot, 20 char text
+
+//!                           8) 1.1.5.7,Add a key
+
+//!                           9) 1.1.5.7.1,Open it
+
+//!                           10) 1.1.5.7.2, Test derive
+
+//!                           11) 10,Add a key with illegal usage
+
+//!                           12) 11,Add a key with illegal usage
+
+//!                           13) 12,Add a key with illegal usage
+
+//!                           14) 13 List everything (including illegal usage keys)
+
+//!                           15) 14 List DSA keys (including illegal usage keys)
+
+//!                           16) 15 List Sign-usage keys (including illegal usage keys)
+
+//!                           17) 16 List 'All usages' keys (including illegal usage keys)
+
+//!                           18) 17, Delete RSA keys
+
+//!                           19) 18 List RSA keys
+
+//!                           20) 19 List everything (including illegal usage keys)
+
+//!                           21) 20,Add a key that was previously deleted
+
+//!                           22) 21 List RSA keys
+
+//!                           23) 22 List everything (including illegal usage keys)
+
+//!                           24) 23, Delete it again
+
+//!                           25) 24, Delete everything
+
+//!                           26) 25 List everything
+
+RUN_TEST_STEP                 -1    CTestHandler        listkeys               oom_useauth.ini   SEC-OOM_USEAUTH-0005-001
+
+RUN_TEST_STEP                 -1    CTestHandler        addkey                 oom_useauth.ini   SEC-OOM_USEAUTH-0005-002
+
+RUN_TEST_STEP                 -1    CTestHandler        addkey                 oom_useauth.ini   SEC-OOM_USEAUTH-0005-003
+
+RUN_TEST_STEP                 -1    CTestHandler        getkeyinfo             oom_useauth.ini   SEC-OOM_USEAUTH-0005-004
+
+RUN_TEST_STEP                 -1    CTestHandler        open                   oom_useauth.ini   SEC-OOM_USEAUTH-0005-005
+
+RUN_TEST_STEP                 -1    CTestHandler        addkey                 oom_useauth.ini   SEC-OOM_USEAUTH-0005-006
+
+RUN_TEST_STEP                 -1    CTestHandler        sign                   oom_useauth.ini   SEC-OOM_USEAUTH-0005-007
+
+RUN_TEST_STEP                 -1    CTestHandler        addkey                 oom_useauth.ini   SEC-OOM_USEAUTH-0005-008
+
+RUN_TEST_STEP                 -1    CTestHandler        open                   oom_useauth.ini   SEC-OOM_USEAUTH-0005-009
+
+RUN_TEST_STEP                 -1    CTestHandler        derive                 oom_useauth.ini   SEC-OOM_USEAUTH-0005-010
+
+RUN_TEST_STEP                 -1    CTestHandler        addkey                 oom_useauth.ini   SEC-OOM_USEAUTH-0005-011
+
+RUN_TEST_STEP                 -1    CTestHandler        addkey                 oom_useauth.ini   SEC-OOM_USEAUTH-0005-012
+
+RUN_TEST_STEP                 -1    CTestHandler        addkey                 oom_useauth.ini   SEC-OOM_USEAUTH-0005-013
+
+RUN_TEST_STEP                 -1    CTestHandler        listkeys               oom_useauth.ini   SEC-OOM_USEAUTH-0005-014
+
+RUN_TEST_STEP                 -1    CTestHandler        listkeys               oom_useauth.ini   SEC-OOM_USEAUTH-0005-015
+
+RUN_TEST_STEP                 -1    CTestHandler        listkeys               oom_useauth.ini   SEC-OOM_USEAUTH-0005-016
+
+RUN_TEST_STEP                 -1    CTestHandler        listkeys               oom_useauth.ini   SEC-OOM_USEAUTH-0005-017
+
+RUN_TEST_STEP                 -1    CTestHandler        deletekeys             oom_useauth.ini   SEC-OOM_USEAUTH-0005-018
+
+RUN_TEST_STEP                 -1    CTestHandler        listkeys               oom_useauth.ini   SEC-OOM_USEAUTH-0005-019
+
+RUN_TEST_STEP                 -1    CTestHandler        listkeys               oom_useauth.ini   SEC-OOM_USEAUTH-0005-020
+
+RUN_TEST_STEP                 -1    CTestHandler        addkey                 oom_useauth.ini   SEC-OOM_USEAUTH-0005-021
+
+RUN_TEST_STEP                 -1    CTestHandler        listkeys               oom_useauth.ini   SEC-OOM_USEAUTH-0005-022
+
+RUN_TEST_STEP                 -1    CTestHandler        listkeys               oom_useauth.ini   SEC-OOM_USEAUTH-0005-023
+
+RUN_TEST_STEP                 -1    CTestHandler        deletekeys             oom_useauth.ini   SEC-OOM_USEAUTH-0005-024
+
+RUN_TEST_STEP                 -1    CTestHandler        deletekeys             oom_useauth.ini   SEC-OOM_USEAUTH-0005-025
+
+RUN_TEST_STEP                 -1    CTestHandler        listkeys               oom_useauth.ini   SEC-OOM_USEAUTH-0005-026
+
+END_TESTCASE                  SEC-OOM_USEAUTH-0005
+
+
+
+
+
+START_TESTCASE                SEC-OOM_USEAUTH-0006
+
+//! @SYMTestCaseID            SEC-OOM_USEAUTH-0006
+
+//! @SYMTestCaseDesc          Test importing keys
+
+//! @SYMTestActions           1) 26, Import a PKCS5 encrypted DSA key
+
+//!                           2) 27, List DSA keys (TEST ID: GT0140-KEY001)
+
+//!                           3) 28, Delete everything
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              oom_useauth.ini   SEC-OOM_USEAUTH-0006-001
+
+RUN_TEST_STEP                 -1    CTestHandler        listkeys               oom_useauth.ini   SEC-OOM_USEAUTH-0006-002
+
+RUN_TEST_STEP                 -1    CTestHandler        deletekeys             oom_useauth.ini   SEC-OOM_USEAUTH-0006-003
+
+END_TESTCASE                  SEC-OOM_USEAUTH-0006
+
+
+
+
+
+START_TESTCASE                SEC-OOM_USEAUTH-0007
+
+//! @SYMTestCaseID            SEC-OOM_USEAUTH-0007
+
+//! @SYMTestCaseDesc          Test export
+
+//! @SYMTestActions           1) 1.1.1 Import a RSA key
+
+//!                           2) 1.1.5 Export a RSA key
+
+//!                           3) 1.4.1 Import a DSA key
+
+//!                           4) 1.4.6 Export a DSA key
+
+//!                           5) 1.7.6 Export a RSA key in encrypted format
+
+//!                           6) 1.9.6 Export a DSA key in encrypted format
+
+//!                           7) 1.10.0 NOT A TEST Delete everything 
+
+                    ** Basic sanity check for PKCS8 encrypted DSA key import/export **
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              oom_useauth.ini   SEC-OOM_USEAUTH-0007-001
+
+RUN_TEST_STEP                 -1    CTestHandler        exportkey              oom_useauth.ini   SEC-OOM_USEAUTH-0007-002
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              oom_useauth.ini   SEC-OOM_USEAUTH-0007-003
+
+RUN_TEST_STEP                 -1    CTestHandler        exportkey              oom_useauth.ini   SEC-OOM_USEAUTH-0007-004
+
+RUN_TEST_STEP                 -1    CTestHandler        exportkey              oom_useauth.ini   SEC-OOM_USEAUTH-0007-005
+
+RUN_TEST_STEP                 -1    CTestHandler        exportkey              oom_useauth.ini   SEC-OOM_USEAUTH-0007-006
+
+RUN_TEST_STEP                 -1    CTestHandler        deletekeys          
+
+END_TESTCASE                  SEC-OOM_USEAUTH-0007
+
+
+
+
+
+START_TESTCASE                SEC-OOM_USEAUTH-0008
+
+//! @SYMTestCaseID            SEC-OOM_USEAUTH-0008
+
+//! @SYMTestCaseDesc          testing new apis for keystore
+
+//! @SYMTestActions           1) 1.0.0.1.0,Add a key (TEST ID: GT0140-KEY002 and GT0140-KEY003)
+
+//!                           2) 1.0.0.51.1, Get it again
+
+//!                           3) Set a new authentication policy for a key
+
+//!                           4) Gets authentication policy for a key
+
+//!                           5) 1.1.0 Import a RSA key
+
+//!                           6) 1.1.5 Export a RSA key
+
+//!                           7) 1.12.0.14 Import a PKCS5 encrypted RSA key previously exported with ECipher3DES_CBC
+
+RUN_TEST_STEP                 -1    CTestHandler        addkey                 oom_useauth.ini   SEC-OOM_USEAUTH-0008-001
+
+RUN_TEST_STEP                 -1    CTestHandler        getkeyinfo             oom_useauth.ini   SEC-OOM_USEAUTH-0008-002
+
+RUN_TEST_STEP                 -1    CTestHandler        authenticationpolicy   oom_useauth.ini   SEC-OOM_USEAUTH-0008-003
+
+RUN_TEST_STEP                 -1    CTestHandler        authenticationpolicy   oom_useauth.ini   SEC-OOM_USEAUTH-0008-004
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              oom_useauth.ini   SEC-OOM_USEAUTH-0008-005
+
+RUN_TEST_STEP                 -1    CTestHandler        exportkey              oom_useauth.ini   SEC-OOM_USEAUTH-0008-006
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              oom_useauth.ini   SEC-OOM_USEAUTH-0008-007
+
+END_TESTCASE                  SEC-OOM_USEAUTH-0008
+
+
+
+
+
+START_TESTCASE                SEC-OOM_USEAUTH-0009
+
+//! @SYMTestCaseID            SEC-OOM_USEAUTH-0009
+
+//! @SYMTestCaseDesc          End of testing
+
+//! @SYMTestActions           1) 29,Closing key store
+
+//!                           2) 999.1
+
+//!                           3) 999.2, Sleep 5 seconds
+
+//!                           4) 999.3, Check for server heap error
+
+RUN_TEST_STEP                 -1    CTestHandler        delete              
+
+RUN_TEST_STEP                 -1    CTestHandler        stopmemfailure      
+
+RUN_TEST_STEP                 -1    CTestHandler        sleep                  oom_useauth.ini   SEC-OOM_USEAUTH-0009-003
+
+RUN_TEST_STEP                 -1    CTestHandler        checkserverheaperror
+
+END_TESTCASE                  SEC-OOM_USEAUTH-0009
+
+
+
+
+

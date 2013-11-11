@@ -1,0 +1,46 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// @file
+// 
+//
+
+//! @SYMTestSuiteName PDS-TEF-CENTREP-SWISUITE
+//! @SYMScriptTestEnvironment TEF
+//! @internalComponent
+//! @test
+
+PRINT Run te_centrep_SWIdefect SWI Defect Tests
+
+LOAD_SUITE te_centrep_SWISuite
+
+RUN_UTILS MkDir c:\private\
+
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551bad.cre
+RUN_UTILS DeleteFile c:\private\10202be9\51551bad.cre
+
+START_TESTCASE SYSLIB-CENTRALREPOSITORY-CIT-1893 // DEF091759
+//! @SYMTestCaseID SYSLIB-CENTRALREPOSITORY-CIT-1893
+//! @SYMTestCaseDesc Recoverable errors during installation of repositories are not handled
+//! @SYMTestPriority High
+//! @SYMTestActions  Check that repository doesn't exist, install corrupt repository, observe no panic (KErrCorrupt leave 
+//!		    successfully handled by Centrep), check after install to see the corrupt file deleted
+//! @SYMTestExpectedResults The test must not panic. SWI will fail but Centrep server will handle leave condition gracefully
+//! @SYMDEF DEF091759 
+
+	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryCheck z:\TEF_CentralRepository\SWI-KSD.ini BeforeStart
+	RUN_TEST_STEP 100 te_centrep_SWISuite InstallStep z:\TEF_CentralRepository\SWI-KSD.ini Install_KSD
+END_TESTCASE SYSLIB-CENTRALREPOSITORY-CIT-1893 // DEF091759 
+
+RUN_UTILS DeleteFile c:\private\10202be9\persists\51551bad.cre
+RUN_UTILS DeleteFile c:\private\10202be9\51551bad.cre

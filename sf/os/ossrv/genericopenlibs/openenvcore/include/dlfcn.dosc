@@ -1,0 +1,212 @@
+/** @file ../include/dlfcn.h
+@internalComponent
+*/
+
+/** @fn  dlopen(const char *filename, int flag)
+@param filename
+@param flag
+Note: This description also covers the following functions -
+ dlsym()  dlerror()  dlclose() 
+
+@code
+ RTLD_LAZY In the current implementation this flag causes the external function names to be resolved
+ prior to returning from dlopen.
+ RTLD_NOW In the current implementation this flag causes the external function names to be resolved
+ prior to returning from dlopen.
+
+@endcode
+@code
+ RTLD_GLOBAL Symbols exported from this shared library object will not be available
+ for the processing of relocation addresses of any other shared library object.
+ RTLD_LOCAL Symbols exported from this shared library object will not be available
+ for the processing of relocation of addresses in any other shared library object.
+
+@endcode
+  These functions provide interfaces to the services of the Symbian Loader 
+Server. Operations are provided to load dynamic link libraries (DLLs) into the 
+current process's address space, to obtain the address bindings of symbols 
+exported by the DLLs, and to remove the DLLs from the process's address space 
+when they are no longer required.
+
+ The dlopen function loads the DLL specified in the filename argument and returns a descriptor if successful. The descriptor 
+  returned can be used for later references to the DLL within the calls to dlsym and dlclose. The user side code should not attempt to modify or interpret 
+  the value of the descriptor returned by dlopen.
+
+ If the DLL specified by the filename argument is not in the address space prior to the call to dlopen, it is loaded into the address space. When the DLL is first 
+  loaded into the address space constructors of the DLL's global objects 
+  are invoked. If the DLL specified by the filename argument has already been placed in the process's address 
+  space in a previous call to dlopen, invoking dlopen on the same DLL does not add it a second time, instead the 
+  reference count of dlopen operations on that DLL is incremented. Invoking dlclose on the DLL handle decrements the reference count associated 
+  with the DLL. When this reference count reaches zero, the DLL is unloaded from 
+  the process address space. dlopen returns NULL if path argument is NULL.
+
+ The mode parameter determines the type of operation performed by dlopen with respect to the symbol address relocations and the visibility 
+  of the symbols to other shared libraries loaded by the process. The mode argument has the same effect regardless of its value: It is to 
+  resolve all the external function references immediately within dlopen. This is because the external function references are bound 
+  immediately by dlopen. For all practical purposes, therefore, the mode parameter's value is assumed to be RTLD_NOW ORed with RTLD_LOCAL. 
+  Once a DLL is loaded into the address space, all the symbols exported by it 
+  can only be accessed by specifying the handle associated with the DLL. The behaviour 
+  is outlined below.
+
+ mode must contain one of the following values, possibly ORed with additional 
+  flags described below: RTLD_LAZY In the current implementation this flag causes the external function names to be resolved
+prior to returning from dlopen. RTLD_NOW In the current implementation this flag causes the external function names to be resolved
+prior to returning from dlopen.
+
+ One of the following flags may be ORed into the mode argument: RTLD_GLOBAL Symbols exported from this shared library object will not be available
+for the processing of relocation addresses of any other shared library object. RTLD_LOCAL Symbols exported from this shared library object will not be available
+for the processing of relocation of addresses in any other shared library object.
+
+ If path argument contains a slash character the entire argument is used 
+  as the pathname for the file. C: is considered to be the root and C:\\ is prefixed 
+  to the path argument to locate the shared library object. If path contains just the name of the shared library to be loaded, the 
+  default location is sys\\bin. The string in the path argument is limited to a maximum of 256 characters.
+
+ dlopen returns the handle for the dynamic library loaded into the address space
+of the current process.
+
+ dlsym function returns the address binding of the symbol associated 
+  with the ordinal number. The NULL-terminated character string symbol contains the ordinal number (address lookup is based on ordinal 
+  number). The symbols exported by shared DLLs added to the address space by dlopen can be accessed only through calls to dlsym.
+
+ Symbol names per se are not searched. Instead dlsym locates the ordinal number corresponding to a symbol name and 
+  returns the address of the memory location where the symbol is loaded. Ordinal 
+  numbers therefore form the basis of the name lookup. Since all handles have 
+  to be identified explicitly (that is, as returned by dlopen ), dlsym returns NULL when presented with special handles such as RTLD_NEXT, 
+  RTLD_SELF and RTLD_DEFAULT. The implementation treats a NULL handle passed to dlsym as an error and returns NULL.
+
+ The dlsym function returns a null pointer if the symbol (ordinal) cannot 
+  be found and sets an error condition which may be queried with dlerror.
+
+ The dlerror function
+returns a null-terminated character string describing the last error that
+occurred during a call to dlopen, dlsym,
+or dlclose.
+If no such error has occurred, dlerror returns a null pointer.
+At each call to dlerror,
+the error indication is reset.
+Thus in the case of two calls
+to dlerror,
+where the second call follows the first immediately, the second call
+will always return a null pointer.
+
+ The dlclose function deletes a reference to the DLL referenced by handle. If the reference count drops to 0, the DLL is removed from the 
+  address space and handle is rendered invalid. Just before removing the DLL from the current 
+  process's address space the destructors of the DLL's global objects 
+  are invoked. If dlclose is successful it returns 0. Otherwise it returns -1 and sets 
+  an error condition that can be interrogated with dlerror.
+
+
+
+Notes:
+
+ The ordinal numbers associated with the functions in a DLL are in the DLL's 
+.def file.
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  dlsym(void *  handle, const char *  symbol)
+@param handle
+@param symbol
+Refer to  dlopen() for the documentation
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @fn  dlerror(void)
+
+Refer to  dlopen() for the documentation
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  dlclose(void *handle)
+@param handle
+Refer to  dlopen() for the documentation
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @def RTLD_LAZY
+
+Modes and flags for dlopen(). Bind function calls lazily. 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def RTLD_NOW
+
+Modes and flags for dlopen(). Bind function calls immediately. 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def RTLD_GLOBAL
+
+Modes and flags for dlopen(). Make symbols globally available.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def RTLD_LOCAL	
+
+Modes and flags for dlopen(). Opposite of RTLD_GLOBAL, and the default. 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def RTLD_NEXT	
+
+Special handle arguments for dlsym()/dlinfo(). Search subsequent objects.
+
+@publishedAll
+@released
+*/
+
+
+/** @def RTLD_DEFAULT	
+
+Special handle arguments for dlsym()/dlinfo(). Use default search algorithm.
+
+@publishedAll
+@released
+*/
+
+
+/** @def RTLD_SELF	
+
+Special handle arguments for dlsym()/dlinfo(). Search the caller itself.
+
+@publishedAll
+@released
+*/
+
+

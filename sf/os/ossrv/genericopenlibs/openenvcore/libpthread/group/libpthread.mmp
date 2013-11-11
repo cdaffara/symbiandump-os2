@@ -1,0 +1,144 @@
+/*
+* Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  POSIX pthreads implementation library.*
+*/
+
+
+TARGET         libpthread.dll
+TARGETTYPE     dll
+UID            0x1000008d 0x10275065  
+
+// Macro defs
+#ifdef GCCXML
+MACRO __wchar_t_defined
+#endif //GCCXML
+#include "libpthreadflags.mmpi"
+
+CAPABILITY     All -Tcb 
+VENDORID        0x70000001
+VERSION 				1.1
+
+#ifndef WINSCW
+EPOCALLOWDLLDATA
+#endif //WINSCW
+LANG SC
+
+DEFFILE         libpthread.def
+
+SOURCEPATH	   ../inc
+DOCUMENT	   condvartypes.dosc
+DOCUMENT	   mutextypes.dosc
+DOCUMENT	   pthread.dosc	
+DOCUMENT	   pthreadalias.dosc
+DOCUMENT	   pthreadmisc.dosc
+DOCUMENT	   pthreadtypes.dosc
+DOCUMENT	   semaphore.dosc
+DOCUMENT	   semaphoretypes.dosc
+DOCUMENT	   threadcreate.dosc
+DOCUMENT	   threadglobals.dosc
+
+USERINCLUDE    ../inc
+USERINCLUDE    ../../libc/inc
+USERINCLUDE    ../../backend/inc
+USERINCLUDE     ../../backend/ipcserver/ipccli/inc
+
+// Illegal dependancy on tz.h in MW layer. Needs fixing
+MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_LIBC_SYSTEMINCLUDE
+
+SOURCEPATH      ../src
+SOURCE         pthread_create.cpp
+SOURCE         pthread_self.cpp
+SOURCE         pthread_equal.cpp
+SOURCE         pthread_join.cpp
+SOURCE         pthread_detach.cpp
+SOURCE         pthread_exit.cpp
+SOURCE         pthread_attr_init.cpp
+SOURCE         pthread_attr_destroy.cpp
+SOURCE         pthread_attr_getdetachstate.cpp
+SOURCE         pthread_attr_setdetachstate.cpp
+SOURCE         pthread_attr_getstacksize.cpp
+SOURCE         pthread_attr_setstacksize.cpp
+SOURCE         pthreadmisc.cpp
+SOURCE         mutexgeneric.cpp
+SOURCE         condvar.cpp
+SOURCE         mutex.cpp
+SOURCE         pthread.cpp
+SOURCE         semaphore.cpp
+SOURCE         pthread_key_create.cpp
+SOURCE         pthread_key_delete.cpp
+SOURCE         pthread_setspecific.cpp
+SOURCE         pthread_getspecific.cpp
+SOURCE         pthread_attr_setscope.cpp
+SOURCE         pthread_attr_getscope.cpp
+SOURCE         pthread_attr_setschedpolicy.cpp
+SOURCE         pthread_attr_getschedpolicy.cpp
+SOURCE         pthread_attr_getschedparam.cpp
+SOURCE         pthread_attr_setschedparam.cpp
+SOURCE         pthread_getschedparam.cpp
+SOURCE         pthread_setschedparam.cpp
+SOURCE         sem_init.cpp
+SOURCE         sem_destroy.cpp
+/*
+SOURCE         sem_open.cpp
+SOURCE         sem_close.cpp
+SOURCE         sem_unlink.cpp
+*/
+SOURCE         sem_getvalue.cpp
+SOURCE         sem_post.cpp
+SOURCE         sem_wait.cpp
+SOURCE         sem_timedwait.cpp
+SOURCE         sem_trywait.cpp
+SOURCE         sem_microsleepwait_np.cpp
+SOURCE         pthread_mutexattr_init.cpp
+SOURCE         pthread_mutexattr_destroy.cpp
+SOURCE         pthread_mutexattr_getpshared.cpp
+SOURCE         pthread_mutexattr_setpshared.cpp
+SOURCE         pthread_mutexattr_gettype.cpp
+SOURCE         pthread_mutexattr_settype.cpp
+SOURCE         pthread_mutex_init.cpp
+SOURCE         pthread_mutex_destroy.cpp
+SOURCE         pthread_mutex_lock.cpp
+SOURCE         pthread_mutex_timedlock.cpp
+SOURCE         pthread_mutex_trylock.cpp
+SOURCE         pthread_mutex_unlock.cpp
+SOURCE         pthread_once.cpp
+SOURCE         pthread_condattr_init.cpp
+SOURCE         pthread_condattr_destroy.cpp
+SOURCE         pthread_cond_init.cpp
+SOURCE         pthread_cond_destroy.cpp
+SOURCE         pthread_cond_timedwait.cpp
+SOURCE         pthread_cond_wait.cpp
+SOURCE         pthread_cond_signal.cpp
+SOURCE         pthread_cond_broadcast.cpp
+SOURCE         thr_main.cpp 
+SOURCE		   wsd_init.cpp	
+
+LIBRARY        euser.lib
+LIBRARY        libc.lib
+LIBRARY        backend.lib
+
+
+PAGED
+// End of File
+
+#ifdef WINSCW
+LIBRARY		   ewsd.lib
+#else
+EPOCALLOWDLLDATA
+#endif
+
+SMPSAFE
+

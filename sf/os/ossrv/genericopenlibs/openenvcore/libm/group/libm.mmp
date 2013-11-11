@@ -1,0 +1,222 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// Name        : libm.mmp
+// Part of     : libm
+// This is a project specific file for building the 
+// libm math library.
+//
+
+
+
+
+TARGET            libm.dll
+TARGETTYPE        dll
+UID               0x1000008d  0x102750d2
+
+LANG            SC
+CAPABILITY      All -Tcb 
+VENDORID        0x70000001
+VERSION 				1.1
+
+OPTION ARMCC --diag_remark 3017 
+// include all mmpi files
+
+DEFFILE         libm.def
+
+SOURCEPATH		../include
+DOCUMENT		libm_aliases.dosc
+DOCUMENT		signgam.dosc
+DOCUMENT		../arm/fenv.dosc
+DOCUMENT		../bsdsrc/mathimpl.dosc
+DOCUMENT		../src/math_private.dosc
+DOCUMENT		../sys/arm/include/float.dosc
+DOCUMENT		../../include/math.dosc
+
+SOURCEPATH      ../src
+
+SOURCE			signgam.cpp
+SOURCE			s_signgam.c
+SOURCE			fpclassify.c
+SOURCE			s_signbit.c
+SOURCE			e_acos.c
+SOURCE			e_acosf.c
+SOURCE			e_acosh.c
+SOURCE			e_acoshf.c
+SOURCE			e_asin.c
+SOURCE			e_asinf.c
+SOURCE 			s_asinh.c
+SOURCE 			s_asinhf.c
+SOURCE 			s_atan.c
+SOURCE 			s_atanf.c
+SOURCE			e_atan2.c
+SOURCE			e_atan2f.c
+SOURCE			e_atanh.c
+SOURCE			e_atanhf.c
+SOURCE			s_cbrt.c
+SOURCE			s_cbrtf.c
+SOURCE			s_ceil.c
+SOURCE			s_ceilf.c
+SOURCE			s_copysign.c
+SOURCE			s_copysignf.c
+SOURCE			s_copysignl.c
+SOURCE			s_cos.c
+SOURCE			s_cosf.c
+SOURCE			e_cosh.c
+SOURCE			e_coshf.c
+SOURCE			w_drem.c
+SOURCE			w_dremf.c
+SOURCE			s_erf.c
+SOURCE			s_erff.c
+SOURCE			e_exp.c
+SOURCE			s_exp2.c
+SOURCE			s_exp2f.c
+SOURCE			e_expf.c
+SOURCE 			s_expm1.c
+SOURCE 			s_expm1f.c
+SOURCE			s_fabs.c
+SOURCE			s_fabsf.c
+SOURCE			s_fabsl.c
+SOURCE			s_fdim.c
+SOURCE			s_finite.c
+SOURCE			s_finitef.c
+SOURCE			s_floor.c
+SOURCE			s_floorf.c
+SOURCE			s_fma.c
+SOURCE			s_fmaf.c
+SOURCE			s_isnormal.c
+SOURCE			../../libc/src/arm/gen/infinity.c
+SOURCE			s_fmax.c
+SOURCE			s_fmaxf.c
+SOURCE			s_fmaxl.c
+SOURCE			s_fmin.c
+SOURCE			s_fminf.c
+SOURCE			e_fmod.c
+SOURCE			e_fmodf.c
+SOURCE			s_frexp.c
+SOURCE			s_frexpf.c
+SOURCE			e_hypot.c
+SOURCE			e_hypotf.c
+SOURCE			s_ilogb.c
+SOURCE			s_ilogbf.c
+SOURCE			s_ilogbl.c
+SOURCE			e_j0.c
+SOURCE			e_j0f.c
+SOURCE			e_j1.c
+SOURCE			e_j1f.c
+SOURCE			e_jn.c
+SOURCE			e_jnf.c
+SOURCE			../../libc/src/gen/ldexp.c
+SOURCE			e_log.c
+SOURCE			e_log10.c
+SOURCE			e_log10f.c
+SOURCE			e_logf.c
+SOURCE			s_log1p.c
+SOURCE			s_log1pf.c
+SOURCE			s_logb.c
+SOURCE			s_logbf.c
+SOURCE			s_modf.c
+SOURCE			s_modff.c
+SOURCE			s_nextafter.c
+SOURCE			s_nextafterf.c
+SOURCE			s_nexttowardf.c
+SOURCE			e_pow.c
+SOURCE			e_powf.c
+SOURCE			e_remainder.c
+SOURCE			e_remainderf.c
+SOURCE			s_remquo.c
+SOURCE			s_remquof.c
+SOURCE			s_rint.c
+SOURCE			s_rintf.c
+SOURCE			s_round.c
+SOURCE			s_roundf.c
+SOURCE			e_scalb.c
+SOURCE			e_scalbf.c
+SOURCE			s_scalbn.c
+SOURCE			s_scalbnf.c
+SOURCE			s_significand.c
+SOURCE			s_significandf.c
+SOURCE			s_sin.c
+SOURCE			s_sinf.c
+SOURCE			e_sinh.c
+SOURCE			e_sinhf.c
+SOURCE			e_sqrt.cpp
+SOURCE			e_sqrtf.c
+SOURCE			s_tan.c
+SOURCE			s_tanf.c
+SOURCE			s_tanh.c
+SOURCE			s_tanhf.c
+SOURCE			s_trunc.c
+SOURCE			s_truncf.c
+SOURCE			s_truncl.c
+SOURCE			s_isnan.c
+SOURCE			isinf.c
+SOURCE			k_cos.c
+SOURCE			k_sin.c
+SOURCE 			k_tan.c
+SOURCE			k_cosf.c
+SOURCE			k_sinf.c
+SOURCE 			k_tanf.c
+SOURCE			s_isfinite.c
+SOURCE 			k_rem_pio2.c
+SOURCE 			k_rem_pio2f.c
+SOURCE			e_rem_pio2.c
+SOURCE			e_rem_pio2f.c
+SOURCE			s_infinite.c
+SOURCE			s_nan.c
+SOURCE			s_scalbln.c
+SOURCE			s_llrintf.c
+SOURCE			s_llrint.c
+SOURCE			s_lrintf.c
+SOURCE			s_lrint.c
+SOURCE			s_llround.c
+SOURCE			s_llroundf.c
+SOURCE			s_lround.c
+SOURCE			s_lroundf.c
+SOURCE			s_nearbyint.c
+SOURCE			e_lgamma.c
+SOURCE			e_lgamma_r.c
+SOURCE			e_lgammaf.c
+SOURCE			e_lgammaf_r.c
+SOURCE			e_gamma.c 
+SOURCE			e_gamma_r.c
+SOURCE			e_gammaf.c
+SOURCE			e_gammaf_r.c
+SOURCE			../arm/fenv.c	
+
+
+OS_LAYER_LIBC_SYSTEMINCLUDE
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+
+USERINCLUDE 	../../libc/include
+USERINCLUDE		../../libc/src/arm
+USERINCLUDE    	../../ewsd/inc
+
+#ifndef WINSCW
+EPOCALLOWDLLDATA
+#endif //WINSCW
+
+MACRO			__LONG_LONG_SUPPORTED
+
+
+// linking libraries.
+LIBRARY euser.lib
+
+#ifdef WINSCW
+LIBRARY ewsd.lib
+#endif
+PAGED
+// End of File
+
+SMPSAFE

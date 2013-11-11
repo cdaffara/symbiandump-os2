@@ -1,0 +1,36 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SERVER te_RegBlockTestSuite 
+
+START_TESTCASE DT-TEF-TestBlock-0067
+//! @SYMTestCaseID          DT-TEF-TestBlock-0067
+//! @SYMCreationDate        03-07-2008
+//! @SYMAuthor              DavidZhang
+//! @SYMTestType            CT
+//! @SYMTestPriority        Medium
+//! @SYMTestCaseDesc        A test block that contains unknown instructions (just arbitrary words).
+//! @SYMTestExpectedResults The test case result must be PASS becuase the script engine must ignore them.
+//! @SYMTestActions         1. In a test block create a wrapper object and call a command on the object.
+//!                         2. Call an instruction MONKEY with &quot;banana&quot; as a parameter before the test block
+//!                         3. Call an instruction CHIMPANZEE with &quot;agogo&quot; as a parameter after the test block
+	MONKEY		banana
+	START_TEST_BLOCK	100 te_RegBlockTestSuite ${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini
+		CREATE_OBJECT	te_RegBlockTestWrapper	TestCase015_obj
+		COMMAND		TestCase015_obj			DummyFunction
+	END_TEST_BLOCK
+	CHIMPANZEE	agogo
+END_TESTCASE DT-TEF-TestBlock-0067

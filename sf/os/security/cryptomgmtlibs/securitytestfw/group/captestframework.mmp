@@ -1,0 +1,50 @@
+/*
+* Copyright (c) 2004-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* captestframework.exe Test harness for capailbity testing
+*
+*/
+
+
+
+
+/**
+ @file
+*/
+
+//         Needed to run things from sys/bin
+CAPABILITY ProtServ TrustedUI
+
+TARGET			captestframework.exe
+TARGETTYPE		exe
+UID			0x1000007A 0x101F78FE
+VENDORID		0x70000001
+
+SOURCEPATH		../test/captestframework
+SOURCE			captestframeworkserver.cpp
+SOURCE			captestframeworkstep.cpp
+
+USERINCLUDE		.
+USERINCLUDE		../inc
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+LIBRARY			euser.lib
+LIBRARY			testexecuteutils.lib
+LIBRARY			efsrv.lib
+LIBRARY			testexecutelogclient.lib
+LIBRARY			flogger.lib
+LIBRARY			estor.lib
+SMPSAFE
+

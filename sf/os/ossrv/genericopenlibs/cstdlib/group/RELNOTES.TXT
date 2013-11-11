@@ -1,0 +1,79 @@
+Release 102 in Perforce
+
+* Added a redirection server to the test dll ctest.dll.  This creates a console for the redirected input and output when using the posix server.
+  Added testconsole.* files to the project
+  Changed CRedirDesc so it only attempts to connect to the redirection server when the console is first used rather than immediately.
+
+* Added tredir a test to test input and output using the test redirection server.
+
+* Fixed a problem with serial port notifications.  If the event was a parity, overrun or framing error, the event type wasn't reported, just the fact that something had happened.
+  Also problem with supported notifies being incorrectly reported on cogent, but not WINS.  The buffer passed to devicxecaps needs to be explicitly cleared before calling otherwise the notification events reported  are random.
+
+* Modified the test code which creates files/directories to explicitly use drive C:.  This allows the tests to be put into a ROM.
+
+* Modified all the test code which uses startup code which starts the posix server.  A call to start the redirection server was needed to capture the output.
+
+* Fixed a problem with tistream where a buffer was freed and then used.
+
+* Added #ifdef WINS around a compiler directive which is only for Visual C++
+
+* serial notification test tser3 updates following the bug discovery.  It runs succesfully on wins and cogent.
+
+* fixed a typo in ttime & a problem where it goes into infinite loop because cogent rtc has 1 sec resolution
+
+* Changed twdirs to explicitly test wopendir with a path with trailing slash
+
+
+
+Release 101 in Perforce
+
+
+* Added Serial port support.  new CSerialDesc class derived from CFileDescBase to allow serial ports to be opened,
+  configured, closed, monitored and data read and written.
+  the file userial.cpp contains the class, along with active objects to monitor serial events and provide a timeout
+  for a read of one or more bytes with timeout.  This has necessitated a change to the CFileDescBase base class,
+  with the addition of a couple of virtual functions.
+
+* #define ER5U_NOTIFICATION_SUPPORT_ONLY in userial.cpp to allow this to be built for ER5U if it is needed
+
+* The ioctl command which waits for notifications will finish with an error if the port is closed.  errno will be set to EBADF.
+
+* Added test code
+  tser1  - Test opening, closing and configuring a port with and without the posix server.
+           Tests timeouts on the reads, so it can be run without manual intervention.  It a terminal is plugged 
+           in to the pc com   port1, it will read and write data.
+  tser2r - Code to read repeatedly using the posix server, needs to be run against
+  tser2w - code to write repeatedly using the posix server.  Manual test, needs null modem lead and 2 machines
+  tser3  - Tests reading and writing using 2 ports and a loopback with a null modem cable.  Again this is a manual test.                        Another thread monitors the reader port and reports notifications as they happen.
+  tirping & 
+  tirpong- Test reading and writing with the ir port.  Needs 2 ir enabled machines and will run indefinitely as long
+           as they are facing one another.  Tests exit when the machines are separated and the reads time out.
+  tserial- useful file contains a lot of the above tests.  Shame to delete it.
+
+* tdirs - change to allow the test to be run on drive D as well as drive C
+
+* twirs - change to allow the test to be run on drive D as well as drive C
+
+* CThread - calls wpopen3 instead of popen3 as the command line is wide with a unicode build
+
+* TCancel - changed to wait for a status to be not pending before testing it isn't pending
+
+* TWpipe - calls wmain rather than main
+
+Note that the test code still doesn't display to console windows when using the posix server.
+
+
+
+
+Release 060 - William Roberts 17/09/1999
+
+First mainline release on SRC_EPOC, branched from Release 044 on SRC_EPOC5U
+
+* Removed all non-PVCS things from MNT.CMD
+* Added Martin Moorhead's REDIRCLI.DLL which redirects STDIN/STDOUT/STDERR to a
+Redirection Server.
+
+Note that this change will break the test code, by virtue of preventing the normal
+display to Console windows.
+
+

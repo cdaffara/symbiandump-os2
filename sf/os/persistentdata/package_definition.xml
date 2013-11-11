@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SystemDefinition schema="3.0.0">
+  <package id="persistentdata" name="Persistent Data Services" levels="adaptation hw-if plugin framework server app-if">
+    <collection id="featuremgmt" name="Feature Management" level="framework">
+      <component id="featuremgr" name="Feature Manager" introduced="^3" purpose="mandatory">
+        <unit bldFile="featuremgmt/featuremgr/group" mrp="featuremgmt/featuremgr/group/syslibs_featmgr.mrp"/>
+      </component>
+      <component id="featureregistry" name="Feature Registry" introduced="9.2" deprecated="^3" purpose="mandatory">
+        <unit bldFile="featuremgmt/featureregistry/group" mrp="featuremgmt/featureregistry/group/syslibs_featreg.mrp"/>
+      </component>
+    </collection>
+    <collection id="loggingservices" name="Logging Services" level="server">
+      <component id="eventlogger" name="Event Logger" introduced="6.0" purpose="optional">
+        <unit bldFile="loggingservices/eventlogger/group" mrp="loggingservices/eventlogger/group/syslibs_logeng.mrp"/>
+      </component>
+      <component id="filelogger" name="File Logger" introduced="ER5" deprecated="^3" purpose="optional">
+        <unit bldFile="loggingservices/filelogger/group" mrp="loggingservices/filelogger/group/comms-infras_flogger.mrp"/>
+      </component>
+      <component id="rfilelogger" name="RFile Logger" deprecated="^3" introduced="9.1" purpose="development">
+        <unit bldFile="loggingservices/rfilelogger/group" mrp="loggingservices/rfilelogger/group/testtools_utilities.mrp"/>
+      </component>
+    </collection>
+    <collection id="traceservices" name="Trace Services" level="server">
+      <component id="commsdebugutility" name="Comms Debug Utility" introduced="7.0s" purpose="optional">
+        <unit bldFile="traceservices/commsdebugutility/group" mrp="traceservices/commsdebugutility/group/comms-infras_commsdebugutility.mrp"/>
+      </component>
+      <component id="tracefw" name="Trace Framework" introduced="9.2" purpose="development">
+        <unit bldFile="traceservices/tracefw/ulogger/group" mrp="traceservices/tracefw/ulogger/group/tools_debug_trace.mrp"/>
+      </component>
+    </collection>
+    <collection id="persistentstorage" name="Persistent Storage" level="framework">
+      <component id="store" name="Store" purpose="optional">
+        <unit bldFile="persistentstorage/store/group" mrp="persistentstorage/store/group/syslibs_store.mrp"/>
+      </component>
+      <component id="dbms" name="DBMS" purpose="optional">
+        <unit bldFile="persistentstorage/dbms/group" mrp="persistentstorage/dbms/group/syslibs_dbms.mrp"/>
+      </component>
+      <component id="centralrepository" name="Central Repository" introduced="7.0s" purpose="mandatory">
+        <unit bldFile="persistentstorage/centralrepository/group" mrp="persistentstorage/centralrepository/group/syslibs_centralrepository.mrp"/>
+      </component>
+      <component id="sql" name="SQL" introduced="9.3" purpose="optional">
+        <unit bldFile="persistentstorage/sql/GROUP" mrp="persistentstorage/sql/GROUP/syslibs_sql.mrp"/>
+      </component>
+      <component id="sqlite3api" name="SQLite 3 API" introduced="^3" purpose="optional">
+        <unit bldFile="persistentstorage/sqlite3api/GROUP" mrp="persistentstorage/sqlite3api/GROUP/syslibs_sqlite3.mrp"/>
+      </component>
+    </collection>
+    <collection id="persistentdata_info" name="Persistent Data Services Info" level="app-if">
+      <component id="persistentdata_metadata" name="Persistent Data Services Metadata" class="config" introduced="^2" purpose="development" target="desktop">
+        <unit mrp="persistentdata_info/persistentdata_metadata/persistentdata_metadata.mrp"/>
+      </component>
+    </collection>
+  </package>
+</SystemDefinition>

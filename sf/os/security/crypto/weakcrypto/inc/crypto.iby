@@ -1,0 +1,36 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+#ifndef __CRYPTO_LIBRARY_IBY__
+#define __CRYPTO_LIBRARY_IBY__
+
+REM crypto library
+
+#include "random.iby"
+#include "hash.iby"
+
+#ifdef USE_STRONG_CRYPTOGRAPHY
+ECHO Using export-restricted strong crytography implementation
+file=ABI_DIR\BUILD_DIR\strong_cryptography.dll  System\libs\cryptography.dll
+
+#else
+file=ABI_DIR\BUILD_DIR\weak_cryptography.dll	System\libs\cryptography.dll
+
+#endif
+
+#endif	//	__CRYPTO_LIBRARY_IBY__
+

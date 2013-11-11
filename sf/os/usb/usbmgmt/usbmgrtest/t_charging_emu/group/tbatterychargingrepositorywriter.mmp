@@ -1,0 +1,49 @@
+/*
+* Copyright (c) 2008-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+*
+*/
+
+CAPABILITY CommDD NetworkControl NetworkServices LocalServices ProtServ ReadDeviceData WriteDeviceData
+
+targettype exe
+
+
+target tbatterychargingrepositorywriter.exe
+
+uid 0x0 0x102834EB
+VENDORID 0x70000001
+
+sourcepath		../src
+source			activepropertysubscribercharging.cpp
+source			tpropertybatterycharging.cpp
+
+source			../../../usbmgr/usbman/server/SRC/UsbUtils.cpp
+
+userinclude		../inc ../../../usbmgr/usbman/chargingplugin/inc
+userinclude		../../../usbmgr/usbman/server/INC
+userinclude		../../../usbmgr/usbman/chargingplugin/public
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+lang			sc 01 02 03 10	// UK English, French, German, US English
+
+library			euser.lib 
+
+//library			ecom.lib
+//library			efsrv.lib
+//library			bafl.lib
+//library			usbmanextensionplugin.lib
+LIBRARY			centralrepository.lib
+
+macro __CHARGING_PLUGIN_TEST_CODE__

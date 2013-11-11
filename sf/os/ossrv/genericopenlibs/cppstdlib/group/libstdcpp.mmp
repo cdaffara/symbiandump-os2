@@ -1,0 +1,348 @@
+// Copyright (c) 2008-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// Name        : libstdcpp.mmp
+// Part of     : standard c++ library.
+// This is a project specific file for building standard c++ lib.
+// Version     : 1.0
+// This version of stdcpp library is based on STLport ver 5.1.3 
+// The name libstdcppv5.dll is given so that it can co-exist with 
+// an stdcpp libary based on other versions of STLPort 
+//
+
+
+
+
+TARGET            libstdcppv5.dll      
+
+TARGETTYPE        dll
+ 
+UID               0x1000008d  0x20017610
+
+CAPABILITY        ALL -TCB
+
+STDCPP
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_LIBC_SYSTEMINCLUDE
+OS_LAYER_STLPORTV5_SYSTEMINCLUDE
+
+USERINCLUDE       ../inc
+USERINCLUDE       ../stl/src
+USERINCLUDE       ../stl/stlport
+
+SOURCEPATH        ../stl/src
+SOURCE            allocators.cpp
+SOURCE            bitset.cpp
+SOURCE            complex.cpp 
+SOURCE            complex_io.cpp
+SOURCE            complex_trig.cpp
+SOURCE            ctype.cpp 
+SOURCE            codecvt.cpp 
+SOURCE            collate.cpp
+SOURCE            dll_main.cpp
+SOURCE            facets_byname.cpp
+SOURCE            fstream.cpp 
+SOURCE            ios.cpp 
+SOURCE            istream.cpp 
+SOURCE            iostream.cpp 
+SOURCE            locale_impl.cpp
+SOURCE            locale_catalog.cpp 
+SOURCE            messages.cpp
+SOURCE            monetary.cpp
+SOURCE            numpunct.cpp
+SOURCE            num_get.cpp 
+SOURCE            num_get_float.cpp 
+SOURCE            num_put.cpp 
+SOURCE            num_put_float.cpp 
+SOURCE            ostream.cpp
+SOURCE            stdio_streambuf.cpp 
+SOURCE            strstream.cpp 
+SOURCE            sstream.cpp
+SOURCE            string.cpp
+SOURCE            time_facets.cpp 
+SOURCE            libstdcppwsd.cpp
+
+
+SOURCEPATH        ../src
+SOURCE            stdcpp_support.cpp
+//SOURCE            exception.cpp
+SOURCE            c_locale_impl.cpp
+
+#ifdef WINSCW
+SOURCE            internal_allocs.cpp
+#endif
+
+
+LIBRARY           libc.lib
+LIBRARY           libpthread.lib
+LIBRARY           libm.lib
+LIBRARY           euser.lib
+LIBRARY		  backend.lib
+
+
+#ifdef ARMCC_3_1
+DEFFILE			 ../eabi/libstdcppv5.def
+OPTION ARMCC --diag_remark 3017
+#else 
+ #ifdef ARMCC_2_2
+  DEFFILE			 ../eabi/libstdcpp_rvct2_2.def
+ #endif
+#endif
+
+#ifdef WINSCW
+LIBRARY		      ewsd.lib
+#else
+EPOCALLOWDLLDATA
+#endif
+
+macro             _STLP_DESIGNATED_DLL
+
+
+//Following is a temporary fix as Rvct compiler crashes while 
+//emitting dwarf2 degeb table format
+#ifdef ENABLE_ABIV2_MODE
+OPTION_REPLACE	 ARMCC --dwarf2 --dwarf3
+#else
+//needed only in ABIV1 build..
+OPTION ARMCC --dwarf3
+#endif
+
+#ifdef GCCXML
+macro __wchar_t_defined
+macro __SYMBIAN_STDCPP_SUPPORT__
+#endif
+
+SOURCEPATH ../stl/stlport/stl/config
+DOCUMENT  features.dosc
+
+SOURCEPATH ../stl/stlport/stl
+DOCUMENT  _abbrevs.dosc
+DOCUMENT  _algo.dosc
+DOCUMENT  _algobase.dosc
+DOCUMENT  _alloc.dosc
+DOCUMENT  _alloc_old.dosc
+DOCUMENT  _auto_ptr.dosc
+DOCUMENT  _bitset.dosc
+DOCUMENT  _bvector.dosc
+DOCUMENT  _carray.dosc
+DOCUMENT  _cctype.dosc
+DOCUMENT  _check_config.dosc
+DOCUMENT  _clocale.dosc
+DOCUMENT  _cmath.dosc
+DOCUMENT  _codecvt.dosc
+DOCUMENT  _collate.dosc
+DOCUMENT  _complex.dosc
+DOCUMENT  _config_compat_post.dosc
+DOCUMENT  _construct.dosc
+DOCUMENT  _csetjmp.dosc
+DOCUMENT  _csignal.dosc
+DOCUMENT  _cstdarg.dosc
+DOCUMENT  _cstddef.dosc
+DOCUMENT  _cstdio.dosc
+DOCUMENT  _cstdlib.dosc
+DOCUMENT  _cstring.dosc
+DOCUMENT  _ctime.dosc
+DOCUMENT  _ctraits_fns.dosc
+DOCUMENT  _ctype.dosc
+DOCUMENT  _cwchar.dosc
+DOCUMENT  _cwctype.dosc
+DOCUMENT  _deque.dosc
+DOCUMENT  _epilog.dosc
+DOCUMENT  _exception.dosc
+DOCUMENT  _fstream.dosc
+DOCUMENT  _function.dosc
+DOCUMENT  _function_adaptors.dosc
+DOCUMENT  _function_base.dosc
+DOCUMENT  _hash_fun.dosc
+DOCUMENT  _hash_map.dosc
+DOCUMENT  _hash_set.dosc
+DOCUMENT  _hashtable.dosc
+DOCUMENT  _heap.dosc
+DOCUMENT  _ios.dosc
+DOCUMENT  _ios_base.dosc
+DOCUMENT  _ioserr.dosc
+DOCUMENT  _iosfwd.dosc
+DOCUMENT  _iostream_string.dosc
+DOCUMENT  _istream.dosc
+DOCUMENT  _istreambuf_iterator.dosc
+DOCUMENT  _iterator.dosc
+DOCUMENT  _iterator_base.dosc
+DOCUMENT  _iterator_old.dosc
+DOCUMENT  _limits.dosc
+DOCUMENT  _list.dosc
+DOCUMENT  _locale.dosc
+DOCUMENT  _map.dosc
+DOCUMENT  _mbstate_t.dosc
+DOCUMENT  _messages_facets.dosc
+DOCUMENT  _monetary.dosc
+DOCUMENT  _move_construct_fwk.dosc
+DOCUMENT  _new.dosc
+DOCUMENT  _null_stream.dosc
+DOCUMENT  _num_get.dosc
+DOCUMENT  _num_put.dosc
+DOCUMENT  _numeric.dosc
+DOCUMENT  _numpunct.dosc
+DOCUMENT  _ostream.dosc
+DOCUMENT  _ostreambuf_iterator.dosc
+DOCUMENT  _pair.dosc
+DOCUMENT  _prolog.dosc
+DOCUMENT  _pthread_alloc.dosc
+DOCUMENT  _ptrs_specialize.dosc
+DOCUMENT  _queue.dosc
+DOCUMENT  _range_errors.dosc
+DOCUMENT  _raw_storage_iter.dosc
+DOCUMENT  _relops_cont.dosc
+DOCUMENT  _relops_hash_cont.dosc
+DOCUMENT  _rope.dosc
+DOCUMENT  _set.dosc
+DOCUMENT  _slist.dosc
+DOCUMENT  _slist_base.dosc
+DOCUMENT  _sparc_atomic.dosc
+DOCUMENT  _sstream.dosc
+DOCUMENT  _stack.dosc
+DOCUMENT  _stdexcept.dosc
+DOCUMENT  _stdexcept_base.dosc
+DOCUMENT  _stlport_version.dosc
+DOCUMENT  _stream_iterator.dosc
+DOCUMENT  _streambuf.dosc
+DOCUMENT  _string.dosc
+DOCUMENT  _string_base.dosc
+DOCUMENT  _string_fwd.dosc
+DOCUMENT  _string_hash.dosc
+DOCUMENT  _string_io.dosc
+DOCUMENT  _string_npos.dosc
+DOCUMENT  _string_operators.dosc
+DOCUMENT  _string_sum.dosc
+DOCUMENT  _string_sum_methods.dosc
+DOCUMENT  _string_workaround.dosc
+DOCUMENT  _strstream.dosc
+DOCUMENT  _tempbuf.dosc
+DOCUMENT  _threads.dosc
+DOCUMENT  _time_facets.dosc
+DOCUMENT  _tree.dosc
+DOCUMENT  _typeinfo.dosc
+DOCUMENT  _uninitialized.dosc
+DOCUMENT  _unordered_map.dosc
+DOCUMENT  _unordered_set.dosc
+DOCUMENT  _valarray.dosc
+DOCUMENT  _vector.dosc
+DOCUMENT  boost_type_traits.dosc
+DOCUMENT  c_locale.dosc
+DOCUMENT  char_traits.dosc
+DOCUMENT  concept_checks.dosc
+DOCUMENT  msl_string.dosc
+DOCUMENT  type_manips.dosc
+DOCUMENT  type_traits.dosc
+
+SOURCEPATH ../stl/stlport/
+DOCUMENT  algorithm.dosc
+DOCUMENT  assert.dosc
+DOCUMENT  bitset.dosc
+DOCUMENT  cassert.dosc
+DOCUMENT  cctype.dosc
+DOCUMENT  cerrno.dosc
+DOCUMENT  cfloat.dosc
+DOCUMENT  ciso646.dosc
+DOCUMENT  climits.dosc
+DOCUMENT  clocale.dosc
+DOCUMENT  cmath.dosc
+DOCUMENT  complex.dosc
+DOCUMENT  csetjmp.dosc
+DOCUMENT  csignal.dosc
+DOCUMENT  cstdarg.dosc
+DOCUMENT  cstddef.dosc
+DOCUMENT  cstdio.dosc
+DOCUMENT  cstdlib.dosc
+DOCUMENT  cstring.dosc
+DOCUMENT  ctime.dosc
+DOCUMENT  ctype.dosc
+DOCUMENT  cwchar.dosc
+DOCUMENT  cwctype.dosc
+DOCUMENT  deque.dosc
+// DOCUMENT  doc_non_dummy.dosc
+DOCUMENT  errno.dosc
+DOCUMENT  exception.dosc
+DOCUMENT  float.dosc
+DOCUMENT  fstream.dosc
+DOCUMENT  functional.dosc
+DOCUMENT  hash_map.dosc
+DOCUMENT  hash_set.dosc
+DOCUMENT  iomanip.dosc
+DOCUMENT  ios.dosc
+DOCUMENT  iosfwd.dosc
+DOCUMENT  iostream.dosc
+DOCUMENT  iso646.dosc
+DOCUMENT  istream.dosc
+DOCUMENT  iterator.dosc
+DOCUMENT  limits.dosc
+DOCUMENT  list.dosc
+DOCUMENT  locale.dosc
+DOCUMENT  map.dosc
+DOCUMENT  math.dosc
+DOCUMENT  mem.dosc
+DOCUMENT  memory.dosc
+DOCUMENT  new.dosc
+DOCUMENT  numeric.dosc
+DOCUMENT  ostream.dosc
+DOCUMENT  pthread.dosc
+DOCUMENT  pthread_alloc.dosc
+DOCUMENT  queue.dosc
+DOCUMENT  rlocks.dosc
+DOCUMENT  rope.dosc
+DOCUMENT  set.dosc
+DOCUMENT  setjmp.dosc
+DOCUMENT  signal.dosc
+DOCUMENT  slist.dosc
+DOCUMENT  sstream.dosc
+DOCUMENT  stack.dosc
+DOCUMENT  stdarg.dosc
+DOCUMENT  stddef.dosc
+DOCUMENT  stdexcept.dosc
+DOCUMENT  stdio.dosc
+DOCUMENT  stdiostream.dosc
+DOCUMENT  stdlib.dosc
+// DOCUMENT  stl.dosc
+DOCUMENT  streambuf.dosc
+DOCUMENT  string.dosc
+DOCUMENT  strstream.dosc
+DOCUMENT  time.dosc
+DOCUMENT  typeinfo.dosc
+DOCUMENT  unordered_map.dosc
+DOCUMENT  unordered_set.dosc
+DOCUMENT  using.dosc
+DOCUMENT  utility.dosc
+DOCUMENT  valarray.dosc
+DOCUMENT  vector.dosc
+DOCUMENT  wchar.dosc
+DOCUMENT  wctype.dosc
+
+SOURCEPATH ../stl/src/
+DOCUMENT  _stdio_file.dosc
+DOCUMENT  acquire_release.dosc
+DOCUMENT  aligned_buffer.dosc
+DOCUMENT  c_locale.dosc
+DOCUMENT  fstream_impl.dosc
+DOCUMENT  locale_impl.dosc
+DOCUMENT  lock_free_slist.dosc
+DOCUMENT  message_facets.dosc
+DOCUMENT  stdio_streambuf.dosc
+DOCUMENT  stlport_prefix.dosc
+DOCUMENT  uint64.dosc
+DOCUMENT  vc_warning_disable.dosc
+DOCUMENT  warning_disable.dosc
+
+/* End of file */
+
+SMPSAFE
+PAGED

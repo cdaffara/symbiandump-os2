@@ -1,0 +1,56 @@
+// Copyright (c) 2008-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+//! @file
+//! @SYMTestSuiteName               	uloggerv1-outfrwk-unit-test-suite.script
+//! @SYMScriptTestEnvironment       	TEF
+
+
+
+PRINT Legendary RUN_TEST_STEP steps for confirming backward compatibility
+//
+PRINT Run all Sample Tests 
+//
+LOAD_SUITE UloggerOutfrmwkServer
+//
+
+
+START_TESTCASE			DT-DEBUG-TRACE-UTFv1-ULoggerOutfrmwkServer-0001
+//! @SYMTestCaseID		DT-DEBUG-TRACE-UTFv1-ULoggerOutfrmwkServer-0001
+//! @SYMTestCaseDesc     Run test for output framework server 
+//! @SYMTestPriority     Critical
+//! @SYMTestActions    Set and configure output framework server 
+//! @SYMTestExpectedResults      error returns as expected
+//! @SYMTestType         UT
+//! @SYMTestStatus   Implemented
+//! @SYMPREQ                 PREQ1635
+//! @SYMREQ 
+RUN_TEST_STEP 100 UloggerOutfrmwkServer TextMessageTeststep 
+END_TESTCASE			DT-DEBUG-TRACE-UTFv1-ULoggerOutfrmwkServer-0001
+
+ 
+ START_TESTCASE			DT-DEBUG-TRACE-UTFv1-ULoggerOutfrmwkServerOOM-0001
+//! @SYMTestCaseID		DT-DEBUG-TRACE-UTFv1-ULoggerOutfrmwkServerOOM-0001
+//! @SYMTestCaseDesc     Run test for output framework server with OOM
+//! @SYMTestPriority     Critical
+//! @SYMTestActions    Set and configure output framework server with OOM
+//! @SYMTestExpectedResults      error returns as expected
+//! @SYMTestType         UT
+//! @SYMTestStatus   Implemented
+//! @SYMPREQ                 PREQ1635
+//! @SYMREQ 
+RUN_TEST_STEP !OOM 100 UloggerOutfrmwkServer TextMessageTeststep 
+END_TESTCASE			DT-DEBUG-TRACE-UTFv1-ULoggerOutfrmwkServerOOM-0001
+

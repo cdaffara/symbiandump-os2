@@ -1,0 +1,64 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+/**
+ @file
+ @test
+*/
+
+target		tups_notifier.dll
+targettype    	plugin
+uid           	0x10009d8d 0xe1111f10
+vendorid 	0x70000001
+
+capability	trustedui protserv
+
+userinclude	../inc_private
+userinclude	../tups_notifier/source
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+APP_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+
+sourcepath    	../tups_notifier/source
+source        	tups_notifier.cpp
+
+start resource	e1111f10.rss
+target		tups_notifier.rsc
+end
+
+start resource 	tups_notifierapp.rss
+DEPENDS techview/eikon.rsg
+header
+targetpath 	resource/apps
+end
+
+library		euser.lib 
+library		ecom.lib 
+library		estor.lib
+library		eiksrv.lib
+library		eikdlg.lib
+library		cone.lib
+library		eikctl.lib
+library		eikcore.lib
+library		eikcoctl.lib 
+library		bafl.lib
+library		efsrv.lib 
+library 	upsnotifierutil.lib
+
+SMPSAFE

@@ -1,0 +1,63 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+#ifndef __CRYPTO_LIBRARY_IBY__
+#define __CRYPTO_LIBRARY_IBY__
+
+REM crypto library
+
+#include "random.iby"
+#include "hash.iby"
+#include "cryptospi_plugins.iby"
+
+#ifdef __SECURITY_TEST_ROM__
+ROM_IMAGE[0] {
+#endif
+#ifdef USE_STRONG_CRYPTOGRAPHY
+ECHO Using export-restricted strong crytography implementation
+file=ABI_DIR\BUILD_DIR\strong_cryptography.dll  sys\bin\cryptography.dll
+
+#else
+file=ABI_DIR\BUILD_DIR\weak_cryptography.dll	sys\bin\cryptography.dll
+#endif
+#ifdef __SECURITY_TEST_ROM__
+}
+#endif
+
+// Get a proper flag
+//#ifdef CRYPTO_SPI
+#ifdef __SECURITY_TEST_ROM__
+ROM_IMAGE[0] {
+#endif
+file=ABI_DIR\BUILD_DIR\cryptospi.dll  		sys\bin\cryptospi.dll
+#ifdef __SECURITY_TEST_ROM__
+}
+#endif
+file=ABI_DIR\BUILD_DIR\cryptospisetup.exe  	sys\bin\cryptospisetup.exe
+
+
+#ifdef __SECURITY_MANDATORY_SWICERTSTORE__
+data=ZRESOURCE\cryptospi\h4-plug-ins.txt 		resource\cryptospi\plug-ins.txt
+#elif __SECURITY_JAVA__
+data=ZRESOURCE\cryptospi\h4-plug-ins.txt 		resource\cryptospi\plug-ins.txt
+#else
+data=ZRESOURCE\cryptospi\plug-ins.txt 		resource\cryptospi\plug-ins.txt
+#endif
+//#endif
+
+#endif	//	__CRYPTO_LIBRARY_IBY__
+

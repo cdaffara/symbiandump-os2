@@ -1,0 +1,40 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SUITE Te_RegScriptCommandServer
+
+START_TESTCASE DT-TEF-ScriptCommand-0013
+//! @SYMTestCaseID          DT-TEF-ScriptCommand-0013
+//! @SYMCreationDate        26-06-2008
+//! @SYMAuthor              DavidZhang
+//! @SYMTestType            CT
+//! @SYMTestPriority        Medium
+//! @SYMTestCaseDesc        Negative Test of share data functionality.
+//! @SYMTestExpectedResults Test case should fail.
+//! @SYMTestActions         Using "SHARED_DATA" command in script file to share data.
+	PRINT this test case must be fail.
+	SHARED_DATA ${SYSDRIVE}\assdfgddfgsampletest\te_regscriptcommandtest.ini ScriptCommand_SharedData
+	CONCURRENT
+	RUN_TEST_STEP 100 Te_RegScriptCommandServer AccessStep1
+	RUN_TEST_STEP 100 Te_RegScriptCommandServer GlobalShareStep1
+	RUN_TEST_STEP 100 Te_RegScriptCommandServer AccessStep2
+	RUN_TEST_STEP 100 Te_RegScriptCommandServer GlobalShareStep2
+	CONSECUTIVE
+	RUN_TEST_STEP 100 Te_RegScriptCommandServer AccessStep2
+	RUN_TEST_STEP 100 Te_RegScriptCommandServer GlobalShareStep2
+	RUN_TEST_STEP 100 Te_RegScriptCommandServer AccessStep1
+	RUN_TEST_STEP 100 Te_RegScriptCommandServer GlobalShareStep1
+END_TESTCASE DT-TEF-ScriptCommand-0013

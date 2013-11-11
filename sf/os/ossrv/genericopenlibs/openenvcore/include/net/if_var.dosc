@@ -1,0 +1,199 @@
+/** @file ../include/net/if_var.h
+@internalComponent
+*/
+
+/** @struct ifnet
+
+Structure defining a network interface.
+
+ifnet and its related packet queues are protected by if_serializer.
+Callers of if_output, if_ioctl, if_start, if_watchdog, if_init, if_resolvemulti, and if_poll hold if_serializer.  
+Device drivers usually use the same serializer for their interrupt but this is not required.
+However, the device driver must be holding if_serializer when it calls if_input.  
+Note that the serializer may be temporarily released within if_input to avoid a deadlock (e.g. when fast-forwarding or bridging packets between interfaces).
+
+If a device driver installs the same serializer for its interrupt as for ifnet, then the driver only really needs to worry about further serialization in timeout based entry points.  
+All other entry points will already be serialized.  Older ISA drivers still using the old interrupt infrastructure will have to obtain and release the serializer in their interrupt routine themselves.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @struct ifaddr 
+
+The ifaddr structure contains information about one address of an interface.  
+They are maintained by the different address families, are allocated and attached when an address is set, and are linked together so all addresses for an interface can be located.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @var ifaddr::ifa_addr
+address of interface
+*/
+
+/** @var ifaddr::ifa_dstaddr
+other end of p-to-p link
+*/
+
+/** @var ifaddr::ifa_netmask
+used to determine subnet
+*/
+
+/** @var ifaddr::if_data
+not all members are meaningful 
+*/
+
+/** @var ifaddr::ifa_ifp
+back-pointer to interface
+*/
+
+/** @var ifaddr::ifa_link
+queue macro glue
+*/
+
+/** @var ifaddr::ifa_rtrequest
+check or clean routes 
+*/
+
+/** @var ifaddr::ifa_flags
+mostly rt_flags for cloning
+*/
+
+/** @var ifaddr::ifa_refcnt
+references to this structure 
+*/
+
+/** @var ifaddr::ifa_metric
+cost of going out this interface
+*/
+
+/** @var ifaddr::ifa_rt
+XXXX for ROUTETOIF 
+*/
+
+/** @var ifaddr::ifa_claim_addr
+check if an addr goes to this if
+*/
+
+/** @struct ifqueue
+
+Structure defining a queue for a network interface.
+
+@publishedAll
+@released
+*/
+ 
+/** @struct ifmultiaddr
+
+Multicast address structure.  This is analogous to the ifaddr structure except that it keeps track of multicast addresses.
+Also, the reference count here is a count of requests for this address, not a count of pointers to this structure.
+
+@publishedAll
+@released
+*/
+
+/** @var ifmultiaddr::ifma_link
+queue macro glue
+*/
+
+/** @var ifmultiaddr::ifma_addr
+address this membership is for
+*/
+
+/** @var ifmultiaddr::ifma_lladdr
+link-layer translation, if any
+*/
+
+/** @var ifmultiaddr::ifma_ifp
+back-pointer to interface
+*/
+
+/** @var ifmultiaddr::ifma_refcount
+reference count 
+*/
+
+/** @var ifmultiaddr::ifma_protospec
+protocol-specific state, if any
+*/
+
+/** @def IF_QFULL(ifq)	
+
+Output queues and slow device input queues are queues of messages stored on ifqueue structures (defined above).  
+Entries are added to and deleted from these structures by these macros, which should be called with ipl raised to splimp().
+
+@publishedAll
+@released
+*/
+
+/** @def IF_DROP(ifq)
+
+Output queues and slow device input queues are queues of messages stored on ifqueue structures (defined above).  
+Entries are added to and deleted from these structures by these macros, which should be called with ipl raised to splimp().
+
+@publishedAll
+@released
+*/
+
+/** @def IF_QLEN(ifq) 
+
+Output queues and slow device input queues are queues of messages stored on ifqueue structures (defined above).  
+Entries are added to and deleted from these structures by these macros, which should be called with ipl raised to splimp().
+
+@publishedAll
+@released
+*/
+
+/** @def IF_QEMPTY(ifq)
+
+Output queues and slow device input queues are queues of messages stored on ifqueue structures (defined above).  
+Entries are added to and deleted from these structures by these macros, which should be called with ipl raised to splimp().
+
+@publishedAll
+@released
+*/
+
+/** @def IF_ENQUEUE(ifq, m)
+
+Output queues and slow device input queues are queues of messages stored on ifqueue structures (defined above).  
+Entries are added to and deleted from these structures by these macros, which should be called with ipl raised to splimp().
+
+@publishedAll
+@released
+*/
+
+/** @def IF_PREPEND(ifq, m)
+
+Output queues and slow device input queues are queues of messages stored on ifqueue structures (defined above).  
+Entries are added to and deleted from these structures by these macros, which should be called with ipl raised to splimp().
+
+@publishedAll
+@released
+*/
+
+/** @def IF_DEQUEUE(ifq, m)
+
+Output queues and slow device input queues are queues of messages stored on ifqueue structures (defined above).  
+Entries are added to and deleted from these structures by these macros, which should be called with ipl raised to splimp().
+
+@publishedAll
+@released
+*/
+
+/** @def IF_POLL(ifq, m) 
+
+polling related function.
+
+@publishedAll
+@released
+*/
+
+/** @def IF_DRAIN(ifq)
+
+To drain a queue
+
+@publishedAll
+@released
+*/
+
+

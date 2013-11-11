@@ -1,0 +1,63 @@
+/*
+* Copyright (c) 2008-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+#ifndef __GRAPHICS_FNTSTOREREBOOTTEST_IBY__
+#define __GRAPHICS_FNTSTOREREBOOTTEST_IBY__
+
+#include <graphics_rebootharness.iby>
+#include <fntstoretest.iby>
+#include <InternalTestFonts.iby>
+
+REM Change Linked Font Drive to be on e:\ as c:\ gets wiped by rebooting tests
+patchdata fntstr.dll @ KLinkedFontDrive 0x65
+
+REM include the autoexec.bat file as a text file to give the reboot harness read access to the data
+REM this should only be currently used on h4 (works on WDP too) & h6
+
+#ifdef GRAPHICS_MISTRAL_ROM
+#ifdef __MOMAP24XX_H4HRP__
+	#ifdef USE_DATA_PAGING
+	//H4 WDP
+	data=EPOCROOT##..\roms\h4hrp_graphics0b_armv5_wdp_auto\h4hrp_graphics0b_armv5_wdp_auto_autoexec.bat	\autoexec.txt
+	#else
+	//H4 Non-WDP
+	data=EPOCROOT##..\roms\h4hrp_graphics0b_armv5_dpdef_auto\h4hrp_graphics0b_armv5_dpdef_auto_autoexec.bat   \autoexec.txt
+	#endif
+#endif
+
+#ifdef __MOMAP34XX_SDP__
+data=EPOCROOT##..\roms\34xx_sdp_graphics0b_armv5_dpdef_auto_autoexec\34xx_sdp_graphics0b_armv5_dpdef_auto_autoexec.bat   \autoexec.txt
+#endif
+
+#else
+#ifdef __MOMAP24XX_H4HRP__
+	#ifdef USE_DATA_PAGING
+	//H4 WDP
+	data=\logs\autorom\t18n_test_rom_itype_h4_armv5_wdp_auto_autoexec.bat   \autoexec.txt
+	#else
+	//H4 Non-WDP
+	data=\logs\autorom\t18n_test_rom_itype_h4_armv5_ram_auto_autoexec.bat   \autoexec.txt
+	#endif
+#endif
+
+#ifdef __MOMAP34XX_SDP__
+data=\logs\autorom\t18n_test_rom_itype_omap3430_armv5_dp-func_auto_autoexec.bat   \autoexec.txt
+#endif
+#endif
+
+#endif	// __GRAPHICS_FNTSTOREREBOOTTEST_IBY__

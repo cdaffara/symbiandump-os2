@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<relnotes name="HTTP Utilities Library">
+  <purpose>
+    Convenience component for storing a miscellany of utility classes commonly used by internet protocol parsing components. Contains implementations for URI, standardised time format, and simple text parsing utilities.
+  </purpose>
+  
+  <defect number="DEF142843" title="Public headers include platform headers " revision="028">
+    Rectified the header classifications wherever necessary, either including it in .cpp or promoting it
+  </defect>
+  
+  <defect number="PDEF119959" title="Klocwork Security Defects - application-protocols_inetprotutil" revision="027">
+    Resolved Klocwork Security issues.
+  </defect>
+
+  <defect number="DEF117127" title="Several warnings are flagged while building HTTP and WAP Push Components " revision="026">
+    Resolved build warnings. 
+  </defect>
+
+  <defect number="PDEF117119" title="inetprotutils.dll is not compatible between 9.2 and 9.3 and 9.4 for WINSCW" revision="025">
+	 Re-ordered the ordinals in def file for WISNCW in order to make v9.4 compatible with v9.2 and v9.3.
+  </defect>
+
+  <defect number="PDEF116173" title="inetprotutils.dll is not compatible between 9.2 and 9.3 and 9.4" revision="024">
+	 Re-ordered the ordinals in def file in order to make v9.4 compatible with v9.2 and v9.3.
+  </defect>
+
+  <defect number="PDEF115778" title="Emergency call not terminated if 112 phone ends call" revision="023">
+	 To support IOP issue, The fix does not validate "lr" value.
+  </defect>
+
+  <defect number="INC113916" title="Possible array out of bounds error" revision="022">
+	Fixed possible out of bounds error in TBase64::Decode()
+  </defect>
+	
+  <defect number="INC113919" title="Possible array out of bounds error - CAuthority8::SetComponentL and CAuthority16" revision="021">
+	Asserted the value of specified component before setting it in the authority.
+  </defect>
+	
+  <defect number="INC113930" title="Possible arrary out of bounds in CUri8::SetComponentL and CUri16::SetComponentL" revision="020">
+	Asserted the value of the specified component before setting it in the URI.
+  </defect>
+  
+  <defect number="INC112209" title="Cannot install midlet from url which contains '!' character" revision="019">
+	Characters *, !, ', (, ) are removed from the excluded character list,since those are NOT Invalid in an URI.
+  </defect>
+
+  <defect number="PDEF112728" title="ONB: CL 1052215 causes UI Frameworks multiple failures with 93_160 and higher" revision="018">
+	Made a check for the handler whether it is a non-null before calling DoParseUri.
+  </defect>
+
+  <defect number="PDEF112258" title="UriParser.dll is loaded and unloaded many times during browsing" revision="017">
+	The plugin implementation is removed and GenericUriParser is defined as a base class having virtual methods which can be overidden by the dervied classes.
+  </defect>
+
+  <defect number="DEF111922" title="Description and return value for the ResolveL method of CUri8 " revision="016">
+	@return	value is modified as CUri8 object.
+  </defect>
+
+  <defect number="DEF109550" title="Filename Case Check errors" revision="015">
+    Filenames are modified as specified in Filename policy.
+  </defect>
+
+  <defect number="DEF109081" title="Parse function can return KErrNomemory" revision="014">
+    Documentation for Parse function was updated to reflect that it can also return KErrNoMemory. Also the fix to close Ecom session after deleting plugin was implemented.
+  </defect>
+
+  <defect number="PDEF108861" title="Browsing www.aftonbladet.se caused Elena R6D23 to crash (tested with swedsh T..." revision="013">
+    The check is incorporated for aLength before making use of Right(aLength) operation.
+  </defect>
+
+  <defect number="DEF107661" title="Incomplete doxygen documentation in InetProtUtils component" revision="012">
+    Implemented Doxygen documentation.
+  </defect>
+
+  <defect number="DEF105605" title="JDTS: Validation of SIP URIs fails" revision="011">
+    The Sip Uri Parsing and validation is supported as specified in RFC 3261 through a plug-in.
+  </defect>
+
+  <defect number="PDEF107658" title="Symbian HTTP::Date header parsing problem" revision="010">
+    Any leading and trailing whitespaces in the value of Date header in the http response is now trimmed off before it is being converted.
+  </defect>
+
+  <defect number="PDEF103219" title="OSS Browser on S60 3.1 (&amp; 3.0): whitespace (%20) character in link is interprete" revision="009">
+    Added an exported API,SpecificEscapeEncodeL, which will escape encode the special charaters in URI.
+  </defect>
+
+  <preq number="1182" title="GNU Make-based build system" revision="008">
+    Phase-I of Preq-1182 GNU Make-based build system, Filename Policy check updations.
+  </preq>
+
+  <defect number="PDEF103219" title="OSS Browser on S60 3.1 (&amp; 3.0): whitespace (%20) character in link is interprete" revision="007">
+    Eliminating re-escaping of already escaped characters.
+  </defect>
+
+  <cr number="928" title="Add PREQ1631 to the scope of Naiad" revision="006">
+    Provided support for RFC3986
+  </cr>
+
+  <defect number="PDEF097582" title="publishedAll typedef present in 9.1, absent in 9.2" revision="005">
+    Restored publishedAll typedef present for CAuthority16 that was accidentally removed from MCL.
+  </defect>
+
+  <defect number="DEF094978" title="Bad dependency on messaging" revision="004">
+    Replaced base64 dependency on messaging (imut.dll) with own base64-encoding functions.
+  </defect>
+
+  <defect number="DEF092551" title="Tag Scan Report for the inetprotutil Subsystem" revision="003">
+    Unidentified tags removed
+  </defect>
+
+  <defect number="DEF090356" title="Dead condition in inetprotutil" revision="002">
+    A dead condition check was removed
+  </defect>
+
+  <defect number="PDEF090903" title="TInternetDate leaves with KErrCorrupt when parsing a single digit day number" revision="001">
+    TInternetDate can parse dates with single digit day field.
+  </defect>
+</relnotes>

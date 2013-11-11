@@ -1,0 +1,46 @@
+/*
+* Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+#ifndef __FILETOKENS_IBY__
+#define __FILETOKENS_IBY__
+
+REM File token libraries
+
+#include "asnpkcs.iby"
+
+file=ABI_DIR\BUILD_DIR\fstokenshared.dll				sys\bin\fstokenshared.dll
+
+file=ABI_DIR\BUILD_DIR\fstokencli.dll					sys\bin\fstokencli.dll
+ECOM_PLUGIN(filecertstore.dll,101f5015.rsc)
+ECOM_PLUGIN(filekeystore.dll,101f7332.rsc)
+
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+file=ABI_DIR\BUILD_DIR\fstokenserver_useauth.exe		sys\bin\fstokenserver.exe
+data=EPOCROOT##epoc32\data\z\private\10202be9\200218e6.txt   \private\10202be9\200218e6.txt
+
+#else
+file=ABI_DIR\BUILD_DIR\fstokenserver.exe				sys\bin\fstokenserver.exe
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+
+
+#include "filetokensconfig.iby"
+
+#ifdef AGGREGATE_CERTSTORE
+patchdata fstokenserver.exe@KAggregateCertStore 0x01
+#endif
+
+#endif

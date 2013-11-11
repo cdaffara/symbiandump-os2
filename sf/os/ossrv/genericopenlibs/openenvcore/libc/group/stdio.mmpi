@@ -1,0 +1,76 @@
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// Name        : stdio.mmpi
+// Part of     : stdio project specific include MMP file
+// This is a project specific include file for building the 
+// stdio as part of libc library.
+// Version     : 1.0
+// This material, including documentation and any related
+// computer programs, is protected by copyright controlled by
+// Nokia. All rights are reserved. Copying, including
+// reproducing, storing, adapting or translating, any
+// or all of this material requires the prior written consent of
+// Nokia. This material also contains confidential
+// information which may not be disclosed to others without the
+// prior written consent of Nokia.
+//
+
+
+
+
+
+SOURCEPATH     ../src/stdio
+
+// source file name
+
+SOURCE			asprintf.c clrerr.c fclose.c fdopen.c feof.c ferror.c fflush.c \
+				fgetc.c fgetln.c fgetpos.c fgets.c fgetwln.c fileno.c flags.c  fopen.c fprintf.c fpurge.c fputc.c \
+				fputs.c fread.c freopen.c fscanf.c fseek.c \
+				fsetpos.c ftell.c funopen.c fwalk.c \
+				fwrite.c getc.c getchar.c gets.c getw.c \
+				printf.c putc.c putchar.c puts.c putw.c \
+				remove.c rewind.c scanf.c setbuf.c setbuffer.c setvbuf.c snprintf.c \
+				sprintf.c sscanf.c tempnam.c \
+				ungetc.c unlocked.c vasprintf.c vfprintf.c vfscanf.c \
+				vprintf.c vscanf.c vsnprintf.c vsprintf.c vsscanf.c set_fmode.c \
+			
+
+
+
+
+SOURCE			stdio.c //Small standard I/O/seek/close functions
+SOURCE			rget.c
+SOURCEPATH 		../src/gen
+SOURCE		 errlst.c	//- dependency on threads
+
+SOURCEPATH	../src
+SOURCE  getdtablesize.c
+
+
+//Duplicates
+//(getc_unlocked, getchar_unlocked, putc_unlocked, putchar_unlocked) in unlocked.c
+//fseeko(in fseek.c) ftello(in ftell.c)
+
+
+//ctermid.c pclose.c popen.c _flock_stub.c
+
+//
+
+//fflush_unlocked fgetwc_unlocked vdprintf - available in Glibc but may not get compiled directly
+//_IO_feof _IO_puts _IO_getc.c _IO_putc.c
+
+
+
+// End of File
+

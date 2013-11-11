@@ -1,0 +1,80 @@
+// Copyright (c) 2008-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// CentRepFotaTvRTests.iby
+// 
+//
+
+#ifndef __CENTRALREPOSITORYFOTATECHVIEWRTESTS_IBY__
+#define __CENTRALREPOSITORYFOTATECHVIEWRTESTS_IBY__
+
+REM Central Repository Tests that require techview
+#ifndef __CENTRALREPOSITORYTESTS_IBY__ 
+
+// centrep test dlls
+#include <centreptesthelper.iby>
+#endif
+#include <swicertstoredat.iby>
+// centrep techview test files
+
+#ifdef SYMBIAN_BAFL_SYSUTIL
+    #ifdef CENTREP_MW_TESTS
+        file=ABI_DIR\BUILD_DIR\t_cenrep_fota_hw_setup.exe	test\t_cenrep_fota_hw_setup.exe
+        file=ABI_DIR\BUILD_DIR\t_cenrep_fota_hw_tests.exe	test\t_cenrep_fota_hw_tests.exe
+    #endif // CENTREP_MW_TESTS
+#endif
+
+#ifdef SYMBIAN_BAFL_SYSUTIL
+#ifndef ROMFLASHING
+data=DATAZ_\PRIVATE\10202BE9\10033333.txt PRIVATE\10202BE9\10033333.txt
+data=DATAZ_\PRIVATE\10202BE9\10033335.txt PRIVATE\10202BE9\10033335.txt
+data=DATAZ_\PRIVATE\10202BE9\10033336.txt PRIVATE\10202BE9\10033336.txt
+data=DATAZ_\PRIVATE\10202BE9\10033339.txt PRIVATE\10202BE9\10033339.txt
+#ifdef SYMBIAN_CENTREP_SUPPORT_MULTIROFS
+	#ifdef PDS_TEST_MULTIROFS
+		data=DATAZ_\PRIVATE\10202BE9\10033333.txt PRIVATE\10202BE9\10033333.txt[01-00]
+		data=DATAZ_\PRIVATE\10202BE9\10033335.txt PRIVATE\10202BE9\10033335.txt[01-00]
+		data=DATAZ_\PRIVATE\10202BE9\10033336.txt PRIVATE\10202BE9\10033336.txt[01-00]
+		data=DATAZ_\PRIVATE\10202BE9\10033339.txt PRIVATE\10202BE9\10033339.txt[01-00]
+	#endif
+#endif
+#else
+data=DATAZ_\PRIVATE\10202BE9\10033333_005.txt PRIVATE\10202BE9\10033336.txt
+#ifdef SYMBIAN_CENTREP_SUPPORT_MULTIROFS
+	#ifdef PDS_TEST_MULTIROFS
+		data=DATAZ_\PRIVATE\10202BE9\10033333_005.txt PRIVATE\10202BE9\10033336.txt[01-00]
+	#endif
+#endif
+#endif
+
+#ifndef __CENTRALREPOSITORYTECHVIEWFLASHPERFORMANCE__
+#ifdef ROMORIG
+#ifndef __TE_SYSUTILTEFTESTS_IBY__
+data=DATAZ_\RESOURCE\versions\sw.txt	RESOURCE\versions\sw.txt
+#endif
+#else
+#ifndef __TE_SYSUTILTEFTESTS_IBY__
+data=DATAZ_\PRIVATE\10202BE9\sw_modified.txt RESOURCE\versions\sw.txt
+#ifndef __TE_SYSUTILTEFTESTS_IBY__
+#endif
+#endif
+data=DATAZ_\PRIVATE\10202BE9\10033333_modified.cre	PRIVATE\10202BE9\10033333_modified.cre
+data=DATAZ_\PRIVATE\10202BE9\sw_modified.txt	PRIVATE\10202BE9\sw_modified.txt
+#ifndef __CENTREPTESTDATA_IBY__
+#include <centrepswiteststub.iby>
+#endif
+data=DATAZ_\PRIVATE\10202BE9\RF1.sis	PRIVATE\10202BE9\RF1.sis
+data=DATAZ_\PRIVATE\10202BE9\RF3.sis	PRIVATE\10202BE9\RF3.sis
+
+#endif //SYMBIAN_BAFL_SYSUTIL
+#endif __CENTRALREPOSITORYFOTATECHVIEWRTESTS_IBY__

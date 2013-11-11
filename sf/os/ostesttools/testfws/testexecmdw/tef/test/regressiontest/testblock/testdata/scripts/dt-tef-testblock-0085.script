@@ -1,0 +1,33 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SERVER te_RegBlockTestSuite 
+
+START_TESTCASE DT-TEF-TestBlock-0085
+//! @SYMTestCaseID          DT-TEF-TestBlock-0085
+//! @SYMCreationDate        03-07-2008
+//! @SYMAuthor              DavidZhang
+//! @SYMTestType            CT
+//! @SYMTestPriority        Medium
+//! @SYMTestCaseDesc        !Result=Fail TEF parameter on test block level.
+//! @SYMTestExpectedResults Test case result is PASS.
+//! @SYMTestActions         Use a test block with !Result=Fail expected (block level) and call a command that executes a function that calls
+//!                         CDataWrapper::SerBlockResult(EFail).
+	START_TEST_BLOCK	100 te_RegBlockTestSuite ${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini
+		CREATE_OBJECT	te_RegBlockTestWrapper	DummyObj
+		COMMAND		DummyObj		SetBlockResult			BlockResult_Fail
+	END_TEST_BLOCK		!Result=Fail
+END_TESTCASE DT-TEF-TestBlock-0085

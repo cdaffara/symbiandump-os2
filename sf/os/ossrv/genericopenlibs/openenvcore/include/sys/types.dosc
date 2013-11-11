@@ -1,0 +1,404 @@
+/** @file  ../include/sys/types.h
+@internalComponent
+*/
+
+/** @fn ftruncate(int, off_t)
+
+The ftruncate() function causes the regular file referenced by fildes to have a size of length bytes. 
+If the file previously was larger than length, the extra data is discarded. If it was previously shorter than length, it is unspecified whether the file is changed or its size increased. 
+If the file is extended, the extended area appears as if it were zero-filled. If fildes references a shared memory object, ftruncate() sets the size of the shared memory object to length. 
+If the file is not a regular file or a shared memory object, the result is unspecified.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn ftruncate64(int filedesc, off64_t length)
+@param filedesc
+@param length
+
+For full documentation see: http://www.unix.org/version2/whatsnew/lfs20mar.html#3.0
+
+@see ftruncate()
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn truncate64(const char *file, off64_t length)
+@param file
+@param length
+@return   Upon successful completion, both truncate64() and ftruncate64() shall return 0; otherwise, -1 shall be returned and errno set to indicate the error.
+
+For full documentation see: http://www.unix.org/version2/whatsnew/lfs20mar.html#3.0
+
+@see truncate()
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn lseek(int, off_t, int)
+
+The lseek() function shall set the file offset for the open file description associated with the file descriptor fildes, as follows:
+If whence is SEEK_SET, the file offset shall be set to offset bytes.
+If whence is SEEK_CUR, the file offset shall be set to its current location plus offset.
+If whence is SEEK_END, the file offset shall be set to the size of the file plus offset.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  mmap64(void *, size_t len, int prot, int flags, int fildes, off64_t offset)
+@param # Represents the parameter addr
+@param len
+@param prot
+@param flags
+@param fildes
+@param offset
+@return   Upon successful completion, mmap64 returns a pointer to the mapped region.
+Otherwise, a value of MAP_FAILED is returned and errno is set to indicate the error.
+
+For full documentation see: http://www.unix.org/version2/whatsnew/lfs20mar.html#3.0
+
+@see mmap()
+ 
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  lseek64(int fildes, off64_t offset, int whence)
+@param fildes
+@param offset
+@param whence
+@return   Upon successful completion, lseek64 returns the resulting offset location as measured in bytes from the
+beginning of the file.
+Otherwise,
+a value of -1 is returned and errno is set to indicate
+the error.
+
+For full documentation see: http://www.unix.org/version2/whatsnew/lfs20mar.html#3.0
+
+@see lseek()
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @typedef typedef	__blksize_t	blksize_t
+
+Used for block sizes.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @typedef typedef	__blkcnt_t	blkcnt_t
+
+Used for file block counts.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @typedef typedef	__clock_t	clock_t
+
+Used for system times in clock ticks or CLOCKS_PER_SEC
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @typedef typedef	__clockid_t	clockid_t
+
+Used for clock ID type in the clock and timer functions.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @typedef typedef	__critical_t	critical_t
+
+Critical section value
+
+@publishedAll
+@released
+*/
+
+
+/**@typedef typedef	__int64_t	daddr_t
+
+disk address
+
+@publishedAll
+@released
+*/
+
+
+/**@typedef typedef	__dev_t		dev_t
+
+device number or struct cdev
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/**@typedef typedef	__fflags_t	fflags_t
+
+file flags 
+
+@publishedAll
+@released
+*/
+
+
+
+/**@typedef typedef	__fixpt_t	fixpt_t
+
+fixed point number
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/**@typedef typedef	__fsblkcnt_t	fsblkcnt_t
+
+Used for file system block counts. 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/**@typedef typedef	__fsfilcnt_t	fsfilcnt_t
+
+Used for file system file counts.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/**@typedef typedef	__gid_t		gid_t
+
+Used for group IDs.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/**@typedef typedef	__uint32_t	in_addr_t
+
+32 bit unsigned int address
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/**@typedef typedef	__uint16_t	in_port_t
+
+16bit unsigned int
+
+@publishedAll
+@released
+*/
+
+
+/**@typedef typedef	__id_t		id_t
+
+Used as a general identifier; can be used to contain at least a pid_t, uid_t, or gid_t.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/**@typedef typedef	__ino_t		ino_t
+
+Used for file serial numbers.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/**@typedef typedef	__key_t		key_t
+
+Used for XSI interprocess communication. 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/**@typedef typedef	__lwpid_t	lwpid_t
+
+Thread ID
+
+@publishedAll
+@released
+*/
+
+
+/**@typedef typedef	__mode_t	mode_t
+
+Used for some file attributes.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/**@typedef typedef	__nlink_t	nlink_t
+
+Used for link counts.
+@publishedAll
+@externallyDefinedApi
+*/
+
+/**@typedef typedef	__off_t		off_t
+
+Used for file sizes.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/**@typedef typedef	__off_t		off64_t;
+
+Large file offsets.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/**@typedef typedef	__pid_t		pid_t
+
+Used for process IDs and process group IDs.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/**@typedef typedef	__register_t	register_t
+
+register size
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/**@typedef typedef	__segsz_t	segsz_t
+
+segment size (in Pages)
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/**@typedef typedef	__size_t	size_t;
+
+Used for sizes of objects.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/**@typedef typedef	__ssize_t	ssize_t
+
+Used for a count of bytes or an error indication.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/**@typedef typedef	__suseconds_t	suseconds_t
+
+Used for time in microseconds.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/**@typedef typedef	__time_t	time_t
+
+Used for time in seconds.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/**@typedef typedef	__timer_t	timer_t
+
+Used for timer ID returned by timer_create().
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/**@typedef typedef	__u_register_t	u_register_t
+
+register type
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/**@typedef typedef	__uid_t		uid_t
+
+Used for user IDs.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/**@typedef typedef	__useconds_t	useconds_t
+
+Used for time in microseconds
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/**@typedef typedef	unsigned char	u_char
+
+unsigned char
+
+@publishedAll
+@released
+*/
+
+
+/**@typedef typedef	unsigned short	u_short
+
+unsigned short
+
+@publishedAll
+@released
+*/
+
+
+/**@typedef typedef	unsigned int	u_int
+
+unsigned int
+
+@publishedAll
+@released
+*/
+
+
+/**@typedef typedef	unsigned long	u_long
+
+unsigned long
+
+@publishedAll
+@released
+*/
+
+

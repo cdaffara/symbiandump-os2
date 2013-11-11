@@ -1,0 +1,35 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+*
+*/
+#ifndef __COMMSDEBUGUTILITY_IBY__
+#define __COMMSDEBUGUTILITY_IBY__
+
+REM Specify whether to use real commsdebugutility, or stub
+//#define USE_FLOGGER_STUB
+REM FLOGGER - logging support
+
+#include <ost.iby>
+
+file=ABI_DIR\DEBUG_DIR\comsdbgutil.dll			System\bin\comsdbgutil.dll
+file=ABI_DIR\DEBUG_DIR\comsdbgsvr.exe			System\bin\comsdbgsvr.exe
+ #if (!USE_FLOGGER_STUB)
+ file=ABI_DIR\DEBUG_DIR\comsdbgsvr.dll			System\bin\comsdbgsvr.dll
+ data=EPOCROOT##epoc32\data\z\resource\commsdbg.ini	resource\commsdbg.ini
+ #else
+ file=ABI_DIR\DEBUG_DIR\comsdbgstub.dll			System\bin\comsdbgsvr.dll
+ #endif
+
+#endif

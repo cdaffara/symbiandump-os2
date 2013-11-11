@@ -1,0 +1,54 @@
+MAKEDATA :
+!IF "$(PLATFORM)" == "GCCXML" || "$(PLATFORM)" == "TOOLS" || "$(PLATFORM)" == "TOOLS2"
+	cd
+	echo ----------------
+	echo  Do nothing ...
+	echo ----------------
+!ELSE
+	cd
+	echo -----------------------------
+	echo Building UPS policy SIS files
+	echo -----------------------------
+
+	if not exist \epoc32\release\winscw\udeb\z\sys\bin mkdir \epoc32\release\winscw\udeb\z\sys\bin
+	if exist \epoc32\release\winscw\udeb\upsserver.exe copy /y \epoc32\release\winscw\udeb\upsserver.exe \epoc32\release\winscw\udeb\z\sys\bin\upsserver.exe
+	if exist \epoc32\release\winscw\urel\upsserver.exe copy /y \epoc32\release\winscw\urel\upsserver.exe \epoc32\release\winscw\urel\z\sys\bin\upsserver.exe
+
+	if not exist %EPOCROOT%epoc32\data\z\tups\tpolicies\sis mkdir %EPOCROOT%epoc32\data\z\tups\tpolicies\sis
+	if not exist %EPOCROOT%epoc32\data\z\tups\tpolicies\sis\tupspolicies1.sis  makesis tupspolicies1.pkg %EPOCROOT%epoc32\data\z\tups\tpolicies\sis\tupspolicies1_unsigned.sis
+	if not exist %EPOCROOT%epoc32\data\z\tups\tpolicies\sis\tupspolicies1.sis  signsis %EPOCROOT%epoc32\data\z\tups\tpolicies\sis\tupspolicies1_unsigned.sis %EPOCROOT%epoc32\data\z\tups\tpolicies\sis\tupspolicies1.sis %SECURITYSOURCEDIR%\testframework\testcertificates\ups\test\root5ca\ca.pem %SECURITYSOURCEDIR%\testframework\testcertificates\ups\test\root5ca\ca.key.pem
+	if exist %EPOCROOT%epoc32\data\z\tups\tpolicies\sis\tupspolicies1_unsigned.sis del /q %EPOCROOT%epoc32\data\z\tups\tpolicies\sis\tupspolicies1_unsigned.sis
+
+	if not exist %EPOCROOT%epoc32\release\winscw\udeb\z\tups\tpolicies\sis\ mkdir %EPOCROOT%epoc32\release\winscw\udeb\z\tups\tpolicies\sis\
+	if not exist %EPOCROOT%epoc32\release\winscw\urel\z\tups\tpolicies\sis\ mkdir %EPOCROOT%epoc32\release\winscw\urel\z\tups\tpolicies\sis\
+	copy /Y %EPOCROOT%epoc32\data\z\tups\tpolicies\sis\tupspolicies1.sis %EPOCROOT%epoc32\release\winscw\udeb\z\tups\tpolicies\sis\
+	copy /Y %EPOCROOT%epoc32\data\z\tups\tpolicies\sis\tupspolicies1.sis %EPOCROOT%epoc32\release\winscw\urel\z\tups\tpolicies\sis\
+
+!ENDIF
+
+DO_NOTHING:
+	rem do nothing
+
+#
+# The targets invoked by abld...
+#
+
+MAKMAKE : DO_NOTHING
+FREEZE : DO_NOTHING
+LIB : DO_NOTHING
+RESOURCE : DO_NOTHING
+CLEANLIB : DO_NOTHING
+BLD : DO_NOTHING
+RELEASABLES : DO_NOTHING
+
+SAVESPACE : BLD
+
+FINAL : MAKEDATA
+
+CLEAN :     
+	if exist %EPOCROOT%epoc32\data\z\tups\tpolicies\sis\tupspolicies1.sis 					del /q %EPOCROOT%epoc32\data\z\tups\tpolicies\sis\tupspolicies1.sis
+	if exist %EPOCROOT%epoc32\data\z\tups\tpolicies\sis\tupspolicies1_unsigned.sis 			del /q %EPOCROOT%epoc32\data\z\tups\tpolicies\sis\tupspolicies1_unsigned.sis
+	if exist %EPOCROOT%epoc32\release\winscw\udeb\z\tups\tpolicies\sis\tupspolicies1.sis 	del /q %EPOCROOT%epoc32\release\winscw\udeb\z\tups\tpolicies\sis\tupspolicies1.sis
+	if exist %EPOCROOT%epoc32\release\winscw\urel\z\tups\tpolicies\sis\tupspolicies1.sis 	del /q %EPOCROOT%epoc32\release\winscw\urel\z\tups\tpolicies\sis\tupspolicies1.sis
+	if exist \epoc32\release\winscw\udeb\z\sys\bin\upsserver.exe							del /q \epoc32\release\winscw\udeb\z\sys\bin\upsserver.exe
+	if exist \epoc32\release\winscw\urel\z\sys\bin\upsserver.exe							del /q \epoc32\release\winscw\urel\z\sys\bin\upsserver.exe

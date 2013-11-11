@@ -1,0 +1,46 @@
+/*
+* Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+/**
+@file
+
+@SYMPurpose random.dll Pseudo-random number generator interface
+*/
+
+TARGET			random.dll
+CAPABILITY All
+TARGETTYPE		DLL
+UNPAGED
+
+UID      0x1000008d 0x10005E12
+VENDORID 0x70000001
+
+SOURCEPATH	../source/random
+SOURCE          random.cpp threadrandom.cpp randomshim.cpp
+
+USERINCLUDE	../inc
+USERINCLUDE ../../../cryptomgmtlibs/securityutils/inc
+USERINCLUDE	../../../cryptoplugins/cryptospiplugins/source/softwarecrypto
+OS_LAYER_SYSTEMINCLUDE
+OS_LAYER_ESTLIB_SYSTEMINCLUDE
+LIBRARY         euser.lib cryptospi.lib
+
+START WINS
+BASEADDRESS     0x7b120000
+END
+SMPSAFE

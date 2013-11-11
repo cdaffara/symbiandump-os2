@@ -1,0 +1,44 @@
+// PKCS#12 file that contains a single certificate where the iteration
+// count is set to 1. The ASN.1 type is "INTEGER DEFAILT 1" so we omit this field
+
+SEQUENCE
+	// Version
+	INTEGER=3
+
+	// authSafe - PFX
+	SEQUENCE
+		OID=PKCS7_DATA
+		EXPLICIT		
+			OCTETSTRING
+				OUTPUT_BINARY_FILE=authsafecontents.der,1
+					// First PDU
+					SEQUENCE
+						INCLUDE=encrypted_contentinfo.txt,83:8C:73:5E:D5:8F:75:82,1,PKCS12_PBEIDS_SHAAND40BITRC2CBC,rc2-40-cbc,f249eb73d2,ad9c6049b06d1215,safecontents.txt,safebag_certbag.txt,root5ca.der,Root5 CA
+					END
+				END
+			END
+		END
+	END
+
+	// macData
+	SEQUENCE
+		// DigestInfo
+		SEQUENCE
+			SEQUENCE
+				OID=SHA1
+				NULL
+			END
+			// DIGEST		
+			OCTETSTRING
+				HMAC=SHA1,6b2957d55b7ce1fcf77406566418a43e4b387649
+					INCLUDE_BINARY_FILE=authsafecontents.der
+				END
+			END		
+		END		
+		// macSalt
+		OCTETSTRING
+			RAW=95:5D:62:99:D3:31:50:57
+		END
+		// iterations - default value of 1
+	END
+END

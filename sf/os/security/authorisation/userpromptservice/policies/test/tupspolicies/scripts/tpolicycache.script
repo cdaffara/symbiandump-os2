@@ -1,0 +1,120 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SUITE tupspolicies
+PRINT ----------------------------------------------------------
+PRINT tupspolicies: 
+PRINT User Prompt Service policy library unit test
+PRINT ----------------------------------------------------------
+
+// Clean environment. Policy directory on system drive must not exist for the first tests
+// to allow us to check that the library works if the path doesn't exist.
+RUN_UTILS DELETEFILE		c:\upsrefnotifier.txt
+RUN_UTILS DELETEDIRECTORY 	c:\tups\tpolicies\policies
+
+//! @SYMTestCaseID SEC-UPS-POLICIES-CACHE-0001
+//! @SYMTestCaseDesc Test policy matching algorithm within a single policy file.
+//! @SYMTestPriority High
+//! @SYMTestActions Matches a set of requests against policies in a single policy file.
+//! @SYMTestExpectedResults Every request should match the expected policy (identified by the flags field).
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-POLICIES-CACHE-0001
+RUN_TEST_STEP_RESULT 0 100 tupspolicies TEFUnit.CTestPlugins.TestCacheL z:\tups\tpolicies\scripts\policymatch.ini
+END_TESTCASE SEC-UPS-POLICIES-CACHE-0001
+
+//! @SYMTestCaseID SEC-UPS-POLICIES-CACHE-0002
+//! @SYMTestCaseDesc Eclipsing test
+//! @SYMTestPriority High
+//! @SYMTestActions Eclipse various policy files on the Z drive with policy files on the system drive
+//! @SYMTestExpectedResults Policy files should be loaded from the system drive 
+//!                         instead of the Z drive unless the policy file on the system drive is corrupt.
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-POLICIES-CACHE-0002
+// Copy policy files to system drive.
+RUN_UTILS MKDIR 	c:\tups\
+RUN_UTILS MKDIR 	c:\tups\tpolicies\
+RUN_UTILS MKDIR 	c:\tups\tpolicies\policies\
+RUN_UTILS COPYFILE 	z:\tups\tpolicies\eclipse\ups_01033000_01032001.rsc c:\tups\tpolicies\policies\ups_01033000_01032001.rsc
+RUN_UTILS COPYFILE 	z:\tups\tpolicies\eclipse\ups_01034000_01032001.rsc c:\tups\tpolicies\policies\ups_01034000_01032001.rsc
+RUN_UTILS COPYFILE 	z:\tups\tpolicies\eclipse\ups_01035000_01035001.rsc c:\tups\tpolicies\policies\ups_01035000_01035001.rsc
+
+RUN_TEST_STEP_RESULT 0 100 tupspolicies TEFUnit.CTestPlugins.TestCacheL z:\tups\tpolicies\scripts\policyeclipse.ini
+
+// Cleanup
+RUN_UTILS DELETEFILE c:\tups\tpolicies\policies\ups_01033000_01032001.rsc
+RUN_UTILS DELETEFILE c:\tups\tpolicies\policies\ups_01034000_01032001.rsc
+RUN_UTILS DELETEFILE c:\tups\tpolicies\policies\ups_01035000_01035001.rsc
+END_TESTCASE SEC-UPS-POLICIES-CACHE-0002
+
+
+//! @SYMTestCaseID SEC-UPS-POLICIES-CACHE-0003
+//! @SYMTestCaseDesc Error handling.
+//! @SYMTestPriority Medium
+//! @SYMTestActions Test a variety of error conditions e.g. missing policy files.
+//! @SYMTestExpectedResults Every request returns the expected error code.
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-POLICIES-CACHE-0003
+RUN_TEST_STEP_RESULT 0 100 tupspolicies TEFUnit.CTestPlugins.TestCacheL z:\tups\tpolicies\scripts\policyerrors.ini
+END_TESTCASE SEC-UPS-POLICIES-CACHE-0003
+
+//! @SYMTestCaseID SEC-UPS-POLICIES-CACHE-0004
+//! @SYMTestCaseDesc Corrupt policy files on Z drive should panic UPS
+//! @SYMTestPriority Medium
+//! @SYMTestActions Try to load a corrupt policy file from the Z drive.
+//! @SYMTestExpectedResults The UPS should panic with the expected panic code.
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-POLICIES-CACHE-0004
+RUN_PANIC_STEP_RESULT 0 UPS-Policies tupspolicies TEFUnit.CTestPlugins.TestCacheL z:\tups\tpolicies\scripts\policypanic0.ini
+END_TESTCASE SEC-UPS-POLICIES-CACHE-0004
+
+//! @SYMTestCaseID SEC-UPS-POLICIES-CACHE-0005
+//! @SYMTestCaseDesc Policy file system drive & Z drive is corrupt.
+//! @SYMTestPriority Medium
+//! @SYMTestActions Try to load a corrupt policy file from the Z drive, system drive file is also corrupt.
+//! @SYMTestExpectedResults The UPS should panic with the expected panic code.
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-POLICIES-CACHE-0005
+RUN_UTILS COPYFILE 	z:\tups\tpolicies\eclipse\ups_01036000_01036001.rsc c:\tups\tpolicies\policies\ups_01036000_01036001.rsc
+
+RUN_PANIC_STEP_RESULT 0 UPS-Policies tupspolicies TEFUnit.CTestPlugins.TestCacheL z:\tups\tpolicies\scripts\policypanic0.ini
+
+RUN_UTILS DELETEFILE 		c:\tups\tpolicies\policies\ups_01036000_01036001.rsc
+END_TESTCASE SEC-UPS-POLICIES-CACHE-0005
+
+//! @SYMTestCaseID SEC-UPS-POLICIES-CACHE-0006
+//! @SYMTestCaseDesc Tests the plug-in manager.
+//! @SYMTestPriority High
+//! @SYMTestActions Creates and destroys plug-in implementations.
+//! @SYMTestExpectedResults ECOM final close should not panic.
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-POLICIES-CACHE-0006
+RUN_TEST_STEP_RESULT 0 100 tupspolicies TEFUnit.CTestPlugins.TestPluginManagerL z:\tups\tpolicies\scripts\pluginmanager.ini
+END_TESTCASE SEC-UPS-POLICIES-CACHE-0006
+
+//! @SYMTestCaseID SEC-UPS-POLICIES-CACHE-0007
+//! @SYMTestCaseDesc Test length constrains for CClientEntity and CFingerprint
+//! @SYMTestPriority Medium
+//! @SYMTestActions Creats fingerprints and client entities with different lengths values.
+//! @SYMTestExpectedResults Constructors error if length constraints are broken.
+//! @SYMDevelopedForRelease Oghma
+START_TESTCASE SEC-UPS-POLICIES-CACHE-0007
+RUN_TEST_STEP_RESULT 0 100 tupspolicies TEFUnit.CTestPlugins.TestLengthsL
+END_TESTCASE SEC-UPS-POLICIES-CACHE-0007
+
+// Cleanup automated notifier response
+RUN_UTILS DELETEFILE		c:\upsrefnotifier.txt
+RUN_UTILS DELETEDIRECTORY 	c:\tups\tpolicies\policies
+

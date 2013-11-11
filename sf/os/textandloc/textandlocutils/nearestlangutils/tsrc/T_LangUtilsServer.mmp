@@ -1,0 +1,31 @@
+TARGET		  t_langutilsserver.exe
+TARGETTYPE	  exe
+UID 0x1000007A 0xE27AD85E
+//UID			 0 0xE27AD85D
+
+CAPABILITY		ProtServ WriteDeviceData
+
+
+SOURCEPATH	../tsrc
+userinclude   ../inc
+userinclude ../src
+userinclude ../tsrc
+
+OS_LAYER_LIBC_SYSTEMINCLUDE 
+APP_LAYER_SYSTEMINCLUDE
+
+SOURCE t_langutilsserver.cpp
+source T_LangUtilsTestShareFunc.cpp
+source T_LangUtils.cpp
+source T_LangUtilsImp.cpp
+source T_LangUtilsLang.cpp
+
+
+STATICLIBRARY  langutil.lib
+library euser.lib hal.lib efsrv.lib estor.lib centralrepository.lib
+LIBRARY	    testexecuteutils.lib 
+LIBRARY	    testexecutelogclient.lib
+
+#ifdef ENABLE_ABIV2_MODE
+DEBUGGABLE_UDEBONLY
+#endif

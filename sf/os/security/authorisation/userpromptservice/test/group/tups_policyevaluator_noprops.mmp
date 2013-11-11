@@ -1,0 +1,53 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+/**
+ @file
+ @test
+*/
+
+target			tups_policyevaluator_noprops.dll
+capability		protserv trustedui
+targettype		plugin
+
+uid				0x0 0xE1111E40
+vendorid		0x70000001
+
+userinclude		../include
+userinclude		../tups_policyevaluator/source
+userinclude		../tups_policyevaluator/include
+
+macro			POLICY_NOPROPS
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+sourcepath		../tups_policyevaluator/source
+source			tups_policyevaluator_noprops.cpp
+
+start resource	e1111e40.rss
+target			tups_policyevaluator_noprops.rsc
+end
+
+library			ecom.lib 
+library 		euser.lib
+library			hash.lib
+library			upspolicies.lib
+library			efsrv.lib 
+library			bafl.lib
+library			numberconversion.lib
+SMPSAFE

@@ -1,0 +1,75 @@
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// Name        : libdl.mmp
+// Project mmp file
+//
+
+
+
+TARGET        libdl.dll
+TARGETTYPE    dll
+UID           0x1000008d 0x10281F32
+
+CAPABILITY    ALL -TCB
+VENDORID      0x70000001
+
+VERSION 				1.1 
+
+#ifndef WINSCW
+EPOCALLOWDLLDATA
+#endif //WINSCW
+
+//macro defination
+#ifdef GCCXML
+MACRO __wchar_t_defined
+#endif //GCCXML
+
+
+
+SOURCEPATH    ../src
+SOURCE        libdl.cpp
+SOURCE        libdl_r.cpp
+SOURCE        loadeddlls.cpp
+
+DEFFILE       libdl.def
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_LIBC_SYSTEMINCLUDE
+
+start wins
+win32_headers
+end
+
+SOURCEPATH	  ../inc
+DOCUMENT	  libdl_r.dosc
+DOCUMENT	  loadeddlls.dosc
+
+SOURCEPATH	  ../../include
+DOCUMENT	  dlfcn.dosc
+
+USERINCLUDE  ../inc
+USERINCLUDE	 ../../backend/inc
+USERINCLUDE  ../../ewsd/inc
+
+#ifdef WINSCW
+LIBRARY ewsd.lib emulator.lib
+#endif
+
+LIBRARY       euser.lib efsrv.lib libc.lib charconv.lib
+
+nostrictdef
+
+
+SMPSAFE
+PAGED

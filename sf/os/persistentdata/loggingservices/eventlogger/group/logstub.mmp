@@ -1,0 +1,54 @@
+// Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// logstub.dll Stub API around log engine to be used when removing log engine from the ROM
+// 
+//
+
+/**
+ @file
+*/
+
+
+MACRO		NO_LOG_ENGINE_IN_ROM
+TARGET        	logstub.dll
+TARGETTYPE    	dll
+CAPABILITY	All -Tcb
+
+//CodeWarrior compilation options - disable the "illegal pragma" warning
+OPTION CW -w noillpragmas
+
+DEFFILE		logwrap.def		// provide the same API as logwrap.dll
+NOEXPORTLIBRARY				// but don't generate a .lib file
+
+UID    	0x1000008d 0x10005342
+VENDORID 0x70000001
+
+SMPSAFE
+
+SOURCEPATH	../LogWrap/src
+SOURCE        	LOGACT.CPP LOGWRAP.CPP LOGEVENT.CPP LOGBASE.CPP LOGDLL.CPP
+USERINCLUDE   	../LogWrap/inc
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+LIBRARY       	euser.lib efsrv.lib bafl.lib estor.lib
+
+SOURCEPATH			../LogWrap
+START RESOURCE		LOGWRAP.RSS
+TARGETPATH 			resource/logeng
+HEADER
+END
+
+START WINS
+   BASEADDRESS 0x4ADA0000
+END
+

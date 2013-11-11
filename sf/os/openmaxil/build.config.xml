@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!--
+
+Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+ All rights reserved.
+ This component and the accompanying materials are made available
+ under the terms of "Eclipse Public License v1.0"
+ which accompanies this distribution, and is available
+ at the URL "http://www.eclipse.org/legal/epl-v10.html".
+
+ Initial Contributors:
+ Nokia Corporation - initial contribution.
+
+ Contributors:
+
+ Description: Build configuration for use by Sirocco
+
+-->
+
+<!DOCTYPE SystemDefinition SYSTEM "sysdef_1_4_0.dtd" [
+  <!ENTITY layer_real_source_path "/sf/os/openmaxil" >
+]>
+
+<SystemDefinition name="openmaxil" schema="1.4.0">
+  <systemModel>
+    <layer name="os_layer">
+      <module name="openmaxil">
+        <component name="openmaxil_plat">
+          <unit unitID="openmaxil_plat.khronos_api" name="OpenMAX IL API" mrp="" bldFile="&layer_real_source_path;/openmaxil_plat/khronos_api/group"/>
+          <unit unitID="openmaxil_plat.symbian_api" name="OpenMAX IL Symbian API" mrp="" bldFile="&layer_real_source_path;/openmaxil_plat/symbian_api/group"/>
+          <unit unitID="openmaxil_plat.test_api" name="OpenMAX IL Symbian API" mrp="" bldFile="&layer_real_source_path;/openmaxil_plat/test_api/group"/>
+        </component>
+
+        <component name="openmaxil_generic">
+          <unit unitID="openmaxil_generic.omxilcomplib" name="OpenMAX IL Component Framework" mrp="" bldFile="&layer_real_source_path;/omxil_generic/omxilcomplib/group"/>
+          <unit unitID="openmaxil_generic.omxilcore" name="OpenMAX IL Core" mrp="" bldFile="&layer_real_source_path;/omxil_generic/omxilcore/group"/>
+          <unit unitID="openmaxil_generic.omxilloader" name="OpenMAX IL Loader" mrp="" bldFile="&layer_real_source_path;/omxil_generic/omxilloader/group"/>
+        </component>
+
+        <component name="tsrc">
+          <unit unitID="tsrc.xmltestharness" name="OpenMAX IL xmlclient" mrp="" bldFile="&layer_real_source_path;/tsrc/xmltestharness/group"/>
+        </component>
+      </module>
+    </layer>
+  </systemModel>
+</SystemDefinition>

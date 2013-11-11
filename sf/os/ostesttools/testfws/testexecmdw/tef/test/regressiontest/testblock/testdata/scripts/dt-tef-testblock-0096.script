@@ -1,0 +1,38 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SERVER te_RegBlockTestSuite 
+
+START_TESTCASE DT-TEF-TestBlock-0096
+//! @SYMTestCaseID          DT-TEF-TestBlock-0096
+//! @SYMCreationDate        03-07-2008
+//! @SYMAuthor              DavidZhang
+//! @SYMTestType            CT
+//! @SYMTestPriority        Medium
+//! @SYMTestCaseDesc        Check that OUTSTANDING poll interval will delay work of the thread.
+//! @SYMTestExpectedResults The delay caused by the OUTSTANDING must be 5 seconds long at least.
+//! @SYMTestActions         Create a test block, create an active object (RTimer) in the test block and activate it. Call OUTSTANDING 5000000
+//!                         command for a time sufficient to let the active object to finish it's work. Measure a time of the delay.
+	START_TEST_BLOCK	100 te_RegBlockTestSuite ${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini
+		CREATE_OBJECT	te_RegBlockTestWrapper	TestCase091_obj
+		COMMAND		TestCase091_obj			AddActiveObjectToScheduler
+		COMMAND		TestCase091_obj			ActivateActiveObject		TestCase091_obj
+		COMMAND		TestCase091_obj			StartTimer
+		OUTSTANDING	5000000
+		COMMAND		TestCase091_obj			CheckTimer			TestCase091_delay
+		COMMAND		TestCase091_obj			CheckActiveObjectWorkIsComplete		TestCase091_must_be_complete_true
+	END_TEST_BLOCK
+END_TESTCASE DT-TEF-TestBlock-0096

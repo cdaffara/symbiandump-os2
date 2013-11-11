@@ -1,0 +1,886 @@
+/** @file ../include/ctype.h
+   @internalComponent
+*/
+
+ 
+ 
+ /** @fn  isalnum(int c)
+@param c
+@return   The isalnum function returns zero if the character is not alphanumeric and
+returns non-zero if the character tests true.
+
+The function isalnum returns non-zero if 'c' is alphanumeric i.e. it belongs to class alnum(see defns for definition). In other words, it returns non-zero if the test for isalpha or isdigit is non-zero, irrespective of the program's current locale. For single character representations,
+the value of the argument is
+representable as an unsigned char
+or the value of EOF.
+
+
+
+ The functionality of this API is independent of the program's current locale and so it returns non-zero for all the characters (of various locales supported) that belong to the class alnum,
+irrespective of the locale they belong to.
+
+
+
+Examples:
+@code
+#include<ctype.h> //isalnum()
+#include<stdio.h> //printf()
+void test_isalnum()
+{
+   int arr[]={'8',0xe1,'5','Z',0xfd};
+   int i = 0;
+   int size = 5;
+   for( i=0; i<size; i++)
+   {
+      int ret = isalnum(arr[i]); //call to the API with chars in arr[]
+      if( (!ret) != 0 )
+      {
+          printf("
+%c is not alphanumeric", arr[i]);
+      }
+      else
+      {
+          printf("
+%c is an alphanumeric ", arr[i]);
+      }
+   }
+   printf("
+");
+}
+
+@endcode
+ Output
+@code
+a is an alphanumeric
+á is an alphanumeric
+5 is an alphanumeric
+Z is an alphanumeric
+ý is an alphanumeric
+
+@endcode
+@see isalpha()
+@see isdigit()
+@see iswalnum()
+
+
+ 
+
+ @publishedAll
+ @externallyDefinedApi
+ */
+ 
+ /** @fn  isalpha(int c)
+@param c
+@return   The isalpha function returns non-zero if the character is an alphabet and zero otherwise.
+
+  The isalpha function returns non-zero if 'c' is an alphabet i.e. it belongs to class alpha (see defns for definition). In other words, it returns non-zero if the test for isupper or islower is non-zero,irrespective of the program's current locale. The function will return non-zero for also those characters that are alphabets and cannot be categorised as upper or lower case.
+For single character representations,
+the value of the argument is
+representable as an unsigned char
+or the value of EOF.
+
+ The functionality of this API is independent of the program's current locale and so it returns non-zero for all the characters (of various locales supported) that belong to the class alpha, irrespective of the locale they belong to.
+
+
+
+
+
+Examples:
+@code
+#include<ctype.h> //isalpha()
+#include<stdio.h> //printf()
+void test_isalpha()
+{
+   int arr[]={'a',0xe1,'5','Z',0xfd};
+   int i = 0;
+   int size = 5;
+   for( i=0; i<size; i++)
+   {
+      int ret = isalpha(arr[i]); //call to the API with chars in arr[]
+      if( (!ret) != 0 )
+      {
+        printf("
+%c is not an alphabet", arr[i]);
+      }
+      else
+      {
+        printf("
+%c is an alphabet", arr[i]);
+      }
+   }
+   printf("
+");
+}
+
+@endcode
+ Output
+@code
+a is an alphabet
+á is an alphabet
+5 is not an alphabet
+Z is an alphabet
+ý is an alphabet
+
+
+@endcode
+@see islower()
+@see isupper()
+@see iswalpha()
+
+
+ 
+
+ @publishedAll
+ @externallyDefinedApi
+ */
+ 
+ /** @fn  iscntrl(int c)
+@param c
+@return   The iscntrl function returns non-zero if 'c' is control character and zero otherwise.
+
+  The iscntrl function tests if 'c' is a control character i.e. it belongs to class cntrl(see defns for definition).
+For single character representations,
+the value of the argument is
+representable as an unsigned char
+or the value of EOF.
+
+ The functionality of this API is independent of the program's current locale and so it returns non-zero for all the characters (of various locales supported) that belong to the class cntrl, irrespective of the locale they belong to.
+
+Examples:
+@code
+#include<ctype.h> //iscntrl()
+#include<stdio.h> //printf()
+int test_iscntrl()
+{
+   int arr[]={0x7F,’9’,’A’,’$’,’\a’ };
+   int i = 0;
+   int size = 5;
+   for( i=0; i<size; i++)
+   {
+      int ret = iscntrl(arr[i]); //call to the API with chars in arr[]
+      if( (!ret) != 0 )
+      {
+         printf("
+%c is not cntrl char ", arr[i]);
+      }
+      else
+      {
+         printf("
+%c is cntrl char", arr[i]);
+      }
+   }
+printf("
+");
+}
+
+@endcode
+ Output
+@code
+ is cntrl char
+9 is not cntrl char
+A is not cntrl char
+$ is not cntrl char
+ is cntrl char
+
+@endcode
+@see iswcntrl()
+
+
+ 
+
+ @publishedAll
+ @externallyDefinedApi
+ */
+ 
+ 
+ /** @fn  isdigit(int c)
+@param c
+@return   The isdigit function returns non-zero if the character is a digit and zero otherwise.
+
+The isdigit function tests if ’c’ is a decimal digit character. Regardless of locale, this includes the following characters only: 
+
+@code
+‘‘0’’  ‘‘1’’   ‘‘2’’   ‘‘3’’   ‘‘4’’ 
+‘‘5’’ ‘‘6’’   ‘‘7’’   ‘‘8’’   ‘‘9’’ 
+@endcode
+
+Examples:
+@code
+#include<ctype.h> //isdigit()
+#include<stdio.h> //printf()
+void test_isdigit()
+{
+   int arr[]={'8',0xe1,'5','Z',0xfd};
+   int i = 0;
+   int size = 5;
+   for( i=0; i<size; i++)
+   {
+     int ret = isdigit(arr[i]); //call to the API with chars in arr[]
+     if( (!ret) != 0 )
+     {
+         printf("
+%c is not a digit", arr[i]);
+     }
+     else
+     {
+         printf("
+%c is a digit", arr[i]);
+     }
+     }
+printf("
+");
+}
+
+@endcode
+ Output
+@code
+8 is a digit
+á is not a digit
+5 is a digit
+Z is not a digit
+ý is not a digit
+
+
+@endcode
+@see iswdigit()
+@see defns()
+
+
+ 
+
+ @publishedAll
+ @externallyDefinedApi
+ */
+ 
+ /** @fn  isgraph(int c)
+@param c
+@return   The isgraph function returns non-zero if 'c' has a visible representation and zero otherwise.
+
+  The isgraph function returns non-zero if 'c' has visible representation i.e. it belongs to class graph(see defns for definition). It does not consider characters classified under class space
+and class cntrl (see defns for definition).
+For single character representations,
+the value of the argument is
+representable as an unsigned char
+or the value of EOF.
+
+ The functionality of this API is independent of the program's current locale and so it returns non-zero for all the characters (of various locales supported) that belong to the class graph, irrespective of the locale they belong to.
+
+Examples:
+@code
+#include<ctype.h> //isgraph()
+#include<stdio.h> //printf()
+int test_isgraph()
+{
+   int arr[]={’n’,’\f’, ’6’, ’ ’};
+   int i = 0;
+   int size = 4;
+   for( i=0; i<size; i++)
+   {
+     int ret = isgraph(arr[i]); //call to API with chars in arr[]
+     if( (!ret) != 0 )
+     {
+        printf("
+%c is not visible char ", arr[i]);
+     }
+     else
+     {
+        printf("
+%c is visible char", arr[i]);
+     }
+   }
+printf("
+");
+}
+
+@endcode
+ Output
+@code
+n is  visible char
+is not visible char
+6 is visible char
+ is not visible char
+
+@endcode
+@see iswgraph()
+
+
+ 
+
+ @publishedAll
+ @externallyDefinedApi
+ */
+ 
+ /** @fn  islower(int c)
+@param c
+@return   The islower function returns non-zero is 'c' is a lower-case alphabet and zero otherwise.
+
+  The islower function tests if 'c' belongs to the set of lower-case letters i.e. it belongs to class lower(see defns for definition).
+For single character representations,
+the value of the argument is
+representable as an unsigned char
+or the value of EOF.
+
+ The functionality of this API is independent of the program's current locale and so it returns non-zero for all the characters (of various locales supported) that belong to the class lower, irrespective of the locale they belong to.
+
+
+
+Examples:
+@code
+#include<ctype.h> //islower()
+#include<stdio.h> //printf()
+int test_islower()
+{
+  int arr[]={0x0126,0xee,'r','9','g'};
+  int i = 0;
+  int size = 5;
+  for( i=0; i<size; i++)
+  {
+     int ret = islower(arr[i]); //call to the API with chars in the arr[]
+     if( (!ret) != 0 )
+     {
+         printf("
+%c is not in lower-case ", arr[i]);
+     }
+     else
+     {
+         printf("
+%c is in lower-case", arr[i]);
+     }
+  }
+printf("
+");
+}
+
+@endcode
+ Output
+@code
+& is not in lower-case
+î is in lower-case
+r is in lower-case
+9 is not in lower-case
+g is in lower-case
+
+
+@endcode
+@see iswlower()
+@see tolower()
+
+
+ 
+
+ @publishedAll
+ @externallyDefinedApi
+ */
+ 
+ /** @fn  isprint(int c)
+@param c
+@return   The isprint function returns non-zero if 'c' is printable and zero otherwise.
+
+  The isprint function returns true if 'c' is a printable character. It considers characters under class space, but characters falling under class cntrl will not be considered(see defns for definition of these classes).
+
+ For single character representations,
+the value of the argument is
+representable as an unsigned char
+or the value of EOF.
+
+ The functionality of this API is independent of the program's current locale and so it returns non-zero for all the characters (of various locales supported) that belong to the class print(see defns for definition), irrespective of the locale they belong to.
+
+
+
+Examples:
+@code
+#include<ctype.h> //isprint()
+#include<stdio.h> //printf()
+int test_isprint()
+{
+   int arr[]={’n’,’\f’, 0xe1, ’6’, ’ ’};
+   int i = 0;
+   int size = 5;
+   for( i=0; i<size; i++)
+   {
+      int ret = isprint(arr[i]); //call to the API with the chars in arr[]
+      if( (!ret) != 0 )
+      {
+         printf("
+%c is not printable char ", arr[i]);
+      }
+      else
+      {
+         printf("
+%c is printable char", arr[i]);
+      }
+   }
+printf("
+");
+}
+
+@endcode
+ Output
+@code
+n is printable char
+  is not printable char
+á is not printable char
+6 is printable char
+  is printable char
+
+
+@endcode
+@see iswprint()
+
+
+ 
+
+ @publishedAll
+ @externallyDefinedApi
+ */
+ 
+ /** @fn  ispunct(int c)
+@param c
+@return   The ispunct function returns non-zero if 'c' is a punctuation character and zero otherwise.
+
+  The ispunct function tests if 'c' is a punctuation character i.e. it belongs to class punct(see defns for definition). Characters under class space
+or a
+character for which isalnum is true(non-zero) are excluded. In other words, it tests for punctuation characters.
+For single character representations,
+the value of the argument is
+representable as an unsigned char
+or the value of EOF.
+
+ The functionality of this API is independent of the program's current locale and so it returns non-zero for all the characters (of various locales supported) that belong to the class punct, irrespective of the locale they belong to.
+
+
+
+Examples:
+@code
+#include<ctype.h> //ispunct()
+#include<stdio.h> //printf()
+int test_ispunct()
+{
+  int arr[]={0x3003,'3',0x301C,'*', '+'};
+  int i = 0;
+  int size = 5;
+  for( i=0; i<size; i++)
+  {
+     int ret = ispunct(arr[i]); //call to the API with chars in arr[]
+     if( (!ret) != 0 )
+     {
+         printf("
+0x%x is not a punc char ", arr[i]);
+     }
+     else
+     {
+         printf("
+0x%x is a punc char", arr[i]);
+     }
+}
+printf("
+");
+return 0;
+}
+
+@endcode
+ Output
+@code
+0x3003 is a punc char
+0x33 is not a punc char
+0x301c is a punc char
+0x2a is a punc char
+0x2b is a punc char
+
+@endcode
+@see iswpunct()
+
+
+ 
+
+ @publishedAll
+ @externallyDefinedApi
+ */
+ 
+ /** @fn  isspace(int c)
+@param c
+@return   The isspace function returns non-zero if 'c' is space character and zero otherwise.
+
+  The isspace function tests if 'c' is from among white-space characters i.e. it belongs to class space(see defns for definition).
+This includes the following standard characters:
+
+ SPACE
+
+ FORM-FEED
+
+ NEWLINE
+
+ CARRIAGE-RETURN
+
+ TAB
+
+ VERTICAL-TAB
+
+ For single character representations,
+the value of the argument is
+representable as an unsigned char
+or the value of EOF.
+
+
+
+ The functionality of this API is independent of the program's current locale and so it returns non-zero for all the characters (of various locales supported) that belong to the class space, irrespective of the locale they belong to.
+
+
+
+Examples:
+@code
+#include<ctype.h> //isspace()
+#include<stdio.h> //printf()
+int test_isspace()
+{
+   int arr[]={'
+','0','w','R',0x3000,' '};
+   int i = 0;
+   int size = 5;
+   for( i=0; i<size; i++)
+   {
+      int ret = isspace(arr[i]); //call to the API with chars in arr[]
+      if( (!ret) != 0 )
+      {
+         printf("
+%c is not space char ", arr[i]);
+      }
+      else
+      {
+         printf("
+%c is space char", arr[i]);
+      }
+   }
+printf("
+");
+}
+
+@endcode
+ Output
+@code
+ is space char
+0 is not space char
+w is not space char
+R is not space char
+   is space char
+
+@endcode
+@see iswspace()
+
+
+ 
+
+ @publishedAll
+ @externallyDefinedApi
+ */
+ 
+ /** @fn  isupper(int c)
+@param c
+@return   The isupper function returns non-zero if 'c' is in upper case and zero otherwise.
+
+  The isupper function tests if 'c' is an upper-case alphabet i.e. it belongs to class upper(see defns for definition).
+For single character representations,
+the value of the argument is
+representable as an unsigned char
+or the value of EOF.
+
+ The functionality of this API is independent of the program's current locale and so it returns non-zero for all the characters (of various locales supported) that belong to the class upper, irrespective of the locale they belong to.
+
+
+
+Examples:
+@code
+#include<ctype.h> //isupper()
+#include<stdio.h> //printf()
+int test_isupper()
+{
+int arr[]={0x0126,'G','7','B',0x3041};
+int i = 0;
+int size = 5;
+for( i=0; i<size; i++)
+{
+   int ret = isupper(arr[i]); //call to the API with chars in arr[]
+   if( (!ret) != 0 )
+   {
+        printf("
+%c is not in upper-case ", arr[i]);
+   }
+   else
+   {
+        printf("
+%c is in upper-case", arr[i]);
+   }
+   }
+printf("
+");
+}
+
+@endcode
+ Output
+@code
+& is in upper-case
+G is in upper-case
+7 is not in upper-case
+B is in upper-case
+A is in upper-case
+
+@endcode
+@see iswupper()
+@see toupper()
+
+
+ 
+
+ @publishedAll
+ @externallyDefinedApi
+ */
+ 
+ /** @fn  isxdigit(int c)
+@param c
+@return   The isxdigit function returns non-zero if 'c' is a character used for hex-representation and zero otherwise. The iswxdigit function should be used instead.
+
+The isxdigit function tests if ’c’ is a hexadecimal-digit character. Regardless of locale, this includes the following characters only: 
+@code
+‘‘0’’  ‘‘1’’   ‘‘2’’   ‘‘3’’   ‘‘4’’ 
+‘‘5’’ ‘‘6’’   ‘‘7’’   ‘‘8’’   ‘‘9’’ 
+‘‘A’’ ‘‘B’’   ‘‘C’’   ‘‘D’’   ‘‘E’’ 
+‘‘F’’ ‘‘a’’   ‘‘b’’   ‘‘c’’   ‘‘d’’ 
+‘‘e’’ ‘‘f’’  
+
+@endcode
+
+
+
+
+Examples:
+@code
+#include<ctype.h> //isxdigit()
+#include<stdio.h> //printf()
+int test_isxdigit()
+{
+   int arr[]={'F','a','M','9','2'};
+   int i = 0;
+   int size = 5;
+   for( i=0; i<size; i++)
+   {
+      int ret = isxdigit(arr[i]); //call to the API with chars in arr[]
+      if( (!ret) != 0 )
+      {
+          printf("
+%c is not hex-digit ", arr[i]);
+      }
+      else
+      {
+          printf("
+%c is hex-digit", arr[i]);
+      }
+}
+printf("
+");
+}
+
+@endcode
+ Output
+@code
+F is hex-digit
+a is hex-digit
+M is not hex-digit
+9 is hex-digit
+2 is hex-digit
+
+@endcode
+@see iswxdigit()
+@see defns()
+
+
+ 
+
+ @publishedAll
+ @externallyDefinedApi
+ */
+ 
+ /** @fn  tolower(int c)
+@param c
+@return   If the argument is an upper-case letter, the tolower function returns the corresponding lower-case letter if there 
+is one; otherwise the argument is returned unchanged. The wide version, towlower , should normally be used instead.
+
+  The tolower function converts an upper-case letter to the corresponding lower-case
+letter.
+For single character representations,
+the value of the argument is
+representable as an unsigned char
+or the value of EOF .
+
+ The functionality of this API is independent of the program's current locale.
+
+
+
+Examples:
+@code
+#include<ctype.h>  //tolower()
+#include<stdio.h> //printf()
+int test_tolower ()
+{
+   struct st
+   {
+    int input;
+    int output;
+   };
+   struct st  arr[]=
+   {
+   { 'Q', 'q' },
+   { 'g' , 'g' },
+   { '9' , '9' },
+   { '%' , '%' },
+   { '	' , '	' },
+   };
+   int i = 0;
+   int size = 5;
+   for( i=0; i<size; i++)
+   {
+      int ret = tolower(arr[i].input);//call to the API with the chars in the arr[]
+      if( ret != arr[i].output )
+      {
+         printf("
+%c cannot convert ", arr[i].input);
+      }
+      else
+      {
+         printf("
+%c ", arr[i].output);
+      }
+   }
+printf("
+");
+}
+
+@endcode
+ Output
+@code
+q
+g
+9
+%
+
+
+@endcode
+@see islower()
+@see towlower()
+@see defns()
+
+
+ 
+
+ @publishedAll
+ @externallyDefinedApi
+ */
+ 
+ /** @fn  toupper(int c)
+@param c
+@return   If the argument is a lower-case letter, the toupper function returns the corresponding upper-case letter if there 
+is one; otherwise the argument is returned unchanged. The wide version, towupper , should normally be used instead.
+
+  The toupper function converts a lower-case letter to the corresponding
+upper-case letter.
+For single character representations,
+the value of the argument is
+representable as an unsigned char
+or the value of EOF .
+The functionality of this API is independent of the program's current locale.
+
+Examples:
+@code
+#include<ctype.h> //toupper()
+#include<stdio.h> //printf()
+int test_toupper()
+{
+   struct st
+   {
+     int input;
+     int output;
+   };
+   struct st  arr[]=
+   {
+   { 'q', 'Q' },
+   { 'G' , 'G' },
+   { '9' , '9' },
+   { '%' , '%' },
+   { '	' , '	' },
+   };
+   int i = 0;
+   int size = 5;
+   for( i=0; i<size; i++)
+   {
+      int ret = toupper(arr[i].input);//call to the API with the chars in arr[]
+      if( ret != arr[i].output )
+      {
+          printf("
+%c cannot convert ", arr[i].input);
+      }
+      else
+      {
+          printf("
+%c ", arr[i].output);
+      }
+   }
+printf("
+");
+}
+
+@endcode
+ Output
+@code
+q
+G
+9
+%
+
+@endcode
+@see isupper()
+@see towupper()
+@see defns()
+
+
+ 
+
+ @publishedAll
+ @externallyDefinedApi
+ */
+ 
+ /** @def _tolower(c)
+
+This macro always expect that the argument sent is always in uppercase and works only with c locale.
+else the behavior is undefined
+
+ @publishedAll
+ @released
+ */
+ 
+ /** @def _toupper(c)
+
+This macro always expect that the argument sent is always in lowercase and works only with c locale.
+else the behavior is undefined
+
+ @publishedAll
+ @released
+ */
+ 
+ /** @def isascii(c)
+
+Checks if ascii.
+
+ @publishedAll
+ @released
+ */
+ 
+ /** @def toascii(c)
+
+Converts to ascii.
+
+ @publishedAll
+ @released
+ */
+ 
+ 
+ 
+ 

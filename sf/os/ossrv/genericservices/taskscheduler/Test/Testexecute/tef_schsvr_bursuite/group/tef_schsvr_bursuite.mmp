@@ -1,0 +1,50 @@
+// Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+TARGET      tef_schsvr_bursuite.exe
+TARGETTYPE  exe
+UID         0x1000007A 0x101FA78A
+CAPABILITY  ReadDeviceData WriteDeviceData AllFiles 
+
+//Please add any change under here
+SOURCEPATH  ../src
+SOURCE	    tef_schsvr_bursuiteserver.cpp
+SOURCE	    tef_schsvr_bursuitestepbase.cpp
+SOURCE	    tef_schsvr_bursuitesimstepbase.cpp
+SOURCE      initialisestep.cpp
+SOURCE      burstep.cpp
+SOURCE      comparestep.cpp
+SOURCE      apistep.cpp
+SOURCE      multistep.cpp
+SOURCE      mergestep.cpp
+
+USERINCLUDE ../src
+USERINCLUDE	../../../TSUtils
+USERINCLUDE	../../../../INC
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+LIBRARY  	euser.lib
+LIBRARY		testexecuteutils.lib 
+LIBRARY		testexecutelogclient.lib 
+
+LIBRARY		schsvr.lib
+LIBRARY		tsutils_tsk.lib
+LIBRARY		sbeclient.lib	
+LIBRARY		efsrv.lib
+LIBRARY		bafl.lib
+
+
+SMPSAFE

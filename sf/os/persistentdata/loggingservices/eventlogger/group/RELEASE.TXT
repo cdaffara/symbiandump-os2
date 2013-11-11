@@ -1,0 +1,88 @@
+Calypso Log Engine:
+
+23/05/02 Release
+This release contains some fixes for a couple of defects.
+1. JAPN-5ACAD8 - Logs : events are deleted from recent calls list if clock is changed. This is a simple fix to ensure that the log app and the log engine start with the same configuration. The change to logwrap.rss just changes the initial maximum allowed log event age to 30 days. This fix only affects the configuration used in a newly generated log database on a cleanly formatted device.
+2. JAPN-59R8YJ - Logs : Name not updated into dialled call list with create new contact card. I've changed the log engine to treat the number field in a filter in a special way. If you pass +358407593676 into the filter, internally it will generate the SQL query NUMBER LIKE "*7593676" causing it to return events with phone numbers that look like 0407593676 and
++358407593676. The side effect of this is that the log app will correctly find all events that match a phone number when a contact is added because it no longer does an exact match for the phone number. Also the recent lists will consider 02075632408 and +442075632408 to be the same number so only one instance will appear in the dialled list if you called these numbers - previously you would have seen two events even though you'd called the same person.
+3. Update to the T_BENCH test code to display log config (used to verify a defect), and includes benchmark code for ClearDuplicatesL function added in previous release.
+4. Update to T_VIEW1 test code to check phone number matching using a filter.
+
+19/04/02 Release
+This release contains some speed improvements to the log engine. It's compatible with the previous version in every way. A new export has been added to allow duplicates to be cleared for a recent list in one call and a new SQL string has been added to LOGCLI.RSS resource file - this has no implications for localisation. Changes in more detail:
+1. New function added CLogViewRecent::ClearDuplicatesL. This will allow the log app to clear out all the duplicate events for a recent list in one function call. Currently it can take ages for the log app to clear dupicate event lists because it has to navigate through all the views - this can take ages with alot of events.
+2. Added a new resource string to LOGCLI.RSS which is used to clear duplicate event views. Nothing in this resource file is localised.
+3. Removed all the code to do with removing unused strings from the database. This code was unused and so was wasting more than 1K or rom.
+4. Changed the server to open the log database on the client side instead of going through the log server. This was a waste of time because there is now only one user of the database - the log server. This appears to improve the performance of view navigation by around 50%.
+5. Reimplemented the notification mechanism because we can only have one RDbNotifier open for a client side database.
+6. Fixed a bug in CLogDuplicate class which is used to mark duplicate events in the database. A filter is passed into the class which it uses to determine whether events are duplicates. It adds the filter to a list, but the list was never reset, so the list grew forever, basically this leaked memory and would slow down code adding events to the database.
+7. Changed the code which is clears events over a certain age back to using a 1 second date resolution from 1 day resolution. This behaviour was copied from Linda and was originally done to improve performance. However this causes some problems in other areas, e.g. ESAO-599GUQ, so it seems safest to put back the old behaviour.
+8. Fixed a problem in the server views when any error from EvaluateAll was being ignored.
+Changes to test code:
+1. Added more test code for change notifications.
+2. Added a package file so it's easy to build a SIS file for the test code.
+3. Added benchmark tests for recent lists.
+4. Uncommented the view purging test code which works now a 1 second event age resolution is used in the log engine.
+5. Removed the test code which tested heap failure in the DBMS server. We're not using the server any more so it's pointless.
+
+28/03/02 Release
+Fixes a couple of memory leaks and a panic found whilst improving the test code. Otherwise should be functionally, binary and source compatible in every way.
+1. Removed the logwatcher from the IBY files. This component was written to satisfy Linda requirements and is now considered to be example code only. In future we may want to put contact resolution for events into the server.
+2. Added shutdown behaviour to the log engine server. This facility is only used by the test  code to ensure that the server has not leaked any resources. Normally the Log Engine server never exits - it is NOT a transient server.
+3. Added new session commands to the log server for requesting the server to close when it has no more clients and to set heap failure for testing purposes. These commands can only be executed by a specially written test session - there is no public access to these commands in release code.
+4. Fixed a memory leak in the server active object where an operation that failed with an error would not be deleted.
+5. Got the server active object to complete itself when cancelled, so the server can be shutdown by test code.
+6. Fixed a panic which could occur if a view was constructed during a backup.
+7. Fixed a possible memory leak of filter list entries that could occur during OOM while setting up a view.
+7. Updated the LogWrap DEF file to include the R3UNUSED flag to support the thumb stub optimisation. This change IS binary compatible.
+8. Improvements to the test code to allow heap failure testing in the log server and allow the server to be shutdown so checks can be performed for resource leakage in the server process.
+9. Added server process heap failure tests to T_HEAP for CLogClient and T_VIEWFAIL for CLogView's.
+10. All test code now includes logservshare.h from logeng\logserv\inc, so it can access the shutdown and heap failure session commands.
+
+15/03/02 Release
+Fixed a problem I spotted in the code and  problem with view handling pointed out by Juha.
+1. Fixed a problem in CLogServerActive::RunError where a failure to start log maintenance would have meant that the server would stop processing operations until another request came in. I just have to signal the active object on an error - in reality this situation can only arise during a backup.
+2. Fixed a problem with ClogViewRecent where the behaviour has been subtly changed from the old version of the log engine. You now can call RemoveL(TlogId) from non-valid views. Added test code to check this.
+
+15/03/02 Release
+The following changes have been made to the code since the last release.
+1. Fixes to the ClogFilter, ClogEventType streaming functions used to pass the objects over the client-server boundary. The max size of the strings was being restored incorrectly.
+2. Rationalised the panic numbers so it's possible to determine the exact line in the code a panic occurred.
+3. Got rid of log session panics.
+4. Removed minor memory leak in ClogClient that could occur in OOM.
+5. Added the concept of validity to ClogQuery, so it's possible to correctly handle an attempt to use a view before it's initialised - which causes a DBMS panic.
+6. Some fairly major changes to the backup behaviour which was largely untested in the last release. In particular it retries to open the database if this fails after a backup has completed.
+7. Using my own scheduler with Error implemented because CbaLockChangeNotifier leaves from RunL for no good reason crashing the server.
+8. Deleting the backup object in the server destructor which was being leaked previously.
+9. Fixed possible memory leaks on the start of a backup where the log server resource might not be fully freed up.
+10. Added a new "backup error" which is returned to the client if any attempt is made to access the database during a backup. This is now the any way a client should get an access denied error.
+11. Fixed KE3 if OOM occurred after deleting an operation, but not setting the current operation pointer member to NULL.
+12. Trapping leaving function in ClogServerActive::RunError.
+13. Implementing backup behaviour in the views and handling the case where a view is not valid - leading to a DBMS panic.
+14. Improvements to backup handling in ClogServerSession.
+15. Fixes to test code.
+
+All the test code for the log engine has been run successfully. In summary the following test code exists:
+1. T_API - Performs basic tests on the ClogClient API to check it works correctly in fairly simple situations. It also tests a few problematic client-server situations that might arise, such as what happens if a client just dies without warning, or two clients try to connect to the server at the same time.
+2. T_BACKUP - Test the behaviour of the engine during a backup. It makes sure that you can copy the database during a backup and that any requests that occur before, during or after a backup operate as expected.
+3. T_BENCH - A test harness which can be used to gather benchmark performance statistics.
+4. T_EVENT - Just test the ClogEvent class.
+5. T_FILE - Tests the ClogClient API while simulating file failure. It's also generally useful for testing error handling in the server and client, during startup and after a backup.
+6. T_FILTER - Tests the ClogFilter class.
+7. T_HEAP - Tests the ClogClient class while simulating heap failure. It checks that the API behaves correctly when OOM occurs. Also useful for testing general error handling
+8. T_NOTIFY - Tests that change notifications work correctly.
+9. T_PURGE - Checks that the Log Engine deletes and removes events from the log automatically at the expected time.
+10. T_TYPE - Tests the ClogEventType class.
+11. T_VIEW1 - Generally tests the ClogViewEvent, ClogViewRecent and ClogViewDuplicate API's.
+12. T_VIEW2 - More testing of views in a bit more details than T_VIEW1, testing some of the more obscure cases that can arise.
+13. T_VIEWFAIL - Test the view API while simulating heap and file failure situations, generally useful for testing error recovery in this code.
+14. T_WRAP - Ensures that the log wrapper used by GT code to modify the log operates correctly.
+
+12/03/02 Release
+First release of the "Calypso" Log Engine. All access to the Log database has been moved to the log server, to avoid the access denied problem. This code has been developed from the log server implemented for the 9210 enhancement release, which moved some of the functionality into a server. The API is compatible with the original version of the Log Engine.
+
+A brief history. This is the 3rd version of the Log Engine.
+1. The first version used in the original release of the 9210 was implemented entirely as a DBMS client. Serious problems were experienced with this version in that clients could lock each other out from the database causing "access denied" errors. Attempts were made to work around this problem by adding retry behaviour. This didn't solve the fundamental problem and made the performance of the code much worse.
+2. The next version of the Log Engine was modified to solve some of the performance problems with the code, which caused particular problems for the sms stack, which could fail to respond to the service center in time because it was waiting for the Log Engine to finish. This version introduced a simple server to perform some of the Log Engine requests. This addressed the performance problem to a certain degree, but the access denied problems still existed. This version was used in the 9210 enhancement and upgrade releases.
+3. This version of the Log Engine addresses the access denied problem by moving all access to the log database into the server. It also makes it possible to improve the API and make further API improvements in the future. This version will be used in the 7650.
+

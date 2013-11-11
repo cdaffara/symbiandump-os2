@@ -1,0 +1,246 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// NOTE: For the purpose of clarity we have ommitted full error checking in the 
+// <hr>
+// An example content file is given below. It has a number of content objects
+// and a number of containers with other containers and content objects inside.
+// It is likely that each container will have information or meta-data related
+// to the collection of objects it holds. 
+// <hr>
+// The <code>ContentAccess::CContent</code> object encapsulates a single file. It allows an application to look
+// at the structure of the objects within the file and the attributes of those objects.
+// There a two ways to create a \c CContent object. The application can specify the URI of the 
+// content or it can supply an open file handle.
+// // Create a CContent with a URI
+// CContent* content = CContent::NewL(uri);
+// // Create a CContent with an existing file handle
+// CContent* content = CContent::NewL(aFs, aFile);
+// Upon creation, \c CContent selects the agent that will handle the file. For 
+// <hr>
+// <code>ContentAccess::CContent</code> acts like a cursor, only able to list the contents of one container 
+// object at any one time. When \c CContent is first opened it views the top level
+// container within the file. The top level container is actually the file itself. 
+// This top level container concept applies to all files, regardless of how many 
+// content or container objects are inside. 
+// Even a content file such as a JPEG image is a container, it's just that 
+// the file only has the <code>"DEFAULT"</code> object embedded inside.
+// So when the example file shown earlier is opened the following objects can be seen
+// by the \c CContent:
+// In this top level container there is only one embedded content object visible (the .jpg file) and two
+// embedded container objects.
+// // Create an array to store the results of CContent::GetEmbeddedObjectsL()
+// RStreamablePtrArray<CEmbeddedObject> myArray;
+// CleanupClosePushL(myArray);
+// // Get the embedded content objects in the current container
+// content->GetEmbeddedObjectsL(myArray, EContentObject); 
+// i = myArray.Count();  // One content object
+// // clear the contents of the array
+// myArray.ResetAndDestroy();
+// // Get the number of container objects in the current container
+// content->GetEmbeddedObjectsL(myArray, EContainerObject); 
+// i = myArray.Count(); // Two container objects
+// // clear the contents of the array
+// myArray->ResetAndDestroy();
+// <hr>
+// To investigate the objects inside a container \c CContent must first open the container. 
+// This changes <code>CContent</code>'s focus from the current container to the container specified in
+// the <code>ContentAccess::CContent::OpenContainer()</code> function.
+// <b> Opening Container 1 from the top level of the file </b>
+// // Get the container objects in the top level of the file
+// content->GetEmbeddedObjectsL(myArray, EContainerObject);
+// // Find the Unique Id of the first container
+// TPtrC UniqueId = myArray[0]->UniqueId();
+// // Open the first container
+// content->OpenContainer(UniqueId);
+// Now \c CContent can see the contents of Container 1:
+// At this point, listing the objects that \c CContent can see gives six MP3
+// files and one container object.
+// // Get the embedded content objects in the current container
+// content->GetEmbeddedObjectsL(myArray, EContentObject); 
+// i = myArray.Count();  // Six content objects
+// myArray.ResetAndDestroy();
+// // Get the number of container objects in the current container
+// content->GetEmbeddedObjectsL(myArray, EContainerObject); 
+// i = myArray.Count(); // One container object
+// myArray.ResetAndDestroy();
+// <b> Opening Container 1.1 from Container 1</b>
+// The same process can be followed again to see the contents of Container 1.1
+// // Get the array of container objects in the current container
+// content->GetEmbeddedObjectsL(myArray, EContainerObject);
+// // Find the Unique Id of the first container within Container 1
+// TPtrC UniqueId = myArray[0]->UniqueId();
+// // Open Container 1.1
+// content->OpenContainer(UniqueId);
+// myArray.ResetAndDestroy();
+// // Can now see two content objects (the MOV file and the TXT file)
+// content->GetEmbeddedObjectsL(myArray, EContentObject);
+// i = myArray.Count(); 
+// myArray.ResetAndDestroy();
+// // Zero container objects
+// content->GetEmbeddedObjectsL(myArray, EContentObject);
+// i = myArray.Count(); 
+// myArray.ResetAndDestroy();
+// <hr>
+// To look once more at the contents of the container that encloses the current container
+// the <code>ContentAccess::CContent::CloseContainer()</code> function should be used.
+// Continuing our example, if we close the Container 1.1 we are left viewing
+// Container 1 again.
+// // Close Container 1.1
+// Econtent->CloseContainer();
+// // Get the embedded content objects in the current container
+// content->GetEmbeddedObjectsL(myArray, EContentObject); 
+// i = myArray.Count();  // Six content objects
+// myArray.ResetAndDestroy();
+// // Get the number of container objects in the current container
+// content->GetEmbeddedObjectsL(myArray, EContainerObject); 
+// i = myArray.Count(); // One container object
+// myArray.ResetAndDestroy();
+// <hr>
+// If an application wants to find all the content with a particular MIME
+// type within a file it should use <code>ContentAccess::CContent::Search()</code>.
+// This function will produce a list of all content objects with the specified
+// MIME type that are stored under the current container.
+// // Create an array for storing the result of the search
+// RStreamablePtrArray<CEmbeddedObject> myArray;
+// CleanupClosePushL(myArray);
+// // Get all MP3 files in Container 1 
+// content->Search(myArray, _L("mpeg/audio"), EFalse);
+// // Do something with results
+// // Cleanup
+// CleanupStack::PopAndDestroy(1);
+// <hr>
+// The functions described earlier can be used to locate a particular content
+// object within a file. <code>ContentAccess::CContent::OpenContentL()</code> can be used to 
+// read the content object. The \c UniqueId parameter can be used to identify
+// a particular object within the file.
+// The call to <code>ContentAccess::CContent::OpenContentL()</code> will leave if the intent 
+// is not permitted. This could occur if the file is DRM protected but no 
+// rights are present. 
+// If the file is DRM protected and the call to <code>OpenContentL()</code> succeeds, the rights 
+// are not consumed at this point. CAF just checks that it is possible to use the 
+// content.
+// // Open the content object specified by uniqueId with the EPlay Intent
+// CData* data = content->OpenContentL(EPlay, uniqueId);
+// If the application already knows the URI and unique Id of the content object 
+// it wants to read from, it can create a \c CData object directly. 
+// CData* data = CData::NewL(TVirtualPathPtr(uri, uniqueId), EPlay, EContentShareReadOnly);
+// Once the \c CData object has been constructed, it allows the content object to be used
+// as if it were a standalone unprotected file. The client must call <code>ContentAccess::CData::ExecuteIntent()</code> 
+// when the rights should be consumed. If the file is not DRM protected, the call 
+// will be ignored by the agent handling the file.
+// TBuf8 <256> buf;
+// data->ExecuteIntent(EPlay);
+// data->Seek(SomePosition,ESEEK_START);
+// data->Read(buf);
+// There are several overloaded versions of the <code>ContentAccess::CData::Read()</code> function. Only one is illustrated
+// above for example purposes.
+// <hr>
+// The \c CContent interface supports notification requests for content objects within files. The
+// events for which an application can request notification are given by the enumeration <code>ContentAccess::TEventMask</code>.
+// The following example requests and cancels notification for rights becoming available:
+// // Request notification when rights become available for a particular content object 
+// content->NotifyStatusChange(ERightsAvailable, status, uniqueId);
+// // Cancel notification request 
+// content->CancelNotifyStatusChange(status, uniqueId);
+// <hr>
+// There are two functions available that give the application some control over the rights: 
+// - <b> Request Rights </b> 
+// \n\n
+// <code>ContentAccess::CContent::RequestRights()</code> allows the application to ask the agent to undertake
+// whatever steps are necessary to obtain rights for the given content object. Some agents
+// may not support this mechanism, in which case they will return <code>KErrCANotSupported</code>.
+// \n\n
+// The request rights call includes an \c TRequestStatus parameter, which allows the application to
+// be notified of the outcome of the rights request.
+// content->RequestRights(status, uniqueId);
+// \n\n
+// - <b> Display Info </b>
+// \n\n
+// <code>ContentAccess::CContent::DisplayInfoL()</code> allows the application to ask the agent to display
+// the file and/or rights information for the given content object. The call returns when
+// the display is dismissed.
+// \n\n
+// Some agents may not support this mechanism, in which case they will leave with <code>KErrCANotSupported</code>.
+// \n\n
+// content->DisplayInfoL(EFileProperties, uniqueId);
+// <hr>
+// <hr>
+// 
+//
+
+/**
+ @page CContentAPI Consumer API (Browsing and reading from content files)
+ - @ref ExampleFile
+ - @ref CreatingCContent
+ - @ref Listing
+ - @ref OpeningContainer
+ - @ref ClosingContainer
+ - @ref Searching
+ - @ref CAFCData
+ - @ref ContentNotification
+ - @ref ContentRights
+ - @ref AgentResolution 
+ code examples given below. For examples with error checking see @ref ExampleReadWithErrCheck.
+ @section ExampleFile An Example Content File
+ @image html DRMFile1.gif
+ @section CreatingCContent Creating a CContent Object
+ @code
+ @endcode
+ @code
+ @endcode
+ details on how this selection is done see @ref AgentResolution.
+ @section Listing Listing objects within a container
+ @image html DRMFile2.gif
+ @code
+ @endcode
+ @section OpeningContainer Opening a container
+ @code
+ @endcode
+ @image html DRMFile3.gif
+ @code
+ @endcode
+ @code
+ @endcode
+ @image html DRMFile4.gif
+ @section ClosingContainer Closing a Container
+ @code
+ @endcode
+ @image html DRMFile3.gif
+ @section Searching Searching for a MIME type within a file
+ @code
+ @endcode
+ @section CAFCData Reading data from a content object
+ @code
+ @endcode
+ @code
+ @endcode
+ @code
+ @endcode
+ @section ContentNotification Content Object Notifications
+ @code
+ @endcode
+ @section ContentRights Handling Rights for DRM content
+ @code
+ @endcode
+ @code
+ @endcode
+ @section AgentResolution Agent resolution during CContent object creation
+ @li During the creation of a CContent object an instance of the internal object CAgentResolver is created.
+ @li CAgentResolver uses ECOM to identifier all the Content Access Agents (CAAs) on the system. An instance of CAgentInfo is created for each CAA found. CAgentInfo contains supplier and consumer MIME types as well as the CAA plug-in details.
+ @li When a URI is supplied to CContent::NewL() and it contains a path for the private directory of one of the agent's then that CAA is used. For RFile no private directory exists so this check cannot be performed.
+ @li If a private directory cannot be obtained from the URI or an RFile was supplied to CContent::NewL() each CAA plug-in identified by CAgentResolver is loaded in turn. 
+ @li CAgentResolver obtains a CAgentManager object from each CAA in turn and calls IsRecognized() allowing the agent implementation to determine if it can support the file.
+ @li If no CAA responds the default F32 CAA is used in to open the file as it is assumed to be unprotected content.
+ @li Note: The MIME types loaded into CAgentInfo are not used for Agent Resolution but are utilized in file type recognition under Application Architecture recognizer framework.
+*/

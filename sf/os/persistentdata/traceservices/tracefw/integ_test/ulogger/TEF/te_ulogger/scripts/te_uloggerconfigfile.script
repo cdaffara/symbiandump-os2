@@ -1,0 +1,96 @@
+// Copyright (c) 2008-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+//! @file
+//! @SYMTestSuiteName               	utfv1-api-uloggerv1-configfile-test-suite.script
+//! @SYMScriptTestEnvironment       	TEF
+
+
+
+LOAD_SUITE te_uloggermclsuite
+
+
+PRINT ConfigFile_Test
+PRINT Remember to include configfileuloggerconfig.ini on MMC card
+
+PREFIX RUN_UTILS
+Copyfile e:\ulogger\configfileuloggerconfig.ini e:\ulogger\uloggerconfig.ini
+//MakeReadWrite e:\uloggerconfig.ini
+REMOVE_PREFIX
+
+
+START_TESTCASE			DT-DEBUG-TRACE-UTFv1-ULoggerPublicConfigFile01-0001
+//! @SYMTestCaseID		DT-DEBUG-TRACE-UTFv1-ULoggerPublicConfigFile01-0001
+//! @SYMTestCaseDesc     Run test for publicconfig file path for ULoggerv1 on armv5
+//! @SYMTestPriority     Critical
+//! @SYMTestActions    Compare the settings in the ulogger server with that specified in the test config file in \testdata\configs\configfiletracecontrolconfig.ini
+//! @SYMTestExpectedResults     Verify that the returned settings match those expected (test step returns a test pass if so)
+//! @SYMTestType         CT
+//! @SYMTestStatus   Implemented
+//! @SYMPREQ                 PREQ1635
+//! @SYMREQ     
+RUN_TEST_STEP 1000 te_uloggermclsuite ULoggerPublicConfigFileTestStep 
+END_TESTCASE			DT-DEBUG-TRACE-UTFv1-ULoggerPublicConfigFile01-0001
+
+
+PREFIX RUN_UTILS
+Copyfile c:\logs\PublicConfigULogger.log c:\logs\PublicConfigULogger1.log
+DeleteFile c:\logs\PublicConfigULogger.log 
+DeleteFile e:\ulogger\uloggerconfig.ini
+REMOVE_PREFIX
+
+
+
+START_TESTCASE			DT-DEBUG-TRACE-UTFv1-ULoggerPrivateConfigFile-0001
+//! @SYMTestCaseID		DT-DEBUG-TRACE-UTFv1-ULoggerPrivateConfigFile-0001
+//! @SYMTestCaseDesc     Run test for privateconfig file path for ULoggerv1 on armv5
+//! @SYMTestPriority     Critical
+//! @SYMTestActions    Having deleted c:\ulogger\uloggerconfig.ini in the public path, now compare the settings in the ulogger server with that specified by default in the private path
+//! @SYMTestExpectedResults     Verify that the returned settings match those expected (test step returns a test pass if so)
+//! @SYMTestType         CT
+//! @SYMTestStatus   Implemented
+//! @SYMPREQ                 PREQ1635
+//! @SYMREQ 
+RUN_TEST_STEP 1000 te_uloggermclsuite ULoggerPrivateConfigFileTestStep 
+END_TESTCASE			DT-DEBUG-TRACE-UTFv1-ULoggerPrivateConfigFile-0001
+
+
+PREFIX RUN_UTILS
+Copyfile c:\logs\ULogger.log c:\logs\PrivateConfigULogger.log
+DeleteFile c:\logs\ULogger.log 
+Copyfile e:\ulogger\configfileuloggerconfig.ini e:\ulogger\uloggerconfig.ini
+//MakeReadWrite e:\uloggerconfig.ini
+REMOVE_PREFIX
+
+
+START_TESTCASE			DT-DEBUG-TRACE-UTFv1-ULoggerPublicConfigFile02-0001
+//! @SYMTestCaseID		DT-DEBUG-TRACE-UTFv1-ULoggerPublicConfigFile02-0001
+//! @SYMTestCaseDesc     Run test for publicconfig file path for ULoggerv1 on armv5
+//! @SYMTestPriority     Critical
+//! @SYMTestActions    Having reinstated a config file on the public path, now compare the settings in the ulogger server with that specified in the public path
+//! @SYMTestExpectedResults     Verify that the returned settings match those expected (test step returns a test pass if so)
+//! @SYMTestType         CT
+//! @SYMTestStatus   Implemented
+//! @SYMPREQ                 PREQ1635
+//! @SYMREQ 
+RUN_TEST_STEP 1000 te_uloggermclsuite ULoggerPublicConfigFileTestStep 
+END_TESTCASE			DT-DEBUG-TRACE-UTFv1-ULoggerPublicConfigFile02-0001
+
+PREFIX RUN_UTILS
+Copyfile c:\logs\PublicConfigULogger.log c:\logs\PublicConfigULogger2.log
+DeleteFile c:\logs\PublicConfigULogger.log 
+REMOVE_PREFIX
+
+PRINT Complete_ConfigFile_Tests

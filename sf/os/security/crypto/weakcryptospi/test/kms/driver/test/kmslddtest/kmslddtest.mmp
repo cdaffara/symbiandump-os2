@@ -1,0 +1,39 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+target			kmslddtest.exe        
+targettype		exe
+
+// const TUint32 KKmsServerUidValue = 0x102833BF
+uid				0x0 0x102833BF
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+userinclude		../../../private_include/product
+userinclude		../../../exported_include
+userinclude		../../../private_include/test
+
+source			main.cpp
+source			testchannel.cpp testpanic.cpp testsecondprocess.cpp globals.cpp oom.cpp
+source			dup.cpp delete.cpp extract.cpp generate.cpp openclose.cpp store.cpp usage.cpp
+
+library			kmsextrldd.lib kmsldd.lib euser.lib
+
+capability		none
+
+vendorid	0x70000001
+SMPSAFE

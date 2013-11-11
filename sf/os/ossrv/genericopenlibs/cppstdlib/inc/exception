@@ -1,0 +1,116 @@
+/*
+ * Copyright (c) 2008-2009 Nokia Corporation and/or its subsidiary(- *   * ies).
+ * All rights reserved.
+ * This component and the accompanying materials are made available
+ * under the terms of the License "Eclipse Public License v1.0"
+ * which accompanies this distribution, and is available
+ * at the URL "http://www.eclipse.org/legal/epl-v10.html".
+ *
+ * Initial Contributors:
+ * Nokia Corporation - initial contribution.
+ *
+ * Contributors:
+ *
+ * Description:
+ * Name       : exception
+ * Part of    : standard c++ library.
+ *
+ */
+
+
+
+
+#ifndef _SYMCPP_EXCEPTION_H_
+#define _SYMCPP_EXCEPTION_H_
+
+#ifdef __EABI__
+/* EABI specific definitions */
+#include <e32def.h>
+namespace std
+{
+    class exception
+        {
+    public:
+        IMPORT_C exception() __NO_THROW;
+        IMPORT_C exception(const exception&) __NO_THROW;
+        IMPORT_C exception& operator=(const exception&) __NO_THROW;
+        IMPORT_C virtual ~exception() __NO_THROW;
+        IMPORT_C virtual const char* what() const __NO_THROW;
+        };
+
+    class bad_exception : public exception
+        {
+    public:
+        IMPORT_C bad_exception() __NO_THROW;
+        IMPORT_C bad_exception(const bad_exception&)  __NO_THROW;
+        IMPORT_C bad_exception& operator=(const bad_exception&)  __NO_THROW;
+        IMPORT_C virtual ~bad_exception()  __NO_THROW;
+        IMPORT_C virtual const char* what() const  __NO_THROW;
+        };
+
+    typedef void (*unexpected_handler)();
+
+    IMPORT_C unexpected_handler set_unexpected(unexpected_handler)  __NO_THROW;
+    IMPORT_C void unexpected();
+
+    typedef void (*terminate_handler)();
+
+    IMPORT_C terminate_handler set_terminate(terminate_handler)  __NO_THROW;
+    IMPORT_C void terminate();
+
+    IMPORT_C extern bool uncaught_exception()  __NO_THROW;
+} 
+
+
+
+#  else
+
+/* Declarations common to all other platforms (Non-EABI) here.
+ * WINSCW specific definitions are in exception_winscw.h
+ */
+#    include <e32def.h>
+
+namespace std {
+
+  class exception {
+  public:
+	  exception() __NO_THROW;
+	  exception(const exception&) __NO_THROW;
+      exception& operator=(const exception&) __NO_THROW;
+      virtual ~exception() __NO_THROW;
+      virtual const char* what() const __NO_THROW;
+  };
+
+  class bad_exception : public exception {
+  public:
+      bad_exception() __NO_THROW; 
+      bad_exception(const bad_exception&) __NO_THROW; 
+      bad_exception& operator=(const bad_exception&) __NO_THROW;
+      virtual ~bad_exception() __NO_THROW;
+      virtual const char* what() const __NO_THROW;
+  };
+
+  typedef void (*terminate_handler)();
+  extern terminate_handler set_terminate(terminate_handler) __NO_THROW;
+
+  typedef void (*unexpected_handler)();
+  extern unexpected_handler set_unexpected(unexpected_handler) __NO_THROW;
+
+  void terminate();
+  void unexpected();
+  bool uncaught_exception() __NO_THROW;
+
+}
+
+#    ifdef __WINSCW__
+/*
+ * C++ Exception specific stuff required from the CW runtime.
+ * Certain functions are implemented inline in CW headers.
+ * We're providing the same in exception_winscw.h
+ */
+#      include <stdapis/stlportv5/exception_winscw.h>
+#    endif //__WINSCW__
+
+#endif // __EABI__
+#endif //_SYMCPP_EXCEPTION_
+

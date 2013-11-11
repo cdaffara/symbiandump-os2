@@ -1,0 +1,80 @@
+// Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+// @file
+
+//! @SYMTestSuiteName SYSLIB-TEF-EFM-PERFORMANCE
+//! @SYMScriptTestEnvironment TEF
+//! @internalComponent
+//! @test
+
+//create folders for the emulated data cages
+RUN_UTILS MkDir C:\Private\
+RUN_UTILS MkDir C:\Private\102836E5\
+RUN_UTILS MkDir C:\Private\102836E5\runtime\
+
+//delete plugin files placed in C:-drive in case the normal script did not run 
+RUN_PROGRAM -1 pluginhelper.exe c:\sys\bin\normal_plugin.dll
+RUN_PROGRAM -1 pluginhelper.exe c:\resource\plugins\normal_plugin.rsc
+
+//load the main TEF server used by this script
+LOAD_SUITE efm_configured_testserver
+DELAY 1000
+
+START_TESTCASE SYSLIB-EFM-PT-4028
+//! @SYMTestCaseID       SYSLIB-EFM-PT-4028
+//! @SYMTestCaseDesc     FeatureSupported characterisation test.
+//! @SYMTestPriority     High 
+//! @SYMTestActions 		1) Individually look for 100 supported features.
+//!                     2) Individually look for 1000 supported features.
+//!                     3) Look for 100 supported features in an RFeatureArray.
+//!                     4) Look for 1000 supported features in an RFeatureArray.
+//!                 	5) Individually look for 100 supported features half
+//!                 	   outside the known supported range.
+//!                     6) Individually look for 1000 supported features half
+//!                 	   outside the known supported range.
+//!                     7) Look for 100 supported features in an RFeatureArray
+//!                 	   half outside the known supported range.
+//!                     8) Look for 1000 supported features in an RFeatureArray
+//!                 	   half outside the known supported range.
+//! @SYMTestExpectedResults
+//!                     1-4) Each step should execute within a timeout defined
+//!                          within the .ini file and all features checked
+//!                          will be supported.
+//!                     4-8) Each step should execute within a timeout defined
+//!                          within the .ini file and half of the features
+//!                          checked will be supported.
+//! @SYMPREQ             PREQ1645
+//! @SYMREQ              REQ8200
+//! 
+
+    RUN_UTILS CopyFile Z:\test\efm\scripts\fs_1200.dat C:\Private\102836E5\features.dat
+    RUN_UTILS MakeReadWrite C:\Private\102836E5\features.dat
+
+    RUN_TEST_STEP 300 efm_configured_testserver CharacteriseSupported z:\test\efm\scripts\characterise.ini Block100
+    RUN_TEST_STEP 300 efm_configured_testserver CharacteriseSupported z:\test\efm\scripts\characterise.ini Block1000
+    RUN_TEST_STEP 300 efm_configured_testserver CharacteriseSupportedArray z:\test\efm\scripts\characterise.ini Block100Array
+    RUN_TEST_STEP 300 efm_configured_testserver CharacteriseSupportedArray z:\test\efm\scripts\characterise.ini Block1000Array
+
+    RUN_TEST_STEP 300 efm_configured_testserver CharacteriseSupported z:\test\efm\scripts\characterise.ini Block100-50
+    RUN_TEST_STEP 300 efm_configured_testserver CharacteriseSupported z:\test\efm\scripts\characterise.ini Block1000-500
+    RUN_TEST_STEP 300 efm_configured_testserver CharacteriseSupportedArray z:\test\efm\scripts\characterise.ini Block100Array-50
+    RUN_TEST_STEP 300 efm_configured_testserver CharacteriseSupportedArray z:\test\efm\scripts\characterise.ini Block1000Array-500
+//wait for the server to terminate
+    DELAY 1000
+    RUN_UTILS DeleteFile C:\Private\102836E5\features.dat
+END_TESTCASE SYSLIB-EFM-PT-4028
+ 
+RUN_UTILS DeleteFile C:\Private\102836E5\features.dat 
+RUN_UTILS DeleteFile C:\Private\102836E5\runtime\features.dat      

@@ -1,0 +1,111 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+//! @file
+// Recog unit (integration) tests
+PRINT Run Cert Recog test
+
+LOAD_SUITE trecogserver
+
+START_TESTCASE SEC-CERTRECOG-WTLS_DEF068542-0001
+
+//! @SYMTestCaseID 		SEC-CERTRECOG-WTLS_DEF068542-0001
+//! @SYMTestCaseDesc 		to recognize a wtls certificate
+//!                             (recognizeWTLS)
+//! @SYMREQ 			REQ0000
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		1. to recognize a wtls certificate passed by File Name
+//! 				2. to recognize a wtls certificate passed by Buffer
+//! 				3. to recognize a wtls certificate passed by File handle
+//! @SYMTestExpectedResults 	application/vnd.wap.wtls-ca-certificate
+//! @SYMDevelopedForRelease 	Mike
+
+RUN_TEST_STEP 100 trecogserver RecogStep c:\trecog\trecogcert.ini PassByNameWtls1
+RUN_TEST_STEP 100 trecogserver RecogStep c:\trecog\trecogcert.ini PassByBufferWtls1
+RUN_TEST_STEP 100 trecogserver RecogStep c:\trecog\trecogcert.ini PassByHandleWtls1
+
+END_TESTCASE SEC-CERTRECOG-WTLS_DEF068542-0001
+
+
+START_TESTCASE SEC-CERTRECOG-X509-0001
+
+//! @SYMTestCaseID 		SEC-CERTRECOG-X509-0001
+//! @SYMTestCaseDesc 		to recognize x509 CA certificates and x509 user certificates
+//!                             (recognizeX509)
+//! @SYMREQ 			REQ0000
+//! @SYMDEF 			INC11925 INC073075 INC076296
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions 		1. to recognize a x509 CA certificate passed by File Name (DEF068542)
+//! 				2. to recognize a x509 user certificate passed by File Name (DEF068542)
+//! 				3. to recognize a x509 CA certificate with long serial number, passed by File Name (INC11925)
+//! 				4. to recognize a x509 v1 certificate passed by File Name (INC073075)
+//! 				5. to recognize a x509 certificate without version passed by File Name (INC076296)
+//! 				6. to recognize a x509 CA certificate passed by File handle (DEF068542)
+//! 				7. to recognize a x509 user certificate passed by File handle (DEF068542)
+//! 				8. to recognize a x509 v1 certificate passed by File handle (INC073075)
+//! 				9. to recognize a x509 certificate without version passed by File handle (INC076296)
+//! 				10. to recognize a x509 CA certificate passed by Buffer (DEF068542)
+//! 				11. to recognize a x509 user certificate passed by buffer (DEF068542)
+//! 				12. to recognize a x509 v1 certificate passed by buffer (INC073075)
+//! 				13. to recognize a x509 certificate without Version passed by buffer (INC076296)
+//! @SYMTestExpectedResults 	1. application/x-x509-ca-cert
+//! 				2. application/x-x509-user-cert
+//! 				3. application/x-x509-ca-cert
+//! 				4. application/x-x509-ca-cert
+//! 				5. application/x-x509-ca-cert
+//! 				6. application/x-x509-ca-cert
+//! 				7. application/x-x509-user-cert
+//! 				8. application/x-x509-ca-cert
+//! 				9. application/x-x509-ca-cert
+//! 				10. application/x-x509-ca-cert
+//! 				11. application/x-x509-user-cert
+//! 				12. application/x-x509-ca-cert
+//! 				13. application/x-x509-ca-cert
+//! @SYMDevelopedForRelease 	Mike
+
+RUN_TEST_STEP 100 trecogserver RecogStep c:\trecog\trecogcert.ini PassByName1
+RUN_TEST_STEP 100 trecogserver RecogStep c:\trecog\trecogcert.ini PassByName2
+RUN_TEST_STEP 100 trecogserver RecogStep c:\trecog\trecogcert.ini PassByName3
+RUN_TEST_STEP 100 trecogserver RecogStep c:\trecog\trecogcert.ini PassByNamex509v1
+RUN_TEST_STEP 100 trecogserver RecogStep c:\trecog\trecogcert.ini PassByNamex509NoVersion
+RUN_TEST_STEP 100 trecogserver RecogStep c:\trecog\trecogcert.ini PassByHandle1
+RUN_TEST_STEP 100 trecogserver RecogStep c:\trecog\trecogcert.ini PassByHandle2
+RUN_TEST_STEP 100 trecogserver RecogStep c:\trecog\trecogcert.ini PassByHandlex509v1
+RUN_TEST_STEP 100 trecogserver RecogStep c:\trecog\trecogcert.ini PassByHandlex509NoVersion
+RUN_TEST_STEP 100 trecogserver RecogStep c:\trecog\trecogcert.ini PassByBuffer1
+RUN_TEST_STEP 100 trecogserver RecogStep c:\trecog\trecogcert.ini PassByBuffer2
+RUN_TEST_STEP 100 trecogserver RecogStep c:\trecog\trecogcert.ini PassByBufferx509v1
+RUN_TEST_STEP 100 trecogserver RecogStep c:\trecog\trecogcert.ini PassByBufferx509NoVersion
+
+END_TESTCASE SEC-CERTRECOG-X509-0001
+
+START_TESTCASE SEC-CERTRECOG-X509_PDEF095884-0001
+
+//! @SYMTestCaseID 		SEC-CERTRECOG-X509_PDEF095884-0001
+//! @SYMTestCaseDesc 		To recognize a x509 certificate serial number length set to 0xFF.
+//!                             (recognizeSerialNumberLength)
+//! @SYMDEF 			PDEF095884
+//! @SYMTestPriority 		Critical
+//! @SYMTestActions  		1. To recognize a x509 certificate serial number length set to 0xFF passed by file name.
+//! 				2. To recognize a x509 certificate serial number length set to 0xFF passed by buffer.
+//! 				3. To recognize a x509 certificate serial number length set to 0xFF passed by file handle.
+//! @SYMTestExpectedResults 	ENotRecognized
+//! @SYMDevelopedForRelease 	Mike
+
+RUN_TEST_STEP 100 trecogserver RecogStep c:\trecog\trecogcert.ini PassByNameWsnl
+RUN_TEST_STEP 100 trecogserver RecogStep c:\trecog\trecogcert.ini PassByBufferWsnl
+RUN_TEST_STEP 100 trecogserver RecogStep c:\trecog\trecogcert.ini PassByHandleWsnl
+
+END_TESTCASE SEC-CERTRECOG-X509_PDEF095884-0001

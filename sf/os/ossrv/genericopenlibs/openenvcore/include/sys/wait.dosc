@@ -1,0 +1,291 @@
+/** @file  ../include/sys/wait.h
+@internalComponent
+*/
+
+/** @fn  wait(int *status)
+@param status
+
+Note: This description also covers the following functions -
+ waitpid() 
+
+@return   If wait returns due to a stopped
+or terminated child process, the process ID of the child
+is returned to the calling process.
+Otherwise, a value of -1
+is returned and errno is set to indicate the error. If wait4 , wait3 ,
+or waitpid returns due to a stopped
+or terminated child process, the process ID of the child
+is returned to the calling process.
+If there are no children not previously awaited,
+-1 is returned with errno set to ECHILD .
+Otherwise, if WNOHANG is specified and there are
+no stopped or exited children,
+0 is returned.
+If an error is detected or a caught signal aborts the call,
+a value of -1
+is returned and errno is set to indicate the error.
+
+  The wait function suspends execution of its calling process until status information is available for a terminated child process,
+or a signal is received.
+On return from a successful wait call,
+the status area contains termination information about the process that exited
+as defined below.
+
+ The wpid argument specifies the set of child processes for which to wait.
+If wpid is -1, the call waits for any child process.
+If wpid is 0,
+the call waits for any child process in the process group of the caller.
+If wpid is greater than zero, the call waits for the process with process id wpid .
+If wpid is less than -1, the call waits for any process whose process group id
+equals the absolute value of wpid .
+
+
+
+
+
+ The waitpid function is identical to wait4 with an rusage value of zero.
+
+ Note:
+
+ The waitpid function waits for a process ID which is obtained using a 
+  non-standard API popen3
+
+
+
+
+
+
+
+@see _exit()
+@see exit()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  waitpid(pid_t wpid, int *status, int options)
+@param wpid
+@param status
+@param options
+
+Refer to wait() for the documentation
+
+@see _exit()
+@see exit()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def _W_INT(w) 
+
+Macros to test the exit status returned by wait and extract the relevant values. Convert union wait to int.
+
+@publishedAll
+@released
+*/
+
+/** @def WCOREFLAG
+
+Macros to test the exit status returned by wait and extract the relevant values.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _WSTATUS(x)	
+
+Macros to test the exit status returned by wait and extract the relevant values.
+
+@publishedAll
+@released
+*/
+
+/** @def _WSTOPPED
+
+Macros to test the exit status returned by wait and extract the relevant values.
+
+@publishedAll
+@released
+*/
+
+/** @def WIFSTOPPED(x)
+
+Macros to test the exit status returned by wait and extract the relevant values.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def WSTOPSIG(x)
+
+Macros to test the exit status returned by wait and extract the relevant values.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def WIFSIGNALED(x)
+
+Macros to test the exit status returned by wait and extract the relevant values.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def WTERMSIG(x)
+
+Macros to test the exit status returned by wait and extract the relevant values.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def WIFEXITED(x)
+
+Macros to test the exit status returned by wait and extract the relevant values.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def WEXITSTATUS(x)
+
+Macros to test the exit status returned by wait and extract the relevant values.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def WIFCONTINUED(x)
+
+Macros to test the exit status returned by wait and extract the relevant values.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def WCOREDUMP(x)
+
+Macros to test the exit status returned by wait and extract the relevant values.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def W_EXITCODE(ret, sig)
+
+Macros to test the exit status returned by wait and extract the relevant values.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def W_STOPCODE(sig)	
+
+Macros to test the exit status returned by wait and extract the relevant values.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def WIFTERMINATED(x)
+
+Macros to test the termination code returned by wait and extract the relevant values.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def WTERMINATESTATUS(x)
+
+Macros to test the termination code returned by wait and extract the relevant values.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def WIFPANICED(x)
+
+Macros to test the panic code returned by wait and extract the relevant values.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def WPANICCODE(x)
+
+Macros to test the panic code returned by wait and extract the relevant values.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def WNOHANG	
+
+Don't hang in wait.
+ 
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def WUNTRACED
+
+Tell about stopped, untraced children.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def WCONTINUED
+
+Report a job control continued process.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def WAIT_ANY
+
+Any process. Tokens for special values of the pid parameter to wait4.
+
+@publishedAll
+@released
+*/
+
+
+/** @def WCOREFLAG	
+
+Macros to test the exit status returned by wait and extract the relevant values.
+
+@publishedAll
+@released
+*/
+
+
+/** @def WLINUXCLONE
+
+Wait for kthread spawned from linux_clone.
+
+@publishedAll
+@released
+*/
+
+
+/** @def WAIT_MYPGRP	
+
+Tokens for special values of the pid parameter to wait4. Any process in my process group.
+
+@publishedAll
+@released
+*/
+

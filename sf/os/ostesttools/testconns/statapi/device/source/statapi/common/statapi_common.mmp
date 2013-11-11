@@ -1,0 +1,106 @@
+/*
+* Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:   Build file
+*
+*/
+
+
+	TARGET        		statgui.exe
+	TARGETTYPE    		exe
+
+UID           		0x100039ce 0x10009B04
+VENDORID 0x70000001
+
+epocheapsize		4096	3000000
+epocstacksize		0x5000
+
+////////////////////////////////////////////////////////////////
+//
+// Definitions
+//
+////////////////////////////////////////////////////////////////
+
+CAPABILITY		AllFiles SwEvent NetworkServices LocalServices PowerMgmt ProtServ TrustedUI CommDD ReadDeviceData WriteDeviceData 
+
+////////////////////////////////////////////////////////////////
+//
+// Include	Paths
+//
+////////////////////////////////////////////////////////////////
+USERINCLUDE			..\.\inc
+APP_LAYER_SYSTEMINCLUDE_SYMBIAN 		\epoc32\include
+#ifdef SYMBIAN_DIST_TECHVIEW
+APP_LAYER_SYSTEMINCLUDE_SYMBIAN 		\epoc32\include\techview
+#endif
+
+////////////////////////////////////////////////////////////////
+//
+// Resource Files
+//
+////////////////////////////////////////////////////////////////
+
+
+START RESOURCE		statgui.rss
+	HEADER
+	TARGETPATH		\resource\apps
+END
+
+START BITMAP		statguiicon.mbm
+	HEADER
+	SOURCEPATH		..\rsc
+	SOURCE			C8 statapiicon_24x24i.bmp statapiicon_24x24m.bmp statapiicon_32x32i.bmp statapiicon_32x32m.bmp
+	TARGETPATH		\resource\apps
+END
+
+START RESOURCE		..\rsc\statgui_loc.rss
+	TARGETPATH		\resource\apps
+END
+
+START RESOURCE		..\rsc\statgui_reg.rss
+	TARGETPATH		\private\10003a3f\apps
+END
+
+
+////////////////////////////////////////////////////////////////
+//
+// Source files
+//
+////////////////////////////////////////////////////////////////
+SOURCEPATH			.././src
+SOURCE				stat_application.cpp
+//SOURCE				stat_engine.cpp
+//SOURCE				stat_controller.cpp
+//SOURCE				stat_tcpip.cpp
+//SOURCE				stat_bt.cpp
+//SOURCE				stat_serial.cpp
+//SOURCE				stat_packetisation.cpp
+//SOURCE				stat_comdecoder.cpp
+SOURCE				stat_window.cpp
+//SOURCE				ActiveConnection.cpp
+//SOURCE				filedump.cpp
+//SOURCE				ntoh.cpp
+SOURCE				MsgWin.cpp
+//SOURCE				AssertE.cpp
+
+LIBRARY			euser.lib apparc.lib cone.lib eikcore.lib esock.lib
+LIBRARY			sdpdatabase.lib
+LIBRARY			bluetooth.lib apgrfx.lib fbscli.lib ws32.lib 
+LIBRARY			eikcoctl.lib c32.lib hal.lib efsrv.lib bafl.lib
+LIBRARY			iniparser.lib estor.lib
+LIBRARY			insock.lib
+LIBRARY			commdb.lib
+
+LIBRARY			sishelper.lib
+
+STATICLIBRARY			stat.lib

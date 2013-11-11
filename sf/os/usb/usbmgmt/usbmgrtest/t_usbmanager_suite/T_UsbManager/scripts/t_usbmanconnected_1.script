@@ -1,0 +1,32 @@
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+// Integration tests which demand USB connection with host PC
+
+LOAD_SUITE T_UsbManagerServer
+
+//! @SYMTestCaseID T_StartPersonalityIC1
+//! @SYMTestType CIT
+//! @SYMTestCaseDesc Test start current personality 
+//! @SYMFssID USB/DynamicClassChange/1.3.3
+//! @SYMFssID USB/DynamicClassChange/1.4.2
+//! @SYMTestActions Create  session with USB server, Issue TryStart request for current personality wait for completion. Close session
+//! @SYMTestExpectedResults The request should be succeeded then software on Host PC can check if this personality is visible from the host side
+//! @SYMTestPriority Low
+//! @SYMTestStatus Defined
+
+START_TESTCASE T_StartPersonalityIC1
+RUN_TEST_STEP -1 T_UsbManagerServer StartPersonality
+END_TESTCASE T_StartPersonalityIC1

@@ -1,0 +1,128 @@
+/*
+* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:   Project definition file for project umac
+*
+*/
+
+/*
+* %version: 52 %
+*/
+
+#include        <kernel/kern_ext.mmh>
+#include        <platform_paths.hrh>
+#include        "wlanldddma.mmh"
+
+TARGET          wlanumac.lib
+
+TARGETTYPE      klib
+
+USERINCLUDE     ../../../wlan_common/umac_common/inc
+USERINCLUDE     ../../../wlan_common/osa_common/inc
+USERINCLUDE     ../../../../inc
+
+OS_LAYER_KERNEL_SYSTEMINCLUDE
+
+SOURCEPATH	    ../../../wlan_common/umac_common/src 
+
+SOURCE Umac.cpp
+SOURCE UmacManagementSideUmacCb.cpp
+SOURCE UmacProtocolStackSideUmacCb.cpp
+
+SOURCE UmacMacState.cpp
+SOURCE UmacMacActionState.cpp
+SOURCE UmacDot11State.cpp
+SOURCE UmacWsaCommand.cpp
+SOURCE umacwhacomplexcommand.cpp
+SOURCE UmacContextImpl.cpp
+
+SOURCE umacaddbroadcastwepkey.cpp
+SOURCE umacconfiguretxqueueparams.cpp
+SOURCE umacconfiguretxautoratepolicy.cpp
+
+SOURCE UmacWsaInitiliaze.cpp
+SOURCE UmacWsaConfigure.cpp
+SOURCE UmacWsaJoin.cpp
+SOURCE UmacWsaScan.cpp
+SOURCE umacwhastopscan.cpp
+SOURCE UmacWsaDisconnect.cpp
+SOURCE UmacWsaReadMib.cpp
+SOURCE UmacWsaWriteMib.cpp
+SOURCE UmacWsaSetBssParameters.cpp
+SOURCE UmacWsaAddKey.cpp
+SOURCE UmacWsaSetPsMode.cpp
+SOURCE umacwhaconfigurequeue.cpp
+SOURCE umacwhaconfigureac.cpp
+SOURCE umacwharelease.cpp
+
+SOURCE UmacWsaKeyIndexMapper.cpp
+SOURCE UmacTxRateAdaptation.cpp
+SOURCE umaceventdispatcher.cpp
+SOURCE umacpacketscheduler.cpp
+SOURCE umacelementlocator.cpp
+SOURCE umacnullsendcontroller.cpp
+SOURCE umacsignalpredictor.cpp
+
+SOURCE umacprivacymodefilters.cpp
+SOURCE UmacPrivacyModeFilterNone.cpp   
+SOURCE UmacPrivacyModeFilterWep.cpp   
+SOURCE UmacPrivacyModeFilterWpa.cpp   
+SOURCE UmacPrivacyModeFilter1x.cpp   
+SOURCE UmacPrivacyModeFilteMixedModeWep.cpp
+SOURCE UmacPrivacyModeFilteMixedMode1x.cpp
+SOURCE umacprivacymodefilterwapi.cpp
+
+SOURCE umacpowermodemgrbase.cpp
+SOURCE umacactivemodepowermodemgr.cpp
+SOURCE umaclightpsmodepowermodemgr.cpp
+SOURCE umacdeeppsmodepowermodemgr.cpp
+SOURCE umacdynamicpowermodemgmtcntx.cpp
+
+SOURCE UmacDot11Associated.cpp
+SOURCE UmacDot11InfrastructureMode.cpp
+SOURCE UmacDot11MacError.cpp
+SOURCE UmacDot11MibDefaultConfigure.cpp
+SOURCE umacwhatodot11typeconverter.cpp
+
+SOURCE UmacDot11PrepareForBssMode.cpp
+SOURCE UmacDot11Roam.cpp
+SOURCE UmacDot11Synchronize.cpp
+SOURCE UmacDot11DisassociationPending.cpp
+SOURCE UmacDot11ReassociationPending.cpp
+
+SOURCE UmacDot11InitPhase1.cpp
+SOURCE UmacDot11Idle.cpp
+
+SOURCE UmacDot11Connecting.cpp
+SOURCE UmacDot11AuthenticatePending.cpp
+SOURCE UmacDot11OpenAuthPending.cpp
+SOURCE UmacDot11SharedAuthPending.cpp
+SOURCE UmacDot11AssociationPending.cpp
+
+SOURCE UmacDot11InfrastructureModeInit.cpp
+
+SOURCE UmacDot11DeauthPending.cpp
+SOURCE UmacDot11SoftReset.cpp
+SOURCE UmacDot11PrepareForIbssMode.cpp
+SOURCE umacdot11ibssnormalmode.cpp
+SOURCE UmacDot11IbssMode.cpp
+SOURCE umacscanmoderunning.cpp
+SOURCE umacscanmodestopped.cpp
+SOURCE umacstartscanningmode.cpp
+SOURCE umacstopscanningmode.cpp
+SOURCE umacscanfsm.cpp
+SOURCE umacdot11idlescanningmode.cpp
+SOURCE umacdot11ibssscanningmode.cpp
+SOURCE umacdot11infrastructurescanningmode.cpp
+SOURCE umacdot11infrastructurenormalmode.cpp
+SOURCE umacdot11pwrmgmttransitionmode.cpp

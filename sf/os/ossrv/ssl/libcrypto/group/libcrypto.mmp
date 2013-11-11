@@ -1,0 +1,187 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). All rights reserved.
+* Redistribution and use in source and binary forms, with or without 
+* modification, are permitted provided that the following conditions are met:
+**Redistributions of source code must retain the above copyright notice, this 
+*  list of conditions and the following disclaimer.
+** Redistributions in binary form must reproduce the above copyright notice, 
+*  this list of conditions and the following disclaimer in the documentation 
+*  and/or other materials provided with the distribution.
+** Neither the name of Nokia Corporation nor the names of its contributors 
+*  may be used to endorse or promote products derived from this software 
+*  without specific prior written permission.
+*
+*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+*IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+*DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE 
+*FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+*DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
+*SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+*CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, 
+*OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
+*OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+* 
+* Description:  
+*
+*/
+
+#include <platform_paths.hrh>
+
+/**
+@file
+
+@SYMPurpose libcrypto C standard library
+*/
+
+// using relative paths for sourcepath and user includes
+// exports are unfrozen
+
+OPTION CW   -w off
+OPTION MSVC /W0
+OPTION GCC  -w
+
+// Insignificant warnings in this FreeBSD library code are suppressed
+OPTION ARMCC -O0
+OPTION ARMCC --diag_suppress 68
+OPTION ARMCC --diag_suppress 111
+OPTION ARMCC --diag_suppress 175
+OPTION ARMCC --diag_suppress 223
+OPTION ARMCC --diag_suppress 1293
+
+#ifdef WINSCW
+OPTION CW -stdinc
+#else
+EPOCALLOWDLLDATA
+#endif //WINSCW
+
+TARGET			libcrypto.dll
+
+CAPABILITY   All -Tcb
+VENDORID 	0x101FB657
+VERSION 				0.10
+
+
+TARGETTYPE		dll
+
+UID		0x1000008d 0x10281F35	
+
+
+#ifdef EKA2
+DEFFILE			libcrypto.def
+#else
+DEFFILE			libcrypto.def
+#endif
+//START WINS
+//WIN32_LIBRARY   kernel32.lib
+//END // 
+#ifdef WINSCW
+start wins
+win32_headers
+end
+#endif
+
+MACRO SYMBIAN
+MACRO OPENSSL_THREADS
+MACRO _REENTRANT
+MACRO DSO_DLFCN
+MACRO HAVE_DLFCN_H
+MACRO NO_SYSLOG
+MACRO ZLIB_SHARED
+MACRO ZLIB
+MACRO LIBDL_ONLY_ORDINALS
+
+
+
+USERINCLUDE   ..
+USERINCLUDE   ../inc/include/openssl
+USERINCLUDE   ../inc/include/certretriever
+USERINCLUDE   ../src/crypto
+USERINCLUDE   ../src/crypto/engine
+USERINCLUDE   ../src/crypto/rand
+USERINCLUDE   ../src/crypto/objects
+USERINCLUDE   ../src/crypto/ui
+USERINCLUDE   ../src/crypto/store
+USERINCLUDE   ../src/crypto/x509v3
+//USERINCLUDE   ../../../stdlibs/ewsd/inc
+
+
+SYSTEMINCLUDE  ..
+SYSTEMINCLUDE  ../src/crypto
+SYSTEMINCLUDE  ../inc/include/openssl
+SYSTEMINCLUDE	 ../../include\
+
+OS_LAYER_SYSTEMINCLUDE
+OS_LAYER_LIBC_SYSTEMINCLUDE
+OS_LAYER_SSL_SYSTEMINCLUDE
+
+SOURCEPATH	../src\
+
+#ifdef WINSCW
+SOURCE		  crypto/libcrypto_wsd.cpp
+#endif /*WINSCW*/
+
+SOURCE		  crypto/cryptlib.c
+SOURCE		  crypto/mem.c
+SOURCE      crypto/mem_clr.c
+SOURCE      crypto/mem_dbg.c
+SOURCE      crypto/cversion.c
+SOURCE      crypto/ex_data.c
+SOURCE      crypto/tmdiff.c
+SOURCE      crypto/ebcdic.c
+SOURCE      crypto/o_time.c
+SOURCE      crypto/o_dir.c
+SOURCE      crypto/o_str.c
+SOURCE      crypto/uid.c
+SOURCE      crypto/cpt_err.c
+
+// include all mmpi files
+SOURCEPATH     ../src\
+
+#include "aes.mmpi"
+#include "asn1.mmpi"
+#include "bio.mmpi"
+#include "bn.mmpi"
+#include "buffer.mmpi"
+#include "comp.mmpi"
+#include "conf.mmpi"
+#include "des.mmpi"
+#include "dh.mmpi"
+#include "dsa.mmpi"
+#include "dso.mmpi"
+#include "engine.mmpi"
+#include "err.mmpi"
+#include "evp.mmpi"
+#include "hmac.mmpi"
+#include "lhash.mmpi"
+#include "md2.mmpi"
+#include "md5.mmpi"
+#include "objects.mmpi"
+#include "ocsp.mmpi"
+#include "pem.mmpi"
+#include "pkcs7.mmpi"
+#include "pkcs12.mmpi"
+#include "pqueue.mmpi"
+#include "rand.mmpi"
+#include "rc2.mmpi"
+#include "rc4.mmpi"
+#include "rsa.mmpi"
+#include "sha.mmpi"
+#include "stack.mmpi"
+#include "store.mmpi"
+#include "txt_db.mmpi"
+#include "ui.mmpi"
+#include "x509.mmpi"
+#include "x509v3.mmpi"
+#include "certretriever.mmpi"
+
+
+LIBRARY			libc.lib libdl.lib euser.lib efsrv.lib certstore.lib ctframework.lib x509.lib crypto.lib x500.lib asn1.lib
+#ifdef WINSCW
+LIBRARY      ewsd.lib
+#endif
+START MARM
+END
+
+SMPSAFE
+PAGED

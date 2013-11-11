@@ -1,0 +1,92 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+
+LOAD_SUITE tcaf
+
+START_TESTCASE 			SEC-CAF-RECOG-0001
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RECOG-0001
+//! @SYMTestCaseDesc 		Agent Recognition Buffer Size
+//!				(Buffer_Size)
+//! @SYMPREQ			PREQ1951
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Finds the buffer size required by agents to recognized content
+//! @SYMTestExpectedResults	Buffersize matches the expected size
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFBufferSizeStep c:\tcaf\recognize.ini BufferSize
+END_TESTCASE 			SEC-CAF-RECOG-0001
+
+START_TESTCASE 			SEC-CAF-RECOG-0002
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RECOG-0002
+//! @SYMTestCaseDesc 		Recognize a DRM file
+//!				(DRM_Recognize)
+//! @SYMPREQ			PREQ1951
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		See if the TestAgent recognizes a DRM file
+//! @SYMTestExpectedResults	The DRM file is recognized
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFRecognizeStep c:\tcaf\recognize.ini TestAgentContent
+END_TESTCASE 			SEC-CAF-RECOG-0002
+
+START_TESTCASE 			SEC-CAF-RECOG-0003
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RECOG-0003
+//! @SYMTestCaseDesc 		Recognize a Plaintext file
+//!				(Plaintext_Recognize)
+//! @SYMPREQ			PREQ1951
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		See if TestAgent recognises the Plaintext file
+//! @SYMTestExpectedResults	The Plaintext file should not be recognized by CAF
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFRecognizeStep c:\tcaf\recognize.ini F32AgentContent
+END_TESTCASE 			SEC-CAF-RECOG-0003
+
+START_TESTCASE 			SEC-CAF-RECOG-0004
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RECOG-0004
+//! @SYMTestCaseDesc 		Check apparc recognition of a CAF DRM file
+//!				(Apparc_Recognize)
+//! @SYMPREQ			PREQ1951
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Medium
+//! @SYMTestActions		Check the RApaLsSession returns the correct mime type
+//! @SYMTestExpectedResults	Mime type should match the expected value in the INI file
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFApparcStep c:\tcaf\recognize.ini TestAgentContent
+END_TESTCASE 			SEC-CAF-RECOG-0004
+
+START_TESTCASE 			SEC-CAF-RECOG-1579
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RECOG-1579
+//! @SYMTestCaseDesc 		Check apparc recognition of a DRM file for Upper Case Mime Types
+//! @SYMDEF			DEF077443
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Medium
+//! @SYMTestActions		Check the RApaLsSession returns the correct mime type
+//! @SYMTestExpectedResults	Mime type should match the expected value in the INI file
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAF_DEF077443_Step c:\tcaf\recognize.ini DEF077443_Content
+END_TESTCASE 			SEC-CAF-RECOG-1579
+
+
+
+
+

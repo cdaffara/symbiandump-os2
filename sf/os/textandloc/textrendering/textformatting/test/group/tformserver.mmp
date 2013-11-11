@@ -1,0 +1,86 @@
+/*
+* Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+
+TARGET		  tformserver.exe
+TARGETTYPE	  exe
+capability 	  All -TCB
+
+MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+USERINCLUDE ../../tagma
+USERINCLUDE ../../inc
+USERINCLUDE ../src ../traces
+USERINCLUDE ../../undo
+
+SOURCEPATH		../src
+SOURCE		tformserver.cpp
+SOURCE		tcustomcharmapping.cpp
+SOURCE 		TGraphicsContext.cpp
+SOURCE 		TTagmaImp.cpp
+SOURCE 		TTmSource.cpp
+SOURCE		TBidiCursorPos.cpp
+SOURCE		TTmCode.cpp
+SOURCE		TUnique.cpp
+SOURCE 		TUndo.cpp
+SOURCE 		TInterpreter.cpp
+SOURCE 		TestLayout.cpp
+SOURCE 		TestPicture.cpp
+SOURCE 		TFormat.cpp
+SOURCE 		TInlineText.cpp
+SOURCE 		TGraphemeIterator.cpp
+SOURCE		TFormBenchmark.cpp
+SOURCE  	TLINEPAG.CPP
+SOURCE 		tformhindi.cpp
+
+SOURCEPATH  ../../tagma
+SOURCE 		TMCODE.CPP TMLAYOUT.CPP TMINTERP.CPP TMGLYPH.CPP TMFORWRD.CPP
+SOURCE 		TMSOURCE.CPP TMTEXT.CPP tmeditor.cpp TMFORMAT.CPP
+SOURCE 		TmHighlightSource.cpp TmChunkInterp.cpp
+SOURCE 		TmTextDrawExt.cpp tmreformat.cpp
+SOURCE 		TmBufferBase.cpp TBidirectionalEndofLineContext.cpp
+SOURCE 		TmChunk.cpp TmLine.cpp TmFormatContext.cpp
+
+SOURCEPATH  ../../undo
+SOURCE 		UniqueInstanceImpl.cpp UniqueInstance.cpp
+SOURCE 		UndoSystem.cpp UndoSystemImpl.cpp
+SOURCE 		EditorCommands.cpp EditorUndo.cpp
+SOURCE 		EditorPlainTextCommands.cpp EditorPlainTextUndo.cpp
+
+SOURCEPATH ../../tbox
+SOURCE 		FormLinePag.cpp
+
+LIBRARY		euser.lib
+LIBRARY	    testexecuteutils.lib 
+LIBRARY	    testexecutelogclient.lib
+LIBRARY 	gdi.lib form.lib etext.lib ws32.lib fbscli.lib efsrv.lib
+
+LIBRARY  	cone.lib fntstr.lib
+LIBRARY 	estor.lib tagma.lib
+LIBRARY 	linebreak.lib
+LIBRARY		form_and_etext_editor.lib
+LIBRARY		bitgdi.lib
+
+#ifdef ENABLE_ABIV2_MODE
+DEBUGGABLE_UDEBONLY
+#endif
+
+epocstacksize	0x10000
+
+VENDORID 0x70000001
+
+SMPSAFE

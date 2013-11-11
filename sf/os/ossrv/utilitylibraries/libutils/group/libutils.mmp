@@ -1,0 +1,66 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+#include <platform_paths.hrh>
+
+TARGET		  libutils.dll
+TARGETTYPE	  dll
+UID		  0x1000008d 0x200110CE
+
+CAPABILITY        ALL -TCB
+VENDORID          0x101FB657		
+
+USERINCLUDE	 		../inc
+
+#ifndef WINSCW
+EpocAllowDllData
+#endif /* WINSCW */
+
+OS_LAYER_SYSTEMINCLUDE
+OS_LAYER_LIBC_SYSTEMINCLUDE
+OS_LAYER_STDCPP_SYSTEMINCLUDE
+OS_LAYER_LIBUTILITY_SYSTEMINCLUDE
+
+SOURCEPATH	  		../src
+SOURCE      		chartodescriptor8.cpp
+SOURCE      		chartodescriptor16.cpp
+SOURCE      		wchartodescriptor8.cpp
+SOURCE      		wchartodescriptor16.cpp
+SOURCE				stringtodescriptor8.cpp
+SOURCE				stringtodescriptor16.cpp
+SOURCE				wstringtodescriptor8.cpp
+SOURCE				wstringtodescriptor16.cpp
+SOURCE				descriptor8tochar.cpp
+SOURCE				descriptor16tochar.cpp
+SOURCE				descriptor8towchar.cpp
+SOURCE				descriptor16towchar.cpp
+SOURCE				descriptor8tostring.cpp
+SOURCE				descriptor16tostring.cpp
+SOURCE				descriptor8towstring.cpp
+SOURCE				descriptor16towstring.cpp
+
+
+LIBRARY				euser.lib
+LIBRARY				libc.lib
+LIBRARY     		libstdcpp.lib
+
+LANG            	SC
+
+
+
+
+SMPSAFE

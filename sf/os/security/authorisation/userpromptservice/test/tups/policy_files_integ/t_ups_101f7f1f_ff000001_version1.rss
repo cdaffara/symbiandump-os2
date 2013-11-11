@@ -1,0 +1,70 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* Policy file to be deployed via swi as postmanufacture update
+* Note: the deployed version need to be renamed.
+* Service: FF00A001
+* Service: System Server 1 (0x101F7F1F)
+*
+*/
+
+
+#include <ups/policies.rh>
+
+UID2 KUidUpsPolicyResourceFile
+UID3 0x101F7F1F
+
+
+RESOURCE POLICIES testpolicies
+	{
+	header = POLICY_HEADER
+		{
+		// use default client config 
+		policyevaluator = 0xe1111e11;
+		dialogcreator = 0xe1111d11;
+		majorversion = 1;
+		minorversion = 1;      
+		authorisationpolicy = EAlwaysCheck;  
+		};
+	policies = 
+		{
+		POLICY
+			{
+			// catches all . bad destinations and all clients
+			sid_classes = KAllSids;
+			destination = "*.bad";
+			options = KYes | KNo | KSessionNo | KAlways | KNever ;
+			flags = 0x01;
+			},		
+		POLICY
+			{
+			// catches all .god destinations and all clients
+			sid_classes = KAllSids;
+			destination = "*.good";
+			options = KYes | KNo  | KAlways | KNever ;
+			flags = 0x02;
+			},	
+		
+		POLICY
+			{
+			// catches all destinations and all clients
+			sid_classes = KAllSids;
+			destination = "*";
+			options = KYes | KNo | KSessionNo | KAlways | KNever | KSessionYes ;
+			flags = 0x03;
+			}
+		
+		};
+	}
+

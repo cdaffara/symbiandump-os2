@@ -1,0 +1,16 @@
+// A simple PKCS#12 file containing a certificate and a private key
+// using public key integrity mode.
+
+SEQUENCE
+	// Version
+	INTEGER=3	
+		// authSafe - public key integrity mode
+		SIGN=symbiantestrootcadsa.pem,symbiantestrootcadsa_key.pem
+			// Authenticted Safe
+			SEQUENCE=
+				INCLUDE=encrypted_contentinfo.txt,07:EE:43:28:2E:FF:F9:D4,2048,PKCS12_PBEIDS_SHAAND40BITRC2CBC,rc2-40-cbc,44f58eebbf,2b4076b4b266f90b,safecontents.txt,safebag_certbag.txt,root5ca.der,Root5CA
+				INCLUDE=contentinfo.txt,safecontents.txt,safebag_shroudedkeybag.txt,17:D3:2E:39:CD:F9:CC:D6,2048,PKCS12_PBEIDS_SHAAND3KEYTRIPLEDESCBC,des-ede3-cbc,3abe08c2e6a4782090258b75936f730c81165ad16a968401,d23d26d5f997e21f,root5ca_key.pk8,root5ca.der,Root5CA
+			END
+		END
+	END
+ENDxo

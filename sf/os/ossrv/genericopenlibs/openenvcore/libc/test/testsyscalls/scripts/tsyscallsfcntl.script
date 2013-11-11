@@ -1,0 +1,271 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+PRINT Run all tsyscalls
+LOAD_SUITE tsyscalls
+
+CONSECUTIVE
+# tsyscalls - 130
+
+START_TESTCASE  		OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5770
+//! @SYMTestCaseID		OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5770
+//! @SYMPREQ 			DevCR PCHY-7CQFJY
+//! @SYMTestCaseDesc 		call fcntl api with F_SETLK as the parameter  and lock start from 20  to 10 bytes from the beginning of the file
+//! @SYMTestPriority 		High 
+//! @SYMTestStatus 		3.Released   			  
+//! @SYMTestActions     	1.Read the start,len,whence from the test input file 
+//!                             2.set the lock using fcntl api with F_SETLK as the parameter
+//!                             3.test pass if file is locked
+//! @SYMTestExpectedResults   	The file should be locked
+RUN_TEST_STEP 10 tsyscalls Fcntl c:\tstdapis\tsyscalls.ini SectionFcntl_SETLK_1
+END_TESTCASE	  		OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5770
+
+
+START_TESTCASE  		OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5782
+//! @SYMTestCaseID		OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5782
+//! @SYMPREQ 			DevCR PCHY-7CQFJY	
+//! @SYMTestCaseDesc 		call fcntl api with F_GETLK as the parameter  and lock start from 20  to 10 bytes from the beginning of the file
+//! @SYMTestPriority 		High  
+//! @SYMTestStatus 		3.Released   			  
+//! @SYMTestActions     	1.Read the start,len,whence from the test input file 
+//!                             2.get the lock using fcntl api with F_GETLK as the parameter
+//!                             3.test pass if file got the lock
+//! @SYMTestExpectedResults     File lock should get
+RUN_TEST_STEP 10 tsyscalls Fcntl c:\tstdapis\tsyscalls.ini SectionFcntl_GETLK_1
+END_TESTCASE  			OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5782
+
+START_TESTCASE  		OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5771
+//! @SYMTestCaseID		OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5771
+//! @SYMPREQ 			DevCR PCHY-7CQFJY
+//! @SYMTestCaseDesc 		call fcntl api with F_SETLK as the parameter  and lock start from 20  to 0 bytes from the beginning of the file
+//! @SYMTestPriority 		High  
+//! @SYMTestStatus 		3.Released   			  
+//! @SYMTestActions     	1.Read the start,len,whence from the test input file 
+//!                             2.set the lock using fcntl api with F_SETLK as the parameter
+//!                             3.test pass if file is locked
+//! @SYMTestExpectedResults     File should be locked
+RUN_TEST_STEP 10 tsyscalls Fcntl c:\tstdapis\tsyscalls.ini SectionFcntl_SETLK_2
+END_TESTCASE  			OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5771
+
+START_TESTCASE  		OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5772
+//! @SYMTestCaseID		OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5772
+//! @SYMPREQ 			DevCR PCHY-7CQFJY	
+//! @SYMTestCaseDesc 		call fcntl api with F_SETLK as the parameter  and lock start from 20  to 0 bytes from the current file pointer
+//! @SYMTestPriority 		High 
+//! @SYMTestStatus 		3.Released   			  
+//! @SYMTestActions     	1.Read the start,len,whence from the test input file 
+//!                             2.set the lock using fcntl api with F_SETLK as the parameter
+//!                             3.test pass if file is locked
+//! @SYMTestExpectedResults     File should be locked
+RUN_TEST_STEP 10 tsyscalls Fcntl c:\tstdapis\tsyscalls.ini SectionFcntl_SETLK_3
+END_TESTCASE  			OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5772
+
+START_TESTCASE  		OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5773
+//! @SYMTestCaseID		OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5773
+//! @SYMPREQ 			DevCR PCHY-7CQFJY
+//! @SYMTestCaseDesc 		call fcntl api with F_SETLK as the parameter  and lock start from 20  to 10 bytes from the end of the file
+//! @SYMTestPriority 		High 
+//! @SYMTestStatus 		3.Released   			  
+//! @SYMTestActions     	1.Read the start,len,whence from the test input file 
+//!                             2.set the lock using fcntl api with F_SETLK as the parameter
+//!                             3.test pass if file is locked
+//! @SYMTestExpectedResults     File should be locked
+RUN_TEST_STEP 10 tsyscalls Fcntl c:\tstdapis\tsyscalls.ini SectionFcntl_SETLK_4
+END_TESTCASE  			OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5773
+
+START_TESTCASE  		OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5774
+//! @SYMTestCaseID		OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5774
+//! @SYMPREQ 			DevCR PCHY-7CQFJY	
+//! @SYMTestCaseDesc 		call fcntl api with F_SETLK as the parameter  and lock start from-1  to 10 bytes from the beginning of the file
+//! @SYMTestPriority 		High  
+//! @SYMTestStatus 		3.Released   			  
+//! @SYMTestActions     	1.Read the start,len,whence from the test input file 
+//!                             2.set the lock using fcntl api with F_SETLK as the parameter
+//!                             3.test pass if file is not locked
+//! @SYMTestExpectedResults     File should not be locked
+RUN_TEST_STEP 10 tsyscalls Fcntl c:\tstdapis\tsyscalls.ini SectionFcntl_SETLK_5
+END_TESTCASE  			OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5774
+
+START_TESTCASE  		OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5775
+//! @SYMTestCaseID		OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5775
+//! @SYMPREQ 			PREQ37	
+//! @SYMTestCaseDesc 		call fcntl api with F_SETLK as the parameter  and lock start from 20  to 10 bytes from the beginning of the file and with invalid file descriptor
+//! @SYMTestPriority 		High  
+//! @SYMTestStatus 		3.Released   			  
+//! @SYMTestActions     	1.Read the start,len,whence from the test input file 
+//!                             2.set the lock using fcntl api with F_SETLK as the parameter
+//!                             3.test pass if file is not locked
+//! @SYMTestExpectedResults     File should not be locked
+RUN_TEST_STEP 10 tsyscalls Fcntl c:\tstdapis\tsyscalls.ini SectionFcntl_SETLK_6
+END_TESTCASE  			OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5775
+
+START_TESTCASE  		OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5776
+//! @SYMTestCaseID		OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5776
+//! @SYMPREQ 			DevCR PCHY-7CQFJY
+//! @SYMTestCaseDesc 		call fcntl api with F_SETLK as the parameter  and lock start from-1  to 10 bytes from the beginning of the file
+//! @SYMTestPriority 		High 
+//! @SYMTestStatus 		3.Released   			  
+//! @SYMTestActions     	1.Read the start,len,whence from the test input file 
+//!                             2.set the lock using fcntl api with F_SETLK as the parameter
+//!                             3.test pass if file is not locked
+//! @SYMTestExpectedResults     File should not be locked
+RUN_TEST_STEP 10 tsyscalls Fcntl c:\tstdapis\tsyscalls.ini SectionFcntl_SETLK_7
+END_TESTCASE  			OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5776
+
+START_TESTCASE  		OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5777
+//! @SYMTestCaseID		OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5777
+//! @SYMPREQ 			DevCR PCHY-7CQFJY
+//! @SYMTestCaseDesc 		call fcntl api with F_SETLK as the parameter  and lock start from 20  to 10 bytes from the beginning  of the file and then unlock the file
+//! @SYMTestPriority 		High  
+//! @SYMTestStatus 		3.Released   			  
+//! @SYMTestActions     	1.Read the start,len,whence from the test input file 
+//!                             2.set the lock using fcntl api with F_SETLK as the parameter
+//!                             3.test pass if file is locked
+//!                             4.test pass if file is unlocked
+//! @SYMTestExpectedResults     File should  be locked and then unlocked
+RUN_TEST_STEP 10 tsyscalls Fcntl c:\tstdapis\tsyscalls.ini SectionFcntl_SETLK_8
+END_TESTCASE  			OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5777
+
+START_TESTCASE  		OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5778
+//! @SYMTestCaseID		OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5778
+//! @SYMPREQ 			DevCR PCHY-7CQFJY
+//! @SYMTestCaseDesc 		call fcntl api with F_SETLK as the parameter  and lock start from -200  to 10 bytes from the ending of the file
+//! @SYMTestPriority 		High  
+//! @SYMTestStatus 		3.Released   			  
+//! @SYMTestActions     	1.Read the start,len,whence from the test input file 
+//!                             2.set the lock using fcntl api with F_SETLK as the parameter
+//!                             3.test pass if file is not locked
+//! @SYMTestExpectedResults     File should not be locked
+RUN_TEST_STEP 10 tsyscalls Fcntl c:\tstdapis\tsyscalls.ini SectionFcntl_SETLK_9
+END_TESTCASE  			OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5778
+
+START_TESTCASE  		OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5779
+//! @SYMTestCaseID		OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5779
+//! @SYMPREQ 			DevCR PCHY-7CQFJY	
+//! @SYMTestCaseDesc 		call fcntl api with F_SETLK as the parameter  and lock start from -200  to 10 bytes from the ending of the file
+//! @SYMTestPriority 		High 
+//! @SYMTestStatus 		3.Released   			  
+//! @SYMTestActions     	1.Read the start,len,whence from the test input file 
+//!                             2.set the lock using fcntl api with F_SETLK as the parameter
+//!                             3.test pass if file is not locked
+//! @SYMTestExpectedResults     File should not be locked
+RUN_TEST_STEP 10 tsyscalls Fcntl c:\tstdapis\tsyscalls.ini SectionFcntl_SETLK_10
+END_TESTCASE  			OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5779
+
+START_TESTCASE  		OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5780
+//! @SYMTestCaseID		OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5780
+//! @SYMPREQ 			DevCR PCHY-7CQFJY	
+//! @SYMTestCaseDesc 		call fcntl api with F_SETLK as the parameter  and lock start from 20  to 10 bytes from the beginning of of the file and with invaid type parameter of the structure flock
+//! @SYMTestPriority 		High  
+//! @SYMTestStatus 		3.Released   			  
+//! @SYMTestActions     	1.Read the start,len,whence from the test input file 
+//!                             2.set the lock using fcntl api with F_SETLK as the parameter
+//!                             3.test pass if file is not locked
+//! @SYMTestExpectedResults     File should not be locked 
+RUN_TEST_STEP 10 tsyscalls Fcntl c:\tstdapis\tsyscalls.ini SectionFcntl_SETLK_11
+END_TESTCASE  			OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5780
+
+START_TESTCASE  		OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5781
+//! @SYMTestCaseID		OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5781
+//! @SYMPREQ 			DevCR PCHY-7CQFJY
+//! @SYMTestCaseDesc 		call fcntl api with F_SETLK as the parameter  and lock start from 20  to 10 bytes from the beginning of of the file and with invaid l_type parameter of the structure flock
+//! @SYMTestPriority 		High 
+//! @SYMTestStatus 		3.Released   			  
+//! @SYMTestActions     	1.Read the start,len,whence from the test input file 
+//!                             2.set the lock using fcntl api with F_SETLK as the parameter
+//!                             3.test pass if file is not locked
+//! @SYMTestExpectedResults     File should not be locked
+RUN_TEST_STEP 10 tsyscalls Fcntl c:\tstdapis\tsyscalls.ini SectionFcntl_SETLK_12
+END_TESTCASE  			OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5781
+
+START_TESTCASE  		OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5783
+//! @SYMTestCaseID		OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5783
+//! @SYMPREQ 			DevCR PCHY-7CQFJY	
+//! @SYMTestCaseDesc 		call fcntl api with F_GETLK as the parameter  and lock start from -1  to 10 bytes from the beginning of the file
+//! @SYMTestPriority 		High 
+//! @SYMTestStatus 		3.Released   			  
+//! @SYMTestActions     	1.Read the start,len,whence from the test input file 
+//!                             2.get the lock using fcntl api with F_GETLK as the parameter
+//!                             3.test pass if file got the lock
+//! @SYMTestExpectedResults     File lock should get
+RUN_TEST_STEP 10 tsyscalls Fcntl c:\tstdapis\tsyscalls.ini SectionFcntl_GETLK_2
+END_TESTCASE  			OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5783
+
+START_TESTCASE  		OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5784
+//! @SYMTestCaseID		OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5784
+//! @SYMPREQ 			DevCR PCHY-7CQFJY	
+//! @SYMTestCaseDesc 		call fcntl api with F_GETLK as the parameter  and lock start from 20  to 10 bytes from the current file pointer
+//! @SYMTestPriority 		High 
+//! @SYMTestStatus 		3.Released   			  
+//! @SYMTestActions     	1.Read the start,len,whence from the test input file 
+//!                             2.get the lock using fcntl api with F_GETLK as the parameter
+//!                             3.test pass if file got the lock
+//! @SYMTestExpectedResults     File lock should get
+RUN_TEST_STEP 10 tsyscalls Fcntl c:\tstdapis\tsyscalls.ini SectionFcntl_GETLK_3
+END_TESTCASE  			OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5784
+
+START_TESTCASE  		OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5785
+//! @SYMTestCaseID		OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5785
+//! @SYMPREQ 			DevCR PCHY-7CQFJY
+//! @SYMTestCaseDesc 		call fcntl api with F_GETLK as the parameter  and lock start from 20  to 10 bytes from the ending of the file
+//! @SYMTestPriority 		High 
+//! @SYMTestStatus 		3.Released   			  
+//! @SYMTestActions     	1.Read the start,len,whence from the test input file 
+//!                             2.get the lock using fcntl api with F_GETLK as the parameter
+//!                             3.test pass if file got the lock
+//! @SYMTestExpectedResults     File should lock should get
+RUN_TEST_STEP 10 tsyscalls Fcntl c:\tstdapis\tsyscalls.ini SectionFcntl_GETLK_4
+END_TESTCASE  			OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5785
+
+START_TESTCASE  		OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5786
+//! @SYMTestCaseID		OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5786
+//! @SYMPREQ 			DevCR PCHY-7CQFJY
+//! @SYMTestCaseDesc 		call fcntl api with F_GETLK as the parameter  and lock start from 20  to -10 bytes from the beginning of the file
+//! @SYMTestPriority 		High 
+//! @SYMTestStatus 		3.Released   			  
+//! @SYMTestActions     	1.Read the start,len,whence from the test input file 
+//!                             2.get the lock using fcntl api with F_GETLK as the parameter
+//!                             3.test pass if file got the lock
+//! @SYMTestExpectedResults     File lock should get
+RUN_TEST_STEP 10 tsyscalls Fcntl c:\tstdapis\tsyscalls.ini SectionFcntl_GETLK_5
+END_TESTCASE  			OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5786
+
+START_TESTCASE  		OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5787
+//! @SYMTestCaseID		OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5787
+//! @SYMPREQ 			DevCR PCHY-7CQFJY
+//! @SYMTestCaseDesc 		call fcntl api with F_GETLK as the parameter and with invalid whence
+//! @SYMTestPriority 		High 
+//! @SYMTestStatus 		3.Released   			  
+//! @SYMTestActions     	1.Read the start,len,whence from the test input file 
+//!                             2.get the lock using fcntl api with F_GETLK as the parameter
+//!                             3.test pass if file is not locked
+//! @SYMTestExpectedResults     File lock should not get
+RUN_TEST_STEP 10 tsyscalls Fcntl c:\tstdapis\tsyscalls.ini SectionFcntl_GETLK_6
+END_TESTCASE  			OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5787
+
+START_TESTCASE  		OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5788
+//! @SYMTestCaseID		OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5788
+//! @SYMPREQ 			DevCR PCHY-7CQFJY
+//! @SYMTestCaseDesc 		call fcntl api with F_GETLK as the parameter  and lock start from 20  to 10 bytes from the beginning of the file and with invalid type of the lock
+//! @SYMTestPriority 		High 
+//! @SYMTestStatus 		3.Released   			  
+//! @SYMTestActions     	1.Read the start,len,whence from the test input file 
+//!                             2.setthe lock using fcntl api with F_SETLK as the parameter
+//!                             3.test pass if file is notlocked
+//! @SYMTestExpectedResults     File should not ge the lock
+RUN_TEST_STEP 10 tsyscalls Fcntl c:\tstdapis\tsyscalls.ini SectionFcntl_GETLK_7
+END_TESTCASE  			OPENENV-LIBC-CIT-TSYSCALLSFCNTL-5788
+
+

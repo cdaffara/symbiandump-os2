@@ -1,0 +1,34 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+Load_Server Te_RegScriptCommandServer
+
+START_TESTCASE DT-TEF-ScriptCommand-0011
+//! @SYMTestCaseID          DT-TEF-ScriptCommand-0011
+//! @SYMCreationDate        26-06-2008
+//! @SYMAuthor              DavidZhang
+//! @SYMTestType            CT
+//! @SYMTestPriority        Medium
+//! @SYMTestCaseDesc        Negative Test of "run_ws_program" script command.
+//! @SYMTestExpectedResults this executable will not be launched.
+//!                         The test should be failed with error code -1.
+//! @SYMTestActions         start an un-exist application with timeout 5 seconds.
+	RUN_TEST_STEP 20 Te_RegScriptCommandServer CheckProgram ${SYSDRIVE}\testdata\configs\te_regscriptcommandtest.ini ScriptCommand_0011
+	PRINT THE ESHELL WILL NOT BE LAUNCHED
+	RUN_WS_PROGRAM 5 ESHELLeee.exe
+	RUN_TEST_STEP 20 Te_RegScriptCommandServer CheckProgram ${SYSDRIVE}\testdata\configs\te_regscriptcommandtest.ini ScriptCommand_0011
+	RUN_TEST_STEP 10 Te_RegScriptCommandServer CheckLogFile ${SYSDRIVE}\testdata\configs\te_regscriptcommandtest.ini ScriptCommand_0011
+END_TESTCASE DT-TEF-ScriptCommand-0011

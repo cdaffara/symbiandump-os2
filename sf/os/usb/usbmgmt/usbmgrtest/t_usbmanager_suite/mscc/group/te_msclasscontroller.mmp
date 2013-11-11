@@ -1,0 +1,54 @@
+/*
+* Copyright (c) 2004-2010 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+* USB mass storage plugin testexecute server
+*
+*/
+
+/**
+ @file
+*/
+
+
+TARGET			te_msclasscontroller.exe
+TARGETTYPE		exe
+UID			0x1000007A 0x101F7774
+
+// For unit testing private methods
+MACRO		_UNITTEST_DEBUG
+
+SOURCEPATH	../src
+SOURCE		CUsbMsTestStep.cpp
+SOURCE		CUsbMsTestServer.cpp
+
+START RESOURCE usbms.rss
+target te_msclasscontroller.rsc
+END
+
+SOURCEPATH	../../../../usbmgr/device/classdrivers/ms/classcontroller/src
+source		CUsbMsClassController.cpp
+
+
+USERINCLUDE	../inc
+USERINCLUDE	../../../../usbmgr/device/classdrivers/ms/classcontroller/inc
+USERINCLUDE	../../../../usbmgr/device/classdrivers/ms/classcontroller/traces
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+LIBRARY     	euser.lib
+LIBRARY		testexecuteutils.lib
+LIBRARY		efsrv.lib
+LIBRARY		testexecutelogclient.lib
+LIBRARY		bafl.lib 
+LIBRARY		usbclasscontroller.lib
+

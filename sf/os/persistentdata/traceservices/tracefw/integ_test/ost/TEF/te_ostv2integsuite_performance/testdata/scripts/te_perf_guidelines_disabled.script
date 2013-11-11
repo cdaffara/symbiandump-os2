@@ -1,0 +1,226 @@
+// Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+//! @file
+//! @SYMTestSuiteName           te_perf_guidelines_disabled.script
+//! @SYMScriptTestEnvironment   TEF
+
+
+LOAD_SUITE te_ostv2integsuite_disabled
+
+PRINT Start Notification API performance tests.
+
+
+PRINT Run UPT tests for the config where: 
+PRINT GroupID filtering on
+PRINT Component ID Filtering on
+PRINT GroupID filter matches trace point,
+PRINT Component ID filter matches trace point.
+
+PRINT COMPILED out 
+
+START_TESTCASE                  DT-DEBUG-TRACE-OSTv2-TraceContolSMGOPTPerfDisabled-0001
+//! @SYMTestCaseID              DT-DEBUG-TRACE-OSTv2-TraceContolSMGOPTPerfDisabled-0001
+//! @SYMTestCaseDesc            Run ADP37 advanced performance test for OSTv2 API+TraceControl, with trace build time compiled out, GroupID filtering on, Component ID Filtering on, GroupID filter matches trace point, Component ID filter matches trace point 
+//! @SYMTestPriority            Critical
+//! @SYMTestActions             Calculate the typical and minimum times taken for trace APIs (compiled out, GroupID filtering on, Component ID Filtering on, GroupID filter matches trace point, Component ID filter matches trace point) and run configs specified in the te_perf_default.ini config file. Output to te_apitestresults.csv along with its stack usage.
+//! @SYMTestExpectedResults     Verify that there has not been any significant change in the performance figures from previous runs, other than expected by source code changes..
+//! @SYMTestType                ST
+//! @SYMTestStatus              Implemented
+//! @SYMPREQ                    PREQ2390
+//! @SYMREQ                     12115 12122 12761
+    START_TEST_BLOCK    10000   te_ostv2integsuite_disabled             \testdata\configs\te_perf_gon_con_gmatch_cmatch.ini
+        CREATE_OBJECT           TCMPerformance                          TCMPerformance
+        COMMAND                 TCMPerformance                          doTest                                            TESTONE
+    END_TEST_BLOCK 
+END_TESTCASE                    DT-DEBUG-TRACE-OSTv2-TraceContolSMGOPTPerfDisabled-0001
+
+
+PRINT Run UPT tests for the config where: 
+PRINT GroupID filtering on
+PRINT Component ID Filtering on
+PRINT GroupID filter matches trace point,
+PRINT Component ID filter doesn't match trace point.
+
+PRINT COMPILED OUT
+
+START_TESTCASE                  DT-DEBUG-TRACE-OSTv2-TraceContolSMGOPTPerfDisabled-0002
+//! @SYMTestCaseID              DT-DEBUG-TRACE-OSTv2-TraceContolSMGOPTPerfDisabled-0002
+//! @SYMTestCaseDesc            Run ADP37 advanced performance test for OSTv2 API+TraceControl, with trace build time compiled out, GroupID filtering on, Component ID Filtering on, GroupID filter matches trace point, Component ID filter doesn't match trace point 
+//! @SYMTestPriority            Critical
+//! @SYMTestActions             Calculate the typical and minimum times taken for trace APIs (compiled out, GroupID filtering on, Component ID Filtering on, GroupID filter matches trace point, Component ID filter doesn't match trace point) and run configs specified in the te_perf_default.ini config file. Output to te_apitestresults.csv along with its stack usage.
+//! @SYMTestExpectedResults     Verify that there has not been any significant change in the performance figures from previous runs, other than expected by source code changes.
+//! @SYMTestType                ST
+//! @SYMTestStatus              Implemented
+//! @SYMPREQ                    PREQ2390
+//! @SYMREQ                     12115 12122 12761
+    START_TEST_BLOCK    10000   te_ostv2integsuite_disabled             \testdata\configs\te_perf_gon_con_gmatch_cmismatch.ini
+        CREATE_OBJECT           TCMPerformance                          TCMPerformance
+        COMMAND                 TCMPerformance                          doTest                                            TESTONE
+    END_TEST_BLOCK 
+END_TESTCASE                    DT-DEBUG-TRACE-OSTv2-TraceContolSMGOPTPerfDisabled-0002
+
+
+PRINT Run UPT tests for the config where: 
+PRINT GroupID filtering on
+PRINT Component ID Filtering on
+PRINT GroupID filter doesn't match trace point,
+PRINT Component ID filter matches trace point.
+
+PRINT COMPILED OUT
+
+START_TESTCASE                  DT-DEBUG-TRACE-OSTv2-TraceContolSMGOPTPerfDisabled-0003
+//! @SYMTestCaseID              DT-DEBUG-TRACE-OSTv2-TraceContolSMGOPTPerfDisabled-0003
+//! @SYMTestCaseDesc            Run ADP37 advanced performance test for OSTv2 API+TraceControl, with trace build time compiled out, GroupID filtering on, Component ID Filtering on, GroupID filter doesn't match trace point, Component ID filter matches trace point
+//! @SYMTestPriority            Critical
+//! @SYMTestActions             Calculate the typical and minimum times taken for trace APIs (compiled out, GroupID filtering on, Component ID Filtering on, GroupID filter doesn't match trace point, Component ID filter matches trace point) and run configs specified in the te_perf_default.ini config file. Output to te_apitestresults.csv along with its stack usage.
+//! @SYMTestExpectedResults     Verify that there has not been any significant change in the performance figures from previous runs, other than expected by source code changes.
+//! @SYMTestType                ST
+//! @SYMTestStatus              Implemented
+//! @SYMPREQ                    PREQ2390
+//! @SYMREQ                     12115 12122 12761
+    START_TEST_BLOCK    10000   te_ostv2integsuite_disabled             \testdata\configs\te_perf_gon_con_gmismatch_cmatch.ini
+        CREATE_OBJECT           TCMPerformance                          TCMPerformance
+        COMMAND                 TCMPerformance                          doTest                                            TESTONE
+    END_TEST_BLOCK 
+END_TESTCASE                    DT-DEBUG-TRACE-OSTv2-TraceContolSMGOPTPerfDisabled-0003
+
+
+PRINT Run UPT tests for the config where: 
+PRINT GroupID filtering on
+PRINT Component ID Filtering off
+PRINT GroupID filter matches trace point,
+PRINT Component ID filter doesn't match trace point.
+
+PRINT COMPILED OUT
+
+START_TESTCASE                  DT-DEBUG-TRACE-OSTv2-TraceContolSMGOPTPerfDisabled-0004
+//! @SYMTestCaseID              DT-DEBUG-TRACE-OSTv2-TraceContolSMGOPTPerfDisabled-0004
+//! @SYMTestCaseDesc            Run ADP37 advanced performance test for OSTv2 API+TraceControl, with trace build time compiled out, GroupID filtering on, Component ID Filtering off, GroupID filter matches trace point, Component ID filter doesn't match trace point
+//! @SYMTestPriority            Critical
+//! @SYMTestActions             Calculate the typical and minimum times taken for trace APIs (compiled out, GroupID filtering on, Component ID Filtering off, GroupID filter matches trace point, Component ID filter doesn't match trace point) and run configs specified in the te_perf_default.ini config file. Output to te_apitestresults.csv along with its stack usage.
+//! @SYMTestExpectedResults     Verify that there has not been any significant change in the performance figures from previous runs, other than expected by source code changes.
+//! @SYMTestType                ST
+//! @SYMTestStatus              Implemented
+//! @SYMPREQ                    PREQ2390
+//! @SYMREQ                     12115 12122 12761
+    START_TEST_BLOCK    10000   te_ostv2integsuite_disabled             \testdata\configs\te_perf_gon_coff_gmatch_cmismatch.ini
+        CREATE_OBJECT           TCMPerformance                          TCMPerformance
+        COMMAND                 TCMPerformance                          doTest                                            TESTONE
+    END_TEST_BLOCK 
+END_TESTCASE                    DT-DEBUG-TRACE-OSTv2-TraceContolSMGOPTPerfDisabled-0004
+
+
+PRINT Run UPT tests for the config where: 
+PRINT GroupID filtering on
+PRINT Component ID Filtering off
+PRINT GroupID filter doesn't match trace point,
+PRINT Component ID filter match matches trace point.
+
+PRINT COMPILED OUT
+
+START_TESTCASE                  DT-DEBUG-TRACE-OSTv2-TraceContolSMGOPTPerfDisabled-0005
+//! @SYMTestCaseID              DT-DEBUG-TRACE-OSTv2-TraceContolSMGOPTPerfDisabled-0005
+//! @SYMTestCaseDesc            Run ADP37 advanced performance test for OSTv2 API+TraceControl, with trace build time compiled out, GroupID filtering on, Component ID Filtering off, GroupID filter doesn't match trace point, Component ID filter matches trace point
+//! @SYMTestPriority            Critical
+//! @SYMTestActions             Calculate the typical and minimum times taken for trace APIs (compiled out, GroupID filtering on, Component ID Filtering off, GroupID filter doesn't match trace point, Component ID filter matches trace point) and run configs specified in the te_perf_default.ini config file. Output to te_apitestresults.csv along with its stack usage.
+//! @SYMTestExpectedResults     Verify that there has not been any significant change in the performance figures from previous runs, other than expected by source code changes.
+//! @SYMTestType                ST
+//! @SYMTestStatus              Implemented
+//! @SYMPREQ                    PREQ2390
+//! @SYMREQ                     12115 12122 12761
+    START_TEST_BLOCK    10000   te_ostv2integsuite_disabled             \testdata\configs\te_perf_gon_coff_gmismatch_cmatch.ini
+        CREATE_OBJECT           TCMPerformance                          TCMPerformance
+        COMMAND                 TCMPerformance                          doTest                                            TESTONE
+    END_TEST_BLOCK 
+END_TESTCASE                    DT-DEBUG-TRACE-OSTv2-TraceContolSMGOPTPerfDisabled-0005
+
+
+PRINT Run UPT tests for the config where: 
+PRINT GroupID filtering off
+PRINT Component ID Filtering on
+PRINT GroupID filter doesn't match trace point,
+PRINT Component ID filter match matches trace point.
+
+PRINT COMPILED OUT
+
+START_TESTCASE                  DT-DEBUG-TRACE-OSTv2-TraceContolSMGOPTPerfDisabled-0006
+//! @SYMTestCaseID              DT-DEBUG-TRACE-OSTv2-TraceContolSMGOPTPerfDisabled-0006
+//! @SYMTestCaseDesc            Run ADP37 advanced performance test for OSTv2 API+TraceControl, with trace build time compiled out, GroupID filtering off, Component ID Filtering on, GroupID filter doesn't match trace point, Component ID filter matches trace point
+//! @SYMTestPriority            Critical
+//! @SYMTestActions             Calculate the typical and minimum times taken for trace APIs (compiled out, GroupID filtering off, Component ID Filtering on, GroupID filter doesn't match trace point, Component ID filter matches trace point) and run configs specified in the te_perf_default.ini config file. Output to te_apitestresults.csv along with its stack usage.
+//! @SYMTestExpectedResults     Verify that there has not been any significant change in the performance figures from previous runs, other than expected by source code changes.
+//! @SYMTestType                ST
+//! @SYMTestStatus              Implemented
+//! @SYMPREQ                    PREQ2390
+//! @SYMREQ                     12115 12122 12761
+    START_TEST_BLOCK    10000   te_ostv2integsuite_disabled             \testdata\configs\te_perf_goff_con_gmismatch_cmatch.ini
+        CREATE_OBJECT           TCMPerformance                          TCMPerformance
+        COMMAND                 TCMPerformance                          doTest                                            TESTONE
+    END_TEST_BLOCK 
+END_TESTCASE                    DT-DEBUG-TRACE-OSTv2-TraceContolSMGOPTPerfDisabled-0006
+
+
+PRINT Run UPT tests for the config where: 
+PRINT GroupID filtering off
+PRINT Component ID Filtering on
+PRINT GroupID filter matches trace point,
+PRINT Component ID filter match doesn't match trace point.
+
+PRINT COMPILED OUT
+
+START_TESTCASE                  DT-DEBUG-TRACE-OSTv2-TraceContolSMGOPTPerfDisabled-0007
+//! @SYMTestCaseID              DT-DEBUG-TRACE-OSTv2-TraceContolSMGOPTPerfDisabled-0007
+//! @SYMTestCaseDesc            Run ADP37 advanced performance test for OSTv2 API+TraceControl, with trace build time compiled out, GroupID filtering off, Component ID Filtering on, GroupID filter matches trace point, Component ID filter doesn't match trace point
+//! @SYMTestPriority            Critical
+//! @SYMTestActions             Calculate the typical and minimum times taken for trace APIs (compiled out, GroupID filtering off, Component ID Filtering on, GroupID filter matches trace point, Component ID filter doesn't match trace point) and run configs specified in the te_perf_default.ini config file. Output to te_apitestresults.csv along with its stack usage.
+//! @SYMTestExpectedResults     Verify that there has not been any significant change in the performance figures from previous runs, other than expected by source code changes.
+//! @SYMTestType                ST
+//! @SYMTestStatus              Implemented
+//! @SYMPREQ                    PREQ2390
+//! @SYMREQ                     12115 12122 12761
+    START_TEST_BLOCK    10000   te_ostv2integsuite_disabled             \testdata\configs\te_perf_goff_con_gmatch_cmismatch.ini
+        CREATE_OBJECT           TCMPerformance                          TCMPerformance
+        COMMAND                 TCMPerformance                          doTest                                            TESTONE
+    END_TEST_BLOCK 
+END_TESTCASE                    DT-DEBUG-TRACE-OSTv2-TraceContolSMGOPTPerfDisabled-0007
+
+
+PRINT Run UPT tests for the config where: 
+PRINT GroupID filtering off
+PRINT Component ID Filtering off
+PRINT GroupID filter matches trace point,
+PRINT Component ID filter match doesn't match trace point.
+
+PRINT COMPILED OUT
+
+START_TESTCASE                  DT-DEBUG-TRACE-OSTv2-TraceContolSMGOPTPerfDisabled-0008
+//! @SYMTestCaseID              DT-DEBUG-TRACE-OSTv2-TraceContolSMGOPTPerfDisabled-0008
+//! @SYMTestCaseDesc            Run ADP37 advanced performance test for OSTv2 API+TraceControl, with trace build time compiled out, GroupID filtering off, Component ID Filtering off, GroupID filter matches trace point, Component ID filter doesn't match trace point
+//! @SYMTestPriority            Critical
+//! @SYMTestActions             Calculate the typical and minimum times taken for trace APIs (compiled out, GroupID filtering off, Component ID Filtering off, GroupID filter matches trace point, Component ID filter doesn't match trace point) and run configs specified in the te_perf_default.ini config file. Output to te_apitestresults.csv along with its stack usage.
+//! @SYMTestExpectedResults     Verify that there has not been any significant change in the performance figures from previous runs, other than expected by source code changes.
+//! @SYMTestType                ST
+//! @SYMTestStatus              Implemented
+//! @SYMPREQ                    PREQ2390
+//! @SYMREQ                     12115 12122 12761
+    START_TEST_BLOCK    10000   te_ostv2integsuite_disabled             \testdata\configs\te_perf_goff_coff_gmatch_cmatch.ini
+        CREATE_OBJECT           TCMPerformance                          TCMPerformance
+        COMMAND                 TCMPerformance                          doTest                                            TESTONE
+    END_TEST_BLOCK 
+END_TESTCASE                    DT-DEBUG-TRACE-OSTv2-TraceContolSMGOPTPerfDisabled-0008
+
+
+PRINT End of Notification API performance tests.

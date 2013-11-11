@@ -1,0 +1,116 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+*
+*/
+#ifndef __TE_CENTREP_SWI_SUITE_IBY__
+#define __TE_CENTREP_SWI_SUITE_IBY__
+
+#include <testexecute.iby>
+#include <burtestserver.iby>
+#include <swicertstoredat.iby>
+#include <centrepswiteststub.iby>
+
+// centrep test dlls
+#include <centreptesthelper.iby>
+
+
+file=ABI_DIR\BUILD_DIR\te_centrep_swisuite.exe		System\bin\te_centrep_SWISuite.exe
+file=ABI_DIR\BUILD_DIR\t_deletedirallfiles.exe		System\bin\t_deletedirallfiles.exe
+file=ABI_DIR\BUILD_DIR\t_deletefileallfiles.exe		System\bin\t_deletefileallfiles.exe
+file=ABI_DIR\BUILD_DIR\t_killprocess.exe		System\bin\t_killprocess.exe
+
+
+data=DATAZ_\private\10202be9\51551552.cre PRIVATE\10202BE9\51551552.cre
+data=DATAZ_\private\10202be9\51551554.cre PRIVATE\10202BE9\51551554.cre
+data=DATAZ_\private\10202be9\5155155f.cre PRIVATE\10202BE9\5155155F.cre
+data=DATAZ_\private\10202be9\51551652.cre PRIVATE\10202BE9\51551652.cre
+
+#ifdef PDS_TEST_MULTIROFS
+data=DATAZ_\private\10202be9\51551552.cre PRIVATE\10202BE9\51551552.cre[01-00]
+data=DATAZ_\private\10202be9\51551554.cre PRIVATE\10202BE9\51551554.cre[01-00]
+data=DATAZ_\private\10202be9\5155155F.cre PRIVATE\10202BE9\5155155F.cre[01-00]
+data=DATAZ_\private\10202be9\51551652.cre PRIVATE\10202BE9\51551652.cre[01-00]
+#endif
+
+
+data=DATAZ_\tef_centralrepository\te_centrep_swisuite.script 		TEF_CentralRepository\te_centrep_SWISuite.script
+data=DATAZ_\tef_centralrepository\te_centrep_swisuite_sp_upgrade.script 	TEF_CentralRepository\te_centrep_swisuite_sp_upgrade.Script
+data=DATAZ_\tef_centralrepository\te_centrep_swisuite_pu_upgrade.script 	TEF_CentralRepository\te_centrep_swisuite_pu_upgrade.Script
+data=DATAZ_\tef_centralrepository\te_centrep_swisuite-pu-metadata.script 	TEF_CentralRepository\te_centrep_SWISuite-pu-metadata.Script
+data=DATAZ_\tef_centralrepository\te_centrep_swisuite-sp-metadata.script 	TEF_CentralRepository\te_centrep_SWISuite-sp-metadata.Script
+data=DATAZ_\tef_centralrepository\te_centrep_swisuite-punotify.script 	TEF_CentralRepository\te_centrep_SWISuite-PUnotify.Script
+data=DATAZ_\tef_centralrepository\te_centrep_swisuite-spnotify.script 	TEF_CentralRepository\te_centrep_SWISuite-SPnotify.Script
+data=DATAZ_\tef_centralrepository\te_centrep_swisuite_pu_cap.script 	TEF_CentralRepository\te_centrep_swisuite_pu_cap.Script
+data=DATAZ_\tef_centralrepository\te_centrep_swisuite_sp_cap.script 	TEF_CentralRepository\te_centrep_swisuite_sp_cap.Script
+data=DATAZ_\tef_centralrepository\te_centrep_swi_bur.script	 	TEF_CentralRepository\te_centrep_SWI_BUR.script
+data=DATAZ_\tef_centralrepository\te_centrep_swidefect.script 		TEF_CentralRepository\te_centrep_SWIdefect.script
+data=DATAZ_\tef_centralrepository\te_centrep_swisuite-app-sp.script 	TEF_CentralRepository\te_centrep_swisuite-app-sp.Script
+
+data=DATAZ_\tef_centralrepository\swi-pu-k1.ini 			TEF_CentralRepository\SWI-PU-K1.ini
+data=DATAZ_\tef_centralrepository\swi-pu-k2.ini 			TEF_CentralRepository\SWI-PU-K2.ini
+data=DATAZ_\tef_centralrepository\swi-pu-k3.ini 			TEF_CentralRepository\SWI-PU-K3.ini
+data=DATAZ_\tef_centralrepository\swi-pu-notify.ini 			TEF_CentralRepository\SWI-PU-notify.ini
+data=DATAZ_\tef_centralrepository\swi-sp-notify.ini 			TEF_CentralRepository\SWI-SP-notify.ini
+data=DATAZ_\tef_centralrepository\swi-sp-K1.ini 			TEF_CentralRepository\SWI-SP-K1.ini
+data=DATAZ_\tef_centralrepository\swi-sp-K2.ini 			TEF_CentralRepository\SWI-SP-K2.ini
+data=DATAZ_\tef_centralrepository\swi-sp-K3.ini 			TEF_CentralRepository\SWI-SP-K3.ini
+data=DATAZ_\tef_centralrepository\swi-sp-K6.ini 			TEF_CentralRepository\SWI-SP-K6.ini
+data=DATAZ_\tef_centralrepository\swi-pu-CAP-K4.ini 			TEF_CentralRepository\SWI-PU-CAP-K4.ini
+data=DATAZ_\tef_centralrepository\swi-sp-CAP-K4.ini 			TEF_CentralRepository\SWI-SP-CAP-K4.ini
+data=DATAZ_\tef_centralrepository\swi-cap-k5.ini 			TEF_CentralRepository\SWI-CAP-K5.ini
+data=DATAZ_\tef_centralrepository\swi-pu-k6.ini 			TEF_CentralRepository\SWI-PU-K6.ini
+data=DATAZ_\tef_centralrepository\swi-bur-ksx.ini 			TEF_CentralRepository\SWI-BUR-KSX.ini
+data=DATAZ_\tef_centralrepository\swi-ksd.ini	 			TEF_CentralRepository\SWI-KSD.ini
+data=DATAZ_\tef_centralrepository\swi-app-sp.ini 			TEF_CentralRepository\SWI-APP-SP.ini
+
+
+data=DATAZ_\tef_centralrepository\kp12s.sis TEF_CentralRepository\KP12s.sis
+data=DATAZ_\tef_centralrepository\kp14s.sis TEF_CentralRepository\KP14s.sis
+data=DATAZ_\tef_centralrepository\kps14s.sis TEF_CentralRepository\KPS14s.sis
+data=DATAZ_\tef_centralrepository\kp2s.sis TEF_CentralRepository\KP2s.sis
+data=DATAZ_\tef_centralrepository\kp22s.sis TEF_CentralRepository\KP22s.sis
+data=DATAZ_\tef_centralrepository\kp23s.sis TEF_CentralRepository\KP23s.sis
+data=DATAZ_\tef_centralrepository\kp3s.sis TEF_CentralRepository\KP3s.sis
+data=DATAZ_\tef_centralrepository\kp4s.sis TEF_CentralRepository\KP4s.sis
+data=DATAZ_\tef_centralrepository\kp41s.sis TEF_CentralRepository\KP41s.sis
+data=DATAZ_\tef_centralrepository\kpS4s.sis TEF_CentralRepository\KPS4s.sis
+data=DATAZ_\tef_centralrepository\kp62s.sis TEF_CentralRepository\KP62s.sis
+data=DATAZ_\tef_centralrepository\kpS64s.sis TEF_CentralRepository\KPS64s.sis
+
+data=DATAZ_\tef_centralrepository\ks12s.sis TEF_CentralRepository\KS12s.sis
+data=DATAZ_\tef_centralrepository\ks14s.sis TEF_CentralRepository\KS14s.sis
+data=DATAZ_\tef_centralrepository\ks2s.sis TEF_CentralRepository\KS2s.sis
+data=DATAZ_\tef_centralrepository\ks22s.sis TEF_CentralRepository\KS22s.sis
+data=DATAZ_\tef_centralrepository\ks3s.sis TEF_CentralRepository\KS3s.sis
+data=DATAZ_\tef_centralrepository\ks4s.sis TEF_CentralRepository\KS4s.sis
+data=DATAZ_\tef_centralrepository\ks41s.sis TEF_CentralRepository\KS41s.sis
+data=DATAZ_\tef_centralrepository\ks51s.sis TEF_CentralRepository\KS51s.sis
+data=DATAZ_\tef_centralrepository\ks62s.sis TEF_CentralRepository\KS62s.sis
+data=DATAZ_\tef_centralrepository\appxs.sis TEF_CentralRepository\APPXs.sis
+data=DATAZ_\tef_centralrepository\ksds.sis TEF_CentralRepository\KSDs.sis
+
+data=DATAZ_\tef_centralrepository\appys.sis 				TEF_CentralRepository\APPYs.sis
+data=DATAZ_\tef_centralrepository\ksys.sis 				TEF_CentralRepository\KSYs.sis
+
+data=DATAZ_\tef_centralrepository\appy1s.sis 				TEF_CentralRepository\APPY1s.sis
+data=DATAZ_\tef_centralrepository\ksy1s.sis 				TEF_CentralRepository\KSY1s.sis
+
+data=DATAZ_\tef_centralrepository\appy2s.sis 				TEF_CentralRepository\APPY2s.sis
+data=DATAZ_\tef_centralrepository\ksy2s.sis 				TEF_CentralRepository\KSY2s.sis
+
+
+
+
+#endif //__TE_CENTREP_SWI_SUITE_IBY__

@@ -1,0 +1,78 @@
+/*
+* Copyright (c) 2003-2010 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+*
+*/
+
+PRJ_PLATFORMS
+DEFAULT
+
+PRJ_EXPORTS
+../public/Usb_std.h						SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(usb_std.h)
+../public/MUsbDeviceNotify.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(musbdevicenotify.h)
+../public/usberrors.h					SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(usberrors.h)
+../public/UsbClassUids.h				SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(usbclassuids.h)
+../public/usbshared.h					SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(usb/usbshared.h)
+../public/usbotgdefs.h					SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(usbotgdefs.h)
+../public/usbhostdefs.h					SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(usbhostdefs.h)
+./backup_registration.xml  				/epoc32/data/z/private/101fe1db/backup_registration.xml
+
+../public/musbchargingnotify.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(musbchargingnotify.h)
+../conf/usbmanager_101fe1db.crml 		OS_LAYER_EXPORTS_CRML(usbmanager_101fe1db.crml)
+
+PRJ_TESTEXPORTS
+
+// IBY and INI files for Dummy Class Controller Tests (t_usbman_dummycc)
+dummyCCinifiles.iby    /epoc32/rom/include/dummyccinifiles.iby
+../data/BadStart0CI.ini		/epoc32/data/z/private/101fe1db/data/badstart0ci.ini
+../data/BadStart1CI.ini		/epoc32/data/z/private/101fe1db/data/badstart1ci.ini
+../data/BadStart2CI.ini		/epoc32/data/z/private/101fe1db/data/badstart2ci.ini
+../data/BadStop0CI.ini		/epoc32/data/z/private/101fe1db/data/badstop0ci.ini
+../data/BadStop1CI.ini		/epoc32/data/z/private/101fe1db/data/badstop1ci.ini
+../data/BadStop2CI.ini		/epoc32/data/z/private/101fe1db/data/badstop2ci.ini
+../data/nice.ini			/epoc32/data/z/private/101fe1db/data/nice.ini
+../data/test.ini			/epoc32/data/z/private/101fe1db/data/test.ini
+../data/SyncStart.ini		/epoc32/data/z/private/101fe1db/data/syncstart.ini
+../data/SyncStop.ini		/epoc32/data/z/private/101fe1db/data/syncstop.ini
+../data/AsyncStart.ini		/epoc32/data/z/private/101fe1db/data/asyncstart.ini
+../data/AsyncStop.ini		/epoc32/data/z/private/101fe1db/data/asyncstop.ini
+
+../public/rusb.h						SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(usb/rusb.h)
+../public/UsbmanInternalConstants.h		SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(usb/usbmaninternalconstants.h)
+
+PRJ_MMPFILES
+
+Usbsvr.mmp
+
+#if defined(SYMBIAN_ENABLE_USB_OTG_HOST) && !defined(WINS) && !defined(X86GCC)
+usbsvrotg.mmp
+#endif
+
+PRJ_TESTMMPFILES
+
+// Special USBSVR with no class controllers except 3 instances of the dummy 
+// class controller, for GT171 tests.
+t_Usbman_dummyCC.mmp
+usbsvr_dummyldd.mmp
+UsbDummyClassControllerLdd.mmp
+
+#if defined(SYMBIAN_ENABLE_USB_OTG_HOST)
+
+// exe built from usbsvrotg_dummyusbdi.mmp (below) has dependency on usbhoststack_over_dummyusbdi.lib
+#include "../../../host/fdf/production/client/group/usbhoststack_over_dummyusbdi_bld.inf"
+
+// Special USBSVR with no OTGDI part and over DUMMY USBDI
+usbsvrotg_dummyusbdi.mmp
+
+#endif // SYMBIAN_ENABLE_USB_OTG_HOST

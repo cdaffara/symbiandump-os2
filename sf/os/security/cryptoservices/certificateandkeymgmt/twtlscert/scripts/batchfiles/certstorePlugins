@@ -1,0 +1,225 @@
+#!/usr/bin/perl -w
+
+# pluginScript.pl
+#
+# Controls the availability of cert store plugins on the emulator, for testing
+# purposes.  
+
+$UsageMessage = <<"EOF";
+usage:
+  pluginScript disable PLUGIN
+    Disable the specified plugin by moving it to a backup location
+  pluginScript disable_all
+    Disable all plugins
+  pluginScript enable PLUGIN
+    Enable the specified plugin by copying the backup to its original location
+  pluginScript list PLATFORM BUILD
+    List the currently enabled plugins for the specified platform and build
+    (default is winscw udeb)
+EOF
+
+@plugins = ('filecertstore.dll',
+			'tadditionalstores.dll',
+			'tadditionalstoressoftware.dll',
+			'wapcertstore.dll',
+ 			'swicertstoreplugin.dll',
+ 			'thwsimstores.dll',
+ 			'thwuiccstores.dll',
+ 			'thwwimstores.dll',
+			'tDeviceImmutablestores.dll',
+ 			'MIDP2CertStore.dll');
+
+@platforms = ('wins', 'winscw');
+
+@builds = ('udeb', 'urel');
+
+$EpocRoot = $ENV{'EPOCROOT'} . "epoc32";
+
+sub usage()
+{
+	die $UsageMessage;
+}
+
+sub copyFile($$)
+{
+	my ($from, $to) = @_;
+	print "Copying $from -> $to\n";
+	die "Can't copy: $!" unless system("cmd", "/c", "copy", $from, $to) == 0;
+}
+
+sub deleteFile($)
+{
+	my ($file) = @_;
+	print "Deleting $file\n";
+	die "Can't delete '$file': $!" unless unlink $file;
+}
+
+sub ensureDir($)
+{
+	my ($dir) = @_;
+	if (! -d $dir)
+	{
+		print "Creating $dir\n";
+		die "Can't create dir '$dir': $!" unless mkdir $dir;
+	}
+}
+
+sub isSecure($)
+{
+	my ($plugin) = @_;
+	$plugin =~ s/\.dll/.rsc/i;
+	return -f "$EpocRoot\\data\\z\\resource\\plugins\\$plugin"
+}
+
+sub pluginDir($$)
+{
+	my ($plugin, $path) = @_;
+
+	if (isSecure($plugin))
+	{
+		return "$path";
+	}
+	else
+	{
+		return "$path\\z\\system\\libs\\plugins";
+	}
+}
+
+sub backupDir($$)
+{
+	my ($plugin, $path) = @_;
+
+	if (isSecure($plugin))
+	{
+		return "$path\\plugins_backup";
+	}
+	else
+	{
+		return "$path\\z\\system\\libs\\plugins_backup";
+	}
+}
+
+sub disable($)
+{
+	my ($plugin) = @_;
+
+	for my $platform (@platforms)
+	{
+		for my $build (@builds)
+		{
+			my $path = "$EpocRoot\\release\\$platform\\$build";
+
+			my $backupDir = backupDir($plugin, $path);
+			my $pluginDir = pluginDir($plugin, $path);
+			my $pluginFile = "$pluginDir\\$plugin";
+			my $backupFile = "$backupDir\\$plugin";
+
+			if (-f $pluginFile)
+			{
+				# Always copy, in case plugin has been rebuilt
+				ensureDir($backupDir);
+				copyFile($pluginFile, $backupDir);
+
+				deleteFile($pluginFile);
+			}
+		}
+	}
+}
+
+sub disableAll()
+{
+	for my $plugin (@plugins)
+	{
+		disable($plugin)
+	}
+}
+
+sub enable($)
+{
+	my ($plugin) = @_;
+
+	for my $platform (@platforms)
+	{
+		for my $build (@builds)
+		{
+			my $path = "$EpocRoot\\release\\$platform\\$build";
+
+			my $backupDir = backupDir($plugin, $path);
+			my $pluginDir = pluginDir($plugin, $path);
+			my $pluginFile = "$pluginDir\\$plugin";
+			my $backupFile = "$backupDir\\$plugin";
+
+			if (! -f $pluginFile && -f $backupFile)
+			{
+				copyFile($backupFile, $pluginDir);					
+			}
+		}
+	}
+}
+
+sub list($$)
+{
+	my ($platform, $build) = @_;	
+	my $path = "$EpocRoot\\release\\$platform\\$build";
+
+	printf "%-32s %-12s %s\n",  "Plugin:", "Type:", "Status:";
+
+	for my $plugin (@plugins)
+	{
+		my $secure = isSecure($plugin);
+		my $enabled = 0;
+
+		if ($secure)
+		{
+			$enabled = -f "$path\\$plugin";
+		}
+		else
+		{
+			$enabled = -f "$path\\z\\system\\libs\\plugins\\$plugin";
+		}
+
+		my $secureMess = $secure ? 'secure' : 'old-style';
+		my $enabledMess = $enabled ? 'enabled' : 'disabled';
+
+		printf "%-32s %-12s %s\n",  $plugin, $secureMess, $enabledMess;
+	}
+}
+
+sub main(@)
+{
+	my $action = shift || usage();
+	if ($action eq 'backup_all')
+	{
+		backupAll();
+	}
+	elsif ($action eq 'disable')
+	{
+		my $plugin = shift || usage();
+		usage() unless grep { $_ eq $plugin } @plugins;
+		disable($plugin);
+	}
+	elsif ($action eq 'disable_all')
+	{
+		disableAll();
+	}
+	elsif ($action eq 'enable')
+	{
+		my $plugin = shift || usage();
+		usage() unless grep { $_ eq $plugin } @plugins;
+		enable($plugin);
+	}
+	elsif ($action eq 'list')
+	{
+		my $platform = shift || 'winscw';
+		my $build = shift || 'udeb';
+		usage() unless grep { $_ eq $platform } @platforms;
+		usage() unless grep { $_ eq $build } @builds;
+		list($platform, $build);
+	}
+	else
+	{
+		usage();
+	}
+}
+
+main(@ARGV);

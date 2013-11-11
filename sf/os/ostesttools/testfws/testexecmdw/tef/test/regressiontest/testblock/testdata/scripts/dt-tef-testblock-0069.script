@@ -1,0 +1,40 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SERVER te_RegBlockTestSuite 
+
+START_TESTCASE DT-TEF-TestBlock-0069
+//! @SYMTestCaseID          DT-TEF-TestBlock-0069
+//! @SYMCreationDate        03-07-2008
+//! @SYMAuthor              DavidZhang
+//! @SYMTestType            CT
+//! @SYMTestPriority        Medium
+//! @SYMTestCaseDesc        Test that makes sure that the objects created in a first test block are not accessible in the second from the dictionary anymore.
+//! @SYMTestExpectedResults The test completes without errors.
+//! @SYMTestActions         Create multiple wrapper objects with individual lookup names. Ensure the new objects
+//!                         are saved to the dictionary. In the second test block make sure that the objects are not available in the dictionary anymore.
+	START_TEST_BLOCK	100 te_RegBlockTestSuite ${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini
+		CREATE_OBJECT	te_RegBlockTestWrapper	TestCase021_obj
+		CREATE_OBJECT	te_RegBlockTestWrapper	TestCase021_obja
+		COMMAND		TestCase021_obj			GetDataWrapper			TestCase021_obj
+		COMMAND		TestCase021_obja		GetDataWrapper			TestCase021_obja
+	END_TEST_BLOCK
+	START_TEST_BLOCK	100 te_RegBlockTestSuite ${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini
+		CREATE_OBJECT	te_RegBlockTestWrapper	TestCase021_objb
+		COMMAND		!Error=-1 TestCase021_objb	GetDataWrapper			TestCase021_obj_is_null
+		COMMAND		!Error=-1 TestCase021_objb	GetDataWrapper			TestCase021_obja_is_null
+	END_TEST_BLOCK
+END_TESTCASE DT-TEF-TestBlock-0069

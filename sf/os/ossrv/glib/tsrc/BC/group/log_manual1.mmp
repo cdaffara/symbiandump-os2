@@ -1,0 +1,57 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+
+TARGET          log_manual1.exe
+TARGETTYPE      exe
+UID             0x1000008D 0xE1000012
+
+MACRO SYMBIAN
+
+#if defined(EKA2)
+CAPABILITY      ALL -TCB
+/* Remove comments and replace 0x00000000 with correct vendor id */
+// VENDORID     0x00000000
+/* Remove comments and replace 0x00000000 with correct secure id */
+// SECUREID     0x00000000
+#endif
+
+SOURCEPATH    ../src
+SOURCE        log_manual1.c
+
+SYSTEMINCLUDE   ../inc
+SYSTEMINCLUDE   /epoc32/include 
+SYSTEMINCLUDE   /epoc32/include/internal
+//SYSTEMINCLUDE		/epoc32/include/osextensions/stdapis
+//SYSTEMINCLUDE		/epoc32/include/osextensions/stdapis/glib-2.0
+//SYSTEMINCLUDE		/epoc32/include/osextensions/stdapis/glib-2.0/glib
+
+SYSTEMINCLUDE	/epoc32/include/stdapis
+SYSTEMINCLUDE	/epoc32/include/stdapis/glib-2.0
+SYSTEMINCLUDE	/epoc32/include/stdapis/glib-2.0/glib
+
+
+
+LIBRARY         euser.lib
+LIBRARY			libc.lib
+LIBRARY			libglib.lib
+STATICLIBRARY		  libcrt0.lib
+
+
+
+SMPSAFE

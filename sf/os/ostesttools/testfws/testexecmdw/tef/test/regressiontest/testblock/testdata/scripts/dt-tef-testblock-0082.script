@@ -1,0 +1,41 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SERVER te_RegBlockTestSuite 
+
+START_TESTCASE DT-TEF-TestBlock-0082
+//! @SYMTestCaseID          DT-TEF-TestBlock-0082
+//! @SYMCreationDate        03-07-2008
+//! @SYMAuthor              DavidZhang
+//! @SYMTestType            CT
+//! @SYMTestPriority        Medium
+//! @SYMTestCaseDesc        Multiple commands with different expected errors on command level.
+//! @SYMTestExpectedResults The test case result is PASS.
+//! @SYMTestActions         Call multiple commands with different !Error parameters expected. The commands execute a function
+//!                         that sets the error using CDataWrapper::SetError().
+	START_TEST_BLOCK	100 te_RegBlockTestSuite ${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini
+		CREATE_OBJECT	te_RegBlockTestWrapper	TestCase055_obj
+		COMMAND		!Error=-1 TestCase055_obj	SetError			TestCase055_obj_Error_1
+		COMMAND		!Error=-2 TestCase055_obj	SetError			TestCase055_obj_Error_2
+		COMMAND		!Error=-3 TestCase055_obj	SetError			TestCase055_obj_Error_3
+		COMMAND		!Error=-4 TestCase055_obj	SetError			TestCase055_obj_Error_4
+		COMMAND		!Error=-5 TestCase055_obj	SetError			TestCase055_obj_Error_5
+		COMMAND		!Error=-6 TestCase055_obj	SetError			TestCase055_obj_Error_6
+		COMMAND		!Error=-7 TestCase055_obj	SetError			TestCase055_obj_Error_7
+		COMMAND		!Error=-8 TestCase055_obj	SetError			TestCase055_obj_Error_8
+		COMMAND		!Error=-9 TestCase055_obj	SetError			TestCase055_obj_Error_9
+	END_TEST_BLOCK
+END_TESTCASE DT-TEF-TestBlock-0082

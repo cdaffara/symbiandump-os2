@@ -1,0 +1,49 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* @file
+* This is the project specification file for the streaming reference agent utils
+* which is used by three clients: streaming test agent, streaming reference agent and
+* streaming test harness.
+*
+*/
+
+
+TARGET 		srautils.dll
+TARGETTYPE 	DLL
+
+UID 		0 0x10285A3A
+
+CAPABILITY	All -Tcb
+
+USERINCLUDE 	../streamingrefagent/inc
+USERINCLUDE 	../localsdp/inc
+USERINCLUDE 	../localsdp/api
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+SOURCEPATH 	../streamingrefagent/source/utils
+SOURCE		srautils.cpp
+SOURCE 		stkm.cpp
+SOURCE		srarightsobject.cpp
+
+deffile		../~/srautils.def
+
+LIBRARY 	euser.lib
+LIBRARY 	estor.lib
+LIBRARY		streamingcaf.lib
+LIBRARY		localsdpcodec.lib
+LIBRARY     efsrv.lib 
+LIBRARY		bafl.lib
+SMPSAFE

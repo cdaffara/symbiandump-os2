@@ -1,0 +1,92 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+//!@file
+
+PRINT Run Startup state schedule tests
+
+RUN_UTILS MkDir C:\TEF_SCHSVR\
+RUN_UTILS CopyFile Z:\TEF_SCHSVR\TEF_SSA_ScheduleSuite.INI C:\TEF_SCHSVR\TEF_SSA_ScheduleSuite.INI
+RUN_UTILS MakeReadWrite C:\TEF_SCHSVR\TEF_SSA_ScheduleSuite.INI
+
+LOAD_SUITE TEF_SSA_ScheduleSuite
+
+START_TESTCASE   SYSLIB-SCHSVR-CT-1537  //StateTransitionTest
+//!@SYMTestCaseID		SYSLIB-SCHSVR-CT-1537
+//!@SYMTestCaseDesc 	Test startup manager reacts correctly to a range of startup states received from Domain Manager.
+//!@SYMTestPriority 	High
+//!@SYMTestActions  	Schedule a task to be due in a few seconds. Request DM to transition to next state. Wait past due time and check if scheduled task is launched or not launched as expected.
+//!@SYMTestExpectedResults	The test must not fail.
+//!@SYMDEF			INC072424
+
+  RUN_TEST_STEP 120 TEF_SSA_ScheduleSuite SSA_StateTransitionStep C:\TEF_SCHSVR\TEF_SSA_ScheduleSuite.INI RecvUndefinedStateFromDM
+  RUN_TEST_STEP 120 TEF_SSA_ScheduleSuite SSA_StateTransitionStep C:\TEF_SCHSVR\TEF_SSA_ScheduleSuite.INI RecvBeforeCSStateFromDM
+  RUN_TEST_STEP 120 TEF_SSA_ScheduleSuite SSA_StateTransitionStep C:\TEF_SCHSVR\TEF_SSA_ScheduleSuite.INI RecvCSStateFromDM
+  RUN_TEST_STEP 120 TEF_SSA_ScheduleSuite SSA_StateTransitionStep C:\TEF_SCHSVR\TEF_SSA_ScheduleSuite.INI RecvCDStateFromDM
+  RUN_TEST_STEP 120 TEF_SSA_ScheduleSuite SSA_StateTransitionStep C:\TEF_SCHSVR\TEF_SSA_ScheduleSuite.INI RecvNCStateFromDM
+  RUN_TEST_STEP 120 TEF_SSA_ScheduleSuite SSA_StateTransitionStep C:\TEF_SCHSVR\TEF_SSA_ScheduleSuite.INI RecvNCPlusStateFromDM
+END_TESTCASE   SYSLIB-SCHSVR-CT-1537  //StateTransitionTest
+
+START_TESTCASE   SYSLIB-SCHSVR-CT-1538  //PersistentScheduleTest
+//!@SYMTestCaseID		SYSLIB-SCHSVR-CT-1538
+//!@SYMTestCaseDesc 	Test upon boot persistent tasks are not launch until non-critical state transition is received from DM.
+//!@SYMTestPriority 	High
+//!@SYMTestActions  	Schedule a persistent task to be due in a few seconds. Set startup state to desired test value and re-start server. Verify task is not run if there is no non-critical state change.
+//!@SYMTestExpectedResults	The test must not fail.
+//!@SYMDEF			INC072424
+
+  RUN_TEST_STEP 120 TEF_SSA_ScheduleSuite SSA_PersistentScheduleStep C:\TEF_SCHSVR\TEF_SSA_ScheduleSuite.INI PersistTaskBlocked
+  RUN_TEST_STEP 120 TEF_SSA_ScheduleSuite SSA_PersistentScheduleStep C:\TEF_SCHSVR\TEF_SSA_ScheduleSuite.INI PersistTaskLaunchOntime
+END_TESTCASE   SYSLIB-SCHSVR-CT-1538  //PersistentScheduleTest
+
+START_TESTCASE   SYSLIB-SCHSVR-CT-1539  //ConditionTaskTest
+//!@SYMTestCaseID		SYSLIB-SCHSVR-CT-1539
+//!@SYMTestCaseDesc 	Test condition based tasks are handled properly during boot.
+//!@SYMTestPriority 	High
+//!@SYMTestActions  	Schedule condition based tasks. Satisfy the condition before startup state is non-critical and observe that it is not launch until NC. Repeat but go to non-critical first then satisfy condition. Observe task is not launch until condition is satisfied.
+//!@SYMTestExpectedResults	The test must not fail.
+//!@SYMDEF			INC072424
+
+  RUN_TEST_STEP 120 TEF_SSA_ScheduleSuite SSA_ConditionScheduleStep C:\TEF_SCHSVR\TEF_SSA_ScheduleSuite.INI ConditionMatchBeforeNC
+  RUN_TEST_STEP 120 TEF_SSA_ScheduleSuite SSA_ConditionScheduleStep C:\TEF_SCHSVR\TEF_SSA_ScheduleSuite.INI ConditionMatchAfterNC
+  RUN_TEST_STEP 120 TEF_SSA_ScheduleSuite SSA_ConditionScheduleStep C:\TEF_SCHSVR\TEF_SSA_ScheduleSuite.INI TransientConditionMatchBeforeNC
+  RUN_TEST_STEP 120 TEF_SSA_ScheduleSuite SSA_ConditionScheduleStep C:\TEF_SCHSVR\TEF_SSA_ScheduleSuite.INI TransientConditionMatchAfterNC
+END_TESTCASE   SYSLIB-SCHSVR-CT-1539  //ConditionTaskTest
+
+START_TESTCASE   SYSLIB-SCHSVR-CT-1540  //EnvironmentChangeStep
+//!@SYMTestCaseID		SYSLIB-SCHSVR-CT-1540
+//!@SYMTestCaseDesc 	Test Environment change interacting with startup state change.
+//!@SYMTestPriority 	High
+//!@SYMTestActions  	Schedule a transient task with SS in critical dynamic. Wait pass due time. Next change the clock backward to before due time. Set SS to non-critical and watch task launch.
+//!@SYMTestExpectedResults	The test must not fail.
+//!@SYMDEF			INC072424
+
+  RUN_TEST_STEP 120 TEF_SSA_ScheduleSuite SSA_EnvironmentChangeStep
+END_TESTCASE   SYSLIB-SCHSVR-CT-1540  //EnvironmentChangeStep
+
+START_TESTCASE   SYSLIB-SCHSVR-CT-1541  //EditScheduleStep
+//!@SYMTestCaseID		SYSLIB-SCHSVR-CT-1541
+//!@SYMTestCaseDesc 	Test editing schedules when startup state is critical.
+//!@SYMTestPriority 	High
+//!@SYMTestActions  	Change the due time and condition of schedules when SS is critical. Make sure the change is not lost.
+//!@SYMTestExpectedResults	The test must not fail.
+//!@SYMDEF			INC072424
+
+  RUN_TEST_STEP 120 TEF_SSA_ScheduleSuite SSA_EditTransientStep
+  RUN_TEST_STEP 120 TEF_SSA_ScheduleSuite SSA_EditPersistentStep
+  RUN_TEST_STEP 120 TEF_SSA_ScheduleSuite SSA_EditConditionStep
+END_TESTCASE   SYSLIB-SCHSVR-CT-1541  //EditScheduleStep
+
+PRINT Startup state schedule tests completed

@@ -1,0 +1,52 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// ezlib.dll Zlib compression library
+// 
+//
+
+/**
+ @file
+*/
+
+
+TARGET			ezlib.dll
+CAPABILITY All -Tcb
+
+TARGETTYPE		dll
+ 
+UID      0x1000008d 0x10005706
+VENDORID 0x70000001
+
+ 
+USERINCLUDE 	../inc
+USERINCLUDE		../src/zlib
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+SOURCEPATH		../src/ezlib
+
+SOURCE			zstream.cpp compressor.cpp decompressor.cpp
+SOURCE			filebuffer.cpp gzip.cpp
+
+// the following macro prevents zlib GZIO functions from being compiled, 
+// as they are not supported by ezlib.dll
+MACRO SYMBIAN_EZLIB_EXCLUDE_GZ_FUNCTIONS
+
+SOURCEPATH		../src/zlib
+SOURCE			zlibapiwrapper.cpp
+
+deffile		ezlib2.def
+
+LIBRARY			euser.lib efsrv.lib libzcore.lib
+
+SMPSAFE

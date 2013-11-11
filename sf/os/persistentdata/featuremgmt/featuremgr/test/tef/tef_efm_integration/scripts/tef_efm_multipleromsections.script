@@ -1,0 +1,105 @@
+
+// Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+// @file
+//
+
+//! @SYMTestSuiteName PDS-TEF-EFM-MULTIPLEROMSECTIONS
+//! @SYMScriptTestEnvironment TEF
+//! @internalComponent
+//! @test
+
+LOAD_SUITE efm_integration_testserver
+
+START_TESTCASE  SYSLIB-EFM-CIT-3683
+//! @SYMTestCaseID 		SYSLIB-EFM-CIT-3683
+//! @SYMTestCaseDesc  		Feature data generator and ROM builder testing: Composite  ROM - 1 main ROFS section and 2 additional ROFS sections
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		This test must be performed on a ROM image built using the 'helpfiles/multiplesections_test_rombuild.bat' batch file.
+//!				This batch file creates 3 ROFS sections - 1 main section and 2 additional sections. Each section contains 
+//!				some pre-defined feature information. 
+//!				After loading the rom image into a hardware board the featue information from multiple ROM images will be 
+//!				consolidated. This test checks the validity of the consolidated feature information.
+//!				The feature information in the 3 ROFS sections is as follows:
+
+//!				TestCompROMUid1  
+//!				ROFS1			unsupported
+//!				ROFS2			supported
+//!				ROFS3			supported	
+//!				expected resulting status 	supported
+
+//!				TestCompROMUid2  
+//!				ROFS1			supported
+//!				ROFS2			supported
+//!				ROFS3			unsupported	
+//!				expected resulting status 	unsupported
+
+//!				TestCompROMUid3  
+//!				ROFS1			-
+//!				ROFS2			supported
+//!				ROFS3			supported	
+//!				expected resulting status 	supported
+
+//!				TestCompROMUid4
+//!				ROFS1			-
+//!				ROFS2			unsupported
+//!				ROFS3			supported	
+//!				expected resulting status 	supported
+
+//!				TestCompROMUid5
+//!				ROFS1			-
+//!				ROFS2			supported
+//!				ROFS3			unsupported	
+//!				expected resulting status 	unsupported
+
+//!				TestCompROMUid6
+//!				ROFS1			-
+//!				ROFS2			supported, blacklisted
+//!				ROFS3			unsupported	
+//!				expected resulting status 	supported
+
+//!				TestCompROMUid7
+//!				ROFS1			-
+//!				ROFS2			unsupported, blacklisted
+//!				ROFS3			supported	
+//!				expected resulting status 	unsupported
+
+//!				TestCompROMUid8
+//!				ROFS1			-
+//!				ROFS2			unsupported in the xml file, blacklisted in the IBY file
+//!				ROFS3			supported	
+//!				expected resulting status 	unsupported
+
+
+//!				TestCompROMUid9
+//!				ROFS1			-
+//!				ROFS2			supported, user data set to 0 in the xml file
+//!				ROFS3			supported, user data set to 1 in the xml file	
+//!				expected resulting status 	supported, user data is 1
+
+//!				TestCompROMUid10
+//!				ROFS1			-
+//!				ROFS2			supported, user data set to 0 in the IBY file
+//!				ROFS3			supported, user data set to 1 in the IBY file	
+//!				expected resulting status 	supported, user data is 1
+
+//! @SYMTestExpectedResults 	Test passes if the feature information is consolidated according to the expected results, i.e. all 
+//!				the feature requests in this test return correct information.
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ              REQ7764
+
+RUN_TEST_STEP 1000 efm_integration_testserver MultipleRomSectionsTest
+
+END_TESTCASE SYSLIB-EFM-CIT-3683

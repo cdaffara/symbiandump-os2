@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="HtiFtp"
+ targetNamespace="urn:hti"
+ xmlns:tns="urn:hti"
+ xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+ xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+ xmlns:ns1="urn:hti"
+ xmlns:SOAP="http://schemas.xmlsoap.org/wsdl/soap/"
+ xmlns:MIME="http://schemas.xmlsoap.org/wsdl/mime/"
+ xmlns:DIME="http://schemas.xmlsoap.org/ws/2002/04/dime/wsdl/"
+ xmlns:WSDL="http://schemas.xmlsoap.org/wsdl/"
+ xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+<types>
+
+ <schema targetNamespace="urn:hti"
+  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:ns1="urn:hti"
+  xmlns="http://www.w3.org/2001/XMLSchema"
+  elementFormDefault="unqualified"
+  attributeFormDefault="unqualified">
+  <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+  <simpleType name="driveMediaType">
+   <restriction base="xsd:string">
+    <enumeration value="NotPresent"/>
+    <enumeration value="UnknownType"/>
+    <enumeration value="Floppy"/>
+    <enumeration value="HardDisk"/>
+    <enumeration value="CDROM"/>
+    <enumeration value="RAM"/>
+    <enumeration value="Flash"/>
+    <enumeration value="ROM"/>
+    <enumeration value="Remote"/>
+    <enumeration value="NANDFlash"/>
+    <enumeration value="RotatingMedia"/>
+   </restriction>
+  </simpleType>
+  <complexType name="HtiSoapAttachment">
+   <sequence>
+     <element name="href" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+     <element name="mimeType" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+   </sequence>
+  </complexType>
+  <complexType name="ArrayOfstring">
+   <complexContent>
+    <restriction base="SOAP-ENC:Array">
+     <sequence>
+      <element name="item" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+     </sequence>
+     <attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="xsd:string[]"/>
+    </restriction>
+   </complexContent>
+  </complexType>
+  <complexType name="ArrayOfunsignedByte">
+   <complexContent>
+    <restriction base="SOAP-ENC:Array">
+     <sequence>
+      <element name="item" type="xsd:unsignedByte" minOccurs="0" maxOccurs="unbounded"/>
+     </sequence>
+     <attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="xsd:unsignedByte[]"/>
+    </restriction>
+   </complexContent>
+  </complexType>
+  <complexType name="HtiFileInfo">
+   <sequence>
+     <element name="fileName" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+     <element name="fileSize" type="xsd:unsignedInt" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="ArrayOfHtiFileInfo">
+   <complexContent>
+    <restriction base="SOAP-ENC:Array">
+     <sequence>
+      <element name="item" type="ns1:HtiFileInfo" minOccurs="0" maxOccurs="unbounded"/>
+     </sequence>
+     <attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="ns1:HtiFileInfo[]"/>
+    </restriction>
+   </complexContent>
+  </complexType>
+  <complexType name="HtiDriveInfo">
+   <sequence>
+     <element name="rootPath" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+     <element name="mediaType" type="ns1:driveMediaType" minOccurs="1" maxOccurs="1"/>
+     <element name="uniqueID" type="xsd:unsignedInt" minOccurs="1" maxOccurs="1"/>
+     <element name="driveSize" type="xsd:unsignedLong" minOccurs="1" maxOccurs="1"/>
+     <element name="freeSpace" type="xsd:unsignedLong" minOccurs="1" maxOccurs="1"/>
+     <element name="driveName" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+   </sequence>
+  </complexType>
+  <complexType name="ArrayOfHtiDriveInfo">
+   <complexContent>
+    <restriction base="SOAP-ENC:Array">
+     <sequence>
+      <element name="item" type="ns1:HtiDriveInfo" minOccurs="0" maxOccurs="unbounded"/>
+     </sequence>
+     <attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="ns1:HtiDriveInfo[]"/>
+    </restriction>
+   </complexContent>
+  </complexType>
+  <!-- operation request element -->
+  <element name="file" type="ns1:HtiSoapAttachment"/>
+  <!-- operation request element -->
+  <element name="targetPath" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="filePath" type="xsd:string"/>
+  <!-- operation response element -->
+  <element name="return" type="ns1:HtiSoapAttachment"/>
+  <!-- operation request element -->
+  <element name="targetDir" type="xsd:string"/>
+  <!-- operation response element -->
+  <element name="dirs" type="ns1:ArrayOfstring"/>
+  <!-- operation response element -->
+  <element name="fileInfos" type="ns1:ArrayOfHtiFileInfo"/>
+  <!-- operation response element -->
+  <element name="files" type="ns1:ArrayOfstring"/>
+  <!-- operation request element -->
+  <element name="targetFile" type="xsd:string"/>
+  <!-- operation request element -->
+  <element name="state" type="xsd:boolean"/>
+  <!-- operation request element -->
+  <element name="algorithmId" type="xsd:unsignedByte"/>
+  <!-- operation response element -->
+  <element name="checksumByteArray" type="ns1:ArrayOfunsignedByte"/>
+  <!-- operation request element -->
+  <element name="drive" type="xsd:unsignedByte"/>
+  <!-- operation request element -->
+  <element name="formatMode" type="xsd:unsignedByte"/>
+  <!-- operation response element -->
+  <element name="driveInfos" type="ns1:ArrayOfHtiDriveInfo"/>
+ </schema>
+
+</types>
+
+<message name="putFile">
+ <part name="file" element="ns1:file"/>
+ <part name="targetPath" element="ns1:targetPath"/>
+</message>
+
+<message name="putFileResponse">
+</message>
+
+<message name="getFile">
+ <part name="filePath" element="ns1:filePath"/>
+</message>
+
+<message name="getFileResponse">
+ <part name="return" element="ns1:return"/>
+</message>
+
+<message name="cancelFileTransfer">
+</message>
+
+<message name="cancelFileTransferResponse">
+</message>
+
+<message name="listFilesRequest">
+ <part name="targetDir" element="ns1:targetDir"/>
+</message>
+
+<message name="listFilesResponse">
+ <part name="dirs" element="ns1:dirs"/>
+</message>
+
+<message name="listFilesSizesRequest">
+ <part name="targetDir" element="ns1:targetDir"/>
+</message>
+
+<message name="listFilesSizesResponse">
+ <part name="fileInfos" element="ns1:fileInfos"/>
+</message>
+
+<message name="listDirsRequest">
+ <part name="targetDir" element="ns1:targetDir"/>
+</message>
+
+<message name="listDirsResponse">
+ <part name="files" element="ns1:files"/>
+</message>
+
+<message name="createDir">
+ <part name="targetDir" element="ns1:targetDir"/>
+</message>
+
+<message name="createDirResponse">
+</message>
+
+<message name="deleteDir">
+ <part name="targetDir" element="ns1:targetDir"/>
+</message>
+
+<message name="deleteDirResponse">
+</message>
+
+<message name="deleteFile">
+ <part name="targetFile" element="ns1:targetFile"/>
+</message>
+
+<message name="deleteFileResponse">
+</message>
+
+<message name="setForcedOperations">
+ <part name="state" element="ns1:state"/>
+</message>
+
+<message name="setForcedOperationsResponse">
+</message>
+
+<message name="fileChecksumRequest">
+ <part name="algorithmId" element="ns1:algorithmId"/>
+ <part name="targetFile" element="ns1:targetFile"/>
+</message>
+
+<message name="fileChecksumResponse">
+ <part name="checksumByteArray" element="ns1:checksumByteArray"/>
+</message>
+
+<message name="format">
+ <part name="drive" element="ns1:drive"/>
+ <part name="formatMode" element="ns1:formatMode"/>
+</message>
+
+<message name="formatResponse">
+</message>
+
+<message name="listDrivesRequest">
+</message>
+
+<message name="listDrivesResponse">
+ <part name="driveInfos" element="ns1:driveInfos"/>
+</message>
+
+<portType name="HtiFtpPortType">
+ <operation name="putFile">
+  <documentation>Service definition of function ns1__putFile</documentation>
+  <input message="tns:putFile"/>
+  <output message="tns:putFileResponse"/>
+ </operation>
+ <operation name="getFile">
+  <documentation>Service definition of function ns1__getFile</documentation>
+  <input message="tns:getFile"/>
+  <output message="tns:getFileResponse"/>
+ </operation>
+ <operation name="cancelFileTransfer">
+  <documentation>Service definition of function ns1__cancelFileTransfer</documentation>
+  <input message="tns:cancelFileTransfer"/>
+  <output message="tns:cancelFileTransferResponse"/>
+ </operation>
+ <operation name="listFiles">
+  <documentation>Service definition of function ns1__listFiles</documentation>
+  <input message="tns:listFilesRequest"/>
+  <output message="tns:listFilesResponse"/>
+ </operation>
+ <operation name="listFilesSizes">
+  <documentation>Service definition of function ns1__listFilesSizes</documentation>
+  <input message="tns:listFilesSizesRequest"/>
+  <output message="tns:listFilesSizesResponse"/>
+ </operation>
+ <operation name="listDirs">
+  <documentation>Service definition of function ns1__listDirs</documentation>
+  <input message="tns:listDirsRequest"/>
+  <output message="tns:listDirsResponse"/>
+ </operation>
+ <operation name="createDir">
+  <documentation>Service definition of function ns1__createDir</documentation>
+  <input message="tns:createDir"/>
+  <output message="tns:createDirResponse"/>
+ </operation>
+ <operation name="deleteDir">
+  <documentation>Service definition of function ns1__deleteDir</documentation>
+  <input message="tns:deleteDir"/>
+  <output message="tns:deleteDirResponse"/>
+ </operation>
+ <operation name="deleteFile">
+  <documentation>Service definition of function ns1__deleteFile</documentation>
+  <input message="tns:deleteFile"/>
+  <output message="tns:deleteFileResponse"/>
+ </operation>
+ <operation name="setForcedOperations">
+  <documentation>Service definition of function ns1__setForcedOperations</documentation>
+  <input message="tns:setForcedOperations"/>
+  <output message="tns:setForcedOperationsResponse"/>
+ </operation>
+ <operation name="fileChecksum">
+  <documentation>Service definition of function ns1__fileChecksum</documentation>
+  <input message="tns:fileChecksumRequest"/>
+  <output message="tns:fileChecksumResponse"/>
+ </operation>
+ <operation name="format">
+  <documentation>Service definition of function ns1__format</documentation>
+  <input message="tns:format"/>
+  <output message="tns:formatResponse"/>
+ </operation>
+ <operation name="listDrives">
+  <documentation>Service definition of function ns1__listDrives</documentation>
+  <input message="tns:listDrivesRequest"/>
+  <output message="tns:listDrivesResponse"/>
+ </operation>
+</portType>
+
+<binding name="HtiFtp" type="tns:HtiFtpPortType">
+ <SOAP:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+ <operation name="putFile">
+  <SOAP:operation style="rpc" soapAction="HtiFtp"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="getFile">
+  <SOAP:operation style="rpc" soapAction="HtiFtp"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="cancelFileTransfer">
+  <SOAP:operation style="rpc" soapAction="HtiFtp"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="listFiles">
+  <SOAP:operation style="rpc" soapAction="HtiFtp"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="listFilesSizes">
+  <SOAP:operation style="rpc" soapAction="HtiFtp"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="listDirs">
+  <SOAP:operation style="rpc" soapAction="HtiFtp"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="createDir">
+  <SOAP:operation style="rpc" soapAction="HtiFtp"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="deleteDir">
+  <SOAP:operation style="rpc" soapAction="HtiFtp"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="deleteFile">
+  <SOAP:operation style="rpc" soapAction="HtiFtp"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="setForcedOperations">
+  <SOAP:operation style="rpc" soapAction="HtiFtp"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="fileChecksum">
+  <SOAP:operation style="rpc" soapAction="HtiFtp"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="format">
+  <SOAP:operation style="rpc" soapAction="HtiFtp"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+ <operation name="listDrives">
+  <SOAP:operation style="rpc" soapAction="HtiFtp"/>
+  <input>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </input>
+  <output>
+     <SOAP:body parts="parameters" use="literal" namespace="urn:hti"/>
+  </output>
+ </operation>
+</binding>
+
+<service name="HtiFtp">
+ <documentation>gSOAP 2.7.6b generated service definition</documentation>
+ <port name="HtiFtp" binding="tns:HtiFtp">
+  <SOAP:address location="http://localhost:2000"/>
+ </port>
+</service>
+
+</definitions>

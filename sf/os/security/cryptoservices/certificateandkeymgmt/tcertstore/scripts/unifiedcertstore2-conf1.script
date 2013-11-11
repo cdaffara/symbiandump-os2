@@ -1,0 +1,842 @@
+//
+// Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+START_TESTCASE                SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0001
+
+//! @SYMTestCaseID            SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0001
+
+//! @SYMTestCaseDesc          4.1 Test cases for single file-based writable certificate store
+
+//!                           
+
+//!                           4.1.1 Successfull addition, listing and retrieval of certificates (X.509)
+
+//! @SYMTestActions           1) No Test,Opening a CertificateAppInfoManager
+
+//!                           2) No Test,Adding client A1
+
+//!                           3) No Test,Adding client A2
+
+//!                           4) No Test,Adding client A3
+
+//!                           5) No Test,Adding client A4
+
+//!                           6) No Test,Deleting the CertificateAppInfoManager
+
+//!                           7) 1.1.0.4 Import a RSA key
+
+//!                           8) 1.1.0.5 Import a RSA key
+
+//!                           9) 1.1.0.6 Import a RSA key
+
+//!                           10) 4.1.1.1,Opening a certificate store manager
+
+//!                           11) No Test, Deleting all certs ***NEW***
+
+//!                           12) 4.1.1.1 Add user certificate with no corresponding private key
+
+//!                           13) 4.1.1.2 Add user certificate with no corresponding private key
+
+//!                           14) 4.1.1.3 Add user certificate with no corresponding private key
+
+//!                           15) 4.1.1.4,Add the certificate CAX1
+
+//!                           16) 4.1.1.5,Add the certificate CAX2
+
+//!                           17) 4.1.1.6,Add the certificate CAX3
+
+//!                           18) 4.1.1.7,Get the list of certificates
+
+//!                           19) 4.1.1.7.1,Retrieve CAX1 cert
+
+//!                           20) 4.1.1.8,Get the list of certificates, searching by Issuer DN
+
+//!                           21) 4.1.1.9,Get the list of certificates, searching by 2 Issuer DNs
+
+//!                           22) 4.1.1.10,Get the list of certificates, searching by 3 Issuer DNs
+
+//!                           23) 4.1.1.11,Deleting the certificate store manager
+
+//!                           24) 4.1.1.12,Opening a certificate store manager
+
+//!                           25) 4.1.1.13,Get the list of certificates
+
+//!                           26) 4.1.1.14, Get a list of one certificate by specifying label CAX1
+
+//!                           27) 4.1.1.15, Get a list of one certificate by specifying label CAX3
+
+RUN_TEST_STEP                 -1    CTestHandler        initappmanager      
+
+RUN_TEST_STEP                 -1    CTestHandler        addclient              unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0001-002
+
+RUN_TEST_STEP                 -1    CTestHandler        addclient              unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0001-003
+
+RUN_TEST_STEP                 -1    CTestHandler        addclient              unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0001-004
+
+RUN_TEST_STEP                 -1    CTestHandler        addclient              unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0001-005
+
+RUN_TEST_STEP                 -1    CTestHandler        deleteappmanager    
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0001-007
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0001-008
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0001-009
+
+RUN_TEST_STEP                 -1    CTestHandler        init                   unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0001-010
+
+RUN_TEST_STEP                 -1    CTestHandler        deletecert             unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0001-011
+
+RUN_TEST_STEP !Error=-11011   -1    CTestHandler        addcert                unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0001-012
+
+RUN_TEST_STEP !Error=-11011   -1    CTestHandler        addcert                unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0001-013
+
+RUN_TEST_STEP !Error=-11011   -1    CTestHandler        addcert                unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0001-014
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0001-015
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0001-016
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0001-017
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0001-018
+
+RUN_TEST_STEP                 -1    CTestHandler        retrieve               unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0001-019
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0001-020
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0001-021
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0001-022
+
+RUN_TEST_STEP                 -1    CTestHandler        delete              
+
+RUN_TEST_STEP                 -1    CTestHandler        init                   unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0001-024
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0001-025
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0001-026
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0001-027
+
+END_TESTCASE                  SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0001
+
+
+
+
+
+START_TESTCASE                SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0002
+
+//! @SYMTestCaseID            SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0002
+
+//! @SYMTestCaseDesc          4.1.2 Successfull addition, listing and retrieval of certificates (WTLS)
+
+//! @SYMTestActions           1) 4.1.2.1,Add the certificate CAW1
+
+//!                           2) 4.1.2.2,Add the certificate CAW2
+
+//!                           3) 4.1.2.3,Add the certificate CAW3
+
+//!                           4) 4.1.2.4,Get the list of certificates
+
+//!                           5) 4.1.2.4.1,List CAX1 by issuer DN
+
+//!                           6) 4.1.2.4.2,Retrieve CAW1 cert
+
+//!                           7) 4.1.2.5,Deleting the certificate store manager
+
+//!                           8) 4.1.2.6,Opening a certificate store manager
+
+//!                           9) 4.1.2.7,Get the list of certificates
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0002-001
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0002-002
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0002-003
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0002-004
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0002-005
+
+RUN_TEST_STEP                 -1    CTestHandler        retrieve               unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0002-006
+
+RUN_TEST_STEP                 -1    CTestHandler        delete              
+
+RUN_TEST_STEP                 -1    CTestHandler        init                   unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0002-008
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0002-009
+
+END_TESTCASE                  SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0002
+
+
+
+
+
+START_TESTCASE                SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0003
+
+//! @SYMTestCaseID            SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0003
+
+//! @SYMTestCaseDesc          4.1.3 Successfull trust settings updates and retrieval
+
+//! @SYMTestActions           1) 4.1.3.1,Set applications to the CAX1 certificate
+
+//!                           2) 4.1.3.1.1,Set duplicate applications to the CAX1. Should leave with KErrArgument
+
+//!                           3) 4.1.3.2,set the trust for CAX1
+
+//!                           4) 4.1.3.3,Set applications to the CAX2 certificate
+
+//!                           5) 4.1.3.3.1 Set duplicate applications to the CAX2. Should leave with KErrArgument
+
+//!                           6) 4.1.3.4,set the trust for CAX2
+
+//!                           7) 4.1.3.5,Set applications to the CAX3 certificate
+
+//!                           8) 4.1.3.6,set the trust for CAX3
+
+//!                           9) 4.1.3.7,Get applications for CAX1
+
+//!                           10) 4.1.3.8,Get the trust for CAX1
+
+//!                           11) 4.1.3.9,Get applications for CAX2
+
+//!                           12) 4.1.3.10,Get the trust for CAX2
+
+//!                           13) 4.1.3.11,Get applications for CAX3
+
+//!                           14) 4.1.3.12,Get the trust for CAX3
+
+//!                           15) 4.1.3.13,Set trusters to the CAW2 certificate
+
+//!                           16) 4.1.3.14,set the trust for CAW2
+
+//!                           17) 4.1.3.15,Set trusters to the CAW3 certificate
+
+//!                           18) 4.1.3.16,set the trust for CAW3
+
+//!                           19) 4.1.3.17,Get applications for CAW1
+
+//!                           20) 4.1.3.18,Get the trust for CAW1
+
+//!                           21) 4.1.3.19,Get applications for CAW2
+
+//!                           22) 4.1.3.20,Get the trust for CAW2
+
+//!                           23) 4.1.3.21,Get applications for CAW3
+
+//!                           24) 4.1.3.22,Get the trust for CAW3
+
+RUN_TEST_STEP                 -1    CTestHandler        setapplications        unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0003-001
+
+RUN_TEST_STEP !Error=-6       -1    CTestHandler        setapplications        unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0003-002
+
+RUN_TEST_STEP                 -1    CTestHandler        settrust               unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0003-003
+
+RUN_TEST_STEP                 -1    CTestHandler        setapplications        unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0003-004
+
+RUN_TEST_STEP !Error=-6       -1    CTestHandler        setapplications        unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0003-005
+
+RUN_TEST_STEP                 -1    CTestHandler        settrust               unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0003-006
+
+RUN_TEST_STEP                 -1    CTestHandler        setapplications        unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0003-007
+
+RUN_TEST_STEP                 -1    CTestHandler        settrust               unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0003-008
+
+RUN_TEST_STEP                 -1    CTestHandler        getapplications        unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0003-009
+
+RUN_TEST_STEP                 -1    CTestHandler        gettrusters            unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0003-010
+
+RUN_TEST_STEP                 -1    CTestHandler        getapplications        unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0003-011
+
+RUN_TEST_STEP                 -1    CTestHandler        gettrusters            unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0003-012
+
+RUN_TEST_STEP                 -1    CTestHandler        getapplications        unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0003-013
+
+RUN_TEST_STEP                 -1    CTestHandler        gettrusters            unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0003-014
+
+RUN_TEST_STEP                 -1    CTestHandler        setapplications        unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0003-015
+
+RUN_TEST_STEP                 -1    CTestHandler        settrust               unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0003-016
+
+RUN_TEST_STEP                 -1    CTestHandler        setapplications        unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0003-017
+
+RUN_TEST_STEP                 -1    CTestHandler        settrust               unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0003-018
+
+RUN_TEST_STEP                 -1    CTestHandler        getapplications        unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0003-019
+
+RUN_TEST_STEP                 -1    CTestHandler        gettrusters            unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0003-020
+
+RUN_TEST_STEP                 -1    CTestHandler        getapplications        unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0003-021
+
+RUN_TEST_STEP                 -1    CTestHandler        gettrusters            unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0003-022
+
+RUN_TEST_STEP                 -1    CTestHandler        getapplications        unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0003-023
+
+RUN_TEST_STEP                 -1    CTestHandler        gettrusters            unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0003-024
+
+END_TESTCASE                  SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0003
+
+
+
+
+
+START_TESTCASE                SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0004
+
+//! @SYMTestCaseID            SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0004
+
+//! @SYMTestCaseDesc          /////////////////////////////////////////////////////////
+
+//!                           Test multiple calls to setapplicability/settrust
+
+//! @SYMTestActions           1) 4.1.3.1a,Set applications to the CAX1 certificate
+
+//!                           2) 4.1.3.2a,set the trust for CAX1
+
+//!                           3) 4.1.3.7a,Get applications for CAX1
+
+//!                           4) 4.1.3.8a,Get the trust for CAX1
+
+RUN_TEST_STEP                 -1    CTestHandler        setapplications        unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0004-001
+
+RUN_TEST_STEP                 -1    CTestHandler        settrust               unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0004-002
+
+RUN_TEST_STEP                 -1    CTestHandler        getapplications        unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0004-003
+
+RUN_TEST_STEP                 -1    CTestHandler        gettrusters            unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0004-004
+
+END_TESTCASE                  SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0004
+
+
+
+
+
+START_TESTCASE                SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0005
+
+//! @SYMTestCaseID            SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0005
+
+//! @SYMTestCaseDesc          /////////////////////////////////////////////////////////
+
+//! @SYMTestActions           1) 4.1.3.1b,Set applications to the CAX1 certificate
+
+//!                           2) 4.1.3.2b,set the trust for CAX1
+
+//!                           3) 4.1.3.7b,Get applications for CAX1
+
+//!                           4) 4.1.3.8b,Get the trust for CAX1
+
+RUN_TEST_STEP                 -1    CTestHandler        setapplications        unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0005-001
+
+RUN_TEST_STEP                 -1    CTestHandler        settrust               unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0005-002
+
+RUN_TEST_STEP                 -1    CTestHandler        getapplications        unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0005-003
+
+RUN_TEST_STEP                 -1    CTestHandler        gettrusters            unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0005-004
+
+END_TESTCASE                  SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0005
+
+
+
+
+
+START_TESTCASE                SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0006
+
+//! @SYMTestCaseID            SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0006
+
+//! @SYMTestCaseDesc          /////////////////////////////////////////////////////////
+
+//! @SYMTestActions           1) 4.1.3.1c,Set applications to the CAX1 certificate
+
+//!                           2) 4.1.3.2c,set the trust for CAX1
+
+//!                           3) 4.1.3.7c,Get applications for CAX1
+
+//!                           4) 4.1.3.8c,Get the trust for CAX1
+
+RUN_TEST_STEP                 -1    CTestHandler        setapplications        unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0006-001
+
+RUN_TEST_STEP                 -1    CTestHandler        settrust               unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0006-002
+
+RUN_TEST_STEP                 -1    CTestHandler        getapplications        unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0006-003
+
+RUN_TEST_STEP                 -1    CTestHandler        gettrusters            unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0006-004
+
+END_TESTCASE                  SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0006
+
+
+
+
+
+START_TESTCASE                SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0007
+
+//! @SYMTestCaseID            SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0007
+
+//! @SYMTestCaseDesc          /////////////////////////////////////////////////////////
+
+//! @SYMTestActions           1) 4.1.3.1d,Fail to set applications to the CAX1 certificate
+
+//!                           2) 4.1.3.7d,Get applications for CAX1 from previous setting
+
+//!                           3) 4.1.3.2c,set the trust for CAX1
+
+//!                           4) 4.1.3.1e,Set applications to the CAX1 certificate
+
+//!                           5) 4.1.3.1f,Fail to set applications to the CAX1 certificate
+
+//!                           6) 4.1.3.7f,Get applications for CAX1 from previous setting
+
+RUN_TEST_STEP !Error=-6       -1    CTestHandler        setapplications        unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0007-001
+
+RUN_TEST_STEP                 -1    CTestHandler        getapplications        unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0007-002
+
+RUN_TEST_STEP                 -1    CTestHandler        settrust               unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0007-003
+
+RUN_TEST_STEP                 -1    CTestHandler        setapplications        unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0007-004
+
+RUN_TEST_STEP !Error=-6       -1    CTestHandler        setapplications        unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0007-005
+
+RUN_TEST_STEP                 -1    CTestHandler        getapplications        unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0007-006
+
+END_TESTCASE                  SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0007
+
+
+
+
+
+START_TESTCASE                SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0008
+
+//! @SYMTestCaseID            SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0008
+
+//! @SYMTestCaseDesc          /////////////////////////////////////////////////////////
+
+//!                           4.1.4 Successful addition and retrieval of user certificates
+
+//! @SYMTestActions           1) 4.1.4.1, Add certificate rsacert1 ***NEW***
+
+//!                           2) 4.1.4.2,Add the certificate rsacert2 ***NEW***
+
+//!                           3) 4.1.2.3,Add the certificate rsacert3 ***NEW***
+
+//!                           4) 4.1.4.4.a,Get the list of certificates
+
+//!                           5) 4.1.4.4.b,Get the list of certificates ***NEW***
+
+//!                           6) 4.1.4.4.c,Get the list of certificates searching by DN
+
+//!                           7) 4.1.4.4.c,Get the list of certificates searching by DNs
+
+//!                           8) 4.1.4.4.e,Retrieve rsacert1 cert
+
+//!                           9) No Test,Deleting the certificate CAX1
+
+//!                           10) No Test,Deleting the certificate CAX2
+
+//!                           11) No Test,Deleting the certificate CAX3
+
+//!                           12) No Test,Deleting the certificate CAW1
+
+//!                           13) No Test,Deleting the certificate CAW2
+
+//!                           14) No Test,Deleting the certificate CAW3
+
+//!                           15) No Test,Deleting the certificate rsacert1 ***NEW***
+
+//!                           16) No Test,Deleting the certificate rsacert2 ***NEW***
+
+//!                           17) No Test,Deleting the certificate rsacert3 ***NEW***
+
+//!                           18) No Test,Deleting the certificate store manager
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0008-001
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0008-002
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0008-003
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0008-004
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0008-005
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0008-006
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0008-007
+
+RUN_TEST_STEP                 -1    CTestHandler        retrieve               unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0008-008
+
+RUN_TEST_STEP                 -1    CTestHandler        deletecert             unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0008-009
+
+RUN_TEST_STEP                 -1    CTestHandler        deletecert             unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0008-010
+
+RUN_TEST_STEP                 -1    CTestHandler        deletecert             unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0008-011
+
+RUN_TEST_STEP                 -1    CTestHandler        deletecert             unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0008-012
+
+RUN_TEST_STEP                 -1    CTestHandler        deletecert             unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0008-013
+
+RUN_TEST_STEP                 -1    CTestHandler        deletecert             unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0008-014
+
+RUN_TEST_STEP                 -1    CTestHandler        deletecert             unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0008-015
+
+RUN_TEST_STEP                 -1    CTestHandler        deletecert             unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0008-016
+
+RUN_TEST_STEP                 -1    CTestHandler        deletecert             unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0008-017
+
+RUN_TEST_STEP                 -1    CTestHandler        delete              
+
+END_TESTCASE                  SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0008
+
+
+
+
+
+START_TESTCASE                SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0009
+
+//! @SYMTestCaseID            SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0009
+
+//! @SYMTestCaseDesc          7.1 Calling functions without initialising store
+
+//! @SYMTestActions           1) No test,Creating a certificate store manager
+
+//!                           2) 7.1.1,Get the list of CA certificates
+
+//!                           3) 7.1.2,Get the list of user certificates
+
+//!                           4) No test,Deleting the certificate store manager
+
+RUN_TEST_STEP                 -1    CTestHandler        onlycreate             unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0009-001
+
+RUN_TEST_STEP !Error=-18      -1    CTestHandler        listcert               unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0009-002
+
+RUN_TEST_STEP !Error=-18      -1    CTestHandler        listcert               unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0009-003
+
+RUN_TEST_STEP                 -1    CTestHandler        delete              
+
+END_TESTCASE                  SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0009
+
+
+
+
+
+START_TESTCASE                SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0010
+
+//! @SYMTestCaseID            SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0010
+
+//! @SYMTestCaseDesc          7.2 Trust settings for CA certificates
+
+//! @SYMTestActions           1) No Test,Opening a certificate store manager
+
+//!                           2) 7.2.1.a,Add the certificate CAX1
+
+//!                           3) 7.2.1.b,Get the list of certificates
+
+//!                           4) 7.2.1.c,Set applications to the CAX1 certificate
+
+RUN_TEST_STEP                 -1    CTestHandler        init                   unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0010-001
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0010-002
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0010-003
+
+RUN_TEST_STEP !Error=-6       -1    CTestHandler        setapplications        unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0010-004
+
+END_TESTCASE                  SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0010
+
+
+
+
+
+START_TESTCASE                SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0011
+
+//! @SYMTestCaseID            SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0011
+
+//! @SYMTestCaseDesc          7.3 Supplying bad user certificates
+
+//! @SYMTestActions           1) 7.3.1,Add the certificate U5K3
+
+//!                           2) 7.3.2,Add the certificate U6K5 with wrong subject key
+
+//!                           3) 7.3.3,Add the certificate URL3K5
+
+//!                           4) No Test,Deleting the certificate CAX1
+
+RUN_TEST_STEP !Error=-11011   -1    CTestHandler        addcert                unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0011-001
+
+RUN_TEST_STEP !Error=-6       -1    CTestHandler        addcert                unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0011-002
+
+RUN_TEST_STEP !Error=-11011   -1    CTestHandler        addcert                unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0011-003
+
+RUN_TEST_STEP                 -1    CTestHandler        deletecert             unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0011-004
+
+END_TESTCASE                  SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0011
+
+
+
+
+
+START_TESTCASE                SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0012
+
+//! @SYMTestCaseID            SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0012
+
+//! @SYMTestCaseDesc          7.4
+
+//! @SYMTestActions           1) 7.4.1.a,Add the certificate CAW1
+
+//!                           2) 7.4.1.b,Add the certificate CAW1
+
+//!                           3) 7.4.2.a,Add the certificate CAX1
+
+//!                           4) 7.4.2.b,Add the certificate CAX1
+
+//!                           5) 7.4.3.a, Add the certificate rsacert3 ***NEW***
+
+//!                           6) 7.4.3.b, Add the certificate rsacert3 ***NEW***
+
+//!                           7) No Test,Deleting the certificate CAX1
+
+//!                           8) No Test,Deleting the certificate CAW1
+
+//!                           9) No Test,Deleting the certificate rsacert3 ***NEW***
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0012-001
+
+RUN_TEST_STEP !Error=-28      -1    CTestHandler        addcert                unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0012-002
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0012-003
+
+RUN_TEST_STEP !Error=-28      -1    CTestHandler        addcert                unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0012-004
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0012-005
+
+RUN_TEST_STEP !Error=-28      -1    CTestHandler        addcert                unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0012-006
+
+RUN_TEST_STEP                 -1    CTestHandler        deletecert             unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0012-007
+
+RUN_TEST_STEP                 -1    CTestHandler        deletecert             unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0012-008
+
+RUN_TEST_STEP                 -1    CTestHandler        deletecert             unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0012-009
+
+END_TESTCASE                  SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0012
+
+
+
+
+
+START_TESTCASE                SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0013
+
+//! @SYMTestCaseID            SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0013
+
+//! @SYMTestCaseDesc          7.5 Loading certificates
+
+//! @SYMTestActions           1) 7.5.1.a,Add the certificate CAX1
+
+//!                           2) 7.5.1.b,Add the certificate CAW1
+
+//!                           3) 7.5.1.c,Add the certificate URL1rsa1  ***NEW***
+
+//!                           4) 7.5.1.d,Add the certificate URL2rsa2  ***NEW***
+
+//!                           5) 7.5.1.e,List URL certificates
+
+//!                           6) 7.5.1.f,Retrieve URL1rsa1 cert
+
+//!                           7) 7.5.2,Deleting and retrieving the certificate CAX1
+
+//!                           8) 7.5.3,Deleting and retrieving the certificate CAW1
+
+//!                           9) 7.5.4,Deleting and retrieving the certificate U1K1
+
+//!                           10) 7.5.5,Deleting and retrieving the certificate URL2rsa2
+
+//!                           11) 7.5.5,Deleting and retrieving the certificate URL1rsa1
+
+//!                           12) No Test,Deleting the writable certificate store manager
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0013-001
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0013-002
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0013-003
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0013-004
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0013-005
+
+RUN_TEST_STEP                 -1    CTestHandler        retrieve               unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0013-006
+
+RUN_TEST_STEP !Error=-1       -1    CTestHandler        deleteandretrievecacert   unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0013-007
+
+RUN_TEST_STEP !Error=-1       -1    CTestHandler        deleteandretrievecacert   unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0013-008
+
+RUN_TEST_STEP !Error=-1       -1    CTestHandler        deleteandretrieveusercert   unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0013-009
+
+RUN_TEST_STEP !Error=-1       -1    CTestHandler        deleteandretrieveusercert   unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0013-010
+
+RUN_TEST_STEP !Error=-1       -1    CTestHandler        deleteandretrieveusercert   unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0013-011
+
+RUN_TEST_STEP                 -1    CTestHandler        delete              
+
+END_TESTCASE                  SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0013
+
+
+
+
+
+START_TESTCASE                SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0014
+
+//! @SYMTestCaseID            SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0014
+
+//! @SYMTestCaseDesc          Start of tests 7.6
+
+//! @SYMTestActions           1) No Test,Opening a certificate store manager
+
+//!                           2) No test
+
+//!                           3) No Test,Deleting the writable certificate store manager
+
+//!                           4) No Test,Opening a certificate store manager
+
+//!                           5) 7.6.1,Deleting the certificate CAX1
+
+//!                           6) 7.6.2,Set applications to the CAX1 certificate
+
+//!                           7) 7.6.3,Set the trust for CAX1
+
+//!                           8) No Test,Deleting the writable certificate store manager
+
+//!                           9) No Test,Opening a certificate store manager
+
+//!                           10) No Test,Deleting the certificate CAX1
+
+//!                           11) No Test, Deleting all certs ***NEW***
+
+//!                           12) No Test,Deleting the writable certificate store manager
+
+RUN_TEST_STEP                 -1    CTestHandler        init                   unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0014-001
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0014-002
+
+RUN_TEST_STEP                 -1    CTestHandler        delete              
+
+RUN_TEST_STEP                 -1    CTestHandler        init                   unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0014-004
+
+RUN_TEST_STEP !Error=-21      -1    CTestHandler        deletecert             unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0014-005
+
+RUN_TEST_STEP !Error=-21      -1    CTestHandler        setapplications        unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0014-006
+
+RUN_TEST_STEP !Error=-21      -1    CTestHandler        settrust               unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0014-007
+
+RUN_TEST_STEP                 -1    CTestHandler        delete              
+
+RUN_TEST_STEP                 -1    CTestHandler        init                   unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0014-009
+
+RUN_TEST_STEP                 -1    CTestHandler        deletecert             unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0014-010
+
+RUN_TEST_STEP                 -1    CTestHandler        deletecert             unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0014-011
+
+RUN_TEST_STEP                 -1    CTestHandler        delete              
+
+END_TESTCASE                  SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0014
+
+
+START_TESTCASE                SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-FilterOnSubjectKeyId
+
+//! @SYMTestCaseID            SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-FilterOnSubjectKeyId
+
+//! @SYMTestCaseDesc          4.1 Test cases for cheking the retrieval of certificates based on subject key identifier.
+
+//!                           
+
+//! @SYMTestActions           1) No Test, Add a private key (rsacertkey)
+
+//!                           2) No Test,Add the end entity certificate (rsacert1) without specifying the subject keyid.
+
+//!                           3) Filter the certificate based on subject key id.
+
+//!                           4) No Test,Add a self signed certificate
+
+//!                           5) Filter the self signed certificate based on subject key id.
+
+//!                           6) No Test,Add a CA certificate
+
+//!                           7) Filter the CA certificate based on subject key id.
+
+RUN_TEST_STEP                 -1    CTestHandler        init                   unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-FilterOnSubjectKeyId-001
+
+RUN_TEST_STEP                 -1    CTestHandler        deletecert             unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-FilterOnSubjectKeyId-002
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-FilterOnSubjectKeyId-003
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-FilterOnSubjectKeyId-004
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-FilterOnSubjectKeyId-005
+
+RUN_TEST_STEP                 -1    CTestHandler        deletecert             unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-FilterOnSubjectKeyId-006
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-FilterOnSubjectKeyId-007
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-FilterOnSubjectKeyId-008
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-FilterOnSubjectKeyId-009
+
+RUN_TEST_STEP                 -1    CTestHandler        deletecert             unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-FilterOnSubjectKeyId-010
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-FilterOnSubjectKeyId-011
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-FilterOnSubjectKeyId-012
+
+RUN_TEST_STEP                 -1    CTestHandler        deletecert             unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-FilterOnSubjectKeyId-013
+
+END_TESTCASE                  SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-FilterOnSubjectKeyId
+
+
+
+
+START_TESTCASE                SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0015
+
+//! @SYMTestCaseID            SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0015
+
+//! @SYMTestCaseDesc          End of tests, removing the clients
+
+//! @SYMTestActions           1) No Test,Opening a CertificateAppInfoManager
+
+//!                           2) No Test,Deleting the client A1
+
+//!                           3) No Test,Deleting the client A2
+
+//!                           4) No Test,Deleting the client A3
+
+//!                           5) No Test,Deleting the client A4
+
+//!                           6) No Test,Deleting the CertificateAppInfoManager
+
+RUN_TEST_STEP                 -1    CTestHandler        initappmanager      
+
+RUN_TEST_STEP                 -1    CTestHandler        removeclient           unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0015-002
+
+RUN_TEST_STEP                 -1    CTestHandler        removeclient           unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0015-003
+
+RUN_TEST_STEP                 -1    CTestHandler        removeclient           unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0015-004
+
+RUN_TEST_STEP                 -1    CTestHandler        removeclient           unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0015-005
+
+RUN_TEST_STEP                 -1    CTestHandler        deleteappmanager    
+
+END_TESTCASE                  SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0015
+
+
+
+
+

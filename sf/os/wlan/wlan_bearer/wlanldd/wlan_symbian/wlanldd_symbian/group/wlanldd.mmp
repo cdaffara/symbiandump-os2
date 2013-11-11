@@ -1,0 +1,89 @@
+/*
+* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:   Project definition file for project wlanldd
+*
+*/
+
+/*
+* %version: 29 %
+*/
+
+#include        <kernel/kern_ext.mmh>
+#include        <platform_paths.hrh>
+#include        "wlanldddma.mmh"
+#include        "wlanlddtrace.mmh"
+
+TARGET          wlanldd.ldd
+
+TARGETTYPE      ldd
+
+UID		0x100000af 0x101F8E53
+
+MACRO ALWAYS_KERNEL
+
+// trace levels
+MACRO INIT_LEVEL=0x00000020
+MACRO UMAC_PROTOCOL_STATE=0x00000040
+MACRO NWSA_CMD_STATE=0x00000080
+MACRO MUTEX=0x00000100
+MACRO NWSA_CALLBACK=0x00000200
+MACRO UMAC_MGMT_CALLBACK=0x00000400
+MACRO UMAC_PROTO_CALLBACK=0x00000800
+MACRO NWSA_CMD_STATE_DETAILS=0x00001000
+MACRO QOS=0x00002000
+MACRO WLM_CMD=0x00004000
+MACRO WLM_INDICATION=0x00008000
+MACRO WLM_CMD_DETAILS=0x00010000
+MACRO UMAC_DETAILS=0x00020000
+MACRO NWSA_TX=0x00040000
+MACRO NWSA_TX_DETAILS=0x00080000
+MACRO UMAC_AUTH=0x00100000
+MACRO UMAC_ASSOC=0x00200000
+MACRO PACKETSCHEDULER=0x00400000
+MACRO MEMORY=0x00800000
+MACRO TX_RATE_ADAPT=0x01000000
+MACRO RX_FRAME=0x02000000
+MACRO SCAN=0x04000000
+MACRO PWRSTATETRANSITION=0x08000000
+MACRO DOT11STATETRANSIT=0x10000000
+MACRO EVENTDISPATCHER=0x20000000
+MACRO CCX=0x40000000
+// for temporary trace
+MACRO SCRATCH=0x80000000
+
+USERINCLUDE     ../inc
+USERINCLUDE     ../../../wlan_common/osa_common/inc
+USERINCLUDE     ../../../../inc
+
+OS_LAYER_KERNEL_SYSTEMINCLUDE
+
+STATICLIBRARY 	wlantrace.lib
+STATICLIBRARY  	wlanumac.lib
+STATICLIBRARY   wlanosa.lib
+STATICLIBRARY   wlanosadebug.lib
+
+SOURCEPATH	    ../src 
+
+SOURCE WLanLogicalDevice.cpp
+SOURCE wllddlogicalchannelbase.cpp
+SOURCE WlanLogicalChannel.cpp
+SOURCE WlLddPlatfrom.cpp
+SOURCE EthernetFrameMemMngr.cpp
+SOURCE FrameXferBlock.cpp
+SOURCE DataFrameMemMngr.cpp
+SOURCE MgmtFrameMemMngr.cpp
+SOURCE wllddpowerhandler.cpp
+SOURCE wlldddmausablememory.cpp
+
+capability		all

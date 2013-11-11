@@ -1,0 +1,43 @@
+// Copyright (c) 2004-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// dbspconv Database management - database security policy file creation tool
+// 
+//
+
+/**
+ @file
+*/
+
+TARGET            edbspconv.exe
+TARGETTYPE        EXE
+UID               0 0x102032AC		// Allocated UID  - KUidDbSpConv = 0x102032AC
+VENDORID          0x70000001		
+
+SMPSAFE
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+USERINCLUDE       ../inc
+USERINCLUDE       ../security
+
+SOURCEPATH        ../SPConv
+SOURCE		      cn_main.cpp cn_cmdparse.cpp cn_util.cpp cn_txt2bin.cpp cn_bin2txt.cpp cn_proc.cpp
+
+SOURCEPATH        ../udbms
+SOURCE            Ud_Assert.cpp
+
+SOURCEPATH        ../security
+SOURCE            SC_Policy.cpp SC_StrmIn.cpp SC_StrmOut.cpp SC_Builder.cpp SC_Reader.cpp
+SOURCE            SC_TextOut.cpp SC_TextIn.cpp SC_Strings.cpp
+
+LIBRARY           euser.lib efsrv.lib estor.lib

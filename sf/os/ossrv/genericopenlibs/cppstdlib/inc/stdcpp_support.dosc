@@ -1,0 +1,43 @@
+/** @file stdcpp_support.h
+@internalComponent 
+*/
+
+
+/** @fn TranslateSymErrorToCppException(TInt)
+@publishedAll
+@released
+
+A utility funtion that takes a SymbianC++ error number and throws a corresponding 
+C++ exception. This mapping is done based on what is mentioned in Chapter 19.1 of 
+the C++ specification and Symbian's e32err.h.
+*/
+
+
+/** @fn TranslateCppExceptionToSymError(const std::exception &)
+@publishedAll
+@released
+
+A utility function that takes an instance of std::exception and returns a
+corresponding SymbianC++ error number. This mapping is done based on what is
+mentioned in Chapter 19.1 of the C++ specification and Symbian's e32err.h.
+*/
+
+/** @def TRANSLATE_SYM_CPP_LEAVES
+@publishedAll
+@released
+
+Executes the set of C++ statements _s under a trap harness and throws a suitable  
+C++ exception that matches the Symbian error code.
+
+Use this macro as a C++ statement to translate a User::Leave
+
+_s can consist of multiple C++ statements; in theory, _s can consist
+of any legal C++ code but in practice, such statements consist of Symbian C++
+function calls that may leave, e.g. FooL() or an assignment of some value to 
+the result of a function call, e.g. functionValue=GetFooL().
+
+@param C++ statements which will be executed under a trap harness
+*/
+
+
+

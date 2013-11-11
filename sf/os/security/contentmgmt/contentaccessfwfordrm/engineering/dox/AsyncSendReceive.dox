@@ -1,0 +1,76 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// An agent plugin may have to service an asynchronous request, for example when
+// <code>ContentAccess::CAgentManager::NotifyStatusChange()</code> is called.
+// If the agent plugin must make an asynchronous SendReceive() call to service the request
+// then it must be careful to ensure that any memory that is passed as an argument
+// in the call is still valid when the agent server that receives the call processes
+// and uses the memory.
+// There are two ways that this can be achieved:
+// <hr>
+// If the agent plugin cannot guarantee that a variable to be passed in the asynchronous
+// SendReceive() call will still be in scope when the agent server comes to access and use
+// it then the agent plugin should store a local heap copy of the data and pass this
+// in the call instead. It is the responsibility of the agent plugin to maintain this heap 
+// memory and delete it when appropriate. Depending on how and when the agent server uses 
+// the memory, it may be safe to delete the memory after the asynchronous call has 
+// been accepted, or not until the asynchronous request has completed.
+// For example, an agent plugin could implement the API <code>ContentAccess::CAgentManager::NotifyStatusChange()</code> 
+// as illustrated below. Note that for this API the agent plugin can make no assumption about the 
+// scope of the descriptor passed to aURI. 
+// void CTestAgentManager::NotifyStatusChange(const TDesC& aURI, TEventMask aMask, TRequestStatus& aStatus)
+// HBufC* uri = aURI.Alloc();
+// if(uri)
+// // store the heap variable in a local array
+// iAsyncDataArray.Append(uri); // takes ownership of uri
+// SendReceive(EManagerNotifyStatusChange, TIpcArgs(uri,aMask),aStatus);		
+// <hr>
+// Alternatively, the agent plugin can use the variables that are in scope at the time of the 
+// asynchronous SendReceive() call if it makes a synchronous SendReceive() call afterwards,
+// within the same function scope, as illustrated below. The synchronous message can 
+// be a 'no operation' in the agent server.
+// void CTestAgentManager::NotifyStatusChange(const TDesC& aURI, TEventMask aMask, TRequestStatus& aStatus)
+// SendReceive(EManagerNotifyStatusChange, TIpcArgs(&aURI,aMask),aStatus);
+// // this call doesn't have to be immediately after the asynchronous call, but within this function
+// SendReceive(ENoOp,TIpcArgs(NULL));
+// The synchronous call causes the message queue to be flushed into the agent server before the thread returns from the 
+// function and unwinds the call stack. The intention is that the agent server will only complete the second (synchronous) 
+// message after receiving and doing initial processing of the first (asynchronous) message, which may include, for 
+// example, reading the uri descriptor. 
+// However, an obvious disadvantage of this pattern is that it incurs a second IPC call, and so may degrade performance.<br>
+// Moreover, there are several caveats which must hold true in order for the pattern to work:
+// 1. The kernel delivers messages in the order that they are sent (this is currently true).<br>
+// 2. The agent server is guaranteed to finish processing the first message before completing the second message.<br>
+// This requires understanding of the agent server implementation.<br>
+// 3. After initial processing of the first (asynchronous) message the agent server does not need to 
+// access the memory supplied in the message again. This requires understanding of the agent server implementation.<br>
+// 4. The synchronous call is a request that has no effect on the state of the agent server - a 'no operation'
+// may or may not be possible.
+// <b> 
+// For these reasons, this pattern should only be used as a last resort - for example, if the agent plugin cannot store member data in its class for compatibility reasons.
+// <b>
+// 
+//
+
+/**
+ @page CAFAsyncSendReceive Making an asynchronous SendReceive() call in an agent plugin
+ - @ref StoreLocalCopy
+ - @ref SyncSendReceive
+ @section StoreLocalCopy Storing a local heap copy of transient data
+ @code
+ @endcode
+ @section SyncSendReceive Following the asynchronous call with a synchronous call
+ @code
+ @endcode
+*/

@@ -1,0 +1,311 @@
+/** @file ../include/arpa/inet.h
+@internalComponent
+*/
+
+/** @fn  inet_addr(const char *cp)
+@param cp
+
+Note: This description also covers the following functions -
+ inet_aton()  inet_ntoa()  inet_ntop()  inet_pton() 
+
+@code
+  struct in_addr or some other internal binary representation, in network byte order).
+ It returns 1 if the address was valid for the specified address family, or
+ 0 if the address was not parseable in the specified address family, or -1
+ if some system error occurred.
+ This function is presently valid for AF_INET and AF_INET6.
+@endcode
+@code
+  struct in_addr or some other binary form, in network byte order) to presentation format
+ (suitable for external display purposes).
+ The size argument specifies the size, in bytes, of the buffer *dst It returns NULL if a system error occurs (in which case, errno will have been set), or it returns a pointer to the destination string.
+ This function is presently valid for AF_INET and AF_INET6.
+@endcode
+@code
+  The routines inet_addr and inet_aton interpret character strings representing
+numbers expressed in the Internet standard ‘.’ notation.
+@endcode
+
+ The inet_pton function converts a presentation format address (that is, printable form
+as held in a character string) to network format (usually a  struct in_addr or some other internal binary representation, in network byte order).
+It returns 1 if the address was valid for the specified address family, or
+0 if the address was not parseable in the specified address family, or -1
+if some system error occurred.
+This function is presently valid for AF_INET and AF_INET6.
+
+ The inet_aton routine interprets the specified character string as an Internet address,
+placing the address into the structure provided.
+It returns 1 if the string was successfully interpreted,
+or 0 if the string is invalid.
+The inet_addr functions return numbers suitable for use
+as Internet addresses.
+
+ The function inet_ntop converts an address *src from network format
+(usually a  struct in_addr or some other binary form, in network byte order) to presentation format
+(suitable for external display purposes).
+The size argument specifies the size, in bytes, of the buffer *dst It returns NULL if a system error occurs (in which case, errno will have been set), or it returns a pointer to the destination string.
+This function is presently valid for AF_INET and AF_INET6.
+
+ The routine inet_ntoa takes an Internet address and returns an ASCII string representing the address in ' . '
+notation.
+
+ All Internet addresses are returned in network
+order (bytes ordered from left to right).
+All network numbers and local address parts are
+returned as machine byte order integer values.
+
+Diagnostics:
+
+ The constant INADDR_NONE is returned by inet_addr for malformed requests.
+
+@see gethostbyname()
+
+
+Examples:
+@code
+#include <stdio.h>
+#include <arpa/inet.h>
+#include <netinet/in.h>
+#define IPV6ADDRSIZE 48
+int main()
+    {
+     unsigned int nbo_value;
+     char *ipaddrstring="1.2.3.4";
+     char *ipaddrholdr=NULL;
+     char *ipv6addrstring="8000::123:4567:89AB:CDEF";
+     struct in_addr ipstruct;
+     struct in6_addr ipv6struct;
+     char result[IPV6ADDRSIZE];
+     int err;
+     int size;
+     const char* error;
+     nbo_value=inet_addr(ipaddrstring);
+     if(nbo_value == -1)
+      {
+       printf("inet_addr failed0);
+      }
+     else
+      {
+       printf("inet_addr passed0);
+      }
+     ipstruct.s_addr=nbo_value;
+     ipaddrholdr=inet_ntoa(ipstruct);
+     if(ipaddrholdr==NULL)
+      {
+       printf("inet_ntoa failed0);
+      }
+     else
+      {
+      printf("ipaddr is %s0,ipaddrholdr);
+      }
+     err=inet_pton(AF_INET6,ipv6addrstring ,&ipv6struct;);
+     if(err ==0  || err==-1)
+     printf("inet_pton Failed0);
+     else
+     printf("inet_pton passed0);
+     size=sizeof(result);
+     error=inet_ntop(AF_INET6,&ipv6struct.s6;_addr,result,size);     
+     if(error==NULL)
+      {
+      printf("inet_ntop failed");
+      }
+     else
+      {
+      printf("inet_ntop passed");
+      }
+     err=inet_aton(ipaddrstring,&ipstruct;);
+     if(err==0)
+     {
+      printf("invalid address ");
+     }
+     else
+      {
+      printf("inet_aton passed ");
+      }
+    
+     return 0;
+}
+Output:
+inet_addr passed
+ipaddr is 1.2.3.4
+inet_pton passed
+inet_ntop passed
+inet_aton passed
+
+@endcode
+ The inet_ntop and inet_pton functions conform to -xns5.2. Note that inet_pton does not accept 1-, 2-, or 3-part dotted addresses; all four parts
+must be specified and are interpreted only as decimal values.
+This is a narrower input set than that accepted by inet_aton. These
+functions appeared in BSD 4.2.
+
+Bugs:
+
+ The value INADDR_NONE (0xffffffff) is a valid broadcast address, but inet_addr cannot return that value without indicating failure.
+The newer inet_aton function does not share this problem.
+The problem of host byte ordering versus network byte ordering is
+confusing.
+The string returned by inet_ntoa resides in a static memory area. Inet_addr should return a struct in_addr. 
+
+   
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  inet_ntoa(struct in_addr in)
+@param in
+
+Refer to  inet_addr() for the documentation
+@see gethostbyname()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  inet_ntop(  int af ,  const void *  src,   char *  dst,   socklen_t size)  
+@param af
+@param src
+@param dst
+@param size
+
+Refer to  inet_addr() for the documentation
+
+@see gethostbyname()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  inet_pton(int af, const char *  src, void *  dst)
+@param af
+@param src
+@param dst
+
+Refer to  inet_addr() for the documentation
+
+@see gethostbyname()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  inet_aton(const char *cp, struct in_addr *pin)
+@param cp
+@param pin
+
+Refer to  inet_addr() for the documentation
+
+@see gethostbyname()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  htonl(uint32_t hl)
+@param hl
+
+Note: This description also covers the following functions -
+ htons()  ntohl()  ntohs() 
+
+  These routines convert 16 and 32 bit quantities between network
+byte order and host byte order.
+On machines which have a byte order which is the same as the network
+order, routines are defined as null macros.
+
+ These routines are most often used in conjunction with Internet
+addresses and ports as returned by gethostbyname
+and getservent .
+
+@see gethostbyaddr()
+@see getservent()
+
+
+Bugs:
+
+ On the VAX bytes are handled backwards from most everyone else in
+the world.
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  htons(uint16_t hs)
+@param hs
+
+Refer to  htonl() for the documentation
+@see gethostbyaddr()
+@see getservent()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def  ntohl
+
+These are also declared as functions.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def  ntohs
+
+These are also declared as functions.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def  inet_addr
+
+These are also declared as functions.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def  inet_ntoa
+
+These are also declared as functions.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def  inet_pton
+
+These are also declared as functions.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def  inet_ntop
+
+These are also declared as functions.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+

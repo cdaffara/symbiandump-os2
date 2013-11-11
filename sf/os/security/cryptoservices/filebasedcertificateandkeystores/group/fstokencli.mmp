@@ -1,0 +1,89 @@
+/*
+* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* client dll for fstokenserver
+* fstokencli.dll Client dll for fstokenserver
+*
+*/
+
+
+/**
+ @file
+*/
+
+target fstokencli.dll
+CAPABILITY All -TCB
+
+VENDORID 0x70000001
+
+// On beech, this is an ECom plugin for the keystore - on cedar there are
+// spearate plugins for the keystore and certstore
+
+
+TARGETTYPE DLL
+
+//	KSharedLibraryUidValue 0x1000008d
+//	KUidFSTokenCli 0x101F6EC7
+UID		0x1000008d 0x101F6EC7
+
+DEFFILE fstokencli_v2.def
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+userinclude  ../Inc 
+userinclude  ../../../crypto/weakcrypto/inc
+userinclude  ../../../cryptomgmtlibs/cryptotokenfw/inc_interfaces
+userinclude  ../../../cryptomgmtlibs/cryptotokenfw/inc
+userinclude  ../source/generic/common
+userinclude  ../source/generic/client
+userinclude  ../source/keystore/Client
+userinclude  ../source/certstore/client
+userinclude  ../source/certapps/client
+userinclude  ../source/shared
+userinclude	 .
+
+//	generic filetokens client code
+sourcepath ../source/generic/client
+source CFStokenclient.cpp
+source CFSTokenTypeClient.cpp 
+source CFStokenTypeSession.cpp
+source clientsession.cpp 
+source clientutils.cpp
+source clientfactories.cpp
+source CFSClient.cpp
+
+// generic common client/server code	
+sourcepath ../source/generic/common
+source fstokencliserv.cpp
+source dllentry.cpp
+
+//	keystore specific client code
+sourcepath ../source/keystore/Client
+source cfskeystoreclient.cpp
+source ClientOpenedKeys.cpp
+source CKeyStoreAuthObject.cpp
+
+//	filecertstore specific client code
+sourcepath ../source/certstore/client
+source CFSCertStoreClient.cpp
+
+//	certapps specific client code
+sourcepath ../source/certapps/client
+source CFSCertAppsClient.cpp
+
+
+library euser.lib ctframework.lib cryptography.lib
+library hash.lib fstokenshared.lib
+
+SMPSAFE

@@ -1,0 +1,306 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+#ifndef __FILETOKENSTESTS_IBY__
+#define __FILETOKENSTESTS_IBY__
+
+// We need setcap for platsec tests
+#include "setcap.iby"
+
+REM Token filetokens tests
+define ZDRIVE \epoc32\winscw\c
+
+// Must put it where setcap will find it, and it must be RAM executable
+data=ABI_DIR\BUILD_DIR\t_keystore.exe	sys\bin\t_keystore.exe
+data=ABI_DIR\BUILD_DIR\keytool.exe	sys\bin\keytool.exe
+data=ABI_DIR\BUILD_DIR\certtool.exe	sys\bin\certtool.exe
+data=ABI_DIR\BUILD_DIR\ttesttools.exe	sys\bin\ttesttools.exe
+
+data=MULTI_LINGUIFY(RSC EPOCROOT##epoc32\data\Z\resource\Apps\keytool  resource\Apps\keytool)
+
+file=ABI_DIR\BUILD_DIR\tfiletokens.exe	sys\bin\tfiletokens.exe
+
+// tsecdlg is required to run tests without a passphrase dialog popping up.
+// SecDlg will also need to be removed
+// Note: If SecDlg and tsecdlg are both present the tests will crash
+// both on the emulator and on hardware! 
+ECOM_PLUGIN(tsecdlg.dll, 10204789.rsc)
+
+// Test plugins
+ECOM_PLUGIN(101faaa1.dll, 101faaa1.rsc)
+ECOM_PLUGIN(101faaa3.dll, 101faaa3.rsc)
+ECOM_PLUGIN(101faaa5.dll, 101faaa5.rsc)
+
+#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
+data = ZDRIVE\tkeystore\scripts\thwkeystore.script		tkeystore\scripts\thwkeystore.script
+data = ZDRIVE\tkeystore\scripts\thwkeystore.ini			tkeystore\scripts\thwkeystore.ini
+data = ZPRIVATE\101f7e95\hwkeys.dat					private\101f7e95\hwkeys.dat
+data = ZDRIVE\tkeystore\data\hwkeys.dat				tkeystore\scripts\hwkeys.dat
+file = ABI_DIR\BUILD_DIR\tcryptotokenhai.dll			sys\bin\tcryptotokenhai.dll
+ECOM_PLUGIN(101faaaa.dll, 101faaaa.rsc)
+#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
+
+//scripts
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+data = ZDRIVE\tkeystore\scripts\registration.ini		tkeystore\scripts\registration.ini
+data = ZDRIVE\tkeystore\scripts\initialize.script	tkeystore\scripts\initialize.script
+data = ZDRIVE\tkeystore\scripts\reg_first_identity.script	tkeystore\scripts\reg_first_identity.script
+data = ZDRIVE\tkeystore\scripts\reg_second_identity.script	tkeystore\scripts\reg_second_identity.script
+data = ZDRIVE\tkeystore\scripts\authobjects_useauth.script	tkeystore\scripts\authobjects_useauth.script
+data = ZDRIVE\tkeystore\scripts\authobjects_useauth.ini	tkeystore\scripts\authobjects_useauth.ini
+
+//TMS support
+data = ZDRIVE\tkeystore\scripts\cancel_useauth.script		tkeystore\scripts\cancel_useauth.script
+data = ZDRIVE\tkeystore\scripts\exportscript_useauth.script	tkeystore\scripts\exportscript_useauth.script
+data = ZDRIVE\tkeystore\scripts\oom_useauth.script			tkeystore\scripts\oom_useauth.script
+data = ZDRIVE\tkeystore\scripts\reload_useauth.script		tkeystore\scripts\reload_useauth.script
+data = ZDRIVE\tkeystore\scripts\servoom_useauth.script		tkeystore\scripts\servoom_useauth.script
+data = ZDRIVE\tkeystore\scripts\tkeystore_authentication1.script	tkeystore\scripts\tkeystore_authentication1.script
+data = ZDRIVE\tkeystore\scripts\tkeystore_authentication2.script	tkeystore\scripts\tkeystore_authentication2.script
+data = ZDRIVE\tkeystore\scripts\tkeystore_nouserregistered.script	tkeystore\scripts\tkeystore_nouserregistered.script
+data = ZDRIVE\tkeystore\scripts\tkeystore_useauth.script		tkeystore\scripts\tkeystore_useauth.script
+data = ZDRIVE\tkeystore\scripts\capability_useauth.script		tkeystore\scripts\capability_useauth.script
+data = ZDRIVE\tkeystore\scripts\authenticate_useauth.script		tkeystore\scripts\authenticate_useauth.script
+data = ZDRIVE\tkeystore\scripts\cancel_useauth.ini		tkeystore\scripts\cancel_useauth.ini
+data = ZDRIVE\tkeystore\scripts\exportscript_useauth.ini	tkeystore\scripts\exportscript_useauth.ini
+data = ZDRIVE\tkeystore\scripts\oom_useauth.ini			tkeystore\scripts\oom_useauth.ini
+data = ZDRIVE\tkeystore\scripts\reload_useauth.ini		tkeystore\scripts\reload_useauth.ini
+data = ZDRIVE\tkeystore\scripts\servoom_useauth.ini		tkeystore\scripts\servoom_useauth.ini
+data = ZDRIVE\tkeystore\scripts\tkeystore_authentication1.ini	tkeystore\scripts\tkeystore_authentication1.ini
+data = ZDRIVE\tkeystore\scripts\tkeystore_authentication2.ini	tkeystore\scripts\tkeystore_authentication2.ini
+data = ZDRIVE\tkeystore\scripts\tkeystore_nouserregistered.ini	tkeystore\scripts\tkeystore_nouserregistered.ini
+data = ZDRIVE\tkeystore\scripts\tkeystore_useauth.ini		tkeystore\scripts\tkeystore_useauth.ini
+data = ZDRIVE\tkeystore\scripts\capability_useauth.ini		tkeystore\scripts\capability_useauth.ini
+data = ZDRIVE\tkeystore\scripts\authenticate_useauth.ini		tkeystore\scripts\authenticate_useauth.ini
+
+#else
+//TMS support
+data = ZDRIVE\tkeystore\scripts\tkeystore.script		tkeystore\scripts\tkeystore.script
+data = ZDRIVE\tkeystore\scripts\cancel.script		tkeystore\scripts\cancel.script
+data = ZDRIVE\tkeystore\scripts\oom.script			tkeystore\scripts\oom.script
+data = ZDRIVE\tkeystore\scripts\servoom.script		tkeystore\scripts\servoom.script
+data = ZDRIVE\tkeystore\scripts\exportscript.script	tkeystore\scripts\exportscript.script
+data = ZDRIVE\tkeystore\scripts\authobjects.script		tkeystore\scripts\authobjects.script
+data = ZDRIVE\tkeystore\scripts\reload.script		tkeystore\scripts\reload.script
+
+
+data = ZDRIVE\tkeystore\scripts\tkeystore.ini		tkeystore\scripts\tkeystore.ini
+data = ZDRIVE\tkeystore\scripts\tkeystore2.ini		tkeystore\scripts\tkeystore2.ini
+data = ZDRIVE\tkeystore\scripts\cancel.ini		tkeystore\scripts\cancel.ini
+data = ZDRIVE\tkeystore\scripts\oom.ini			tkeystore\scripts\oom.ini
+data = ZDRIVE\tkeystore\scripts\servoom.ini		tkeystore\scripts\servoom.ini
+data = ZDRIVE\tkeystore\scripts\exportscript.ini	tkeystore\scripts\exportscript.ini
+data = ZDRIVE\tkeystore\scripts\authobjects.ini		tkeystore\scripts\authobjects.ini
+data = ZDRIVE\tkeystore\scripts\reload.ini		tkeystore\scripts\reload.ini
+
+#ifdef SYMBIAN_AUTH_SERVER
+data = ZDRIVE\tkeystore\scripts\oldserver_newfeature.script		tkeystore\scripts\oldserver_newfeature.script
+data = ZDRIVE\tkeystore\scripts\oldserver_newfeature.ini		tkeystore\scripts\oldserver_newfeature.ini
+#endif // SYMBIAN_AUTH_SERVER
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+
+//	test data
+data = ZDRIVE\tkeystore\data\pkcs8dh.001			tkeystore\data\pkcs8dh.001
+data = ZDRIVE\tkeystore\data\pkcs8rsa.001			tkeystore\data\pkcs8rsa.001
+data = ZDRIVE\tkeystore\data\pkcs8rsa1.001			tkeystore\data\pkcs8rsa1.001
+data = ZDRIVE\tkeystore\data\pkcs8rsa2.001			tkeystore\data\pkcs8rsa2.001
+data = ZDRIVE\tkeystore\data\pkcs8rsa3.001			tkeystore\data\pkcs8rsa3.001
+data = ZDRIVE\tkeystore\data\pkcs8rsa4.001			tkeystore\data\pkcs8rsa4.001
+data = ZDRIVE\tkeystore\data\pkcs8invalidrsa.001		tkeystore\data\pkcs8invalidrsa.001
+
+data = ZDRIVE\tkeystore\data\pkcs8dsa.001			tkeystore\data\pkcs8dsa.001
+data = ZDRIVE\tkeystore\data\pkcs8dsa1.001			tkeystore\data\pkcs8dsa1.001
+data = ZDRIVE\tkeystore\data\pkcs8dsa2.001			tkeystore\data\pkcs8dsa2.001
+data = ZDRIVE\tkeystore\data\pkcs8dsa3.001			tkeystore\data\pkcs8dsa3.001
+data = ZDRIVE\tkeystore\data\pkcs8dsa4.001			tkeystore\data\pkcs8dsa4.001
+data = ZDRIVE\tkeystore\data\pkcs8invaliddsa.001		tkeystore\data\pkcs8invaliddsa.001
+
+//	PKCS8 RSA keys for ImportEncryptedKeys test
+data = ZDRIVE\tkeystore\data\encryptPK8rsaDER.txt		tkeystore\data\encryptPK8rsaDER.txt
+data = ZDRIVE\tkeystore\data\encryptPK8rsa1DER.txt		tkeystore\data\encryptPK8rsa1DER.txt
+data = ZDRIVE\tkeystore\data\encryptPK8rsa2DER.txt		tkeystore\data\encryptPK8rsa2DER.txt
+data = ZDRIVE\tkeystore\data\encryptPK8rsa3DER.txt		tkeystore\data\encryptPK8rsa3DER.txt
+data = ZDRIVE\tkeystore\data\encryptPK8rsa4DER.txt		tkeystore\data\encryptPK8rsa4DER.txt
+
+//	PKCS8 DSA keys for ImportEncryptedKeys test
+data = ZDRIVE\tkeystore\data\encryptPK8dsaDER.txt		tkeystore\data\encryptPK8dsaDER.txt
+data = ZDRIVE\tkeystore\data\encryptPK8dsa1DER.txt		tkeystore\data\encryptPK8dsa1DER.txt
+data = ZDRIVE\tkeystore\data\encryptPK8dsa2DER.txt		tkeystore\data\encryptPK8dsa2DER.txt
+data = ZDRIVE\tkeystore\data\encryptPK8dsa3DER.txt		tkeystore\data\encryptPK8dsa3DER.txt
+data = ZDRIVE\tkeystore\data\encryptPK8dsa4DER.txt		tkeystore\data\encryptPK8dsa4DER.txt
+data = ZDRIVE\tkeystore\data\testvector1.bin			tkeystore\data\testvector1.bin
+data = ZDRIVE\tkeystore\data\binarygarbage.bin			tkeystore\data\binarygarbage.bin
+
+// Strange Pkcs8 Encrypted keys with variou ciphers
+data = ZDRIVE\tkeystore\data\pkcs8rsa1_3des.der			tkeystore\data\pkcs8rsa1_3des.der
+data = ZDRIVE\tkeystore\data\pkcs8rsa1_rc2.der			tkeystore\data\pkcs8rsa1_rc2.der
+data = ZDRIVE\tkeystore\data\pkcs8rsa1_rc4.der			tkeystore\data\pkcs8rsa1_rc4.der
+data = ZDRIVE\tkeystore\data\pkcs8dsa1_des3_nsdh.der		tkeystore\data\pkcs8dsa1_des3_nsdh.der
+data = ZDRIVE\tkeystore\data\pkcs8rsa1_des3_nooctet.der		tkeystore\data\pkcs8rsa1_des3_nooctet.der
+data = ZDRIVE\tkeystore\data\pkcs8dsa1_des3_embed.der		tkeystore\data\pkcs8dsa1_des3_embed.der
+
+// PKCS8 keys with optional PKCS8 attributes
+data = ZDRIVE\tkeystore\data\pkcs8rsa_attr.001			tkeystore\data\pkcs8rsa_attr.001
+data = ZDRIVE\tkeystore\data\pkcs8dsa_attr.001			tkeystore\data\pkcs8dsa_attr.001
+
+//	RSA key pairs from which to build PKCS8 data
+data = ZDRIVE\tkeystore\data\rsa1certkey.001		tkeystore\data\rsa1certkey.001
+data = ZDRIVE\tkeystore\data\rsa2certkey.001		tkeystore\data\rsa2certkey.001
+data = ZDRIVE\tkeystore\data\rsa3certkey.001		tkeystore\data\rsa3certkey.001
+data = ZDRIVE\tkeystore\data\nrkey.001			tkeystore\data\nrkey.001
+data = ZDRIVE\tkeystore\data\signkey2.001		tkeystore\data\signkey2.001
+data = ZDRIVE\tkeystore\data\enciphersignkey2.001	tkeystore\data\enciphersignkey2.001
+
+// RSA & DSA public key to test public key export
+data = ZDRIVE\tkeystore\data\rsapub.txt			tkeystore\data\rsapub.txt
+data = ZDRIVE\tkeystore\data\rsapub1.txt		tkeystore\data\rsapub1.txt
+data = ZDRIVE\tkeystore\data\rsapub2.txt		tkeystore\data\rsapub2.txt
+data = ZDRIVE\tkeystore\data\rsapub3.txt		tkeystore\data\rsapub3.txt
+data = ZDRIVE\tkeystore\data\rsapub4.txt		tkeystore\data\rsapub4.txt
+data = ZDRIVE\tkeystore\data\dsapub.txt			tkeystore\data\dsapub.txt
+data = ZDRIVE\tkeystore\data\dsapub1.txt		tkeystore\data\dsapub1.txt
+data = ZDRIVE\tkeystore\data\dsapub2.txt		tkeystore\data\dsapub2.txt
+data = ZDRIVE\tkeystore\data\dsapub3.txt		tkeystore\data\dsapub3.txt
+data = ZDRIVE\tkeystore\data\dsapub4.txt		tkeystore\data\dsapub4.txt
+
+// ttesttools data
+
+data = ZDRIVE\ttesttools\data\cert_addapps.txt		ttesttools\data\cert_addapps.txt
+data = ZDRIVE\ttesttools\data\cert_addapps1.txt		ttesttools\data\cert_addapps1.txt
+data = ZDRIVE\ttesttools\data\cert_addappsfail1.txt	ttesttools\data\cert_addappsfail1.txt
+data = ZDRIVE\ttesttools\data\cert_addappsfail2.txt	ttesttools\data\cert_addappsfail2.txt
+data = ZDRIVE\ttesttools\data\cert_helpfail1.txt	ttesttools\data\cert_helpfail1.txt
+data = ZDRIVE\ttesttools\data\cert_helpfail2.txt	ttesttools\data\cert_helpfail2.txt
+data = ZDRIVE\ttesttools\data\cert_helpls.txt		ttesttools\data\cert_helpls.txt
+data = ZDRIVE\ttesttools\data\cert_import.txt		ttesttools\data\cert_import.txt
+data = ZDRIVE\ttesttools\data\cert_import1.txt		ttesttools\data\cert_import1.txt
+data = ZDRIVE\ttesttools\data\cert_import2.txt		ttesttools\data\cert_import2.txt
+data = ZDRIVE\ttesttools\data\cert_import3.txt		ttesttools\data\cert_import3.txt
+data = ZDRIVE\ttesttools\data\cert_import4.txt		ttesttools\data\cert_import4.txt
+data = ZDRIVE\ttesttools\data\cert_importfail1.txt	ttesttools\data\cert_importfail1.txt
+data = ZDRIVE\ttesttools\data\cert_importfail2.txt	ttesttools\data\cert_importfail2.txt
+data = ZDRIVE\ttesttools\data\cert_importfail3.txt	ttesttools\data\cert_importfail3.txt
+data = ZDRIVE\ttesttools\data\cert_importfail4.txt	ttesttools\data\cert_importfail4.txt
+data = ZDRIVE\ttesttools\data\cert_importfail5.txt	ttesttools\data\cert_importfail5.txt
+data = ZDRIVE\ttesttools\data\cert_list1.txt		ttesttools\data\cert_list1.txt
+data = ZDRIVE\ttesttools\data\cert_list2.txt		ttesttools\data\cert_list2.txt
+data = ZDRIVE\ttesttools\data\cert_list3.txt		ttesttools\data\cert_list3.txt
+data = ZDRIVE\ttesttools\data\cert_list4.txt		ttesttools\data\cert_list4.txt
+data = ZDRIVE\ttesttools\data\cert_listfail1.txt	ttesttools\data\cert_listfail1.txt
+data = ZDRIVE\ttesttools\data\cert_listfail2.txt	ttesttools\data\cert_listfail2.txt
+data = ZDRIVE\ttesttools\data\cert_listfail3.txt	ttesttools\data\cert_listfail3.txt
+data = ZDRIVE\ttesttools\data\cert_ls.txt		ttesttools\data\cert_ls.txt
+data = ZDRIVE\ttesttools\data\cert_lsfail.txt		ttesttools\data\cert_lsfail.txt
+data = ZDRIVE\ttesttools\data\cert_remove1.txt		ttesttools\data\cert_remove1.txt
+data = ZDRIVE\ttesttools\data\cert_remove2.txt		ttesttools\data\cert_remove2.txt
+data = ZDRIVE\ttesttools\data\cert_remove3.txt		ttesttools\data\cert_remove3.txt
+data = ZDRIVE\ttesttools\data\cert_removeapps.txt	ttesttools\data\cert_removeapps.txt
+data = ZDRIVE\ttesttools\data\cert_removeappsfail1.txt	ttesttools\data\cert_removeappsfail1.txt
+data = ZDRIVE\ttesttools\data\cert_removeappsfail2.txt	ttesttools\data\cert_removeappsfail2.txt
+data = ZDRIVE\ttesttools\data\cert_removefail.txt	ttesttools\data\cert_removefail.txt
+data = ZDRIVE\ttesttools\data\cert_setapps.txt		ttesttools\data\cert_setapps.txt
+data = ZDRIVE\ttesttools\data\cert_setapps1.txt		ttesttools\data\cert_setapps1.txt
+data = ZDRIVE\ttesttools\data\cert_setappsfail1.txt	ttesttools\data\cert_setappsfail1.txt
+data = ZDRIVE\ttesttools\data\cert_setappsfail2.txt	ttesttools\data\cert_setappsfail2.txt
+data = ZDRIVE\ttesttools\data\certfail.txt		ttesttools\data\certfail.txt
+data = ZDRIVE\ttesttools\data\cert_importdeletable1.txt		ttesttools\data\cert_importdeletable1.txt
+data = ZDRIVE\ttesttools\data\cert_importdeletable2.txt		ttesttools\data\cert_importdeletable2.txt
+data = ZDRIVE\ttesttools\data\cert_importdeletable3.txt		ttesttools\data\cert_importdeletable3.txt
+data = ZDRIVE\ttesttools\data\cert_removedeletable1.txt		ttesttools\data\cert_removedeletable1.txt
+data = ZDRIVE\ttesttools\data\cert_removedeletable2.txt		ttesttools\data\cert_removedeletable2.txt
+data = ZDRIVE\ttesttools\data\certhelp.txt		ttesttools\data\certhelp.txt
+
+data = ZDRIVE\tkeystore\data\corrupt.001		tkeystore\data\corrupt.001
+data = ZDRIVE\tkeystore\data\empty.001			tkeystore\data\empty.001
+data = ZDRIVE\tcertstore\empty.cer			tcertstore\empty.cer
+data = ZDRIVE\tcertstore\corrupt.cer			tcertstore\corrupt.cer
+
+data = ZDRIVE\ttesttools\data\key_helpfail1.txt		ttesttools\data\key_helpfail1.txt
+data = ZDRIVE\ttesttools\data\key_helpfail2.txt		ttesttools\data\key_helpfail2.txt
+data = ZDRIVE\ttesttools\data\key_import1.txt		ttesttools\data\key_import1.txt
+data = ZDRIVE\ttesttools\data\key_import2.txt		ttesttools\data\key_import2.txt
+data = ZDRIVE\ttesttools\data\key_import3.txt		ttesttools\data\key_import3.txt
+data = ZDRIVE\ttesttools\data\key_import4.txt		ttesttools\data\key_import4.txt
+data = ZDRIVE\ttesttools\data\key_importfail1.txt	ttesttools\data\key_importfail1.txt
+data = ZDRIVE\ttesttools\data\key_importfail2.txt	ttesttools\data\key_importfail2.txt
+data = ZDRIVE\ttesttools\data\key_importfail3.txt	ttesttools\data\key_importfail3.txt
+data = ZDRIVE\ttesttools\data\key_importfail4.txt	ttesttools\data\key_importfail4.txt
+data = ZDRIVE\ttesttools\data\key_importfail5.txt	ttesttools\data\key_importfail5.txt
+data = ZDRIVE\ttesttools\data\key_list1.txt		ttesttools\data\key_list1.txt
+data = ZDRIVE\ttesttools\data\key_list2.txt		ttesttools\data\key_list2.txt
+data = ZDRIVE\ttesttools\data\key_list3.txt		ttesttools\data\key_list3.txt
+data = ZDRIVE\ttesttools\data\key_listfail1.txt		ttesttools\data\key_listfail1.txt
+data = ZDRIVE\ttesttools\data\key_listfail2.txt		ttesttools\data\key_listfail2.txt
+data = ZDRIVE\ttesttools\data\key_ls.txt		ttesttools\data\key_ls.txt
+data = ZDRIVE\ttesttools\data\key_remove.txt		ttesttools\data\key_remove.txt
+data = ZDRIVE\ttesttools\data\key_remove1.txt		ttesttools\data\key_remove1.txt
+data = ZDRIVE\ttesttools\data\key_removefail.txt	ttesttools\data\key_removefail.txt
+data = ZDRIVE\ttesttools\data\key_removeuser.txt	ttesttools\data\key_removeuser.txt
+data = ZDRIVE\ttesttools\data\key_removeuserfail1.txt	ttesttools\data\key_removeuserfail1.txt
+data = ZDRIVE\ttesttools\data\key_removeuserfail2.txt	ttesttools\data\key_removeuserfail2.txt
+data = ZDRIVE\ttesttools\data\key_setalluser.txt	ttesttools\data\key_setalluser.txt
+data = ZDRIVE\ttesttools\data\key_setalluserfail1.txt	ttesttools\data\key_setalluserfail1.txt
+data = ZDRIVE\ttesttools\data\key_setalluserfail2.txt	ttesttools\data\key_setalluserfail2.txt
+data = ZDRIVE\ttesttools\data\key_setmanager.txt	ttesttools\data\key_setmanager.txt
+data = ZDRIVE\ttesttools\data\key_setmanagerfail1.txt	ttesttools\data\key_setmanagerfail1.txt
+data = ZDRIVE\ttesttools\data\key_setmanagerfail2.txt	ttesttools\data\key_setmanagerfail2.txt
+data = ZDRIVE\ttesttools\data\key_setuser.txt		ttesttools\data\key_setuser.txt
+data = ZDRIVE\ttesttools\data\key_setuserfail1.txt	ttesttools\data\key_setuserfail1.txt
+data = ZDRIVE\ttesttools\data\key_setuserfail2.txt	ttesttools\data\key_setuserfail2.txt
+data = ZDRIVE\ttesttools\data\key_setuserhelp.txt	ttesttools\data\key_setuserhelp.txt
+data = ZDRIVE\ttesttools\data\keyfail.txt		ttesttools\data\keyfail.txt
+data = ZDRIVE\ttesttools\data\keyhelp.txt		ttesttools\data\keyhelp.txt
+data = ZDRIVE\ttesttools\data\certclients.dat		ttesttools\data\certclients.dat
+
+data = ZDRIVE\ttesttools\scripts\sec-filetokens-tools.script	ttesttools\scripts\sec-filetokens-tools.script
+data = ZDRIVE\ttesttools\scripts\sec-filetokens-tools.ini	ttesttools\scripts\sec-filetokens-tools.ini
+// TCERTAPPS
+data = ABI_DIR\BUILD_DIR\t_certapps.exe				sys\bin\t_certapps.exe
+
+//TMS support
+data = ZDRIVE\tcertapps\scripts\script1.script			tcertapps\scripts\script1.script attrib=r
+data = ZDRIVE\tcertapps\scripts\apipolicing.script	tcertapps\scripts\apipolicing.script attrib=r
+data = ZDRIVE\tcertapps\scripts\script1.ini			tcertapps\scripts\script1.ini attrib=r
+data = ZDRIVE\tcertapps\scripts\apipolicing.ini	tcertapps\scripts\apipolicing.ini attrib=r
+
+
+#if defined SYMBIAN_KEYSTORE_USE_AUTH_SERVER || defined SDP_ROM1
+//Nothing is included
+#else
+#ifdef _SERIAL_DOWNLOAD
+// additional certstore needed in normal rom for sec-filetokens tests which uses certstore1 ,2,...
+ECOM_PLUGIN(tadditionalstores.dll, tadditionalstores.rsc)
+// The below test data needed for sec-filetokens-tools.script which will run only in normal image(testsecurity_sdp.bat)
+data = ZDRIVE\tcertstore\ent-wtls.cer					             \tcertstore\ent-wtls.cer attrib=r
+data = ZDRIVE\tcertstore\ent-wtls1.cer					           \tcertstore\ent-wtls1.cer attrib=r
+data = ZDRIVE\tcertstore\ent-wtls2.cer					           \tcertstore\ent-wtls2.cer attrib=r
+data = ZDRIVE\tcertstore\thawteserverca.cer				         \tcertstore\thawteserverca.cer attrib=r
+data = ZDRIVE\tcertstore\veriSignclass1primaryca.cer			 \tcertstore\veriSignclass1primaryca.cer attrib=r
+
+// DSA private key and certificate for certstore tests
+data = ZDRIVE\tcertstore\data\pkcs8dsa1.001			tcertstore\data\pkcs8dsa1.001 attrib=r
+data = ZDRIVE\tcertstore\data\cert_dsa1.der			tcertstore\data\cert_dsa1.der attrib=r
+data = ZDRIVE\system\data\test1certstore.dat			system\data\test1certstore.dat attrib=r
+data = ZDRIVE\system\data\test2certstore.dat			system\data\test2certstore.dat attrib=r
+
+// Test keystore. Contains two keys, a DSA key (label gm0) and a RSA key (label gm1)
+// The passphrase timeout is set to 30
+data = ZPRIVATE\101F72A6\keys.dat          	private\101F72A6\keys.dat
+#endif
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+
+#endif

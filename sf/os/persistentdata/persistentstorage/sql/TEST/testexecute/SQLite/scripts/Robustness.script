@@ -1,0 +1,167 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// @file
+// 
+//
+
+PRINT Run SQL Tests
+
+LOAD_SUITE te_SQL_Suite
+
+RUN_UTILS DeleteFile E:\Robustness*.db
+RUN_UTILS DeleteFile T:\Robustness*.db
+RUN_UTILS DeleteFile C:\Robustness*.db
+RUN_UTILS DeleteFile E:\Robustness*.db-journal
+RUN_UTILS DeleteFile T:\Robustness*.db-journal
+RUN_UTILS DeleteFile C:\Robustness*.db-journal
+RUN_UTILS DeleteFile T:\fillfile.txt
+RUN_UTILS DeleteFile T:\fillfile2.txt
+RUN_UTILS DeleteFile T:\fillfile4M.txt
+RUN_UTILS DeleteFile E:\fillfile.txt
+RUN_UTILS DeleteFile E:\fillfile2.txt
+RUN_UTILS DeleteFile E:\fillfile4M.txt
+RUN_UTILS DeleteFile T:\fillDisk*.txt
+RUN_UTILS DeleteFile E:\fillDisk*.txt
+
+
+START_TESTCASE SYSLIB-SQL-CIT-3348
+//! @SYMTestCaseID    SYSLIB-SQL-CIT-3348
+//! @SYMTestCaseDesc  Not strictly an SQL test. This step fills the disk to
+//!                  within 4M of full an leaves that file lying around. This
+//!                  improves the performance of the subsequent OOD tests
+//!                  and is required for reliable behaviour within the DABS
+//!                  framework (due to possible timeout issues). The large
+//!                  file is removed by the script at the end.
+//!                  This MUST be the first test to execute in the script.
+//!                  Note that this step does nothing at all on emulator -
+//!                  that uses the T: drive which is already < 4M.
+//! @SYMTestPriority  High
+//! @SYMTestActions   See description and the config file, also the code.
+//! @SYMTestExpectedResults
+//!                  A PASS should be generated.
+//! @SYMDEF           DEF095562
+
+  RUN_TEST_STEP 900 te_SQL_Suite CSQLCDT z:\TEF_SQL\Robustness.ini FillDisk4M
+END_TESTCASE SYSLIB-SQL-CIT-3348
+
+START_TESTCASE SYSLIB-SQL-CIT-1705
+//! @SYMTestCaseID    SYSLIB-SQL-CIT-1705
+//! @SYMTestCaseDesc  Adds a few records to a table in a new database. Begins
+//!                  a transaction and then fills the disk. When this fails
+//!                  with KErrDiskFull, database is closed and re-opened. This
+//!                  is all that can be done with disk full unless space has
+//!                  been reserved. Free up a bit of disk and then check
+//!                  the initial records to validate the db is still usable.
+//!                  Further records are then added and checked.
+//! @SYMTestPriority  High
+//! @SYMTestActions   See description and the config file, also the code.
+//! @SYMTestExpectedResults
+//!                  A PASS should be generated.
+//! @SYMREQ           REQ5792
+
+  PRINT <font size=5 color=AF0000>MMC card on E:\ required on hardware!! </font>
+  RUN_TEST_STEP 900 te_SQL_Suite CSQLCDT z:\TEF_SQL\Robustness.ini Top
+END_TESTCASE SYSLIB-SQL-CIT-1705
+
+RUN_UTILS DeleteFile E:\Robustness*.db
+RUN_UTILS DeleteFile T:\Robustness*.db
+RUN_UTILS DeleteFile C:\Robustness*.db
+RUN_UTILS DeleteFile E:\Robustness*.db-journal
+RUN_UTILS DeleteFile T:\Robustness*.db-journal
+RUN_UTILS DeleteFile C:\Robustness*.db-journal
+RUN_UTILS DeleteFile T:\fillfile.txt
+RUN_UTILS DeleteFile E:\fillfile.txt
+RUN_UTILS DeleteFile T:\fillfile2.txt
+RUN_UTILS DeleteFile E:\fillfile2.txt
+
+START_TESTCASE SYSLIB-SQL-CIT-1704
+//! @SYMTestCaseID    SYSLIB-SQL-CIT-1704
+//! @SYMTestCaseDesc  Does an attach of a db on another drive and then fills
+//!                  the disk that resides on. Verifies that appropriate
+//!                  errors are returned on writing to it. Also check for
+//!                  'expired' RSqlStatement after DETACH and verifies that
+//!                  the previously attached database can be deleted despite
+//!                  having no space.
+//! @SYMTestPriority  High
+//! @SYMTestActions   See description and the config file, also the code.
+//! @SYMTestExpectedResults
+//!                  A PASS should be generated.
+//! @SYMREQ           REQ5792
+
+    PRINT <font size=5 color=0000AF>INFO: MMC card on E:\ required on hardware!! </font>
+    RUN_TEST_STEP 900 te_SQL_Suite CSQLCDT z:\TEF_SQL\Robustness.ini Attach
+END_TESTCASE SYSLIB-SQL-CIT-1704
+
+RUN_UTILS DeleteFile E:\Robustness*.db
+RUN_UTILS DeleteFile T:\Robustness*.db
+RUN_UTILS DeleteFile C:\Robustness*.db
+RUN_UTILS DeleteFile E:\Robustness*.db-journal
+RUN_UTILS DeleteFile T:\Robustness*.db-journal
+RUN_UTILS DeleteFile C:\Robustness*.db-journal
+RUN_UTILS DeleteFile T:\fillfile.txt
+RUN_UTILS DeleteFile E:\fillfile.txt
+RUN_UTILS DeleteFile T:\fillfile2.txt
+RUN_UTILS DeleteFile E:\fillfile2.txt
+
+START_TESTCASE SYSLIB-SQL-CIT-1741
+//! @SYMTestCaseID    SYSLIB-SQL-CIT-1741
+//! @SYMTestCaseDesc  'FillTest' adds some data into its database and checks
+//!                  it. It then triggers 'DeleteTest' and waits.
+//!                  DeleteTest creates its own, separate database.
+//!                  It then reserves space, and then fills the disk
+//!                  with writes to a database table. Once it receives
+//!                  KErrDiskFull it enables the reserved disk space and
+//!                  attempts to add two more records - this should be
+//!                  successful. It then signals 'FillTest' back, and waits.
+//!                  'FillTest' attempts to add records to its own db. These
+//!                  are small, so a number work. It then receives KErrDiskFull.
+//!                  DeleteTest is signalled and FillTest waits.
+//!                  'DeleteTest' attempts to delete a few records. This should
+//!                  be successful - we have reserved space. Reserved space is
+//!                  then released by 'DeleteTest', 'FillTest' is signalled
+//!                  and 'DeleteTest' waits.
+//!                  'FillTest' had no reserved space so just closes it's db,
+//!                  deletes it, signals 'DeleteTest' back and dies.
+//!                  'DeleteTest' releases reserved space a second time
+//!                  (which gives no error) and cleans up.
+//!
+//! @SYMTestPriority  High
+//! @SYMTestActions   See description and the config file, also the code.
+//! @SYMTestExpectedResults
+//!                  A PASS should be generated.
+//! @SYMREQ           REQ5792
+//
+
+    PRINT <font size=5 color=AF0000>MMC card on E:\ required on hardware!! </font>
+CONCURRENT
+// DeleteTest's first action is to wait for a signal from FillTest. It *must*
+// be running when FillTest sends it signal, so lets have it first..
+    RUN_TEST_STEP 1800 te_SQL_Suite CSQLCDT z:\TEF_SQL\Robustness.ini DeleteTest
+    RUN_TEST_STEP 1800 te_SQL_Suite CSQLCDT z:\TEF_SQL\Robustness.ini FillTest
+END_TESTCASE SYSLIB-SQL-CIT-1741
+
+RUN_UTILS DeleteFile E:\Robustness*.db
+RUN_UTILS DeleteFile T:\Robustness*.db
+RUN_UTILS DeleteFile C:\Robustness*.db
+RUN_UTILS DeleteFile E:\Robustness*.db-journal
+RUN_UTILS DeleteFile T:\Robustness*.db-journal
+RUN_UTILS DeleteFile C:\Robustness*.db-journal
+RUN_UTILS DeleteFile T:\fillfile.txt
+RUN_UTILS DeleteFile E:\fillfile.txt
+RUN_UTILS DeleteFile T:\fillfile2.txt
+RUN_UTILS DeleteFile E:\fillfile2.txt
+RUN_UTILS DeleteFile T:\fillfile4M.txt
+RUN_UTILS DeleteFile E:\fillfile4M.txt
+RUN_UTILS DeleteFile T:\fillDisk*.txt
+RUN_UTILS DeleteFile E:\fillDisk*.txt

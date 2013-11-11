@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<relnotes name="Cryptography Library">
+  <purpose>
+    Non-RSA cryptographic algorithms including symmetric and asymmetric ciphers, hash functions and a cryptographic strong random number generator. Supercedes RSA-based Security/cryptalg, export restricted.
+  </purpose>
+
+  <deliverystep number="" name="PREQ2193 SMP-Safe Crypto Services Components" osproject="Diran" revision="015">
+	  <milestone project="GT0433" number="MS3.7"/>
+	  <preq number="2193" title="SMP-Safe Crypto Services Components">
+		  Add SMPSAFE keyword in SDP mmp files
+	  </preq>
+  </deliverystep>
+ 
+ <deliverystep number="921" name="PREQ1493: Crypto Services: Add SHA 224, 256, 384, 512 hash algorithms to the Cryptographic Library." osproject="Sphinx" revision="014">
+     <milestone project="GT0379" number="MS3.15"/>
+     <preq number="1493" title="Add SHA 224, 256, 384, 512 hash algorithms to the Cryptographic Library.">
+       Adds support for SHA 224, 256, 384, 512 algorithms to the old Crypto library in Naiad.
+     </preq>
+  </deliverystep>  
+  
+  <defect number=" PDEF114232" title="RandomServer crashes under IPC attack" revision="012">
+    Added parameter validation for Random Server.
+  </defect>
+  
+  <defect number="DEF112296" title="HMAC(crypto) only works with hash functions having 64 byte block" revision="011">
+    HMAC(crypto) works with the block size as supplied by the hash algorithm.
+  </defect>
+  
+  <deliverystep number="496" name="EC073: Security: Crypto Services Header File Refactoring" osproject="Oghma" revision="010">
+	  <milestone project="GT0313" number="MS3.7"/>
+	  <ec number="73" title="Crypto Services Header File Refactoring (to simplify the SDK creation process)">
+		  Non-exported published functions made internal.
+		  Status added to published files if it was missing.
+	  </ec>
+  </deliverystep>
+
+  <defect number="DEF106230" title="Clean up build's tagscan errors" revision="009">
+    Removed tagscan errors
+  </defect>
+
+  <defect number="DEF107276" title="Lint errors in security code should be fixed (production and test)" revision="008">
+    Minor changes to remove lint errors
+  </defect>
+
+  <ec number="074" title="Include an implementation of the MD4 hash function (IETF RFC 1320) in those provided by the Symbian Hash library (part of Symbian Security subsystem)" revision="007">
+    Added the MD4 Message Digest Algorithm(RFC 1320) implementation.
+  </ec>
+
+  <preq number="1182" title="GNU Make-based build system" revision="006">
+    TOOLS2 macro is added with TOOLS.
+  </preq>
+
+  <preq number="1182" title="GNU Make-based build system" revision="005">
+    Changed according to filename policy to support the building of Symbian OS on both Windows and Linux for the test code.
+  </preq>
+
+  <defect number="DEF101551" title="tpkcs5kdftests.txt regression" revision="004">
+    Removed tpkcs5kdftests.txt and added the test cases present in tpkcs5kdftests.txt to tpkcs12kdftests.txt. Removed pbeU.def.
+  </defect>
+
+  <defect number="DEF102043" title="Makesis &amp; SWI assumes system drive is c:" revision="003">
+    Removed hardcoded references to C drive and replaced with system drive.
+  </defect>
+
+  <defect number="PDEF098589" title="The length of the RSA signature should be the length of the RSA modulus" revision="002">
+    Added a function which takes care leading zeros in the signature
+  </defect>
+
+  <defect number="DEF096191" title="57: t_testhandler2 OOM test framework can go into an infinite loop" revision="001">
+    Infinite loop exited when any unknown error comes other than KErrNone and KErrNoMemory for OOM Test Framework.
+  </defect>
+</relnotes>

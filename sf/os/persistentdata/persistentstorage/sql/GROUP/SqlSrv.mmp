@@ -1,0 +1,110 @@
+// Copyright (c) 2005-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// SqlSrv.exe SQL database server
+// 
+//
+
+/**
+@file
+*/
+
+TARGET		sqlsrv.exe
+TARGETTYPE	exe
+CAPABILITY	ProtServ
+
+EPOCFIXEDPROCESS
+
+#ifdef WINSCW
+EPOCHEAPSIZE 0x00020000 0x00600000
+#else
+EPOCHEAPSIZE 0x00020000 0x02000000
+#endif
+
+EPOCSTACKSIZE	0x3000
+
+UID		    0 0x10281E17
+VENDORID	0x70000001
+
+SMPSAFE
+
+//CodeWarrior compilation options - disable the "illegal pragma" warning
+OPTION CW -w noillpragmas
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_ESTLIB_SYSTEMINCLUDE
+USERINCLUDE	../traces_SqlSrv
+USERINCLUDE	../INC
+USERINCLUDE	../SRC/Common
+USERINCLUDE	../SRC/Common/IPC
+USERINCLUDE	../SRC/Security
+USERINCLUDE	../SRC/Server
+USERINCLUDE	../SRC/Server/IPC
+USERINCLUDE	../SRC/Server/Compact
+USERINCLUDE	../OsLayer
+#ifdef SYMBIAN_USE_SQLITE_VERSION_3_6_4
+USERINCLUDE		../SQLite364
+#else
+USERINCLUDE		../SQLite
+#endif
+
+SOURCEPATH	../SRC/Server
+SOURCE		SqlSrvMain.cpp 
+SOURCE		SqlSrvSession.cpp 
+SOURCE		SqlSrvDatabase.cpp 
+SOURCE		SqlSrvStatement.cpp 
+SOURCE		SqlSrvAuthorizer.cpp
+SOURCE		SqlSrvUtil.cpp 
+SOURCE		SqlSrvStrings.cpp 
+SOURCE		SqlSrvStatementUtil.cpp 
+SOURCE		SqlSrvCollation.cpp 
+SOURCE		SqlSrvSecurityMap.cpp
+SOURCE		SqlSrvFileData.cpp 
+SOURCE		SqlSrvDriveSpace.cpp 
+SOURCE		SqlSrvDbSysSettings.cpp 
+SOURCE		SqlSrvConfig.cpp 
+SOURCE		SqlSrvBlob.cpp
+SOURCE		SqlSrvCheckStatement.cpp 
+SOURCE		SqlSrvResourceProfiler.cpp
+// for backup and restore
+SOURCE		SqlBur.cpp
+
+SOURCEPATH	../SRC/Server/IPC
+SOURCE		IPCStream.cpp
+
+SOURCEPATH	../SRC/Common
+SOURCE		SqlUtil.cpp 
+SOURCE		SqlBufFlat.cpp 
+SOURCE		SqlBufIterator.cpp
+
+SOURCEPATH	../SRC/Security
+SOURCE		SqlSecurityImpl.cpp 
+
+SOURCEPATH	../SRC/Server/Compact
+SOURCE		SqlCompact.cpp 
+SOURCE		SqlCompactEntry.cpp 
+SOURCE		SqlCompactConn.cpp 
+SOURCE		SqlCompactTimer.cpp
+
+LIBRARY		estlib.lib 
+LIBRARY		euser.lib 
+LIBRARY		efsrv.lib
+LIBRARY		estor.lib
+LIBRARY		charconv.lib
+LIBRARY		hal.lib
+// for backup and restore
+LIBRARY		abclient.lib
+
+STATICLIBRARY	sqlite.lib
+
+

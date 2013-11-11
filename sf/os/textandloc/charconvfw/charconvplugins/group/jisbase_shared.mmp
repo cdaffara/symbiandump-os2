@@ -1,0 +1,54 @@
+/*
+* Copyright (c) 2000-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* jisbase_shared.dll Code shared between JIS.CPL,ISO2022JP.CPL and ISO2022JP1.CPL
+*
+*/
+
+
+/**
+ @file
+*/
+
+TARGET			jisbase_shared.dll
+TARGETTYPE		dll
+
+CAPABILITY		All -Tcb
+
+DEFFILE			jisbase_shared.def
+
+UID				0x1000008d 0x100068a0
+VENDORID		0x70000001
+
+USERINCLUDE ../inc
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+USERINCLUDE		../src/shared
+USERINCLUDE		../src/inc
+
+SOURCEPATH		../src/shared
+SOURCE			jisbase_shared.cpp
+
+LIBRARY			euser.lib
+LIBRARY			charconv.lib
+LIBRARY			convutils.lib
+LIBRARY			jisx0201.lib
+LIBRARY			jisx0208.lib
+LIBRARY			jisx0212.lib
+
+START WINS
+				baseaddress 0x74420000
+END
+
+SMPSAFE

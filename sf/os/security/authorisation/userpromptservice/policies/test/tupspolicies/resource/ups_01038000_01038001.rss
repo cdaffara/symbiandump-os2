@@ -1,0 +1,50 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+#include <ups/policies.rh>
+
+UID2 KUidUpsPolicyResourceFile
+UID3 0x0110000B
+
+// Indivudual policies override default dialog creator and policy evaluator UIDs
+// with missing plug-ins
+RESOURCE POLICIES testpolicies
+	{
+	header = POLICY_HEADER
+		{
+		// use default authorisation policy
+		dialogcreator = 0x10283694;
+		policyevaluator = 0x10283698;
+		majorversion = 1;
+		minorversion = 2;
+		authorisationpolicy = ESystemServerSecurityPassedOrFailed;
+		};
+	policies = {
+		POLICY
+			{
+			policyevaluator = 0xFFFFFFFF;
+			destination = "missingpolicyevaluator";
+			},
+		POLICY
+			{
+			dialogcreator = 0xFFFFFFFF;
+			destination = "missingdialogcreator";
+			}
+	};
+	}
+

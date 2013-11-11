@@ -1,0 +1,33 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+Load_Server Te_RegScriptCommandServer
+
+START_TESTCASE DT-TEF-ScriptCommand-0003
+//! @SYMTestCaseID          DT-TEF-ScriptCommand-0003
+//! @SYMCreationDate        26-06-2008
+//! @SYMAuthor              DavidZhang
+//! @SYMTestType            CT
+//! @SYMTestPriority        Medium
+//! @SYMTestCaseDesc        Test "prefix" script command.
+//! @SYMTestExpectedResults The test step should run with success, as if user writes a PRINT statement without PRINT between PREFIX and REMOVE_PREFIX.
+//!                         The test result should be pass.
+//! @SYMTestActions         Write a PREFIX PRINT statment before a statement without PRINT
+	PREFIX PRINT
+	This line should appear in the log file.
+	REMOVE_PREFIX
+	RUN_TEST_STEP 20 Te_RegScriptCommandServer CheckLogFile ${SYSDRIVE}\testdata\configs\te_regscriptcommandtest.ini ScriptCommand_0003
+END_TESTCASE DT-TEF-ScriptCommand-0003

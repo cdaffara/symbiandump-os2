@@ -1,0 +1,46 @@
+// Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// t_logsimid.mmp
+// 
+//
+
+TARGET			t_logsimid.exe
+TARGETTYPE		exe
+
+CAPABILITY		WriteDeviceData ReadDeviceData WriteUserData ReadUserData 
+
+USERINCLUDE		../test/inc
+USERINCLUDE		../Shared
+USERINCLUDE		../LogServ/inc
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+SOURCEPATH		src
+SOURCE			t_logsimid.cpp 
+SOURCE			t_logutil.cpp
+SOURCE        	t_logutil2.cpp
+SOURCE			t_logservsession.cpp
+
+SOURCEPATH		../LogServ/src
+SOURCE			LogServSqlStrings.cpp
+
+LIBRARY			euser.lib 
+LIBRARY			efsrv.lib 
+LIBRARY			logwrap.lib 
+LIBRARY			logcli.lib 
+LIBRARY			bafl.lib
+LIBRARY			estor.lib 
+
+VENDORID 0x70000001
+
+SMPSAFE

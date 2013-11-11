@@ -1,0 +1,41 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+TARGET ResolverTest.exe
+TARGETTYPE EXE
+
+// UIDs for loading
+// RTestBed Dll recognition UID followed by the unique UID for this exe
+UID 0x101FB5A8 0x10009E09
+VENDORID 0x70000001
+
+SOURCEPATH	..\..\Framework\ResolverTest
+SOURCE		ResolverTest.cpp
+
+// Have to explicitly build in the class
+SOURCEPATH	..\..\framework\Frame
+SOURCE		DefaultResolver.cpp RegistryData.cpp UnloadPolicy.cpp 
+SOURCE		LoadPolicyInformation.cpp ImplementationInformation.cpp EComEntry.cpp
+SOURCE		DowngradePath.cpp
+SOURCE			FileUtils.cpp
+
+USERINCLUDE ..\..\test_bed\inc ..\..\Framework\frame ..\..\Framework\inc
+
+MW_LAYER_SYSTEMINCLUDE
+
+LIBRARY euser.lib efsrv.lib estor.lib bafl.lib
+LIBRARY RTestBed.lib
+
+SMPSAFE

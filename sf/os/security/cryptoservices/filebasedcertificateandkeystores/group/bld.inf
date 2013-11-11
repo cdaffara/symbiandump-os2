@@ -1,0 +1,389 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* Cryptotoken-based software implementation of a keystore
+* filetokens
+*
+*/
+
+
+/**
+ @file
+*/
+
+PRJ_PLATFORMS
+DEFAULT
+
+PRJ_EXPORTS
+
+../Inc/CFSTokenTypeClient.h   SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(cfstokentypeclient.h)
+../Inc/certstorepatchdata.h  SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(certstorepatchdata.h)
+../Inc/keystore_errs.h  SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(keystore_errs.h)
+
+// ROMKIT includes
+../Inc/filetokens.iby /epoc32/rom/include/filetokens.iby
+
+#ifdef SYMBIAN_AUTH_SERVER
+// file tokens cenrep file for storing the default authentication policy.
+../source/keystore/Server/200218e6.txt			z:/private/10202be9/200218e6.txt
+#endif // SYMBIAN_AUTH_SERVER
+
+PRJ_TESTEXPORTS
+//	keystore
+
+../test/tkeystore/scripts/tkeystore.script		/epoc32/winscw/c/tkeystore/scripts/tkeystore.script
+../test/tkeystore/scripts/tkeystore.ini		/epoc32/winscw/c/tkeystore/scripts/tkeystore.ini
+../test/tkeystore/scripts/tkeystore2.ini		/epoc32/winscw/c/tkeystore/scripts/tkeystore2.ini
+
+../test/tkeystore/scripts/oom.script		/epoc32/winscw/c/tkeystore/scripts/oom.script
+../test/tkeystore/scripts/oom.ini		/epoc32/winscw/c/tkeystore/scripts/oom.ini
+
+../test/tkeystore/scripts/servoom.script		/epoc32/winscw/c/tkeystore/scripts/servoom.script
+../test/tkeystore/scripts/servoom.ini		/epoc32/winscw/c/tkeystore/scripts/servoom.ini
+
+../test/tkeystore/scripts/authobjects_v2.script	/epoc32/winscw/c/tkeystore/scripts/authobjects.script
+../test/tkeystore/scripts/authobjects_v2.ini	/epoc32/winscw/c/tkeystore/scripts/authobjects.ini
+
+../test/tkeystore/scripts/exportscript.script	/epoc32/winscw/c/tkeystore/scripts/exportscript.script
+../test/tkeystore/scripts/exportscript.ini	/epoc32/winscw/c/tkeystore/scripts/exportscript.ini
+
+../test/tkeystore/scripts/reload.script		/epoc32/winscw/c/tkeystore/scripts/reload.script
+../test/tkeystore/scripts/reload.ini		/epoc32/winscw/c/tkeystore/scripts/reload.ini
+
+../test/tkeystore/scripts/cancel.script		/epoc32/winscw/c/tkeystore/scripts/cancel.script
+../test/tkeystore/scripts/cancel.ini		/epoc32/winscw/c/tkeystore/scripts/cancel.ini
+
+../test/tkeystore/scripts/buildromstore.txt	/epoc32/winscw/c/tkeystore/scripts/buildromstore.txt
+../test/tkeystore/scripts/batchfiles/tkeystore_post.bat	/epoc32/winscw/c/tkeystore/scripts/batchfiles/tkeystore_post.bat
+../test/tkeystore/scripts/batchfiles/tkeystore_oom_post.bat	/epoc32/winscw/c/tkeystore/scripts/batchfiles/tkeystore_oom_post.bat	
+../test/tkeystore/scripts/batchfiles/tkeystore_authobject_post.bat	/epoc32/winscw/c/tkeystore/scripts/batchfiles/tkeystore_authobject_post.bat	
+../test/tkeystore/scripts/batchfiles/tkeystore_export_post.bat	/epoc32/winscw/c/tkeystore/scripts/batchfiles/tkeystore_export_post.bat	
+
+#ifdef SYMBIAN_AUTH_SERVER
+../test/tkeystore/scripts/authobjects_v2_useauth.script	/epoc32/winscw/c/tkeystore/scripts/authobjects_useauth.script
+../test/tkeystore/scripts/authobjects_v2_useauth.ini	/epoc32/winscw/c/tkeystore/scripts/authobjects_useauth.ini
+
+../test/tkeystore/scripts/createoldkeystore.script			/epoc32/winscw/c/tkeystore/scripts/createoldkeystore.script
+../test/tkeystore/scripts/createoldkeystore.ini			/epoc32/winscw/c/tkeystore/scripts/createoldkeystore.ini
+../test/tkeystore/scripts/testnewkeystore.script			/epoc32/winscw/c/tkeystore/scripts/testnewkeystore.script
+../test/tkeystore/scripts/testnewkeystore.ini			/epoc32/winscw/c/tkeystore/scripts/testnewkeystore.ini
+
+../test/tkeystore/scripts/oldserver_newfeature.script		/epoc32/winscw/c/tkeystore/scripts/oldserver_newfeature.script
+../test/tkeystore/scripts/tkeystore_useauth.script			/epoc32/winscw/c/tkeystore/scripts/tkeystore_useauth.script
+../test/tkeystore/scripts/oom_useauth.script				/epoc32/winscw/c/tkeystore/scripts/oom_useauth.script
+../test/tkeystore/scripts/servoom_useauth.script			/epoc32/winscw/c/tkeystore/scripts/servoom_useauth.script
+../test/tkeystore/scripts/exportscript_useauth.script		/epoc32/winscw/c/tkeystore/scripts/exportscript_useauth.script
+../test/tkeystore/scripts/reload_useauth.script			/epoc32/winscw/c/tkeystore/scripts/reload_useauth.script
+../test/tkeystore/scripts/cancel_useauth.script			/epoc32/winscw/c/tkeystore/scripts/cancel_useauth.script
+../test/tkeystore/scripts/tkeystore_authentication1.script	/epoc32/winscw/c/tkeystore/scripts/tkeystore_authentication1.script
+../test/tkeystore/scripts/tkeystore_authentication2.script	/epoc32/winscw/c/tkeystore/scripts/tkeystore_authentication2.script
+../test/tkeystore/scripts/tkeystore_nouserregistered.script /epoc32/winscw/c/tkeystore/scripts/tkeystore_nouserregistered.script
+../test/tkeystore/scripts/capability_useauth.script	/epoc32/winscw/c/tkeystore/scripts/capability_useauth.script
+../test/tkeystore/scripts/authenticate_useauth.script	/epoc32/winscw/c/tkeystore/scripts/authenticate_useauth.script
+
+../test/tkeystore/scripts/oldserver_newfeature.ini		/epoc32/winscw/c/tkeystore/scripts/oldserver_newfeature.ini
+../test/tkeystore/scripts/tkeystore_useauth.ini			/epoc32/winscw/c/tkeystore/scripts/tkeystore_useauth.ini
+../test/tkeystore/scripts/oom_useauth.ini				/epoc32/winscw/c/tkeystore/scripts/oom_useauth.ini
+../test/tkeystore/scripts/servoom_useauth.ini			/epoc32/winscw/c/tkeystore/scripts/servoom_useauth.ini
+../test/tkeystore/scripts/exportscript_useauth.ini		/epoc32/winscw/c/tkeystore/scripts/exportscript_useauth.ini
+../test/tkeystore/scripts/reload_useauth.ini			/epoc32/winscw/c/tkeystore/scripts/reload_useauth.ini
+../test/tkeystore/scripts/cancel_useauth.ini			/epoc32/winscw/c/tkeystore/scripts/cancel_useauth.ini
+../test/tkeystore/scripts/tkeystore_authentication1.ini	/epoc32/winscw/c/tkeystore/scripts/tkeystore_authentication1.ini
+../test/tkeystore/scripts/tkeystore_authentication2.ini	/epoc32/winscw/c/tkeystore/scripts/tkeystore_authentication2.ini
+../test/tkeystore/scripts/tkeystore_nouserregistered.ini /epoc32/winscw/c/tkeystore/scripts/tkeystore_nouserregistered.ini
+../test/tkeystore/scripts/capability_useauth.ini	/epoc32/winscw/c/tkeystore/scripts/capability_useauth.ini
+../test/tkeystore/scripts/authenticate_useauth.ini	/epoc32/winscw/c/tkeystore/scripts/authenticate_useauth.ini
+
+../test/tkeystore/scripts/registration.ini				/epoc32/winscw/c/tkeystore/scripts/registration.ini
+../test/tkeystore/scripts/reg_first_identity.script		/epoc32/winscw/c/tkeystore/scripts/reg_first_identity.script
+../test/tkeystore/scripts/reg_second_identity.script	/epoc32/winscw/c/tkeystore/scripts/reg_second_identity.script
+../test/tkeystore/scripts/initialize.script				/epoc32/winscw/c/tkeystore/scripts/initialize.script
+
+../test/tkeystore/scripts/batchfiles/epoc_keystoreusesauthserver.ini	/epoc32/winscw/c/tkeystore/scripts/batchfiles/epoc_keystoreusesauthserver.ini
+../test/tkeystore/scripts/batchfiles/replace_epoc_ini.bat				/epoc32/winscw/c/tkeystore/scripts/batchfiles/replace_epoc_ini.bat
+../test/tkeystore/scripts/batchfiles/restore_epoc_ini.bat				/epoc32/winscw/c/tkeystore/scripts/batchfiles/restore_epoc_ini.bat
+../test/tkeystore/scripts/batchfiles/tkeystore_useauthserver_post.bat	/epoc32/winscw/c/tkeystore/scripts/batchfiles/tkeystore_useauthserver_post.bat
+../test/tkeystore/scripts/batchfiles/tkeystore_useauthserver_pre.bat	/epoc32/winscw/c/tkeystore/scripts/batchfiles/tkeystore_useauthserver_pre.bat
+../test/tkeystore/scripts/batchfiles/tkeystore_migrate_pre.bat			/epoc32/winscw/c/tkeystore/scripts/batchfiles/tkeystore_migrate_pre.bat
+../test/tkeystore/scripts/batchfiles/tkeystore_migrate_post.bat			/epoc32/winscw/c/tkeystore/scripts/batchfiles/tkeystore_migrate_post.bat
+../test/tkeystore/scripts/batchfiles/tkeystore_migrate_copykeys.bat		/epoc32/winscw/c/tkeystore/scripts/batchfiles/tkeystore_migrate_copykeys.bat
+
+#endif // SYMBIAN_AUTH_SERVER
+
+// ttesttools data
+
+../test/ttesttools/data/cert_addapps.txt	/epoc32/winscw/c/ttesttools/data/cert_addapps.txt
+../test/ttesttools/data/cert_addapps1.txt	/epoc32/winscw/c/ttesttools/data/cert_addapps1.txt
+../test/ttesttools/data/cert_addappsfail1.txt	/epoc32/winscw/c/ttesttools/data/cert_addappsfail1.txt
+../test/ttesttools/data/cert_addappsfail2.txt	/epoc32/winscw/c/ttesttools/data/cert_addappsfail2.txt
+../test/ttesttools/data/cert_helpfail1.txt	/epoc32/winscw/c/ttesttools/data/cert_helpfail1.txt
+../test/ttesttools/data/cert_helpfail2.txt	/epoc32/winscw/c/ttesttools/data/cert_helpfail2.txt
+../test/ttesttools/data/cert_helpls.txt		/epoc32/winscw/c/ttesttools/data/cert_helpls.txt
+../test/ttesttools/data/cert_import1.txt	/epoc32/winscw/c/ttesttools/data/cert_import1.txt
+../test/ttesttools/data/cert_import2.txt	/epoc32/winscw/c/ttesttools/data/cert_import2.txt
+../test/ttesttools/data/cert_import3.txt	/epoc32/winscw/c/ttesttools/data/cert_import3.txt
+../test/ttesttools/data/cert_import4.txt	/epoc32/winscw/c/ttesttools/data/cert_import4.txt
+../test/ttesttools/data/cert_importfail1.txt	/epoc32/winscw/c/ttesttools/data/cert_importfail1.txt
+../test/ttesttools/data/cert_importfail2.txt	/epoc32/winscw/c/ttesttools/data/cert_importfail2.txt
+../test/ttesttools/data/cert_importfail3.txt	/epoc32/winscw/c/ttesttools/data/cert_importfail3.txt
+../test/ttesttools/data/cert_importfail4.txt	/epoc32/winscw/c/ttesttools/data/cert_importfail4.txt
+../test/ttesttools/data/cert_importfail5.txt	/epoc32/winscw/c/ttesttools/data/cert_importfail5.txt
+../test/ttesttools/data/cert_list1.txt		/epoc32/winscw/c/ttesttools/data/cert_list1.txt
+../test/ttesttools/data/cert_list2.txt		/epoc32/winscw/c/ttesttools/data/cert_list2.txt
+../test/ttesttools/data/cert_list3.txt		/epoc32/winscw/c/ttesttools/data/cert_list3.txt
+../test/ttesttools/data/cert_list4.txt		/epoc32/winscw/c/ttesttools/data/cert_list4.txt
+../test/ttesttools/data/cert_listfail1.txt	/epoc32/winscw/c/ttesttools/data/cert_listfail1.txt
+../test/ttesttools/data/cert_listfail2.txt	/epoc32/winscw/c/ttesttools/data/cert_listfail2.txt
+../test/ttesttools/data/cert_listfail3.txt	/epoc32/winscw/c/ttesttools/data/cert_listfail3.txt
+../test/ttesttools/data/cert_ls.txt		/epoc32/winscw/c/ttesttools/data/cert_ls.txt
+../test/ttesttools/data/cert_lsfail.txt		/epoc32/winscw/c/ttesttools/data/cert_lsfail.txt
+../test/ttesttools/data/cert_remove1.txt	/epoc32/winscw/c/ttesttools/data/cert_remove1.txt
+../test/ttesttools/data/cert_remove2.txt	/epoc32/winscw/c/ttesttools/data/cert_remove2.txt
+../test/ttesttools/data/cert_remove3.txt	/epoc32/winscw/c/ttesttools/data/cert_remove3.txt
+../test/ttesttools/data/cert_removeapps.txt	/epoc32/winscw/c/ttesttools/data/cert_removeapps.txt
+../test/ttesttools/data/cert_removeappsfail1.txt 	/epoc32/winscw/c/ttesttools/data/cert_removeappsfail1.txt
+../test/ttesttools/data/cert_removeappsfail2.txt	/epoc32/winscw/c/ttesttools/data/cert_removeappsfail2.txt
+../test/ttesttools/data/cert_removefail.txt	/epoc32/winscw/c/ttesttools/data/cert_removefail.txt
+../test/ttesttools/data/cert_setapps.txt	/epoc32/winscw/c/ttesttools/data/cert_setapps.txt
+../test/ttesttools/data/cert_setapps1.txt	/epoc32/winscw/c/ttesttools/data/cert_setapps1.txt
+../test/ttesttools/data/cert_import.txt	/epoc32/winscw/c/ttesttools/data/cert_import.txt
+../test/ttesttools/data/cert_setappsfail1.txt	/epoc32/winscw/c/ttesttools/data/cert_setappsfail1.txt
+../test/ttesttools/data/cert_setappsfail2.txt	/epoc32/winscw/c/ttesttools/data/cert_setappsfail2.txt
+../test/ttesttools/data/certfail.txt		/epoc32/winscw/c/ttesttools/data/certfail.txt
+../test/ttesttools/data/certhelp.txt		/epoc32/winscw/c/ttesttools/data/certhelp.txt
+../test/ttesttools/data/cert_importdeletable1.txt		/epoc32/winscw/c/ttesttools/data/cert_importdeletable1.txt
+../test/ttesttools/data/cert_importdeletable2.txt		/epoc32/winscw/c/ttesttools/data/cert_importdeletable2.txt
+../test/ttesttools/data/cert_importdeletable3.txt		/epoc32/winscw/c/ttesttools/data/cert_importdeletable3.txt
+../test/ttesttools/data/cert_removedeletable1.txt		/epoc32/winscw/c/ttesttools/data/cert_removedeletable1.txt
+../test/ttesttools/data/cert_removedeletable2.txt		/epoc32/winscw/c/ttesttools/data/cert_removedeletable2.txt
+
+../test/ttesttools/data/corrupt.001		/epoc32/winscw/c/tkeystore/data/corrupt.001
+../test/ttesttools/data/empty.001		/epoc32/winscw/c/tkeystore/data/empty.001
+
+../test/ttesttools/data/key_helpfail1.txt	/epoc32/winscw/c/ttesttools/data/key_helpfail1.txt
+../test/ttesttools/data/key_helpfail2.txt	/epoc32/winscw/c/ttesttools/data/key_helpfail2.txt
+../test/ttesttools/data/key_import1.txt		/epoc32/winscw/c/ttesttools/data/key_import1.txt
+../test/ttesttools/data/key_import2.txt		/epoc32/winscw/c/ttesttools/data/key_import2.txt
+../test/ttesttools/data/key_import3.txt		/epoc32/winscw/c/ttesttools/data/key_import3.txt
+../test/ttesttools/data/key_import4.txt		/epoc32/winscw/c/ttesttools/data/key_import4.txt
+../test/ttesttools/data/key_importfail1.txt	/epoc32/winscw/c/ttesttools/data/key_importfail1.txt
+../test/ttesttools/data/key_importfail2.txt	/epoc32/winscw/c/ttesttools/data/key_importfail2.txt
+../test/ttesttools/data/key_importfail3.txt	/epoc32/winscw/c/ttesttools/data/key_importfail3.txt
+../test/ttesttools/data/key_importfail4.txt	/epoc32/winscw/c/ttesttools/data/key_importfail4.txt
+../test/ttesttools/data/key_importfail5.txt	/epoc32/winscw/c/ttesttools/data/key_importfail5.txt
+../test/ttesttools/data/key_list1.txt		/epoc32/winscw/c/ttesttools/data/key_list1.txt
+../test/ttesttools/data/key_list2.txt		/epoc32/winscw/c/ttesttools/data/key_list2.txt
+../test/ttesttools/data/key_list3.txt		/epoc32/winscw/c/ttesttools/data/key_list3.txt
+../test/ttesttools/data/key_listfail1.txt	/epoc32/winscw/c/ttesttools/data/key_listfail1.txt
+../test/ttesttools/data/key_listfail2.txt	/epoc32/winscw/c/ttesttools/data/key_listfail2.txt
+../test/ttesttools/data/key_ls.txt		/epoc32/winscw/c/ttesttools/data/key_ls.txt
+../test/ttesttools/data/key_remove.txt		/epoc32/winscw/c/ttesttools/data/key_remove.txt
+../test/ttesttools/data/key_remove1.txt		/epoc32/winscw/c/ttesttools/data/key_remove1.txt
+../test/ttesttools/data/key_removefail.txt	/epoc32/winscw/c/ttesttools/data/key_removefail.txt
+../test/ttesttools/data/key_removeuser.txt	/epoc32/winscw/c/ttesttools/data/key_removeuser.txt
+../test/ttesttools/data/key_removeuserfail1.txt		/epoc32/winscw/c/ttesttools/data/key_removeuserfail1.txt
+../test/ttesttools/data/key_removeuserfail2.txt		/epoc32/winscw/c/ttesttools/data/key_removeuserfail2.txt
+../test/ttesttools/data/key_setalluser.txt		/epoc32/winscw/c/ttesttools/data/key_setalluser.txt
+../test/ttesttools/data/key_setalluserfail1.txt		/epoc32/winscw/c/ttesttools/data/key_setalluserfail1.txt
+../test/ttesttools/data/key_setalluserfail2.txt		/epoc32/winscw/c/ttesttools/data/key_setalluserfail2.txt
+../test/ttesttools/data/key_setmanager.txt		/epoc32/winscw/c/ttesttools/data/key_setmanager.txt
+../test/ttesttools/data/key_setmanagerfail1.txt		/epoc32/winscw/c/ttesttools/data/key_setmanagerfail1.txt
+../test/ttesttools/data/key_setmanagerfail2.txt		/epoc32/winscw/c/ttesttools/data/key_setmanagerfail2.txt
+../test/ttesttools/data/key_setuser.txt			/epoc32/winscw/c/ttesttools/data/key_setuser.txt
+../test/ttesttools/data/key_setuserfail1.txt		/epoc32/winscw/c/ttesttools/data/key_setuserfail1.txt
+../test/ttesttools/data/key_setuserfail2.txt		/epoc32/winscw/c/ttesttools/data/key_setuserfail2.txt
+../test/ttesttools/data/key_setuserhelp.txt		/epoc32/winscw/c/ttesttools/data/key_setuserhelp.txt
+../test/ttesttools/data/keyfail.txt			/epoc32/winscw/c/ttesttools/data/keyfail.txt
+../test/ttesttools/data/keyhelp.txt			/epoc32/winscw/c/ttesttools/data/keyhelp.txt
+../test/ttesttools/data/certclients.dat			/epoc32/winscw/c/ttesttools/data/certclients.dat
+
+../test/ttesttools/data/pretools.bat			/epoc32/winscw/c/ttesttools/data/pretools.bat
+../test/ttesttools/data/posttools.bat			/epoc32/winscw/c/ttesttools/data/posttools.bat
+
+../test/ttesttools/scripts/sec-filetokens-tools.script	/epoc32/winscw/c/ttesttools/scripts/sec-filetokens-tools.script
+../test/ttesttools/scripts/sec-filetokens-tools.ini	/epoc32/winscw/c/ttesttools/scripts/sec-filetokens-tools.ini
+
+#ifdef SYMBIAN_AUTH_SERVER
+../test/ttesttools/data/key_migrate.txt	/epoc32/winscw/c/ttesttools/data/key_migrate.txt
+../test/ttesttools/data/key_migrated_param_missing1.txt	/epoc32/winscw/c/ttesttools/data/key_migrated_param_missing1.txt
+../test/ttesttools/data/key_migrated_param_missing2.txt	/epoc32/winscw/c/ttesttools/data/key_migrated_param_missing2.txt
+../test/ttesttools/data/key_migrate_default.txt			/epoc32/winscw/c/ttesttools/data/key_migrate_default.txt
+../test/ttesttools/data/key_migrated_help.txt			/epoc32/winscw/c/ttesttools/data/key_migrated_help.txt
+../test/ttesttools/scripts/keytool_migrate.script		/epoc32/winscw/c/ttesttools/scripts/keytool_migrate.script
+../test/ttesttools/scripts/keytool_migrate.ini			/epoc32/winscw/c/ttesttools/scripts/keytool_migrate.ini
+#endif // SYMBIAN_AUTH_SERVER
+
+
+//	keystore data
+
+// PKCS8 DH key for ImportKeys test
+../test/tkeystore/data/pkcs8dh.001			/epoc32/winscw/c/tkeystore/data/pkcs8dh.001
+
+//	PKCS8 RSA keys for ImportKeys test
+../test/tkeystore/data/pkcs8rsa.001			/epoc32/winscw/c/tkeystore/data/pkcs8rsa.001
+
+../test/tkeystore/data/pkcs8rsa1.001			/epoc32/winscw/c/tkeystore/data/pkcs8rsa1.001
+
+../test/tkeystore/data/pkcs8rsa2.001			/epoc32/winscw/c/tkeystore/data/pkcs8rsa2.001
+
+../test/tkeystore/data/pkcs8rsa3.001			/epoc32/winscw/c/tkeystore/data/pkcs8rsa3.001
+
+../test/tkeystore/data/pkcs8rsa4.001			/epoc32/winscw/c/tkeystore/data/pkcs8rsa4.001
+
+../test/tkeystore/data/pkcs8invalidrsa.001		/epoc32/winscw/c/tkeystore/data/pkcs8invalidrsa.001
+
+//	PKCS8 DSA keys for ImportKeys test
+../test/tkeystore/data/pkcs8dsa.001			/epoc32/winscw/c/tkeystore/data/pkcs8dsa.001
+
+../test/tkeystore/data/pkcs8dsa1.001			/epoc32/winscw/c/tkeystore/data/pkcs8dsa1.001
+
+../test/tkeystore/data/pkcs8dsa2.001			/epoc32/winscw/c/tkeystore/data/pkcs8dsa2.001
+
+../test/tkeystore/data/pkcs8dsa3.001			/epoc32/winscw/c/tkeystore/data/pkcs8dsa3.001
+
+../test/tkeystore/data/pkcs8dsa4.001			/epoc32/winscw/c/tkeystore/data/pkcs8dsa4.001
+
+../test/tkeystore/data/pkcs8invaliddsa.001		/epoc32/winscw/c/tkeystore/data/pkcs8invaliddsa.001
+
+//	PKCS8 RSA keys for ImportEncryptedKeys test
+../test/tkeystore/data/encryptPK8rsaDER.txt		/epoc32/winscw/c/tkeystore/data/encryptpk8rsader.txt
+
+../test/tkeystore/data/encryptPK8rsa1DER.txt		/epoc32/winscw/c/tkeystore/data/encryptpk8rsa1der.txt
+
+../test/tkeystore/data/encryptPK8rsa2DER.txt		/epoc32/winscw/c/tkeystore/data/encryptpk8rsa2der.txt
+
+../test/tkeystore/data/encryptPK8rsa3DER.txt		/epoc32/winscw/c/tkeystore/data/encryptpk8rsa3der.txt
+
+../test/tkeystore/data/encryptPK8rsa4DER.txt		/epoc32/winscw/c/tkeystore/data/encryptpk8rsa4der.txt
+
+//	PKCS8 DSA keys for ImportEncryptedKeys test
+../test/tkeystore/data/encryptPK8dsaDER.txt		/epoc32/winscw/c/tkeystore/data/encryptpk8dsader.txt
+
+../test/tkeystore/data/encryptPK8dsa1DER.txt		/epoc32/winscw/c/tkeystore/data/encryptpk8dsa1der.txt
+
+../test/tkeystore/data/encryptPK8dsa2DER.txt		/epoc32/winscw/c/tkeystore/data/encryptpk8dsa2der.txt
+
+../test/tkeystore/data/encryptPK8dsa3DER.txt		/epoc32/winscw/c/tkeystore/data/encryptpk8dsa3der.txt
+
+../test/tkeystore/data/encryptPK8dsa4DER.txt		/epoc32/winscw/c/tkeystore/data/encryptpk8dsa4der.txt
+
+../test/tkeystore/data/testvector1.bin			/epoc32/winscw/c/tkeystore/data/testvector1.bin
+
+../test/tkeystore/data/binarygarbage.bin		/epoc32/winscw/c/tkeystore/data/binarygarbage.bin
+
+// Strange Pkcs8 Encrypted keys with variou ciphers
+
+
+
+
+
+
+// PKCS8 keys with optional PKCS8 attributes
+../test/tkeystore/data/pkcs8rsa_attr.001		/epoc32/winscw/c/tkeystore/data/pkcs8rsa_attr.001
+
+../test/tkeystore/data/pkcs8dsa_attr.001		/epoc32/winscw/c/tkeystore/data/pkcs8dsa_attr.001
+
+
+//	RSA key pairs from which to build PKCS8 data
+../test/tkeystore/data/certs/cert1/rsa1certkey.001		/epoc32/winscw/c/tkeystore/data/rsa1certkey.001
+
+../test/tkeystore/data/certs/cert2/rsa2certkey.001		/epoc32/winscw/c/tkeystore/data/rsa2certkey.001
+
+../test/tkeystore/data/certs/cert3/rsa3certkey.001		/epoc32/winscw/c/tkeystore/data/rsa3certkey.001
+
+../test/tkeystore/data/certs/NRCert/nrkey.001			/epoc32/winscw/c/tkeystore/data/nrkey.001
+
+../test/tkeystore/data/certs/SignCert2/signkey2.001		/epoc32/winscw/c/tkeystore/data/signkey2.001
+
+../test/tkeystore/data/certs/EncipherSign/enciphersignkey2.001	/epoc32/winscw/c/tkeystore/data/enciphersignkey2.001
+
+// RSA & DSA public key to test public key export
+../test/tkeystore/data/keys/rsapub.txt				/epoc32/winscw/c/tkeystore/data/rsapub.txt
+../test/tkeystore/data/keys/rsapub1.txt				/epoc32/winscw/c/tkeystore/data/rsapub1.txt
+../test/tkeystore/data/keys/rsapub2.txt				/epoc32/winscw/c/tkeystore/data/rsapub2.txt
+../test/tkeystore/data/keys/rsapub3.txt				/epoc32/winscw/c/tkeystore/data/rsapub3.txt
+../test/tkeystore/data/keys/rsapub4.txt				/epoc32/winscw/c/tkeystore/data/rsapub4.txt
+../test/tkeystore/data/keys/dsapub.txt				/epoc32/winscw/c/tkeystore/data/dsapub.txt
+../test/tkeystore/data/keys/dsapub1.txt				/epoc32/winscw/c/tkeystore/data/dsapub1.txt
+../test/tkeystore/data/keys/dsapub2.txt				/epoc32/winscw/c/tkeystore/data/dsapub2.txt
+../test/tkeystore/data/keys/dsapub3.txt				/epoc32/winscw/c/tkeystore/data/dsapub3.txt
+../test/tkeystore/data/keys/dsapub4.txt				/epoc32/winscw/c/tkeystore/data/dsapub4.txt
+
+
+
+../test/tkeystore/data/keys_v2.dat				/epoc32/data/z/private/101f72a6/keys.dat
+../test/tkeystore/data/keys_v2.dat				/epoc32/release/winscw/udeb/z/private/101f72a6/keys.dat
+../test/tkeystore/data/keys_v2.dat				/epoc32/release/winscw/urel/z/private/101f72a6/keys.dat
+../test/tkeystore/data/keys_v2.dat				/epoc32/winscw/c/tkeystore/data/keys.dat
+
+//	certificate apps
+../test/tcertapps/scripts/script1.script		/epoc32/winscw/c/tcertapps/scripts/script1.script
+../test/tcertapps/scripts/script1.ini		/epoc32/winscw/c/tcertapps/scripts/script1.ini
+
+../test/tcertapps/scripts/apipolicing.script		/epoc32/winscw/c/tcertapps/scripts/apipolicing.script
+../test/tcertapps/scripts/apipolicing.ini		/epoc32/winscw/c/tcertapps/scripts/apipolicing.ini
+
+../test/tcertapps/scripts/batchfiles/tcertapps_apipolicing_post.bat	/epoc32/winscw/c/tcertapps/scripts/batchfiles/tcertapps_apipolicing_post.bat
+
+
+// ROMKIT includes
+../Inc/filetokenstests.iby /epoc32/rom/include/filetokenstests.iby
+
+#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
+../test/tkeystore/scripts/thwkeystore.script			/epoc32/winscw/c/tkeystore/scripts/thwkeystore.script
+../test/tkeystore/scripts/thwkeystore.ini			/epoc32/winscw/c/tkeystore/scripts/thwkeystore.ini
+../test/tkeystore/data/hwkeys.dat				/epoc32/data/z/private/101f7e95/hwkeys.dat
+../test/tkeystore/data/hwkeys.dat				/epoc32/release/winscw/udeb/z/private/101f7e95/hwkeys.dat
+../test/tkeystore/data/hwkeys.dat				/epoc32/release/winscw/urel/z/private/101f7e95/hwkeys.dat
+../test/tkeystore/data/hwkeys.dat				/epoc32/winscw/c/tkeystore/data/hwkeys.dat
+#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
+
+PRJ_MMPFILES
+
+#ifndef TOOLS
+#ifndef TOOLS2
+fstokenshared.mmp
+fstokencli.mmp
+fstokenserver.mmp
+
+#ifdef SYMBIAN_AUTH_SERVER
+fstokenserver_useauth.mmp
+#endif
+
+filekeystoreplugin.mmp
+filecertstoreplugin.mmp
+#endif // TOOLS2
+#endif // TOOLS
+
+PRJ_TESTMMPFILES
+
+#ifndef TOOLS
+#ifndef TOOLS2
+#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
+../test/tcryptotokenhai/tcryptotokenhai.mmp
+../test/thwkeystore/client/thwkeystoreclient.mmp
+#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
+
+../test/tfiletokens/tfiletokens.mmp
+../test/tkeystore/tkeystore.mmp
+../test/tcertapps/tcertapps.mmp
+../test/keytool/keytool.mmp
+../test/certtool/certtool.mmp
+../test/ttesttools/ttesttools.mmp
+../test/ttestplugin/dummykeystore.mmp
+../test/ttestplugin/dummykeystoreman1.mmp
+../test/ttestplugin/dummykeystoreman2.mmp
+
+#endif //TOOLS2
+#endif //TOOLS

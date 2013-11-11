@@ -1,0 +1,18 @@
+openssl tsid(3_50_2_6740) test_log testing session-id conversions
+openssl tsid(3_50_2_6740) test_log p -> d
+openssl tsid(3_50_2_6740) sess_id -in C:/testsid.pem -inform p -outform d -out C:/f.d
+openssl tsid(3_50_2_6740) test_log p -> p
+openssl tsid(3_50_2_6740) sess_id -in C:/testsid.pem -inform p -outform p -out C:/f.p
+openssl tsid(3_50_2_6740) test_log d -> d
+openssl tsid(3_50_2_6740) sess_id -in C:/f.d -inform d -outform d -out C:/ff.d1
+openssl tsid(3_50_2_6740) test_log p -> d
+openssl tsid(3_50_2_6740) sess_id -in C:/f.p -inform p -outform d -out C:/ff.d3
+openssl tsid(3_50_2_6740) test_log d -> p
+openssl tsid(3_50_2_6740) sess_id -in C:/f.d -inform d -outform p -out C:/ff.p1
+openssl tsid(3_50_2_6740) test_log p -> p
+openssl tsid(3_50_2_6740) sess_id -in C:/f.p -inform p -outform p -out C:/ff.p3
+openssl tsid(3_50_2_6740) compare c:/testsid.pem C:/f.p
+openssl tsid(3_50_2_6740) compare c:/testsid.pem C:/ff.p1
+openssl tsid(3_50_2_6740) compare c:/testsid.pem C:/ff.p3
+openssl tsid(3_50_2_6740) compare C:/f.p C:/ff.p1
+openssl tsid(3_50_2_6740) compare C:/f.p C:/ff.p3

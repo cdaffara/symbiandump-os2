@@ -1,0 +1,422 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+
+LOAD_SUITE tcaf
+
+RUN_UTILS MkDir c:\tcaf\
+RUN_UTILS MkDir c:\tcaf\testdata\
+RUN_UTILS MkDir c:\tcaf\testdata\TestAgentPrivateDir\
+
+RUN_UTILS CopyFile z:\rta\testdata\*.* c:\rta\testdata\*.*
+RUN_UTILS CopyFile z:\tcaf\testdata\*.* c:\tcaf\testdata\*.*
+RUN_UTILS CopyFile z:\tcaf\testdata\TestAgentPrivateDir\*.* c:\tcaf\testdata\TestAgentPrivateDir\*.*
+
+START_TESTCASE 			SEC-CAF-WMDRM-0001
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-WMDRM-0001
+//! @SYMTestCaseDesc 		Verifies the synchronous Read operation.
+//! @SYMPREQ			REQ11881, REQ11882
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Construct CData object from WMDRM header data and call the synchronous Read API providing an input data packet.The header data must not be recognized by any agent and F32 agent must handle this content.
+//! @SYMTestExpectedResults	CData object should be constructed successfully and the decrypted output packet resulting from Read operation must match the expected output packet.
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf WmdrmCAFReadStep c:\tcaf\tcafwmdrmsupport.ini WMDRMDataReadSyncWithIntent
+END_TESTCASE 			SEC-CAF-WMDRM-0001
+
+START_TESTCASE 			SEC-CAF-WMDRM-0002
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-WMDRM-0002
+//! @SYMTestCaseDesc 		Verifies the synchronous Read operation.
+//! @SYMPREQ			REQ11881, REQ11882
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Construct CData object from WMDRM header data and call the synchronous Read API providing an input data packet.The header data must not be recognized by any agent and F32 agent must handle this content.
+//! @SYMTestExpectedResults	CData object should be constructed successfully and the decrypted output packet resulting from Read operation must match the expected output packet.
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf WmdrmCAFReadStep c:\tcaf\tcafwmdrmsupport.ini WMDRMDataReadSyncWithoutIntent
+END_TESTCASE 			SEC-CAF-WMDRM-0002
+
+START_TESTCASE 			SEC-CAF-WMDRM-0003
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-WMDRM-0003
+//! @SYMTestCaseDesc 		Verifies the asynchronous Read operation.
+//! @SYMPREQ			REQ11881, REQ11882
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Construct CData object from WMDRM header data and call the asynchronous Read API providing an input data packet.The header data must not be recognized by any agent and F32 agent must handle this content.
+//! @SYMTestExpectedResults	CData object should be constructed successfully and the decrypted output packet resulting from Read operation must match the expected output packet.
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf WmdrmCAFReadStep c:\tcaf\tcafwmdrmsupport.ini WMDRMDataReadAsyncWithIntent
+END_TESTCASE 			SEC-CAF-WMDRM-0003
+
+START_TESTCASE 			SEC-CAF-WMDRM-0004
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-WMDRM-0004
+//! @SYMTestCaseDesc 		Verifies the asynchronous Read operation.
+//! @SYMPREQ			REQ11881, REQ11882
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Construct CData object from WMDRM header data and call the asynchronous Read API providing an input data packet.The header data must not be recognized by any agent and F32 agent must handle this content.
+//! @SYMTestExpectedResults	CData object should be constructed successfully and the decrypted output packet resulting from Read operation must match the expected output packet.
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf WmdrmCAFReadStep c:\tcaf\tcafwmdrmsupport.ini WMDRMDataReadAsyncWithoutIntent
+END_TESTCASE 			SEC-CAF-WMDRM-0004
+
+START_TESTCASE 			SEC-CAF-WMDRM-0005
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-WMDRM-0005
+//! @SYMTestCaseDesc 		Get a single attribute from WMDRM content.
+//!				(Manager_Attribute)
+//! @SYMREQ			REQ11881, REQ11882
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Construct CManager object and verify GetAttribute API overload taking WMDRM header data as input.The header data must not be supported by any agent and F32 agent must handle this content.
+//! @SYMTestExpectedResults	CManager object should be constructed successully and the attribute value obtained must match the expected.
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFManagerAttributeStep c:\tcaf\tcafwmdrmsupport.ini WMDRMManagerAttribute
+END_TESTCASE 			SEC-CAF-WMDRM-0005
+
+START_TESTCASE 			SEC-CAF-WMDRM-0006
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-WMDRM-0006
+//! @SYMTestCaseDesc 		Get a set of attributes from WMDRM content.
+//!				(Manager_AttributeSet)
+//! @SYMREQ			REQ11881, REQ11882
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Construct CManager object and verify GetAttributeSet API overload taking WMDRM header data as input.The header data must not be supported by any agent and F32 agent must handle this content.
+//! @SYMTestExpectedResults	CManager object should be constructed successully and the attribute set obtained must match the expected.
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFManagerAttributeSetStep c:\tcaf\tcafwmdrmsupport.ini WMDRMManagerAttributeSet
+END_TESTCASE 			SEC-CAF-WMDRM-0006
+
+START_TESTCASE 			SEC-CAF-WMDRM-0007
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-WMDRM-0007
+//! @SYMTestCaseDesc 		Get a string attribute from WMDRM content.
+//!				(Manager_Attribute)
+//! @SYMREQ			REQ11881, REQ11882
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Construct CManager object and verify GetStringAttribute API overload taking WMDRM header data as input.The header data must not be supported by any agent and F32 agent must handle this content.
+//! @SYMTestExpectedResults	CManager object should be constructed successully and the string attribute value obtained must match the expected.
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFManagerStringAttributeStep c:\tcaf\tcafwmdrmsupport.ini WMDRMManagerStringAttribute
+END_TESTCASE 			SEC-CAF-WMDRM-0007
+
+START_TESTCASE 			SEC-CAF-WMDRM-0008
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-WMDRM-0008
+//! @SYMTestCaseDesc 		Get a set of string attributes from WMDRM content.
+//!				(Manager_AttributeSet)
+//! @SYMREQ			REQ11881, REQ11882
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Construct CManager object and verify GetStringAttributeSet API overload taking WMDRM header data as input.The header data must not be supported by any agent and F32 agent must handle this content.
+//! @SYMTestExpectedResults	CManager object should be constructed successully and the string attribute set obtained must match the expected.
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFManagerStringAttributeSetStep c:\tcaf\tcafwmdrmsupport.ini WMDRMManagerStringAttributeSet
+END_TESTCASE 			SEC-CAF-WMDRM-0008
+
+START_TESTCASE 			SEC-CAF-WMDRM-0009
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-WMDRM-0009
+//! @SYMTestCaseDesc 		Verify CContent's NewAttributeL() API for WMDRM content.The header data must not be supported by any agent and F32 agent must handle this content.
+//! @SYMREQ			REQ11881, REQ11882
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Construct CContent object and verify the behaviour of NewAttributeL for WMDRM content.
+//! @SYMTestExpectedResults	CContent object should be constructed successully and the attribute value obtained must match the expected.
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf WmdrmCAFContentStep c:\tcaf\tcafwmdrmsupport.ini WMDRMContentNewAttribute
+END_TESTCASE 			SEC-CAF-WMDRM-0009
+
+START_TESTCASE 			SEC-CAF-WMDRM-0010
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-WMDRM-0010
+//! @SYMTestCaseDesc 		Verify that CContent object construction fails when an empty wmdrm header data is used.
+//! @SYMREQ			REQ11882
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Construct CContent object and verify CContent object construction fails with KErrMissingWmdrmHeaderData.
+//! @SYMTestExpectedResults	CContent object construction should fail with KErrMissingWmdrmHeaderData.
+//! @SYMTestType		CIT
+RUN_TEST_STEP_RESULT -17461 100 tcaf WmdrmCAFContentStep c:\tcaf\tcafwmdrmsupport.ini WMDRMEmptyHeaderData
+END_TESTCASE 			SEC-CAF-WMDRM-0010
+
+START_TESTCASE 			SEC-CAF-WMDRM-0011
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-WMDRM-0011
+//! @SYMTestCaseDesc 		Verifies that the synchronous Read operation fails with KErrInsufficientDataPacketLength when empty input data packet is provided.
+//! @SYMPREQ			REQ11881, REQ11882
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Construct CData object from WMDRM header data and call the synchronous Read API providing an empty input data packet.
+//! @SYMTestExpectedResults	Read operation must fail with KErrInsufficientDataPacketLength.
+//! @SYMTestType		CIT
+RUN_TEST_STEP_RESULT -17460 100 tcaf WmdrmCAFReadStep c:\tcaf\tcafwmdrmsupport.ini WMDRMDataReadSyncEmptyInputPacket
+END_TESTCASE 			SEC-CAF-WMDRM-0011
+
+START_TESTCASE 			SEC-CAF-WMDRM-0012
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-WMDRM-0012
+//! @SYMTestCaseDesc 		Verifies that the asynchronous Read operation fails with KErrInsufficientDataPacketLength when empty input data packet is provided.
+//! @SYMPREQ			REQ11881, REQ11882
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Construct CData object from WMDRM header data and call the asynchronous Read API providing an empty input data packet.
+//! @SYMTestExpectedResults	Read operation must fail with KErrInsufficientDataPacketLength.
+//! @SYMTestType		CIT
+RUN_TEST_STEP_RESULT -17460 100 tcaf WmdrmCAFReadStep c:\tcaf\tcafwmdrmsupport.ini WMDRMDataReadAsyncEmptyInputPacket
+END_TESTCASE 			SEC-CAF-WMDRM-0012
+
+START_TESTCASE 			SEC-CAF-WMDRM-0013
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-WMDRM-0013
+//! @SYMTestCaseDesc 		Verify resolver's DoRecognizeL API behaviour when WMDRM file is provided as input.The header data provided must match the one supported by RTA.
+//!				(DRM_Recognize)
+//! @SYMREQ			REQ12826,REQ
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Verify that RTA agent should recognize a given WMDRM file.
+//! @SYMTestExpectedResults	The WMDRM file should be recognized by RTA and the file mime type must match the expected.
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFRecognizeStep c:\tcaf\tcafwmdrmsupport.ini WMDRMFileRecognizeTest
+END_TESTCASE 			SEC-CAF-WMDRM-0013
+
+START_TESTCASE 			SEC-CAF-WMDRM-0014
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-WMDRM-0014
+//! @SYMTestCaseDesc 		Verify resolver's DoRecognizeL API behaviour when WMDRM header data is provided as input.The header data provided must match the one supported by RTA.
+//!				(DRM_Recognize)
+//! @SYMREQ			REQ12826
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Verify that RTA agent should recognize WMDRM stream content.
+//! @SYMTestExpectedResults	The WMDRM streamed content should be recognized by RTA and the content mime type must match the expected.
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFRecognizeStep c:\tcaf\tcafwmdrmsupport.ini WMDRMStreamContentRecognizeTest
+END_TESTCASE 			SEC-CAF-WMDRM-0014
+
+START_TESTCASE 			SEC-CAF-WMDRM-0015
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-WMDRM-0015
+//! @SYMTestCaseDesc 		Verifies RTA agent's synchronous Read API behaviour.
+//! @SYMPREQ			REQ12826, REQ12726
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Construct CData object from WMDRM header data and call the synchronous Read API providing an input data packet.
+//! @SYMTestExpectedResults	CData object should be constructed successfully and the decrypted output packet resulting from Read operation must match the expected output packet.
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf WmdrmCAFReadStep c:\tcaf\tcafwmdrmsupport.ini WMDRMRTADataReadSyncWithIntent
+END_TESTCASE 			SEC-CAF-WMDRM-0015
+
+START_TESTCASE 			SEC-CAF-WMDRM-0016
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-WMDRM-0016
+//! @SYMTestCaseDesc 		Verifies RTA agent's synchronous Read API behaviour when intent is not provided.
+//! @SYMPREQ			REQ12826, REQ12726
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Construct CData object from WMDRM header data and call the synchronous Read API providing an input data packet.
+//! @SYMTestExpectedResults	CData object should be constructed successfully and the decrypted output packet resulting from Read operation must match the expected output packet.
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf WmdrmCAFReadStep c:\tcaf\tcafwmdrmsupport.ini WMDRMRTADataReadSyncWithoutIntent
+END_TESTCASE 			SEC-CAF-WMDRM-0016
+
+START_TESTCASE 			SEC-CAF-WMDRM-0017
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-WMDRM-0017
+//! @SYMTestCaseDesc 		Verifies RTA agent's asynchronous Read behaviour.
+//! @SYMPREQ			REQ12826, REQ12726
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Construct CData object from WMDRM header data and call the asynchronous Read API providing an input data packet.
+//! @SYMTestExpectedResults	CData object should be constructed successfully and the decrypted output packet resulting from Read operation must match the expected output packet.
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf WmdrmCAFReadStep c:\tcaf\tcafwmdrmsupport.ini WMDRMRTADataReadAsyncWithIntent
+END_TESTCASE 			SEC-CAF-WMDRM-0017
+
+START_TESTCASE 			SEC-CAF-WMDRM-0018
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-WMDRM-0018
+//! @SYMTestCaseDesc 		Verifies RTA agent's asynchronous Read behaviour when intent is not provided.
+//! @SYMPREQ			REQ12826, REQ12726
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Construct CData object from WMDRM header data and call the asynchronous Read API providing an input data packet.
+//! @SYMTestExpectedResults	CData object should be constructed successfully and the decrypted output packet resulting from Read operation must match the expected output packet.
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf WmdrmCAFReadStep c:\tcaf\tcafwmdrmsupport.ini WMDRMRTADataReadAsyncWithoutIntent
+END_TESTCASE 			SEC-CAF-WMDRM-0018
+
+START_TESTCASE 			SEC-CAF-WMDRM-0019
+//!@file
+//!SYMTestCaseID 		SEC-CAF-WMDRM-0019
+//!SYMTestCaseDesc 		Get an attribute from WMDRM content using CData.The header data provided must match the one supported by RTA.
+//!SYMPREQ			REQ12826
+//!SYMTestStatus		Implemented
+//!SYMTestPriority		Medium
+//!SYMTestActions		Verify RTA agent's GetAttribute API
+//!SYMTestExpectedResults	Attribute obtained must match the expected.
+//!SYMTestType			CIT
+RUN_TEST_STEP 100 tcaf CAFDataAttributeStep c:\tcaf\tcafwmdrmsupport.ini WMDRMRTADataAttribute
+END_TESTCASE			SEC-CAF-WMDRM-0019
+
+START_TESTCASE 			SEC-CAF-WMDRM-0020
+//!@file
+//!SYMTestCaseID 		SEC-CAF-WMDRM-0020
+//!SYMTestCaseDesc 		Get an attribute set from WMDRM content using CData.The header data provided must match the one supported by RTA.
+//!SYMPREQ			REQ12826
+//!SYMTestStatus		Implemented
+//!SYMTestPriority		Medium
+//!SYMTestActions		Verify RTA agent's GetAttributeSet API.
+//!SYMTestExpectedResults	Attributes obtained must match the expected.
+//!SYMTestType			CIT
+RUN_TEST_STEP 100 tcaf CAFDataAttributeSetStep c:\tcaf\tcafwmdrmsupport.ini WMDRMRTADataAttributeSet
+END_TESTCASE			SEC-CAF-WMDRM-0020
+
+START_TESTCASE 			SEC-CAF-WMDRM-0021
+//!@file
+//!SYMTestCaseID 		SEC-CAF-WMDRM-0021
+//!SYMTestCaseDesc 		Get a string attribute from WMDRM content using CData.The header data provided must match the one supported by RTA.
+//!SYMPREQ			REQ12826
+//!SYMTestStatus		Implemented
+//!SYMTestPriority		Medium
+//!SYMTestActions		Verify RTA agent's GetStringAttribute API.
+//!SYMTestExpectedResults	String attribute obtained must match the expected.
+//!SYMTestType			CIT
+RUN_TEST_STEP 100 tcaf CAFDataStringAttributeStep c:\tcaf\tcafwmdrmsupport.ini WMDRMRTADataStringAttribute
+END_TESTCASE			SEC-CAF-WMDRM-0021
+
+START_TESTCASE 			SEC-CAF-WMDRM-0022
+//!@file
+//!SYMTestCaseID 		SEC-CAF-WMDRM-0022
+//!SYMTestCaseDesc 		Get string attribute set from WMDRM content using CData.The header data provided must match the one supported by RTA.
+//!SYMPREQ			REQ12826
+//!SYMTestStatus		Implemented
+//!SYMTestPriority		Medium
+//!SYMTestActions		Verify RTA agent's GetStringAttributeSet API.
+//!SYMTestExpectedResults	String attributes obtained must match the expected.
+//!SYMTestType			CIT
+RUN_TEST_STEP 100 tcaf CAFDataStringAttributeSetStep c:\tcaf\tcafwmdrmsupport.ini WMDRMRTADataStringAttributeSet
+END_TESTCASE			SEC-CAF-WMDRM-0022
+
+START_TESTCASE 			SEC-CAF-WMDRM-0023
+//!@file
+//!SYMTestCaseID 		SEC-CAF-WMDRM-0023
+//!SYMTestCaseDesc 		Get an attribute from WMDRM content using CContent.The header data provided must match the one supported by RTA.
+//!SYMPREQ			REQ12826
+//!SYMTestStatus		Implemented
+//!SYMTestPriority		Medium
+//!SYMTestActions		Verify RTA agent's GetAttribute API.
+//!SYMTestExpectedResults	Attribute obtained must match the expected.
+//!SYMTestType			CIT
+RUN_TEST_STEP 100 tcaf CAFContentAttributeStep c:\tcaf\tcafwmdrmsupport.ini WMDRMRTAContentAttribute
+END_TESTCASE			SEC-CAF-WMDRM-0023
+
+START_TESTCASE 			SEC-CAF-WMDRM-0024
+//!@file
+//!SYMTestCaseID 		SEC-CAF-WMDRM-0024
+//!SYMTestCaseDesc 		Get an attribute set from WMDRM content using CContent.The header data provided must match the one supported by RTA.
+//!SYMPREQ			REQ12826
+//!SYMTestStatus		Implemented
+//!SYMTestPriority		Medium
+//!SYMTestActions		Verify RTA agent's GetAttributeSet API.
+//!SYMTestExpectedResults	Attributes obtained must match the expected.
+//!SYMTestType			CIT
+RUN_TEST_STEP 100 tcaf CAFContentAttributeSetStep c:\tcaf\tcafwmdrmsupport.ini WMDRMRTAContentAttributeSet
+END_TESTCASE			SEC-CAF-WMDRM-0024
+
+START_TESTCASE 			SEC-CAF-WMDRM-0025
+//!@file
+//!SYMTestCaseID 		SEC-CAF-WMDRM-0025
+//!SYMTestCaseDesc 		Get a string attribute from WMDRM content using CContent.The header data provided must match the one supported by RTA.
+//!SYMPREQ			REQ12826
+//!SYMTestStatus		Implemented
+//!SYMTestPriority		Medium
+//!SYMTestActions		Verify RTA agent's GetStringAttribute API.
+//!SYMTestExpectedResults	String attribute obtained must match the expected.
+//!SYMTestType			CIT
+RUN_TEST_STEP 100 tcaf CAFContentStringAttributeStep c:\tcaf\tcafwmdrmsupport.ini WMDRMRTAContentStringAttribute
+END_TESTCASE			SEC-CAF-WMDRM-0025
+
+START_TESTCASE 			SEC-CAF-WMDRM-0026
+//!@file
+//!SYMTestCaseID 		SEC-CAF-WMDRM-0026
+//!SYMTestCaseDesc 		Get string attribute set from WMDRM content using CContent.The header data provided must match the one supported by RTA.
+//!SYMPREQ			REQ12826
+//!SYMTestStatus		Implemented
+//!SYMTestPriority		Medium
+//!SYMTestActions		Verify RTA agent's GetStringAttributeSet API.
+//!SYMTestExpectedResults	String attributes obtained must match the expected.
+//!SYMTestType			CIT
+RUN_TEST_STEP 100 tcaf CAFContentStringAttributeSetStep c:\tcaf\tcafwmdrmsupport.ini WMDRMRTAContentStringAttributeSet
+END_TESTCASE			SEC-CAF-WMDRM-0026
+
+START_TESTCASE 			SEC-CAF-WMDRM-0027
+//!@file
+//!SYMTestCaseID 		SEC-CAF-WMDRM-0027
+//!SYMTestCaseDesc 		Get an attribute from WMDRM content using CManager.The header data provided must match the one supported by RTA.
+//!SYMPREQ			REQ12826
+//!SYMTestStatus		Implemented
+//!SYMTestPriority		Medium
+//!SYMTestActions		Verify RTA agent's GetAttribute API.
+//!SYMTestExpectedResults	Attribute obtained must match the expected.
+//!SYMTestType			CIT
+RUN_TEST_STEP 100 tcaf CAFManagerAttributeStep c:\tcaf\tcafwmdrmsupport.ini WMDRMRTAManagerAttribute
+END_TESTCASE			SEC-CAF-WMDRM-0027
+
+START_TESTCASE 			SEC-CAF-WMDRM-0028
+//!@file
+//!SYMTestCaseID 		SEC-CAF-WMDRM-0028
+//!SYMTestCaseDesc 		Get an attribute set from WMDRM content using CManager.The header data provided must match the one supported by RTA.
+//!SYMPREQ			REQ12826
+//!SYMTestStatus		Implemented
+//!SYMTestPriority		Medium
+//!SYMTestActions		Verify RTA agent's GetAttributeSet API.
+//!SYMTestExpectedResults	Attributes obtained must match the expected.
+//!SYMTestType			CIT
+RUN_TEST_STEP 100 tcaf CAFManagerAttributeSetStep c:\tcaf\tcafwmdrmsupport.ini WMDRMRTAManagerAttributeSet
+END_TESTCASE			SEC-CAF-WMDRM-0028
+
+START_TESTCASE 			SEC-CAF-WMDRM-0029
+//!@file
+//!SYMTestCaseID 		SEC-CAF-WMDRM-0029
+//!SYMTestCaseDesc 		Get a string attribute from WMDRM content using CManager.The header data provided must match the one supported by RTA.
+//!SYMPREQ			REQ12826
+//!SYMTestStatus		Implemented
+//!SYMTestPriority		Medium
+//!SYMTestActions		Verify RTA agent's GetStringAttribute API.
+//!SYMTestExpectedResults	String attribute obtained must match the expected.
+//!SYMTestType			CIT
+RUN_TEST_STEP 100 tcaf CAFManagerStringAttributeStep c:\tcaf\tcafwmdrmsupport.ini WMDRMRTAManagerStringAttribute
+END_TESTCASE			SEC-CAF-WMDRM-0029
+
+START_TESTCASE 			SEC-CAF-WMDRM-0030
+//!@file
+//!SYMTestCaseID 		SEC-CAF-WMDRM-0030
+//!SYMTestCaseDesc 		Get string attribute set from WMDRM content using CManager.The header data provided must match the one supported by RTA.
+//!SYMPREQ			REQ12826
+//!SYMTestStatus		Implemented
+//!SYMTestPriority		Medium
+//!SYMTestActions		Verify RTA agent's GetStringAttributeSet API.
+//!SYMTestExpectedResults	String attributes obtained must match the expected.
+//!SYMTestType			CIT
+RUN_TEST_STEP 100 tcaf CAFManagerStringAttributeSetStep c:\tcaf\tcafwmdrmsupport.ini WMDRMRTAManagerStringAttributeSet
+END_TESTCASE			SEC-CAF-WMDRM-0030

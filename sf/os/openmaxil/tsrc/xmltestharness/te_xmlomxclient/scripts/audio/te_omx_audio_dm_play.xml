@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+ Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+ All rights reserved.
+ This component and the accompanying materials are made available
+ under the terms of "Eclipse Public License v1.0"
+ which accompanies this distribution, and is available
+ at the URL "http://www.eclipse.org/legal/epl-v10.html".
+
+ Initial Contributors:
+ Nokia Corporation - initial contribution.
+
+ Contributors:
+
+ Description:
+
+	Audio playback tests for OpenMAX IL.
+	
+-->
+<TestSet>
+	<!--
+		3GP Demuxer  ->  3GP Muxer 
+		
+		Demux a MP4 file and mux it back to a MP4 file
+	-->
+	<Test name="DemuxMuxAAC_LC">
+		<!-- Note: for now the load order will be the state transition order, and it is assumed 3GP is a non-supplier -->
+		<LoadComponent comp="3gpd" name="OMX.SYMBIAN.OTHER.CONTAINER_DEMUXER.3GP" />
+		<LoadComponent comp="3gpm" name="OMX.SYMBIAN.OTHER.CONTAINER_MUXER.3GP" />
+		
+                <!--                  Disable video port -->
+                <DisablePort port="3gpd:1"/>
+                <!--                  Expect port disabled event (nData=2) on port 1 -->
+		<ExpectEvent comp="3gpd" event="CmdComplete" nData1="PortDisable" nData2="1" />
+                <!--                  Disable clock port -->
+                <DisablePort port="3gpd:2"/>
+                <!--                  Expect port disabled event (nData=2) on port 2 -->
+		<ExpectEvent comp="3gpd" event="CmdComplete" nData1="PortDisable" nData2="2" />
+		
+                <!--                  Disable video port -->
+                <DisablePort port="3gpm:1"/>
+                <!--                  Expect port disabled event (nData=2) on port 1 -->
+		<ExpectEvent comp="3gpm" event="CmdComplete" nData1="PortDisable" nData2="1" />
+		
+		<BufferSupplierOverride output="3gpd:1" input="3gpm:0" supplier="input" />
+		
+		<SetBufferCount port="3gpd:0" count="1" />
+		<SetBufferCount port="3gpm:0" count="1" />
+		
+		<SetupTunnel output="3gpd:0" input="3gpm:0" />
+
+		<SetFilename comp="3gpd" filename="c:\mm\omx\away_lc_15sec.m4a" />
+		<SetFilename comp="3gpm" filename="c:\mm\omx\away_lc_muxer.m4a" />
+		
+		<SetAudioPortDef port="3gpd:0" codingType="autodetect" />
+		<AllTransition state="idle" />
+		<ExpectEvent comp="3gpd" event="PortFormatDetected" nData1="0" nData2="0" />
+		<ExpectEvent comp="3gpd" event="PortSettingsChanged" nData1="0x02000001" nData2="0" />
+
+
+		<AllTransition state="executing" />
+		<WaitEOS />
+		<AllTransition state="idle" />
+		<AllTransition state="loaded" />
+	</Test>
+
+	<!--
+		3GP Demuxer  ->  AAC Decoder  ->  PCM Renderer
+		
+		Play an MPEG4 stream from a 3GP or MP4 file, terminating on the End Of Stream flag.
+	-->
+	<Test name="PlayAAC_LC">
+		<!-- Note: for now the load order will be the state transition order, and it is assumed 3GP is a non-supplier -->
+		<LoadComponent comp="3gp" name="OMX.SYMBIAN.OTHER.CONTAINER_DEMUXER.3GP" />
+		<LoadComponent comp="aacdec" name="OMX.Nokia.audio_decoder.aac.mcu" />
+		<LoadComponent comp="pcmren" name="OMX.NOKIA.AUDIO.RENDERER.PCM" />
+		<!--                  Disable unused client clock ports -->
+		<DisablePort port="pcmren:1"/>
+		<ExpectEvent comp="pcmren" event="CmdComplete" nData1="PortDisable" nData2="1" />
+                <!--                  Disable video port -->
+                <DisablePort port="3gp:1"/>
+                <!--                  Expect port disabled event (nData=2) on port 1 -->
+		<ExpectEvent comp="3gp" event="CmdComplete" nData1="PortDisable" nData2="1" />
+                <!--                  Disable clock port -->
+                <DisablePort port="3gp:2"/>
+                <!--                  Expect port disabled event (nData=2) on port 2 -->
+		<ExpectEvent comp="3gp" event="CmdComplete" nData1="PortDisable" nData2="2" />
+		<BufferSupplierOverride output="3gp:1" input="aacdec:0" supplier="input" />
+		<SetBufferCount port="3gp:0" count="2" />
+		<SetBufferCount port="aacdec:0" count="2" />
+		<SetupTunnel output="3gp:0" input="aacdec:0" />
+		<BufferSupplierOverride output="aacdec:1" input="pcmren:0" supplier="input" />
+		<SetBufferCount port="aacdec:1" count="2" />
+		<SetBufferCount port="pcmren:0" count="2" />
+                <SetPcmAudioPortDef port="aacdec:1" channels="2" samplingrate="44100" bitspersample="16"/>
+                <SetPcmAudioPortDef port="pcmren:0" channels="2" samplingrate="44100" bitspersample="16"/>
+		<SetupTunnel output="aacdec:1" input="pcmren:0" />
+		<SetFilename comp="3gp" filename="c:\mm\omx\away_lc_muxer.m4a" />
+		<SetAudioPortDef port="3gp:0" codingType="autodetect" />
+		<AllTransition state="idle" />
+		<ExpectEvent comp="3gp" event="PortFormatDetected" nData1="0" nData2="0" />
+		<ExpectEvent comp="3gp" event="PortSettingsChanged" nData1="0x02000001" nData2="0" />
+		<IgnoreEvent comp="pcmren" event="Error" nData1="Underflow" nData2="0" />
+		
+		<ExpectEvent comp="aacdec" event="PortSettingsChanged" nData1="1" nData2="0" />
+		
+		<AllTransition state="executing" />
+		<WaitEOS />
+		<AllTransition state="idle" />
+		<AllTransition state="loaded" />
+	</Test>
+	<Test name="DemuxMuxAAC_SBR">
+		<!-- Note: for now the load order will be the state transition order, and it is assumed 3GP is a non-supplier -->
+		<LoadComponent comp="3gpd" name="OMX.SYMBIAN.OTHER.CONTAINER_DEMUXER.3GP" />
+		<LoadComponent comp="3gpm" name="OMX.SYMBIAN.OTHER.CONTAINER_MUXER.3GP" />
+		
+                <!--                  Disable video port -->
+                <DisablePort port="3gpd:1"/>
+                <!--                  Expect port disabled event (nData=2) on port 1 -->
+		<ExpectEvent comp="3gpd" event="CmdComplete" nData1="PortDisable" nData2="1" />
+                <!--                  Disable clock port -->
+                <DisablePort port="3gpd:2"/>
+                <!--                  Expect port disabled event (nData=2) on port 2 -->
+		<ExpectEvent comp="3gpd" event="CmdComplete" nData1="PortDisable" nData2="2" />
+		
+                <!--                  Disable video port -->
+                <DisablePort port="3gpm:1"/>
+                <!--                  Expect port disabled event (nData=2) on port 1 -->
+		<ExpectEvent comp="3gpm" event="CmdComplete" nData1="PortDisable" nData2="1" />
+		
+		<BufferSupplierOverride output="3gpd:1" input="3gpm:0" supplier="input" />
+		
+		<SetBufferCount port="3gpd:0" count="1" />
+		<SetBufferCount port="3gpm:0" count="1" />
+		
+		<SetupTunnel output="3gpd:0" input="3gpm:0" />
+
+		<SetFilename comp="3gpd" filename="c:\mm\omx\away_sbr.m4a" />
+		<SetFilename comp="3gpm" filename="c:\mm\omx\away_sbr_muxer.m4a" />
+		
+		<SetAudioPortDef port="3gpd:0" codingType="autodetect" />
+		<AllTransition state="idle" />
+		<ExpectEvent comp="3gpd" event="PortFormatDetected" nData1="0" nData2="0" />
+		<ExpectEvent comp="3gpd" event="PortSettingsChanged" nData1="0x02000001" nData2="0" />
+
+
+		<AllTransition state="executing" />
+		<WaitEOS />
+		<AllTransition state="idle" />
+		<AllTransition state="loaded" />
+	</Test>
+	<Test name="PlayAAC_SBR">
+		<!-- Note: for now the load order will be the state transition order, and it is assumed 3GP is a non-supplier -->
+		<LoadComponent comp="3gp" name="OMX.SYMBIAN.OTHER.CONTAINER_DEMUXER.3GP" />
+		<LoadComponent comp="aacdec" name="OMX.Nokia.audio_decoder.aac.mcu" />
+		<LoadComponent comp="pcmren" name="OMX.NOKIA.AUDIO.RENDERER.PCM" />
+		<!--                  Disable unused client clock ports -->
+		<DisablePort port="pcmren:1"/>
+		<ExpectEvent comp="pcmren" event="CmdComplete" nData1="PortDisable" nData2="1" />
+                <!--                  Disable video port -->
+                <DisablePort port="3gp:1"/>
+                <!--                  Expect port disabled event (nData=2) on port 1 -->
+		<ExpectEvent comp="3gp" event="CmdComplete" nData1="PortDisable" nData2="1" />
+                <!--                  Disable clock port -->
+                <DisablePort port="3gp:2"/>
+                <!--                  Expect port disabled event (nData=2) on port 2 -->
+		<ExpectEvent comp="3gp" event="CmdComplete" nData1="PortDisable" nData2="2" />
+		<BufferSupplierOverride output="3gp:1" input="aacdec:0" supplier="input" />
+		<SetBufferCount port="3gp:0" count="2" />
+		<SetBufferCount port="aacdec:0" count="2" />
+		<SetupTunnel output="3gp:0" input="aacdec:0" />
+		<BufferSupplierOverride output="aacdec:1" input="pcmren:0" supplier="input" />
+		<SetBufferCount port="aacdec:1" count="2" />
+		<SetBufferCount port="pcmren:0" count="2" />
+                <SetPcmAudioPortDef port="aacdec:1" channels="2" samplingrate="44100" bitspersample="16"/>
+                <SetPcmAudioPortDef port="pcmren:0" channels="2" samplingrate="44100" bitspersample="16"/>
+		<SetupTunnel output="aacdec:1" input="pcmren:0" />
+		<SetFilename comp="3gp" filename="c:\mm\omx\away_sbr.m4a" />
+		<SetAudioPortDef port="3gp:0" codingType="autodetect" />
+		<AllTransition state="idle" />
+		<ExpectEvent comp="3gp" event="PortFormatDetected" nData1="0" nData2="0" />
+		<ExpectEvent comp="3gp" event="PortSettingsChanged" nData1="0x02000001" nData2="0" />
+		<IgnoreEvent comp="pcmren" event="Error" nData1="Underflow" nData2="0" />
+		
+		<ExpectEvent comp="aacdec" event="PortSettingsChanged" nData1="1" nData2="0" />
+		
+		<AllTransition state="executing" />
+		<WaitEOS />
+		<AllTransition state="idle" />
+		<AllTransition state="loaded" />
+	</Test>
+	<Test name="DemuxMuxAAC_HEv2">
+		<!-- Note: for now the load order will be the state transition order, and it is assumed 3GP is a non-supplier -->
+		<LoadComponent comp="3gpd" name="OMX.SYMBIAN.OTHER.CONTAINER_DEMUXER.3GP" />
+		<LoadComponent comp="3gpm" name="OMX.SYMBIAN.OTHER.CONTAINER_MUXER.3GP" />
+		
+                <!--                  Disable video port -->
+                <DisablePort port="3gpd:1"/>
+                <!--                  Expect port disabled event (nData=2) on port 1 -->
+		<ExpectEvent comp="3gpd" event="CmdComplete" nData1="PortDisable" nData2="1" />
+                <!--                  Disable clock port -->
+                <DisablePort port="3gpd:2"/>
+                <!--                  Expect port disabled event (nData=2) on port 2 -->
+		<ExpectEvent comp="3gpd" event="CmdComplete" nData1="PortDisable" nData2="2" />
+		
+                <!--                  Disable video port -->
+                <DisablePort port="3gpm:1"/>
+                <!--                  Expect port disabled event (nData=2) on port 1 -->
+		<ExpectEvent comp="3gpm" event="CmdComplete" nData1="PortDisable" nData2="1" />
+		
+		<BufferSupplierOverride output="3gpd:1" input="3gpm:0" supplier="input" />
+		
+		<SetBufferCount port="3gpd:0" count="1" />
+		<SetBufferCount port="3gpm:0" count="1" />
+		
+		<SetupTunnel output="3gpd:0" input="3gpm:0" />
+
+		<SetFilename comp="3gpd" filename="c:\mm\omx\pretender_hev2.m4a" />
+		<SetFilename comp="3gpm" filename="c:\mm\omx\pretender_hev2_muxer.m4a" />
+		
+		<SetAudioPortDef port="3gpd:0" codingType="autodetect" />
+		<AllTransition state="idle" />
+		<ExpectEvent comp="3gpd" event="PortFormatDetected" nData1="0" nData2="0" />
+		<ExpectEvent comp="3gpd" event="PortSettingsChanged" nData1="0x02000001" nData2="0" />
+
+
+		<AllTransition state="executing" />
+		<WaitEOS />
+		<AllTransition state="idle" />
+		<AllTransition state="loaded" />
+	</Test>	
+	<Test name="PlayAAC_HEv2">
+		<!-- Note: for now the load order will be the state transition order, and it is assumed 3GP is a non-supplier -->
+		<LoadComponent comp="3gp" name="OMX.SYMBIAN.OTHER.CONTAINER_DEMUXER.3GP" />
+		<LoadComponent comp="aacdec" name="OMX.Nokia.audio_decoder.aac.mcu" />
+		<LoadComponent comp="pcmren" name="OMX.NOKIA.AUDIO.RENDERER.PCM" />
+		<!--                  Disable unused client clock ports -->
+		<DisablePort port="pcmren:1"/>
+		<ExpectEvent comp="pcmren" event="CmdComplete" nData1="PortDisable" nData2="1" />
+                <!--                  Disable video port -->
+                <DisablePort port="3gp:1"/>
+                <!--                  Expect port disabled event (nData=2) on port 1 -->
+		<ExpectEvent comp="3gp" event="CmdComplete" nData1="PortDisable" nData2="1" />
+                <!--                  Disable clock port -->
+                <DisablePort port="3gp:2"/>
+                <!--                  Expect port disabled event (nData=2) on port 2 -->
+		<ExpectEvent comp="3gp" event="CmdComplete" nData1="PortDisable" nData2="2" />
+		<BufferSupplierOverride output="3gp:1" input="aacdec:0" supplier="input" />
+		<SetBufferCount port="3gp:0" count="2" />
+		<SetBufferCount port="aacdec:0" count="2" />
+		<SetupTunnel output="3gp:0" input="aacdec:0" />
+		<BufferSupplierOverride output="aacdec:1" input="pcmren:0" supplier="input" />
+		<SetBufferCount port="aacdec:1" count="2" />
+		<SetBufferCount port="pcmren:0" count="2" />
+                <SetPcmAudioPortDef port="aacdec:1" channels="2" samplingrate="44100" bitspersample="16"/>
+                <SetPcmAudioPortDef port="pcmren:0" channels="2" samplingrate="44100" bitspersample="16"/>
+		<SetupTunnel output="aacdec:1" input="pcmren:0" />
+		<SetFilename comp="3gp" filename="c:\mm\omx\pretender_hev2_muxer.m4a" />
+		<SetAudioPortDef port="3gp:0" codingType="autodetect" />
+		<AllTransition state="idle" />
+		<ExpectEvent comp="3gp" event="PortFormatDetected" nData1="0" nData2="0" />
+		<ExpectEvent comp="3gp" event="PortSettingsChanged" nData1="0x02000001" nData2="0" />
+		<IgnoreEvent comp="pcmren" event="Error" nData1="Underflow" nData2="0" />
+		
+		<ExpectEvent comp="aacdec" event="PortSettingsChanged" nData1="1" nData2="0" />
+		
+		<AllTransition state="executing" />
+		<WaitEOS />
+		<AllTransition state="idle" />
+		<AllTransition state="loaded" />
+	</Test>
+
+</TestSet>

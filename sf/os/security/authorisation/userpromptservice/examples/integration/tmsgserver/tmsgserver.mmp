@@ -1,0 +1,37 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+target		tmsgserver.exe
+targettype 	exe
+
+UID 0x101f7295 0x01041000
+vendorid	0x70000001
+
+userinclude	    ../inc
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+sourcepath	.
+source		tmsgserver.cpp
+library		efsrv.lib euser.lib upsclient.lib
+
+capability protserv
+
+start resource ups_01041000_01041001.rss
+targetpath /private/10283558/policies/
+end
+SMPSAFE

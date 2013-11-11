@@ -1,0 +1,53 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+// Uses SID of EComserver process to allow access to private dir.
+UID 			0x1000007A 0x10009D8F  
+VENDORID 0x70000001
+
+TARGET 			te_ecomgranularitytestserver.exe
+TARGETTYPE 		exe
+EPOCHEAPSIZE 0x00030000 0x00200000 
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+USERINCLUDE 	../src
+USERINCLUDE 	../../../Framework/frame 
+USERINCLUDE 	../../../Test_Bed/inc
+USERINCLUDE	../../../Framework/inc 
+
+SOURCEPATH		../src
+SOURCE			TE_EcomGranularityTestServer.cpp TE_EcomGranularityTestStep.cpp
+
+// Following are source files of EcomServer
+SOURCEPATH		../../../Framework/frame
+SOURCE			Registrar.cpp Discoverer.cpp BackupNotifier.cpp 
+SOURCE			RegistryData.cpp 
+SOURCE			ImplementationInformation.cpp EComEntry.cpp	
+SOURCE			DowngradePath.cpp EComEntryBase.cpp clientrequest.cpp
+SOURCE			DriveInfo.cpp EComPerformance.cpp
+SOURCE			FileUtils.cpp
+SOURCE			EComPatchDataConstantv2.cpp
+SOURCE			ParseImplementationData.cpp
+
+LIBRARY 	euser.lib 
+LIBRARY 	estor.lib 
+LIBRARY 	bafl.lib 
+LIBRARY 	bsul.lib
+LIBRARY 	efsrv.lib 
+LIBRARY 	hal.lib 
+LIBRARY		testexecuteutils.lib 
+LIBRARY		testexecutelogclient.lib
+
+SMPSAFE

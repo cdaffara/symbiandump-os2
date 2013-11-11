@@ -1,0 +1,18 @@
+openssl trsa(3_50_2_6739) test_log testing rsa conversions
+openssl trsa(3_50_2_6739) test_log p -> d
+openssl trsa(3_50_2_6739) rsa -in C:/testrsa.pem -inform p -outform d -out C:/f.d
+openssl trsa(3_50_2_6739) test_log p -> p
+openssl trsa(3_50_2_6739) rsa -in C:/testrsa.pem -inform p -outform p -out C:/f.p
+openssl trsa(3_50_2_6739) test_log d -> d
+openssl trsa(3_50_2_6739) rsa -in C:/f.d -inform d -outform d -out C:/ff.d1
+openssl trsa(3_50_2_6739) test_log p -> d
+openssl trsa(3_50_2_6739) rsa -in C:/f.p -inform p -outform d -out C:/ff.d3
+openssl trsa(3_50_2_6739) test_log d -> p
+openssl trsa(3_50_2_6739) rsa -in C:/f.d -inform d -outform p -out C:/ff.p1
+openssl trsa(3_50_2_6739) test_log p -> p
+openssl trsa(3_50_2_6739) rsa -in C:/f.p -inform p -outform p -out C:/ff.p3
+openssl trsa(3_50_2_6739) compare C:/testrsa.pem C:/f.p
+openssl trsa(3_50_2_6739) compare C:/testrsa.pem C:/ff.p1
+openssl trsa(3_50_2_6739) compare C:/testrsa.pem C:/ff.p3
+openssl trsa(3_50_2_6739) compare C:/f.p C:/ff.p1
+openssl trsa(3_50_2_6739) compare C:/f.p C:/ff.p3

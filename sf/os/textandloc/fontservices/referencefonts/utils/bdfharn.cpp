@@ -1,0 +1,412 @@
+/*
+* Copyright (c) 2003-2010 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* Chris Cooper, 09 March 1999
+* This application loads a scaleable open font and extracts a particular
+* user-specified size from it which it then outputs as a BDF format font
+* file. This can then be turned into an EPOC bitmap font using other tools.
+* At the moment the required font name and PPEM size are specified in a
+* program statement, so this utility must be recompiled. It is intended to
+* change this to obtain the input from a text file - and to allow multiple
+* conversions to be specified at once.
+* This application has to be a Unicode build to function.
+* If this #define is enabled than, instead of getting a useable BDF file,
+* the hex char definitions are replaced by visible bitmaps of the chars.
+* It should, therefore, be commented out in normal use.
+*
+*/
+
+//#define SHOW_FONT_PICTURES_INSTEAD_OF_HEX
+
+#include <e32std.h>
+#include <e32test.h>
+#include <bitstd.h>
+#include <bitdev.h>
+#include <fbs.h>
+#include <f32file.h>
+
+
+#include "bdfharn.h"
+
+TPtrC CBDFHarness::iFacename(_L("DejaVu Sans Condensed"));
+TInt  CBDFHarness::iPixelSize = 8;
+TPtrC CBDFHarness::iFilename(_L("Swi8br"));
+TPtrC CBDFHarness::iUid(_L("268457817"));
+
+TFontPosture CBDFHarness::iPosture = EPostureUpright;
+//TFontPosture CBDFHarness::iPosture = EPostureItalic;
+
+//TFontStrokeWeight CBDFHarness::iStrokeWeight = EStrokeWeightNormal;
+TFontStrokeWeight CBDFHarness::iStrokeWeight = EStrokeWeightBold;
+
+TFontPrintPosition CBDFHarness::iPrintPosition = EPrintPosNormal;
+//TFontPrintPosition CBDFHarness::iPrintPosition = EPrintPosSuperscript;
+//TFontPrintPosition CBDFHarness::iPrintPosition = EPrintPosSubscript;
+
+TBuf<256> buffer;
+
+// this function is a hack to take a Unicode string containing
+// only chars <= 255 and put out the 8 bit version to the file
+void FileWrite8(RFile& aFile, const TDesC& aText)
+	{
+	// It's Unicode so we've got to step down from 16 bit desc to 8 bit file
+	TInt length = aText.Length();
+	HBufC8* buffer8 = HBufC8::NewMaxL(length);
+	TPtr8 p = buffer8->Des();
+	TUint16 c;
+	TUint8 b;
+
+	int k = 0;
+	for (int r = 0; r < length; r++)
+		{
+		c = aText[r];
+		b = (TUint8)c;
+		p[k++] = b;
+		}
+	aFile.Write(*buffer8);
+	delete buffer8;
+	}
+
+
+CBDFHarness::CBDFHarness(const TDesC &aTitle, const TDesC &aHeading): iTest(aTitle)
+	{
+	iTest.Title();
+	iTest.Start(aHeading);
+	}
+
+
+CBDFHarness* CBDFHarness::NewL(const TDesC &aTitle, const TDesC &aHeading)
+	{
+	CBDFHarness* t = new (ELeave)CBDFHarness(aTitle, aHeading);
+	CleanupStack::PushL(t);
+	t->ConstructL();
+	CleanupStack::Pop();
+	return t;
+	}
+
+
+void CBDFHarness::ConstructL()
+	{
+	User::LeaveIfError(RFbsSession::Connect());
+	iFbs = RFbsSession::GetSession();
+	if (iFbs == NULL)
+		User::Leave(KErrGeneral);
+	iDev = CFbsScreenDevice::NewL(_L("scdv"),EGray4);
+	iDev->ChangeScreenDevice(NULL);
+	iDev->SetAutoUpdate(ETrue);
+	iDev->CreateContext(iGc);
+
+	TFontSpec fs(iFacename, iPixelSize);
+	fs.iFontStyle.SetPosture(iPosture);
+	fs.iFontStyle.SetStrokeWeight(iStrokeWeight);
+	fs.iFontStyle.SetPrintPosition(iPrintPosition);
+	TInt error = iDev->GetNearestFontInPixels((CFont*&)iStandardFont,fs);
+	if (error)
+		User::Panic(_L("Could not create this font"),error);
+	}
+
+
+CBDFHarness::~CBDFHarness()
+	{
+	if (iStandardFont)
+		iDev->ReleaseFont(iStandardFont);
+	delete iGc;
+	delete iDev;
+	RFbsSession::Disconnect();
+	iTest.Close();
+	}
+
+
+void CBDFHarness::MakeBDFFontL()
+	{
+	TOpenFontFaceAttrib attrib;
+	iStandardFont->GetFaceAttrib(attrib);
+	TPtrC familyName = attrib.FamilyName();
+	TPtrC fullName = attrib.LocalFullName();
+	TOpenFontMetrics fMetrics;
+	iStandardFont->GetFontMetrics(fMetrics);
+	iPPEM = fMetrics.Size();
+
+	// Open file session
+	RFs file_session;
+	User::LeaveIfError(file_session.Connect());
+	file_session.MkDir(_L("\\BDFfonts\\"));
+	// Open file
+	RFile file;
+	buffer.Format(_L("\\BDFfonts\\%S %d.bdf"), &fullName, iPPEM);
+	file.Replace(file_session, buffer, EFileShareAny);
+	// Extract global info
+	// STARTFONT 2.2
+	buffer.Format(_L("STARTFONT 2.2\r\n"));
+	FileWrite8(file, buffer);
+	// COMMENT <font name> [(Bold) ][(Italic) ]at <nn> pixels per em
+	buffer.Format(_L("COMMENT %S "), &familyName);
+	FileWrite8(file, buffer);
+	if (iStandardFont->FontSpecInTwips().iFontStyle.StrokeWeight() == EStrokeWeightBold)
+		{
+		buffer.Format(_L("(Bold) "));
+		FileWrite8(file, buffer);
+		}
+	if (iStandardFont->FontSpecInTwips().iFontStyle.Posture() == EPostureItalic)
+		{
+		buffer.Format(_L("(Italic) "));
+		FileWrite8(file, buffer);
+		}
+	buffer.Format(_L("at %d pixels per em\r\n"), iPPEM);
+	FileWrite8(file, buffer);
+	// COMMENT Generated by the EPOC BDF creator
+	buffer.Format(_L("COMMENT Generated by the EPOC BDF creator\r\n"));
+	FileWrite8(file, buffer);
+	// FONT <font name>
+	buffer.Format(_L("FONT %S\r\n"), &iFilename);
+	FileWrite8(file, buffer);
+	// SIZE <ppem> 72 72
+	buffer.Format(_L("SIZE %d 72 72\r\n"), iPPEM);
+	FileWrite8(file, buffer);
+	// FONTBOUNDINGBOX <bbox pixel width> <bbox pixel height> <bbox x pixel offset> <bbox y pixel offset>
+	TInt bbw = fMetrics.MaxWidth();
+	TInt bbh = fMetrics.MaxHeight() + fMetrics.MaxDepth();
+	TInt bbxo = 0;
+	TInt bbyo = -1 * fMetrics.MaxDepth();
+	buffer.Format(_L("FONTBOUNDINGBOX %d %d %d %d\r\n"), bbw, bbh, bbxo, bbyo);
+	FileWrite8(file, buffer);
+	// STARTPROPERTIES
+	TInt numproperties = 5;
+	if (iStandardFont->FontSpecInTwips().iFontStyle.StrokeWeight() == EStrokeWeightBold)
+		numproperties++;
+	if (iStandardFont->FontSpecInTwips().iFontStyle.Posture() == EPostureItalic)
+		numproperties++;
+	buffer.Format(_L("STARTPROPERTIES %d\r\n"), numproperties);
+	FileWrite8(file, buffer);
+	buffer.Format(_L("Uid %S\r\n"), &iUid);
+	FileWrite8(file, buffer);
+	buffer.Format(_L("MaxNormalCharWidth "));
+	FileWrite8(file, buffer);
+	TInt maxWidth = bbw;
+	buffer.Format(_L("%d\r\n"), maxWidth);
+	FileWrite8(file, buffer);
+	buffer.Format(_L("MaxConsecutiveFillChars 5\r\n"));
+	FileWrite8(file, buffer);
+	if (iStandardFont->FontSpecInTwips().iFontStyle.StrokeWeight() == EStrokeWeightBold)
+		{
+		buffer.Format(_L("Bold 1\r\n"));
+		FileWrite8(file, buffer);
+		}
+	if (iStandardFont->FontSpecInTwips().iFontStyle.Posture() == EPostureItalic)
+		{
+		buffer.Format(_L("Italic 1\r\n"));
+		FileWrite8(file, buffer);
+		}
+	// FONT_ASCENT
+	buffer.Format(_L("FONT_ASCENT %d\r\n"), fMetrics.Ascent());
+	FileWrite8(file, buffer);
+	// FONT_DESCENT
+	buffer.Format(_L("FONT_DESCENT %d\r\n"), fMetrics.Descent());
+	FileWrite8(file, buffer);
+	// ENDPROPERTIES
+	buffer.Format(_L("ENDPROPERTIES\r\n"));
+	FileWrite8(file, buffer);
+	// CHARS <number of glyphs>
+	// Work out how many chars in font
+	TInt charCount = 0;
+	TInt i = 0;
+	for ( i = 0; i <= 0xFFFF; i++ )
+		{
+		if ( iStandardFont->HasCharacter(i) )
+			charCount++;
+		}
+	buffer.Format(_L("CHARS %d\r\n"), charCount);
+	FileWrite8(file, buffer);
+
+	for ( i = 0; i <= 0xFFFF; i++ )
+		{
+		if ( iStandardFont->HasCharacter(i) )
+			{
+			// STARTCHAR <Unn in hex>
+			buffer.Format(_L("STARTCHAR U%x\r\n"), i);
+			FileWrite8(file, buffer);
+			// ENCODING <usually nn decimal>
+			buffer.Format(_L("ENCODING %d\r\n"), i);
+			FileWrite8(file, buffer);
+			// SWIDTH <swidth> 0
+			// DWIDTH <swidth * (pointsize / 1000) * (device resolution / 72)> 0
+			// DWIDTH <swidth * (ppem / 1000) * (72 / 72)> 0
+			// but DWIDTH  = <advance in pixels> which we know
+			// so SWIDTH = (DWIDTH * 1000) / ppem
+			TOpenFontCharMetrics cMetrics;
+			const TUint8* bitmapPtr;
+			TSize dummy;
+			iStandardFont->GetCharacterData(i, cMetrics, bitmapPtr, dummy);
+			TInt dwidth = cMetrics.HorizAdvance();
+			TReal dwidthReal = dwidth;
+			TInt swidth = (TInt)(((dwidthReal * 1000) / iPPEM) + 0.5);
+			buffer.Format(_L("SWIDTH %d 0\r\n"), swidth);
+			FileWrite8(file, buffer);
+			buffer.Format(_L("DWIDTH %d 0\r\n"), dwidth);
+			FileWrite8(file, buffer);
+			// BBX <bmap pixel width> <bmap pixel height> <bmap x pixel offset> <bmap y pixel offset>
+			TInt bpw = cMetrics.Width();
+			TInt bph = cMetrics.Height();
+			TInt bxo = cMetrics.HorizBearingX();
+			TInt byo = cMetrics.HorizBearingY() - bph; // Because openfont offsets are to top left and bdf is to bottom left
+			buffer.Format(_L("BBX %d %d %d %d\r\n"), bpw, bph, bxo, byo);
+			FileWrite8(file, buffer);
+			// BITMAP
+			buffer.Format(_L("BITMAP\r\n"));
+			FileWrite8(file, buffer);
+			TInt paddedWidth = ((bpw + 7) / 8);
+			if (bph * paddedWidth)
+				{
+				TUint8* bitmap = new TUint8 [sizeof(TUint8) * bph * paddedWidth];
+				DecodeBitmap(bpw, paddedWidth, bph, bitmapPtr, bitmap);
+				for (TInt j = 0; j < bph; j++)
+					{
+					// Output one line of bitmap
+#ifndef SHOW_FONT_PICTURES_INSTEAD_OF_HEX
+					// This branch is the standard version that produces useable BDF files
+					for (TInt k = paddedWidth - 1; k >= 0; k--)
+						{
+						TInt byte = *(bitmap + (j * paddedWidth) + k);
+
+						OutHex(byte / 16);
+						FileWrite8(file, buffer);
+						OutHex(byte % 16);
+						FileWrite8(file, buffer);
+						}
+					buffer.Format(_L("\r\n"));
+					FileWrite8(file, buffer);
+#else
+					// This branch shows the char bitmaps but does not produce useable BDF files
+					buffer.Format(_L("["));
+					FileWrite8(file, buffer);
+					iBitNum = ((j + 1) * paddedWidth * 8) - 1;
+					iBitMap = bitmap;
+
+					for (TInt k = 0; k < bpw; k++)
+						{
+						if (ReadBitBack())
+							buffer.Format(_L("@"));
+						else
+							buffer.Format(_L(" "));
+						FileWrite8(file, buffer);
+						}
+					for (k = bpw; k < 8 * paddedWidth; k++)
+						{
+						buffer.Format(_L("."));
+						FileWrite8(file, buffer);
+						}
+					buffer.Format(_L("]\r\n"));
+					FileWrite8(file, buffer);
+#endif
+					}
+				delete [] bitmap;
+				}
+			// ENDCHAR
+			buffer.Format(_L("ENDCHAR\r\n"));
+			FileWrite8(file, buffer);
+			}
+		}
+	// ENDFONT
+	buffer.Format(_L("ENDFONT\r\n"));
+	FileWrite8(file, buffer);
+	// Close file
+	file.Flush();
+	file.Close();
+	file_session.Close();
+
+	}
+
+TInt CBDFHarness::ReadBit()
+	{
+	TInt val = 1;
+	for (TInt i = 0; i < (iBitNum % 8); i++)
+		val *= 2;
+	val = iBitMap[iBitNum / 8] & val;
+	iBitNum++;
+	return val ? 1 : 0;
+	}
+
+TInt CBDFHarness::ReadBitBack()
+	{
+	TInt val = 1;
+	for (TInt i = 0; i < (iBitNum % 8); i++)
+		val *= 2;
+	val = iBitMap[iBitNum / 8] & val;
+	iBitNum--;
+	return val ? 1 : 0;
+	}
+
+void CBDFHarness::OutHex(TInt aOneHexDigit)
+	{
+	if (aOneHexDigit <= 9)
+		buffer.Format(_L("%c"), '0' + aOneHexDigit);
+	else
+		buffer.Format(_L("%c"), 'a' + aOneHexDigit - 10);
+	}
+
+void CBDFHarness::DecodeBitmap(TInt aWidth, TInt aPaddedWidth, TInt aHeight, const TUint8* aCodedBitmap, TUint8* aBitMap)
+	{
+	// Zero the bitmap
+	for (TInt i = 0; i < aPaddedWidth * aHeight; i++)
+		aBitMap[i] = 0;
+	TInt repeats = 0;
+	iBitNum = 0;
+	iBitMap = aCodedBitmap;
+	for (TInt linesRead = 0; linesRead < aHeight; linesRead += repeats)
+		{
+		TInt repeating = !(ReadBit());
+		
+		// Intended behavior is for the line of code below to be evaluated left to right.
+		//    repeats = (1 * ReadBit()) + (2 * ReadBit()) + (4 * ReadBit()) + (8 * ReadBit());
+		// However, the order in which calls to ReadBit() above are evaluated is undefined,
+		// and is compiler dependent.
+		// The following code ensures that the correct code is used:
+		TInt bit1 = ReadBit();
+		TInt bit2 = ReadBit();
+		TInt bit3 = ReadBit();
+		TInt bit4 = ReadBit();
+		repeats = (1 * bit1) + (2 * bit2) + (4 * bit3) + (8 * bit4);
+
+		TInt padVal = (aPaddedWidth * 8) - aWidth;
+		if (repeating)
+			{
+			for (TInt j = padVal + aWidth - 1; j >= padVal; j--)
+				{
+				TInt value = ReadBit();
+				for (TInt k = 0; k < (j % 8); k++)
+					value *= 2;
+				for (TInt l = 0; l < repeats; l++)
+					{
+					aBitMap[((linesRead + l) * aPaddedWidth) + (j / 8)] =
+						TUint8(aBitMap[((linesRead + l) * aPaddedWidth) + (j / 8)] + value);
+					}
+				}
+			}
+		else
+			{
+			for (TInt l = 0; l < repeats; l++)
+				{
+				for (TInt j = padVal + aWidth - 1; j >= padVal; j--)
+					{
+					TInt value = ReadBit();
+					for (TInt k = 0; k < (j % 8); k++)
+						value *= 2;
+					aBitMap[((linesRead + l) * aPaddedWidth) + (j / 8)] =
+						TUint8(aBitMap[((linesRead + l) * aPaddedWidth) + (j / 8)] + value);
+					}
+				}
+			}
+		}
+	}
+

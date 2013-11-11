@@ -1,0 +1,62 @@
+// Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+
+#ifndef __FEATMGR_TESTCFG__
+TARGET          featmgr.dll
+UID             0x1000008D 0x10005A2B
+#else
+TARGET          test_featmgr.dll
+UID             0x1000008D 0x102836E4
+#endif // __FEATMGR_TESTCFG__
+
+TARGETTYPE      dll
+VENDORID        0x70000001
+CAPABILITY      All -Tcb
+
+//CodeWarrior compilation options - disable the "illegal pragma" warning
+OPTION CW -w noillpragmas
+
+SOURCEPATH      ../src/clientdll
+SOURCE          featmgrclient.cpp
+SOURCE          featmgr.cpp
+SOURCE          featurecontrol.cpp
+SOURCE          featmgrtlsdata.cpp
+SOURCE          featurenotifier.cpp
+SOURCE          featmgrresourcetester.cpp
+
+SOURCEPATH      ../src/shared
+SOURCE          featurecmn.cpp
+
+USERINCLUDE     ../src/inc
+USERINCLUDE     ../inc
+USERINCLUDE     ../src/clientdll
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+LIBRARY         euser.lib
+LIBRARY         estor.lib
+
+#ifndef __FEATMGR_TESTCFG__
+deffile featmgr.def
+#else
+#ifdef EABI
+deffile ../eabi/featmgr.def
+#else
+deffile ../bwins/featmgr.def
+#endif // EABI
+#endif // __FEATMGR_TESTCFG__
+
+SMPSAFE

@@ -1,0 +1,94 @@
+// Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+#include <e32utrace.mmh>
+TARGET			t_sqloom5.exe
+TARGETTYPE		EXE
+CAPABILITY      ProtServ AllFiles
+
+EPOCFIXEDPROCESS
+
+#ifdef WINSCW
+EPOCHEAPSIZE 0x00020000 0x00600000
+#else
+EPOCHEAPSIZE 0x00020000 0x02000000
+#endif
+
+EPOCSTACKSIZE	0x3000
+
+UID		    0 0x10281E17
+
+MACRO SQLSRV_STARTUP_TEST
+
+USERINCLUDE 	.
+USERINCLUDE 	../INC
+USERINCLUDE 	../SRC/Common
+USERINCLUDE 	../SRC/Common/IPC
+USERINCLUDE 	../SRC/Server
+USERINCLUDE 	../SRC/Server/Compact
+USERINCLUDE 	../SRC/Server/IPC
+USERINCLUDE 	../SRC/Security
+USERINCLUDE 	../SQLite
+USERINCLUDE 	../OsLayer
+USERINCLUDE 	../traces_SqlDb
+USERINCLUDE 	../traces_SqlSrv
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_ESTLIB_SYSTEMINCLUDE
+
+SOURCEPATH		../TEST
+SOURCE			t_sqloom5.cpp
+
+SOURCEPATH		../SRC/Common
+SOURCE			SqlBufFlat.cpp
+SOURCE			SqlUtil.cpp
+
+SOURCEPATH		../SRC/Security
+SOURCE			SqlSecurityImpl.cpp
+
+SOURCEPATH		../SRC/Server
+SOURCE			SqlSrvAuthorizer.cpp
+SOURCE			SqlBur.cpp
+SOURCE			SqlSrvCollation.cpp
+SOURCE			SqlSrvConfig.cpp
+SOURCE			SqlSrvCheckStatement.cpp
+SOURCE			SqlSrvMain.cpp
+SOURCE			SqlSrvDatabase.cpp
+SOURCE			SqlSrvDbSysSettings.cpp
+SOURCE			SqlSrvDriveSpace.cpp
+SOURCE			SqlSrvFileData.cpp
+SOURCE			SqlSrvStrings.cpp
+SOURCE			SqlSrvStatementUtil.cpp
+SOURCE			SqlSrvSecurityMap.cpp
+SOURCE			SqlSrvUtil.cpp
+SOURCE			SqlSrvResourceProfiler.cpp
+
+SOURCEPATH		../SRC/Server/Compact
+SOURCE			SqlCompact.cpp
+SOURCE			SqlCompactConn.cpp
+SOURCE			SqlCompactEntry.cpp
+SOURCE			SqlCompactTimer.cpp
+
+LIBRARY			estlib.lib 
+LIBRARY			charconv.lib
+LIBRARY			hal.lib 
+LIBRARY			euser.lib 
+LIBRARY			efsrv.lib
+LIBRARY			estor.lib 
+LIBRARY			abclient.lib
+STATICLIBRARY	sqlite.lib
+
+VENDORID		0x70000001
+
+SMPSAFE

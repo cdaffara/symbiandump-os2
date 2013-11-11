@@ -1,0 +1,7311 @@
+/** @file  ../include/wchar.h
+@internalComponent
+*/
+
+/** @fn  btowc(int c)
+@param c
+
+Note: This description also covers the following functions -
+ wctob() 
+
+@return   The btowc function returns the wide character converted from the single 
+  byte c . If c is EOF or not a valid multibyte sequence of length 1 the function 
+  returns WEOF.
+
+  The btowc function converts a single-byte character into a corresponding 
+wide character. If the character is EOF , or not valid in the initial shift state, btowc returns WEOF.
+
+ The wctob function converts a wide character into a corresponding single-byte 
+  character. If the wide character is WEOF , or not able to be represented as a single byte in the initial 
+  shift state, wctob returns WEOF.
+
+ 
+
+Examples:
+@code
+#include <wchar.h>
+// Illustrates how to use btowc API
+wint_t example_btowc(int c)
+{
+ wint_t wc = L'a';
+ //  converting single byte to wide-character 
+ wc = btowc(c);
+ // return the character that was converted 
+return (wc);
+}
+
+@endcode
+@code
+#include <wchar.h>
+/* Illustrates how to use wctob API */
+int example_wctob(void)
+{
+ wint_t wc = L'a';
+ int c;
+  
+ /* represent a wide-char in a single byte*/
+ c = wctob(wc);
+ /* return the single byte */
+ return(c);
+}
+
+@endcode
+
+Limitations:
+
+The current implementation of btowc and wctob is not affected by the LC_CTYPE category of the current locale.
+It works only for UTF8 character set.
+
+@see mbrtowc()
+@see wcrtomb()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fgetwc(FILE *stream)
+@param stream
+
+Note: This description also covers the following functions -
+ getwc()  getwchar() 
+
+@return   If successful these routines return the next wide character from the stream. If the stream is at end-of-file or a read error occurs the routines 
+return WEOF. The routines feof and ferror must be used to distinguish between end-of-file 
+and error. If an error occurs the global variable errno is set to indicate the error. The end-of-file condition is remembered, 
+even on a terminal, and all subsequent attempts to read will return WEOF until the condition is cleared with clearerr .
+
+  The fgetwc function
+obtains the next input wide character (if present) from the stream pointed at by stream, or the next character pushed back on the stream via ungetwc .
+
+ The getwc function
+acts essentially identical to fgetwc.
+
+ The getwchar function
+is equivalent to getwc with the argument stdin.
+
+Examples:
+@code
+/* Illustrates how to use fgetwc API */
+#include <stdio.h>
+#include <wchar.h>
+wint_t example_fgetwc(void)
+{
+ FILE *fp = NULL;
+ wint_t retval;
+ 
+ /* opening the input file */
+ fp = fopen("input.txt","r");
+ if(fp == NULL)
+ {
+  wprintf(L"Error: File open
+");
+  return (-1);
+ }
+ /* Read a character from the opened file */
+ retval = fgetwc(fp);
+ /* Close the file open for reading */
+ fclose(fp);
+ /* return the character read from the file */
+ return (retval);
+}
+
+@endcode
+@code
+/* Illustrates how to use getwc API */
+#include <stdio.h>
+#include <wchar.h>
+wint_t example_getwc(void)
+{
+ FILE *fp =  NULL;
+ wint_t retval;
+ 
+ /* opening the input file */
+ fp = fopen("input.txt","r");
+ if(fp == NULL)
+ {
+  wprintf(L"Error: File open
+");
+  return (-1);
+ }
+ /* Read a character from the opened file */
+ retval = getwc(fp);
+ /* Close the file open for reading */
+ fclose(fp);
+ /* return the character read from the file */
+ return (retval);
+}
+
+@endcode
+@code
+/* Illustrates how to use getwchar API */
+#include <stdio.h>
+#include <wchar.h>
+wint_t example_getwchar(void)
+{
+ wint_t retval;
+ 
+ /* Read a character from standard input */
+ retval = getwchar();
+ /* return the character read */
+ return (retval);
+}
+
+@endcode
+@see ferror()
+@see fopen()
+@see fread()
+@see getc()
+@see putwc()
+@see ungetwc()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @fn  fgetws(wchar_t *  ws, int n, FILE *  fp)
+@param ws
+@param n
+@param fp
+@return   Upon successful completion fgetws returns ws. If end-of-file occurs before any characters are read, fgetws returns NULL and the buffer contents remain unchanged. If an error occurs fgetws returns NULL and the buffer contents are indeterminate. The fgetws function does not distinguish between end-of-file and error, 
+and callers must use feof and ferror to determine which occurred.
+
+  The fgetws function reads at most one less than the number of characters 
+specified by n from the given fp and stores them in the wide character string ws. Reading stops when a newline character is found, at end-of-file or 
+error. The newline, if any, is retained. If any characters are read, and there 
+is no error, a '\\0' character is appended to end the string.
+
+Examples:
+@code
+#include <stdio.h>
+#include <wchar.h>
+/* Illustrates how to use fgetws API */
+wchar_t *example_fgetws(wchar_t *buf)
+{
+ FILE *fp = NULL;
+ wint_t retval;
+ int n;
+ /* for example, 10 characters to be read */
+ n = 10;
+ /* opening the input file */
+ fp = fopen("input.txt","r");
+ if(fp == NULL)
+ {
+  wprintf(L"Error: File open
+");
+  return (-1);
+ }
+ /* Read characters from the opened file */
+ retval = fgetws(buf, n, fp);
+ /* Close the file open for reading */
+ fclose(fp);
+ /* return the character read from the file */
+ return (buf);
+}
+
+@endcode
+@see feof()
+@see ferror()
+@see fgets()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fputwc(wchar_t wc, FILE *stream)
+@param wc
+@param stream
+
+Note: This description also covers the following functions -
+ putwc()  putwchar() 
+
+@return   The fputwc, putwc, and putwchar functions
+return the wide character written.
+If an error occurs, the value WEOF is returned.
+
+  The fputwc function
+writes the wide character wc to the output stream pointed to by stream.
+
+ The putwc function
+acts essentially identically to fputwc.
+
+ The putwchar function
+is identical to putwc with an output stream of stdout.
+
+Examples:
+@code
+/* Illustrates how to use putwc API */
+#include <stdio.h>
+#include <wchar.h>
+wint_t example_putwc(void)
+{
+ FILE *fp = NULL;
+ wchar_t wc = L'a';
+ wint_t rval;
+ /* opening the file to write*/
+ fp = fopen("input.txt","w");
+ if(fp == NULL)
+ {
+  wprintf(L"Error: File open
+");
+  return (-1);
+ }
+/* write a character into fp */
+ rval = putwc(wc, fp);
+ /* Close the file opened for writing */
+ fclose(fp);
+ /* return the value that was written */
+ return (rval);
+}
+
+@endcode
+@code
+/* Illustrates how to use fputwc API */
+#include <stdio.h>
+#include <wchar.h>
+wint_t example_fputwc(void)
+{
+ FILE *fp = NULL;
+ wchar_t wc = L'a';
+ wint_t rval;
+ /* opening the file to write*/
+ fp = fopen("input.txt","w");
+ if(fp == NULL)
+ {
+  wprintf(L"Error: File open
+");
+  return (-1);
+ }
+/* write a character into fp */
+ rval = fputwc(wc, fp);
+ /* Close the file opened for writing */
+ fclose(fp);
+ /* return the value that was written */
+ return (rval);
+}
+
+@endcode
+@code
+/* Illustrates how to use putwchar API */
+#include <stdio.h>
+#include <wchar.h>
+wint_t example_putwchar(void)
+{
+ wint_t rval;
+ wchar_t wc = L'q';
+ 
+ /* write a character onto the standard output */
+ rval = putwchar(wc);
+ /* return the character that was written */
+ return (rval);
+}
+
+@endcode
+ Output of putwchar
+@code
+q
+
+@endcode
+@see ferror()
+@see fopen()
+@see getwc()
+@see putc()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @fn  fputws(const wchar_t *  ws, FILE *  fp)
+@param ws
+@param fp
+@return   The fputws function
+returns 0 on success and -1 on error.
+
+  The fputws function writes the wide character string pointed to by ws to the stream pointed to by fp.
+
+Examples:
+@code
+#include <stdio.h>
+#include <wchar.h>
+/* Illustrates how to use fputws API */
+int example_fputws(wchar_t *buf)
+{
+ FILE *fp = NULL;
+ int retval;
+ /* open the file for writing*/
+ fp = fopen("write.txt","r");
+ if(fp == NULL)
+ {
+  wprintf(L"Error: File open
+");
+  return (-1);
+ }
+ /* Write the characters into the file */
+ retval = fputws(buf, fp);
+ /* Close the file open for writing */
+ fclose(fp);
+ /* return the number of characters written */
+ /* into the file */
+ return (retval);
+}
+
+@endcode
+@see ferror()
+@see fputs()
+@see putwc()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @fn  fwide(FILE *stream, int mode)
+@param stream
+@param mode
+@return   The fwide function
+returns a value according to orientation after the call of fwide; a value less than zero if byte-oriented, a value greater than zero
+if wide-oriented, and zero if the stream has no orientation.
+
+  The fwide function
+determines the orientation of the stream pointed at by stream.
+
+ If the orientation of stream has already been determined fwide leaves it unchanged. Otherwise fwide sets the orientation of stream according to mode.
+
+ If mode is less than zero stream is set to byte-oriented. If it is greater than zero stream is set to wide-oriented. Otherwise mode is zero and stream is unchanged.
+
+Examples:
+@code
+#include <stdio.h>
+#include <wchar.h>
+/* Illustrates how to use fwide API */
+int example_fwide(void)
+{
+ FILE *fp = NULL;
+ int retval;
+ int mode;
+ /* open a file */
+ fp = fopen("input.txt","r");
+ if(fp == NULL)
+ {
+  wprintf(L"Error: File open
+");
+  return (-1);
+ }
+ /* set the mode to wide*/
+ mode = 1;
+ /* set the orientation of the file */
+ retval = fwide(fp, mode);
+ /*     check   the     return value */
+ if(retval ==   1)
+ {
+        wprintf(L"Mode set to WIDE
+");
+ }
+ else
+ {
+        wprintf(L"Error setting the mode to wide!!
+");
+ }
+ /* set the mode to determine the orientation */
+ mode = 0;
+ /* Read back the orientation that was set */
+ retval = fwide(fp ,mode);
+ if(retval == 1)
+ {
+        wprintf("Mode not changed
+");
+ }
+ else
+ {
+        wprintf("Error, mode changed!!
+");
+ }
+ /* Close the file open for writing */
+ fclose(fp);
+ /* return the mode of fp */
+ return (retval);
+}
+
+@endcode
+@see ferror()
+@see fgetc()
+@see fgetwc()
+@see fopen()
+@see fputc()
+@see fputwc()
+@see freopen()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @fn  fwprintf(FILE *  stream, const wchar_t *  format, ...)
+@param stream
+@param format
+@param ...
+
+Note: This description also covers the following functions -
+ swprintf()  snwprintf()  vsnwprintf()  wprintf()  vfwprintf()  vswprintf()  vwprintf() 
+
+@return   The functions return the number of wide characters written, excluding the terminating null wide character in case of the functions swprintf , snwprintf , vswprintf and vsnwprintf . They return -1 when an error occurs.
+
+The wprintf family of functions produces output according to a format as described below. The wprintf and vwprintf functions write output to stdout, the standard output stream; fwprintf and vfwprintf write output to the given output stream; swprintf , snwprintf , vswprintf and vsnwprintf write to the wide character string ws. 
+These functions write the output under the control of a format string that specifies how subsequent arguments (or arguments accessed via the variable-length argument facilities of stdarg) are converted for output. 
+
+These functions return the number of characters printed (not including the trailing ‘\\0’ used to end output to strings). 
+
+The swprintf , snwprintf , vswprintf and vsnwprintf functions will fail if n or more wide characters were requested to be written. 
+
+@code
+
+Note : 
+
+1. swprintf and snwprintf can be used interchangeably. 
+
+2. vswprintf and vsnwprintf can be used interchangeably. 
+
+
+The format string is composed of zero or more directives: ordinary characters (not %), which are copied unchanged to the output stream; and conversion specifications, each of which results in fetching zero or more subsequent arguments. Each conversion specification is introduced by the % character. The arguments must correspond properly (after type promotion) with the conversion specifier. After the %, the following appear in sequence: 
+@endcode
+
+@code
+An optional field, consisting of a decimal digit string followed by a $, specifying the next argument to access. If this field is not provided, the argument following the last argument accessed will be used. Arguments are numbered starting at 1. If unaccessed arguments in the format string are interspersed with ones that are accessed the results will be indeterminate. 
+Zero or more of the following flags:
+
+ '#'  The value should be converted to an "alternate form". For c, d, i, n, p, s, and u conversions, this option has no effect. For o conversions, the precision of the number is increased to force the first character of the output string to a zero (except if a zero value is printed with an explicit precision of zero). For x and X conversions, a non-zero result has the string ‘0x’ (or ‘0X’ for X conversions) prepended to it. For a, A, e, E, f, F, g, and G conversions, the result will always contain a decimal point, even if no digits follow it (normally, a decimal point appears in the results of those conversions only if a digit follows). For g and G conversions, trailing zeros are not removed from the result as they would otherwise be.  
+
+'0(zero)'  Zero padding. For all conversions except n, the converted value is padded on the left with zeros rather than blanks. If a precision is given with a numeric conversion ( d, i, o, u, i, x, and X), the 0 flag is ignored.  
+
+'-'  A negative field width flag; the converted value is to be left adjusted on the field boundary. Except for n conversions, the converted value is padded on the right with blanks, rather than on the left with blanks or zeros. A - overrides a 0 if both are given.  
+
+' (space)'  A blank should be left before a positive number produced by a signed conversion ( a, A, d, e, E, f, F, g, G, or i).  
+
+'+'  A sign must always be placed before a number produced by a signed conversion. A + overrides a space if both are used.  
+
+'’'  Decimal conversions ( d, u, or i) or the integral portion of a floating point conversion ( f or F) should be grouped and separated by thousands using the non-monetary separator returned by localeconv.  
+
+
+An optional decimal digit string specifying a minimum field width. If the converted value has fewer characters than the field width, it will be padded with spaces on the left (or right, if the left-adjustment flag has been given) to fill out the field width. 
+
+An optional precision, in the form of a period . followed by an optional digit string. If the digit string is omitted, the precision is taken as zero. This gives the minimum number of digits to appear for d, i, o, u, x, and X conversions, the number of digits to appear after the decimal-point for a, A, e, E, f, and F conversions, the maximum number of significant digits for g and G conversions, or the maximum number of characters to be printed from a string for s conversions. 
+
+An optional length modifier, that specifies the size of the argument. The following length modifiers are valid for the d, i, n, o, u, x, or X conversion:
+
+@endcode
+
+@code
+
+ Modifier            d, i      o, u, x, X        n 
+
+ hh signed char unsigned char signed char *
+ h short unsigned short short *
+ l (ell) long unsigned long long *
+ ll (ell ell) long long unsigned long long long long *
+ j intmax_t uintmax_t intmax_t *
+ t ptrdiff_t (see note) ptrdiff_t *
+ z (see note) size_t (see note)
+ q (deprecated) quad_t u_quad_t quad_t *
+
+@endcode
+
+@code
+
+Note: the t modifier, when applied to a o, u, x, or X conversion, indicates that the argument is of an unsigned type equivalent in size to a ptrdiff_t . The z modifier, when applied to a d or i conversion, indicates that the argument is of a signed type equivalent in size to a size_t . Similarly, when applied to an n conversion, it indicates that the argument is a pointer to a signed type equivalent in size to a size_t . 
+
+The following length modifier is valid for the a, A, e, E, f, F, g, or G conversion:
+
+@endcode
+
+@code
+
+ Modifier a, A, e, E, f, F, g, G
+ L long double
+
+@endcode
+
+@code   
+
+The following length modifier is valid for the c or s conversion:
+
+Modifier c s
+ l (ell) wint_t  wchar_t * 
+
+@endcode
+
+@code
+
+A character that specifies the type of conversion to be applied. 
+
+A field width or precision, or both, may be indicated by an asterisk ‘*’ or an asterisk followed by one or more decimal digits and a ‘$’ instead of a digit string. In this case, an int argument supplies the field width or precision. A negative field width is treated as a left adjustment flag followed by a positive field width; a negative precision is treated as though it were missing. If a single format directive mixes positional (nn$) and non-positional arguments, the results are undefined. 
+
+The conversion specifiers and their meanings are: 
+
+
+diouxX  
+  The int (or appropriate variant) argument is converted to signed decimal ( d and i), unsigned octal (o), unsigned decimal (u), or unsigned hexadecimal ( x and X) notation. The letters "abcdef" are used for x conversions; the letters "ABCDEF" are used for X conversions. The precision, if any, gives the minimum number of digits that must appear; if the converted value requires fewer digits, it is padded on the left with zeros.  
+
+DOU  
+  The long int argument is converted to signed decimal, unsigned octal, or unsigned decimal, as if the format had been ld, lo, or lu respectively. These conversion characters are deprecated, and will eventually disappear.  
+
+eE  
+  The double argument is rounded and converted in the style [-d . ddd e \*[Pm] dd] where there is one digit before the decimal-point character and the number of digits after it is equal to the precision; if the precision is missing, it is taken as 6; if the precision is zero, no decimal-point character appears. An E conversion uses the letter ‘E’ (rather than ‘e’) to introduce the exponent. The exponent always contains at least two digits; if the value is zero, the exponent is 00. 
+For a, A, e, E, f, F, g, and G conversions, positive and negative infinity are represented as inf and -inf respectively when using the lowercase conversion character, and INF and -INF respectively when using the uppercase conversion character. Similarly, NaN is represented as nan when using the lowercase conversion, and NAN when using the uppercase conversion. 
+ 
+fF  
+  The double argument is rounded and converted to decimal notation in the style [-ddd . ddd], where the number of digits after the decimal-point character is equal to the precision specification. If the precision is missing, it is taken as 6; if the precision is explicitly zero, no decimal-point character appears. If a decimal point appears, at least one digit appears before it.  
+
+gG  The double argument is converted in style f or e (or F or E for G conversions). The precision specifies the number of significant digits. If the precision is missing, 6 digits are given; if the precision is zero, it is treated as 1. Style e is used if the exponent from its conversion is less than -4 or greater than or equal to the precision. Trailing zeros are removed from the fractional part of the result; a decimal point appears only if it is followed by at least one digit.  
+
+aA  The double argument is converted to hexadecimal notation in the style [-0x h . hhhp[\*[Pm]d]], where the number of digits after the hexadecimal-point character is equal to the precision specification. If the precision is missing, it is taken as enough to exactly represent the floating-point number; if the precision is explicitly zero, no hexadecimal-point character appears. This is an exact conversion of the mantissa+exponent internal floating point representation; the [-0x h . hhh] portion represents exactly the mantissa; only denormalized mantissas have a zero value to the left of the hexadecimal point. The p is a literal character ‘p’; the exponent is preceded by a positive or negative sign and is represented in decimal, using only enough characters to represent the exponent. The A conversion uses the prefix "0X" (rather than "0x"), the letters "ABCDEF" (rather than "abcdef") to represent the hex digits, and the letter ‘P’ (rather than ‘p’) to separate the mantissa and exponent.  
+
+C  Treated as c with the l (ell) modifier.  
+
+c  The int argument is converted to an unsigned char , then to a wchar_t as if by btowc, and the resulting character is written. 
+
+If the l (ell) modifier is used, the wint_t argument is converted to a wchar_t and written. 
+ 
+S  Treated as s with the l (ell) modifier.  
+
+s  The char * argument is expected to be a pointer to an array of character type (pointer to a string) containing a multibyte sequence. Characters from the array are converted to wide characters and written up to (but not including) a terminating NUL character; if a precision is specified, no more than the number specified are written. If a precision is given, no null character need be present; if the precision is not specified, or is greater than the size of the array, the array must contain a terminating NUL character. 
+
+If the l (ell) modifier is used, the wchar_t * argument is expected to be a pointer to an array of wide characters (pointer to a wide string). Each wide character in the string is written. Wide characters from the array are written up to (but not including) a terminating wide NUL character; if a precision is specified, no more than the number specified are written (including shift sequences). If a precision is given, no null character need be present; if the precision is not specified, or is greater than the number of characters in the string, the array must contain a terminating wide NUL character. 
+ 
+p  The void * pointer argument is printed in hexadecimal (as if by ‘%#x’ or ‘%#lx’).  
+
+n  The number of characters written so far is stored into the integer indicated by the int * (or variant) pointer argument. No argument is converted. 
+ 
+%  A ‘%’ is written. No argument is converted. The complete conversion specification is ‘%%’.  
+
+@endcode
+
+The decimal point character is defined in the program’s locale (category LC_NUMERIC). 
+
+In no case does a non-existent or small field width cause truncation of a numeric field; if the result of a conversion is wider than the field width, the field is expanded to contain the conversion result. 
+
+
+Examples:
+@code
+#include <stdio.h>
+#include <wchar.h>
+/* Illustrates how to use wprintf API */
+int example_wprintf(void)
+{
+ int input = 12345;
+ int rval;
+ /* prints the integers on the standard output */
+ rval = wprintf(L"%d", input);
+ /* return the number of wide characters that were written */
+ return(rval);
+}
+
+@endcode
+ Output
+@code
+12345
+
+@endcode
+@code
+#include <stdio.h>
+#include <wchar.h>
+/* Illustrates how to use fwprintf API */
+int example_fwprintf(void)
+{
+ FILE *fp = NULL;
+ int retval;
+ wchar_t *wcs = L"abc";
+ /* open the file for writing*/
+ fp = fopen("write.txt","w");
+ if(fp == NULL)
+ {
+  wprintf(L"Error: File open
+");
+  return (-1);
+ }
+ /* print the characters into the file */
+ retval = fwprintf(fp, L"%s", wcs);
+ /* Close the file opened for writing */
+ fclose(fp);
+ /* return the number of wide characters that were written */
+ return (retval);
+}
+
+@endcode
+@code
+#include <stdio.h>
+#include <wchar.h>
+/* Illustrates how to use swprintf API */
+int example_swprintf(wchar_t *buf, int maxlen)
+{
+ wchar_t *wcs = L"abcdef";
+ int rval;
+ /* prints the wide char string into the buffer buf */
+ rval = swprintf(buf, maxlen, L"%s", wcs);
+ /* return the number of wide characters that were written */
+ return(rval);
+}
+
+@endcode
+@code
+#include <stdio.h>
+#include <wchar.h>
+/* Illustrates how to use vwprintf API */
+int example_vwprintf(va_list input)
+{
+ int rval;
+ /* prints the integers on the standard output */
+ rval = vwprintf(L"%d", input);
+ /* return the number of wide characters that were written */
+ return(rval);
+}
+
+@endcode
+@code
+#include <stdio.h>
+#include <wchar.h>
+/* Illustrates how to use vfwprintf API */
+int example_vfwprintf(va_list input)
+{
+  FILE *fp = NULL;
+  int retval;
+ 
+  /* open the file for writing*/
+  fp = fopen("write.txt","w");
+  if(fp == NULL)
+  {
+    wprintf(L"Error: File open
+");
+    return (-1);
+  }
+  /* print the characters into the file */
+  retval = vfwprintf(fp, L"%s", input);
+  /* Close the file opened for writing */
+  fclose(fp);
+  /* return the number of wide characters that were written */
+  return (retval);
+}
+
+@endcode
+@code
+#include <stdio.h>
+#include <wchar.h>
+/* Illustrates how to use vswprintf API */
+int example_vswprintf(wchar_t *buf, int maxlen, va_list input)
+{
+ int rval;
+ /* prints the wide char string into the buffer buf */
+ rval = vswprintf(buf, maxlen, L"%s", input);
+ /* return the number of wide characters that were written */
+ return(rval);
+}
+
+@endcode
+
+Security considerations:
+
+Refer to printf() .
+ 
+Limitations:
+
+Long double length modifiers are not supported. The maximum floating point 
+precision is 15 digits.
+
+@see btowc()
+@see fputws()
+@see printf()
+@see putwc()
+@see setlocale()
+@see wcsrtombs()
+@see wscanf()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  fwscanf(FILE *  stream, const wchar_t *  format, ...)
+@param stream
+@param format
+@param ...
+
+Refer to wscanf() for the documentation
+
+@see fgetwc()
+@see scanf()
+@see wcrtomb()
+@see wcstod()
+@see wcstol()
+@see wcstoul()
+@see wprintf()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  getwc(FILE *stream)
+@param stream
+
+Refer to  fgetwc() for the documentation
+
+@see ferror()
+@see fopen()
+@see fread()
+@see getc()
+@see putwc()
+@see ungetwc()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @fn  getwchar(void)
+
+Refer to fgetwc() for the documentation
+
+@see ferror()
+@see fopen()
+@see fread()
+@see getc()
+@see putwc()
+@see ungetwc()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  mbrlen(const char *  s, size_t n, mbstate_t *  ps)
+@param s
+@param n
+@param ps
+
+@return   The mbrlen functions returns: 0 The next n or fewer bytes
+represent the null wide character (L'\\0') \>0 The next n or fewer bytes
+represent a valid character, mbrlen returns the number of bytes used to complete the multibyte character. ( size_t-2)   The next n contribute to, but do not complete, a valid multibyte character sequence,
+and all n bytes have been processed. ( size_t-1)   An encoding error has occurred.
+The next n or fewer bytes do not contribute to a valid multibyte character.
+
+  The mbrlen function inspects at most n bytes pointed to by s to determine the number of bytes needed to complete the next
+multibyte character.
+
+ The mbstate_t
+argument, ps, is used to keep track of the shift state.
+If it is NULL, mbrlen uses an internal, static mbstate_t
+object, which is initialized to the initial conversion state
+at program startup.
+
+ It is equivalent to:
+
+@code
+
+mbrtowc(NULL, s, n, ps); 
+
+@endcode
+
+Except that when ps is a NULL pointer, mbrlen uses its own static, internal mbstate_t
+object to keep track of the shift state. The behavior of the mbrlen is affected by LC_CTYPE category of the current locale.
+
+Examples:
+ A function that calculates the number of characters in a multibyte
+character string:
+@code
+size_t
+nchars(const char *s)
+{
+        size_t charlen, chars;
+        mbstate_t mbs;
+        chars = 0;
+        memset(&mbs;, 0, sizeof(mbs));
+        while ((charlen = mbrlen(s, MB_CUR_MAX, &mbs;)) != 0 &&
+            charlen != (size_t)-1 && charlen != (size_t)-2) {
+                s += charlen;
+                chars++;
+        }
+        return (chars);
+}
+
+@endcode
+
+Errors:
+
+The mbrlen function will fail if: 
+[EILSEQ] An invalid multibyte sequence was detected.  
+[EINVAL] The conversion state is invalid.
+
+Limitations:
+
+The current implementation of mbrlen is not affected by the LC_CTYPE category of the current locale.
+It works only for UTF8 character set.
+
+@see mblen()
+@see mbrtowc()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  mbrtowc(wchar_t *  pwc, const char *  s, size_t n, mbstate_t *  ps)
+@param pwc
+@param s
+@param n
+@param ps
+
+@return   The mbrtowc functions returns: 0 The next n or fewer bytes
+represent the null wide character (L'\\0') \>0 The next n or fewer bytes
+represent a valid character, mbrtowc returns the number of bytes used to complete the multibyte character. ( size_t-2)   The next n contribute to, but do not complete, a valid multibyte character sequence,
+and all n bytes have been processed. ( size_t-1)   An encoding error has occurred.
+The next n or fewer bytes do not contribute to a valid multibyte character.
+
+
+  The mbrtowc function inspects at most n bytes pointed to by s to determine the number of bytes needed to complete the next multibyte
+character.
+If a character can be completed, and pwc is not NULL, the wide character which is represented by s is stored in the wchar_t
+it points to.
+
+ If s is NULL, mbrtowc behaves as if pwc was NULL, s was an empty string ("")
+and n was 1.
+
+ The mbstate_t
+argument, ps, is used to keep track of the shift state.
+If it is NULL, mbrtowc uses an internal, static mbstate_t
+object, which is initialized to the initial conversion state
+at program startup.
+
+ The behavior of the mbrtowc is affected by LC_CTYPE category of the current locale.
+
+Examples:
+@code
+#include <stdio.h>
+#include <stdlib.h>
+#include <wchar.h>
+/* Illustrates how to use mbrtowc API */
+size_t example_mbrtowc()
+{
+ size_t len;
+ wchar_t wc[100];
+ char *s = 'a';
+ size_t n = 1;
+ mbstate_t ps;
+ /* converting multibyte sequence to a wide-char sequence */
+ len = mbrtowc(wc,(const char *) s, n, &ps;);
+ /* checking for error value */
+ if(len < 0)
+ {
+        wprintf(L"mbrtowc returned error!!
+");
+ }
+ /* returning no of bytes consumed */
+ return (len);
+}
+
+@endcode
+
+Errors:
+
+The mbrtowc function will fail if: 
+[EILSEQ] An invalid multibyte sequence was detected.  
+[EINVAL]The conversion state is invalid. 
+
+ 
+Limitations:
+
+The current implementation of mbrtowc is not affected by the LC_CTYPE category of the current locale.
+It works only for UTF8 character set.
+
+@see mbtowc()
+@see setlocale()
+@see wcrtomb()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  mbsinit(const mbstate_t *ps)
+@param ps
+
+@return   The mbsinit function returns non-zero if ps is NULL or describes an initial conversion state,
+otherwise it returns zero.
+
+  The mbsinit function determines whether the mbstate_t
+object pointed to by ps describes an initial conversion state.
+
+ The behavior of the mbsinit is affected by LC_CTYPE category of the current locale.
+
+Examples:
+@code
+#include <stdlib.h>
+#include <wchar.h>
+/* Illustrates how to use mbsinit API */
+int example_mbsinit(void)
+{
+ mbstate_t mbs;
+ int state;
+ 
+ /* testing for the initial state */
+ state = mbsinit(&mbs;);
+ /* return the state */
+ return(state);
+}
+
+@endcode
+
+Limitations:
+
+The current implementation of mbsinit is not affected by the LC_CTYPE category of the current locale.
+It works only for UTF8 character set.
+
+@see mbrlen()
+@see mbrtowc()
+@see mbsrtowcs()
+@see wcrtomb()
+@see wcsrtombs()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  mbsrtowcs(wchar_t *  dst, const char **  src, size_t len, mbstate_t *  ps)
+@param dst
+@param src
+@param len
+@param ps
+
+Note: This description also covers the following functions -
+ mbsnrtowcs() 
+
+@return   The mbsrtowcs and mbsnrtowcs functions return the number of wide characters stored in 
+the array pointed to by dst if successful, otherwise it returns ( size_t)(-1).
+
+  The mbsrtowcs function converts a sequence of multibyte characters pointed to indirectly by src into a sequence of corresponding wide characters and stores at most len of them in the wchar_t
+array pointed to by dst, until it encounters a terminating null character ('\\0'.)
+
+ If dst is NULL no characters are stored.
+
+ If dst is not NULL, the pointer pointed to by src is updated to point to the character after the one that conversion stopped at.
+If conversion stops because a null character is encountered, *src is set to NULL.
+
+ The mbstate_t
+argument, ps, is used to keep track of the shift state.
+If it is NULL, mbsrtowcs uses an internal, static mbstate_t
+object, which is initialized to the initial conversion state
+at program startup.
+
+ The mbsnrtowcs function behaves identically to mbsrtowcs, except that conversion stops after reading at most nms bytes from the buffer pointed to by src.
+
+ The behavior of the mbsrtowcs and mbsnrtowcs is affected by LC_CTYPE category of the current locale.
+
+Examples:
+@code
+/* Illustrates how to use mbsrtowcs API */
+#include <stdio.h>
+#include <stdlib.h>
+#include <wchar.h>
+size_t example_mbsrtowcs(wchar_t *wc, char *s, size_t n)
+{
+ size_t len;
+ mbstate_t mbs;
+ /* converting multibyte string to a wide-char string */
+ len = mbsrtowcs(wc, &s;, n, &mbs;);
+ /* checking for error */
+ if(len < 0)
+ {
+        wprintf(L"mbsrtowcs returned error!!
+");
+ }
+ /* returning no of bytes consumed */
+ return (len);
+}
+
+@endcode
+@code
+/* Illustrates how to use mbsrntowcs API */
+#include <stdio.h>
+#include <stdlib.h>
+#include <wchar.h>
+size_t example_mbsnrtowcs(wchar_t *wc, char *s, size_t n, size_t nms)
+{
+  size_t len;
+  mbstate_t mbs;
+ /* converting multibyte string to a wide-char string */
+  len = mbsnrtowcs(wc, &s;, nms, n, &mbs;);
+ /* checking for error */
+ if(len < 0)
+ {
+        wprintf(L"mbsnrtowcs returned error!!
+");
+ }
+  /* returning no of bytes consumed */
+  return (len);
+}
+
+@endcode
+
+Errors:
+
+The mbsrtowcs and mbsnrtowcs functions will fail if: 
+[EILSEQ]An invalid multibyte character sequence was encountered.  
+[EINVAL] The conversion state is invalid.
+
+
+Limitations:
+
+The current implementation of mbsrtowcs and mbsnrtowcs is not affected by the LC_CTYPE category of the current locale.
+It works only for UTF8 character set.
+
+@see mbrtowc()
+@see mbstowcs()
+@see wcsrtombs()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @fn  putwc(wchar_t wc, FILE *stream)
+@param wc
+@param stream
+
+Refer to fputwc() for the documentation
+
+@see ferror()
+@see fopen()
+@see getwc()
+@see putc()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  putwchar(wchar_t wc)
+@param wc
+
+Refer to  fputwc() for the documentation
+
+@see ferror()
+@see fopen()
+@see getwc()
+@see putc()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  swprintf(wchar_t *  s, size_t n, const wchar_t *  fmt, ...)
+@param s
+@param n
+@param fmt
+@param ...
+
+Refer to fwprintf() for the documentation
+
+@see btowc()
+@see fputws()
+@see printf()
+@see putwc()
+@see setlocale()
+@see wcsrtombs()
+@see wscanf()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  swscanf(const wchar_t *  str, const wchar_t *fmt, ...)
+@param str
+@param fmt
+@param ...
+
+Refer to  wscanf() for the documentation
+
+@see fgetwc()
+@see scanf()
+@see wcrtomb()
+@see wcstod()
+@see wcstol()
+@see wcstoul()
+@see wprintf()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  ungetwc(wint_t wc, FILE *stream)
+@param wc
+@param stream
+@return   The ungetwc function
+returns
+the wide character pushed-back after the conversion, or WEOF if the operation fails.
+If the value of the argument c character equals WEOF ,
+the operation will fail and the stream will remain unchanged.
+
+  The ungetwc function pushes the wide character wc (converted to an wchar_t )
+back onto the input stream pointed to by stream .
+The pushed-backed wide characters will be returned by subsequent reads on the
+stream (in reverse order).
+A successful intervening call, using the same stream, to one of the file
+positioning functions fseek , fsetpos ,
+or rewind will discard the pushed back wide characters.
+
+ One wide character of push-back is guaranteed,
+but as long as there is
+sufficient memory, an effectively infinite amount of pushback is allowed.
+
+ If a character is successfully pushed-back,
+the end-of-file indicator for the stream is cleared.
+
+Examples:
+@code
+#include <stdio.h>
+#include <wchar.h>
+/* Illustrates how to use ungetwc API */
+wint_t example_ungetwc(void)
+{
+ FILE *fp = NULL;
+ wint_t wc1;
+ wint_t rval;
+ wint_t wc2;
+ /* opening the file to write*/
+ fp = fopen("input.txt","w");
+ if(fp == NULL)
+ {
+  wprintf(L"Error: File open
+");
+  return (-1);
+ }
+ /* character to written back to the fp */
+ wc = (wint_t) L'e';
+ /* write the character into the fp */
+ rval = ungetwc(wc, fp);
+ /* check for error */
+ if(rval == WEOF)
+ {
+        wprintf(L"ungetwc returned error!!
+");
+ }
+ /* Read the character from fp */
+ /* this char should be the same as the char */
+ /* that was written by ungetwc */
+ wc2 = getwc(fp);
+ /* Close the file opened for writing */
+ fclose(fp);
+ /* return the value that was written */
+ return (rval);
+}
+
+@endcode
+@see fseek()
+@see getwc()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  vfwprintf(FILE *  stream, const wchar_t * , va_list ap)
+@param stream
+@param fmt0
+@param ap
+
+Refer to fwprintf() for the documentation
+
+@see btowc()
+@see fputws()
+@see printf()
+@see putwc()
+@see setlocale()
+@see wcsrtombs()
+@see wscanf()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  vswprintf(wchar_t *s, size_t n, const wchar_t *fmt, va_list ap)
+@param s
+@param n
+@param fmt
+@param ap
+
+Refer to fwprintf() for the documentation
+
+@see btowc()
+@see fputws()
+@see printf()
+@see putwc()
+@see setlocale()
+@see wcsrtombs()
+@see wscanf()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  vwprintf(const wchar_t *  fmt, va_list ap)
+@param fmt
+@param ap
+
+Refer to fwprintf() for the documentation
+
+@see btowc()
+@see fputws()
+@see printf()
+@see putwc()
+@see setlocale()
+@see wcsrtombs()
+@see wscanf()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  wcrtomb(char *  mbchar, wchar_t wc, mbstate_t *  ps)
+@param mbchar
+@param wc
+@param ps
+@return   The wcrtomb functions returns the length (in bytes) of the multibyte sequence
+needed to represent wc ,
+or ( size_t-1) if wc is not a valid wide character code.
+
+  The wcrtomb function stores a multibyte sequence representing the
+wide character wc ,
+including any necessary shift sequences, to the
+character array s ,
+storing a maximum of MB_CUR_MAX bytes.
+
+ If s is NULL , wcrtomb behaves as if s pointed to an internal buffer and wc was a null wide character (L'\\0').
+
+ The mbstate_t argument, ps ,
+is used to keep track of the shift state.
+If it is NULL , wcrtomb uses an internal, static mbstate_t
+object, which is initialized to the initial conversion state
+at program startup.
+
+ The behavior of the wcrtomb is affected by LC_CTYPE category of the current locale.
+
+Examples:
+@code
+#include <stdio.h>
+#include <stdlib.h>
+#include <wchar.h>
+/* Illustrates how to use wcrtomb API */
+int example_wcrtomb(wchar_t wc)
+{
+  char s[MAX_CUR_MAX];
+  size_t len;
+  mbstate_t mbs;
+  
+  /* represent a wide-char in a single byte*/
+  len = wcrtomb(s, wc, &mbs;);
+  /* return the number of bytes */
+  return(len);
+}
+
+@endcode
+
+Errors:
+
+The wcrtomb function will fail if: 
+[EILSEQ] An invalid wide character code was specified.  
+[EINVAL]  The conversion state is invalid.
+
+
+Limitations:
+
+The current implementation of wcrtomb is not affected by the LC_CTYPE category of the current locale.
+It works only for UTF8 character set.
+
+@see mbrtowc()
+@see setlocale()
+@see wctomb()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  wcscat(wchar_t *  s1, const wchar_t *  s2)
+@param s1
+@param s2
+
+Refer to wmemchr() for the documentation
+
+@see memchr()
+@see memcmp()
+@see memcpy()
+@see memmove()
+@see memset()
+@see strcat()
+@see strchr()
+@see strcmp()
+@see strcpy()
+@see strcspn()
+@see strlen()
+@see strncat()
+@see strncmp()
+@see strncpy()
+@see strpbrk()
+@see strrchr()
+@see strspn()
+@see strstr()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  wcschr(const wchar_t *s, wchar_t c)
+@param s
+@param c
+
+Refer to wmemchr() for the documentation
+
+@see memchr()
+@see memcmp()
+@see memcpy()
+@see memmove()
+@see memset()
+@see strcat()
+@see strchr()
+@see strcmp()
+@see strcpy()
+@see strcspn()
+@see strlen()
+@see strncat()
+@see strncmp()
+@see strncpy()
+@see strpbrk()
+@see strrchr()
+@see strspn()
+@see strstr()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  wcscmp(const wchar_t *s1, const wchar_t *s2)
+@param s1
+@param s2
+
+Refer to wmemchr() for the documentation
+
+@see memchr()
+@see memcmp()
+@see memcpy()
+@see memmove()
+@see memset()
+@see strcat()
+@see strchr()
+@see strcmp()
+@see strcpy()
+@see strcspn()
+@see strlen()
+@see strncat()
+@see strncmp()
+@see strncpy()
+@see strpbrk()
+@see strrchr()
+@see strspn()
+@see strstr()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  wcscoll(const wchar_t *ws1, const wchar_t *ws2)
+@param ws1
+@param ws2
+@return   The wcscoll function
+returns an integer greater than, equal to, or less than 0,
+if ws1 is greater than, equal to, or less than ws2 . No return value is reserved to indicate errors;
+callers should set errno to 0 before calling wcscoll .
+If it is non-zero upon return from wcscoll ,
+an error has occurred.
+
+  The wcscoll function compares the null-terminated strings ws1 and ws2 according to the current locale collation order.
+In the "C"
+locale, wcscoll is equivalent to wcscmp .
+
+Examples:
+@code
+#include <wchar.h>
+/* Illustrates how to use wcscoll API */
+int example_wcscoll (void)
+{  
+        /* compares the two strings */
+  if( wcscoll(L"abcdef",L"abcdeg") != L'f'-L'g')  
+   return -1;
+ return 0;
+}
+
+@endcode
+
+Errors:
+
+The wcscoll function will fail if: 
+[EILSEQ] An invalid wide character code was specified.  
+[ENOMEM]  Cannot allocate enough memory for temporary buffers.
+
+
+Limitations:
+
+The current implementation of wcscoll is not affected by the LC_CTYPE category of the current locale. It is equivalent to wcscmp in this implementation.
+
+@see setlocale()
+@see strcoll()
+@see wcscmp()
+@see wcsxfrm()
+
+
+Bugs:
+
+ The current implementation of wcscoll only works in single-byte LC_CTYPE locales, and falls back to using wcscmp in locales with extended character sets. 
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  wcscpy(wchar_t *  s1, const wchar_t *  s2)
+@param s1
+@param s2
+
+Refer to wmemchr() for the documentation
+
+@see memchr()
+@see memcmp()
+@see memcpy()
+@see memmove()
+@see memset()
+@see strcat()
+@see strchr()
+@see strcmp()
+@see strcpy()
+@see strcspn()
+@see strlen()
+@see strncat()
+@see strncmp()
+@see strncpy()
+@see strpbrk()
+@see strrchr()
+@see strspn()
+@see strstr()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @fn  wcscspn(const wchar_t *s1, const wchar_t *s2)
+@param s1
+@param s2
+
+Refer to wmemchr() for the documentation
+
+@see memchr()
+@see memcmp()
+@see memcpy()
+@see memmove()
+@see memset()
+@see strcat()
+@see strchr()
+@see strcmp()
+@see strcpy()
+@see strcspn()
+@see strlen()
+@see strncat()
+@see strncmp()
+@see strncpy()
+@see strpbrk()
+@see strrchr()
+@see strspn()
+@see strstr()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @fn  wcsftime(wchar_t *  wcs, size_t maxsize, const wchar_t *  format, const struct tm *  timeptr)
+@param wcs
+@param maxsize
+@param format
+@param timeptr
+@return   wcsftime shall return the number of wide-character codes placed into the array pointed to by wcs , not including the terminating null wide-character code. Otherwise, zero is returned and the contents of the array are unspecified.
+
+  The wcsftime function is equivalent to the strftime function except for the types of its arguments.
+Refer to  strftime() for a detailed description.
+
+Examples:
+@code
+#include <wchar.h>
+#include <time.h>
+/* Illustatrates how to use wcsftime API */
+int example_wcsftime()
+{  
+  wchar_t datestring[50];
+  int retval;
+  struct tm *tm;
+ 
+  /* get the current time */
+  time_t t = time(NULL);
+ 
+  /* get the local time from the current time */
+  tm = localtime(&t;);
+  /* convert date and time to a wide-character string */
+  retval = wcsftime(datestring,15,L"%A",tm);
+ 
+  /* If the total number of resulting wide-character codes */
+  /* including the terminating null wide-character code is */
+  /* no more than maxsize, wcsftime() shall return the number */
+  /* of wide-character codes placed into the array pointed to */
+  /* by wcs, not including the terminating null wide-character */
+  /* code. Otherwise, zero is returned and the contents of the */
+  /* array are unspecified.*/
+  return retval;
+}
+
+@endcode
+ 
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @fn  wcslen(const wchar_t *s)
+@param s
+
+Refer to wmemchr() for the documentation
+
+@see memchr()
+@see memcmp()
+@see memcpy()
+@see memmove()
+@see memset()
+@see strcat()
+@see strchr()
+@see strcmp()
+@see strcpy()
+@see strcspn()
+@see strlen()
+@see strncat()
+@see strncmp()
+@see strncpy()
+@see strpbrk()
+@see strrchr()
+@see strspn()
+@see strstr()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @fn  wcsncat(wchar_t *  s1, const wchar_t *  s2, size_t n)
+@param s1
+@param s2
+@param n
+
+Refer to wmemchr() for the documentation
+
+@see memchr()
+@see memcmp()
+@see memcpy()
+@see memmove()
+@see memset()
+@see strcat()
+@see strchr()
+@see strcmp()
+@see strcpy()
+@see strcspn()
+@see strlen()
+@see strncat()
+@see strncmp()
+@see strncpy()
+@see strpbrk()
+@see strrchr()
+@see strspn()
+@see strstr()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @fn  wcsncmp(const wchar_t *s1, const wchar_t * s2, size_t n)
+@param s1
+@param s2
+@param n
+
+Refer to wmemchr() for the documentation
+
+@see memchr()
+@see memcmp()
+@see memcpy()
+@see memmove()
+@see memset()
+@see strcat()
+@see strchr()
+@see strcmp()
+@see strcpy()
+@see strcspn()
+@see strlen()
+@see strncat()
+@see strncmp()
+@see strncpy()
+@see strpbrk()
+@see strrchr()
+@see strspn()
+@see strstr()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @fn  wcsncpy(wchar_t *  dst, const wchar_t *  src, size_t n)
+@param dst
+@param src
+@param n
+
+Refer to wmemchr() for the documentation
+
+@see memchr()
+@see memcmp()
+@see memcpy()
+@see memmove()
+@see memset()
+@see strcat()
+@see strchr()
+@see strcmp()
+@see strcpy()
+@see strcspn()
+@see strlen()
+@see strncat()
+@see strncmp()
+@see strncpy()
+@see strpbrk()
+@see strrchr()
+@see strspn()
+@see strstr()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @fn  wcspbrk(const wchar_t *s1, const wchar_t *s2)
+@param s1
+@param s2
+
+Refer to wmemchr() for the documentation
+
+@see memchr()
+@see memcmp()
+@see memcpy()
+@see memmove()
+@see memset()
+@see strcat()
+@see strchr()
+@see strcmp()
+@see strcpy()
+@see strcspn()
+@see strlen()
+@see strncat()
+@see strncmp()
+@see strncpy()
+@see strpbrk()
+@see strrchr()
+@see strspn()
+@see strstr()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @fn  wcsrchr(const wchar_t *s, wchar_t c)
+@param s
+@param c
+
+Refer to wmemchr() for the documentation
+
+@see memchr()
+@see memcmp()
+@see memcpy()
+@see memmove()
+@see memset()
+@see strcat()
+@see strchr()
+@see strcmp()
+@see strcpy()
+@see strcspn()
+@see strlen()
+@see strncat()
+@see strncmp()
+@see strncpy()
+@see strpbrk()
+@see strrchr()
+@see strspn()
+@see strstr()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @fn  wcsrtombs(char *  dst, const wchar_t **  src, size_t len, mbstate_t *  ps)
+@param dst
+@param src
+@param len
+@param ps
+
+Note: This description also covers the following functions -
+ wcsnrtombs() 
+
+@return   The wcsrtombs and wcsnrtombs functions return the number of bytes stored in
+the array pointed to by dst (not including any terminating null), if successful, otherwise it returns ( size_t-1) .
+
+  The wcsrtombs function converts a string of wide characters indirectly pointed to by src to a corresponding multibyte character string stored in the array
+pointed to by dst .
+No more than len bytes are written to dst .
+
+ If dst is NULL ,
+no characters are stored.
+
+ If dst is not NULL ,
+the pointer pointed to by src is updated to point to the character after the one that conversion stopped at.
+If conversion stops because a null character is encountered, *src is set to NULL .
+
+ The mbstate_t
+argument, ps ,
+is used to keep track of the shift state.
+If it is NULL , wcsrtombs uses an internal, static mbstate_t
+object, which is initialized to the initial conversion state
+at program startup.
+
+ The wcsnrtombs function behaves identically to wcsrtombs ,
+except that conversion stops after reading at most nwc characters from the buffer pointed to by src .
+The behavior of the wcsrtombs and wcsrntombs is affected by LC_CTYPE category of the current locale.
+
+Examples:
+@code
+#include <stdlib.h>
+#include <wchar.h>
+/* Illustrates how to use wcsrtombs API */
+size_t example_wcsrtombs(wchar_t *wcs, char *s, size_t n)
+{
+ size_t len;
+ mstate_t mbs;
+ /* converting multibyte string to a wide-char string */
+ len = wcsrtombs(s, &wcs;, n, &mbs;);
+ /* returning no of bytes that make up the multibyte sequence */
+ return (len;);
+}
+
+@endcode
+@code
+#include <stdlib.h>
+#include <wchar.h>
+/* Illustrates how to use wcsnrtombs API */
+size_t example_wcsnrtombs(wchar_t *wcs, char *s, size_t n, szie_t nmwc)
+{
+ size_t len;
+ mstate_t mbs;
+ /* converting multibyte string to a wide-char string */
+ len = wcsrtombs(s, &wcs;, nwc, n, &mbs;);
+ /* returning no of bytes that make up the multibyte sequence */
+ return (len;);
+}
+
+@endcode
+
+Limitations:
+
+The current implementation of wcsrtombs and wcsnrtombs is not affected by the LC_CTYPE category of the current locale.
+It works only for UTF8 character set.
+
+@see mbsrtowcs()
+@see wcrtomb()
+@see wcstombs()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @fn  wcsspn(const wchar_t *s1, const wchar_t *s2)
+@param s1
+@param s2
+
+Refer to wmemchr() for the documentation
+
+@see memchr()
+@see memcmp()
+@see memcpy()
+@see memmove()
+@see memset()
+@see strcat()
+@see strchr()
+@see strcmp()
+@see strcpy()
+@see strcspn()
+@see strlen()
+@see strncat()
+@see strncmp()
+@see strncpy()
+@see strpbrk()
+@see strrchr()
+@see strspn()
+@see strstr()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @fn  wcsstr(const wchar_t *  s, const wchar_t *  find)
+@param s
+@param find
+
+Refer to wmemchr() for the documentation
+
+@see memchr()
+@see memcmp()
+@see memcpy()
+@see memmove()
+@see memset()
+@see strcat()
+@see strchr()
+@see strcmp()
+@see strcpy()
+@see strcspn()
+@see strlen()
+@see strncat()
+@see strncmp()
+@see strncpy()
+@see strpbrk()
+@see strrchr()
+@see strspn()
+@see strstr()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @fn  wcsxfrm(wchar_t *  dest, const wchar_t *  src, size_t len)
+@param dest
+@param src
+@param len
+@return   Upon successful completion, wcsxfrm returns the length of the transformed string not including
+the terminating null character.
+If this value is len or more, the contents of dest are indeterminate.
+
+  The wcsxfrm function transforms a null-terminated wide character string pointed to by src according to the current locale collation order
+then copies the transformed string
+into dest .
+No more than len wide characters are copied into dest ,
+including the terminating null character added.
+If len is set to 0
+(it helps to determine an actual size needed
+for transformation), dest is permitted to be a NULL pointer.
+
+ Comparing two strings using wcscmp after wcsxfrm is equivalent to comparing
+two original strings with wcscoll .
+
+Examples:
+@code
+#include <stdlib.h>
+#include <wchar.h>
+/* Illustrates how to use wcpcpy API */
+int example_wcpcpy()
+{ 
+  /* input string for which length to be found */
+ wchar_t *src = L"testcase";
+  wchar_t *dest = NULL;
+  int      length; 
+    
+  /* allocate memory for the destination string */
+  dest = (wchar_t *)malloc((wcslen(src)+1)*sizeof(wchar_t));
+    
+  /*  perform the operation */
+  if(dest != NULL)
+   length = wcsxfrm(dest,src,9);
+  else
+  { 
+   wprintf(L"ERROR : Cannot allocate memory");
+  return -1;
+  } 
+  return length;
+}
+
+@endcode
+
+Limitations:
+
+The current implementation of wcsxfrm works only for "C" locale.
+
+@see setlocale()
+@see strxfrm()
+@see wcscmp()
+@see wcscoll()
+
+
+Bugs:
+
+ The current implementation of wcsxfrm only works in single-byte LC_CTYPE locales, and falls back to using wcsncpy in locales with extended character sets. Comparing two strings using wcscmp after wcsxfrm is not always equivalent to comparison with wcscoll ; wcsxfrm only stores information about primary collation weights into dst ,
+whereas wcscoll compares characters using both primary and secondary weights. 
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @fn  wctob(wint_t c)
+@param c
+
+Refer to btowc() for the documentation
+
+@see mbrtowc()
+@see wcrtomb()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @fn  wcstod(const wchar_t *  nptr, wchar_t **  endptr)
+@param nptr
+@param endptr
+
+Refer to wcstof() for the documentation
+
+@see strtod()
+@see wcstol()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @fn  wcstok(wchar_t *  s, const wchar_t *  delim, wchar_t **  last)
+@param s
+@param delim
+@param last
+@return   The wcstok function
+returns a pointer to the beginning of each subsequent token in the string,
+after replacing the token itself with a null wide character (L'//0').
+When no more tokens remain, a null pointer is returned.
+
+  The wcstok function
+is used to isolate sequential tokens in a null-terminated wide character
+string, s.
+These tokens are separated in the string by at least one of the
+characters in delim .
+The first time that wcstok is called, s should be specified; subsequent calls, wishing to obtain further tokens
+from the same string, should pass a null pointer instead.
+The separator string, delim ,
+must be supplied each time, and may change between calls.
+The context pointer last must be provided on each call.
+
+ The wcstok function is the wide character counterpart of the strtok_r function.
+
+
+Examples:
+
+@code
+#include <wchar.h>
+/* Illustrates how to use wcstok API */
+int example_wcstok()
+{  
+  /* source wide character string */
+ const wchar_t *seps = L"onetwhr";
+ wchar_t *last, *tok, text[] = L"onetwothree";
+              
+ tok = wcstok(text, seps, &last;);
+ if(tok == NULL)
+   return 0;
+ else
+    return 1;
+}
+
+@endcode
+
+Examples:
+
+ The following code fragment splits a wide character string on ASCII space, tab and newline characters and writes the tokens to
+standard output:
+
+@code
+const wchar_t *seps = L" 	
+";
+wchar_t *last, *tok, text[] = L" 
+one	two		three  
+";
+for (tok = wcstok(text, seps, &last;); tok != NULL;
+    tok = wcstok(NULL, seps, &last;))
+        wprintf(L"%ls
+", tok);
+
+@endcode
+@see strtok()
+@see wcschr()
+@see wcscspn()
+@see wcspbrk()
+@see wcsrchr()
+@see wcsspn()
+
+
+Some early implementations of wcstok omit the context pointer argument, last, and maintain state across calls in a static variable like strtok does.
+
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @fn  wcstol(const wchar_t *  nptr, wchar_t **  endptr, int base)
+@param nptr
+@param endptr
+@param base
+
+Note: This description also covers the following functions -
+ wcstoul()  wcstoll()  wcstoull()  wcstoq()  wcstouq()  wcstoimax()  wcstoumax() 
+
+@return   errno may be set to indicate the error. If the correct value is outside 
+  the range of representable values {LONG_MIN}, {LONG_MAX}, {LLONG_MIN}, or {LLONG_MAX} 
+  is returned (according to the sign of the value) and errno set to [ERANGE].
+
+  The wcstol , wcstoul , wcstoll , wcstoull , wcstoimax and wcstoumax functions are wide-character versions of the strtol , strtoul , strtoll , strtoull , strtoimax and strtoumax functions, respectively.
+Refer to their manual pages (for example strtol )
+for details.
+The wcstoq and wcstouq are respectively equivalent to wcstoll and wcstoull.
+
+Examples:
+@code
+#include <wchar.h>
+/* Illustrates how to use wcstoumax API */
+uintmax_t example_wcstoumax()
+{  
+  /* src string */
+ wchar_t *src = L"478";
+  uintmax_t longVal;
+    
+  /* convert the wide character string to uintmax_t */
+  longVal = wcstoumax(src,NULL,10);
+  /* return the converted long value */
+ return longVal;
+}
+
+@endcode
+@code
+#include <wchar.h>
+/* Illustrates how to use wcstoimax API */
+intmax_t example_wcstoimax()
+{  
+  /* src string */
+ wchar_t *src = L"478";
+  intmax_t longVal;
+    
+  /* convert the wide character string to intmax_t */
+  longVal = wcstoimax(src,NULL,10);
+  /* return the converted long value */
+ return longVal;
+}
+
+@endcode
+@code
+#include <wchar.h>
+/* Illustrates how to use wcstol API */
+long example_wcstol()
+{  
+  /* src string */
+ wchar_t *src = L"478";
+  long  longVal;
+    
+  /* call the API to convert src string to long value */
+  longVal = wcstol(src,NULL,10);
+  /* return the converted long value */
+ return longVal;
+}
+
+@endcode
+@code
+#include <wchar.h>
+/* Illustrates how to use wcstoul API */
+unsigned long example_wcstoul()
+{  
+  /* src string */
+  wchar_t *src = L"478";
+  unsigned long  longVal;
+    
+  /* call the API to convert src string to unsigned */
+  /* long value */
+  longVal = wcstoul(src,NULL,10);
+  /* return the converted long value */
+ return longVal;
+}
+
+@endcode
+@code
+#include <wchar.h>
+/* Illustatrates how to use wcstoll API */
+long long example_wcstoll()
+{ 
+  /* input string for which length to be found */
+ wchar_t *src = L"478";
+ long long  longVal;
+    
+  /* perform the conversion operation from wide */
+  /* char string to long long value */
+  longVal = wcstoll(src,NULL,10);
+     
+  return longVal;
+}
+
+@endcode
+@code
+#include <wchar.h>
+/* Illustatrates how to use wcstoull API */
+unsigned long long example_wcstoull()
+{ 
+  /* input string for which length to be found */
+ wchar_t *src = L"478";
+  unsigned long long  longVal;
+    
+  /* perform the conversion operation from wide */
+  /*char string to unsigned long long value */
+  longVal = wcstoull(src,NULL,10);
+     
+  return longVal;
+}
+
+@endcode
+@code
+#include <wchar.h>
+/* Illustrates how to use wcstoq API */
+long long int example_wcstoq()
+{ 
+ /* src string that contains decimal digits */
+ wchar_t *src = L"478";
+ long long int  longVal;
+ /* convert the decimal wide char string to long long int value */
+ longVal = wcstoq(src,NULL,10);
+ /* return longVal and its value should be 478 */
+ return longVal;
+}
+
+@endcode
+@code
+#include <wchar.h>
+/* Illustrates how to use wcstouq API */
+unsigned long long int example_wcstouq()
+{ 
+ /* src string that contains decimal digits */
+ wchar_t *src = L"478";
+ unsigned long long int  longVal;
+ /* convert the decimal wide char string  to unsigned long long int value */
+ longVal = wcstouq(src,NULL,10);
+ /* return longVal, which should be 478 */   
+ return longVal;
+}
+
+@endcode
+@see strtol()
+@see strtoul()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @fn  wcstoul(const wchar_t *  nptr, wchar_t **  endptr, int base)
+@param nptr
+@param endptr
+@param base
+
+Refer to wcstol() for the documentation
+
+@see strtol()
+@see strtoul()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @fn  wmemchr(const wchar_t *s, wchar_t c, size_t n)
+@param s
+@param c
+@param n
+
+Note: This description also covers the following functions -
+ wmemcmp()  wmemcpy()  wmemmove()  wmemset()  wcscat()  wcschr()  wcscmp()  wcscpy()  wcscspn()  wcslcat()  wcslcpy()  wcslen()  wcsncat()  wcsncmp()  wcsncpy()  wcspbrk()  wcsrchr()  wcsspn()  wcsstr() 
+
+@return   wmemchr function returns a pointer to the first occurrence of c among the n wide characters starting at s , or NULL if c does not occur among these. wcslcpy function returns wcslen(src); if retval \>= siz, truncation occurred wcslcat function returns wcslen(initial dst) + wcslen(src); if retval \>= sizet,
+
+ 
+
+
+
+ The function wcslcat() appends a copy of the wide-character string
+pointed to by s2 (including the terminating null wide-character code) to the end
+of the wide-character string pointed to by s1. The initial wide-character code
+of string pointed to by s2 overwrites the null wide-character code at the end of s1. wcslcat() concatenates at most n-1 characters.
+
+
+
+ The function wcslcpy() copies the wide-character string pointed to by s2 (including the terminating null wide-character code) into the array pointed to by s1.
+It will copy at most n-1 characters.
+
+
+
+ The functions implement string manipulation operations over wide character
+strings.
+For a detailed description, refer to documents for the respective single-byte
+counterpart, such as memchr .
+
+Examples:
+@code
+#include <wchar.h>
+/* Illustrates how to use wmemcmp API */
+int example_wmemcmp()
+{  
+  /* source wide character string */
+  wchar_t *ws1 = L"test case",*ws2 = L"test case";
+  int retval;
+ /* comparing the 2 wide-char strings */
+ retval = wmemcmp(ws1,ws2,500);
+  /* checking for the return value */
+  if(retval != 0)
+   return 1;
+  else
+   return 0;
+}
+
+@endcode
+@code
+#include <wchar.h>
+/* Illustrates how to use wmemcpy API */
+int example_wmemcpy()
+{  
+  /* source wide character string */
+  wchar_t ws1[50]=L"abcdefghij",*retval,ws2[50]=L"test";
+  /* compare the strings */
+  retval = wmemcpy(ws1,ws2,6);
+  for(int i=0;i<6;i++)
+  {
+   if(retval[i] != ws2[i] || ws1[i] != ws2[i])
+    return 1;
+  }
+  return 0;
+}
+
+@endcode
+@code
+#include <wchar.h>
+/* Illustrates how to use wmemmove API */
+int example_wmemmove()
+{  
+  /* source wide character string */
+  wchar_t ws1[50]=L"abcdefghij",*retval,ws2[5] = L"abc";
+  int i;
+ 
+  /* move the contents of ws2 to ws1 */
+  retval = wmemmove(ws1,ws2,3);
+ /* compare the contents */
+  for(i=0;i<3;i++)
+  {
+   if(ws1[i] != ws2[i])
+     return 1;
+  }
+  return 0;
+}
+
+@endcode
+@code
+#include <wchar.h>
+/* Illustrates how to use wmemset API */
+int example_wmemset()
+{  
+  /* source wide character string */
+  wchar_t ws1[50]=L"abcdefghij", *retval;
+  int i;
+  /* setting the wide-string ws1 */
+  retval = wmemset(ws1,L'a',7);
+ /* comparing the contents */
+  for(i=0;i<7;i++)
+  {
+   if(ws1[i] != L'a')
+     return 1;
+  }
+  return 0;
+}
+
+@endcode
+@code
+#include <wchar.h>
+/* Illustrates how to use wmemchr API */
+wchar_t *example_wmemchr(void)
+{
+ wchar_t *wcs = L"lmnopqr";
+ size_t n;
+ wchar_t wc = L'p';
+ wchar_t *res;
+ /* number of wide characters to be searched */
+ n = wcslen(wcs);
+ /* search for the occurence of wchar wc in wide-char string wcs */
+ res = wmemchr(wcs, wc, n);
+ /* return the pointer */
+ return(res);
+}
+
+@endcode
+@code
+#include <wchar.h>
+/* Illustrates how to use wcslen API */
+size_t example_wcslen(void)
+{
+ wchar_t *wcs = L"defqwert";
+ size_t len;
+ /* compute the length of the wide-char string */
+ len = wcslen(wcs);
+ /* return the length of the wide-char string */
+ return (len);
+}
+
+@endcode
+@code
+#include <wchar.h>
+/* Illustrates how to use wcscat API */
+void example_wcscat(void)
+{
+ wchar_t wcs[100] = L"abc";
+ wchar_t *wcs1 = L"def";
+ wchar *res;
+ /* concatenate the two strings */
+ res = wcscat(wcs, wcs1);
+ /* print the string that resulted from concatenation */
+ wprintf(L"Output wide-char string is : %ls
+",res);
+}
+
+@endcode
+ Output
+@code
+abcdef
+
+@endcode
+@code
+#include <wchar.h>
+/* Illustrates how to use wcschr API */
+int example_ wcschr ()
+{  
+  /* source wide character string */
+ wchar_t search_char[15] = L"&&&&$%%%%%TTU";
+ wchar_t *wstr;
+ int i ;
+ for(i = 0 ; search_char[i]; i++)
+ {
+   wstr = wcschr(L"", search_char[i]);
+   if(wstr != NULL)
+   {
+    return -1;
+   }
+ }
+ return 0;
+}
+
+@endcode
+@code
+int example_wcscmp()
+{  
+  /* source wide character string */
+ wchar_t *wcs1 = "string1";
+ wchar_t *wcs2 = "string2";
+ int i ;
+ i = wcscmp(wcs1, wcs2);
+ if( i == 0)
+  return -1;
+ 
+ i = wcscmp(wcs1, L"string1");
+ if(i != 0)
+  return -1;
+ 
+ return 0;
+}
+
+@endcode
+@code
+#include <wchar.h>
+/* Illustrates how to use wcscpy API */
+int example_wcscpy ()
+{  
+  /* source wide character string */
+  wchar_t wcs1[15];
+  wchar_t *res;
+ 
+  /* copy the wide-char string into wcs1*/
+  res = wcscpy(wcs1, L"Hello world");
+ 
+  if(wcscmp(res, L"Hello world") != 0)
+   return -1;
+ 
+  return 0;
+}
+
+@endcode
+@code
+#include <wchar.h>
+/* Illustrates how to use wcslcpy API */
+int example_wcslcpy ()
+{  
+  /* source wide character string */
+  wchar_t src[25] = L"Source";
+  wchar_t dest[20]= L"Destination";
+ 
+  /* copy the wide-char string into dest*/
+ 
+        size_t t = wcslcpy(dest,src,4);
+                
+                if(wcscmp(dest,L"Sou")!=0)
+    return -1;
+ 
+  return 0;
+}
+
+@endcode
+@code
+#include <wchar.h>
+/* Illustrates how to use wcslcat API */
+int example_wcslcat ()
+{  
+  /* source wide character string */
+  wchar_t src[25] = L"Source";
+  wchar_t dest[20]= L"Destination";
+ 
+  /* concate the wide-char string into dest*/
+ 
+        size_t t = wcslcat(dest,src,14);
+                
+                if(wcscmp(dest,"DestinationSo")!=0)
+    return -1;
+ 
+  return 0;
+}
+
+@endcode
+@code
+#include <wchar.h>
+/* Illustrates how to use wcscspnAPI */
+int example_wcscspn ()
+{  
+  /* source wide character string */
+  wchar_t wcs1[30] = L"1234567890ABCDE!@#$$";
+  wchar_t *wcs2[20] = { L"abcdefghijkl",
+     L":::?>_)+(|{>",
+     L"~*(&IUIJJJ;",
+     L"1234567",
+     L":::?>",
+     L"1",
+     L"as1sd2ds3ds48f5fd"
+   };
+  int i;
+ 
+  for( i = 0; i < 3 ; i ++)
+  {
+   if( wcslen(wcs1) != wcscspn(wcs1,wcs2[i]))
+     return -1;
+  }
+ 
+  return 0;
+}
+
+@endcode
+@code
+#include <wchar.h>
+/* Illustrates how to use wcsncat API */
+int example_wcsncat ()
+{  
+  /* source wide character string */
+  wchar_t *res;
+  wchar_t str[50];
+ 
+  wcscpy(str, L"Hello");
+  res = wcsncat(str,L" world",12);
+ if(wcscmp(str, L"Hello world") != 0)
+  return -1;
+ else
+  return 0;
+}
+
+@endcode
+@code
+#include <wchar.h>
+/* Illustrates how to use wcsncmp API */
+int example_wcsncmp()
+{  
+  /* source wide character string */
+  wchar_t *wcs1 = L"Hello world";
+  if(wcsncmp(wcs1,wcs1,wcslen(wcs1))) 
+   return -1;
+  else
+   return 0;
+}
+
+@endcode
+@code
+#include <wchar.h>
+/* Illustrates how to use wcsncpy API */
+int example_wcsncpy ()
+{  
+  /* source wide character string */
+  wchar_t wcs1[15] = L"Hello world";
+  wchar_t *res;
+  res = wcsncpy(wcs1,wcs1,wcslen(wcs1));
+  if(wcscmp(res,wcs1))
+  return -1;
+  return 0;
+}
+
+@endcode
+@code
+#include <wchar.h>
+/* Illustrates how to use wcspbrk API */
+int example_wcspbrk ()
+{  
+  /* source wide character string */
+ wchar_t *wcs = L"abcdefghijkl";
+  wchar_t *res1 = wcspbrk(wcs, L"");
+  if(res1 != NULL)
+   return -1;
+ 
+  return 0;
+}
+
+@endcode
+@code
+#include <wchar.h>
+/* Illustrates how to use wcsrchr API */
+int example_wcsrchr ()
+{  
+  /* source wide character string */
+ wchar_t search_char[15] = L"&&&&$%%%%%TTU";
+  wchar_t *wstr;
+  int i ;
+ 
+  for(i = 0 ; search_char[i]; i++)
+  {
+   wstr = wcsrchr(L"", search_char[i]);
+   if(wstr != NULL)
+   {
+     return -1;
+   }
+  }
+  return 0;
+}
+
+@endcode
+@code
+#include <wchar.h>
+/* Illustrates how to use wcsspn API */
+int example_wcsspn()
+{  
+  /* source wide character string */
+ wchar_t wcs1[30] = L"1234567890ABCDE!@#$$";
+ if(wcslen(wcs1) != wcsspn(wcs1,wcs1)) 
+  return -1;
+ return 0;
+}
+
+@endcode
+@code
+#include <wchar.h>
+/* Illustrates how to use wcsstr API */
+int example_wcsstr()
+{  
+  /* source wide character string */
+ wchar_t *buf[20] = { L"fkhsdf%%38",L"rtti123123", };
+ wchar_t *str  = wcsstr(buf[0],L"\0");
+ wchar_t *str1 = wcsstr(buf[1],L"\0");
+ if(wcscmp(str,buf[0]))
+   return 1;
+ if(wcscmp(str1,buf[1]))
+   return 1
+ return 0;
+}
+
+@endcode
+@see memchr()
+@see memcmp()
+@see memcpy()
+@see memmove()
+@see memset()
+@see strcat()
+@see strchr()
+@see strcmp()
+@see strcpy()
+@see strcspn()
+@see strlen()
+@see strncat()
+@see strncmp()
+@see strncpy()
+@see strpbrk()
+@see strrchr()
+@see strspn()
+@see strstr()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @fn  wmemcmp(const wchar_t *s1, const wchar_t *s2, size_t n)
+@param s1
+@param s2
+@param n
+
+Refer to wmemchr() for the documentation
+
+@see memchr()
+@see memcmp()
+@see memcpy()
+@see memmove()
+@see memset()
+@see strcat()
+@see strchr()
+@see strcmp()
+@see strcpy()
+@see strcspn()
+@see strlen()
+@see strncat()
+@see strncmp()
+@see strncpy()
+@see strpbrk()
+@see strrchr()
+@see strspn()
+@see strstr()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @fn  wmemcpy(wchar_t *  s1, const wchar_t *  s2, size_t n)
+@param s1
+@param s2
+@param n
+
+Refer to wmemchr() for the documentation
+
+@see memchr()
+@see memcmp()
+@see memcpy()
+@see memmove()
+@see memset()
+@see strcat()
+@see strchr()
+@see strcmp()
+@see strcpy()
+@see strcspn()
+@see strlen()
+@see strncat()
+@see strncmp()
+@see strncpy()
+@see strpbrk()
+@see strrchr()
+@see strspn()
+@see strstr()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @fn  wmemmove(wchar_t *s1, const wchar_t *s2, size_t n)
+@param s1
+@param s2
+@param n
+
+Refer to wmemchr() for the documentation
+
+@see memchr()
+@see memcmp()
+@see memcpy()
+@see memmove()
+@see memset()
+@see strcat()
+@see strchr()
+@see strcmp()
+@see strcpy()
+@see strcspn()
+@see strlen()
+@see strncat()
+@see strncmp()
+@see strncpy()
+@see strpbrk()
+@see strrchr()
+@see strspn()
+@see strstr()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @fn  wmemset(wchar_t *s, wchar_t c, size_t n)
+@param s
+@param c
+@param n
+
+Refer to wmemchr() for the documentation
+
+@see memchr()
+@see memcmp()
+@see memcpy()
+@see memmove()
+@see memset()
+@see strcat()
+@see strchr()
+@see strcmp()
+@see strcpy()
+@see strcspn()
+@see strlen()
+@see strncat()
+@see strncmp()
+@see strncpy()
+@see strpbrk()
+@see strrchr()
+@see strspn()
+@see strstr()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @fn  wprintf(const wchar_t *fmt, ...)
+@param fmt
+@param ...
+
+Refer to fwprintf() for the documentation
+
+@see btowc()
+@see fputws()
+@see printf()
+@see putwc()
+@see setlocale()
+@see wcsrtombs()
+@see wscanf()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @fn  wscanf(const wchar_t *fmt, ...)
+@param fmt
+@param ...
+
+Note: This description also covers the following functions -
+ fwscanf()  swscanf()  vwscanf()  vswscanf()  vfwscanf() 
+
+@return   These
+functions
+return
+the number of input items assigned, which can be fewer than provided
+for, or even zero, in the event of a matching failure.
+Zero
+indicates that, while there was input available,
+no conversions were assigned;
+typically this is due to an invalid input character,
+such as an alphabetic character for a '\%d'
+conversion.
+The value EOF is returned if an input failure occurs before any conversion such as an
+end-of-file occurs.
+If an error or end-of-file occurs after conversion
+has begun,
+the number of conversions which were successfully completed is returned.
+
+  The wscanf family of functions scans input according to a format as described below.
+This format may contain conversion specifiers ;
+the results from such conversions, if any,
+are stored through the pointer arguments.
+The wscanf function
+reads input from the standard input stream stdin , fwscanf reads input from the stream pointer stream ,
+and swscanf reads its input from the wide character string pointed to by str .
+The vfwscanf function
+is analogous to vfwprintf and reads input from the stream pointer stream using a variable argument list of pointers.
+The vwscanf function scans a variable argument list from the standard input and
+the vswscanf function scans it from a wide character string;
+these are analogous to
+the vwprintf and vswprintf functions respectively.
+Each successive pointer argument must correspond properly with
+each successive conversion specifier
+(but see the * conversion below).
+All conversions are introduced by the \% (percent sign) character.
+The format string
+may also contain other characters.
+White space (such as blanks, tabs, or newlines) in the format string match any amount of white space, including none, in the input.
+Everything else
+matches only itself.
+Scanning stops
+when an input character does not match such a format character.
+Scanning also stops
+when an input conversion cannot be made (see below).
+
+
+Conversions:
+
+@code
+
+Following the % character introducing a conversion there may be a number of flag characters, as follows: *  Suppresses assignment. The conversion that follows occurs as usual, but no pointer is used; the result of the conversion is simply discarded.  
+hh  Indicates that the conversion will be one of dioux or n and the next pointer is a pointer to a char (rather than int ) .  
+h  Indicates that the conversion will be one of dioux or n and the next pointer is a pointer to a short int (rather than int ) .  
+l (ell)  Indicates that the conversion will be one of dioux or n and the next pointer is a pointer to a long int (rather than int ) , that the conversion will be one of a, e, f, or g and the next pointer is a pointer to double (rather than float ) , or that the conversion will be one of c or s and the next pointer is a pointer to an array of wchar_t (rather than char ) .  
+ll (ell ell)  
+  Indicates that the conversion will be one of dioux or n and the next pointer is a pointer to a long long int (rather than int ) .  
+L  Indicates that the conversion will be one of a, e, f, or g and the next pointer is a pointer to long double .  
+j  Indicates that the conversion will be one of dioux or n and the next pointer is a pointer to a intmax_t (rather than int ) .  
+t  Indicates that the conversion will be one of dioux or n and the next pointer is a pointer to a ptrdiff_t (rather than int ) .  
+z  Indicates that the conversion will be one of dioux or n and the next pointer is a pointer to a size_t (rather than int ) .  
+q  (deprecated.) Indicates that the conversion will be one of dioux or n and the next pointer is a pointer to a long long int (rather than int ) .  
+
+
+In addition to these flags, there may be an optional maximum field width, expressed as a decimal integer, between the % and the conversion. If no width is given, a default of "infinity" is used (with one exception, below); otherwise at most this many characters are scanned in processing the conversion. Before conversion begins, most conversions skip white space; this white space is not counted against the field width. 
+
+The following conversions are available: %  Matches a literal ‘%’. That is, "%%" in the format string matches a single input ‘%’ character. No conversion is done, and assignment does not occur.  
+d  Matches an optionally signed decimal integer; the next pointer must be a pointer to int .  
+i  Matches an optionally signed integer; the next pointer must be a pointer to int . The integer is read in base 16 if it begins with ‘0x’ or ‘0X’, in base 8 if it begins with ‘0’, and in base 10 otherwise. Only characters that correspond to the base are used.  
+o  Matches an octal integer; the next pointer must be a pointer to unsigned int .  
+u  Matches an optionally signed decimal integer; the next pointer must be a pointer to unsigned int .  
+x, X  Matches an optionally signed hexadecimal integer; the next pointer must be a pointer to unsigned int .  
+a, A, e, E, f, F, g, G  
+  Matches a floating-point number in the style of wcstod. The next pointer must be a pointer to float (unless l or L is specified.)  
+s  Matches a sequence of non-white-space wide characters; the next pointer must be a pointer to char , and the array must be large enough to accept the multibyte representation of all the sequence and the terminating NUL character. The input string stops at white space or at the maximum field width, whichever occurs first. 
+If an l qualifier is present, the next pointer must be a pointer to wchar_t , into which the input will be placed. 
+ 
+S  The same as ls.  
+c  Matches a sequence of width count wide characters (default 1); the next pointer must be a pointer to char , and there must be enough room for the multibyte representation of all the characters (no terminating NUL is added). The usual skip of leading white space is suppressed. To skip white space first, use an explicit space in the format. 
+If an l qualifier is present, the next pointer must be a pointer to wchar_t , into which the input will be placed. 
+ 
+C  The same as lc.  
+[  Matches a nonempty sequence of characters from the specified set of accepted characters; the next pointer must be a pointer to char , and there must be enough room for the multibyte representation of all the characters in the string, plus a terminating NUL character. The usual skip of leading white space is suppressed. The string is to be made up of characters in (or not in) a particular set; the set is defined by the characters between the open bracket [ character and a close bracket ] character. The set excludes those characters if the first character after the open bracket is a circumflex ^. To include a close bracket in the set, make it the first character after the open bracket or the circumflex; any other position will end the set. To include a hyphen in the set, make it the last character before the final close bracket; some implementations of wscanf use "A-Z" to represent the range of characters between ‘A’ and ‘Z’. The string ends with the appearance of a character not in the (or, with a circumflex, in) set or when the field width runs out. 
+If an l qualifier is present, the next pointer must be a pointer to wchar_t , into which the input will be placed. 
+ 
+p  Matches a pointer value (as printed by ‘%p’ in wprintf); the next pointer must be a pointer to void .  
+n  Nothing is expected; instead, the number of characters consumed thus far from the input is stored through the next pointer, which must be a pointer to int . This is not a conversion, although it can be suppressed with the * flag.  
+
+
+
+The decimal point character is defined in the program’s locale (category LC_NUMERIC). 
+
+For backwards compatibility, a "conversion" of ‘%\0’ causes an immediate return of EOF. 
+
+@endcode
+
+Examples:
+@code
+#include <stdio.h>
+#include <wchar.h>
+/* Illustrates how to use wscanf API */
+int example_wscanf(void)
+{
+  int rval;
+  int input;
+ /* Display a message to the user to input an integer */
+ wprintf(L"Enter an integer : ");
+  /* Read an integer from the standard input */
+  rval = wscanf(L"%d", &input;);
+ 
+  /* return the number of inputs that were read */
+  return(rval);
+}
+
+@endcode
+@code
+#include <stdio.h>
+#include <wchar.h>
+/* Illustrates how to use swscanf API */
+int example_swscanf(void)
+{
+  int rval;
+  wchar_t wcs[100];
+  wchar_t *bufptr = L"abcdefg";
+ /* Read a string from the buffer bufptr*/
+  rval = swscanf(bufptr, L"%s", wcs);
+ 
+  /* The string that was read into wcs is printed */
+  wprintf(L"%s",wcs);
+ 
+  /* return the number of inputs that were read */
+  return(rval);
+}
+
+@endcode
+@code
+#include <stdio.h>
+#include <wchar.h>
+/* Illustrates how to use fwscanf API */
+int example_fwscanf(void)
+{
+  FILE *fp = NULL;
+  int retval;
+  wchar_t wcs[100];
+   
+  /* open the file for writing*/
+  fp = fopen("write.txt","w");
+  if(fp == NULL)
+  {
+    wprintf(L"Error: File open
+");
+    return (-1);
+  }
+ /* Read a string from fp*/
+  rval = fwscanf(fp, L"%s", wcs);
+ 
+ /* Close the file that was opened */
+  fclose(fp);
+ 
+  /* return the number of inputs that were read */
+  return(rval);
+}
+
+@endcode
+@code
+#include <stdio.h>
+#include <wchar.h>
+/* Illustrates how to use vwscanf API */
+int example_vwscanf(va_list arg)
+{
+  int retval;
+    
+ /* Read a string from standard input */
+  rval = vwscanf(L"%s", arg);
+ 
+  /* return the number of inputs that were read */
+  return(rval);
+}
+
+@endcode
+@code
+#include <stdio.h>
+#include <wchar.h>
+/* Illustrates how to use vswscanf API */
+int example_vswscanf(va_list arg)
+{
+  int retval;
+  wchar_t bufptr = L"abc";
+    
+ /* Read a string from bufptr */
+  rval = vswscanf(bufptr, L"%s", arg);
+ 
+  /* return the number of inputs that were read */
+  return(rval);
+}
+
+@endcode
+@code
+#include <stdio.h>
+#include <wchar.h>
+/* Illustrates how to use vfwscanf API */
+int example_vfwscanf(va_list arg)
+{
+  FILE *fp = NULL;
+  int retval;
+    
+  /* open the file for writing*/
+  fp = fopen("write.txt","w");
+  if(fp == NULL)
+  {
+    wprintf(L"Error: File open
+");
+    return (-1);
+  }
+ /* Read a string */
+  rval = vfwscanf(fp, L"%s", arg);
+ 
+  /* Close the file that was opened */
+  fclose(fp);
+ 
+  /* return the number of inputs that were read */
+  return(rval);
+}
+
+@endcode
+Examples:
+@code
+#include <stdio.h>
+#include <wchar.h>
+/* Illustrates how to use wscanf API */
+int example_wscanf(void)
+{
+  int rval;
+  int input;
+ /* Display a message to the user to input an integer */
+ wprintf(L"Enter an integer : ");
+  /* Read an integer from the standard input */
+  rval = wscanf(L"%d", &input;);
+ 
+  /* return the number of inputs that were read */
+  return(rval);
+}
+
+@endcode
+@code
+#include <stdio.h>
+#include <wchar.h>
+/* Illustrates how to use swscanf API */
+int example_swscanf(void)
+{
+  int rval;
+  wchar_t wcs[100];
+  wchar_t *bufptr = L"abcdefg";
+ /* Read a string from the buffer bufptr*/
+  rval = swscanf(bufptr, L"%s", wcs);
+ 
+  /* The string that was read into wcs is printed */
+  wprintf(L"%s",wcs);
+ 
+  /* return the number of inputs that were read */
+  return(rval);
+}
+
+@endcode
+@code
+#include <stdio.h>
+#include <wchar.h>
+/* Illustrates how to use fwscanf API */
+int example_fwscanf(void)
+{
+  FILE *fp = NULL;
+  int retval;
+  wchar_t wcs[100];
+   
+  /* open the file for writing*/
+  fp = fopen("write.txt","w");
+  if(fp == NULL)
+  {
+    wprintf(L"Error: File open
+");
+    return (-1);
+  }
+ /* Read a string from fp*/
+  rval = fwscanf(fp, L"%s", wcs);
+ 
+ /* Close the file that was opened */
+  fclose(fp);
+ 
+  /* return the number of inputs that were read */
+  return(rval);
+}
+
+@endcode
+@code
+#include <stdio.h>
+#include <wchar.h>
+/* Illustrates how to use vwscanf API */
+int example_vwscanf(va_list arg)
+{
+  int retval;
+    
+ /* Read a string from standard input */
+  rval = vwscanf(L"%s", arg);
+ 
+  /* return the number of inputs that were read */
+  return(rval);
+}
+
+@endcode
+@code
+#include <stdio.h>
+#include <wchar.h>
+/* Illustrates how to use vswscanf API */
+int example_vswscanf(va_list arg)
+{
+  int retval;
+  wchar_t bufptr = L"abc";
+    
+ /* Read a string from bufptr */
+  rval = vswscanf(bufptr, L"%s", arg);
+ 
+  /* return the number of inputs that were read */
+  return(rval);
+}
+
+@endcode
+@code
+#include <stdio.h>
+#include <wchar.h>
+/* Illustrates how to use vfwscanf API */
+int example_vfwscanf(va_list arg)
+{
+  FILE *fp = NULL;
+  int retval;
+    
+  /* open the file for writing*/
+  fp = fopen("write.txt","w");
+  if(fp == NULL)
+  {
+    wprintf(L"Error: File open
+");
+    return (-1);
+  }
+ /* Read a string */
+  rval = vfwscanf(fp, L"%s", arg);
+ 
+  /* Close the file that was opened */
+  fclose(fp);
+ 
+  /* return the number of inputs that were read */
+  return(rval);
+}
+
+@endcode
+
+Limitations:
+
+Long double length modifiers are not supported.
+
+@see fgetwc()
+@see scanf()
+@see wcrtomb()
+@see wcstod()
+@see wcstol()
+@see wcstoul()
+@see wprintf()
+
+
+Bugs:
+
+ In addition to the bugs documented in scanf , wscanf does not support the "A-Z"
+notation for specifying character ranges with the character
+class conversion (' \%[ ').
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @fn  wcstoq(const wchar_t *  nptr, wchar_t **  endptr, int base)
+@param nptr
+@param endptr
+@param base
+
+Refer to wcstol() for the documentation
+
+@see strtol()
+@see strtoul()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @fn  wcstouq(const wchar_t *  nptr, wchar_t **  endptr, int base)
+@param nptr
+@param endptr
+@param base
+
+Refer to wcstol() for the documentation
+
+@see strtol()
+@see strtoul()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @fn  wcswcs(const wchar_t *s, const wchar_t *find)
+@param s
+@param find
+
+  The wcswcs() function locates the first occurrence of the wide-character 
+string pointed by s (excluding the terminating '\\0' character) in the wide-character 
+string pointed by find.
+
+Examples:
+@code
+#include <wchar.h>
+/* Illustrates how to use wcswcs API */
+int example_wcswcs()
+{  
+  /* source wide character string */
+ wchar_t *buf[20] = { L"fkhsdf%%38",L"rtti123123", };
+ wchar_t *str  = wcswcs(buf[0],L"\0");
+ wchar_t *str1 = wcswcs(buf[1],L"\0");
+ if(wcscmp(str,buf[0]))
+   return 1;
+ if(wcscmp(str1,buf[1]))
+   return 1
+ return 0;
+}
+
+@endcode
+@return   The wcswcs() on success returns a pointer to the located wide-character string and returns
+a NULL pointer if the wide-charcter string was not found. If find is a wide-character string with length as zero, the function returns s.
+
+@see strstr()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @fn  getwc(FILE *stream)
+@param stream
+
+Refer to fgetwc() for the documentation
+
+@see ferror()
+@see fopen()
+@see fread()
+@see getc()
+@see putwc()
+@see ungetwc()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @fn  getwchar(void); 
+
+
+Refer to fgetwc() for the documentation
+
+@see ferror()
+@see fopen()
+@see fread()
+@see getc()
+@see putwc()
+@see ungetwc()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @fn  putwc(wchar_t wc, FILE *stream)
+@param wc
+@param stream
+
+Refer to fputwc() for the documentation
+
+@see ferror()
+@see fopen()
+@see getwc()
+@see putc()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @fn  putwchar(wchar_t wc)
+@param wc
+
+Refer to fputwc() for the documentation
+
+@see ferror()
+@see fopen()
+@see getwc()
+@see putc()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @fn  vfwscanf(FILE *  stream, const wchar_t *  format, va_list ap)
+@param stream
+@param format
+@param ap
+
+Refer to wscanf() for the documentation
+
+@see fgetwc()
+@see scanf()
+@see wcrtomb()
+@see wcstod()
+@see wcstol()
+@see wcstoul()
+@see wprintf()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @fn  vswscanf(const wchar_t *  str, const wchar_t *fmt, va_list ap)
+@param str
+@param fmt
+@param ap
+
+Refer to wscanf() for the documentation
+
+@see fgetwc()
+@see scanf()
+@see wcrtomb()
+@see wcstod()
+@see wcstol()
+@see wcstoul()
+@see wprintf()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @fn  vwscanf(const wchar_t *fmt, va_list ap)
+@param fmt
+@param ap
+
+Refer to wscanf() for the documentation
+
+@see fgetwc()
+@see scanf()
+@see wcrtomb()
+@see wcstod()
+@see wcstol()
+@see wcstoul()
+@see wprintf()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @fn  wcstof(const wchar_t *  nptr, wchar_t **  endptr)
+@param nptr
+@param endptr
+
+Note: This description also covers the following functions -
+ wcstold()  wcstod() 
+
+@return  
+
+  The wcstof , wcstod and wcstold functions are the wide-character versions of the strtof , strtod and strtold functions.
+Refer to  strtod() for details.
+
+Examples:
+@code
+#include <wchar.h>
+/* Illustrates how to use wcstof API */
+int example_wcstof()
+{  
+  /* src string */
+  wchar_t wcs1[21] = L"  1.23abcd";
+  wchar_t wcs2[5]=L"abcd";
+  wchar_t *eptr;
+  float d;
+  
+ /* convert wide-char string to float */  
+  d = wcstof(wcs1, &eptr;);
+ 
+  /* compare the result */
+  if((d == 1.23F) && !(wcscmp (eptr, wcs2)))
+   return 0;
+  else
+   return 1;
+}
+
+@endcode
+@code
+#include <wchar.h>
+/* Illustrates how to use wcstold API */
+int example_wcstold()
+{  
+  /* src string */
+  wchar_t wcs1[21] = L"  1.23abcd";
+  wchar_t wcs2[5]=L"abcd";
+  wchar_t *eptr;
+  double d;
+ 
+  /* convert wide-char string to double */
+  d = wcstod(wcs1, &eptr;);
+ 
+  /* compare the result */
+  if((d == 1.23) && !(wcscmp (eptr, wcs2)))
+   return 0;
+  else
+   return 1;
+}
+
+@endcode
+@code
+#include <wchar.h>
+/* Illustrates how to use wcstold API */
+int example_wcstold()
+{  
+  /* src string */
+  wchar_t wcs1[21] = L"  1.23abcd";
+  wchar_t wcs2[5]=L"abcd";
+  wchar_t *eptr;
+  long double d;
+  
+  /* convert wide-char string to long double */
+  d = wcstold(wcs1, &eptr;);
+ 
+  /* compare the result *
+  if((d == 1.23) && !(wcscmp (eptr, wcs2)))
+   return 0;
+  else
+  return 1;
+}
+
+@endcode
+@see strtod()
+@see wcstol()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @fn  wcstold(const wchar_t *  nptr, wchar_t **  endptr)
+@param nptr
+@param endptr
+
+Refer to wcstof() for the documentation
+
+@see strtod()
+@see wcstol()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @fn  wcstoll(const wchar_t *  nptr, wchar_t **  endptr, int base)
+@param nptr
+@param endptr
+@param base
+
+Refer to wcstol() for the documentation
+
+@see strtol()
+@see strtoul()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @fn  wcstoull(const wchar_t *  nptr, wchar_t **  endptr, int base)
+@param nptr
+@param endptr
+@param base
+
+Refer to wcstol() for the documentation
+
+@see strtol()
+@see strtoul()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @fn  wcswidth(const wchar_t *pwcs, size_t n)
+@param pwcs
+@param n
+@return   The wcswidth function returns 0 if pwcs is an empty string (L""), -1 if a non-printing wide character is 
+encountered or the number of column positions occupied otherwise.
+
+  The wcswidth function determines the number of column positions required for the first n characters of pwcs ,
+or until a null wide character (L'\\0') is encountered.
+
+ The behavior of the wcswdith is affected by LC_CTYPE category of the current locale.
+
+Examples:
+@code
+#include <wchar.h>
+/* Illustrates how to use wcswidth API */
+int example_wcswidth()
+{  
+  /* wide character string for which width has to */
+  /* determined */
+  wchar_t *ws1 = L"test case";
+  int retval;
+  /* compute the width of the ws1 */
+  retval = wcswidth(ws1,50);
+ /* return the result */
+  return retval;
+}
+
+@endcode
+
+Limitations:
+
+The current implementation of wcswidth is dependent upon locale support in Symbian OS.
+
+@see iswprint()
+@see wcwidth()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @fn  wcwidth(wchar_t wc)
+@param wc
+@return   The wcwidth function returns 0 if the wc argument is a null wide character (L'\\0'), -1 if wc is not printable or the number of column positions the character occupies 
+otherwise.
+
+  The wcwidth function determines the number of column positions required to
+display the wide character wc .
+
+ The behavior of the wcwdith is affected by LC_CTYPE category of the current locale.
+
+Examples:
+@code
+#include <wchar.h>
+/* Illustrates how to use wcwidth API */
+int example_wcwidth()
+{  
+ /* wide character for which width has to be determined */
+ wchar_t wc = L'a';
+ int retval;
+ /* determine the width of wc */
+ retval = wcwidth(wc);
+ /* return the determined width */
+ return retval;
+}
+
+@endcode
+
+Examples:
+
+ This code fragment reads text from standard input and
+breaks lines that are more than 20 column positions wide,
+similar to the fold utility:
+@code
+wint_t ch;
+int column, w;
+column = 0;
+while ((ch = getwchar()) != WEOF) {
+        w = wcwidth(ch);
+        if (w > 0 && column + w >= 20) {
+                putwchar(L' \en');
+                column = 0;
+        }
+        putwchar(ch);
+        if (ch == L' \en')
+                column = 0;
+        else if (w > 0)
+                column += w;
+}
+
+@endcode
+
+Limitations:
+
+The current implementation of wcwidth is dependent upon the locale support of Symbian OS.
+
+@see iswprint()
+@see wcswidth()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @fn  mbsnrtowcs(wchar_t *  dst, const char **  src, size_t nms, size_t len, mbstate_t *  ps)
+@param dst
+@param src
+@param nms
+@param len
+@param ps
+
+Refer to mbsrtowcs() for the documentation
+
+@see mbrtowc()
+@see mbstowcs()
+@see wcsrtombs()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @fn  wcsnrtombs(char *  dst, const wchar_t **  src, size_t nwc, size_t len, mbstate_t * ps)
+@param dst
+@param src
+@param nwc
+@param len
+@param ps
+
+Refer to wcsrtombs() for the documentation
+
+@see mbsrtowcs()
+@see wcrtomb()
+@see wcstombs()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @fn  wcpcpy(wchar_t *dst , const wchar_t *src)
+@param dst
+@param src
+@return   The wcpcpy() function returns a pointer to the end of the wide-character 
+string dest , that is the return pointer points to the terminating '\\0'.
+
+
+
+  The wcpcpy() function
+copies the wide-character string src to dst (including the terminating '\\0'
+character.)
+
+
+
+Examples:
+@code
+#include <stdlib.h>
+#include <wchar.h>
+/* Illustrates how to use wcpcpy API */
+int example_wcpcpy()
+{ 
+  /* input string for which length to be found */
+ wchar_t *src = L"testcase";
+  wchar_t *dest = NULL;
+  wchar_t *destEndPtr = NULL; 
+    
+  /* allocate memory for the destination string */
+  dest = (wchar_t *)malloc((wcslen(src)+1)*sizeof(wchar_t));
+    
+  /*  perform the operation */
+  if(dest != NULL)
+   destEndPtr = (wchar_t *)wcpcpy(dest,src);
+  else
+   return 1;
+  if(!wcscmp(dest,src))
+  {
+   free(dest);
+   return 0;
+  }
+  else
+  {
+   free(dest);
+   return 1;
+  }
+}
+
+@endcode
+ 
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @fn  wcpncpy(wchar_t *dst , const wchar_t *src, size_t n)
+@param dst
+@param src
+@param n
+@return   The wcpncpy() function returns a pointer to the wide character one past
+the last non-null wide character written.
+
+  The wcpncpy() function copies at most n wide characters from the wide-character string src , including the terminating L'\\0' character, to dst . Exactly n wide characters are written at dst . If the length wcslen(src) is less than n , the remaining wide characters in the array dst are filled with L'\\0' 
+characters. If the length wcslen(src) is greater than or equal to n , the string dst will not be L'\\0' terminated.
+
+Examples:
+@code
+#include <stdlib.h>
+#include <wchar.h>
+/* Illustrates how to use wcpncpy API */
+int example_wcpncpy(void)
+{ 
+  /* input string for which length to be found */
+ wchar_t *src = L"testcase";
+  wchar_t *dest = NULL;
+  wchar_t *destEndPtr = NULL; 
+    
+  /* allocate memory for the destination string */
+  dest = (wchar_t *)malloc((wcslen(src)+1)*sizeof(wchar_t));
+    
+  /*  perform the operation */
+  if(dest != NULL)
+   destEndPtr = (wchar_t *)wcpncpy(dest,src,wcslen(src)+1);
+  else
+   return -1;
+  /* checking for error */
+  if(!wcscmp(dest,src))
+  {
+   wprintf(L"wcpncpy succeeded
+");
+   free(dest);
+   return 0;
+  }
+  else
+  {
+   wprintf(L"wcpncpy failed!!
+");
+   free(dest);
+   return -1;
+  }
+}
+
+@endcode
+@see wcpcpy()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @fn  wcscasecmp(const wchar_t *s1, const wchar_t *s2)
+@param s1
+@param s2
+@return   The wcscasecmp() returns an integer greater than, equal to, or less than 
+0, according as s1 is lexicographically greater than, equal to, or less than s2 after translation of each corresponding character to lower-case. The 
+strings themselves are not modified.
+
+  The wcscasecmp() function
+compares the null-terminated wide-character strings s1 and s2 .
+
+Examples:
+@code
+#include <wchar.h>
+/* Illustrates how to use wcscasecmp API */
+int example_wcscasecmp(void)
+{ 
+  /* input strings which needs to be compared */
+ wchar_t *ws1=L"testcasecmp";
+  wchar_t *ws2=L"TESTCASECMP";
+    
+  /* function call to compare the two strings which */
+  /* differ in case */
+  int retval = wcscasecmp(ws1,ws2);
+  /* returns 0 if they are equal or > 1 */
+  /* if first string is greater than second string else -1 */
+  return retval;
+}
+
+@endcode
+@see strcasecmp()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @fn  wcsdup(const wchar_t *srcwcs)
+@param srcwcs
+@return   The wcsdup function returns a pointer to the new wide-character string, or NULL if sufficient memory was not available.
+
+  The wcsdup() function allocates sufficient memory for a
+copy of the wide-string srcwcs, does the copy,
+and returns a pointer to it.  The pointer may
+subsequently be used as an argument to the function free .
+
+ If insufficient memory is available, NULL is returned and errno is set to
+ENOMEM.
+
+Examples:
+@code
+#include <wchar.h>
+/* Illustrates how to use wcsdup API */
+int example_wcsdup(void)
+{ 
+  /* input string for which length has to be found */
+ wchar_t *srcws=L"testwcsdup";
+  wchar_t *destws = NULL;
+    
+ /* invoke the API wcsdup to duplicate the string */
+  destws = wcsdup(srcws);
+  /* return no error if src str and dest str are equal else return an error */   
+  if(!(wcscmp(srcws,destws)))
+  {
+    free(destws);
+   return 1;
+  }
+  else
+  {
+    free(destws);
+   return -1;
+  }
+}
+
+@endcode
+@see strdup()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @fn  wcsncasecmp(const wchar_t *s1, const wchar_t *s2, size_t n)
+@param s1
+@param s2
+@param n
+@return   The wcsncasecmp() returns an integer greater than, equal to, or less than 0,
+according as s1 is lexicographically greater than, equal to, or less than s2 after translation of each corresponding character to lower-case.
+The strings themselves are not modified.
+
+  The wcsncasecmp() function compares atmost n wide-characters from the null-terminated wide-character strings s1 and s2 .
+
+Examples:
+@code
+#include <wchar.h>
+/* Illustrates how to use wcsncasecmp API */
+int example_wcsncasecmp()
+{ 
+  /* input strings which need to be compared */
+ wchar_t *ws1=L"testcasecmp";
+  wchar_t *ws2=L"TESTCASECMP";
+    
+  /* function call to compare the two strings which */
+  /* differ in case */
+  int retval = wcsncasecmp(ws1,ws2,11);
+  /* returns 0 if they are equal except the case or >1 */
+  /* if first string is greater than second string else -1 */
+  return retval;
+}
+
+@endcode
+@see strncasecmp()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @fn  wcsnlen(const wchar_t *s, size_t maxlen)
+@param s
+@param maxlen
+
+  The wcsnlen() function computes the length of the wide-character string s not including the terminating NUL character. It looks at only
+first maxlen wide-characters in s and never beyond s+maxlen.
+
+Examples:
+@code
+#include <wchar.h>
+/* Illustrates how to use wcsnlen API */
+size_t example_wcsnlen()
+{ 
+  /* input string for which length to be found */
+ wchar_t *ws=L"testwcsnlen";
+    
+  /* find the length of the wide char string by */
+  /* calling wcsnlen */
+  size_t retval = wcsnlen(ws,14);
+ /* return the number of wide chars in the string */
+ /* if retval is less than 14 Else return 14 as the */
+ /* length of the string */
+ return retval;
+}
+
+@endcode
+@return   The wcsnlen() returns the number of wide-characters that precede the terminating
+NUL character if it is less than maxlen or maxlen if there is a terminating NUL character among maxlen characters pointed by s.
+
+@see strnlen()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @fn  wrealpath(const wchar_t *path, wchar_t *resolved)
+@param path
+@param resolved
+@return   The wrealpath function returns resolved path on success.
+If an error occurs, wrealpath returns NULL, and resolved path contains the path which caused the problem.
+
+@code
+  The wrealpath function resolves all extra "/"
+characters and references to /./ and /../ in path, and copies the resulting absolute path into
+the memory referenced by resolved path. The resolved path argument must refer to a buffer capable of storing at least PATH_MAX characters.
+
+ The wrealpath function will resolve both absolute and relative paths
+and return the absolute path corresponding to path. All but the last component of path must exist when wrealpath is called.
+@endcode
+
+
+
+Examples:
+@code
+#include<stdlib.h>
+#include<stdio.h> //printf
+#include<sys/stat.h> //S_IWUSR
+#include<sys/syslimits.h> //PATH_MAX
+#include<unistd.h> //chdir
+#inlclude<wchar.h>
+ 
+int main()
+{
+ wchar_t resolvepath[PATH_MAX];
+ FILE *fp = NULL;
+ wchar_t *rpath = NULL;
+  
+ fp = wfopen(L"c:\xyz.txt", L"w");
+ if(!fp)
+ {
+     printf("wfopen failed!!");
+     return -1;
+ }
+    
+ wmkdir(L"c:\tmdir", S_IWUSR);
+  
+ int c = wchdir(L"c:\");
+ if(c == -1)
+ {
+     printf("wchdir failed!!");
+     return -1;
+ }
+  
+ rpath = wrealpath(L".\tmdir\..\xyz.txt", resolvepath);
+ printf("resolvepath: L%s
+", resolvepath);
+ if(rpath != NULL)
+    printf("rpath: L%s
+
+", rpath);
+  
+ fclose(fp);
+ wrmdir(L"c:\tmdir");
+ wunlink(L"c:\xyz.txt");
+ return 0;
+}
+
+@endcode
+ Output
+@code
+resolvepath: C:\xyz.txt
+rpath: C:\xyz.txt
+
+@endcode
+ 
+
+@publishedAll
+@released
+*/
+
+
+
+/** @fn  wrmdir(const wchar_t *_path)
+@param _path
+@return   The wrmdir() function returns the value 0 if successful; otherwise the
+value -1 is returned and the global variable errno is set to indicate the
+error.
+
+  The wrmdir system call
+removes a directory file
+whose name is given by _path. The directory must not have any entries other
+than '.'
+and '..'.
+
+Examples:
+@code
+/* Detailed description: This test code demonstrates usage of wrmdir systemcall, it removes directory
+ *  Example from the current working directory.
+ *
+ *  Preconditions: Expects empty directoy "Example" in current working directory.
+ */
+#include  <wchar.h>
+int main()
+{
+  if(wrmdir(L"Example") < 0 )  
+  {
+     printf("wrmdir failed 
+");
+     return -1;
+  }
+  printf("Directory Example removed 
+");
+  return 0;
+}
+
+ Output
+Directory Example removed
+
+@endcode
+
+@code
+
+@endcode
+
+@capability Deferred @ref RFs::RmDir(const TDesC16&)
+
+@publishedAll
+@released
+*/
+
+
+/** @fn  wstat(const wchar_t *name, struct stat *st)
+@param name
+@param st
+@return   Upon successful completion, the value 0 is returned; otherwise the
+value -1 is returned and the global variable errno is set to indicate the error.
+
+
+  The wstat system call obtains information about the file pointed to by name. Read, write or execute
+permission of the named file is not required, but all directories
+listed in the path name leading to the file must be searchable.
+
+ The sb argument is a pointer to a stat structure as defined by \#include \<sys/stat.h\> and into which information is 
+  placed concerning the file.
+
+ The fields of struct stat
+related to the file system are as follows: st_dev The numeric ID of the device containing the file. st_ino The file's inode number. st_nlink  The number of hard links to the file.
+
+ The st_dev and st_ino fields together identify the file uniquely within the system.
+
+ The time-related fields of struct stat
+are as follows: st_atime Time when file data last accessed.
+Changed by the .Xr utimes 2, read and readv system calls. st_mtime Time when file data last modified. st_ctime Time when file status was last changed (inode data modification). st_birthtime  Time when the inode was created.
+
+ If _POSIX_SOURCE is not defined, the time-related fields are defined as: 
+@code
+#ifndef _POSIX_SOURCE
+#define st_atime st_atimespec.tv_sec
+#define st_mtime st_mtimespec.tv_sec
+#define st_ctime st_ctimespec.tv_sec
+#endif
+@endcode
+
+ The size-related fields of the struct stat
+are as follows: st_size The file size in bytes. st_blksize  The optimal I/O block size for the file. st_blocks The actual number of blocks allocated for the file in 512-byte units.
+As short symbolic links are stored in the inode, this number may
+be zero.
+
+ The access-related fields of struct stat
+are as follows: st_uid The user ID of the file's owner. st_gid The group ID of the file. st_mode  Status of the file (see below).
+
+ The status information word st_mode has the following bits: 
+@code
+#define S_IFMT   0170000  // type of file 
+#define S_IFIFO  0010000  // named pipe (fifo) 
+#define S_IFCHR  0020000  // character special 
+#define S_IFDIR  0040000  // directory 
+#define S_IFBLK  0060000  // block special 
+#define S_IFREG  0100000  // regular 
+#define S_IFLNK  0120000  // symbolic link 
+#define S_IFSOCK 0140000  // socket 
+#define S_IFWHT  0160000  // whiteout 
+#define S_ISUID  0004000  // set user id on execution 
+#define S_ISGID  0002000  // set group id on execution 
+#define S_ISVTX  0001000  // save swapped text even after use 
+#define S_IRUSR  0000400  // read permission, owner 
+#define S_IWUSR  0000200  // write permission, owner 
+#define S_IXUSR  0000100  // execute/search permission, owner
+@endcode
+
+@code
+For a list of access modes, see #include <sys/stat.h> The following macros are available 
+  to test whether a st_mode value passed in the m argument corresponds to a file of the specified type: 
+  S_ISBLK (m); Test for a block special file. 
+  S_ISCHR (m); Test for a character special file. 
+  S_ISDIR (m); Test for a directory. 
+  S_ISFIFO (m); Test for a pipe or FIFO special file. 
+  S_ISLNK (m); Test for a symbolic link. 
+  
+  NOTE: Inode structure is not supported by Symbian OS and hence link count updation is not possible.
+Check for symbolic link would always fail because of this reason. 
+
+S_ISREG (m); Test for a regular file. 
+S_ISSOCK (m); Test for a socket. 
+S_ISWHT (m); Test for a whiteout.
+@endcode
+
+ The macros evaluate to a non-zero value if the test is true or to the value 
+  0 if the test is false.
+
+@code
+ st_dev The numeric ID of the device containing the file.
+ st_ino The file's inode number.
+ st_nlink
+  The number of hard links to the file.
+
+@endcode
+@code
+ st_atime Time when file data last accessed.
+ Changed by the .Xr utimes 2, read and readv system calls.
+ st_mtime Time when file data last modified.
+ st_ctime Time when file status was last changed (inode data modification).
+ st_birthtime
+  Time when the inode was created.
+
+@endcode
+@code
+ st_size The file size in bytes.
+ st_blksize
+  The optimal I/O block size for the file.
+ st_blocks The actual number of blocks allocated for the file in 512-byte units.
+ As short symbolic links are stored in the inode, this number may
+ be zero.
+
+@endcode
+@code
+ st_uid The user ID of the file's owner.
+ st_gid The group ID of the file.
+ st_mode
+  Status of the file (see below).
+
+@endcode
+@code
+ Test for a block special file.
+ Test for a character special file.
+ Test for a directory.
+ Test for a pipe or FIFO special file.
+ Test for a symbolic link. NOTE: Inode structure is not supported by Symbian OS and hence link count updation is not possible.
+ Check for symbolic link would always fail because of this reason.
+ Test for a regular file.
+ Test for a socket.
+ Test for a whiteout.
+
+@endcode
+
+
+Examples:
+@code
+/* Detailed description: Sample usage of wstat system call
+ * Preconditions: Example.txt file should be present in working directory
+ */
+#include <fcntl.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <wchar.h>
+int main()
+{
+  struct stat buf;
+   if(wstat(L"Example.txt"  , &buf;) < 0 )
+   {
+      printf("Failed to wstat Example.txt 
+");
+      return -1;
+   }
+   printf("wstat system call succeded 
+");
+   return 0;
+ }
+
+@endcode
+ Output
+@code
+wstat system call succeded
+
+@endcode
+@see access()
+@see wchmod()
+@see chown()
+
+
+
+@capability Deferred @ref RFs::Entry(const TDesC16&, TEntry&)
+
+@publishedAll
+@released
+*/
+
+
+/** @fn  wstat64(const wchar_t *name, struct stat64 *st)
+@param name
+@param st
+@return   Upon successful completion, the value 0 is returned; otherwise the
+value -1 is returned and the global variable errno is set to indicate the error.
+
+The wstat64() function is a 64-bit version of wstat.
+
+@see wstat()
+
+@publishedAll
+@released
+*/
+
+/** @fn  wsystem(const wchar_t *cmd)
+@param cmd
+@return   The wsystem function
+returns the exit status of the child process as returned by
+process' exit reason
+or -1 if an error occurred when spawning a new process.
+
+  The wsystem function
+spawns another process with the argument cmd. The calling process waits for the child process
+to finish executing.
+
+ If cmd is a NULL pointer, wsystem will return non-zero to indicate that wsystem is suporrted
+and zero if it is not supported.
+
+
+
+Examples:
+@code
+#include <stdlib.h>
+#include <stdio.h> //printf
+#include <wchar.h>
+ 
+int main( void )
+{
+   int retVal = -1;
+  
+   printf( "Calling wsystem()...
+" );
+  
+   /* helloworld.exe is an executable that just prints
+    * "Hello world!" and it should be created before
+    * executing this example code.
+    */
+   retVal = wsystem(L"c:\sys\bin\helloworld.exe");
+   
+   /* Print the return value of wsystem() */
+   printf( "wsystem() returned: %d", retVal );
+   
+   return 0;
+}
+
+@endcode
+ Output
+@code
+Calling wsystem()...
+wsystem() returned: -1
+
+@endcode
+@see wpopen()
+
+
+ 
+
+@publishedAll
+@released
+*/
+
+
+
+/** @fn  wunlink(const wchar_t *_path)
+@param _path
+@return   Upon successful completion, 0 is returned. Otherwise, -1 is returned and errno set to indicate the error.
+
+  The wunlink system call removes the link named by _path from its file system.
+
+ Symbian OS simulates links so there is no reference count and files are unaware 
+  of links. Calling unlink on a file will always close the file, regardless of 
+  whether there is another link.
+
+ The _path argument may not be a directory.
+
+Examples:
+@code
+/*
+* Detailed description: Example to wunlink a link file
+* Precondition: A file by name "Link" should exist in
+*                c: drive.
+*/
+#include <wchar.h>
+#include <stdio.h>
+int main(void)
+{
+    if(wunlink(L"C:\Link"))
+    {
+         printf("wunlink on link file failed");
+    }
+    printf("wunlink on link file succeeded");
+}
+
+@endcode
+ Output
+@code
+wunlink on link file succeeded.
+
+@endcode
+@see close()
+@see rmdir()
+
+
+
+@capability Deferred @ref RFs::Att(const TDesC16&, unsigned&)
+@capability Deferred @ref RFs::SetAtt(const TDesC16&, unsigned, unsigned)
+@capability Deferred @ref RFs::Delete(const TDesC16&)
+
+@publishedAll
+@released
+*/
+
+
+
+/** @fn  wpopen(const wchar_t* command, const wchar_t* wmode )
+@param command
+@param wmode
+@return   The wpopen function returns NULL if the fork
+or pipe calls fail,
+or if it cannot allocate memory. And returns stream pointer on success.
+
+  The wpopen function opens a process by creating a pipe and invoking the shell (creating a process). Since a pipe is by definition unidirectional, The wmode argument may specify only reading or writing, not both; the resulting stream is correspondingly read-only ("r") or write-only "w". If type is anything other than this, then the behavior is undefined.
+
+ The command argument is a pointer to a null-terminated wide character string containing a shell command line.
+This command is passed to /bin/sh using the - c flag; interpretation, if any, is performed by the shell.
+
+ The return value from wpopen is a normal standard I/O stream in all respects
+save that it must be closed with pclose rather than fclose. Writing to such a stream
+writes to the standard input of the command;
+the command's standard output is the same as that of the process that called wpopen, unless this is altered by the command itself.
+Conversely, reading from a "wpopened"
+stream reads the command's standard output, and
+the command's standard input is the same as that of the process that called wpopen.
+
+ Note that output wpopen streams are fully buffered by default.
+
+
+
+@see popen()
+@see pclose()
+@see pipe()
+@see fclose()
+@see fflush()
+@see fopen()
+@see system()
+
+
+Bugs:
+
+ Since the standard input of a command opened for reading
+shares its seek offset with the process that called wpopen, if the original process has done a buffered read,
+the command's input position may not be as expected.
+Similarly, the output from a command opened for writing
+may become intermingled with that of the original process.
+The latter can be avoided by calling fflush before wpopen. Failure to execute the shell
+is indistinguishable from the shell's failure to execute command,
+or an immediate exit of the command.
+The only hint is an exit status of 127. The wpopen function always calls sh, never calls csh. 
+ 
+
+@publishedAll
+@released
+*/
+
+
+
+/** @fn  wopen(const wchar_t *file, int flags, ...)
+@param file
+@param flags
+@param ...
+@return   If successful, wopen returns a non-negative integer, termed a file descriptor.
+It returns -1 on failure, and sets errno to indicate the error.
+
+  The wide character file-name specified by the wide character string file is opened
+for reading and/or writing as specified by the
+argument flags and the file descriptor returned to the calling process.
+The flags argument may indicate the file is to be
+created if it does not exist (by specifying the O_CREAT flag).
+In this case wopen requires a third argument mode_t mode ,
+and the file is created with mode mode as described in chmod and modified by the process' umask value (see umask
+
+
+
+ The flags specified are formed by or 'ing the following values
+
+@code
+ O_RDONLYopen for reading only
+O_WRONLYopen for writing only
+O_RDWRopen for reading and writing
+O_APPENDappend on each write
+O_CREATcreate file if it does not exist
+O_TRUNCtruncate size to 0
+O_EXCLerror if create and file exists
+@endcode
+
+ Opening a file with O_APPEND set causes each write on the file
+to be appended to the end.
+If O_TRUNC is specified and the
+file exists, the file is truncated to zero length.
+If O_EXCL is set with O_CREAT and the file already
+exists, wopen returns an error.
+This may be used to
+implement a simple exclusive access locking mechanism.
+If O_EXCL is set and the last component of the path is
+a symbolic link, wopen will fail even if the symbolic
+link points to a non-existent name.
+
+
+
+ If successful, wopen returns a non-negative integer, termed a file descriptor.
+It returns -1 on failure.
+The file pointer used to mark the current position within the
+file is set to the beginning of the file.
+
+ When a new file is created it is given the group of the directory
+which contains it.
+
+ The new descriptor is set to remain wopen across execve system calls; see close and fcntl .
+
+ The system imposes a limit on the number of file descriptors
+wopen simultaneously by one process.
+The getdtablesize system call returns the current system limit.
+
+
+
+ 
+
+ Notes:
+
+@code
+1) Mode values for group and others are ignored
+
+ 2) Execute bit and setuid on exec bit are ignored.
+
+ 3) The default working directory of a process is initalized to C: \p rivate \U ID 
+  (UID of the calling application) and any data written into this directory persists 
+  between phone resets.
+
+ 4) If the specified file is a symbolic link and the file it is pointing to 
+  is invalid, the symbolic link file will be automatically removed.
+
+ 5) A file in cannot be created with write-only permissions. Attempting to create 
+  a file with write-only permissions will result in a file with read-write permission.
+
+ 6) Creating a new file with the O_CREAT flag does not alter the time stamp 
+  of the parent directory.
+
+ 7) A file has only two time stamps: access and modification. Creation time 
+  stamp of the file is not supported and access time stamp is initially set equal 
+  to modification time stamp.
+@endcode
+
+Examples:
+@code
+/*This example creates a file in the current working directory and
+ * opens it in read-write mode.
+ */
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <wchar.h>
+int main()
+{
+  int fd = 0 ;
+   fd = wopen(L"Example.txt" , O_CREAT | O_EXCL , 0666) ;
+   if(fd < 0 ) 
+   {
+      printf("Failed to create and wopen file in current working directory 
+") ;
+      return -1 ;
+   }
+   printf("File created and opened in current working directory 
+"  ) ;
+   return 0 ;
+}
+
+@endcode
+ Output
+@code
+File created and opened in current working directory
+
+@endcode
+@see chmod()
+@see close()
+@see dup()
+@see getdtablesize()
+@see lseek()
+@see read()
+@see umask()
+@see write()
+@see fopen()
+@see open()
+
+
+
+@capability Deferred @ref RFs::Entry(const TDesC16&, TEntry&)
+
+@publishedAll
+@released
+*/
+
+/** @fn  wopen64(const wchar_t *file, int flags, ...)
+@param file
+@param flags
+@param ...
+@return   If successful, wopen returns a non-negative integer, termed a file descriptor.
+It returns -1 on failure, and sets errno to indicate the error.
+
+The wopen64() function is a 64-bit version of wopen.
+
+@see wopen()
+
+@publishedAll
+@released
+*/
+
+
+/** @fn  wfopen(const wchar_t *file, const wchar_t *mode)
+@param file
+@param mode
+@return   Upon successful completion wfopen returns a FILE pointer. Otherwise, NULL is returned and the global variable errno is set to indicate the error.
+
+@code
+ "r" Open text file for reading.
+ The stream is positioned at the beginning of the file.
+ "r+" Open for reading and writing.
+ The stream is positioned at the beginning of the file.
+ "w" Truncate to zero length or create text file for writing.
+ The stream is positioned at the beginning of the file.
+ "w+" Open for reading and writing.
+ The file is created if it does not exist, otherwise it is truncated.
+ The stream is positioned at the beginning of the file.
+ "a" Open for writing.
+ The file is created if it does not exist.
+ The stream is positioned at the end of the file.
+ Subsequent writes to the file will always end up at the then current
+ end of file, irrespective of any intervening fseek or similar.
+ "a+" Open for reading and writing.
+ The file is created if it does not exist.
+ The stream is positioned at the end of the file.
+ Subsequent writes to the file will always end up at the then current
+ end of file, irrespective of any intervening fseek or similar.
+
+@endcode
+  
+
+ The mode string can also include the letter "b" either as a third character or
+as a character between the characters in any of the two-character strings described above.
+This is strictly for compatibility with -isoC and has no effect; the "b" is ignored.
+
+ Reads and writes may be intermixed on read/write streams in any order,
+and do not require an intermediate seek as in previous versions of stdio. This is not portable to other systems, however; ANSI C requires that
+a file positioning function intervene between output and input, unless
+an input operation encounters end-of-file.
+
+
+
+Examples:
+@code
+/* this program shows opening  in write mode,write data and close */
+/* again open in append mode and write data */
+/* Check file c:\wfopen.txt */
+#include <stdio.h>
+int main(void)
+        {
+        FILE *fp;       
+        wchar_t* name = L"c:\wfopen.txt";
+        if ((fp = wfopen (name, L"wb")) == NULL)
+                {
+                printf("Error creating file");
+                return -1;
+                }
+        printf("Opened file 
+");
+        fprintf(fp, "This is the first line
+");
+        printf("Wrote to file
+");
+        fclose (fp);
+        printf("Closed file
+");
+        if ((fp = wfopen (name, L"a")) == NULL)
+                {
+                printf("Error opening file");
+                return -1;
+                }
+        printf("Opened file for appending
+");
+        fprintf(fp, "This is the second line
+");
+        fclose (fp);
+        printf("closed file, check output in c:\ wfopen.txt file
+");
+        wunlink(name);
+        return 0;
+}
+
+@endcode
+ Output
+@code
+Opened file
+Wrote to file
+Closed file
+Opened file for appending
+closed file, check output in c:\ wfopen.txt file
+
+@endcode
+
+Errors:
+
+[EINVAL] The mode argument to wfopen, was invalid.  
+The wfopen, functions may also fail and set errno for any of the errors specified for the routine malloc. The wfopen function may also fail and set errno for any of the errors specified for the routine wopen. 
+
+Note:
+
+@code
+ 1) Mode values for group and others will be ignored for file creation,execute bit and setuid on exec bit on an file don't have any effect while file creation.
+ Default working directory of a process is initialized to C:\private\UID (UID of the calling application) and any data written into this directory persists between phone resets. 
+
+ 2) If the specified file is a symbolic link and the file it is pointing to 
+ is invalid the symbolic link file will be automatically removed.
+@endcode
+
+Limitations:
+
+A file in cannot be created with write-only permission and attempting to 
+create one will result in a file with read-write permission. Creating a new file 
+with the O_CREAT flag does not alter the time stamp of its parent directory. The 
+newly created entry has only two time stamps: access and modification. Creation 
+time stamp is not supported and access time stamp is initially equal to modification 
+time stamp. open, fclose and fflush.
+
+@see open()
+@see fclose()
+@see fileno()
+@see fseek()
+@see fopen()
+
+
+
+@capability Deferred @ref RFs::Entry(const TDesC16&, TEntry&)
+
+@publishedAll
+@released
+*/
+
+/** @fn  wfopen64(const wchar_t *file, const wchar_t *mode)
+@param file
+@param mode
+@return   Upon successful completion wfopen returns a FILE pointer. Otherwise, NULL is returned and the global variable errno is set to indicate the error.
+
+The wfopen64() function is a 64-bit version of wfopen.
+
+@see wfopen()
+
+@publishedAll
+@released
+*/
+
+
+
+/** @fn  wrename(const wchar_t *oldpath, const wchar_t *newpath)
+@param oldpath
+@param newpath
+@return   The wrename() function returns the value 0 if successful; otherwise it returns 
+-1 and sets the global variable errno to indicate the error.
+
+  The wrename system call
+causes the link with the wide character name oldpath to be renamed with the wide character name newpath. If newpath exists, it is first removed.
+Both oldpath and newpath must be of the same type (that is, both directories or both
+non-directories), and must reside on the same file system.
+
+ If the final component of from is a symbolic link the symbolic link is renamed, not the file or 
+  directory to which it points.
+
+ If a file with a symbolic link pointing to it is renamed, then
+a subsequent open call on the symbolic link file would automatically remove the link file, i.e
+consider a symbolic file link.x pointing to a file abc.x. If the file abc.x is
+renamed to abcd.x then, a subsequent open call on link.x file would automatically remove link.x file.
+
+ Notes:
+
+ wrename fails if from and to are files and are in use (i.e. if any either of the files is open).
+
+ Parent directory time stamps are uneffected.
+
+ The new entry has only two time stamps: modification and access. The access 
+  time stamp is initially equal to modification time stamp.
+
+
+
+Examples:
+@code
+/* Detailed description  : This sample code demonstrates usage of wrename system call.
+ * Preconditions : Example.cfg file should be present in the current working directory.
+ */
+#include <wchar.h>
+#include <stdio.h>
+int main()
+{
+  if(wrename(L"Example.txt" , L"Example2.txt") < 0 )  {
+     printf("Failed to wrename Example.txt
+");
+     return -1;
+  }
+  printf("wrename successful 
+");
+  return 0;
+}
+
+@endcode
+ Output:
+@code
+wrename successful
+
+@endcode
+
+Errors:
+
+The wrename system call will fail and neither of the argument files will be affected if: 
+[EINVAL] Invalid argument.  
+[ENAMETOOLONG]  A component of a path exceeded 255 characters.  
+[ENOENT]  The named file does not exist.  
+[EACCES]  Search permission is denied for a component of the path prefix.  
+[EACCES]  The from argument is a parent directory of to, or an attempt is made to wrename ‘.’ or ‘..’.  
+
+
+@see open()
+@see symlink()
+@see rename()
+
+
+
+@capability Deferred @ref RFs::Rename(const TDesC& anOldName,const TDesC& aNewName)
+@capability Deferred @ref RFs::Entry(const TDesC16&, TEntry&)
+@capability Deferred @ref RFs::RmDir(const TDesC16&)
+@capability Deferred @ref RFs::SetAtt(const TDesC16&, unsigned, unsigned)
+@capability Deferred @ref RFs::Delete(const TDesC16&)
+
+@publishedAll
+@released
+*/
+
+
+
+/** @fn  wchdir(const wchar_t *_path)
+@param _path
+@return   Upon successful completion, the value 0 is returned; otherwise the
+value -1 is returned and the global variable errno is set to indicate the
+error.
+
+  The _path argument points to the pathname of a directory which is a wide character string.
+The wchdir system call
+causes the named directory
+to become the current working directory, that is,
+the starting point for _path searches of pathnames not beginning with
+a slash, '/.'
+
+
+
+Examples:
+@code
+#include<wchar.h>                       /* wmkdir, wrmdir */
+#include <sys/stat.h>                   /* S_IRWXU */
+#include <stdio.h>                      /* printf */
+int main()
+{
+        int ret_wmkdir = wmkdir(L"dirName", S_IRWXU);                   /* create directory */
+        if(ret_wmkdir < 0)
+                {
+                printf("error creating directory");
+                return -1;
+                }
+        else
+                {
+                int ret_wchdir = wchdir(L"dirName");                    /* change directory */
+                if(ret_wchdir < 0)
+                        {
+                        printf("error changing directory");
+                        return -1;
+                        }
+                else
+                        {
+                        printf("working directory changed");
+                        }
+                        wrmdir(L"dirname");                             /* remove directory */                  
+                }
+        return 0;                       
+}
+
+@endcode
+ Output
+@code
+working directory changed
+
+@endcode
+@see chdir()
+
+
+
+@capability Deferred @ref RFs::Att(const TDesC16&, unsigned&)
+@capability Deferred @ref RFs::SetSessionPath(const TDesC16&)
+
+@publishedAll
+@released
+*/
+
+
+
+/** @fn  wchmod(const wchar_t *_path, mode_t _mode)
+@param _path
+@param _mode
+@return   Upon successful completion, the value 0 is returned; otherwise the
+value -1 is returned and the global variable errno is set to indicate the
+error.
+
+  The file permission bits of the wide character file-name specified by _path are changed to _mode. The wchmod system call verifies that the process owner (user) either owns the file specified by _path is the super-user. 
+A mode is created from or’d permission bit masks defined in   \#include \<sys/stat.h\>:
+
+@code
+#define S_IRWXU 0000700    // RWX mask for owner
+#define S_IRUSR 0000400    // R for owner 
+#define S_IWUSR 0000200    // W for owner 
+#define S_IXUSR 0000100    // X for owner 
+#define S_IRWXG 0000070    // RWX mask for group 
+#define S_IRGRP 0000040    // R for group 
+#define S_IWGRP 0000020    // W for group 
+#define S_IXGRP 0000010    // X for group 
+#define S_IRWXO 0000007    // RWX mask for other 
+#define S_IROTH 0000004    // R for other 
+#define S_IWOTH 0000002    // W for other 
+#define S_IXOTH 0000001    // X for other 
+#define S_ISUID 0004000    // set user id on execution 
+#define S_ISGID 0002000    // set group id on execution 
+#ifndef __BSD_VISIBLE
+#define S_ISTXT 0001000    // sticky bit 
+#endif
+@endcode
+
+ Note : sticky bit and setuid on exec bit are not supported, permission values for users is considered while premissions values for group and others are ignored(As there is no concept of group and others). An attempt to change file permission to write-only changes the file permission to read-write. Permissions for directory will be ignored.
+
+
+Examples:
+@code
+#include <wchar.h>              /* wchmode, wfopen */
+#include <sys/stat.h>           /* S_IWUSR */
+#include <stdio.h>              /* printf */
+int main()
+{
+        FILE * wfp = wfopen(L"fileName.txt", L"wb");            /* create file */
+        if(wfp)
+                {
+                fclose(wfp);                                    /* close file */
+                int ret = wchmod(L"fileName", S_IWUSR);         /* change mode */
+                if(ret < 0)
+                        {
+                        printf("error changing mode");
+                        return -1;
+                        }
+                else
+                        {
+                        printf("mode changed");
+                        }
+                }
+        else
+        {
+        printf("error creating file");
+        return -1;
+        }
+        return 0;
+}
+
+@endcode
+ Output
+@code
+mode changed
+
+@endcode
+@see chmod()
+@see chown()
+@see open()
+@see stat()
+
+
+
+@capability Deferred @ref RFs::SetAtt(const TDesC16&, unsigned, unsigned)
+
+@publishedAll
+@released
+*/
+
+
+
+/** @fn  wgetcwd(wchar_t *_buf, size_t _size)
+@param _buf
+@param _size
+@return   Upon successful completion, a pointer to the pathname is returned.
+Otherwise a NULL pointer is returned and the global variable errno is set to indicate the error.
+In addition, wgetcwd copies the error message associated with errno into the memory referenced by _buf.
+
+  The wgetcwd function copies the absolute pathname of the current working directory
+into the memory referenced by _buf which is a wchar_t pointer
+and returns a pointer to _buf. The size argument is the _size, in bytes, of the array referenced by _buf.
+
+ If _buf is NULL, space is allocated as indicated by size to store the pathname and the current working directory is
+returned as long as the _size bytes are sufficient to hold the working directory name.
+This space may later be free'd.
+
+ This routine has traditionally been used by programs to save the
+name of a working directory for the purpose of returning to it.
+A much faster and less error-prone method of accomplishing this is to
+open the current directory ('.')
+and use the fchdir function to return.
+
+Examples:
+@code
+#include<wchar.h>
+#include<stdio.h>
+#include <stdlib.h>
+#define BUF_SIZE 100
+  
+int main()
+{
+ int c;                 
+ long size = BUF_SIZE;
+ wchar_t *buf = NULL;
+ wchar_t *ptr = NULL;
+  
+ c = wchdir("c:\");            /* change directory to c: */
+  
+ buf = (wchar_t *)malloc((size_t)size);
+  
+ if (buf != NULL && c == 0)
+        {
+        ptr = wgetcwd(buf, (size_t)size);               /* call wgetcwd to fetch the current directory */
+        printf("wgetcwd returned: %s
+", ptr);
+        }
+ free(buf);
+ return 0;
+}
+
+@endcode
+ Output
+@code
+wgetcwd returned: c:\
+
+@endcode
+
+Notes:
+
+ The wgetcwd function returns the default working directory as c:\\private\\XXXXXXXX (where XXXXXXXX is the UID of the process) as the 
+default session path is initialised to c:\\private\\current_process'_UID in Symbian OS.
+
+@see chdir()
+@see malloc()
+@see strerror()
+@see wgetcwd()
+
+
+ 
+
+@publishedAll
+@released
+*/
+
+
+
+/** @fn  wmkdir(const wchar_t *_path, mode_t _mode)
+@param _path
+@param _mode
+@return   The wmkdir() function returns the value 0 if successful; otherwise the
+value -1 is returned and the global variable errno is set to indicate the
+error.
+
+  The directory with the wide character name _path is created with the access permissions specified by _mode.
+
+ Notes:
+
+ mode is ignored.
+
+ Parent directory time stamps are not updated.
+
+Examples:
+@code
+#include <sys/stat.h>
+#include <wchar.h>
+#include <stdio.h>
+int main()
+{
+  if(wmkdir(L"Example" , 0666) < 0 )  
+  {
+      printf("Directory creation failed 
+");
+      return -1;
+  }
+  printf("Directory Example created 
+");
+  return 0;
+}
+
+@endcode
+ Output
+@code
+Directory Example created
+
+@endcode
+@see chmod()
+@see stat()
+@see umask()
+@see mkdir()
+
+
+
+@capability Deferred @ref RFs::MkDir(const TDesC16&)
+
+@publishedAll
+@released
+*/
+
+
+
+/** @fn  wclosedir(WDIR *wdp)
+@param wdp
+@return   The wclosedir function returns 0 on success and on failure -1 is returned and the global variable errno is set to indicate the error..
+
+ 
+
+ The wclosedir function closes the named directory stream and frees the structure associated with the dirp pointer.
+
+
+
+Examples:
+@code
+/* Detailed description: This test code demonstrates usage of wclose  system call.*
+ * Preconditions: Expects Test directory to be present in current working directory.
+ */
+ #include <wchar.h>
+ #include <dirent.h>
+int main()
+{
+  WDIR *DirHandle;
+  if(!(DirHandle = wopendir(L"Test") ) )
+  {
+     printf("Failed to open directoy Test 
+");
+     return -1;
+  }
+  if(wclosedir(DirHandle) < 0 ) 
+  {
+     printf("Close dir failed 
+");
+     return -1;
+  }
+  printf("Directory Test closed 
+");
+  return 0;
+}
+
+@endcode
+ Output
+@code
+Directory Test closed
+
+@endcode
+@see wopendir()
+@see wreaddir()
+@see opendir()
+@see readdir()
+
+
+ 
+
+@publishedAll
+@released
+*/
+
+
+
+/** @fn  wreaddir(WDIR *wdp)
+@param wdp
+@return   The wreaddir function returns a pointer to a wdirent structure,
+or NULL if an error occurs or end-of-file is reached.
+
+ 
+
+ The wreaddir function
+returns a wdirent pointer to the next directory entry.
+It returns NULL upon reaching the end of the directory or detecting an invalid wreaddir operation on the directory stream. The new position reverts to the one associated with the directory stream when the wtelldir operation was performed.
+
+ 
+
+ Note: wreaddir operates on a static directory structure created by wopendir . Asynchronous operations on the directory itself will not 
+  be reflected in calls to wreaddir .
+
+
+
+Examples:
+@code
+ /* Detailed description: Sample usage of wreaddir call
+  * Preconditions:  Example Directory should be present in current working directory and should contain atleast one file/directory.
+  */
+#include <dirent.h>
+#include <unistd.h>
+#include <wchar.h>
+int main()
+{
+  WDIR *dirName;
+  struct wdirent *Dir;
+  dirName = wopendir(L"Example");
+  if(dirName == NULL )  {
+     printf("Failed to open directory 
+");
+     return -1;
+  }
+  if(!(Dir = wreaddir(dirName))  )  {
+    printf("Read dir failed  
+");
+    return -1;
+  }
+ printf("Directory Example read 
+");
+ wclosedir(dirName);
+ return 0;
+}
+
+@endcode
+ Output
+@code
+Directory Example read
+
+@endcode
+@see wopendir()
+@see wreaddir()
+@see wrewinddir()
+@see wtelldir()
+@see wseekdir()
+@see wclosedir()
+@see opendir()
+@see readdir()
+@see rewinddir()
+@see telldir()
+@see seekdir()
+@see closedir()
+@see close()
+@see lseek()
+@see open()
+@see read()
+
+
+ 
+
+@publishedAll
+@released
+*/
+
+
+/** @fn  wreaddir64(WDIR *wdp)
+@param wdp
+@return   The wreaddir64 function returns a pointer to a wdirent64 structure,
+or NULL if an error occurs or end-of-file is reached.
+
+The wreaddir64() function is a 64-bit version of wreaddir.
+
+@see wreaddir() 
+
+@publishedAll
+@released
+*/
+
+/** @fn  wrewinddir(WDIR *wdp)
+@param wdp
+@return   The wrewinddir function returns no value.
+
+ 
+
+ The wrewinddir function
+function resets the position of the named directory stream pointed by 'dirp' to the beginning of the directory.
+
+
+
+Examples:
+@code
+ /* Detailed description: Sample usage of wreaddir call
+  * Preconditions:  Example Directory should be present in current working directory and should contain say 4 files/directories.
+  */
+#include <dirent.h>
+#include <unistd.h>
+#include <wchar.h>
+int main()
+{
+  WDIR *dirName;
+  off_t offset;
+  struct wdirent *Dir;
+  dirName = wopendir(L"Example");
+  if(dirName == NULL )  {
+     printf("Failed to open directory 
+");
+     return -1;
+  }
+  wseekdir(dirName, 3)
+  if((offset = wtelldir(dirName))!= 3)  {
+    printf("failed  
+");
+    return -1;
+  }
+  wrewindir(dirName);
+  if((offset = wtelldir(dirName))!= 0)  {
+    printf("failed  
+");
+    return -1;
+  }
+ printf("Successful
+");
+ wclosedir(dirName);
+ return 0;
+}
+
+@endcode
+ Output
+@code
+Successful
+
+@endcode
+@see wreaddir()
+@see wtelldir()
+@see wseekdir()
+@see readdir()
+@see rewinddir()
+@see telldir()
+@see seekdir()
+
+
+ 
+
+@publishedAll
+@released
+*/
+
+
+
+/** @fn  waccess(const wchar_t *fn, int flags)
+@param fn
+@param flags
+@return   Upon successful completion, the value 0 is returned; otherwise the
+value -1 is returned and the global variable errno is set to indicate the
+error.
+
+  The waccess system call checks the accessibility of the
+file named by the fn argument for the access permissions indicated by the flags argument.
+The value of flags is either the bitwise-inclusive OR of the access permissions to be
+checked (R_OK for read permission, W_OK for write permission, and X_OK for execute/search permission),
+or the existence test ( F_OK. )
+
+ For additional information, see the File access Permission
+section of intro . X_OK, the file may not actually have execute permission bits set.
+Likewise for R_OK and W_OK.
+
+ Note that as execute-bit for files is not supported waccess system call for X_OK is undefined.
+
+Examples:
+@code
+/* Detailed description: This sample code checks read-ok accessibility of file Example.c
+ * Precondtions: Example.txt file should be present in working directory.
+ */
+#include <unistd.h>
+#include <wchar.h>
+int main()
+{
+  if(waccess("Example.c" ,R_OK)  < 0)  
+  {
+    printf("Read operation on the file is not permitted 
+") ;
+    return -1 ;
+  }
+  printf("Read operation permitted on Example.c file 
+") ;
+  return 0 ;
+}
+
+@endcode
+ Output
+@code
+Read operation permitted on Example.c file
+
+@endcode
+@see wchmod()
+@see wstat()
+
+
+
+@capability Deferred @ref RFs::Entry(const TDesC16&, TEntry&)
+
+@publishedAll
+@released
+*/
+
+
+
+/** @fn  wcreat(const wchar_t *file, mode_t mode)
+@param file
+@param mode
+@return   wopen and wcreat return the new file descriptor, or -1 if an error occurred 
+  (in which case errno is set appropriately).
+
+  This interface is made obsolete by: wopen
+
+ The wcreat function
+is the same as: wopen(path, O_CREAT | O_TRUNC | O_WRONLY, mode);
+
+ Notes:
+
+ Creating a new file doesn't alter the time stamp of the parent directory.
+
+ The newly created entry has two time stamps: access and modification. Both 
+  are initially the same.
+
+ Symbian OS does not support a creation time stamp.
+
+
+
+Examples:
+@code
+/*
+ * Detailed description   : This test code demonstrates wcreat api usage, it creates a
+ * in current working directory(if file exists then it is truncated.
+ *Preconditions : None
+ */
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <wchar.h>
+int main()
+{
+ int fd = 0;
+  fd = wcreat(L"Example.txt" , 0666);
+  if(fd < 0 )  
+  {
+    printf("File creation failed 
+");
+    return -1;
+  }
+  printf("Example.txt file created 
+");
+  return 0;
+}
+
+@endcode
+ Output
+@code
+Example.txt file created
+
+@endcode
+@see wopen()
+
+
+ 
+
+@publishedAll
+@released
+*/
+
+/** @fn  wcreat64(const wchar_t *file, mode_t mode)
+@param file
+@param mode
+@return   wcreat64() return the new file descriptor, or -1 if an error occurred 
+  (in which case errno is set appropriately).
+
+The wcreat64() function is a 64-bit version of wcreat.
+
+@see wcreat()
+
+@publishedAll
+@released
+*/
+
+/** @fn  wseekdir(WDIR *wdp, off_t index)
+@param wdp
+@param index
+
+Refer to wtelldir() for the documentation
+
+@see wclosedir()
+@see wopendir()
+@see wreaddir()
+
+
+ 
+
+@publishedAll
+@released
+*/
+
+
+/** @fn  wcsupr(wchar_t *wcs)
+@param wcs
+
+  The wcsupr() function
+converts each letter from the wide-character string wcs to upper-case.
+The conversion is determined by the LC_CTYPE category setting of the locale.
+Other characters are not affected. It returns a pointer to the altered string.
+Because the modification is done in place, the pointer returned is the same as
+the pointer passed as the input argument.
+
+@return   The wcsupr() returns a pointer to the altered string, on successful conversion of wcs, else it returns NULL pointer.
+
+Examples:
+@code
+#include <wchar.h>
+/* Illustrates how to use wcsupr API */
+int example_wcsupr(void)
+{ 
+  /* input string which needs to be converted to upper-case */
+  wchar_t src[9]=L"testcase";
+ 
+  /* expected result string */
+  wchar_t *exp=L"TESTCASE";
+ 
+  wchar_t *res = NULL;
+    
+  /* function call to convert the src to upper-case */
+  res = wcsupr(src);
+  /* compare res string with exp string, if they are equal then return 0, else return -1 */
+  if( res != NULL && !wcscmp(res,exp))
+        return 0;
+  else
+        return -1;
+}
+
+@endcode
+@see strupr()
+@see towupper()
+@see towlower()
+@see wcslwr()
+
+
+ 
+
+@publishedAll
+@released
+*/
+
+/** @fn  wcslwr(wchar_t *wcs)
+@param wcs
+
+  The wcslwr() function
+converts each letter from the wide-character string wcs to lower-case.
+The conversion is determined by the LC_CTYPE category setting of the locale.
+Other characters are not affected. It returns a pointer to the altered string.
+Because the modification is done in place, the pointer returned is the same as
+the pointer passed as the input argument.
+
+@return   The wcslwr() returns a pointer to the altered string, on successful conversion of wcs, else it returns NULL pointer.
+
+Examples:
+@code
+#include <wchar.h>
+/* Illustrates how to use wcslwr API */
+int example_wcslwr(void)
+{ 
+  /* input string which needs to be converted to lower-case */
+  wchar_t src[9]=L"TESTCASE";
+ 
+  /* expected result string */
+  wchar_t *exp=L"testcase";
+ 
+  wchar_t *res = NULL;
+    
+  /* function call to convert the src to lower-case */
+  res = wcslwr(src);
+  /* compare res string with exp string, if they are equal then return 0, else return -1 */
+  if( res != NULL && !wcscmp(res,exp))
+        return 0;
+  else
+        return -1;
+}
+
+@endcode
+@see strupr()
+@see strlwr()
+@see towupper()
+@see towlower()
+@see wcsupr()
+
+
+ 
+
+@publishedAll
+@released
+*/
+
+/** @fn  wcsset(wchar_t *wcs, wchar_t wc)
+@param wcs
+@param wc
+
+  The wcsset() function sets all the characters of the wide-character string wcs to the wide-character specified by wc, except the terminating null character. It returns a pointer to the altered string, which is same
+as the source string passed to wcsset as it is modified in place.
+
+@return   The wcsset() returns a pointer to the altered string, on success, else it returns NULL pointer.
+
+Examples:
+@code
+#include <wchar.h>
+/* Illustrates how to use wcsset API */
+int example_wcsset(void)
+{ 
+  /* input string which needs to be set to the character specified by wc. */
+  wchar_t wcs[9]=L"kohinoor";
+  wcgar_t wc = L'K';
+ 
+  /* expected result string */
+  wchar_t *exp=L"KKKKKKKK";
+ 
+  wchar_t *res = NULL;
+    
+  /* function call to set all the chars in wcs to wc*/
+  res = wcsset(wcs, wc);
+  /* compare res string with exp string, if they are equal then return 0, else return -1 */
+  if( res != NULL && !wcscmp(res,exp))
+        return 0;
+  else
+        return -1;
+}
+
+@endcode
+@see strset()
+@see wcsnset()
+
+
+ 
+
+@publishedAll
+@released
+*/
+
+/** @fn  wcsnset(wchar_t *wcs, wchar_t wc, size_t maxSize)
+@param wcs
+@param wc
+@param maxSize
+
+  The wcsnset() function sets first maxSize characters of the wide-character string wcs to the wide-character specified by wc. If maxSize is greater than the length of wcs, then length of wcs is used instead of maxSize.
+It returns a pointer to the altered string, which is same
+as the source string passed to wcsnset as it is modified in place.
+
+@return   The wcsnset() returns a pointer to the altered string, on success, else it returns NULL pointer.
+
+Examples:
+@code
+#include <wchar.h>
+/* Illustrates how to use wcsnset API */
+int example_wcsnset(void)
+{ 
+  /* input string which needs to be set to the character specified by wc. */
+  wchar_t wcs[9]=L"kohinoor";
+  wcgar_t wc = L'K';
+  int n = 3;
+ 
+  /* expected result string */
+  wchar_t *exp=L"KKKinoor";
+ 
+  wchar_t *res = NULL;
+    
+  /* function call to set first n chars in wcs to wc*/
+  res = wcsnset(wcs, wc, n);
+  /* compare res string with exp string, if they are equal then return 0, else return -1 */
+  if( res != NULL && !wcscmp(res,exp))
+        return 0;
+  else
+        return -1;
+}
+
+@endcode
+@see strset()
+@see wcsset()
+
+
+ 
+
+@publishedAll
+@released
+*/
+
+/** @fn  wcsrev(wchar_t *wcs)
+@param wcs
+
+  The wcsrev() function reverses the order of the characters in the wide-character string wcs. The terminating null character remains in place.The arguments and return value of wcsrev are wide-character strings; It returns a pointer to the altered string.
+the pointer returned is the same as the pointer passed as the input argument.
+
+@return   The wcsrev() returns a pointer to the reverted string, on success, else it returns NULL pointer.
+
+Examples:
+@code
+#include <wchar.h>
+/* Illustrates how to use wcsrev API */
+int example_wcsrev(void)
+{ 
+  /* input string which needs to be reverted. */
+  wchar_t src[9]=L"kohinoor";
+ 
+  /* expected result string */
+  wchar_t *exp=L"roonihok";
+ 
+  wchar_t *res = NULL;
+    
+  /* function call to revert the src */
+  res = wcsrev(src);
+  /* compare res string with exp string, if they are equal then return 0, else return -1 */
+  if( res != NULL && !wcscmp(res,exp))
+        return 0;
+  else
+        return -1;
+}
+
+@endcode
+@see strrev()
+
+
+ 
+
+@publishedAll
+@released
+*/
+
+/** @fn  wcsicmp(const wchar_t *wcs1, const wchar_t *wcs2)
+@param wcs1
+@param wcs2
+
+  The wcsicmp() function
+compares the two null-terminated wide-character strings wcs1 and wcs2, by converting them into lower-case.
+It returns an integer value indicating the status of
+the comparision.
+
+@return   The wcsicmp() returns an integer greater than, equal to, or less than 0,
+according as wcs1 is lexicographically greater than, equal to, or less than wcs2 after translation of each corresponding character to lower-case.
+The strings themselves are not modified.
+
+Examples:
+@code
+#include <wchar.h>
+/* Illustrates how to use wcsicmp API */
+int example_wcsicmp(void)
+{ 
+  /* input strings which needs to be compared */
+  wchar_t *ws1=L"testcasecmp";
+  wchar_t *ws2=L"TESTCASECMP";
+    
+  /* function call to compare the two strings which */
+  /* differ in case */
+  int retval = wcsicmp(ws1,ws2);
+  /* returns 0 if they are equal or > 1 */
+  /* if first string is greater than second string else -1 */
+  return retval;
+}
+
+@endcode
+@see strcasecmp()
+@see wcscasecmp()
+
+
+ 
+
+@publishedAll
+@released
+*/
+
+/** @fn  wstrdate(const wchar_t *datestr)
+@param datestr
+
+  The wstrdate() function gets the system date and converts it into wide-character 
+string. This copies the current system date into the string pointed by datestr in the format dd/mm/yyyy, the datestr buffer must be atleast 11 bytes long. It returns a pointer to 
+the datestr string. Because the modification is done in place, the pointer returned 
+is the same as the pointer passed as the input argument.
+
+@return   The wstrdate() returns a pointer to the date string on succes, otherwise 
+it returns a NULL pointer and sets the errno accordingly.
+
+
+Examples:
+@code
+#include <wchar.h>
+/* Illustrates how to use wstrdate API */
+int example_wstrdate(void)
+{ 
+  /* input string which is updated with the system date. */
+  wchar_t datestr[20];
+ 
+  wchar_t *res = NULL;
+    
+  /* function call to get the system date in wide-char format */
+  res = wstrdate(datestr);
+  if( !res && !datestr)
+  {
+        printf(" res - %s and datestr - %s",res, datestr);
+        return 0;
+  }
+  else
+        return -1;
+}
+
+@endcode
+
+Output
+
+@code
+
+ res - 21/11/2006 and datestr - 21/11/2006
+
+@endcode
+
+Errors:
+
+The wstrdate function will fail if: 
+[EFAULT] The supplied argument datestr is invalid.
+
+@see strdate()
+@see strftime()
+@see strptime()
+@see wstrtime()
+
+
+ 
+
+@publishedAll
+@released
+*/
+
+/** @fn  wstrtime(const wchar_t *timestr)
+@param timestr
+
+  The wstrtime() function gets the system time and converts it into wide-character 
+string. This copies the current system time into the string pointed by timestr in the format hh:mm:ss. The timestr buffer must be at least 9 bytes long. The function returns a pointer 
+to the timestr string. Because the modification is done in place, the pointer 
+returned is the same as the pointer passed as the input argument.
+
+@return   The wstrtime() returns a pointer to the time string on success, otherwise 
+it returns a NULL pointer and sets the errno accordingly.
+
+Examples:
+@code
+#include <wchar.h>
+/* Illustrates how to use wstrtime API */
+int example_wstrtime(void)
+{ 
+  /* input string which is updated with the system time. */
+  wchar_t timestr[20];
+ 
+  wchar_t *res = NULL;
+    
+  /* function call to get the system time in wide-char format */
+  res = wstrtime(timestr);
+  if( !res && !timestr)
+  {
+        printf(" res - %s and timestr - %s",res, timestr);
+        return 0;
+  }
+  else
+        return -1;
+}
+
+@endcode
+
+Output
+
+@code
+
+ res - 15:46:36 and timestr - 15:46:36
+
+@endcode
+
+
+@see strtime()
+@see strftime()
+@see strptime()
+
+
+ 
+
+@publishedAll
+@released
+*/
+
+/** @fn  wfdopen(int fd ,const wchar_t *  mode)
+@param fd
+@param mode
+@return   Upon successful completion wfdopen returns a FILE pointer. Otherwise, NULL is returned and the global variable errno is set to indicate the error.
+
+  The wfdopen function
+associates a stream with the existing file descriptor, fd. The mode argument is used just as in the function wfopen .
+
+ The mode of the stream must be compatible with the mode of the file descriptor.
+In other words the type specified by the stream must be allowed by the file access mode of the open file.
+When the stream is closed via fclose, fd is also closed.
+
+
+Errors:
+
+[EINVAL]  The mode argument to wfdopen, was invalid.  
+The function wfdopen may also fail and set errno for any of the errors specified for the routine wopen. 
+
+
+
+
+Limitations:
+
+All the limitations that apply to wfopen apply to wfdopen also.
+
+@see wopen()
+@see wfclose()
+@see wfopen()
+
+
+ 
+
+@publishedAll
+@released
+*/
+
+/** @fn  wfreopen(const wchar_t *  file, const wchar_t *  mode,FILE *fp)
+@param file
+@param mode
+@param fp
+@return   Upon successful completion wfreopen returns a FILE pointer. Otherwise, NULL is returned and the global variable errno is set to indicate the error.
+
+  The wfreopen function
+opens the file whose name is the string pointed to by file and associates the stream pointed to by fp with it.
+The original stream (if it exists) is closed.
+The mode argument is used just as in the wfopen function.
+
+ If the file argument is NULL, wfreopen attempts to re-open the file associated with fp with a new mode.
+The new mode must be compatible with the mode that the stream was originally
+opened with: Streams originally opened with mode "r"
+can only be reopened with that same mode. Streams originally opened with mode "a"
+can be reopened with the same mode, or mode "w." Streams originally opened with mode "w"
+can be reopened with the same mode, or mode "a." Streams originally opened with mode "r+," "w+,"
+or "a+"
+can be reopened with any mode.
+
+ The primary use of the wfreopen function
+is to change the file associated with a
+standard text stream (stderr, stdin, or stdout).
+
+
+
+
+
+Examples:
+@code
+/* wfreopen example: redirecting stdout */
+#include <stdio.h>
+#include <wchar.h>
+int main ()
+{
+  wfreopen (L"c:\myfile.txt",L"w",stdout);
+  printf ("This sentence is redirected to a file.");
+  fclose (stdout);
+  return 0;
+}
+
+@endcode
+ Output:
+@code
+Contents of myfile.txt:This sentence is redirected to a file.
+The output here is redirected from stdout to file myfile.txt
+
+@endcode
+
+Limitations:
+
+All the limitations that apply to wfopen apply to wfreopen also.
+
+@see wopen()
+@see wfclose()
+@see wfopen()
+
+
+ 
+
+@publishedAll
+@released
+*/
+
+/** @fn  wfreopen64(const wchar_t *  file, const wchar_t *  mode,FILE *fp)
+@param file
+@param mode
+@param fp
+@return   Upon successful completion wfreopen64 returns a FILE pointer. Otherwise, NULL is returned and the global variable errno is set to indicate the error.
+
+The wfreopen64() function is a 64-bit version of wfreopen64.
+
+@publishedAll
+@released
+*/
+
+
+/** @fn  getws(wchar_t *  str)
+@param str
+@return   Upon successful completion, getws returns str. The getws function does not distinguish between end-of-file and error: Callers 
+must use feof and ferror to determine which occurred.
+
+ 
+
+ The getws function
+is equivalent to fgetws with an infinite size and a stream of stdin, except that the wide character newline(if any) is not stored in the string.
+It is the caller's responsibility to ensure that the input line,
+if any, is sufficiently short to fit in the string.
+
+
+
+Examples:
+@code
+#include <stdio.h>
+#include <wchar.h>
+/* Illustrates how to use getws API */
+int example_getws()
+        {
+        FILE* stdop = freopen("c:\stdop","w+",stdout);
+        FILE* stdip = freopen("c:\stdip","w+",stdin);
+        FILE* stder = freopen("c:\stder","w+",stderr);
+        wchar_t* buf = (wchar_t*)malloc(sizeof(wchar_t)*50);
+        wchar_t s[100];
+        int ret = 0;
+        size_t size = fwrite("abdcef
+", 1, 6, stdip);          //write to stdin
+        fclose(stdip);
+        stdip = freopen("c:\stdip","r", stdin);
+        getws(s);               // read a line (from stdin)
+        putws(s);               //write to stdout
+        fclose(stdop);
+        stdop = freopen("c:\stdop","r", stdout);
+        fgetws(buf,7,stdop);            //read from stdout
+        if(wcsncmp(s, buf,6))
+                {
+                ret = -1;
+                }
+        fclose(stdin);
+        fclose(stder);
+        fclose(stdop);
+        remove("c:\stdop");
+        remove("c:\stdip");
+        remove("c:\stder");
+        return ret;
+        }
+
+@endcode
+ Output
+@code
+abcdef
+abcdef
+
+@endcode
+
+Security considerations:
+
+ The getws function cannot be used securely. Because of its lack of bounds 
+checking, and the inability for the calling program to determine reliably the 
+length of the next incoming line, the use of this function enables malicious users 
+to arbitrarily change a running program's functionality through a buffer 
+overflow attack. It is strongly suggested that the fgetws function be used in all cases.
+
+@see feof()
+@see ferror()
+@see fgets()
+@see fgetws()
+@see gets()
+
+
+ 
+
+@publishedAll
+@released
+*/
+
+/** @fn  wremove(const wchar_t *file)
+@param file
+@return   Upon successful completion, wremove returns 0. Otherwise, it returns -1 is and sets the global 
+  variable errno to indicate the error.
+
+  The wremove function removes the file or directory specified by the wide character name referred by file.
+
+ If file specifies a directory, wremove (file); is the equivalent of wrmdir (file); Otherwise, it is the equivalent of wunlink (file);
+
+Examples:
+@code
+/* this program shows deleting a file using wremove */
+#include <stdio.h>
+int main()
+{
+        wchar_t* name = L"C:\input.txt";
+        FILE *fp = wfopen(name, L"w+");
+        if (fp == NULL)
+                {
+                printf ("fopen failed
+");
+                return -1;
+                }
+        fprintf(fp,"hello world");
+        fclose(fp);
+        
+        wremove(name);
+        fp=wfopen(name,L"r");
+        if (fp == NULL)
+                {
+                printf ("file has been deleted already
+");
+                }
+        else
+                {
+                printf("wremove failed
+");
+                return -1;
+                }
+        return 0;
+}
+
+@endcode
+ Output
+@code
+file has been deleted already
+
+@endcode
+@see wrmdir()
+@see wunlink()
+
+
+ 
+
+@publishedAll
+@released
+*/
+
+/** @fn  putws(wchar_t *  str)
+@param str
+@return   The putws function
+returns 0 on success and -1 on error.
+
+  The putws function writes the wide character string pointed to by str to the stdout stream.
+
+
+
+Examples:
+@code
+#include <stdio.h>
+#include <wchar.h>
+/* Illustrates how to use putws API */
+int example_putws()
+{
+        wchar_t buf[12];
+        FILE* op;
+        FILE* stdop = freopen("c:\stdop","w+",stdout);
+                
+        putws(L"Hello World");          //write to stdout
+        
+        fclose(stdop);
+                
+        op = freopen("c:\stdop","r",stdout);
+                
+        fgetws(buf, 12, op);            //read from stdout
+                
+        fclose(stdop);
+                
+        remove("c:\stdop");
+        
+        if(!(wcsncmp(L"Hello World", buf, 11)))
+                {                       
+                return 0;
+                }       
+        return -1;
+}
+}
+
+@endcode
+@see ferror()
+@see fputws()
+@see fputs()
+@see putwc()
+
+
+ 
+
+@publishedAll
+@released
+*/
+
+/** @fn  wtelldir(const WDIR *wdp)
+@param wdp
+
+Note: This description also covers the following functions -
+ wseekdir() 
+
+@return   wtelldir function returns current location associated with the named directory stream on success or -1 on failure.
+
+  The wtelldir function
+returns the current location associated with the named directory stream .
+Values returned by wtelldir are good only for the lifetime of the DIR pointer, dirp ,
+from which they are derived.
+If the directory is closed and then
+reopened, prior values returned by wtelldir will no longer be valid.
+
+ The wseekdir function
+sets the position of the next wreaddir operation on the directory stream .
+The new position reverts to the one associated with the directory stream when the wtelldir operation was performed.
+
+
+
+Examples:
+@code
+#include <dirent.h>
+#include<wchar.h>
+#include<stdio.h>
+#include<unistd.h>
+#include<sys/types.h>
+void  wTest()
+    {
+      //declare the variables for dir pointer and dir position.
+      wchar_t *dirName  =L"c:	est_wseekdir";
+      off_t dirpos;
+        // Open the directory
+        WDIR *dirp = wopendir (dirName);
+        
+        if(dirp != NULL)
+        {
+                //read the directory.
+                wreaddir(dirp);
+                wreaddir(dirp);
+                //get the dirp pointer position by calling telldir API.
+                dirpos = wtelldir(dirp);
+                //print the position of the dirp pointer.
+                printf("dirp is pointing at position %ld.",dirpos);
+                
+                wseekdir(dirp , 0) ;
+                wreaddir(dirp);
+                dirpos = wtelldir(dirp);
+                //print the position of the dirp pointer.
+                printf("dirp is pointing at position %ld.",dirpos);
+        }
+    }
+
+@endcode
+
+ Output
+
+@code
+Dirp is pointing at position 2.
+Dirp is pointing at position 1.
+
+@endcode
+@see wclosedir()
+@see wopendir()
+@see wreaddir()
+
+
+ 
+
+@publishedAll
+@released
+*/
+
+
+/** @fn  wopendir(const wchar_t *_wpath)
+@param _wpath
+@return   The wopendir function returns a pointer to the directory stream or NULL if an error occurred.
+
+  The wopendir function
+opens the directory given by the wide-character name _wpath, associates a directory stream with it and positions it at the first entry
+and
+returns a pointer to be used to identify the directory stream in subsequent operations.
+The pointer NULL is returned if _wpath cannot be accessed, or if it cannot malloc enough memory to hold the whole thing.
+
+
+
+Examples:
+@code
+/* Detailed description: This test code demonstrates usage of wopendir system call, open directory wide name "test".
+ * Preconditions: Expects "test" directory to be present in the current working directory.
+ */
+ #include <wchar.h>
+ #include <stdio.h>
+ #include <dirent.h>
+int main()
+{
+  WDIR *WDirHandle;
+  if(!(WDirHandle = wopendir(L"test") ) ) 
+  {
+     printf("Failed to open directory test
+");
+     return -1;
+  }
+  printf("Directory test opened 
+");
+  wclosedir(WDirHandle);
+  return 0;
+}
+
+@endcode
+ Output
+@code
+Directory test opened
+
+@endcode
+@see opendir()
+@see close()
+@see lseek()
+@see open()
+@see read()
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @fn  wcslcat(wchar_t *s1, const wchar_t *s2, size_t n)
+@param s1
+@param s2
+@param n
+
+Refer to wmemchr() for the documentation
+
+@see memchr()
+@see memcmp()
+@see memcpy()
+@see memmove()
+@see memset()
+@see strcat()
+@see strchr()
+@see strcmp()
+@see strcpy()
+@see strcspn()
+@see strlen()
+@see strncat()
+@see strncmp()
+@see strncpy()
+@see strpbrk()
+@see strrchr()
+@see strspn()
+@see strstr()
+
+
+ 
+
+@publishedAll
+@released
+*/
+
+/** @fn  wcslcpy(wchar_t *s1, const wchar_t *s2, size_t n)
+@param s1
+@param s2
+@param n
+
+Refer to wmemchr() for the documentation
+
+@see memchr()
+@see memcmp()
+@see memcpy()
+@see memmove()
+@see memset()
+@see strcat()
+@see strchr()
+@see strcmp()
+@see strcpy()
+@see strcspn()
+@see strlen()
+@see strncat()
+@see strncmp()
+@see strncpy()
+@see strpbrk()
+@see strrchr()
+@see strspn()
+@see strstr()
+
+
+ 
+
+@publishedAll
+@released
+*/
+
+/** @fn  wasctime(const struct tm *tm)
+@param tm
+
+Refer to wctime() for the documentation
+
+@see asctime()
+@see ctime()
+
+
+ 
+
+@publishedAll
+@released
+*/
+
+/** @fn  wctime(const time_t *clock)
+@param clock
+
+Note: This description also covers the following functions -
+ wasctime() 
+
+@return   The functions wasctime and wctime return a pointer to the resulting wide-character string.
+
+  The function wctime takes a time value representing the time in seconds since the 
+Epoch (00:00:00 UTC, January 1, 1970) as an argument. See time
+
+ The function wctime adjusts the time value for the current time zone in the same 
+  manner as localtime and returns a pointer to a 26-wide character string of the 
+  form: Thu Nov 24 18:22:48 1986
+\\0 All the fields have constant width.
+
+ The function wasctime converts the broken down time in the structure tm , pointed at by *tm , to the form shown in the example above.
+
+ @code
+ External declarations as well as the tm structure definition are in the #include <time.h> include file. The tm structure includes 
+  at least the following fields: 
+
+int tm_sec;/* seconds (0 - 60) */
+int tm_min;/* minutes (0 - 59) */
+int tm_hour;/* hours (0 - 23) */
+int tm_mday;/* day of month (1 - 31) */
+int tm_mon;/* month of year (0 - 11) */
+int tm_year;/* year - 1900 */
+int tm_wday;/* day of week (Sunday = 0) */
+int tm_yday;/* day of year (0 - 365) */
+int tm_isdst;/* is summer time in effect? */
+char *tm_zone;/* abbreviation of timezone name */
+long tm_gmtoff;/* offset from UTC in seconds */
+@endcode
+
+ The
+field tm_isdst is non-zero if summer time is in effect.
+
+ The field tm_gmtoff is the offset (in seconds) of the time represented from UTC, with positive
+values indicating east of the Prime Meridian.
+
+
+
+Examples:
+@code
+//Example usage of wasctime and wctime:
+#include <time.h>
+#include <stdio.h>
+int main(){
+        time_t t;
+        struct tm *timeptr;
+        wchar_t* wasc_time;
+        t = time (NULL); //Get current time in seconds from Epoc
+        //Fill tm struct w.r.t localtime using localtime
+        timeptr = localtime (&t;);
+        //Use this to convert it to a string indicating time w.r.t localtime
+        wasc_time = wasctime (timeptr);
+        wprintf (L"Time from wasctime w.r.t localtime : %s", wasc_time);
+                wprintf(L"Time from wctime w.r.t localtime : %s0, wctime(&t;) );
+         return 0;
+}
+
+@endcode
+ Output
+@code
+Time from wasctime w.r.t localtime : Thu Jun 22 10:42:27 2006
+Time from wctime w.r.t localtime : Thu Jun 22 10:42:27 2006
+
+@endcode
+@code
+
+@endcode
+@see asctime()
+@see ctime()
+
+
+Bugs:
+
+ These functions leave their result in an internal static object and return
+a pointer to that object.
+Subsequent calls to these
+functions will modify the same object. The C Standard provides no mechanism for a program to modify its current local 
+  timezone setting and the POSIX -standard method is not reentrant. (However, thread-safe implementations 
+  are provided in the POSIX threaded environment.) The tm_zone field of a returned tm structure points to a static array of characters which will also be overwritten 
+  by any subsequent calls (as well as by subsequent call to tzset ) 
+
+ 
+
+@publishedAll
+@released
+*/
+
+/** @fn  wsetlocale(int category, const wchar_t *locale)
+@param category
+@param locale
+@return   Upon successful completion, wsetlocale returns the  wide char string associated with the specified category for the requested locale. The wsetlocale function returns NULL and fails to change the locale
+if the given combination of category and locale make no sense.
+
+
+The wsetlocale function sets the C library's notion
+of natural language formatting style
+for particular sets of routines.
+Each such style is called a 'locale'
+and is invoked using an appropriate name passed as a wide char string.
+
+ The wsetlocale function can recognise several categories of routines.
+The categories and the sets of routines recognised by wsetlocale are listed below:
+
+ @code
+ LC_ALL Set the entire locale generically.
+ LC_COLLATE Set a locale for string collation routines. Currently locale setting does not have effect on
+ this category.
+ LC_CTYPE This controls recognition of upper and lower case,
+ alphabetic or non-alphabetic characters,
+ and so on. Currently locale setting does not have effect on this category.
+ LC_MESSAGES
+  Set a locale for message catalogs. Currently this category is not supported.
+ LC_MONETARY
+  Set a locale for formatting monetary values;
+ this affects the localeconv function.
+ LC_NUMERIC Set a locale for formatting numbers.
+ This controls the formatting of decimal points
+ in input and output of floating point numbers
+ in functions such as printf and scanf, as well as values returned by localeconv.
+ LC_TIME Set a locale for formatting dates and times using the strftime function.
+
+@endcode
+
+ Only three locales are defined by default,
+the empty string which denotes the native environment, the C 
+and the POSIX 
+locales, which denote the C language environment.
+A locale argument of NULL causes wsetlocale to return the current locale.
+By default, C programs start in the C 
+locale.
+The only functions in the library that set the locale are wsetlocale and setlocale; the locale is never changed as a side effect of some other routine.
+
+Examples:
+@code
+#include<stdio.h>
+#include<wchar.h>
+int main()
+{
+        //Set the locale to UK English
+        wchar_t* locale = wsetlocale(LC_ALL,L"en_GB.ISO-8859-1");
+        //Check whether locale setting is succesful or not
+        if(NULL != locale)
+        {
+                wprintf(L"Locale setting is successful
+");
+                wprintf(L"Locale is set to %s
+", locale);
+        }
+        else
+        {
+                wprintf(L"Locale setting failed
+");
+        }
+        return 0;
+}
+
+@endcode
+ Output
+@code
+Locale setting is successful
+Locale is set to en_GB.ISO-8859-1
+
+@endcode
+@see setlocale()
+@see localeconv()
+@see nl_langinfo()
+
+
+ 
+
+@publishedAll
+@released
+*/
+
+/** @fn  wperror(const wchar_t *s)
+@param s
+
+Note: This description also covers the following functions -
+ wcserror() 
+
+@return   The function wcserror returns the appropriate error description wide char string, or an unknown error message if the error code is unknown. The value of errno is not changed for a successful call, and is set to a nonzero value upon error.
+
+  The functions wcserror and wperror look up the error message string corresponding to an
+error number.
+
+ The function wcserror function accepts an error number argument errnum (error number) and returns a pointer to the corresponding
+message string.
+
+ The function wperror finds the error message corresponding to the current
+value of the global variable errno and writes it, followed by a newline, to the
+standard error file descriptor.
+If the argument s is non- NULL and does not point to the null character,
+this wide char string is prepended to the message
+string and separated from it by
+a colon and space (": ");
+otherwise, only the error message string is printed.
+
+ If the error number is not recognized, these functions return an error message
+string containing "Unknown error: "
+followed by the error number in decimal.
+The wcserror function returns EINVAL as a warning.
+Error numbers recognized by this implementation fall in
+the range 0 \<errnum \<sys_nerr .
+
+ If insufficient storage is provided in strerrbuf (as specified in buflen )
+to contain the error string, wcserror returns ERANGE and strerrbuf will contain an error message that has been truncated and NUL terminated to fit the length specified by buflen .
+
+
+
+Examples:
+@code
+#include <string.h>
+#include <stdio.h>
+#include <errno.h>
+#include <wchar.h>
+int main()
+{
+    wchar_t *ptr = wcserror(ERANGE);
+    wprintf(L"wcserror(ERANGE) = %s
+",ptr);
+    return 0;
+}
+
+@endcode
+ Output
+@code
+wcserror(ERANGE) = Numerical result out of range
+
+@endcode
+@see perror()
+@see strerror()
+
+
+Bugs:
+
+ For unknown error numbers, the function wcserror will return its result in a static buffer which
+may be overwritten by subsequent calls. The return type for wcserror is missing a type-qualifier. The type-qualifier must be const wchar_t * . 
+
+ 
+
+@publishedAll
+@released
+*/
+
+/** @fn  wcserror(int num)
+@param num
+
+Refer to wperror() for the documentation
+
+@see perror()
+@see strerror()
+
+
+ 
+
+@publishedAll
+@released
+*/
+
+/** @fn  wfindnext(intptr_t handle, struct _wfinddata_t * fileinfo)
+@param handle
+@param fileinfo
+
+Refer to wfindfirst() for the documentation
+
+
+ 
+
+@publishedAll
+@released
+*/
+
+/** @fn  wfindfirst(const wchar_t*  filespec, struct _wfinddata_t* fileinfo)
+@param filespec
+@param fileinfo
+
+Note: This description also covers the following functions -
+ wfindnext()  findclose() 
+
+@return   If successful, wfindfirst return a unique search handle identifying the file or group 
+  of files matching the filespec specification. The handle can be used in a subsequent 
+  call to wfindnext or to findclose. Otherwise, wfindfirst returns -1 and sets 
+  errno accordingly. If successful, wfindnext returns 0. Otherwise, returns -1 and sets errno to a value indicating the nature of the failure. If successful, findclose returns 0.  Otherwise, it returns -1 and sets errno to ENOENT
+
+Errors:
+
+[EINVAL]  Invalid parameter: filespec or fileinfo was NULL. Or, the operating system returned an unexpected error. 
+[ENOENT]  File specification that could not be matched. 
+
+  The wfindfirst function provides information about the first instance of a file name that matches the file specified in the filespec argument. Any wildcard combination supported by the host operating system can be used in filespec. File information is returned in a _wfinddata_t structure, defined in wchar.h. The  _wfinddata_t structure includes the following elements.
+
+@code
+ unsigned attrib File attribute
+@endcode
+
+ time_t time_create  Time of file creation (-1L for Symbian OS)
+
+ time_t time_access  Time of the last file access (-1L for Symbian OS)
+
+ time_t time_write Time of the last write to file
+
+ size_t size Length of the file in bytes
+
+ wchar_t name[260] Null-terminated name of matched file/directory, without the path
+
+
+
+ This attribute is returned in the attrib field of the _wfinddata_t structure and can have the following values (defined in wchar.h). 
+
+ @code
+ _A_ARCH Archive.
+ _A_HIDDEN
+  Hidden file.
+ _A_NORMAL
+  Normal.
+ _A_RDONLY
+  Read-only.
+ _A_SYSTEM
+  System file.
+
+@endcode
+
+ The wfindnext finds the next name, if any, that matches the filespec argument in a previous call to wfindfirst and then alters the fileinfo structure contents accordingly.
+
+ The findclose closes the specified search handle and releases the associated resources.
+
+
+
+
+
+Examples:
+@code
+#include <wchar.h>
+int main( void )
+{
+   struct _wfinddata_t c_file;
+   intptr_t hFile;
+   // Find  .txt file in current directory
+   if( (hFile = wfindfirst( L"*.txt", &c;_file )) == -1L )
+      printf( "No *.txt files in current directory" );
+   else
+   {
+        int i = 1;
+      do {
+             wprintf( L" File %d = %s ",i,c_file.name);
+             i++;
+                     } while( wfindnext( hFile, &c;_file ) == 0 );
+      findclose( hFile );
+   }
+   return 0 ;
+}  
+
+@endcode
+ Output
+@code
+File 1 = test1.txt
+File 2 = test2.txt
+
+@endcode
+
+Bugs:
+
+ Does not support any attribute to find out the sub-directories
+(i.e., attribute _A_SUBDIR not supported).
+ 
+
+@publishedAll
+@released
+*/
+
+/** @fn  findclose(intptr_t handle)
+@param handle
+
+Refer to wfindfirst() for the documentation
+
+
+ 
+
+@publishedAll
+@released
+*/
+
+/** @fn  wcsnicmp(const wchar_t *wcs1, const wchar_t *wcs2, size_t n)
+@param wcs1
+@param wcs2
+@param n
+
+  The wcsnicmp() function
+compares the first n characters from two null-terminated wide-character strings wcs1 and wcs2, by converting them into lower-case.
+It returns an integer value indicating the status of
+the comparision.
+
+@return   The wcsnicmp() returns an integer greater than, equal to, or less than 0,
+according as wcs1 is lexicographically greater than, equal to, or less than wcs2 after translation of each corresponding character to lower-case.
+The strings themselves are not modified.
+
+Examples:
+@code
+#include <wchar.h>
+/* Illustrates how to use wcsnicmp API */
+int example_wcsnicmp(void)
+{ 
+  /* input strings which needs to be compared */
+  wchar_t *ws1=L"testcasecmp";
+  wchar_t *ws2=L"TESTCASECMP";
+    
+  /* function call to compare the two strings which */
+  /* differ in case */
+  int retval = wcsnicmp(ws1,ws2,12);
+  /* returns 0 if they are equal or > 1 */
+  /* if first string is greater than second string else -1 */
+  return retval;
+}
+
+@endcode
+@see strcasecmp()
+@see wcscasecmp()
+@see wcsncasecmp()
+
+
+ 
+
+@publishedAll
+@released
+*/
+
+/** @fn  wcsicoll(const wchar_t *wcs1, const wchar_t *wcs2)
+@param wcs1
+@param wcs2
+@return   The wcsicoll function
+returns an integer greater than, equal to, or less than 0,
+if wcs1 is greater than, equal to, or less than wcs2. No return value is reserved to indicate errors;
+callers should set errno to 0 before calling wcsicoll .
+If it is non-zero upon return from wcsicoll ,
+an error has occurred.
+
+  The wcsicoll function compares the null-terminated strings wcs1 and wcs2 according to the current locale collation order, by ignoring the case.
+In the "C"
+locale, wcsicoll is equivalent to wcsicmp .
+
+Examples:
+@code
+#include <wchar.h>
+/* Illustrates how to use wcsicoll API */
+int example_wcsicoll (void)
+{  
+        /* compares the two strings */
+  if( wcsicoll(L"abcdef",L"abcdeg") != L'f'-L'g')  
+   return -1;
+ return 0;
+}
+
+@endcode
+
+Limitations:
+
+The current implementation of wcsicoll is not affected by the LC_CTYPE category of the current locale. It is equivalent to wcsicmp in this implementation.
+
+@see setlocale()
+@see strcoll()
+@see wcsicmp()
+@see wcsxfrm()
+
+
+Bugs:
+
+The current implementation of wcsicoll only works in single-byte LC_CTYPE locales, and falls back to using wcsicmp in locales with extended character sets. 
+
+ 
+
+@publishedAll
+@released
+*/
+
+/** @fn  wcsncoll(const wchar_t *wcs1, const wchar_t *wcs2, size_t n)
+@param wcs1
+@param wcs2
+@param n
+@return   The wcsncoll function
+returns an integer greater than, equal to, or less than 0,
+if wcs1 is greater than, equal to, or less than wcs2 . No return value is reserved to indicate errors;
+callers should set errno to 0 before calling wcsncoll .
+If it is non-zero upon return from wcsncoll ,
+an error has occurred.
+
+  The wcsncoll function compares the first n chars from the two null-terminated strings wcs1 and wcs2 according to the current locale collation order.
+In the "C"
+locale, wcsncoll is equivalent to wcscmp .
+
+Examples:
+@code
+#include <wchar.h>
+/* Illustrates how to use wcsncoll API */
+int example_wcsncoll (void)
+{  
+        /* compares the two strings */
+  if( wcsncoll(L"abcdef",L"abcdeg",7) != L'f'-L'g')  
+   return -1;
+ return 0;
+}
+
+@endcode
+
+Limitations:
+
+The current implementation of wcsncoll is not affected by the LC_CTYPE category of the current locale. It is equivalent to wcscoll in this implementation.
+
+@see setlocale()
+@see strcoll()
+@see wcscoll()
+@see wcsncmp()
+@see wcsxfrm()
+
+
+
+Bugs:
+
+ The current implementation of wcsncoll only works in single-byte LC_CTYPE locales, and falls back to using wcscoll in locales with extended character sets. 
+
+ 
+
+@publishedAll
+@released
+*/
+
+
+/** @fn  wcsnicoll(const wchar_t *wcs1, const wchar_t *wcs2, size_t n)
+@param wcs1
+@param wcs2
+@param n
+@return   The wcsnicoll function
+returns an integer greater than, equal to, or less than 0,
+if wcs1 is greater than, equal to, or less than wcs2 . No return value is reserved to indicate errors;
+callers should set errno to 0 before calling wcsnicoll .
+If it is non-zero upon return from wcsnicoll ,
+an error has occurred.
+
+  The wcsnicoll function compares the null-terminated strings wcs1 and wcs2 according to the current locale collation order.
+In the "C"
+locale, wcsnicoll is equivalent to wcsncasecmp .
+
+Examples:
+@code
+#include <wchar.h>
+/* Illustrates how to use wcsnicoll API */
+int example_wcsnicoll (void)
+{  
+        /* compares the two strings */
+  if( wcsnicoll(L"abcdef",L"abcdeg",7) != L'f'-L'g')  
+   return -1;
+ return 0;
+}
+
+@endcode
+
+Limitations:
+
+The current implementation of wcsnicoll is not affected by the LC_CTYPE category of the current locale. It is equivalent to wcsncasecmp in this implementation.
+
+@see setlocale()
+@see strcoll()
+@see wcscmp()
+@see wcsxfrm()
+@see wcsncasecmp()
+
+
+Bugs:
+
+ The current implementation of wcsnicoll only works in single-byte LC_CTYPE locales, and falls back to using wcsncoll in locales with extended character sets. 
+ 
+
+@publishedAll
+@released
+*/
+
+
+/** @fn  wtmpnam(wchar_t *s)
+@param s
+@return   The wtmpnam function returns a pointer to a file name on success and a NULL pointer on error.
+
+  The wtmpnam function returns a pointer to a file name in the P_tmpdir directory which did not reference an existing file at some 
+indeterminate point in the past. P_tmpdir is defined in the include file stdio.h . If the argument s is non-NULL, the file name is copied to the buffer it references. Otherwise, the 
+file name is copied to a static buffer. In either case, wtmpnam returns a pointer to the file name.
+
+ The buffer referenced by s is expected to be at least L_tmpnam bytes in length. L_tmpnam is defined in the include file stdio.h .
+
+ The environment variable TMPDIR (if set), the argument tmpdir (if non-NULL), the directory P_tmpdir , and the directory /tmp are tried in that order as directories in which to store the 
+  temporary file.
+
+
+
+Examples:
+@code
+#include<stdio.h> //wtmpnam
+#include<sys/stat.h> //S_IWUSR
+#include<errno.h> //errno
+  
+int main()
+{
+ //create a directory c:\system emp
+ wmkdir(L"c:\system\temp", S_IWUSR);
+  
+ wchar_t wbuf[L_tmpnam];
+ wchar_t rbuf[10];
+  
+ //call wtmpnam() to create a file
+ wchar_t *rval = wtmpnam(wbuf);
+  
+ errno = 0;
+ //open the file with the name returned by wtmpnam()
+ FILE *fp = wfopen(buf, L"w");
+  
+ if (fp == NULL)
+ {
+     printf("fopen of file returned by wtmpnam() failed - errno %d ", errno);
+     return -1;
+ }
+    
+ if(fp)
+ {
+    fwprintf(fp, L"%ls", L"check");
+    fclose(fp);
+ }
+   
+ fp = wfopen(buf, L"r");
+  
+ if(fp)
+ {
+     fwscanf(fp, L"%ls", rbuf);
+     fclose(fp);
+ }
+  
+ printf("read from file: %ls
+", rbuf);
+ printf("argument buf: %ls
+", buf);
+ printf("return value: %ls
+", rval);
+  
+ return 0;
+}
+
+@endcode
+ Output
+@code
+read from file: check
+argument buf: /System/temp/tmp.0.U9UPTx
+return value: /System/temp/tmp.0.U9UPTx
+
+@endcode
+@see mktemp()
+@see tmpnam()
+
+
+ 
+
+@publishedAll
+@released
+*/
+
+
+
+/** @typedef typedef	__mbstate_t	mbstate_t
+
+An object type other than an array type that can hold the conversion state information necessary to convert between sequences of (possibly multibyte) characters and wide-characters. 
+If a codeset is being used such that an mbstate_t needs to preserve more than 2 levels of reserved state, the results are unspecified.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @typedef typedef	__wint_t	wint_t
+
+An integral type capable of storing any valid value of wchar_t, or WEOF.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @def WCHAR_MIN
+
+The minimum value representable by an object of type wchar_t.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def WCHAR_MAX
+
+The maximum value representable by an object of type wchar_t.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def WEOF 
+
+Constant expression of type wint_t that is returned by several WP functions to indicate end-of-file.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn wpopen3 (const wchar_t* file, const wchar_t* cmd, wchar_t** env, int fids[3])
+@param file
+@param cmd
+@param env
+@param fids
+
+Note:wpopen3 is a wide-character version of popen3()
+
+@return Upon successful completion, it returns pid of the child.
+
+Examples:
+
+@code
+
+/* Illustrates how to use wpopen3 API */
+#include <wchar.h>
+int main()
+	{
+	int fds[3];
+	int childid= wpopen3( NULL,NULL, NULL, fds);
+	if  (childid == -1 && errno == ENOENT) 
+		{        
+      	printf("wpopen success");
+		return 0;
+		}
+	return -1;
+	}
+@endcode
+@code
+Output:
+wpopen success
+@endcode
+
+@publishedAll
+@released
+*/

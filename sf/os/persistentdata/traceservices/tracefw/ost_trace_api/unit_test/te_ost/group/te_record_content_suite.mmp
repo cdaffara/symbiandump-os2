@@ -1,0 +1,66 @@
+// Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+TARGET      		te_ost_record_content.exe
+TARGETTYPE  		exe
+UID             	0x1000007A 0x10287239
+
+
+#define 			SYMBIAN_INCLUDE_EXECUTABLE_TRACE
+#include    		<platform/opensystemtrace.mmh>
+
+MACRO 				TE_RECORD_CONTENT
+MACRO 				TE_MODULE_UID=0x10287239
+
+// to make sure the timers are prioritised
+epocprocesspriority high
+
+OS_LAYER_SYSTEMINCLUDE
+
+USERINCLUDE			../inc
+USERINCLUDE ../../devicedriver/inc/
+USERINCLUDE ../../lauterbach_perf_tester/inc/
+
+SOURCEPATH  		../src
+SOURCE				te_suite_server.cpp
+SOURCE				te_suite_step_base.cpp
+SOURCE				te_check_record_content_step.cpp 
+SOURCE				te_check_build_variability_step.cpp //not used...
+SOURCE				te_check_performance_step.cpp
+SOURCE				te_logger.cpp 
+SOURCE				te_parser.cpp 
+SOURCE				te_tracer.cpp 
+SOURCE				te_tracerecord.cpp 
+SOURCE				te_timer.cpp
+SOURCE				te_apicaller.cpp
+SOURCE				te_multiparttrace.cpp
+SOURCE				uloggerconfig.cpp
+SOURCE				te_macrostest.cpp
+SOURCE				te_macrostest_disabled.cpp
+SOURCE				te_usertimer.cpp
+
+LIBRARY		euser.lib
+LIBRARY		testexecuteutils.lib 
+LIBRARY		testexecutelogclient.lib 
+LIBRARY		efsrv.lib 
+LIBRARY		hal.lib 
+LIBRARY		btracec.lib
+LIBRARY		uloggerclient.lib
+LIBRARY		te_ost_lauterbach.lib
+
+always_build_as_arm
+OPTION ARMCC --interleave
+
+SMPSAFE

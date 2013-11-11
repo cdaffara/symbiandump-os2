@@ -1,0 +1,62 @@
+28 January 2000
+***************
+First mainline release of certificate management code
+This release consists of 6 DLLs:
+
+asn1.dll: 
+	-basic ASN.1/DER decoding functionality
+	-depends on euser and bigint
+x500.dll:
+	-processing of X.500 Distinguished Names
+	-depends on euser, estor and asn1
+crypto.dll:
+	-handling of generic signature verification functionality
+	-depends on euser, estor, cryptalg and hash
+certstore.dll
+	-handling of certificate storage
+	-depends on euser, estor, efsrv and crypto
+x509.dll
+	-processing of X.509 certificates
+	-depends on euser, bafl, estor, asn1, certstore bigint, x500, cryptalg and crypto
+	-extraction of DH keys is currently *not* supported: this will happen in the next
+	release
+pkixCert.dll
+	-processing of X.509 certificates according to the PKIX profile (RFC 2459)
+	-depends on euser, x500, x509, certstore and crypto
+
+3 test executables are also included with the release:
+
+tx509.exe:
+	-tests X.509 certificate processing, including OOM handling
+	-requires the existence of a directory 'c:\system\testdata'
+	-the program reads all the files in the directory and attempts 
+	to process them as X.509 certificates
+	-for each file it attempts to process, it writes success or failure 
+	to the console. The names of failed files are written to 'c:\errfile.txt',
+	and details of each successfully parsed certificate to 'c:\outfile.txt'
+	-a .zip file, 'testdata.zip' is included in '\certman\tx509': this 
+	contains sample X.509 certificates which may be extracted to 
+	'c:\system\testdata' for processing.
+tcertstore.exe:
+	-tests basic certificate store functionality
+	-requires the existence of an certificate store file, 'certx509.dat', in 
+	'c:\system\data', and the existence of certain specific certificate files in 
+	'c:\system\testdata': these files, along with a suitable certificate store, 
+	are included in the .zip file 'testdata.zip' which is found in '\certman\tcertstore'
+tpkixcert.exe
+	-test basic chain building functionality, and a little validation functionality
+	-requires the existence of certain specific certificate files in 
+	'c:\system\testdata': these files are included in the .zip file 'testdata.zip' 
+	which is found in '\certman\tpkixcert'. It also reqiuires the existence of a file called 
+	'correctchain.txt' in 'c:\': this file is also included in the .zip.
+
+N.B. certstore.dll also needs a certificate store file, 'certx509.dat', in 'c:\system\data'. 
+While it is best if the tcertstore test program starts with an empty store, it is more useful to 
+dependent code if the store is already populated. So, an alternative 'certx509.dat' is included in 
+'\certman\certstore' for use by certstore.dll when code other than the dedicated test code is using it.
+This file currently contains:
+	Clients:
+		Name = "Software Install", UID = 0x100042AB       
+		Name = "T_SSLWeb.exe", UID = 1
+	Certs: 
+		Thawte root

@@ -1,0 +1,58 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+*
+*/
+
+#include <data_caging_paths.hrh>
+#include <platform_paths.hrh>
+
+TARGETTYPE dll
+TARGET MemSpyClient.dll
+UID 0 0x2002EA8E
+VENDORID	VID_DEFAULT
+SMPSAFE
+
+CAPABILITY PowerMgmt SwEvent ReadUserData WriteUserData ReadDeviceData WriteDeviceData CommDD MultimediaDD DRM TrustedUI ProtServ DiskAdmin NetworkControl AllFiles NetworkServices LocalServices Location SurroundingsDD UserEnvironment
+
+SOURCEPATH ../src
+SOURCE 		memspysession.cpp 
+SOURCE 		memspyapiprocess.cpp 
+SOURCE 		memspyapikernelobject.cpp 
+SOURCE		memspyapiheap.cpp 
+SOURCE 		memspyapikernelobjectitem.cpp 
+SOURCE		memspyapithread.cpp 
+SOURCE		memspyapithreadinfoitem.cpp
+SOURCE		memspyapimemorytrackingcycle.cpp
+SOURCE 		memspyapiserver.cpp
+SOURCE 		memspyapiecom.cpp  
+SOURCE 		memspyapiwindowgroup.cpp
+
+USERINCLUDE ../inc
+
+OS_LAYER_SYSTEMINCLUDE
+
+LIBRARY 		euser.lib
+LIBRARY			ecom.lib
+LIBRARY			efsrv.lib
+LIBRARY			estor.lib
+LIBRARY			bafl.lib
+LIBRARY			ws32.lib
+LIBRARY			cone.lib
+LIBRARY			eikcore.lib
+LIBRARY			fbscli.lib 
+LIBRARY 		PlatformEnv.lib
+LIBRARY         MemSpyEngine.lib
+
+//EXPORTUNFROZEN

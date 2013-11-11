@@ -1,0 +1,160 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// @file
+// 
+//
+
+//! @SYMTestSuiteName PDS-TEF-SQL-SUITE
+//! @SYMScriptTestEnvironment TEF
+//! @internalComponent
+//! @test
+
+PRINT Run SQL Tests
+
+LOAD_SUITE te_SQL_Suite
+
+START_TESTCASE SYSLIB-SQL-CIT-1848
+//! @SYMTestCaseID    SYSLIB-SQL-CIT-1848
+//! @SYMTestCaseDesc  Tests basic transaction behaviour and a simple level
+//!                  of concurrency. A single record is added to a table.
+//!                  Then, within a transaction three more are added.
+//!                  At this point two concurrent threads (one ESerializable,
+//!                  one EReadUncommitted) check the content of the table.
+//!                  After checking the transaction is rolled back.
+//!                  (8-bit/Asynchronous variant)
+//! @SYMTestPriority  High
+//! @SYMTestActions   See description and the config file.
+//! @SYMTestExpectedResults
+//!                  The ESerializable thread is unable to read the table
+//!                  because it is locked. The EReadUncommitted read it fine.
+//! @SYMREQ           REQ5792
+//!                  REQ5793
+
+CONCURRENT
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\APIBasic2-8S.ini Thread2
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\APIBasic2-8S.ini Thread3
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\APIBasic2-8S.ini Thread1
+END_TESTCASE SYSLIB-SQL-CIT-1848
+
+START_TESTCASE SYSLIB-SQL-CIT-1849
+//! @SYMTestCaseID    SYSLIB-SQL-CIT-1849
+//! @SYMTestCaseDesc  Verifies the rollback on the last test performed properly.
+//!                  (8-bit/Asynchronous variant)
+//! @SYMTestPriority  High
+//! @SYMTestActions   See description and the config file.
+//! @SYMTestExpectedResults
+//!                  The table reads without error, it contains 1 record.
+//! @SYMREQ           REQ5792
+
+CONSECUTIVE
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\APIBasic2-8S.ini CheckFollowingRollback
+END_TESTCASE SYSLIB-SQL-CIT-1849
+
+START_TESTCASE SYSLIB-SQL-CIT-1850
+//! @SYMTestCaseID    SYSLIB-SQL-CIT-1850
+//! @SYMTestCaseDesc  Verifies that streams behave - we pass a read stream
+//!                  to a write stream.
+//!                  (8-bit/Asynchronous variant)
+//! @SYMTestPriority  High
+//! @SYMTestActions   See description and the config file.
+//! @SYMTestExpectedResults
+//!                  Runs without error.
+//! @SYMREQ           REQ5792
+
+CONSECUTIVE
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLCDT z:\TEF_SQL\APIBasic2-8S.ini CopyCellsWithStreams
+END_TESTCASE SYSLIB-SQL-CIT-1850
+
+START_TESTCASE SYSLIB-SQL-CIT-1851
+//! @SYMTestCaseID    SYSLIB-SQL-CIT-1851
+//! @SYMTestCaseDesc  A simple test of the effect of two binds without an
+//!                  exec/reset between them.
+//!                  (8-bit/Asynchronous variant)
+//! @SYMTestPriority  High
+//! @SYMTestActions   See description and the config file.
+//! @SYMTestExpectedResults
+//!                  The second data to be bound gets written to the cell,
+//!                  a PASS will be reported.
+//! @SYMREQ           REQ5792
+
+CONSECUTIVE
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\APIBasic2-8S.ini DoubleBind
+END_TESTCASE SYSLIB-SQL-CIT-1851
+
+START_TESTCASE SYSLIB-SQL-CIT-1852
+//! @SYMTestCaseID    SYSLIB-SQL-CIT-1852
+//! @SYMTestCaseDesc  A simple test using the OpenL and CreateL methods.
+//!                  (8-bit/Asynchronous variant)
+//! @SYMTestPriority  High
+//! @SYMTestActions   See description and the config file.
+//! @SYMTestExpectedResults
+//!                  Checks for appropriate error codes from the APIs called
+//!                  and reports a PASS.
+//! @SYMREQ           REQ5792
+
+CONSECTUTIVE
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\APIBasic2-8S.ini LeaveMethods
+END_TESTCASE SYSLIB-SQL-CIT-1852
+
+RUN_UTILS DeleteFile C:\Leave1.db
+RUN_UTILS DeleteFile C:\MCO1.db
+RUN_UTILS DeleteFile C:\MCO2.db
+RUN_UTILS DeleteFile C:\MCO3.db
+RUN_UTILS DeleteFile C:\MCO4.db
+RUN_UTILS DeleteFile C:\MCO5.db
+START_TESTCASE SYSLIB-SQL-CIT-1853
+//! @SYMTestCaseID    SYSLIB-SQL-CIT-1853
+//! @SYMTestCaseDesc  Tests the effect of multiple sequential Creates and Opens.
+//!                  (8-bit/Asynchronous variant)
+//! @SYMTestPriority  High
+//! @SYMTestActions   See description and the config file.
+//! @SYMTestExpectedResults
+//!                  Verifies that multiple Creates and Opens with the same
+//!                  RSqlDatabase object does not generate an error. You
+//!                  might expect a PANIC but you'd be wrong! Note the
+//!                  deletes afterwards, these clean up where we can't because
+//!                  all of the databases get locked.
+//! @SYMREQ           REQ5792
+
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLDDT z:\TEF_SQL\APIBasic2-8S.ini MultipleCreateOpen
+END_TESTCASE SYSLIB-SQL-CIT-1853
+
+RUN_UTILS DeleteFile C:\Leave1.db
+RUN_UTILS DeleteFile C:\MCO1.db
+RUN_UTILS DeleteFile C:\MCO2.db
+RUN_UTILS DeleteFile C:\MCO3.db
+RUN_UTILS DeleteFile C:\MCO4.db
+RUN_UTILS DeleteFile C:\MCO5.db
+
+START_TESTCASE SYSLIB-SQL-CIT-1854
+//! @SYMTestCaseID    SYSLIB-SQL-CIT-1854
+//! @SYMTestCaseDesc  Further bind tests.
+//!                  (8-bit/Asynchronous variant)
+//! @SYMTestPriority  High
+//! @SYMTestActions   See description and the config file.
+//! @SYMTestExpectedResults
+//!                  A couple of tests that verify that a bind can be used
+//!                  in combination with a SELECT to fetch data from a table
+//!                  based on parameters in the bind. The first one uses
+//!                  integers, the second a binary field (though it's defined
+//!                  as text in the 'Create table' line). For no special
+//!                  reason we run these concurrently. It isn't really a
+//!                  concurrency test, just two tests executing concurrently.
+//! @SYMREQ           REQ5792
+
+CONCURRENT
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLCDT z:\TEF_SQL\APIBasic2-8S.ini ExtraBindTest
+	RUN_TEST_STEP 100 te_SQL_Suite CSQLCDT z:\TEF_SQL\APIBasic2-8S.ini ExtraBindTest2
+END_TESTCASE SYSLIB-SQL-CIT-1854
+

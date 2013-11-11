@@ -1,0 +1,341 @@
+/** @file ../include/sys/shm.h
+@internalComponent
+*/
+
+/** @fn  shmget(key_t key, int size, int shmflg)
+@param key
+@param size
+@param shmflg
+@return   Upon successful completion, shmget returns the positive integer identifier of a shared memory segment.
+Otherwise, -1 is returned and errno set to indicate the error.
+
+@code
+ SHM_R Read access for user.
+ SHM_W Write access for user.
+ ( SHM_R>>3 )
+  Read access for group.
+ ( SHM_W>>3 )
+  Write access for group.
+ ( SHM_R>>6 )
+  Read access for other.
+ ( SHM_W>>6 )
+  Write access for other.
+
+@endcode
+  Based on the values of key and shmflg, shmget returns the identifier of a newly created or previously existing shared
+memory segment. The key
+is analogous to a filename: it provides a handle that names an
+IPC object.
+There are three ways to specify a key: IPC_PRIVATE may be specified, in which case a new IPC object
+will be created. An integer constant may be specified.
+If no IPC object corresponding
+to key is specified and the IPC_CREAT bit is set in shmflg, a new one will be created. The ftok may be used to generate a key from a pathname.
+
+@code
+
+ The mode of a newly created IPC object is determined by OR 'ing the following constants into the shmflg argument: SHM_R Read access for user. SHM_W Write access for user. ( SHM_R>>3 )  Read access for group. ( SHM_W>>3 )  Write access for group. ( SHM_R>>6 )  Read access for other. ( SHM_W>>6 )  Write access for other.
+
+@endcode
+
+ When creating a new shared memory segment, size indicates the desired size of the new segment in bytes.
+The size
+of the segment may be rounded up to a multiple convenient to the
+kernel (i.e., the page size).
+
+Examples:
+@code
+#include <sys/ipc.h>
+#include <sys/shm.h>
+#include <stdio.h>
+#include <string.h>
+#include <errno.h>
+
+#define SHM_SEG_SIZE 1024
+
+int main(void)
+{
+    int shm_id;
+    int perm;
+    /*
+     * Create a shared memory segment
+     */
+    perm = SHM_R | SHM_W;
+    if ((shm_id = shmget(IPC_PRIVATE, SHM_SEG_SIZE,
+                         IPC_CREAT | IPC_EXCL | perm))
+         == -1) {
+        printf("Shared memory create failed with errno %d", errno);
+        return -1;
+    }
+    return 0;
+}
+
+@endcode
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  shmat(int shmid, const void *shmaddr, int shmflg)
+@param shmid
+@param shmaddr
+@param shmflg
+Note: This description also covers the following functions -
+ shmdt() 
+
+@return   Upon success, shmat returns the address where the segment is attached; otherwise, -1
+is returned and errno is set to indicate the error. The shmdt function returns the value 0 if successful; otherwise the
+value -1 is returned and errno is set to indicate the error.
+
+  The shmat system call
+attaches the shared memory segment identified by shmid to the calling process's address space.
+The address where the segment
+is attached is determined as follows: If shmaddr is 0, the segment is attached at an address selected by the
+kernel. If shmaddr is nonzero and SHM_RND is not specified in shmflg, the segment is attached the specified address. (a nonzero addr is not supported) If addr is specified and SHM_RND is specified, addr is rounded down to the nearest multiple of SHMLBA.(a nonzero addr is not supported)
+
+ The shmdt system call
+detaches the shared memory segment at the address specified by shmaddr from the calling process's address space.
+
+Examples:
+@code
+#include <sys/ipc.h>
+#include <sys/shm.h>
+#include <stdio.h>
+#include <string.h>
+#include <errno.h>
+
+#define SHM_SEG_SIZE 1024
+
+int main(void)
+{
+    int shm_id;
+    char *shm_addr;
+    /*
+     * Create a shared memory segment
+     */
+    if ((shm_id = shmget(IPC_PRIVATE, SHM_SEG_SIZE,
+                         IPC_CREAT | IPC_EXCL | 0666))
+         == -1) {
+        printf("Shared memory create failed with errno %d", errno);
+        return -1;
+    }
+    /*
+     * Attach the shared memory segment to the
+     * process address space
+     */
+    if((shm_addr = (char *)shmat(shm_id, NULL, 0)) == (void *)-1) {
+       printf("Shared memory attach failed with errno %d", errno);
+       return -1;
+    }
+    /*
+     * Copy data to shared memory segment
+     */
+    strcpy(shm_addr, "some_random_data");
+    /*
+     * Detach the shared memory segment
+     */
+    if(shmdt(shm_addr) == -1) {
+       printf("Shared memory detach failed with errno %d", errno);
+    }
+    /*
+     * Remove the shared memory segment
+     */
+    if(shmctl(shm_id, IPC_RMID, NULL) == -1) {
+       printf("Shared memory destroy failed with errno %d", errno);
+    }
+    return 0;
+}
+
+@endcode
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  shmdt(const void *shmaddr)
+@param shmaddr
+Refer to  shmat() for the documentation
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @fn  shmctl(int shmid, int cmd, struct shmid_ds *buf)
+@param shmid
+@param cmd
+@param buf
+@return   The shmctl function returns the value 0 if successful; otherwise the
+value -1 is returned and errno is set to indicate the error.
+
+@code
+ IPC_STAT Fetch the segment's struct shmid_ds ,
+ storing it in the memory pointed to by buf.
+ IPC_SET Changes the shm_perm.uid, shm_perm.gid, and shm_perm.mode members of the segment's struct shmid_ds to match those of the struct pointed to by buf.
+ IPC_RMID Removes the segment from the system.
+ The removal will not take
+ effect until all processes having attached the segment have exited;
+ however, once the IPC_RMID operation has taken place, no further
+ processes will be allowed to attach the segment.
+
+@endcode
+
+Performs the action specified by cmd on the shared memory segment identified by shmid: 
+  
+  IPC_STAT Fetch the segment's struct shmid_ds ,
+storing it in the memory pointed to by buf. 
+IPC_SET Changes the shm_perm.uid, shm_perm.gid, and shm_perm.mode members of the segment's struct shmid_ds to match those of the struct pointed to by buf. 
+IPC_RMID Removes the segment from the system.
+
+The removal will not take
+effect until all processes having attached the segment have exited;
+however, once the IPC_RMID operation has taken place, no further
+processes will be allowed to attach the segment.
+
+ The shmid_ds
+structure is defined as follows: 
+@code
+struct shmid_ds {
+    struct ipc_perm shm_perm;   /* operation permission structure */
+    int             shm_segsz;  /* size of segment in bytes */
+    pid_t           shm_lpid;   /* process ID of last shared memory op */
+    pid_t           shm_cpid;   /* process ID of creator */
+    short           shm_nattch; /* number of current attaches */
+    time_t          shm_atime;  /* time of last shmat() */
+    time_t          shm_dtime;  /* time of last shmdt() */
+    time_t          shm_ctime;  /* time of last change by shmctl() */
+    void           *shm_internal; /* sysv stupidity */
+};
+@endcode
+
+Examples:
+@code
+#include <sys/ipc.h>
+#include <sys/shm.h>
+#include <stdio.h>
+#include <string.h>
+#include <errno.h>
+
+#define SHM_SEG_SIZE 1024
+
+int main(void)
+{
+    int shm_id;
+    char *shm_addr;
+    /*
+     * Create a shared memory segment
+     */
+    if ((shm_id = shmget(IPC_PRIVATE, SHM_SEG_SIZE,
+                         IPC_CREAT | IPC_EXCL | 0666))
+         == -1) {
+        printf("Shared memory create failed with errno %d", errno);
+        return -1;
+    }
+    /*
+     * Attach the shared memory segment to the
+     * process address space
+     */
+    if((shm_addr = (char *)shmat(shm_id, NULL, 0)) == (void *)-1) {
+       printf("Shared memory attach failed with errno %d", errno);
+       return -1;
+    }
+    /*
+     * Copy data to shared memory segment
+     */
+    strcpy(shm_addr, "some_random_data");
+    /*
+     * Detach the shared memory segment
+     */
+    if(shmdt(shm_addr) == -1) {
+       printf("Shared memory detach failed with errno %d", errno);
+    }
+    /*
+     * Remove the shared memory segment
+     */
+    if(shmctl(shm_id, IPC_RMID, NULL) == -1) {
+       printf("Shared memory destroy failed with errno %d", errno);
+    }
+    return 0;
+}
+
+@endcode
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @struct shmid_ds
+
+Defines a shared memory region
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @var shmid_ds::shm_perm
+inode's device
+*/
+
+/** @var shmid_ds::shm_segsz
+size of segment in bytes
+*/
+
+/** @var shmid_ds::shm_lpid
+process ID of last shared memory op
+*/
+
+/** @var shmid_ds::shm_cpid
+process ID of creator
+*/
+
+/** @var shmid_ds::shm_nattch
+number of current attaches
+*/
+
+/** @var shmid_ds::shm_atime
+time of last shmat()
+*/
+
+/** @var shmid_ds::shm_dtime
+time of last shmdt()
+*/
+
+/** @var shmid_ds::shm_ctime
+time of last change by shmctl()
+*/
+
+/** @var shmid_ds::shm_internal
+sysv stupidity
+*/
+
+/** @def SHM_RDONLY 
+
+Attach read-only (else read-write)
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def SHM_RND 
+
+Round attach address to SHMLBA
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def SHMLBA 
+
+Segment low boundary address multiple
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+

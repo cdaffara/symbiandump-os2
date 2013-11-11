@@ -1,0 +1,45 @@
+// Copyright (c) 2003-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+TARGET 			t_stringdictionary00.dll
+CAPABILITY 		All -Tcb
+TARGETTYPE 		plugin
+
+// ECom Plugin Dll UID followed by the unique UID for this dll
+// Assigned to UID2 and UID3 respectively
+UID				0x10009D8D 0x101FCABF
+VENDORID		0x70000001
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+USERINCLUDE 	+/build/generated/xml
+USERINCLUDE     ../../../inc
+
+SOURCEPATH		+/build/generated/xml
+SOURCE			t_stringdictionary00tagtable.cpp 
+
+SOURCEPATH		../tsrc
+SOURCE			t_stringdictionary00.cpp
+
+SOURCEPATH		../data
+START RESOURCE	101FCABF.rss
+TARGET			t_stringdictionary00.rsc
+END
+
+LIBRARY			bafl.lib
+LIBRARY			euser.lib		// for RStringPool
+LIBRARY			xmlframework.lib
+
+SMPSAFE

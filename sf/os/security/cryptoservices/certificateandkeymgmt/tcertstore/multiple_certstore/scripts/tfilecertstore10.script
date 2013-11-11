@@ -1,0 +1,108 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+// CASE10: Duplicates in Distinct certstore (DD), with Duplicates in Same certstore (SD) of highest order
+
+
+
+// TEST-CASE:         SEC-FILECERTSTORE-0010-0001
+
+// FILES:             cacerts5.dat, cacerts3.dat, cacerts2.dat
+
+// LABELS:            Testing XXX Root, Testing XXX Root, Testing ACS Root, TOCSP-Signing5-RSA, Testing ACS Root
+
+// EXPECTED RESULTS:  Testing XXX Root, Testing ACS Root, TOCSP-Signing5-RSA
+
+// VARIANT:           UDEB, UREL
+
+
+
+// TEST-CASE:         SEC-FILECERTAPPSTORE-0010-0001
+
+// FILES:             certclients5.dat, certclients3.dat, certclients2.dat
+
+// UIDS:              270506793, 270506793, 270506792, 268478646, 270506792
+
+// EXPECTED RESULTS:  270506793, 270506792, 268478646
+
+// VARIANT:           UDEB, UREL
+
+
+
+START_TESTCASE                SEC-FILECERTSTORE-0010-0001
+
+//! @SYMTestCaseID            SEC-FILECERTSTORE-0010-0001
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Aggregating and opening a filecertstore
+
+//! @SYMREQ                   REQ9983, REQ9986, REQ10141
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) Aggregation and opening of filecertstore
+
+//!                           2) Get the list of CA certificates
+
+//!                           3) Delete the writable certificate store manager
+
+RUN_TEST_STEP                 -1    CTestHandler        init                   tfilecertstore10.ini   SEC-FILECERTSTORE-0010-001
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               tfilecertstore10.ini   SEC-FILECERTSTORE-0010-002
+
+RUN_TEST_STEP                 -1    CTestHandler        delete              
+
+END_TESTCASE                  SEC-FILECERTSTORE-0010-0001
+
+
+
+
+
+START_TESTCASE                SEC-FILECERTAPPSTORE-0010-0001
+
+//! @SYMTestCaseID            SEC-FILECERTAPPSTORE-0010-0001
+
+//! @file                     
+
+//! @SYMTestCaseDesc          Aggregating and opening a filecertappstore
+
+//! @SYMREQ                   REQ9983, REQ9989
+
+//! @SYMTestCasePriority      High
+
+//! @SYMTestExpectedResults   KErrNone
+
+//! @SYMTestActions           1) Creating a CertificateAppInfoManager
+
+//!                           2) Retrieving the clients
+
+//!                           3) Deleting the CertificateAppInfoManager
+
+RUN_TEST_STEP                 -1    CTestHandler        initappmanager      
+
+RUN_TEST_STEP                 -1    CTestHandler        getclients             tfilecertstore10.ini   SEC-FILECERTAPPSTORE-0010-002
+
+RUN_TEST_STEP                 -1    CTestHandler        deleteappmanager    
+
+END_TESTCASE                  SEC-FILECERTAPPSTORE-0010-0001
+
+
+
+
+

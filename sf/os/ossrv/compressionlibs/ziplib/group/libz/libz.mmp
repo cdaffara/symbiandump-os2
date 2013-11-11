@@ -1,0 +1,57 @@
+// Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// libz.dll zlib compression library
+// 
+//
+
+/**
+ @file
+*/
+
+
+TARGET			libz.dll
+TARGETTYPE		dll
+ 
+//UID3 set by "supplier" and must be retained for compatibility.
+UID            0x1000008d 0x10281F2E
+
+CAPABILITY 		ALL -TCB
+VENDORID        0x70000001
+VERSION 				10.1
+
+USERINCLUDE		../../inc
+USERINCLUDE		../../src/zlib
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_LIBC_SYSTEMINCLUDE
+
+SOURCEPATH		../../src/zlib
+SOURCE			zlibapiwrapper.cpp 
+SOURCE			gzio.cpp 
+
+#ifdef X86GCC
+LIBRARY			euser.lib
+#endif
+LIBRARY			libzcore.lib
+LIBRARY			libc.lib
+
+DEFFILE ../../~/libz.def
+
+// This macro must be defined to stop the following compiler error when building with GCCXML:
+// stdlib.h: error: redeclaration of C++ built-in type `wchar_t'
+// This error is caused as the GCC compiler compiler defines 'wchar_t' internally, but it is
+// also defined in stdlib.h.  The macro below stops stdlib.h from defining wchar_t.
+#ifdef GCCXML
+MACRO __wchar_t_defined
+#endif //GCCXML
+SMPSAFE

@@ -1,0 +1,133 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+target			tupspolicies.exe
+targettype 		exe
+
+uid				0x1000007a 0x10283699
+vendorid		0x70000001
+
+userinclude		../source
+userinclude		../../inc_private
+userinclude		../../../source				// policyreader.h
+userinclude		../../../../inc_private
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_LIBC_SYSTEMINCLUDE     
+
+sourcepath		../source
+source			activewaiter.cpp tupspolicies.cpp tserviceconfig.cpp 
+source			tpolicyreader.cpp tupsplugins.cpp util.cpp
+
+staticlibrary	tefunit.lib
+library			ecom.lib euser.lib efsrv.lib 
+library			rfileloggerclient.lib testexecutelogclient.lib testexecuteutils.lib 
+library			upsmanagement.lib upspolicies.lib upsdb.lib
+
+capability		none
+
+// Test policy files
+sourcepath		../resource
+
+// Test policy matching rules
+start resource ups_01031000_01031001.rss
+targetpath /tups/tpolicies/policies/
+end
+
+// Test service configuration
+start resource ups_01031000_01031002.rss
+targetpath /tups/tpolicies/policies/
+end
+start resource ups_01032000_01032001.rss
+targetpath /tups/tpolicies/policies/
+end
+
+// Eclipsing Tests / After-market policies
+start resource ups_01033000_01032001.rss
+targetpath /tups/tpolicies/policies/
+end
+start resource eclipse/ups_01033000_01032001.rss
+targetpath /tups/tpolicies/eclipse/
+end
+start resource eclipse/ups_01034000_01032001.rss
+targetpath /tups/tpolicies/eclipse/
+end
+// Simple valid policy file on Z drive that will get eclipsed by a corrupt file
+start resource ups_01035000_01035001.rss
+targetpath /tups/tpolicies/policies/
+end
+// Eclipses valid policy file on Z drive
+start resource eclipse/ups_01035000_01035001.rss
+targetpath /tups/tpolicies/eclipse/
+end
+// Corrupt policy file on the Z drive
+start resource ups_01036000_01036001.rss
+targetpath /tups/tpolicies/policies/
+end
+// Corrupt policy file on the system drive as well
+start resource eclipse/ups_01036000_01036001.rss
+targetpath /tups/tpolicies/eclipse/
+end
+// Empty but valid policy file
+start resource ups_01037000_01037001.rss
+targetpath /tups/tpolicies/policies/
+end
+// Policy Evaluator and Dialog Creator plug-ins are missing
+start resource ups_01038000_01038001.rss
+targetpath /tups/tpolicies/policies/
+end
+
+// Simple policy files for testing reference notifer
+// SMS
+start resource ups_01041000_01041001.rss
+targetpath /tups/tpolicies/policies/
+end
+// MMS
+start resource ups_01041000_01041002.rss
+targetpath /tups/tpolicies/policies/
+end
+// IP Networking
+start resource ups_01042000_01042001.rss
+targetpath /tups/tpolicies/policies/
+end
+// Telephony
+start resource ups_01043000_01043001.rss
+targetpath /tups/tpolicies/policies/
+end
+
+
+// Policy Reader Unit Test
+start resource policyreader_valid.rss
+targetpath /tups/tpolicies/policyreader/
+end
+start resource policyreader_empty.rss
+targetpath /tups/tpolicies/policyreader/
+end
+start resource policyreader_invalidoptions.rss
+targetpath /tups/tpolicies/policyreader/
+end
+start resource policyreader_invalidsystemserversecurity.rss
+targetpath /tups/tpolicies/policyreader/
+end
+start resource policyreader_nodefaultpolicyevaluator.rss
+targetpath /tups/tpolicies/policyreader/
+end
+start resource policyreader_nodefaultdialogcreator.rss
+targetpath /tups/tpolicies/policyreader/
+end
+SMPSAFE

@@ -1,0 +1,126 @@
+/*
+* Copyright (c) 2004-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+rls_string STRING_r_keytool_shortName "Symbian OS KeyTool"
+rls_string STRING_r_keytool_name "Symbian OS KeyStore Manipulation Tool"
+rls_string STRING_r_keytool_copyright "Copyright (c) 2004-2009 Nokia Corporation and/or its subsidiary(-ies). All rights reserved."
+rls_string STRING_r_keytool_done "Press any key to continue..."
+
+// Usage
+rls_string STRING_r_keytool_usage "Usage: keytool \t[{-list -l} {-liststores -ls} {-import -i} {-remove -r} "
+rls_string STRING_r_keytool_usage2 "\t\t {-page -p } {-help -h} {-setuser -s} {-setallusers -a} {-removeuser -ru} {-setmanager -m}] {KeyLabel}"
+#ifdef SYMBIAN_AUTH_SERVER
+rls_string STRING_r_keytool_usage5 "\t\t or [ {-migratestore} old key file name ]"
+#endif // SYMBIAN_AUTH_SERVER
+rls_string STRING_r_keytool_usage3 "Type keytool -h {CommandName} for details on a particular command."
+
+rls_string STRING_r_keytool_usage4 "Type keytool -h noninteractive for details on how to run the commands in noninteractive mode."
+
+rls_string STRING_r_keytool_usage_noninteractive "To run the tool in Non-interactive mode give command as keytool inputfile outputfile"
+rls_string STRING_r_keytool_usage_noninteractive1 "where the inputfile and outputfile should contain filename with path."
+
+rls_string STRING_r_keytool_usage_liststores "-liststores | -ls List the keystore implementations available on the device."
+rls_string STRING_r_keytool_usage_list "-list | -l [-store idx] [-details -d] {KeyLabel}  Lists the content of the keystore."
+rls_string STRING_r_keytool_usage_list2 "If a label is specified, details about the corresponding keys are shown.  e.g -list abc where abc is key label."
+rls_string STRING_r_keytool_usage_list3 "If a keystore implementation is specified using -store, then only its contents are shown  (e.g -store 0 -list). If not it lists everything."
+rls_string STRING_r_keytool_usage_list4 "If a details tag is specified using -details, then it displays all the details about the key"
+
+rls_string STRING_r_keytool_usage_page "if any command specified with -page option, then it displays Screen Full of Records and wait for key input."
+rls_string STRING_r_keytool_usage_page2 "-page option is ignored in Non-Interactive Mode"
+
+
+rls_string STRING_r_keytool_usage_import " [-store idx] [-label labelname] -import | -i [-usage KeyUsage | -access keyAccess | -expiry Date] {KeyFile} Imports a private key from the specified pkcs#8 file. See -usage and -access for details."
+rls_string STRING_r_keytool_usage_import2 "The key is added to the first store implementation found."
+rls_string STRING_r_keytool_usage_import3 "If a key implementation is specified using -store, then it is added to the one specified with -store."
+rls_string STRING_r_keytool_usage_import4 "If a key label is specified using -label, then it is added with specified label otherwise the key file name is taken as label."
+
+rls_string STRING_r_keytool_usage_remove "-remove KeyLabel  Removes the specified key from the keystore."
+
+rls_string STRING_r_keytool_usage_setuser "-setuser uid KeyLabel Sets the given UID as the user of the specified key. UID is interpreted as hexadecimal number."
+rls_string STRING_r_keytool_usage_setmanager "-setmanager KeyLabel Sets the WriteDeviceData cabability as the owner of the specified key. Any Process having the WriteDeviceData will act as a owner for the specified key."
+rls_string STRING_r_keytool_usage_setallusers "-setallusers KeyLabel Sets the usability of the specified key to be allowed to all users."
+rls_string STRING_r_keytool_usage_removeuser "-removeuser KeyLabel Remove the current user UID from the user of the specified key. And Set the keytool as the default user of the key."
+
+rls_string STRING_r_keytool_usage_help "-help | -h   Displays tool usage"
+rls_string STRING_r_keytool_usage_keyusage "-usage Used only with -import. It specifies the key usage."
+rls_string STRING_r_keytool_usage_keyusages "Possible usages: AllUsage, NoUsage, Decrypt, Sign, SignRecover, Unwrap, NonRepudiation."
+rls_string STRING_r_keytool_usage_keyaccess "-access  Displays tool usage"
+rls_string STRING_r_keytool_usage_keyaccesses "Possible access restrictions are: Extractable, Sensitive."
+
+#ifdef SYMBIAN_AUTH_SERVER
+
+rls_string STRING_r_keytool_usage_migrate 	"-migrate OldKeyFile Passphrase [-new NewKeyFile] [-expr AuthExpression] [-freshness Freshness]."
+rls_string STRING_r_keytool_usage_migrate1 	"Migrates the old key file to the new format. If new key file name"
+rls_string STRING_r_keytool_usage_migrate2 	"is provided then it is saved using that name otherwise it is saved"
+rls_string STRING_r_keytool_usage_migrate3 	"as newkeys.dat in the system drive. Every key store in old implementation was encrypted" 
+rls_string STRING_r_keytool_usage_migrate4 	"with a passphrase, this should be supplied for successful porting."
+rls_string STRING_r_keytool_usage_migrate5 	"If authexpression is not provided it uses the system wide default plugin. "
+rls_string STRING_r_keytool_usage_migrate6 	"If freshness is not provided then it uses 0 as the default freshness which" 
+rls_string STRING_r_keytool_usage_migrate7 	"means always authenticate the user. The supplied auth expression and freshness "
+rls_string STRING_r_keytool_usage_migrate8 	"would be used to determine whether to use the current authenticated identity" 
+rls_string STRING_r_keytool_usage_migrate9 	"if available or to authenticate the user again."
+
+#endif // SYMBIAN_AUTH_SERVER
+
+// Errors
+rls_string STRING_r_keytool_err_command "Invalid Command."
+rls_string STRING_r_keytool_err_unknown "An unknown error occured."
+rls_string STRING_r_keytool_err_notfound "Cannot find the specified key."
+rls_string STRING_r_keytool_err_notexist "The specified keystore implementation does not exist."
+rls_string STRING_r_keytool_err_empty "Empty keystore."
+
+rls_string STRING_r_keytool_err_keyfile "No key file specified."
+rls_string STRING_r_keytool_err_import "An error occured during key import."
+rls_string STRING_r_keytool_err_corrupt "The specified key file appears to be corrupted."
+rls_string STRING_r_keytool_err_corruptlong "The specified key file appears to be corrupted or its encryption scheme is not supported."
+rls_string STRING_r_keytool_err_openfail "Cannot open key file."
+rls_string STRING_r_keytool_err_emptyfile "The specified key file appears to be empty."
+rls_string STRING_r_keytool_err_dh "The Symbian OS keystore does not support Diffie-Hellman keys.."
+rls_string STRING_r_keytool_err_notsupported "Unsupported key type."
+rls_string STRING_r_keytool_err_pkcs8 "The specified key file does not contain a valid PKCS#8 key."
+rls_string STRING_r_keytool_err_importsuccess "Key imported successfully."
+rls_string STRING_r_keytool_err_passphrase "Wrong passphrase."
+rls_string STRING_r_keytool_err_weak "Your keystore does not support strong cryptography. The key provided is big."
+rls_string STRING_r_keytool_err_usage "The given usage is not supported by the specified key."
+
+rls_string STRING_r_keytool_err_access "Cannot access the specified key."
+
+rls_string STRING_r_keytool_err_list "Error during list!"
+rls_string STRING_r_keytool_err_listfail "Key Listing Failed..."
+
+rls_string STRING_r_keytool_err_deletesuccess "Key deleted successfully."
+rls_string STRING_r_keytool_err_rusersuccess "User removed successfully."
+rls_string STRING_r_keytool_err_salluserssuccess "Users set successfully."
+rls_string STRING_r_keytool_err_susersuccess "User set successfully."
+rls_string STRING_r_keytool_err_smanagersuccess "Manager set successfully."
+
+rls_string STRING_r_keytool_err_deletefail "Key deletion failed."
+rls_string STRING_r_keytool_err_ruserfail "Users removal failed."
+rls_string STRING_r_keytool_err_suserfail "User set failed."
+rls_string STRING_r_keytool_err_sallusersfail "AllUsers set failed."
+rls_string STRING_r_keytool_err_smanagerfail "Manager set failed."
+
+rls_string STRING_r_keytool_err_remove "Key to remove not specified."
+
+rls_string STRING_r_keytool_err_nousers "No users specified."
+rls_string STRING_r_keytool_err_nokey "No key specified."
+
+#ifdef SYMBIAN_AUTH_SERVER
+rls_string STRING_r_keytool_err_migrationfail "Key Migration Failed..."
+rls_string STRING_r_keytool_usage_oldkey_absent "Key file to be migrated not provided."
+rls_string STRING_r_keytool_usage_passphrase_absent "Passphrase absent."
+#endif // SYMBIAN_AUTH_SERVER

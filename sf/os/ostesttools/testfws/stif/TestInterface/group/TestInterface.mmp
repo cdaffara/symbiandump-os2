@@ -1,0 +1,90 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+* 
+* Description: MMP file for STIF Test Framework's TestInterface 
+* module.
+*
+*/
+
+#include <platform_paths.hrh>
+
+SMPSAFE
+
+TARGET          StifTestInterface.dll
+TARGETTYPE      dll
+
+CAPABILITY	ALL -TCB
+VENDORID 	0x101FB657
+SECUREID        0x102073E1
+
+DEFFILE         StifTestInterface.def
+
+LIBRARY         euser.lib   		// For TInt, etc.
+LIBRARY         efsrv.lib   		// For RFs file server
+LIBRARY         stiftestengine.lib 	// For testengine server
+LIBRARY         stiftestserver.lib 	// For testengine server
+LIBRARY         testscripter.lib 	// For testengine server
+LIBRARY         hal.lib     		// For logging (HAL)
+//LIBRARY         bafl.lib			// For file system utilities
+
+OS_LAYER_SYSTEMINCLUDE
+
+// ------- Logger -------
+USERINCLUDE     ../../Logger/inc
+SOURCEPATH      ../../Logger/src
+
+SOURCE          StifLogger.cpp
+SOURCE          Output.cpp
+SOURCE          FileOutput.cpp
+SOURCE		    RDebugOutput.cpp
+SOURCE          NullOutput.cpp
+SOURCE          TxtLogger.cpp
+SOURCE          HtmlLogger.cpp
+SOURCE          DataLogger.cpp
+SOURCE          LoggerOverFlow.cpp
+
+// ------- Parser -------
+USERINCLUDE     ../../Parser/inc
+SOURCEPATH      ../../Parser/src
+
+SOURCE          StifParser.cpp
+SOURCE          StifSectionParser.cpp
+SOURCE          StifItemParser.cpp
+SOURCE          StifFileParser.cpp
+
+// ------- TestInterface -------
+USERINCLUDE     ../inc
+USERINCLUDE     ../../inc
+SOURCEPATH      ../src
+
+SOURCE          TestInterface.cpp
+SOURCE          TestModuleIf.cpp
+SOURCE          StifTFwIfProt.cpp 
+SOURCE          TestModuleParameters.cpp 
+
+// ------- TestScripter's TestClass API -------
+USERINCLUDE     ../../TestScripter/inc
+SOURCEPATH      ../../TestScripter/src
+
+SOURCE          TestScripterInternal.cpp
+
+// ------- TestInterference -------
+USERINCLUDE     ../../TestInterference/inc
+SOURCEPATH      ../../TestInterference/src
+
+SOURCE          StifTestInterference.cpp
+
+// First UID is DLL UID, Second UID is STIF Test Framework UID
+UID             0x1000008D 0x101FB3DE
+
+// End of file

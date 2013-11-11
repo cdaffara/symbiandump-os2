@@ -1,0 +1,81 @@
+
+<!--
+* ==============================================================================
+*  Name        : libcrypto_topenssltestss_blr_winsspd_component.xml
+*  Part of     : topenssl
+*
+*  Description : xml for winsspd
+*  Version:   0.5
+*
+*  Copyright (C) 2006 Nokia Corporation.
+*  This material, including documentation and any related 
+*  computer programs, is protected by copyright controlled by 
+*  Nokia Corporation. All rights are reserved. Copying, 
+*  including reproducing, storing,  adapting or translating, any 
+*  or all of this material requires the prior written consent of 
+*  Nokia Corporation. This material also contains confidential 
+*  information which may not be disclosed to others without the 
+*  prior written consent of Nokia Corporation.
+*
+* ============================================================================
+-->
+<component>
+		<name>libcrypto_topenssltestss_blr_winsspd_component</name>
+		
+		<testset>
+				<id>libcrypto_topenssltestss_blr</id>
+				<priority>High</priority>
+		
+		<install type="binary">
+				<src>openssl.exe</src>
+				<dst>z:\sys\bin\openssl.exe</dst>
+		</install>
+		<install type="data">
+                		<src>CAss.cnf</src>
+                		<dst>c:\CAss.cnf</dst>
+    </install>
+    
+	    <install type="data">
+                		<src>keyCA.ss</src>
+                		<dst>c:\keyCA.ss</dst>
+    </install>
+    
+    <install type="data">
+                		<src>openssl.cnf</src>
+                		<dst>c:\openssl.cnf</dst>
+    </install>
+
+   <install type="data">
+                		<src>Uss.cnf</src>
+                		<dst>c:\Uss.cnf</dst>
+    </install>
+    <install type="data">
+                		<src>keyU.ss</src>
+                		<dst>c:\keyU.ss</dst>
+    </install>
+
+   <install type="data">
+                		<src>P1ss.cnf</src>
+                		<dst>c:\P1ss.cnf</dst>
+    </install>    		
+    <install type="data">
+                		<src>P2ss.cnf</src>
+                		<dst>c:\P2ss.cnf</dst>
+    </install>
+
+   <install type="data">
+                		<src>testss.txt</src>
+                		<dst>c:\testss.txt</dst>
+    </install>    		
+		<execute>
+				<file>Z:\sys\bin\openssl.exe</file>
+				<parameters>c:/testss.txt</parameters>
+        <result type="common">
+            <file>c:\spd_logs\xml\testss(3_50_2_6735).xml</file>
+        </result>
+        <timeout>600</timeout>
+		</execute>
+		
+		</testset>
+		
+</component>

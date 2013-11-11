@@ -1,0 +1,136 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* Policy file 0, used by integration test
+*
+*/
+
+
+#include <ups/policies.rh>
+
+UID2 KUidUpsPolicyResourceFile
+UID3 0x101F7FAA
+
+// Test policy file for SMS messages
+RESOURCE POLICIES testpolicies
+	{
+	header = POLICY_HEADER
+		{
+		// use default client config 
+		policyevaluator = 0x010b0a04;
+		dialogcreator = 0x010b0a04;
+		};
+	policies = 
+		{
+		POLICY
+			{
+			// Silently accepts calls to "999" from client 1234abcd
+			sid_list = {0x101F7784};
+			destination = "999";
+			options = KNo;
+			flags = 1;
+			},
+		POLICY
+			{
+			// Silently denies call to "999?* for client 0x1234abcd   
+			sid_list = {0x1234abcd};
+			destination = "999?*";
+			options = KNo;
+			flags = 1;
+			},				
+		POLICY
+			{
+			// Allows dialog display protected clients to 0800* numbers
+			sid_classes = KProtectedSids;
+			destination = "0800*";
+			options = KYes|KNo|KAlways|KNever;
+			policyevaluator = 0x010b0a01;
+			dialogcreator = 0x010b0a02;
+			flags = 2;
+			},			
+		POLICY
+			{
+			// Silent denial for any 0900* destination
+			sid_classes = KAllSids;
+			destination = "900*";
+			options = KNo;
+			flags = 3;
+			},
+		POLICY
+			{
+			//session approval for 0845 for this 2 clients.
+			sid_list = {0x1234abcd,0x4567dcba};
+			destination = "0845";
+			options = KNo|KSession;
+			policyevaluator = 0x010b0a02;
+			dialogcreator = 0x010b0a01;
+			flags = 3;
+			},
+		POLICY
+			{
+			// silent denial for unprotected clients to 00234* numbers
+			sid_classes = KUnprotectedSids;
+			destination = "00234*";
+			options = KNo;
+			flags = 3;
+			},
+		POLICY
+			{
+			// silent denial for all clients to 118118 
+			sid_classes = KAllSids;
+			destination = "118118";
+			options = KNo;
+			policyevaluator = 0x010b0a01;
+			dialogcreator = 0x010b0a01;
+			flags = 3;
+			},
+		POLICY
+			{
+			// (yes, no, never) prompting for Ksidclassf clients  
+			sid_classes = KAllSids;
+			destination = "?1223??5*";
+			options = KNo|KYes|KNever;
+			flags = 3;
+			},
+		POLICY
+			{
+			// (yes, no) prompting for KsidclassA or KsidclassB clients  
+			sid_classes = KSidClassA|KSidClassB;
+			destination = "*";
+			options = KNo|KYes;
+			dialogcreator = 0x010b0a01;
+			flags = 3;
+			},
+		POLICY
+			{
+			// (always, never) prompting for KsidclassC or KsidclassD clients  
+			sid_classes = KSidClassC|KSidClassD;
+			destination = "*";
+			options = KNever|KAlways;
+			policyevaluator = 0x010b0a01;
+			flags = 3;
+			},
+		POLICY
+			{
+			// (No ,Session) for any other client
+			sid_classes = KUnprotectedSids;
+			destination = "*";
+			options = KYes|KNo;
+			policyevaluator = 0x010b0a01;
+			dialogcreator = 0x010b0a01;
+			flags = 4;
+			}
+		};
+	}
+

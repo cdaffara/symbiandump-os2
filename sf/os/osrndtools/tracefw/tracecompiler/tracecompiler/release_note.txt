@@ -1,0 +1,112 @@
+NOTE: JRE1.5 is needed to run TraceCompiler.
+
+TraceCompiler 2.3.0
+
+New stuff in 2.3.0
+	- TraceCompiler refactored for Symbian Foundation.
+
+
+New stuff in 2.2.4
+	- Bug Fix - Trace compiler entry/exit errors with no paramter or return value
+	- Allow TAB in trace point text.
+	- Allow trace point text to span over multiple lines but TraceCompiler removes the line-feed character.
+	- improve the code to create the trace folder path to avoid any hickups in multiple mmp projects
+	- Improve the build.xml for raptor to build only the rel version of TraceCompiler and therfore avoid the clash between rel and deb when creating traceCompiler.zip file.
+
+New stuff in 2.2.3
+	- Bug Fix - 10. DEF144527: Critical - Adding OST to .h or .inl files can cause OstTraceGenX(...) redefined errors
+	
+New stuff in 2.2.2
+	- Bug fix - TCF-525 Critical: (TSW:EJRK-842AW2) IDO BAT - KernelHooks_Component is missing from pmd file
+
+New stuff in 2.2.1
+
+	- Change - TraceCompiler now support mulitple mmps in one bld.inf by provinding an new command 
+		line interface wher users can pass the traces folder in. This is a continuation of the 
+		previous release to enable the new feature for abld.
+
+New stuff in 2.2.0
+
+	- Change - TraceCompiler now support mulitple mmps in one bld.inf by provinding an new command 
+		line interface wher users can pass the traces folder in.
+New stuff in 2.1.1 - 2.1.2
+
+	- Bug fix - TraceCompiler did not parse function parameter correctly in all cases
+	- Bug fix - TraceCompiler did not work in Linux
+  
+New stuff in 2.0.0 - 2.0.1
+
+	- Change - TraceCompiler automatically converts deprecated group names to valid group names
+               (TRACE_API -> TRACE_BORDER, TRACE_DEBUG- > TRACE_DUMP, TRACE_DETAILED -> TRACE_INTERNALS)
+	- Bug fix - TraceCompiler did not work in Linux 
+	
+New stuff in 1.3.0 - 1.3.1
+
+	- Change - Trace compiler now reads in the group IDs from opensystemtrace_types.h
+	- Change - Code cleanup
+  
+New stuff in 1.2.0 - 1.2.7
+
+	- Change - TraceCompiler source code separated from TraceBuilder source code
+	- Change - Decode plugins can be added or removed
+	- Bug fix - 32-bit alignment was not done correctly in generated OstTraceGen1 inline functions 
+	- Bug fix - TraceCompiler did not handle empty strings correctly
+	- Bug fix - Wrong type definition generated for Performance traces
+	- Bug fix - Long traces were corrupted
+	- Bug fix - TRACE_PERFORMANCE group is now reserved only to performance event traces and 
+	            TRACE_STATE group is now reserved only to event traces
+	- Bug fix - Trace garbled if there were 16 and 8 bit descriptors in same trace
+
+New stuff in 1.1.0 - 1.1.6
+
+	- Change - Changed Performance Event Trace output format
+	- Change - Symbian Foundation related changes
+	- Bug fix - OstTraceData did not work
+	- Bug fix - Traces that contained both string and number parameter did not work correctly	
+	- Bug fix - Sometimes trace ID's changed during every compilation
+	- Bug fix - Trace with octal parameter didn't compile
+	- Bug fix - If EPOCROOT was like C:\S60, Dictionaries were exported to C:\S60epoc32\ost_dictionaries\
+
+New stuff in 1.0.4 - 1.0.42
+
+	NOTE! Format of the fixed_id.definitions file has changed from TraceBuilder version 1.0.20
+
+	- New feature - TraceCompiler now adds trace name to the Dictionaries
+	- New feature - TraceCompiler support non-source files that are listed in trace.properties file
+	- New feature - Support both "traces_<component name>" and "traces" as trace project directory name
+	- New feature - Support for -clean and -final
+	- New feature - Support to fixed group and trace ids
+	- New feature - Get export path from EPOCROOT environment variable
+	- New feature - Added support to type "p" in the OST macro	
+	- New feature - Possible to send over 80 byte traces (max. 512)
+	- Bug fix - Problems tracing string parameters whose length was 3 or fewer bytes.	
+	- Bug fix - TraceCompiler did not to parse constant pointers
+	- Bug fix - Descriptor's length in trace is not checked
+	- Bug fix - TraceCompiler did not support state transition macros
+	- Bug fix - TraceCompiler did not understand namespaces
+	- Bug fix - TraceCompiler did not generate OstTraceGenExt inline function for TTime parameter type
+	- Bug fix - In some cases TraceCompiler skiped trace ids
+	- Bug fix - Traces folder was generated even component doesn't have any OST traces
+	- Bug fix - Wrong trace ID is assigned to new Flow trace
+	- Bug fix - Autogen file got corrupted with special characters in parameter name
+	- Bug fix - Trace with only parameters doesn't work sometimes
+	- Bug fix - Supports %X format character
+	- Bug fix - Supports more format characters like %lx and %llx
+
+New stuff in 1.0.2 - 1.0.3
+
+	- Bug fix - Special characters crashed TraceCompiler
+	- Bug fix - In some cases TraceCompiler created "Traces" folder to wrong place
+
+New stuff in 0.25 - 0.25.49:
+
+	- New feature - Release note added
+	- Bug fix - TraceCompiler did not handle path correctly if sourcepath was "."
+	- Bug fix - TraceCompiler did not try to find group or traces folder deep enough
+	- Bug fix - In some cases TraceCompiler created "Traces" folder to wrong place
+	- Bug fix - TraceCompiler did not understand "/" path separators
+	- Bug fix - TraceCompiler did not convert "&" to "&amp;" in trace text. Fixed again in 0.25.45
+	- Bug fix - TraceCompiler assigned same ID for two groups
+	- Bug fix - TraceCompiler / TraceBuilder added extra backslash marks to dictionary
+	- Bug fix - Autogen headers are not always generated
+	- Bug fix - TraceCompiler did not understand concatenation of strings

@@ -1,0 +1,63 @@
+/*
+* Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  
+* testexecute.mmp
+* Using relative paths for sourcepath and user includes
+*
+*/
+
+
+#if !(defined TEF_LITE_VERSION)
+TARGET      testexecute.exe
+#else
+TARGET      testexecutelite.exe
+#endif
+
+CAPABILITY All -Tcb
+TARGETTYPE  exe
+UID             0x100039CE 0x10210D61
+VENDORID 0x70000001
+
+SOURCEPATH  ../src
+SOURCE      testexecute.cpp
+SOURCE	    scriptengine.cpp
+SOURCE	    testwatcher.cpp
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+USERINCLUDE   ../inc
+USERINCLUDE   ../../utils/inc
+
+LIBRARY    		euser.lib
+LIBRARY			testexecuteutils.lib
+LIBRARY			efsrv.lib
+LIBRARY			testexecutelogclient.lib
+LIBRARY			testexecutepipslogclient.lib
+LIBRARY			iniparser.lib
+
+#if !defined(TEF_LITE_VERSION)
+LIBRARY        	domaincli.lib
+LIBRARY			ws32.lib
+#endif
+
+// Graphical window server hooks
+// Turned off by default
+// Add MACRO and #define to turn them on
+#ifdef GWS
+#endif
+
+// We're quite heavy on the stack... 4k in WinS isn't enough...
+EPOCSTACKSIZE	0x11800
+EPOCHEAPSIZE 0x1000 0x1240000
+

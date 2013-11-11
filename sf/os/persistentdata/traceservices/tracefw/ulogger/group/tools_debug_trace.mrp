@@ -1,0 +1,37 @@
+#
+# Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+# All rights reserved.
+# This component and the accompanying materials are made available
+# under the terms of "Eclipse Public License v1.0"
+# which accompanies this distribution, and is available
+# at the URL "http://www.eclipse.org/legal/epl-v10.html".
+#
+# Initial Contributors:
+# Nokia Corporation - initial contribution.
+#
+# Contributors:
+#
+# Description: 
+#
+
+component	tools_debug_trace
+
+source	\sf\os\persistentdata\traceservices\tracefw
+exports	\sf\os\persistentdata\traceservices\tracefw\ulogger\group
+binary	\sf\os\persistentdata\traceservices\tracefw\ulogger\group all
+
+notes_source	\component_defs\release.src
+#touch to force CBR re-release
+
+ipr E 
+ipr T \sf\os\persistentdata\traceservices\tracefw\integ_test
+ipr T \sf\os\persistentdata\traceservices\tracefw\ulogger\unit_test
+
+# This statement should be removed if/when the API header file is owned by its
+# own component
+ipr T \sf\os\persistentdata\traceservices\tracefw\utf_trace_api\unit_test
+
+# Be careful - if any source code is put in this directory at a later date, take this
+# exclusion down to the tracefw\ost_trace_api\unit_test level. It is not done here in order to
+# avoid stray distribution files from empty directories.
+ipr T \sf\os\persistentdata\traceservices\tracefw\ost_trace_api

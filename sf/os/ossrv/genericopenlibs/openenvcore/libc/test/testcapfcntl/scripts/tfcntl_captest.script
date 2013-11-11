@@ -1,0 +1,98 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+CONSECUTIVE
+START_TESTCASE  OPENENV-LIBC-CIT-TESTCAPFCNTL-OE-0001
+PRINT --------  Testing open ,Capability set to None
+RUN_PROGRAM -1 setcap.exe tfcntlcap.exe 000000  tfcntl_cap1.exe
+LOAD_SUITE tfcntl_cap1
+//! @SYMTestCaseID OPENENV-LIBC-CIT-TESTCAPFCNTL-OE-0001
+//! @SYMTestStatus 	3.Released
+RUN_TEST_STEP   !Result=13 tfcntl_cap1 opensys
+END_TESTCASE  OPENENV-LIBC-CIT-TESTCAPFCNTL-OE-0001
+
+
+
+START_TESTCASE  OPENENV-LIBC-CIT-TESTCAPFCNTL-OE-0002
+PRINT --------  Testing open ,Capability set to AllFiles
+RUN_PROGRAM -1 setcap.exe tfcntlcap.exe 000800  tfcntl_cap2.exe
+LOAD_SUITE tfcntl_cap2
+//! @SYMTestCaseID OPENENV-LIBC-CIT-TESTCAPFCNTL-OE-0002
+//! @SYMTestStatus 	3.Released
+RUN_TEST_STEP  tfcntl_cap2 opensys
+END_TESTCASE  OPENENV-LIBC-CIT-TESTCAPFCNTL-OE-0002
+
+
+START_TESTCASE  OPENENV-LIBC-CIT-TESTCAPFCNTL-OE-0003
+PRINT --------  Testing creat ,Capability set to None
+RUN_PROGRAM -1 setcap.exe tfcntlcap.exe 000000  tfcntl_cap3.exe
+LOAD_SUITE tfcntl_cap3
+//! @SYMTestCaseID OPENENV-LIBC-CIT-TESTCAPFCNTL-OE-0003
+//! @SYMTestStatus 	3.Released
+RUN_TEST_STEP !Result=13 tfcntl_cap3 creatsys
+END_TESTCASE  OPENENV-LIBC-CIT-TESTCAPFCNTL-OE-0003
+
+
+START_TESTCASE  OPENENV-LIBC-CIT-TESTCAPFCNTL-OE-0004
+PRINT --------  Testing creat ,Capability set to AllFiles
+RUN_PROGRAM -1 setcap.exe tfcntlcap.exe 000800  tfcntl_cap4.exe
+LOAD_SUITE tfcntl_cap4
+//! @SYMTestCaseID OPENENV-LIBC-CIT-TESTCAPFCNTL-OE-0004
+//! @SYMTestStatus 	3.Released
+RUN_TEST_STEP !Result=13 tfcntl_cap4 creatsys
+END_TESTCASE  OPENENV-LIBC-CIT-TESTCAPFCNTL-OE-0004
+
+
+
+START_TESTCASE  OPENENV-LIBC-CIT-TESTCAPFCNTL-OE-0005
+PRINT --------  Testing open ,Capability set to None
+RUN_PROGRAM -1 setcap.exe tfcntlcap.exe 000000  tfcntl_cap5.exe
+LOAD_SUITE tfcntl_cap5
+//! @SYMTestCaseID OPENENV-LIBC-CIT-TESTCAPFCNTL-OE-0005
+//! @SYMTestStatus 	3.Released
+RUN_TEST_STEP   !Result=13 tfcntl_cap5 openprivate
+END_TESTCASE  OPENENV-LIBC-CIT-TESTCAPFCNTL-OE-0005
+
+
+
+START_TESTCASE  OPENENV-LIBC-CIT-TESTCAPFCNTL-OE-0006
+PRINT --------  Testing open ,Capability set to AllFiles
+RUN_PROGRAM -1 setcap.exe tfcntlcap.exe 000800  tfcntl_cap6.exe
+LOAD_SUITE tfcntl_cap6
+//! @SYMTestCaseID OPENENV-LIBC-CIT-TESTCAPFCNTL-OE-0006
+//! @SYMTestStatus 	3.Released
+RUN_TEST_STEP  tfcntl_cap6 openprivate
+END_TESTCASE  OPENENV-LIBC-CIT-TESTCAPFCNTL-OE-0006
+
+
+START_TESTCASE  OPENENV-LIBC-CIT-TESTCAPFCNTL-OE-0007
+PRINT --------  Testing creat ,Capability set to None
+RUN_PROGRAM -1 setcap.exe tfcntlcap.exe 000000  tfcntl_cap7.exe
+LOAD_SUITE tfcntl_cap7
+//! @SYMTestCaseID OPENENV-LIBC-CIT-TESTCAPFCNTL-OE-0007
+//! @SYMTestStatus 	3.Released
+RUN_TEST_STEP !Result=13 tfcntl_cap7 creatprivate
+END_TESTCASE  OPENENV-LIBC-CIT-TESTCAPFCNTL-OE-0007
+
+
+START_TESTCASE  OPENENV-LIBC-CIT-TESTCAPFCNTL-OE-0008
+PRINT --------  Testing creat ,Capability set to AllFiles
+RUN_PROGRAM -1 setcap.exe tfcntlcap.exe 000800  tfcntl_cap8.exe
+LOAD_SUITE tfcntl_cap8
+//! @SYMTestCaseID OPENENV-LIBC-CIT-TESTCAPFCNTL-OE-0008
+//! @SYMTestStatus 	3.Released
+RUN_TEST_STEP !Result=13 tfcntl_cap8 creatprivate
+END_TESTCASE  OPENENV-LIBC-CIT-TESTCAPFCNTL-OE-0008
+

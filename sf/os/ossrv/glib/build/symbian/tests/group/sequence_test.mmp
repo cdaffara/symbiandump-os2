@@ -1,0 +1,51 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+#include <platform_paths.hrh>
+target			sequence_test.exe
+targettype			exe
+
+UID               0x1000008d  0xe0000029
+
+#ifdef EKA2
+CAPABILITY ALL -TCB
+//VENDORID        VID_DEFAULT
+#endif
+
+//The src directory is added to the (user)include path by default
+userinclude			../../../../tests
+systeminclude			../../../../tests
+
+userinclude			../inc
+//The top level directory is added to the include path by default
+//systeminclude			.. 			 ../glib 			 
+
+//Adding the Symbian and PIPS include path
+systeminclude			/epoc32/include
+systeminclude			/epoc32/include/stdapis
+systeminclude			/epoc32/include/stdapis/glib-2.0
+sourcepath			../../../../tests
+source			 sequence-test.c
+
+//Adding some default libraries
+library			euser.lib libc.lib
+library			libglib.lib libgobject.lib libgthread.lib libgmodule.lib
+
+staticlibrary		libcrt0.lib
+epocheapsize		0x00001000 0x01000000
+
+SMPSAFE

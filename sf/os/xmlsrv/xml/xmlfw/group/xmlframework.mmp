@@ -1,0 +1,68 @@
+// Copyright (c) 2003-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// xmlframework.dll generic xml parser framework
+// 
+//
+
+/**
+ @file
+*/
+
+TARGET 			xmlframework.dll
+CAPABILITY 		All -Tcb
+TARGETTYPE 		dll
+
+DEFFILE			xmlframework2.def
+
+// XML Framework DLL
+UID 			0x101FADCB 0x101FADCC
+VENDORID 		0x70000001
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+ 
+USERINCLUDE		../src/xmlframework
+USERINCLUDE		../inc
+
+SOURCEPATH		../src/xmlframework
+SOURCE			attribute.cpp
+SOURCE			charsetconverter.cpp
+SOURCE			dictionarycodepage.cpp
+SOURCE			documentparameters.cpp
+SOURCE			matchdata.cpp
+SOURCE			parser.cpp
+SOURCE			parserimpl.cpp
+SOURCE			stringdictionarycollection.cpp
+SOURCE			stringdictionarycollectionimpl.cpp
+SOURCE			taginfo.cpp
+SOURCE			xmlframeworkerrors.cpp
+SOURCE			xmlframeworkmain.cpp
+
+SOURCEPATH		../src/xmlframeworkerrors
+
+// The resource file containing XML Framework error messages 
+// Must eventually end up in Z\resource\errors
+START RESOURCE	xmlframeworkerr.rss
+TARGETPATH		/resource/errors
+HEADER
+LANG			01
+END
+
+LIBRARY			euser.lib
+LIBRARY			bafl.lib 		// for RStringPool
+LIBRARY			ecom.lib
+LIBRARY			efsrv.lib
+LIBRARY 		estor.lib
+LIBRARY			charconv.lib
+
+SMPSAFE

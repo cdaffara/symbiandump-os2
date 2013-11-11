@@ -1,0 +1,37 @@
+/*
+* Copyright (c) 2003-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+* Comms Server
+*
+*/
+
+#ifndef __USB_IBY__
+#define __USB_IBY__
+
+REM *** usbman.iby is always included whether USB is supported by the
+REM *** device or not.
+
+REM change to usbmanProto.iby for prototype builds
+#include <usbman.iby> // USB_DIR is defined in usbman.iby
+
+REM *** Now for things which should only be included if the device
+REM *** supports USB, to save ROM space...
+
+#if !defined(__USB) || !defined(EUSBC)
+REM Feature USB is not included in this ROM (usb.iby)
+#else // defined(__USB) && defined(EUSBC)
+REM USB component can be added here.
+#endif // !defined(__USB) || !defined(EUSBC)
+
+#endif

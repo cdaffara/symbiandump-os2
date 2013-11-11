@@ -1,0 +1,56 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:   Project definition file for project wlanosa
+*
+*/
+
+/*
+* %version: 11 %
+*/
+
+#include <kernel/kern_ext.mmh>
+#include <platform_paths.hrh>
+#include "wlanldddma.mmh"
+
+TARGET                  wlanosa.lib
+TARGETTYPE              klib
+
+MACRO                   ALWAYS_KERNEL
+MACRO                   DEBUG_LEVEL=0x0000012F
+
+MACRO                   MEMCHUNK=0x00000020
+MACRO                   MEMCHUNK_ALLOC=0x00000040
+MACRO                   MEMCHUNK_FREE=0x00000080
+MACRO                   MEMORYPOOL=0x00000100
+MACRO                   PLAT_HW_CHUNK=0x00000200
+MACRO                   MUTEX_LEVEL=0x00000400
+MACRO                   TIMER_LEVEL=0x00000800
+MACRO                   DFC_LEVEL=0x00001000
+
+SOURCEPATH              ../../osa_symbian/src  
+SOURCE                  osa.cpp
+SOURCE                  osadfc.cpp
+SOURCE                  osatimer.cpp
+SOURCE                  osaplatformhwchunk.cpp
+SOURCE                  osaplatform.cpp
+
+SOURCEPATH              ../../../wlan_common/osa_common/src
+SOURCE                  osachunk.cpp
+SOURCE                  osaheap.cpp
+SOURCE                  osamemorypool.cpp
+
+USERINCLUDE             ../../../../inc
+USERINCLUDE             ../../../wlan_common/osa_common/inc
+
+OS_LAYER_KERNEL_SYSTEMINCLUDE

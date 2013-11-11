@@ -1,0 +1,49 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:     This module is a plug-in module for EUC-KR character conversion.
+*
+*/
+
+
+TARGET               EUCKR.dll
+TARGETTYPE           PLUGIN
+CAPABILITY           All -Tcb
+
+uid                  0x10009D8D 0x2000E527
+VENDORID		0x70000001
+
+SOURCEPATH			../src/plugins
+SOURCE               EUCKR.cpp
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+USERINCLUDE		../inc
+USERINCLUDE		../src/inc
+USERINCLUDE		../src/shared
+
+LIBRARY              euser.lib
+LIBRARY              charconv.lib
+LIBRARY              ecom.lib
+LIBRARY              cp949table.lib
+
+SOURCEPATH		../resource
+
+Start resource       EUCKR.rss
+Targetpath           /resource/charconv
+End
+
+start resource       2000E527.rss
+target               euckr.rsc
+end
+
+SMPSAFE

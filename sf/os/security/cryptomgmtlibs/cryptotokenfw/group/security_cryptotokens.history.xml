@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<relnotes name="Crypto Token Framework">
+  <purpose>
+    Framework providing application support for cryptographic functionality implemented on a variety of secure hardware tokens e.g. smart cards and software emulations.
+  </purpose>
+
+  <deliverystep number="" name="PREQ2193 SMP-Safe Crypto Services Components" osproject="Diran" revision="010">
+	  <milestone project="GT0433" number="MS3.7"/>
+	  <preq number="2193" title="SMP-Safe Crypto Services Components">
+		  Add SMPSAFE keyword in SDP mmp files
+	  </preq>
+  </deliverystep>
+ 
+ <defect number="PDEF119390" title="Eapol authentication fails in WLAN network of University of Helsinki" revision="009">
+    New serializing interface added to allow us export and import subjectKeyId and issuerKeyId of arbitary length
+  </defect>
+  
+  <defect number="DEF112623" title="Keystore can be disabled by importing a key with 'invalid' usage" revision="008">
+    Removed the sanity check when building the keyinfo in listing keystore, so that a bad key will not prevent a keystore listing.
+  </defect>
+  
+  <deliverystep number="496" name="EC073: Security: Crypto Services Header File Refactoring" osproject="Oghma" revision="007">
+	  <milestone project="GT0313" number="MS3.7"/>
+	  <ec number="73" title="Crypto Services Header File Refactoring (to simplify the SDK creation process)">
+		  Non-exported published functions made internal.
+		  Status added to published files if it was missing.
+		  File classification of MCTTokenInterface.h changed from publishedPartner to publishedAll. 
+		  Some classes made published from internal because it was referenced from a published interface.
+		  CCTCertInfo is made publishedAll but the constructors are made publishedPartner.
+		  Removed internal header file inclusions. BR2143 raised against this.
+	  </ec>
+  </deliverystep>
+
+  <defect number="DEF106230" title="Clean up build's tagscan errors" revision="006">
+    Remove tagscan errors
+  </defect>
+
+  <defect number="DEF105113" title="Documentation is not there for CCTKeyInfo published partner class" revision="005">
+    Delete the orphan file mctkeystore.h
+  </defect>
+
+  <defect number="DEF107276" title="Lint errors in security code should be fixed (production and test)" revision="004">
+    Minor changes to remove lint errors
+  </defect>
+
+  <preq number="1182" title="GNU Make-based build system" revision="003">
+    TOOLS2 macro is added with TOOLS.
+  </preq>
+
+  <preq number="1182" title="GNU Make-based build system" revision="002">
+    Changed according to filename policy to support the building of Symbian OS on both Windows and Linux for the test code.
+  </preq>
+
+  <defect number="DEF102043" title="Makesis &amp; SWI assumes system drive is c:" revision="001">
+    Removed hardcoded references to C drive and replaced with system drive.
+  </defect>
+</relnotes>

@@ -1,0 +1,50 @@
+/*
+* Copyright (c) 2003 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:     This is project specification file for the win874 (Thai)
+*                charconvplugin.
+*
+*/
+
+
+TARGET               win874.dll
+TARGETTYPE           PLUGIN
+CAPABILITY           All -Tcb
+
+uid                  0x10009D8D 0x1020740D
+VENDORID		0x70000001
+
+SOURCEPATH			../src/plugins
+SOURCE               Win874.cpp
+SOURCEPATH		/epoc32/build/generatedcpp/charconv
+SOURCE               g_win874.cpp 
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+USERINCLUDE		../inc
+
+LIBRARY              euser.lib
+LIBRARY              charconv.lib
+LIBRARY              ecom.lib
+
+SOURCEPATH		../resource
+
+Start resource       Win874.rss
+Targetpath           /resource/charconv
+End
+
+start resource       1020740D.rss
+target               win874.rsc
+
+end
+
+SMPSAFE

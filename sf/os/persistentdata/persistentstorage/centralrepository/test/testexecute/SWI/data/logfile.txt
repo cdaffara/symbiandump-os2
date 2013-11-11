@@ -1,0 +1,267 @@
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem The stub.. 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] makesis -s centrepswiteststub.pkg 
+Processing centrepswiteststub.pkg...
+Created  centrepswiteststub.sis.
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem Make and sign the KS12 package. This modifies the KS1.2 keyspace, which 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem is a user mod on the ROM keyspace K1. 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] makesis KS12.pkg 
+Processing KS12.pkg...
+Created  KS12.sis.
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] signsis -S KS12.sis KS12s.sis certstore\Nokia_RnDCert_02.der certstore\Nokia_RnDCert_02.key 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem Make and sign the KS14 package. 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] makesis KS14.pkg 
+Processing KS14.pkg...
+Created  KS14.sis.
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] signsis -S KS14.sis KS14s.sis certstore\Nokia_RnDCert_02.der certstore\Nokia_RnDCert_02.key 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem Make and sign the KS2 package. This creates the KS2 keyspace, which 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem is new. 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] makesis KS2.pkg 
+Processing KS2.pkg...
+Created  KS2.sis.
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] signsis -S KS2.sis KS2s.sis certstore\Nokia_RnDCert_02.der certstore\Nokia_RnDCert_02.key 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem Make and sign the KS22 package. This creates the KS22 keyspace, which 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem upgrades KS21 (user modified KS2). 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] makesis KS22.pkg 
+Processing KS22.pkg...
+Created  KS22.sis.
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] signsis -S KS22.sis KS22s.sis certstore\Nokia_RnDCert_02.der certstore\Nokia_RnDCert_02.key 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem Make and sign the KS3 package. This package will fail to install 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem because the referenced keyspace file is not in the ROM stub. 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] makesis KS3.pkg 
+Processing KS3.pkg...
+Created  KS3.sis.
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] signsis -S KS3.sis KS3s.sis certstore\Nokia_RnDCert_02.der certstore\Nokia_RnDCert_02.key 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem Make and sign the KS4 package. This keyspace contains various capabilities 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem which we'll test don't change on a further install. 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] makesis KS4.pkg 
+Processing KS4.pkg...
+Created  KS4.sis.
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] signsis -S KS4.sis KS4s.sis certstore\Nokia_RnDCert_02.der certstore\Nokia_RnDCert_02.key 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem Installs on top of the above, you might think the capabilities in the 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem above would be lost, but no - they are persisted before the caps in this 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem package can splat them. 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] makesis KS41.pkg 
+Processing KS41.pkg...
+Created  KS41.sis.
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] signsis -S KS41.sis KS41s.sis certstore\Nokia_RnDCert_02.der certstore\Nokia_RnDCert_02.key 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem Make and sign the KP4 package. This keyspace contains various capabilities 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem which we'll test don't change on a further install. 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] makesis KP4.pkg 
+Processing KP4.pkg...
+Created  KP4.sis.
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] signsis -S KP4.sis KP4s.sis certstore\Nokia_RnDCert_02.der certstore\Nokia_RnDCert_02.key 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem Installs on top of the above, you might think the capabilities in the 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem above would be lost, but no - they are persisted before the caps in this 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem package can splat them. 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] makesis KP41.pkg 
+Processing KP41.pkg...
+Created  KP41.sis.
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] signsis -S KP41.sis KP41s.sis certstore\Nokia_RnDCert_02.der certstore\Nokia_RnDCert_02.key 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem SP filenull for uninstalling KP4. 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] makesis KPS4.pkg 
+Processing KPS4.pkg...
+Created  KPS4.sis.
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] signsis -S KPS4.sis KPS4s.sis certstore\Nokia_RnDCert_02.der certstore\Nokia_RnDCert_02.key 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem Installs on top of the ROM (51551554) 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] makesis KS51.pkg 
+Processing KS51.pkg...
+Created  KS51.sis.
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] signsis -S KS51.sis KS51s.sis certstore\Nokia_RnDCert_02.der certstore\Nokia_RnDCert_02.key 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem Make and sign the KP2 package. This creates the KP2 keyspace, which 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem is new. 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] makesis KP2.pkg 
+Processing KP2.pkg...
+Created  KP2.sis.
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] signsis -S KP2.sis KP2s.sis certstore\Nokia_RnDCert_02.der certstore\Nokia_RnDCert_02.key 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem Make and sign the KP22 package. This creates the KP22 keyspace, which 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem upgrades KP21 (user modified KP2). 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] makesis KP22.pkg 
+Processing KP22.pkg...
+Created  KP22.sis.
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] signsis -S KP22.sis KP22s.sis certstore\Nokia_RnDCert_02.der certstore\Nokia_RnDCert_02.key 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem Make and sign the KP23 package. 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] makesis KP23.pkg 
+Processing KP23.pkg...
+Created  KP23.sis.
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] signsis -S KP23.sis KP23s.sis certstore\Nokia_RnDCert_02.der certstore\Nokia_RnDCert_02.key 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem Make and sign the KP12 package. 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] makesis KP12.pkg 
+Processing KP12.pkg...
+Created  KP12.sis.
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] signsis -S KP12.sis KP12s.sis certstore\Nokia_RnDCert_02.der certstore\Nokia_RnDCert_02.key 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem Make and sign the KP14 package. 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] makesis KP14.pkg 
+Processing KP14.pkg...
+Created  KP14.sis.
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] signsis -S KP14.sis KP14s.sis certstore\Nokia_RnDCert_02.der certstore\Nokia_RnDCert_02.key 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem Make and sign the KPS14 standard patch, this SP is installed with a 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem file-null so the 51551551 keyspace file can be removed. 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] makesis KPS14.pkg 
+Processing KPS14.pkg...
+Created  KPS14.sis.
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] signsis -S KPS14.sis KPS14s.sis certstore\Nokia_RnDCert_02.der certstore\Nokia_RnDCert_02.key 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem Make and sign the KP3 package. This package will fail to install 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem because the referenced keyspace file is not in the ROM stub. 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] makesis KP3.pkg 
+Processing KP3.pkg...
+Created  KP3.sis.
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] signsis -S KP3.sis KP3s.sis certstore\Nokia_RnDCert_02.der certstore\Nokia_RnDCert_02.key 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem Make and sign the KP62 package. 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] makesis KP62.pkg 
+Processing KP62.pkg...
+Created  KP62.sis.
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] signsis -S KP62.sis KP62s.sis certstore\Nokia_RnDCert_02.der certstore\Nokia_RnDCert_02.key 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem Make and sign the KP62 package. 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] makesis KS62.pkg 
+Processing KS62.pkg...
+Created  KS62.sis.
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] signsis -S KS62.sis KS62s.sis certstore\Nokia_RnDCert_02.der certstore\Nokia_RnDCert_02.key 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem Make and sign the KPS64 package. 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] makesis KPS64.pkg 
+Processing KPS64.pkg...
+Created  KPS64.sis.
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] signsis -S KPS64.sis KPS64s.sis certstore\Nokia_RnDCert_02.der certstore\Nokia_RnDCert_02.key 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem Make and sign the KSX package. This is the embedded sis that goes in AppX.sis 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] makesis KSX.pkg 
+Processing KSX.pkg...
+Created  KSX.sis.
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] signsis -S KSX.sis KSXs.sis certstore\Nokia_RnDCert_02.der certstore\Nokia_RnDCert_02.key 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem Make the AppX package for the application. This is the sis which contains the  
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem embedded sis that has the application repository as a Centrep patch. This sis 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem is self-signed and conditonally installs the exe file depending on the environment 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] makesis APPX.pkg 
+Processing APPX.pkg...
+Created  APPX.sis.
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] signsis -S APPX.sis APPXs.sis certstore\appx.cer certstore\appx.key 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem Make and sign the KSD package. This contains the corrupt KSD keyspace. 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] makesis KSD.pkg 
+Processing KSD.pkg...
+Created  KSD.sis.
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] signsis -S KSD.sis KSDs.sis certstore\Nokia_RnDCert_02.der certstore\Nokia_RnDCert_02.key 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem Make the AppY,1,2 packages for the application. These sis files contain the  
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem embedded sis that has the application repository as a Centrep patch. This sis 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem is self-signed and conditonally installs the exe file depending on the environment 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem These SIS files are used to test a standard installation 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem The following packages are used for the APP-SP test 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem Make and sign the KSY package. This is the embedded PU sis that goes in AppY.sis 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] makesis KSY.pkg 
+Processing KSY.pkg...
+Created  KSY.sis.
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] signsis -S KSY.sis KSYs.sis certstore\Nokia_RnDCert_02.der certstore\Nokia_RnDCert_02.key 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem Make and sign the APPY package. This package will install an APP exe 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem a keyspace in an embedded PU package and an SP package to be used for the uninstall 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] makesis APPY.pkg 
+Processing APPY.pkg...
+Created  APPY.sis.
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] signsis -S APPY.sis APPYs.sis certstore\appx.cer certstore\appx.key 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem Make and sign the KSY1 package. This is the embedded PU sis that goes in AppY1.sis 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] makesis KSY1.pkg 
+Processing KSY1.pkg...
+Created  KSY1.sis.
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] signsis -S KSY1.sis KSY1s.sis certstore\Nokia_RnDCert_02.der certstore\Nokia_RnDCert_02.key 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem Make and sign the APPY1 package. This package will install the APP exe 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem a new version of the keyspace in an embedded PU package and an SP package  
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem to be used for the uninstall 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] makesis APPY1.pkg 
+Processing APPY1.pkg...
+Created  APPY1.sis.
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] signsis -S APPY1.sis APPY1s.sis certstore\appx.cer certstore\appx.key 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem Make and sign the KSY2 package. This is the embedded PU sis that goes in AppY2.sis 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] makesis KSY2.pkg 
+Processing KSY2.pkg...
+Created  KSY2.sis.
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] signsis -S KSY2.sis KSY2s.sis certstore\Nokia_RnDCert_02.der certstore\Nokia_RnDCert_02.key 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem Make and sign the APPY2 package. This package will install the APP exe 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem a new version of the keyspace in an embedded PU package and an SP package  
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] rem to be used for the uninstall 
+
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] makesis APPY2.pkg 
+Processing APPY2.pkg...
+Created  APPY2.sis.
+Y:\persistentdata\persistentstorage\centralrepository\test\testexecute\SWI\data> [EPOC] signsis -S APPY2.sis APPY2s.sis certstore\appx.cer certstore\appx.key 

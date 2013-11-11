@@ -1,0 +1,35 @@
+/*
+* Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+* Special build of the 'Function Driver Framework' (part of the USB 
+* Host implementation) which runs over the DummyUSBDI for test purposes.
+*
+*/
+
+/**
+ @file
+ @internalComponent
+*/
+
+#include "fdf_base.mmp"
+
+TARGET			fdf_over_dummyusbdi.exe
+// UID2 = 0x0 for plain exes
+// UID3 = unique for 'FDF over DummyUSBDI' system
+UID 			0x1000008c 0x10282B50
+
+LIBRARY			dummyusbdi.lib
+LIBRARY			tfdf_usbdescriptors.lib
+
+MACRO	__OVER_DUMMYUSBDI__

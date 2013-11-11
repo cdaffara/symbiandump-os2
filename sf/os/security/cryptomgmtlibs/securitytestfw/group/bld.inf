@@ -1,0 +1,153 @@
+/*
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* Generic technology part of test framework security subsystem
+*
+*/
+
+
+/**
+ @file
+*/
+
+// Generic technology part of test framework security subsystem
+#include "../test/testutil/group/bld.inf"
+// test certificate of security subsystem
+#include "../testcertificates/group/bld.inf"
+
+PRJ_PLATFORMS
+DEFAULT
+
+PRJ_EXPORTS
+// Nothing should be exported as this is only a test framework and not part of the 
+// release
+
+
+PRJ_TESTEXPORTS
+
+../inc/securitytestframework.iby	/epoc32/rom/include/securitytestframework.iby
+
+
+// configuration file for the CommsDB set up
+../test/autotesting/auto.cfg /epoc32/winscw/c/auto.cfg
+../test/autotesting/auto_broken.cfg /epoc32/winscw/c/auto_broken.cfg
+../test/autotesting/auto_winpcap.cfg /epoc32/winscw/c/auto_winpcap.cfg
+../test/autotesting/auto_winpcap_prompt.cfg /epoc32/winscw/c/auto_winpcap_prompt.cfg
+../test/autotesting/auto_wintap.cfg /epoc32/winscw/c/auto_wintap.cfg
+../test/autotesting/auto_wintap_prompt.cfg /epoc32/winscw/c/auto_wintap_prompt.cfg
+// configuration file for the CommsDB that prompts the user if the default iap is selected
+../test/autotesting/prompt.cfg /epoc32/winscw/c/prompt.cfg
+// configuration file for the CommsDB set up for testing using sim.tsy (simulated tsy)
+../test/autotesting/autosimtsy.cfg /epoc32/winscw/c/autosimtsy.cfg
+../test/autotesting/dummytefscript.script /epoc32/winscw/c/dummytefscript.script
+
+../test/autotesting/panicscan.pl /epoc32/winscw/c/tswi/panicscan.pl
+../test/autotesting/panicscan_authserver.pl /epoc32/winscw/c/tswi/panicscan_authserver.pl
+../test/autotesting/checklocationofcertificates.pl /epoc32/winscw/c/checklocationofcertificates.pl
+../test/autotesting/cdrive.pl /epoc32/winscw/c/cdrive.pl
+../test/autotesting/configchangebats.pl /epoc32/winscw/c/configchangebats.pl
+../test/autotesting/cdrive_exclude.txt /epoc32/winscw/c/cdrive_exclude.txt
+
+../test/autotesting/config_udeb.bat /epoc32/winscw/c/config_udeb.bat
+../test/autotesting/config_urel.bat /epoc32/winscw/c/config_urel.bat
+
+../test/autotesting/searchtags.pl /epoc32/winscw/c/tswi/searchtags.pl
+
+../test/autotesting/testexecute.ini  /epoc32/winscw/c/system/data/testexecute.ini
+
+// batch files for automated hardware testing
+	../test/autotesting/hosts		     /epoc32/winscw/c/autohardware/hosts
+	../test/autotesting/testsecurity_sdp.bat	     /epoc32/winscw/c/autohardware/testsecurity_sdp.bat
+	../test/autotesting/testsecurity_sdp_auth.bat	     /epoc32/winscw/c/autohardware/testsecurity_sdp_auth.bat
+	../test/autotesting/testsecurity_sdp_newrom.bat	     /epoc32/winscw/c/autohardware/testsecurity_sdp_newrom.bat
+	../test/autotesting/runcertman.bat /epoc32/winscw/c/autohardware/runcertman.bat
+
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+	../test/autotesting/runcrypto_wmdrm.bat /epoc32/winscw/c/autohardware/runcrypto_wmdrm.bat
+	../test/autotesting/runfiletokens_disableauth_with_wmdrm.bat /epoc32/winscw/c/autohardware/runfiletokens_disableauth_with_wmdrm.bat
+#endif
+
+../test/autotesting/runcrypto.bat /epoc32/winscw/c/autohardware/runcrypto.bat
+../test/autotesting/runhardwarecrypto.bat /epoc32/winscw/c/autohardware/runhardwarecrypto.bat
+../test/autotesting/runcryptotokens.bat /epoc32/winscw/c/autohardware/runcryptotokens.bat
+../test/autotesting/runasnpkcs.bat /epoc32/winscw/c/autohardware/runasnpkcs.bat
+
+#ifdef SYMBIAN_AUTH_SERVER
+	../test/autotesting/runfiletokens_useauth.bat /epoc32/winscw/c/autohardware/runfiletokens_useauth.bat
+	../test/autotesting/runfiletokens_disableauth.bat /epoc32/winscw/c/autohardware/runfiletokens_disableauth.bat
+	../test/autotesting/runauthtests.bat /epoc32/winscw/c/autohardware/runauthtests.bat
+	../test/autotesting/runauthtests_macroenabled.bat /epoc32/winscw/c/autohardware/runauthtests_macroenabled.bat
+#else
+	../test/autotesting/runfiletokens.bat /epoc32/winscw/c/autohardware/runfiletokens.bat
+#endif // SYMBIAN_AUTH_SERVER
+
+../test/autotesting/runupstests.bat /epoc32/winscw/c/autohardware/runupstests.bat
+../test/autotesting/runpkcs12tests.bat /epoc32/winscw/c/autohardware/runpkcs12tests.bat
+
+../test/autotesting/runcommonutilstests.bat /epoc32/winscw/c/autohardware/runcommonutilstests.bat
+
+../test/autotesting/testsecurityperformance_cryptalg.bat /epoc32/winscw/c/autohardware/testsecurityperformance_cryptalg.bat
+../test/autotesting/testsecurityperformance_crypto.bat   /epoc32/winscw/c/autohardware/testsecurityperformance_crypto.bat
+
+../test/autotesting/runcaftests.bat /epoc32/winscw/c/autohardware/runcaftests.bat
+
+
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+../test/autotesting/runcaftests_wmdrm.bat /epoc32/winscw/c/autohardware/runcaftests_wmdrm.bat
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+
+../test/autotesting/autoexec.bat /epoc32/winscw/c/autohardware/autoexec.bat
+
+// ROMKIT includes
+../inc/SecurityTests.iby /epoc32/rom/include/securitytests.iby
+../inc/testutil.iby /epoc32/rom/include/testutil.iby
+
+../inc/t_testhandler.iby /epoc32/rom/include/t_testhandler.iby
+../inc/sntpclient.iby  /epoc32/rom/include/sntpclient.iby
+../inc/cryptodeps.iby  /epoc32/rom/include/cryptodeps.iby
+
+
+../test/securityframeworktestserver/group/securityframeworktestserver.iby /epoc32/rom/include/securityframeworktestserver.iby
+
+
+PRJ_MMPFILES
+// None
+
+
+PRJ_TESTMMPFILES
+// specify the .mmp files required for building any test programs here
+//
+// you can specify "manual" to denote that a test should be listed in a generated
+// batch file for running a group of tests which require user input during testing.
+// you can specify "support" to denote that a file is a test support file and shouldn't
+// be listed in a batch file for running a group of tests
+// By default, each test will be listed in a batch file for running a group of tests
+// which can be left to run without requiring watching over by the person running the tests,
+// i.e. tests where no user input is required.  The default will apply if neither "manual"
+// or "support" is specified.
+
+#ifndef TOOLS
+#ifndef TOOLS2
+t_testhandler2.mmp
+t_testhandler2extra.mmp
+testhandler_on_testexecute.mmp
+sntpclient.mmp
+rtestwrapper.mmp
+captestframework.mmp
+captestframeworkhelper.mmp
+captestframeworkutil.mmp
+#endif
+#endif
+
+../test/securityframeworktestserver/group/securityframeworktestserver.mmp

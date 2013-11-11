@@ -1,0 +1,170 @@
+/*
+* Copyright (c) 2003-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* Content Access Framework for DRM agents and consumers
+*
+*/
+
+
+/**
+ @file
+*/
+
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+#include "../../referencedrmagent/refcafhelper/group/bld.inf"
+#endif
+
+
+PRJ_PLATFORMS
+DEFAULT
+
+PRJ_EXPORTS
+// Common CAF headers
+../inc/caf.h			SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(caf/caf.h)
+../inc/cafplatform.h	SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/cafplatform.h)
+../inc/caftypes.h		SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(caf/caftypes.h)
+../inc/caferr.h			SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(caf/caferr.h)
+../inc/cafpanic.h		SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(caf/cafpanic.h)
+
+// CAF.DLL exported headers
+../inc/content.h 			SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(caf/content.h)
+../inc/content.inl 			SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(caf/content.inl)
+../inc/data.h	 			SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(caf/data.h)
+../inc/manager.h	 		SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/manager.h)
+../inc/importfile.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/importfile.h)
+../inc/rightsmanager.h		SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/rightsmanager.h)
+../inc/supplier.h	 		SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/supplier.h)
+../inc/supplieroutputfile.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/supplieroutputfile.h)
+../inc/attribute.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/attribute.h)
+../inc/patchdata.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/patchdata.h)
+
+// Agent interface
+../inc/agentinterface.h		SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/agentinterface.h)
+
+// F32 Agent UI interface
+../inc/f32agentui.h		SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/f32agentui.h)
+
+
+// CAFUTILS.DLL exported headers
+../inc/bitset.h				SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/bitset.h)
+../inc/cafmimeheader.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/cafmimeheader.h)
+
+
+../inc/agentfactory.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/agentfactory.h)
+../inc/metadata.h	  			SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(caf/metadata.h)
+../inc/metadataarray.h			SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(caf/metadataarray.h)
+../inc/virtualpath.h			SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(caf/virtualpath.h)
+../inc/virtualpathptr.h			SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(caf/virtualpathptr.h)
+../inc/agent.h					SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(caf/agent.h)
+../inc/EmbeddedObject.h			SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(caf/embeddedobject.h)
+../inc/attributeset.h			SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(caf/attributeset.h)
+../inc/stringattributeset.h		SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(caf/stringattributeset.h)
+../inc/rightsinfo.h				SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/rightsinfo.h)
+../inc/StreamablePtrArray.h		SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(caf/streamableptrarray.h)
+../inc/StreamablePtrArray.inl	SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(caf/streamableptrarray.inl)
+../inc/dirstreamable.h			SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(caf/dirstreamable.h)
+
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+../inc/cafhelper.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/cafhelper.h)
+../inc/cafhelperinterface.h		SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/cafhelperinterface.h)
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+
+// ROMKIT includes
+../inc/caf.iby /epoc32/rom/include/caf.iby
+
+PRJ_MMPFILES
+
+#ifndef TOOLS
+#ifndef TOOLS2
+CafUtils.mmp
+caf.mmp
+f32agentui.mmp
+f32agent.mmp
+reccaf.mmp
+#endif // TOOLS2
+#endif // TOOLS
+
+PRJ_TESTMMPFILES
+
+#ifndef TOOLS
+#ifndef TOOLS2
+ContentIterator.mmp	support
+testagent.mmp		support
+tcaf.mmp		manual
+tsmoke.mmp		manual
+#endif // TOOLS2
+#endif // TOOLS
+
+PRJ_TESTEXPORTS
+../../referencedrmagent/tcaf/scripts/nodrmcapsteps.script 			z:/tcaf/nodrmcapsteps.script
+../../referencedrmagent/tcaf/scripts/nodrmcapsteps.ini				z:/tcaf/nodrmcapsteps.ini
+../../referencedrmagent/tcaf/scripts/tcafnodrmcap.script 			z:/tcaf/tcafnodrmcap.script
+../../referencedrmagent/tcaf/scripts/tcaf.script 				z:/tcaf/tcaf.script
+../../referencedrmagent/tcaf/scripts/performance.script 			z:/tcaf/performance.script
+../../referencedrmagent/tcaf/scripts/performance.ini 				z:/tcaf/performance.ini
+../../referencedrmagent/tcaf/scripts/managerstep.script 			z:/tcaf/managerstep.script
+../../referencedrmagent/tcaf/scripts/managerstep.ini 				z:/tcaf/managerstep.ini
+../../referencedrmagent/tcaf/scripts/rightsmanagerstep.script 			z:/tcaf/rightsmanagerstep.script
+../../referencedrmagent/tcaf/scripts/rightsmanagerstep.ini 			z:/tcaf/rightsmanagerstep.ini
+../../referencedrmagent/tcaf/scripts/Consumerstep.script 			z:/tcaf/consumerstep.script
+#ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+../../referencedrmagent/tcaf/scripts/consumerstep_64bit.script 			z:/tcaf/consumerstep_64bit.script
+#endif  // SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+../../referencedrmagent/tcaf/scripts/drmfileperformance_armv5.script		z:/tcaf/drmfileperformance_armv5.script
+../../referencedrmagent/tcaf/scripts/consumerstep.ini 				z:/tcaf/consumerstep.ini
+../../referencedrmagent/tcaf/scripts/recognize.script 				z:/tcaf/recognize.script
+../../referencedrmagent/tcaf/scripts/recognize.ini 				z:/tcaf/recognize.ini
+../../referencedrmagent/tcaf/scripts/ContentStep.script 			z:/tcaf/contentstep.script
+../../referencedrmagent/tcaf/scripts/contentstep.ini 				z:/tcaf/contentstep.ini
+../../referencedrmagent/tcaf/scripts/oom.script 				z:/tcaf/oom.script
+../../referencedrmagent/tcaf/scripts/oom.ini 					z:/tcaf/oom.ini
+#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
+../../referencedrmagent/tcaf/scripts/supply.script 				z:/tcaf/supply.script
+#else
+../../referencedrmagent/tcaf/scripts/supply_without_http.script z:/tcaf/supply.script
+#endif
+../../referencedrmagent/tcaf/scripts/supply.ini 				z:/tcaf/supply.ini
+../../referencedrmagent/tcaf/scripts/cafutils.script 				z:/tcaf/cafutils.script
+../../referencedrmagent/tcaf/scripts/cafutils.ini 				z:/tcaf/cafutils.ini
+../../referencedrmagent/tcaf/scripts/contentiteratorstep.script 		z:/tcaf/contentiteratorstep.script
+../../referencedrmagent/tcaf/scripts/contentiteratorstep.ini 			z:/tcaf/contentiteratorstep.ini
+../../referencedrmagent/tcaf/scripts/stringattributes.script 			z:/tcaf/stringattributes.script
+../../referencedrmagent/tcaf/scripts/stringattributes.ini 			z:/tcaf/stringattributes.ini
+../../referencedrmagent/tcaf/scripts/attributes.ini 				z:/tcaf/attributes.ini
+../../referencedrmagent/tcaf/scripts/testcleanupstep.script			z:/tcaf/testcleanupstep.script
+../../referencedrmagent/tcaf/testdata/dummydata.txt 				z:/tcaf/testdata/dummydata.txt
+../../referencedrmagent/tcaf/testdata/test.drm 					z:/tcaf/testdata/test.drm
+../../referencedrmagent/tcaf/testdata/test.drm.bin 				z:/tcaf/testdata/test.drm.bin
+../../referencedrmagent/tcaf/testdata/uppercasetest.drm				z:/tcaf/testdata/uppercasetest.drm
+../../referencedrmagent/tcaf/testdata/test.txt 					z:/tcaf/testdata/test.txt
+../../referencedrmagent/tcaf/testdata/copyfile.txt 				z:/tcaf/testdata/copyfile.txt
+../../referencedrmagent/tcaf/testdata/InstTest.jad				z:/tcaf/testdata/insttest.jad
+../../referencedrmagent/tcaf/testdata/TestAgentPrivateDir/protected_content.txt z:/tcaf/testdata/testagentprivatedir/protected_content.txt
+../../referencedrmagent/tcaf/testdata/good.gif					z:/tcaf/testdata/good.gif
+../../referencedrmagent/tcaf/testdata/error.gif					z:/tcaf/testdata/error.gif
+../../referencedrmagent/tcaf/testdata/picture.jpg				z:/tcaf/testdata/picture.jpg
+../../referencedrmagent/tcaf/testdata/Audio.content				z:/tcaf/testdata/audio.content
+../../referencedrmagent/tcaf/testdata/Audiomulti.content			z:/tcaf/testdata/audiomulti.content
+../../referencedrmagent/tcaf/testdata/notes1.txt				z:/tcaf/testdata/notes1.txt
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+../../referencedrmagent/tcaf/scripts/tcafhelper.script 				z:/tcaf/tcafhelper.script
+../../referencedrmagent/tcaf/scripts/tcafhelper.ini 				z:/tcaf/tcafhelper.ini
+../../referencedrmagent/tcaf/scripts/tcafwmdrmsupport.script 			z:/tcaf/tcafwmdrmsupport.script
+../../referencedrmagent/tcaf/scripts/tcafwmdrmsupport.ini 			z:/tcaf/tcafwmdrmsupport.ini
+../../referencedrmagent/tcaf/testdata/dummywm.asf				z:/tcaf/testdata/dummywm.asf
+#endif  //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+// ROM test iby
+../inc/caftest.iby 						/epoc32/rom/include/caftest.iby
+
+

@@ -1,0 +1,611 @@
+// Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// Copying the corrupt plugin into the plugin folder
+// This is needed for the plugin ignoring tests, and Will not have any effect if the feature manager server has already been started. 
+// Since Techview ususally has some components that use feature manager at the startup stage, this copying will not have any effect on Techview.
+// We only perform this copying for hardware ONB testing which is performed on textshell
+// 
+// @file
+//
+
+//! @SYMTestSuiteName SYSLIB-TEF-EFM-NORMAL
+//! @SYMScriptTestEnvironment TEF
+//! @internalComponent
+//! @test
+
+RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\normal_plugin.dll c:\sys\bin\normal_plugin.dll
+RUN_PROGRAM -1 pluginhelper.exe z:\test\efm\plugins\normal_plugin.rsc c:\resource\plugins\normal_plugin.rsc
+LOAD_SUITE efm_normal_testserver
+
+START_TESTCASE PDS-EFM-CT-4052
+//! @SYMTestCaseID 		PDS-EFM-CT-4052	
+//! @SYMTestCaseDesc  		test step that defines the features needed by subsequent tests
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		Define features required by subsequent steps.
+//! @SYMTestExpectedResults 	No error should be reported.
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ             REQ8366
+    RUN_TEST_STEP 100 efm_normal_testserver EFMTestStepPublishFeatures
+END_TESTCASE PDS-EFM-CT-4052
+
+//feature discovery test steps
+
+START_TESTCASE SYSLIB-EFM-CT-3626
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3626	
+//! @SYMTestCaseDesc  		Test case for CFeatureDiscovery static way of requesting single feature 
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		Test step for a static way of feature request which requests supported feature and unsupported feature 
+//! @SYMTestExpectedResults 	KFeatureSupported is the return value for supported feature and KFeatureUnsupported is return value for not supported feature.
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ             REQ8366
+
+RUN_TEST_STEP 100 efm_normal_testserver FeatureDiscoverySingleFeatureStaticRequest
+END_TESTCASE SYSLIB-EFM-CT-3626
+
+
+START_TESTCASE SYSLIB-EFM-CT-3625 
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3625 
+//! @SYMTestCaseDesc 		Test case for CFeatureDiscovery dynamic way of requesting single feature.
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		Test step for a dynamic way of feature request which requests supported feature and unsupported feature 
+//! @SYMTestExpectedResults 	KFeatureSupported is the return value for supported feature and KFeatureUnsupported is return value for not supported feature.
+//! @SYMPREQ 			PREQ1645
+//! @SYMREQ             REQ8366
+
+RUN_TEST_STEP 100 efm_normal_testserver FeatureDiscoverySingleFeatureDynamicRequest
+END_TESTCASE SYSLIB-EFM-CT-3625 
+
+
+START_TESTCASE SYSLIB-EFM-CT-3627
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3627 	
+//! @SYMTestCaseDesc 		Test case for CFeatureDiscovery static way of requesting multiple features
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		Requesting for the multiple features in static way.
+//! @SYMTestExpectedResults 	ETrue or EFalse is returned based on the input.
+//! @SYMPREQ 			PREQ1645
+//! @SYMREQ             REQ8366
+
+RUN_TEST_STEP 100 efm_normal_testserver FeatureDiscoveryMultipleFeatureStaticRequest
+END_TESTCASE SYSLIB-EFM-CT-3627
+
+
+START_TESTCASE SYSLIB-EFM-CT-3628
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3628	
+//! @SYMTestCaseDesc 		Test case for CFeatureDiscovery dynamic way of requesting multiple features
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		Requesting for the multiple features in dynamic way.
+//! @SYMTestExpectedResults 	ETrue or EFalse is returned based on the input.  (Note : please refer test spec for more info)
+//! @SYMPREQ 			PREQ1645
+//! @SYMREQ             REQ8366
+
+RUN_TEST_STEP 100 efm_normal_testserver FeatureDiscoveryMultipleFeatureDynamicRequest
+END_TESTCASE SYSLIB-EFM-CT-3628
+
+
+//feature manager test steps
+
+
+START_TESTCASE SYSLIB-EFM-CT-3629
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3629
+//! @SYMTestCaseDesc 		To test FeatureManager InitializeLibL() API and UnInitializeLibL() API
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		Test case initialises FeatureManager twice and then calls UnInitializeLibL()
+//! @SYMTestExpectedResults  	Test is Passed if  it is feature manager is successfully initialised and uninitialised, i.e. none of the functions leave
+//! @SYMPREQ 			PREQ1645
+//! @SYMREQ             REQ8194
+
+RUN_TEST_STEP 100 efm_normal_testserver FeatureManager_InitializeLibL
+END_TESTCASE SYSLIB-EFM-CT-3629
+
+
+START_TESTCASE SYSLIB-EFM-CT-3632
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3632
+//! @SYMTestCaseDesc		To test FeatureManager FeatureSupported() API 
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		Test requests support for a supported, unsupported and unknown features checking returned results
+//! @SYMTestExpectedResults 	All features should be reported as expected
+//! @SYMPREQ 			PREQ1645
+
+RUN_TEST_STEP 100 efm_normal_testserver FeatureManager_Supproted
+END_TESTCASE SYSLIB-EFM-CT-3632
+
+START_TESTCASE SYSLIB-EFM-CT-3676
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3676
+//! @SYMTestCaseDesc  		To test FeatureManager FeatureSupported() API when the FeatureManager is not initialized.
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		Try to call FeatureSupported() API Before the FeatureManager is initialized
+//! @SYMTestExpectedResults 	Test should panic with panic category FeatMgr and panic code ELibNotInitialized
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ  			REQ8194
+
+RUN_TEST_STEP !PanicString=FeatMgr !PanicCode=0 100 efm_normal_testserver FeatureManager_InvalidUseTest
+END_TESTCASE SYSLIB-EFM-CT-3676
+
+
+//feature control test steps
+START_TESTCASE SYSLIB-EFM-CT-3613
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3613	
+//! @SYMTestCaseDesc 		RFeatureControl Connect and disconnect test
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		Test tries to make connection to the server and tries to close the connection with the server.
+//! @SYMTestExpectedResults 	KErrNone is expected
+//! @SYMPREQ 			PREQ1645
+//! @SYMREQ             REQ8194
+
+RUN_TEST_STEP 100 efm_normal_testserver FeatureControlConnetction
+END_TESTCASE SYSLIB-EFM-CT-3613
+
+START_TESTCASE SYSLIB-EFM-CT-3614
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3614	
+//! @SYMTestCaseDesc 		Test for RFeatureControl single feature request functionality		
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		Request for the feature  which is supported not supported and uninitialised features	
+//! @SYMTestExpectedResults 	KFeatureSupported is expected for supported feature, KFeatureUnsupported is expected for not supported feature and KErrNotReady is expected for uninitialised feature.
+//! @SYMPREQ 			PREQ1645
+//! @SYMREQ             REQ8194
+//!                     REQ7763
+
+RUN_TEST_STEP 100 efm_normal_testserver FeatureControlSingleFeatureRequest
+END_TESTCASE SYSLIB-EFM-CT-3614
+
+START_TESTCASE SYSLIB-EFM-CT-3616
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3616	
+//! @SYMTestCaseDesc 		Test for RFeatureControl multiple feature request functionality
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		Query is made to an empty array,supported feature in the dat file,added some features and then queried them, finally append the feature which is non existent and query the status of the feature.			
+//! @SYMTestExpectedResults 	KErrNone is the expected return value
+//! @SYMPREQ 			PREQ1645
+//! @SYMREQ             REQ8194
+START_TESTCASE SYSLIB-EFM-CT-3616
+RUN_TEST_STEP 100 efm_normal_testserver FeatureControlMultipleFeatureRequest
+END_TESTCASE SYSLIB-EFM-CT-3616
+
+START_TESTCASE SYSLIB-EFM-CT-3615
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3615	
+//! @SYMTestCaseDesc 		Test for RFeatureControl single feature status and data request functionality	
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		Request the data from the feature file which is expected to be supported and data field for the feature is also checked, modify the feature data and varify the same, Try to modify feature which is not modifiable.
+//! @SYMTestExpectedResults 	Information about the feature is returned and the changed data is verified did it really changed or not.
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ             REQ8194
+
+RUN_TEST_STEP 100 efm_normal_testserver FeatureControlDataAndStatusRequest
+END_TESTCASE SYSLIB-EFM-CT-3615
+
+START_TESTCASE SYSLIB-EFM-CT-3622
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3622	
+//! @SYMTestCaseDesc 		Test case for RFeatureControl listing of supported features
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		Test case requests the list of supported features, prints out the comntent of the lsi and check that the 
+//!				feature that is known to be supported gets listed. The test case doesn't check all the elements in the list 
+//!				since we do not know the content of EFM at the time of testing.
+//! @SYMTestExpectedResults 	Supporrted feature should be listed. Manual check may be needed to make sure that the content of the array is correct.
+//! @SYMPREQ 			PREQ1645
+//! @SYMREQ             REQ8194
+
+RUN_TEST_STEP 100 efm_normal_testserver FeatureControlListSupportedFeatures
+END_TESTCASE SYSLIB-EFM-CT-3622
+
+START_TESTCASE SYSLIB-EFM-CT-3617
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3617	
+//! @SYMTestCaseDesc 		Test case for RFeatureControl feature enabling.
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		Try to enable modifiable feature, non modifialbe feature,non existent feature,  and default supported feature.	
+//! @SYMTestExpectedResults 	KErrNone for existing feature and modifiable feature,  KErrAccessDenied for existing unmodifiable feature and KErrNotFound for non existing feature.
+//! @SYMPREQ 			PREQ1645
+//! @SYMREQ             REQ8194
+
+RUN_TEST_STEP 100 efm_normal_testserver FeatureControlFeatureEnabling z:\test\efm\scripts\tef_efm_normal.ini Capability_Normal 
+END_TESTCASE SYSLIB-EFM-CT-3617
+
+START_TESTCASE SYSLIB-EFM-CT-3618
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3618	
+//! @SYMTestCaseDesc 		Test case for RFeatureControl feature disabling.
+//! @SYMTestPriority			 High
+//! @SYMTestActions 		Try to disable modifiable feature, non modifialbe feature,non existent feature,  and default supported 
+//! @SYMTestExpectedResults 	KErrNone for existing feature and modifiable feature,  KErrAccessDenied for existing unmodifiable feature and KErrNotFound for non existing feature
+//! @SYMPREQ 			PREQ1645
+//! @SYMREQ             REQ8194
+
+RUN_TEST_STEP 100 efm_normal_testserver FeatureControlFeatureDisabling z:\test\efm\scripts\tef_efm_normal.ini Capability_Normal
+END_TESTCASE SYSLIB-EFM-CT-3618
+
+START_TESTCASE SYSLIB-EFM-CT-3620
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3620	
+//! @SYMTestCaseDesc 		Test case for RFeatureControl feature data setting.	
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		Try to set the data for the feature which is marked as supported and modifiable, which is defined as not modifiable and non existant feature.
+//! @SYMTestExpectedResults 	KErrNone is returned for supported and modifiable feature, KErrAccessDenied is returned for not modifialbe feature,KErrNotFound is returned for non existant feature.
+//! @SYMPREQ 			PREQ1645
+//! @SYMREQ             REQ8194
+
+RUN_TEST_STEP 100 efm_normal_testserver FeatureControlFeatureDataSetting z:\test\efm\scripts\tef_efm_normal.ini Capability_Normal
+END_TESTCASE SYSLIB-EFM-CT-3620
+
+START_TESTCASE SYSLIB-EFM-CT-3619
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3619	
+//! @SYMTestCaseDesc 		Test case for RFeatureControl feature data and status setting
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		Tries to change the state of the modifiable feature,not modifiable feature,non existent feature	.
+//! @SYMTestExpectedResults  	KErrNone is returned for modifiable feature, KErrAccessDenied is returned for non modifiable feature, KErrNotFound is returned for non existent feature.
+//! @SYMPREQ 			PREQ1645
+//! @SYMREQ             REQ8194
+
+RUN_TEST_STEP 100 efm_normal_testserver FeatureControlFeatureDataAndStatusSetting z:\test\efm\scripts\tef_efm_normal.ini Capability_Normal
+END_TESTCASE SYSLIB-EFM-CT-3619
+
+START_TESTCASE SYSLIB-EFM-CT-3621
+//! @SYMTestCaseID		 SYSLIB-EFM-CT-3621	
+//! @SYMTestCaseDesc		 Test case for RFeatureControl feature adding.
+//! @SYMTestPriority 		 High	
+//! @SYMTestActions 		 Tries to add new feature, and add new feature which is already exists
+//! @SYMTestExpectedResults 	 KErrNone is returned for new feature and KErrAlreadyExists returned for the feature which already exists
+//! @SYMPREQ 			 PREQ1645
+//! @SYMREQ             REQ8194
+
+RUN_TEST_STEP 100 efm_normal_testserver FeatureControlFeatureAdding z:\test\efm\scripts\tef_efm_normal.ini Capability_Normal
+END_TESTCASE SYSLIB-EFM-CT-3621
+
+START_TESTCASE SYSLIB-EFM-CT-4024
+//! @SYMTestCaseID		 SYSLIB-EFM-CT-4024	
+//! @SYMTestCaseDesc		 Test case to check client panic in the case of RFeatureControl misuse.
+//! @SYMTestPriority 		 Medium	
+//! @SYMTestActions 		 Try to use RFeatureControl object that hasn't been opened
+//! @SYMTestExpectedResults  We expect the client to panic to indicate a severe error
+//! @SYMPREQ 			 PREQ1645
+//! @SYMREQ			 REQ8200 
+
+RUN_TEST_STEP !PanicString=RFeatureControl  !PanicCode=2 100 efm_normal_testserver FeatureControlInvalidUsePanicTest
+END_TESTCASE SYSLIB-EFM-CT-4024
+
+
+//feature notifier test steps
+START_TESTCASE SYSLIB-EFM-CT-3634
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3634	
+//! @SYMTestCaseDesc 		To test FeatureNotifier NewL() API 
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		Since this function is a leaving function and we are trapping this function if the trap return value is  KErrNone then the test is passed.
+//! @SYMTestExpectedResults   	KErrNone is returned.
+//! @SYMPREQ 			PREQ1645
+//! @SYMREQ             REQ8194
+
+RUN_TEST_STEP 100 efm_normal_testserver FeatureNotifier_NewL z:\test\efm\scripts\tef_efm_normal.ini Capability_Normal
+END_TESTCASE SYSLIB-EFM-CT-3634
+
+START_TESTCASE SYSLIB-EFM-CT-3635
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3635	
+//! @SYMTestCaseDesc 		Test for FeatureNotifier NotifyRequest(Tuid) 
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		An instance of notifier is created , feature is passed to the API for which the notification is required.
+//! @SYMTestExpectedResults 	KErrNone is returned for the successful notification. KAreadyExists is the return value for  the feature for which notification is requested.
+//! @SYMPREQ 			PREQ1645
+//! @SYMREQ             REQ8194
+
+RUN_TEST_STEP 100 efm_normal_testserver FeatureNotifier_NotifyRequestL z:\test\efm\scripts\tef_efm_normal.ini Capability_Normal
+END_TESTCASE SYSLIB-EFM-CT-3635
+
+START_TESTCASE SYSLIB-EFM-CT-3636
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3636	
+//! @SYMTestCaseDesc 		Test for FeatureNotifier NotifyRequest()
+//! @SYMTestPriority		High
+//! @SYMTestActions 		A reference of feature array is passed  and request is made for the notification 
+//! @SYMTestExpectedResults 	KErrNone is the return value on successful notification.
+//! @SYMPREQ 			PREQ1645
+//! @SYMREQ             REQ8194
+
+RUN_TEST_STEP 100 efm_normal_testserver FeatureNotifier_NotifyRequestArrayL z:\test\efm\scripts\tef_efm_normal.ini Capability_Normal
+END_TESTCASE SYSLIB-EFM-CT-3636
+
+START_TESTCASE SYSLIB-EFM-CT-3638
+//! @SYMTestCaseID		 SYSLIB-EFM-CT-3638	
+//! @SYMTestCaseDesc 		To test FeatureNotifier Module NotifyCancel()	
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		A cancel request is made to for the feature which the notification is requested.
+//! @SYMTestExpectedResults 	KErrNone is returned on the successful cancelletion.
+//! @SYMPREQ 			PREQ1645
+//! @SYMREQ             REQ8194
+
+RUN_TEST_STEP 100 efm_normal_testserver FeatureNotifier_NotifyCancelL z:\test\efm\scripts\tef_efm_normal.ini Capability_Normal
+END_TESTCASE SYSLIB-EFM-CT-3638
+
+START_TESTCASE SYSLIB-EFM-CT-3643
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3643	
+//! @SYMTestCaseDesc 		To test FeatureNotifier Module NotifyCancelAll()
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		RFeatureArray is created ,request for the feature notification is made  then cancellation of the notification is requested.
+//! @SYMTestExpectedResults 	KErrNone is returned value of the notification.
+//! @SYMPREQ 			PREQ1645
+//! @SYMREQ             REQ8194
+
+RUN_TEST_STEP 100 efm_normal_testserver FeatureNotifier_NotifyMultipleCancelL z:\test\efm\scripts\tef_efm_normal.ini Capability_Normal
+END_TESTCASE SYSLIB-EFM-CT-3643
+
+START_TESTCASE SYSLIB-EFM-CT-3637
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3637	
+//! @SYMTestCaseDesc 		To test FeatureNotifier Module API when a UID is passed which is not changed at all.
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		A notification request is made to for the feature which is not changed at all.
+//! @SYMTestExpectedResults 	KErrNone is expected.
+//! @SYMPREQ 			PREQ1645
+//! @SYMREQ             REQ8194
+
+RUN_TEST_STEP 100 efm_normal_testserver FeatureNotifier_UnchangedFeatureTest z:\test\efm\scripts\tef_efm_normal.ini Capability_Normal
+END_TESTCASE SYSLIB-EFM-CT-3637
+
+START_TESTCASE SYSLIB-EFM-CT-3639
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3639	
+//! @SYMTestCaseDesc 		To test Feature Manager Module NotifyCancel() if the feature is not there or is cancelled already.
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		Two times cancellation is requested on the same feature .
+//! @SYMTestExpectedResults 	for the first time KErrNone is returned and second time KErrNotFound is returned.
+//! @SYMPREQ 			PREQ1645
+//! @SYMREQ             REQ8194
+
+RUN_TEST_STEP 100 efm_normal_testserver FeatureNotifier_CancelFeatureTwiceTest z:\test\efm\scripts\tef_efm_normal.ini Capability_Normal
+END_TESTCASE SYSLIB-EFM-CT-3639
+
+START_TESTCASE SYSLIB-EFM-CT-3640
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3640	
+//! @SYMTestCaseDesc 		Request feature notification for a feature which doesn't exist	
+//! @SYMTestPriority			High
+//! @SYMTestActions 		Feature is added and waited for some time and got the notification.
+//! @SYMTestExpectedResults 	KErrNone is expected result.
+//! @SYMPREQ 			PREQ1645
+//! @SYMREQ             REQ8194
+
+RUN_TEST_STEP 100 efm_normal_testserver FeatureNotifier_NonExistingFeatureNotificationTest z:\test\efm\scripts\tef_efm_normal.ini Capability_Normal
+END_TESTCASE SYSLIB-EFM-CT-3640
+
+START_TESTCASE SYSLIB-EFM-CT-3641
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3641	
+//! @SYMTestCaseDesc 		Try to call NotifyCancel for the feature which does not exists
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		Try to cancel the feature which does not exists
+//! @SYMTestExpectedResults 	KErrNone is expected.
+//! @SYMPREQ			PREQ1645
+//! @SYMREQ             REQ8194
+
+RUN_TEST_STEP 100 efm_normal_testserver FeatureNotifier_NonExistingFeatureCancellationTest z:\test\efm\scripts\tef_efm_normal.ini Capability_Normal
+END_TESTCASE SYSLIB-EFM-CT-3641
+
+
+//multiconnection test steps
+START_TESTCASE SYSLIB-EFM-CT-3642 
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-3642 	
+//! @SYMTestCaseDesc 		Multi-connection testing		
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		Connection to the feature manager is made using RFeatureControl, CFeatureDiscovery,CFeatureManager classes and delete the objects in the reverse order.
+//! @SYMTestExpectedResults 	It should not return any errors or panics.
+//! @SYMPREQ 			PREQ1645
+//! @SYMREQ             REQ8200
+
+CONCURRENT
+RUN_TEST_STEP 100 efm_normal_testserver MulticonnectionTest1
+RUN_TEST_STEP 100 efm_normal_testserver MulticonnectionTest2
+CONSECUTIVE
+END_TESTCASE SYSLIB-EFM-CT-3642 
+
+START_TESTCASE SYSLIB-EFM-CT-4005
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-4005
+//! @SYMTestCaseDesc 		Tests for RFeatureControl with '!OOM' enabled.
+//!                             TEF ignores all errors except memory leaks
+//!                             under the low memory conditions it sets.
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		Exercise Open, FeatureSupported, EnableFeature
+//!                             DisableFeature, SetFeature, AddFeature and
+//!                             ListSupportedFeaturesL under low memory
+//!                             conditions.
+//! @SYMTestExpectedResults 	Memory should not be leaked.
+//! @SYMPREQ 			PREQ1645
+//! @SYMREQ             REQ8200
+
+// Restore to ensure preceding tests won't disrupt what's wanted here by UREL.
+// UDEB doesn't care, it only looks for memory leaks.
+    RUN_TEST_STEP 100 efm_normal_testserver EFMTestStepPublishFeatures
+    RUN_TEST_STEP !OOM 100 efm_normal_testserver FeatureOpenOOM
+    RUN_TEST_STEP !OOM 100 efm_normal_testserver FeatureSupportedOOM
+    RUN_TEST_STEP !OOM 100 efm_normal_testserver FeatureEnableOOM
+    RUN_TEST_STEP !OOM 100 efm_normal_testserver FeatureDisableOOM
+    RUN_TEST_STEP !OOM 100 efm_normal_testserver FeatureSetFeatureOOM
+    RUN_TEST_STEP !OOM 100 efm_normal_testserver FeatureAddFeatureOOM
+    RUN_TEST_STEP !OOM 100 efm_normal_testserver FeatureDelFeatureOOM
+    RUN_TEST_STEP !OOM 100 efm_normal_testserver ListSupportedFeaturesOOM
+END_TESTCASE SYSLIB-EFM-CT-4005
+
+//START_TESTCASE SYSLIB-EFM-CT-4019ID 		SYSLIB-EFM-CT-4019
+//! @SYMTestCaseDesc 		OOD condition test
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		This test instructs the file server to return KErrDiskFull and performs feature 
+//!				manipulations using RFeatureControl class. Feature request operations should 
+//!				succeed as they do not cause feature manager to persist features, and feature 
+//!				modification operations should fail with KErrDiskFull error code.
+//! @SYMTestExpectedResults 	Feature request operations are expected to succeed, feature modifications are 
+//!				expected to fail with KErrDiskFull error code
+//! @SYMPREQ 			PREQ1645
+//! @SYMREQ 			REQ8200
+// This test is excluded due to centrep panic occuring on DP builds
+
+//RUN_TEST_STEP 300 efm_normal_testserver OODTest
+//END_TESTCASE SYSLIB-EFM-CT-4019
+
+START_TESTCASE SYSLIB-EFM-CT-4025
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-4025
+//! @SYMTestCaseDesc 		Plugin ignoring test
+//! @SYMTestPriority 		Medium
+//! @SYMTestActions 		Test to ensure that non-ROM based plugins get ignored by featmgr server
+//!							This test only works on emulator. Prior to the emulator startup a valid
+//!							featmgr plugin is being placed into the C: drive plugin folders. The plugin 
+//!							publishes a feature that is being requested in this test step. If the feature 
+//!							is unknown to the server then the plugin has been ignored and the test passes.		
+//! @SYMTestExpectedResults Feature published by the plugin is expected to be unknown as the plugin 
+//!							should be ignored
+//! @SYMPREQ 			PREQ1645
+//! @SYMREQ 			REQ8356
+
+
+RUN_TEST_STEP 300 efm_normal_testserver PluginIgnoringTest
+//delete plugin files
+END_TESTCASE SYSLIB-EFM-CT-4025
+//delete the plugin files to avoid conflicts in the subsecuent tests
+//these instructions are placed outside of the test case so that they don't affect the test results
+RUN_PROGRAM -1 pluginhelper.exe c:\sys\bin\normal_plugin.dll
+RUN_PROGRAM -1 pluginhelper.exe c:\resource\plugins\normal_plugin.rsc
+
+START_TESTCASE SYSLIB-EFM-UT-4026
+//! @SYMTestCaseID 		SYSLIB-EFM-UT-4026
+//! @SYMTestCaseDesc  	Test case for handling different feature notification requests from multiple threads (three)
+//! @SYMTestPriority 	High 
+//! @SYMTestActions 	1) Create 3 threads using CONCURRENT instruction in TEF, use semaphors to ensure the order of operations in the test case.
+//!						2) In the first thread add a feature A
+//!						3) In the first and the second threads create CFeatureNotifier object. 
+//!						4) In the first thread request notification for the feature A
+//!						5) In the second thread request notification for a non-existing feature B
+//!						6) Add feature B in the third thread. 
+//!						7) Check that feature notification is being issued for the second thread and not being issued for the first thread.
+//!						8) Modify feature B in the third thread.
+//!						9) Check that feature notification is being issued for the second thread and not being issued for the first thread.
+//!						10) Modify feature B in the third thread with the same data ad previous attempt. This time no change should be made.
+//!						11) Check that feature notification is being issued for the second thread with EFeatureNoChange as change type and not being issued for the first thread.
+//!						12) Delete feature B in the third thread
+//!						13) Check that feature notification is being issued for the second thread and not being issued for the first thread.
+//!						14) Cancel notification for the feature B in the second thread
+//!						15) Request notification for the feature A in the second thread
+//!						16) Modify feature A in the third thread and check that both first and the second threads get notified.
+//!						17) Cancel notification for the feature A in both threads.
+//!						18) Delete feature A in the third thread and check that none of the threads get notified.
+//! @SYMTestExpectedResults 	KErrNone when receiving notifications for feature addition and modification; KErNotFound when receiveing notiification about deleting a feature.
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ             REQ8366
+
+CONCURRENT
+    RUN_TEST_STEP 100 efm_normal_testserver FeatureNotifier_Thread_3_TestStep
+    RUN_TEST_STEP 100 efm_normal_testserver FeatureNotifier_Thread_2_TestStep
+    RUN_TEST_STEP 100 efm_normal_testserver FeatureNotifier_Thread_1_TestStep
+CONSECUTIVE
+END_TESTCASE SYSLIB-EFM-UT-4026
+
+
+START_TESTCASE PDS-EFM-CT-4053
+//! @SYMTestCaseID 		PDS-EFM-CT-4053
+//! @SYMTestCaseDesc  		Restore feature information for the subsequent tests
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		Restore features following previous and required by
+//!                         subsequent steps.
+//! @SYMTestExpectedResults 	No error should be reported.
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ             REQ8200
+    RUN_TEST_STEP 100 efm_normal_testserver EFMTestStepPublishFeatures
+END_TESTCASE PDS-EFM-CT-4053
+
+
+//
+START_TESTCASE SYSLIB-EFM-CT-4011
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-4011
+//! @SYMTestCaseDesc 		NotifyRequest, Cancel and MultipleCancel OOM test
+//! @SYMTestPriority 		High
+//! @SYMTestActions 		An instance of notifier is created , feature is passed
+//!                         to the API for which the notification is required.
+//!                         Run with TEFs '!OOM' option which runs in low
+//!                         memory conditions.
+//! @SYMTestExpectedResults 	No memory should be leaked, TEF will ignore
+//!                             other errors.
+//! @SYMPREQ 			PREQ1645
+//! @SYMREQ             REQ8200
+
+    RUN_TEST_STEP !OOM 100 efm_normal_testserver FeatureNotifier_NotifyRequestL z:\test\efm\scripts\tef_efm_normal.ini OOM
+    RUN_TEST_STEP !OOM 100 efm_normal_testserver FeatureNotifier_NotifyCancelL z:\test\efm\scripts\tef_efm_normal.ini OOM
+    RUN_TEST_STEP !OOM 100 efm_normal_testserver FeatureNotifier_NotifyMultipleCancelL z:\test\efm\scripts\tef_efm_normal.ini OOM
+END_TESTCASE SYSLIB-EFM-CT-4011
+
+START_TESTCASE SYSLIB-EFM-CT-4036
+//! @SYMTestCaseID           SYSLIB-EFM-CT-4036     
+//! @SYMTestCaseDesc           Test for multiple notifications from the same thread
+//! @SYMTestPriority           High
+//! @SYMTestActions           Two instances of a notifer are created within the same thread, request for notification is made on notifier 1 for UID x, request for notification is made on notifier 2 for UID y, notifer 1 is completed, notifier 2 is completed.
+//! @SYMTestExpectedResults      both notifers can request for notification and both can recieve notification.
+//! @SYMDEF                DEF114428
+
+RUN_TEST_STEP 100 efm_normal_testserver MultipleNotificationRequests
+END_TESTCASE SYSLIB-EFM-CT-4036
+
+START_TESTCASE SYSLIB-EFM-CT-4040
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-4040
+//! @SYMTestCaseDesc  		Test case to stress-test the feature manager server
+//! @SYMTestPriority 		Low 
+//! @SYMTestActions 		1) Create 100 threads
+//!							2) In each thread's entry function define an instance of RFeatureControl
+//!							3) Open the connection to featmgr server via RFeatureControl::Open() in each thread
+//!							4) Add a new feature with the same UID as the thread's
+//!							5) Set feature details for unavailable feature in each thread
+//!							6) Request the details of the newly added feature for each thread
+//!							7) Add nitification request in each thread for its new feature
+//!							8) Delete the new feature for the thread
+//! @SYMTestExpectedResults 	KErrNone for starting a session to the server; KErrNone for adding new feature; KErrNotFound for resetting feature; KErrNone for requesting details;
+//!								KErrNone for adding notification request; KErrNone for deleting the added feature.
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ             REQ8200
+
+RUN_TEST_STEP 100 efm_normal_testserver FeatMgrStressTest
+END_TESTCASE SYSLIB-EFM-CT-4040
+
+
+START_TESTCASE SYSLIB-EFM-CT-4037
+//! @SYMTestCaseID 		SYSLIB-EFM-CT-4037	
+//! @SYMTestCaseDesc  		Tests that features modified/added by an exe launched by the software installer (SWI) are properly 
+//!							committed to feature manager in case of successful installation; and properly rolled-back in case of
+//!							installation was user-aborted.
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		The test case tests several scenarios of the launched exe using feature manager during SWI session:
+//!							1) Calling SWIStart without SWI running
+//!							2) Call SWIEnd without SWI running 
+//!							3) Successful installation and features manipulation
+//!							4) Call to SWIStart without a corresponding call to SWIEnd during installation (without time out).
+//!							5) Call to SWIStart without a corresponding call to SWIEnd during installation (with time out). 
+//!							6) Abort SWI install after launched exe makes a call to SWIEnd
+//!							7) Abort SWI install without launched exe making a call to SWIEnd (timed-out)
+//!							8) Double call to SWIStart during installation. First call will be effective while the second will 
+//!							be ignored and will return KErrInUse.
+//!							9) Call to SWIStart followed by double calls to SWIEnd during installation. First call will be 
+//!							effective and second will be ignored and will return KErrNotReady.
+//!							10) Successful uninstallation and features manipulation
+//!							11) Call to SWIStart without a corresponding call to SWIEnd during uninstallation (without time out).
+//!							12) Call to SWIStart without a corresponding call to SWIEnd during uninstallation (with time out).
+//!							13) Abort SWI uninstall after launched exe makes a call to SWIEnd
+//!							14) Abort SWI uninstall without launched exe making a call to SWIEnd 
+//!							15) Simultaneous additions to FeatMgr by the launched exe from SWI (after calling SWIStart) and by 
+//!							another external exe (helping_exe.exe). 
+//!							16) A call to SWIStart from this exe and a call to SWIEnd from helping_exe followed after that by 
+//!							a call to SWIEnd from this exe. 
+//!							17) A call to SWIStart-SWIEnd followed by another call to SWIStart-SWIEnd before the SWI successfully 
+//!							finishes. This will work fine and will have the features cached by the two tuples. However, it is not 
+//!							a recommended use of the API.
+//! @SYMTestExpectedResults 	Return results vary for each test scenario.
+//! @SYMDEF            DEF109196
+
+RUN_TEST_STEP 100 efm_normal_testserver FeatmgrStartEndInstall 
+END_TESTCASE SYSLIB-EFM-CT-4037
+
+START_TESTCASE PDS-EFM-CT-4054
+//! @SYMTestCaseID 		PDS-EFM-CT-4054
+//! @SYMTestCaseDesc  		Restore feature information for the subsequent tests
+//! @SYMTestPriority 		High 
+//! @SYMTestActions 		Restore features following previous and required by
+//!                         subsequent steps. A cleanup operation.
+//! @SYMTestExpectedResults 	No error should be reported.
+//! @SYMPREQ  			PREQ1645
+//! @SYMREQ             REQ8200
+    RUN_TEST_STEP 100 efm_normal_testserver EFMTestStepPublishFeatures
+END_TESTCASE PDS-EFM-CT-4054
+
+

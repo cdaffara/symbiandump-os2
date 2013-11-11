@@ -1,0 +1,29 @@
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+#ifndef FEATREGTESTHELPER_IBY
+#define FEATREGTESTHELPER_IBY
+
+// use "data" rather than "file" so executed in RAM; a requirement for using with setcap:
+data=ABI_DIR\BUILD_DIR\featreg_maketestconfig.exe				system\programs\featreg_maketestconfig.exe
+data=ABI_DIR\BUILD_DIR\featreg_testpublish.exe					system\programs\featreg_testpublish.exe
+data=ABI_DIR\BUILD_DIR\featreg_maxcapability.exe				system\programs\featreg_maxcapability.exe
+
+//configured variant of featreg for EFM testing
+#ifdef SYMBIAN_FEATURE_MANAGER
+file=ABI_DIR\BUILD_DIR\test_featreg.dll system\libs\test_featreg.dll
+#endif
+
+#endif

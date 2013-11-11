@@ -1,0 +1,56 @@
+// Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+
+TARGET      efm_configured_testserver.exe
+TARGETTYPE  exe
+VENDORID    0x70000001
+UID         0 0x102836E8
+CAPABILITY  All -Tcb
+
+USERINCLUDE ../inc
+USERINCLUDE ../../../shared/inc
+USERINCLUDE ../../../../src/inc
+USERINCLUDE ../../../../src/serverexe
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+SOURCEPATH  ../../../shared/src
+SOURCE      efm_teststepbase.cpp
+SOURCE      efm_featurenotifierstepbase.cpp
+
+SOURCEPATH  ../src
+SOURCE      efm_configured_testserver.cpp
+SOURCE      reconciliation_test_steps.cpp
+SOURCE      startup_performance_test_steps.cpp
+SOURCE      dsr_test_steps.cpp
+SOURCE      persistence_test_steps.cpp
+SOURCE      memoryleak_test_steps.cpp
+SOURCE      plugin_test_steps.cpp
+SOURCE      corruptdat_test_steps.cpp
+SOURCE      characterisation_steps.cpp
+
+MACRO       EXTENDED_FEATURE_MANAGER_TEST
+
+LIBRARY     test_featmgr.lib
+LIBRARY     estor.lib
+LIBRARY     euser.lib
+LIBRARY     cone.lib
+LIBRARY     efsrv.lib
+LIBRARY     hal.lib
+LIBRARY     testexecutelogclient.lib
+LIBRARY     testexecuteutils.lib
+
+SMPSAFE

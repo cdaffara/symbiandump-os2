@@ -1,0 +1,47 @@
+/*
+* Copyright (c) 2004-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* CafRec.mmp
+* RecCaf.dll Content Access Framework recognizer
+*
+*/
+
+
+/**
+ @file
+*/
+
+TARGET			reccaf.dll
+CAPABILITY		TrustedUI ProtServ DRM
+
+TARGETTYPE		PLUGIN
+UID				0x10009D8D 0x101ff761
+VENDORID		0x70000001
+
+SOURCEPATH		../source/reccaf
+
+SOURCE			CafApaRecognizer.cpp mimetypemapping.cpp
+START RESOURCE	101ff761.rss
+TARGET			reccaf.rsc
+END
+
+USERINCLUDE		../source/caf 
+USERINCLUDE		../source/reccaf
+
+// OS_LAYER_SYSTEMINCLUDE_SYMBIAN -- should be this but has an upward dependency on apmstd.h in the MW layer.
+MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+LIBRARY			euser.lib apmime.lib estor.lib
+LIBRARY			caf.lib efsrv.lib 
+SMPSAFE

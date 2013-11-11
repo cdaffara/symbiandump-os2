@@ -1,0 +1,463 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+
+LOAD_SUITE tcaf
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONS-0001
+//! @SYMTestCaseDesc 		Get an attribute for a content object within a file
+//! @SYMREQ			REQ3679
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Get a single attribute for a content object within a file
+//! @SYMTestExpectedResults	Should return KErrNone
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONS-0001
+RUN_TEST_STEP 100 tcaf CAFDataAttributeStep c:\tcaf\attributes.ini Attribute
+END_TESTCASE SEC-CAF-CONS-0001
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONS-0002
+//! @SYMTestCaseDesc 		Get a set of attributes for a content object within a file
+//! @SYMREQ			REQ3679
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Get a set of attributes for a content object within a file
+//! @SYMTestExpectedResults	Should return KErrNone
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONS-0002
+RUN_TEST_STEP 100 tcaf CAFDataAttributeSetStep c:\tcaf\attributes.ini AttributeSet
+END_TESTCASE SEC-CAF-CONS-0002
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONS-0003
+//! @SYMTestCaseDesc 		Get a string attribute for a content object within a file
+//! @SYMREQ			REQ3679
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Get a single string attribute for a content object within a file
+//! @SYMTestExpectedResults	Should return KErrNone
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONS-0003
+RUN_TEST_STEP 100 tcaf CAFDataStringAttributeStep c:\tcaf\attributes.ini StringAttribute
+END_TESTCASE SEC-CAF-CONS-0003
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONS-0004
+//! @SYMTestCaseDesc 		Get a string attribute for a content object within a file
+//! @SYMREQ			CR1440
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Get a single string attribute for a content object within a file
+//! @SYMTestExpectedResults	Should return KErrCANotSupported
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONS-0004
+RUN_TEST_STEP 100 tcaf CAFDataStringAttributeStep c:\tcaf\attributes.ini StringAttributeECoverURI
+END_TESTCASE SEC-CAF-CONS-0004
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONS-3443
+//! @SYMTestCaseDesc 		Get a string attribute for a data object within a valid gif file
+//! @SYMDEF			PDEF104571
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Get a single string attribute for a data object within a valid gif file
+//! @SYMTestExpectedResults	A string attribute should successfully be returned
+//! @SYMTestType		CT
+START_TESTCASE SEC-CAF-CONS-3443
+RUN_TEST_STEP 100 tcaf CAFDataStringAttributeStep c:\tcaf\attributes.ini StringAttributeGoodGif
+END_TESTCASE SEC-CAF-CONS-3443
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONS-3444
+//! @SYMTestCaseDesc 		Failure to return a string attribute for a data object within an invalid gif file
+//! @SYMDEF			PDEF104571
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Attempt to get a single string attribute for a data object within an invalid gif file
+//! @SYMTestExpectedResults	An  error should be returned
+//! @SYMTestType		CT
+START_TESTCASE SEC-CAF-CONS-3444
+RUN_TEST_STEP 100 tcaf CAFDataStringAttributeStep c:\tcaf\attributes.ini StringAttributeErrorGif
+END_TESTCASE SEC-CAF-CONS-3444
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONS-0005
+//! @SYMTestCaseDesc 		Get a set of string attributes for a content object within a file
+//! @SYMREQ			REQ3679
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Get a set of string attributes for a content object within a file
+//! @SYMTestExpectedResults	Should return KErrNone
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONS-0005
+RUN_TEST_STEP 100 tcaf CAFDataStringAttributeSetStep c:\tcaf\attributes.ini StringAttributeSet
+END_TESTCASE SEC-CAF-CONS-0005
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONS-3445
+//! @SYMTestCaseDesc 		Get a set of string attributes for a data object within a valid gif file
+//! @SYMDEF			PDEF104571
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Get a set of string attributes for a data object within a valid gif file
+//! @SYMTestExpectedResults	A set of string attributes should successfully be returned
+//! @SYMTestType		CT
+START_TESTCASE SEC-CAF-CONS-3445
+RUN_TEST_STEP 100 tcaf CAFDataStringAttributeSetStep c:\tcaf\attributes.ini StringAttributeSetGoodGif
+END_TESTCASE SEC-CAF-CONS-3445
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONS-3446
+//! @SYMTestCaseDesc 		Get a set of string attributes for a data object within an invalid gif file
+//! @SYMDEF			PDEF104571
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Get a set of string attributes for a data object within an invalid gif file
+//! @SYMTestExpectedResults	An  error should be returned for the invalid gif file within the set
+//! @SYMTestType		CT
+START_TESTCASE SEC-CAF-CONS-3446
+RUN_TEST_STEP 100 tcaf CAFDataStringAttributeSetStep c:\tcaf\attributes.ini StringAttributeSetErrorGif
+END_TESTCASE SEC-CAF-CONS-3446
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONS-0006
+//! @SYMTestCaseDesc 		Plaintext File Size 
+//! @SYMPREQ			PREQ1951
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Checks that the size of the file reported by RFile is the same as the size reported by CAF (F32Agent). CAF opens the file using the given filename
+//! @SYMTestExpectedResults	Sizes are equal
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONS-0006
+RUN_TEST_STEP 100 tcaf CAFSizeStep c:\tcaf\consumerstep.ini CompareContentF32Agent
+END_TESTCASE SEC-CAF-CONS-0006
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONS-0007
+//! @SYMTestCaseDesc 		Plaintext File Size  
+//! @SYMREQ			REQ0000
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Checks that the size of the file reported by RFile is the same as the size reported by CAF (F32Agent). CAF opens the file using the given filename, split the construction and evaluation of CData
+//! @SYMTestExpectedResults	Sizes are equal
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONS-0007
+RUN_TEST_STEP 100 tcaf CAFSizeStep c:\tcaf\consumerstep.ini CompareContentF32AgentWithoutIntent
+END_TESTCASE SEC-CAF-CONS-0007
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONS-0008
+//! @SYMTestCaseDesc 		Plaintext File Read and Seek 
+//! @SYMPREQ			PREQ1951
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Checks that the data read from an RFile is the same as the data read from CAF (F32Agent). Caf opens the file using the given filename.
+//! @SYMTestExpectedResults	Data read is the same for both
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONS-0008
+RUN_TEST_STEP 100 tcaf CAFSeekReadStep c:\tcaf\consumerstep.ini CompareContentF32Agent
+END_TESTCASE SEC-CAF-CONS-0008
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONS-0009
+//! @SYMTestCaseDesc 		Plaintext File Handle Size 
+//! @SYMPREQ			PREQ280
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Checks that the size of the file reported by RFile is the same as the size reported by CAF (F32Agent). CAF is supplied with a handle to the open file.
+//! @SYMTestExpectedResults	Sizes are equal
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONS-0009
+RUN_TEST_STEP 100 tcaf CAFHandleSizeStep c:\tcaf\consumerstep.ini CompareContentF32Agent
+END_TESTCASE SEC-CAF-CONS-0009
+
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONS-0010
+//! @SYMTestCaseDesc 		Plaintext File Handle Read and Seek 
+//! @SYMPREQ			PREQ280
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Checks that the data read from an RFile is the same as the data read from CAF (F32Agent). Caf is supplied with a handle to an open file.
+//! @SYMTestExpectedResults	Data read is the same for both
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONS-0010
+RUN_TEST_STEP 100 tcaf CAFHandleSeekReadStep c:\tcaf\consumerstep.ini CompareContentF32Agent
+END_TESTCASE SEC-CAF-CONS-0010
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONS-0011
+//! @SYMTestCaseDesc 		DRM File Size 
+//! @SYMPREQ			PREQ1951
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Checks that the size of a plaintext file reported by RFile is the same as the size of the content within a DRM file reported by CAF (TestAgent). CAF opens the file using the given filename
+//! @SYMTestExpectedResults	Sizes are equal
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONS-0011
+RUN_TEST_STEP 100 tcaf CAFSizeStep c:\tcaf\consumerstep.ini CompareContentTestAgent
+END_TESTCASE SEC-CAF-CONS-0011
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONS-0012
+//! @SYMTestCaseDesc 		DRM File Read and Seek
+//! @SYMPREQ			PREQ1951
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Checks that data read from a plaintext file by RFile is the same as data read from the content within a DRM file by CAF (TestAgent). CAF opens the file using the given filename
+//! @SYMTestExpectedResults	data read is the same for both
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONS-0012
+RUN_TEST_STEP 100 tcaf CAFSeekReadStep c:\tcaf\consumerstep.ini CompareContentTestAgent
+END_TESTCASE SEC-CAF-CONS-0012
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONS-0013
+//! @SYMTestCaseDesc 		DRM File Size with file handle
+//! @SYMPREQ			PREQ280
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Checks that the size of a plaintext file reported by RFile is the same as the size of the content within a DRM file reported by CAF (TestAgent). CAF opens is passed an open file handle
+//! @SYMTestExpectedResults	Sizes are equal
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONS-0013
+RUN_TEST_STEP 100 tcaf CAFHandleSizeStep c:\tcaf\consumerstep.ini CompareContentTestAgent
+END_TESTCASE SEC-CAF-CONS-0013
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONS-0014
+//! @SYMTestCaseDesc 		DRM File Read and Seek with file handle
+//! @SYMPREQ			PREQ280
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Checks that data read from a plaintext file by RFile is the same as data read from the content within a DRM file by CAF (TestAgent). CAF is passed an open file handle
+//! @SYMTestExpectedResults	Data read is the same for both
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONS-0014
+RUN_TEST_STEP 100 tcaf CAFHandleSeekReadStep c:\tcaf\consumerstep.ini CompareContentTestAgent
+END_TESTCASE SEC-CAF-CONS-0014
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONS-0015
+//! @SYMTestCaseDesc 		Compare the size of the entire file opened with TestAgent vs RFile entire file
+//! @SYMREQ			REQ3679
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Checks that the size of the file reported by RFile is the same as the size reported by CAF (F32Agent). Caf opens the file using a concatenated URI and UniqueId
+//! @SYMTestExpectedResults	Sizes are equal
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONS-0015
+RUN_TEST_STEP 100 tcaf CAFSizeStep c:\tcaf\consumerstep.ini CompareContentCombinedURI
+END_TESTCASE SEC-CAF-CONS-0015
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONS-0016
+//! @SYMTestCaseDesc 		Read and Seek through the entire file opened with TestAgent vs RFile entire file
+//! @SYMREQ			REQ3679
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Checks that the data read from an RFile is the same as the data read from CAF (TestAgent). Caf opens the file using a concatenated URI and UniqueId
+//! @SYMTestExpectedResults	Data read is the same for both
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONS-0016
+RUN_TEST_STEP 100 tcaf CAFSeekReadStep c:\tcaf\consumerstep.ini CompareContentCombinedURI
+END_TESTCASE SEC-CAF-CONS-0016
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONS-0017
+//! @SYMTestCaseDesc 		Plaintext multithread read
+//! @SYMPREQ			PREQ1951
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Checks that a CAF session can be shared between multiple threads 
+//! @SYMTestExpectedResults	Data read sucessfully
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONS-0017
+RUN_TEST_STEP 100 tcaf CAFMultiThreadCDataStep c:\tcaf\consumerstep.ini F32AgentThreadSharing
+END_TESTCASE SEC-CAF-CONS-0017
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONS-0018
+//! @SYMTestCaseDesc 		Plaintext multithread read from handle
+//! @SYMPREQ			PREQ280
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Checks that a CAF session can be shared between multiple threads, open file handle is supplied to CAF
+//! @SYMTestExpectedResults	Data read sucessfully
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONS-0018
+RUN_TEST_STEP 100 tcaf CAFHandleMultiThreadCDataStep c:\tcaf\consumerstep.ini F32AgentThreadSharing
+END_TESTCASE SEC-CAF-CONS-0018
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONS-0019
+//! @SYMTestCaseDesc 		DRM multithread read
+//! @SYMPREQ			PREQ1951
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Checks that a CAF session can be shared between multiple threads 
+//! @SYMTestExpectedResults	Data read sucessfully
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONS-0019
+RUN_TEST_STEP 100 tcaf CAFMultiThreadCDataStep c:\tcaf\consumerstep.ini TestAgentThreadSharing
+END_TESTCASE SEC-CAF-CONS-0019
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONS-0020
+//! @SYMTestCaseDesc 		DRM multithread read
+//! @SYMPREQ			PREQ280
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Checks that a CAF session can be shared between multiple threads, open file handle is supplied to CAF
+//! @SYMTestExpectedResults	Data read sucessfully
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONS-0020
+RUN_TEST_STEP 100 tcaf CAFHandleMultiThreadCDataStep c:\tcaf\consumerstep.ini TestAgentThreadSharing
+END_TESTCASE SEC-CAF-CONS-0020
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONS-0021
+//! @SYMTestCaseDesc 		Plaintext mime type
+//! @SYMPREQ			PREQ1951
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Asks CAF for the mime type of a file handled by F32Agent
+//! @SYMTestExpectedResults	F32Agent uses Apparc to find out the mime type
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONS-0021
+RUN_TEST_STEP 100 tcaf CAFMimeTypeCDataStep c:\tcaf\consumerstep.ini UnprotectedContentMimeType
+END_TESTCASE SEC-CAF-CONS-0021
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONS-0022
+//! @SYMTestCaseDesc 		DRM mime type
+//! @SYMPREQ			PREQ1951
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Asks CAF for the mime type of a file handled by TestAgent
+//! @SYMTestExpectedResults	TestAgent returns the mimetype of the content
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONS-0022
+RUN_TEST_STEP 100 tcaf CAFMimeTypeCDataStep c:\tcaf\consumerstep.ini ProtectedContentMimeType
+END_TESTCASE SEC-CAF-CONS-0022
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONS-0023
+//! @SYMTestCaseDesc 		DRM ShareMode
+//! @SYMPREQ			PREQ1951
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Opens a DRM file using all share modes 
+//! @SYMTestExpectedResults	TestAgent sucessfully opens the file using all share modes
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONS-0023
+RUN_UTILS MAKEREADWRITE C:\TCAF\testdata\TEST.DRM
+RUN_TEST_STEP 100 tcaf CAFShareModeStep c:\tcaf\consumerstep.ini TestAgentShareMode
+END_TESTCASE SEC-CAF-CONS-0023
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONS-0024
+//! @SYMTestCaseDesc 		Plaintext ShareMode
+//! @SYMPREQ			PREQ1951
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Opens a plaintext file using all share modes 
+//! @SYMTestExpectedResults	F32Agent sucessfully opens the file using all share modes
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONS-0024
+RUN_UTILS MAKEREADWRITE C:\tcaf\testdata\dummydata.txt
+RUN_TEST_STEP 100 tcaf CAFShareModeStep c:\tcaf\consumerstep.ini F32AgentShareMode
+END_TESTCASE SEC-CAF-CONS-0024
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONS-0025
+//! @SYMTestCaseDesc 		Checks that implemented attributes are returned correctly 
+//! @SYMPREQ			CR1184
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Requests EIsMediaPlayerOnly for an unprotected file
+//! @SYMTestExpectedResults	EFalse is returned
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONS-0025
+RUN_TEST_STEP 100 tcaf CAFDataAttributeStep c:\tcaf\attributes.ini IsMediaPlayerOnlyAttribute
+END_TESTCASE SEC-CAF-CONS-0025
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONS-0026
+//! @SYMTestCaseDesc 		Checks that implemented attributes are returned correctly 
+//! @SYMPREQ			CR1184
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Requests EIsAutomated for an unprotected file
+//! @SYMTestExpectedResults	EFalse is returned
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONS-0026
+RUN_TEST_STEP 100 tcaf CAFDataAttributeStep c:\tcaf\attributes.ini IsAutomatedOnlyAttribute
+END_TESTCASE SEC-CAF-CONS-0026
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONS-0027
+//! @SYMTestCaseDesc 		Checks that for non-implemented attributes a correct error code is returned
+//! @SYMPREQ			CR1184
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Requests EObjectNumber for an unprotected file
+//! @SYMTestExpectedResults	KErrCaNotSupported is returned
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONS-0027
+RUN_TEST_STEP !Result=-17450 100 tcaf CAFDataAttributeStep c:\tcaf\attributes.ini TrackNumberAttribute
+END_TESTCASE SEC-CAF-CONS-0027
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONS-0028
+//! @SYMTestCaseDesc 		Checks that for non-implemented attributes a correct error code is returned
+//! @SYMPREQ			CR1184
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Requests EGenre for an unprotected file
+//! @SYMTestExpectedResults	KErrCaNotSupported is returned
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONS-0028
+RUN_TEST_STEP 100 tcaf CAFDataStringAttributeStep c:\tcaf\attributes.ini GenreStringAttribute
+END_TESTCASE SEC-CAF-CONS-0028
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONS-0029
+//! @SYMTestCaseDesc 		Checks that for non-implemented attributes a correct error code is returned
+//! @SYMPREQ			CR1184
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Requests EUserRating for an unprotected file
+//! @SYMTestExpectedResults	KErrCaNotSupported is returned
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONS-0029
+RUN_TEST_STEP 100 tcaf CAFDataStringAttributeStep c:\tcaf\attributes.ini UserRatingStringAttribute
+END_TESTCASE SEC-CAF-CONS-0029
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-CONS-0030
+//! @SYMTestCaseDesc 		Checks that for non-implemented attributes a correct error code is returned
+//! @SYMPREQ			CR1184
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Requests EAuthoredDate for an unprotected file
+//! @SYMTestExpectedResults	KErrCaNotSupported is returned
+//! @SYMTestType		CIT
+START_TESTCASE SEC-CAF-CONS-0030
+RUN_TEST_STEP 100 tcaf CAFDataStringAttributeStep c:\tcaf\attributes.ini AuthoredDateStringAttribute
+END_TESTCASE SEC-CAF-CONS-0030

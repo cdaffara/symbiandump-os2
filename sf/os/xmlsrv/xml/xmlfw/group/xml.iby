@@ -1,0 +1,64 @@
+// Copyright (c) 2003-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// This file contains the xml iby files (framework and parsers) to be built as part of the xml component in the ROM.
+// 
+//
+
+#ifndef __XML_IBY__
+#define __XML_IBY__
+
+// xml framework
+#include "xmlframework.iby"
+
+// xml parser
+#include "xmlparserplugin.iby"
+// wbxml parser
+#include "wbxmlparser.iby"
+
+//Libxml2 feature entry
+#ifdef SYMBIAN_EXCLUDE_LIBXML2
+
+//If either SAX Plugin or DOM/XPath are included, Libxml2 must be too
+#if !defined(SYMBIAN_EXCLUDE_LIBXML2_SAX_CPARSER_PLUGIN) || !defined(SYMBIAN_EXCLUDE_LIBXML2_DOM_XPATH_API)
+#error Libxml2 feature cannot be excluded if Libxml2SAXParser or Libxml2DOMXPathAPI is included.
+#endif
+
+EXCLUDE_FEATURE Libxml2
+#else
+FEATURE Libxml2
+#include <xmlengine.iby>
+#endif
+
+//Libxml2 SAX Parser feature entry
+#ifdef SYMBIAN_EXCLUDE_LIBXML2_SAX_CPARSER_PLUGIN
+EXCLUDE_FEATURE Libxml2SAXParser
+#else
+FEATURE Libxml2SAXParser
+// IBYs for SAX
+// This iby includes libxml2.iby & xmlengineutils.iby
+#include <xmlenginesaxplugin.iby>
+#endif
+
+//Libxml2 DOM Parser feature entry
+#ifdef SYMBIAN_EXCLUDE_LIBXML2_DOM_XPATH_API
+EXCLUDE_FEATURE Libxml2DOMXPathAPI
+#else
+FEATURE Libxml2DOMXPathAPI
+// IBYs for DOM
+#include <multipartparser.iby>
+// This iby includes libxml2.iby , xmlengineutils.iby & xmlenginedom.iby
+#include <xmlengineserializer.iby>
+#endif
+
+#endif

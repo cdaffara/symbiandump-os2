@@ -1,0 +1,105 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+// Test cases for validating the methods newly enforced DRM capability.
+
+RUN_PROGRAM 100 SETCAP tcaf.exe 0 -SID 80002345 tcafnodrmcap.exe
+
+LOAD_SUITE tcafnodrmcap
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAFNODRM-MAN-0001
+//! @SYMTestCaseDesc 		Request a status notification on a file
+//!				(Manager_NotifyStatusChange)
+//! @SYMREQ			DEF130857
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Request a notification on an unprotected file
+//! @SYMTestExpectedResults	Should return KErrPermissionDenied
+//! @SYMTestType		CIT
+START_TESTCASE 			SEC-CAFNODRM-MAN-0001
+RUN_TEST_STEP 100 tcafnodrmcap CAFManagerNotifyStep c:\tcaf\nodrmcapsteps.ini NotifyStatusChange
+END_TESTCASE 			SEC-CAFNODRM-MAN-0001
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAFNODRM-MAN-0002
+//! @SYMTestCaseDesc 		Set a property within all agents
+//!				(Manager_SetProperty)
+//! @SYMPREQ			DEF130857
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Set a property within all agents
+//! @SYMTestExpectedResults	Should return KErrPermissionDenied
+//! @SYMTestType		CIT
+START_TESTCASE 			SEC-CAFNODRM-MAN-0002
+RUN_TEST_STEP 100 tcafnodrmcap CAFManagerSetPropertyStep c:\tcaf\nodrmcapsteps.ini SetProperty
+END_TESTCASE 			SEC-CAFNODRM-MAN-0002
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAFNODRM-MAN-0003
+//! @SYMTestCaseDesc 		Display information about an unprotected file
+//!				(Manager_DisplayInfo)
+//! @SYMPREQ			DEF130857
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Ask the agent to display information about the file
+//! @SYMTestExpectedResults	Should return KErrPermissionDenied
+//! @SYMTestType		CIT
+START_TESTCASE 			SEC-CAFNODRM-MAN-0003
+RUN_TEST_STEP 100 tcafnodrmcap CAFManagerDisplayInfoStep c:\tcaf\nodrmcapsteps.ini DisplayInfo
+END_TESTCASE 			SEC-CAFNODRM-MAN-0003
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAFNODRM-MAN-0004
+//! @SYMTestCaseDesc 		Execute an agent specific command
+//!				(Manager_Agent_Specific)
+//! @SYMPREQ			DEF130857
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Execute an agent specific command
+//! @SYMTestExpectedResults	Should return KErrPermissionDenied
+//! @SYMTestType		CIT
+START_TESTCASE 			SEC-CAFNODRM-MAN-0004
+RUN_TEST_STEP 100 tcafnodrmcap CAFManagerAgentSpecificStep c:\tcaf\nodrmcapsteps.ini AgentSpecific
+END_TESTCASE 			SEC-CAFNODRM-MAN-0004
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAFNODRM-MAN-0005
+//! @SYMTestCaseDesc 		Execute an agent specific command
+//!				(Manager_Display_Management_Info)
+//! @SYMPREQ			DEF130857
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Execute an agent specific command
+//! @SYMTestExpectedResults	Should return KErrPermissionDenied
+//! @SYMTestType		CIT
+START_TESTCASE 			SEC-CAFNODRM-MAN-0005
+RUN_TEST_STEP 100 tcafnodrmcap CAFManagerDisplayConfigStep c:\tcaf\nodrmcapsteps.ini DisplayManagement
+END_TESTCASE 			SEC-CAFNODRM-MAN-0005
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAFNODRM-MAN-0006
+//! @SYMTestCaseDesc 	     	Query standardised information about a content object using a file handle.
+//!				(FileHandle-DRM-Content)
+//! @SYMREQ			DEF130857
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority	       	Normal
+//! @SYMTestActions		View information associated with a single content object in a file specified by file handle
+//! @SYMTestExpectedResults 	Should return KErrPermissionDenied
+//! @SYMTestType		CIT
+START_TESTCASE 			SEC-CAFNODRM-MAN-0006
+RUN_TEST_STEP 100 tcafnodrmcap CAFManagerDisplayInfoByFileHandleStep c:\tcaf\nodrmcapsteps.ini DisplayInfoByFileHandle_DRM_Content
+END_TESTCASE 			SEC-CAFNODRM-MAN-0006

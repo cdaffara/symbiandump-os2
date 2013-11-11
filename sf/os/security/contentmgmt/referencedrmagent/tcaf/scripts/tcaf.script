@@ -1,0 +1,52 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+
+PRINT Run all TCAF tests.
+PRINT
+
+RUN_UTILS MkDir c:\rta\
+RUN_UTILS MkDir c:\rta\testdata\
+RUN_UTILS MkDir c:\tcaf\
+RUN_UTILS MkDir c:\tcaf\testdata\
+RUN_UTILS MkDir c:\tcaf\testdata\TestAgentPrivateDir\
+
+RUN_UTILS CopyFile z:\rta\testdata\*.* c:\rta\testdata\*.*
+RUN_UTILS CopyFile z:\tcaf\testdata\*.* c:\tcaf\testdata\*.*
+RUN_UTILS CopyFile z:\tcaf\testdata\TestAgentPrivateDir\*.* c:\tcaf\testdata\TestAgentPrivateDir\*.*
+
+RUN_UTILS MakeReadWrite c:\tcaf\testdata\copyfile.txt
+
+RUN_SCRIPT z:\tcaf\cafutils.script
+RUN_SCRIPT z:\tcaf\consumerstep.script
+RUN_SCRIPT z:\tcaf\contentstep.script
+RUN_SCRIPT z:\tcaf\managerstep.script
+RUN_SCRIPT z:\tcaf\recognize.script
+RUN_SCRIPT z:\tcaf\rightsmanagerstep.script
+RUN_SCRIPT z:\tcaf\supply.script
+RUN_SCRIPT z:\tcaf\contentiteratorstep.script
+RUN_SCRIPT z:\tcaf\oom.script
+RUN_SCRIPT z:\tcaf\stringattributes.script
+
+RUN_UTILS Delete c:\supplied.drm
+RUN_UTILS Delete c:\receipt.txt
+RUN_UTILS Delete c:\OUTPUTFILE.DRM
+
+RUN_SCRIPT z:\tcaf\testcleanupstep.script
+
+PRINT
+PRINT All TCAF tests completed.
+

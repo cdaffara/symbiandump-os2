@@ -1,0 +1,82 @@
+/*
+* Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+* HEADLESSECACM.MMP
+* Top-level project file for ECACM.CSY. 
+* This version of the CSY is used for doing performance testing at the 
+* RDevUsbcClient level. When some data comes in, it is immediately written 
+* back to the host. If you have something like serial.exe running on the 
+* host, you will get a loopback which can be used for gathering data transfer 
+* rate information.
+* Main usage: 
+* 1/ run t_acm on the Lubbock, select ReadOneOrMore
+* 2/ run serial.exe on the PC with a packet size of your choosing
+* or:
+* 1/ run t_acm on the Lubbock, select Read, and give a packet size of N
+* 2/ run serial.exe on the PC with a packet size of N
+*
+*/
+
+/**
+ @file
+*/
+
+TARGET			ecacm.csy
+CAPABILITY CommDD PowerMgmt ReadDeviceData WriteDeviceData TrustedUI ProtServ NetworkControl NetworkServices LocalServices ReadUserData WriteUserData
+TARGETTYPE		dll
+UID 			0x10005054
+NOEXPORTLIBRARY
+VENDORID 0x70000001
+
+SOURCEPATH		../../../usbmgr/usb/csy/src
+SOURCE			AcmPort.cpp
+SOURCE			AcmPortFactory.cpp 
+SOURCE			AcmReader.cpp
+SOURCE			AcmWriter.cpp
+SOURCE			ActiveBusStallNotifier.cpp 
+SOURCE			ActiveReader.cpp 
+SOURCE			ActiveReadOneOrMoreReader.cpp
+SOURCE			ActiveWriter.cpp
+SOURCE			BreakController.cpp
+SOURCE			CdcAcmClass.cpp 
+SOURCE			CdcInterfaceBase.cpp		
+SOURCE			CdcControlInterface.cpp 	
+SOURCE			CdcControlInterfaceReader.cpp 
+SOURCE			CdcDataInterface.cpp		
+SOURCE			ClassDescriptor.cpp 
+SOURCE			DllMain.cpp 
+SOURCE			IniFile.cpp
+SOURCE			RegistrationPort.cpp 
+SOURCE			RequestHeader.cpp 
+SOURCE			acmserver.cpp
+SOURCE			acmsession.cpp
+
+USERINCLUDE 	../../../usbmgr/usb/csy/inc
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+LIBRARY 		euser.lib 
+LIBRARY 		c32.lib
+LIBRARY			efsrv.lib
+
+#ifdef WINS
+DEFFILE			..\..\..\usbmgr\usb\csy\bmarm\ecacm.def
+#else
+DEFFILE			..\..\..\usbmgr\usb\csy\bwins\ecacm.def
+#endif
+
+// Define this macro to build a 'headless' ACM, which, when you do a Read or 
+// ReadOneOrMore, Writes the data back to the LDD. This is used for 
+// performance testing at the level of RDevUsbcClient.
+MACRO __HEADLESS_ACM_TEST_CODE__
+

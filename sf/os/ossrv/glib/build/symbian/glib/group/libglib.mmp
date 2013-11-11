@@ -1,0 +1,86 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+//This is an auto-generated mmp file
+target			libglib.dll
+targettype			dll
+UID               0x1000008d  0x10281F2C
+VENDORID 	0x101FB657
+VERSION	2.205
+//List of macros
+//macro			G_LOG_DOMAIN="GLib"
+macro			MOBILE_PORT
+macro			HAVE_CONFIG_H
+//macro			G_DISABLE_DEPRECATED
+macro			GLIB_COMPILATION
+macro			PCRE_STATIC 
+macro			G_ENABLE_DEBUG
+macro			BUILDING_LIBGLIB
+
+//The src directory is added to the (user)include path by default
+userinclude			../../inc
+userinclude 			../../../../glibbackend/inc
+userinclude			../../../../glib
+userinclude			../../../../glib/pcre
+userinclude			../../../../glib/libcharset
+
+//The top level directory is added to the include path by default
+//systeminclude			.. 			 				 
+
+//Adding the Symbian and PIPS include path
+systeminclude			/epoc32/include
+systeminclude			/epoc32/include/stdapis
+systeminclude			/epoc32/include/stdapis/glib-2.0
+
+sourcepath			../../../../glib
+source			 garray.c gasyncqueue.c gatomic.c gbacktrace.c gbase64.c gbookmarkfile.c gcache.c 
+source			 gchecksum.c gcompletion.c gconvert.c gdataset.c gdate.c gdir.c gerror.c gfileutils.c 
+source			 ghash.c ghook.c giochannel.c giounix.c gkeyfile.c glist.c gmain.c gmappedfile.c gmarkup.c gmem.c 
+source			 gmessages.c gnode.c goption.c gpattern.c gpoll.c gprimes.c gqsort.c gqueue.c gregex.c grel.c 
+source			 grand.c gscanner.c gsequence.c gshell.c gslice.c gslist.c gspawn-symbian.c gstdio.c gstrfuncs.c 
+source			 gstring.c gtestutils.c gthread.c gthreadpool.c gtimer.c gtree.c guniprop.c gutf8.c 
+source			 gunibreak.c gunicollate.c gunidecomp.c gurifuncs.c gutils.c gprintf.c glowmem.c
+
+sourcepath			../../../../glib/pcre
+source				pcre_chartables.c  pcre_compile.c pcre_config.c pcre_dfa_exec.c pcre_exec.c
+source				pcre_fullinfo.c pcre_get.c pcre_globals.c pcre_info.c pcre_maketables.c
+source				pcre_newline.c pcre_ord2utf8.c pcre_refcount.c pcre_study.c pcre_tables.c
+source				pcre_try_flipped.c /*pcre_ucp_searchfuncs.c pcre_valid_utf8.c*/ pcre_version.c pcre_xclass.c
+
+sourcepath			../../../../glib/update-pcre					
+source				pcre_ucp_searchfuncs.c pcre_valid_utf8.c
+
+sourcepath			../../../../glib/libcharset
+source			 localcharset.c
+
+#ifdef WINSCW
+sourcepath			../../../../glib
+source			glib_wsd.cpp
+#endif
+//Adding some default libraries
+library			euser.lib libc.lib libpthread.lib glibbackend.lib
+#ifdef WINSCW
+library		ewsd.lib
+#endif
+//You may need to modify the capability
+capability			All -TCB
+
+#ifndef WINSCW
+EPOCALLOWDLLDATA
+#endif
+
+SMPSAFE
+PAGED

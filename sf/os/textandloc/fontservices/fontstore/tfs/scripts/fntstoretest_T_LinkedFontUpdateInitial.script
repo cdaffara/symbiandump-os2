@@ -1,0 +1,28 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+//This script will not produce any results as it initialises the reboot test environment.
+
+PRINT Initialise rebooting test harness
+
+//Setup the next test to run by placing an autoexec.bat on the c:\ drive
+RUN_PROGRAM -1 RebootTests LinkedFontUpdateInitial
+
+//Run eshell to kick off the autoexec.bat
+RUN_PROGRAM -1 TESTEXECUTE c:\thistest.script
+
+//Reboot the board. This will wipe the c:\drive allowing the rom autoexec.bat to take control at restart.
+//The final "panic" will also remove this as the board will be restarted.
+RUN_PROGRAM -1 RebootTests r

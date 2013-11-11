@@ -1,0 +1,45 @@
+; Copyright (c) 2003-2009 Nokia Corporation and/or its subsidiary(-ies).
+; All rights reserved.
+; This component and the accompanying materials are made available
+; under the terms of "Eclipse Public License v1.0"
+; which accompanies this distribution, and is available
+; at the URL "http://www.eclipse.org/legal/epl-v10.html".
+;
+; Initial Contributors:
+; Nokia Corporation - initial contribution.
+;
+; Contributors:
+;
+; Description:
+; Windows Device Setup File
+;
+; USB Modem installer for Windows 98, Part 2/2
+; This file is given to Windows after the USB device is installed and
+; (immediately) a new (unknown) device gets detected. This will becoming
+; the modem.
+;
+
+[Version]
+Signature  = $WINDOWS NT$
+Class      = Modem
+ClassGuid  = {4D36E96D-E325-11CE-BFC1-08002BE10318}
+Provider   = %String0%
+LayoutFile = layout.inf
+
+[Manufacturer]
+%String1% = Models
+
+[Models]
+%String2% = SYMUSB, USB\SYMBIAN
+
+[SYMUSB]
+Include = symusb_98_9.inf
+Needs   = Main, Properties, PortDriver, External, Responses
+AddReg  = Main, Properties, PortDriver, External, Responses
+
+[Strings]
+String0 = "Symbian Ltd"
+String1 = "Symbian Ltd, London (UK)"
+String2 = "Lubbock USB Modem Test Driver"
+
+; --- eof ---

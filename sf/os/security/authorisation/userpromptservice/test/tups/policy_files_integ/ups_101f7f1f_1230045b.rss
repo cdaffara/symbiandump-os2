@@ -1,0 +1,94 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* Policy file 0, used by integration test
+*
+*/
+
+
+#include <ups/policies.rh>
+
+UID2 KUidUpsPolicyResourceFile
+UID3 0x101F7F1F
+
+// Test policy file for SMS messages
+RESOURCE POLICIES testpolicies
+	{
+	header = POLICY_HEADER
+		{
+		// use default client config 
+		policyevaluator = 0xE1111E11;
+		dialogcreator = 0xE1111D11;
+		};
+	policies = 
+		{
+		POLICY
+			{
+			// Silently accepts
+			sid_list = {0x80002222};
+			destination = "black cat";
+			options = KSession;
+			flags = 1;
+			},
+		POLICY
+			{
+			// Silently approval  
+			sid_list = {0x1234abcd,0x80002222,0x80001234};
+			destination = "elbow";
+			options = KAlways;
+			flags = 2;
+			},
+		POLICY
+			{
+			// Silently denial  
+			sid_list = {0x1234abcd,0x80002222,0x80001234};
+			destination = "paris";
+			options = KNever;
+			flags = 3;
+			},
+		POLICY
+			{
+			// used   
+			sid_classes = KAllSids;
+			destination = "I want a SessionNo";
+			options = KSessionNo;
+			flags = 4;
+			},
+		POLICY
+			{
+			// used   
+			sid_classes = KAllSids;
+			destination = "I want a SessionYes";
+			options = KSessionYes;
+			flags = 5;
+			},				
+		POLICY
+			{
+			// used   
+			sid_classes = KAllSids;
+			destination = "session overwrites always";
+			options = KNever|KAlways|KSession;
+			flags = 6;
+			},							
+		POLICY
+			{
+			// yes or no
+			sid_classes = KUnprotectedSids;
+			destination = "*";
+			options = KYes|KNo;
+			flags = 7;
+			}
+		};
+	}
+

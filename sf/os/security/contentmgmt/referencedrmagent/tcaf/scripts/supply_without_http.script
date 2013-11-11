@@ -1,0 +1,186 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SUITE tcaf
+
+
+
+START_TESTCASE 			SEC-CAF-SUPPLY-0001
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-SUPPLY-0001
+//! @SYMTestCaseDesc 		Supply a DRM file to CAF
+//!				(DRM_Supply)
+//! @SYMPREQ			PREQ1951
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Supply a file to CAF, TestAgent should save the file as a .DRM
+//! @SYMTestExpectedResults	Supply operation works successfully
+//! @SYMTestType		CIT
+RUN_UTILS Delete c:\supplied.drm 
+RUN_UTILS Delete c:\outputfile.drm 
+RUN_UTILS Delete c:\receipt.txt
+RUN_TEST_STEP 100 tcaf CAFSupplierStep c:\tcaf\supply.ini SupplyDrm
+END_TESTCASE 			SEC-CAF-SUPPLY-0001
+
+START_TESTCASE 			SEC-CAF-SUPPLY-0002
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-SUPPLY-0002
+//! @SYMTestCaseDesc 		Check supply output
+//!				(DRM_Check_Supply_output_Size)
+//! @SYMPREQ			PREQ1951
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Use CAF to check the size of the content imported in the supply operation
+//! @SYMTestExpectedResults	Source file size should be the same as content size in output .DRM file
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFSizeStep c:\tcaf\supply.ini CheckImport
+END_TESTCASE 			SEC-CAF-SUPPLY-0002
+
+START_TESTCASE 			SEC-CAF-SUPPLY-0003
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-SUPPLY-0003
+//! @SYMTestCaseDesc 		Check supply output
+//!				(DRM_Check_Supply_output)
+//! @SYMPREQ			PREQ1951
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Use CAF to check the content within the output file produced by the supply operation. 
+//! @SYMTestExpectedResults	Source file data should be the same as content object data in the output .DRM file
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFSeekReadStep c:\tcaf\supply.ini CheckImport
+END_TESTCASE 			SEC-CAF-SUPPLY-0003
+
+START_TESTCASE 			SEC-CAF-SUPPLY-0004
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-SUPPLY-0004
+//! @SYMTestCaseDesc 		Supply a DRM file to CAF asynchronously
+//!				(DRM_Supply_Async)
+//! @SYMPREQ			PREQ1951
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Supply a file to CAF, TestAgent should save the file as a .DRM
+//! @SYMTestExpectedResults	Supply operation works successfully
+//! @SYMTestType		CIT
+RUN_UTILS Delete c:\supplied.drm 
+RUN_UTILS Delete c:\outputfile.drm 
+RUN_UTILS Delete c:\receipt.txt
+RUN_TEST_STEP 100 tcaf CAFSupplierAsyncStep c:\tcaf\supply.ini SupplyDrm
+END_TESTCASE 			SEC-CAF-SUPPLY-0004
+
+START_TESTCASE 			SEC-CAF-SUPPLY-0005
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-SUPPLY-0005
+//! @SYMTestCaseDesc 		Check supply output
+//!				(DRM_Check_Supply_output_Size)
+//! @SYMPREQ			PREQ1951
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Use CAF to check the size of the content imported in the supply operation
+//! @SYMTestExpectedResults	Source file size should be the same as content size in output .DRM file
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFSizeStep c:\tcaf\supply.ini CheckImport
+END_TESTCASE 			SEC-CAF-SUPPLY-0005
+
+START_TESTCASE 			SEC-CAF-SUPPLY-0006
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-SUPPLY-0006
+//! @SYMTestCaseDesc 		Check supply output
+//!				(DRM_Check_Supply_output)
+//! @SYMPREQ			PREQ1951
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Use CAF to check the content within the output file produced by the supply operation. 
+//! @SYMTestExpectedResults	Source file data should be the same as content object data in the output .DRM file
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFSeekReadStep c:\tcaf\supply.ini CheckImport
+END_TESTCASE 			SEC-CAF-SUPPLY-0006
+
+START_TESTCASE 			SEC-CAF-SUPPLY-0007
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-SUPPLY-0007
+//! @SYMTestCaseDesc 		Attempt to supply an unrecognized mime type
+//!				(DRM_Check_Supply_Unrecognized)
+//! @SYMPREQ			PREQ1951
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Ask CAF to import an unrecognized file type
+//! @SYMTestExpectedResults	Import should fail
+//! @SYMTestType		CIT
+RUN_UTILS Delete c:\failed.drm 
+RUN_TEST_STEP 100 tcaf CAFSupplierStep c:\tcaf\supply.ini SupplyUnrecognized
+END_TESTCASE 			SEC-CAF-SUPPLY-0007
+
+START_TESTCASE 			SEC-CAF-SUPPLY-0008
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-SUPPLY-0008
+//! @SYMTestCaseDesc 		Supply a DRM file to CAF
+//!				(DRM_Supply_Client)
+//! @SYMREQ			CR1440
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Supply a file to CAF, Content Mime type should be determimed during spply session
+//! @SYMTestExpectedResults	Supply operation works successfully
+//! @SYMTestType		CIT
+RUN_UTILS Delete c:\supplied.drm 
+RUN_UTILS Delete c:\outputfile.drm 
+RUN_UTILS Delete c:\receipt.txt
+RUN_TEST_STEP 100 tcaf CAFClientOutputSupplierStep c:\tcaf\supply.ini CheckContentMime
+END_TESTCASE 			SEC-CAF-SUPPLY-0008
+
+START_TESTCASE 			SEC-CAF-SUPPLY-0009
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-SUPPLY-0009
+//! @SYMTestCaseDesc 		Supply a DRM file to CAF
+//!				(DRM_Supply_Client)
+//! @SYMREQ			REQ3689
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Supply a file to CAF, TestAgent should save the file as a .DRM
+//! @SYMTestExpectedResults	Supply operation works successfully
+//! @SYMTestType		CIT
+RUN_UTILS Delete c:\supplied.drm 
+RUN_UTILS Delete c:\outputfile.drm 
+RUN_UTILS Delete c:\receipt.txt
+RUN_TEST_STEP 100 tcaf CAFClientOutputSupplierStep c:\tcaf\supply.ini SupplyDrmClientSpecifyOutFile
+END_TESTCASE 			SEC-CAF-SUPPLY-0009
+
+START_TESTCASE 			SEC-CAF-SUPPLY-0010
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-SUPPLY-0010
+//! @SYMTestCaseDesc 		Check supply output
+//!				(DRM_Check_Supply_output_Size_Client)
+//! @SYMREQ			REQ3689
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Use CAF to check the size of the content imported in the supply operation
+//! @SYMTestExpectedResults	Source file size should be the same as content size in output .DRM file
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFSizeStep c:\tcaf\supply.ini CheckImport2
+END_TESTCASE 			SEC-CAF-SUPPLY-0010
+
+START_TESTCASE 			SEC-CAF-SUPPLY-0011
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-SUPPLY-0011
+//! @SYMTestCaseDesc 		Check supply output
+//!				(DRM_Check_Supply_output_Client)
+//! @SYMREQ			REQ3689
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Critical
+//! @SYMTestActions		Use CAF to check the content within the output file produced by the supply operation. 
+//! @SYMTestExpectedResults	Source file data should be the same as content object data in the output .DRM file
+//! @SYMTestType		CIT
+RUN_TEST_STEP 100 tcaf CAFSeekReadStep c:\tcaf\supply.ini CheckImport2
+END_TESTCASE 			SEC-CAF-SUPPLY-0011

@@ -1,0 +1,308 @@
+// COMMENTS SHOULD ALWAYS BEGIN IN A NEW LINE, NEVER EMBED COMMENTS WITHIN DATA
+
+ENCRYPT_TEST_DATA_1
+// To test setkey() and encrypt() functions with  all zeroes as key and data
+KEY            :0000000000000000000000000000000000000000000000000000000000000000
+DATA_BLOCK     :0000000000000000000000000000000000000000000000000000000000000000
+// A value of 0 indicates encryption
+ED_FLAG        :0
+EXPECTED_OUTPUT:1000110010100110010011011110100111000001101100010010001110100111
+END_TEST_DATA
+
+ENCRYPT_TEST_DATA_2
+// To test setkey() and encrypt() functions with  all zeroes as key
+KEY            :0000000000000000000000000000000000000000000000000000000000000000
+DATA_BLOCK     :0000100110000000000000011110110100001001100001010000010100101100
+// A value of 0 indicates encryption
+ED_FLAG        :0
+EXPECTED_OUTPUT:0110110110000110111111010111001001101010001000001011011010110001
+END_TEST_DATA
+
+ENCRYPT_TEST_DATA_3
+// To test setkey() and encrypt() functions with all ones in the bit vectors of
+// both key and data
+KEY            :1111111111111111111111111111111111111111111111111111111111111111
+DATA_BLOCK     :1111111111111111111111111111111111111111111111111111111111111111
+// A value of 0 indicates encryption
+ED_FLAG        :0
+EXPECTED_OUTPUT:0111001101011001101100100001011000111110010011101101110001011000
+END_TEST_DATA
+
+ENCRYPT_TEST_DATA_4
+// To test setkey() and encrypt() functions with all ones in the bit vector of
+// key
+KEY            :1111111111111111111111111111111111111111111111111111111111111111
+DATA_BLOCK     :0111000101110011011000110111010011010001011010010110111101111111
+// A value of 0 indicates encryption
+ED_FLAG        :0
+EXPECTED_OUTPUT:1101100001000111000111011001010111011111101101101111101010001100
+END_TEST_DATA
+
+ENCRYPT_TEST_DATA_5
+// To test setkey() and encrypt() functions
+KEY            :0101101001111010101010100101110001111101101010100111011111101010
+DATA_BLOCK     :0000100110000000000000011110110100001001100001010000010100101100
+// A value of 0 indicates encryption
+ED_FLAG        :0
+EXPECTED_OUTPUT:1001110010101010100010100010111111100110001001001101000000111110
+END_TEST_DATA
+
+ENCRYPT_TEST_DATA_6
+// To test setkey() and encrypt() functions. KEY value is unchanged
+KEY            :0101101001111010101010100101110001111101101010100111011111101010
+DATA_BLOCK     :0111000101110011011000110111010011010001011010010110111101111111
+// A value of 0 indicates encryption
+ED_FLAG        :0
+EXPECTED_OUTPUT:1010100110000001111010011100110101001111111010111001100000110100
+END_TEST_DATA
+
+ENCRYPT_TEST_DATA_7
+// To test setkey() and encrypt() function. Key value is unchanged
+KEY            :0101101001111010101010100101110001111101101010100111011111101010
+DATA_BLOCK     :0000000000000000000000000000000000000000000000000000000000000000
+// A value of 0 indicates encryption
+ED_FLAG        :0
+EXPECTED_OUTPUT:1111111101110111111110100101100000110110100100001110000110111111
+END_TEST_DATA
+
+ENCRYPT_TEST_DATA_8
+// To test setkey() and encrypt() function. Key value is unchanged
+KEY            :0101101001111010101010100101110001111101101010100111011111101010
+DATA_BLOCK     :1111111111111111111111111111111111111111111111111111111111111111
+// A value of 0 indicates encryption
+ED_FLAG        :0
+EXPECTED_OUTPUT:   1111110011010110011011000110100010111111001110111000011111101100
+END_TEST_DATA
+
+ENCRYPT_TEST_DATA_9
+// To test setkey() and encrypt() function. ED_FLAG changed to denote a decrypt action.
+KEY            :0101101001111010101010100101110001111101101010100111011111101010
+DATA_BLOCK     :1111110011010110011011000110100010111111001110111000011111101100
+// A value of 0 indicates encryption
+ED_FLAG        :1
+EXPECTED_OUTPUT:   11111111111111111111111111111111111111111111111111111111111111111
+END_TEST_DATA
+
+CRYPT_TEST_DATA_1
+// To test crypt() function - DES algorithm. Password-eight characters in length
+PASSWORD       :password
+SALT           :XY
+EXPECTED_OUTPUT:XYGpusIMIT/IM
+END_TEST_DATA
+
+CRYPT_TEST_DATA_2
+// To test crypt() function - DES algorithm. Password-less than eight characters 
+// in length
+PASSWORD       :passS
+SALT           :XY
+EXPECTED_OUTPUT:XYGFf3I4Sg2K2
+END_TEST_DATA
+
+CRYPT_TEST_DATA_3
+// To test crypt() function - DES algorithm. Password-less than eight characters 
+// in length
+PASSWORD       :pa
+SALT           :9D
+EXPECTED_OUTPUT:9DWVv8b/n8C2M
+END_TEST_DATA
+
+CRYPT_TEST_DATA_4
+// To test crypt() function - DES algorithm. Password-more than eight characters 
+// in length
+PASSWORD       :passwordXYTEY
+SALT           :.Q
+EXPECTED_OUTPUT:.Q7kADsEJ1WMI
+END_TEST_DATA
+
+CRYPT_TEST_DATA_5
+// To test crypt() function - DES algorithm. Password-more than eight characters 
+// in length - notice that the output depends on the first eight characters of
+// the passowrd and "salt".
+PASSWORD       :passwordXY367USH
+SALT           :.Q
+EXPECTED_OUTPUT:.Q7kADsEJ1WMI
+END_TEST_DATA
+
+CRYPT_TEST_DATA_6
+// To test crypt() function - DES algorithm. NULL as password with a valid "salt"
+PASSWORD       :
+SALT           :.Q
+EXPECTED_OUTPUT:.QJ.W2gUJgXaI
+END_TEST_DATA
+
+CRYPT_TEST_DATA_7
+// To test crypt() function - DES algorithm. NULL as password with a valid "salt"
+PASSWORD       :
+SALT           :YU
+EXPECTED_OUTPUT:YU6VVzA5TJabA
+END_TEST_DATA
+
+CRYPT_TEST_DATA_8
+// To test crypt() function - DES algorithm. NULL as password with a valid "salt"
+PASSWORD       :
+SALT           :/.
+EXPECTED_OUTPUT:/.elhbtlysKy6
+END_TEST_DATA
+
+CRYPT_TEST_DATA_9
+// To test crypt() function - DES algorithm. NULL as password with a valid "salt"
+PASSWORD       :
+SALT           ://
+EXPECTED_OUTPUT://plGAV7Hp3Zo
+END_TEST_DATA
+
+CRYPT_TEST_DATA_10
+// To test crypt() function - DES algorithm. NULL as password with a valid "salt"
+PASSWORD       :
+SALT           :aB
+EXPECTED_OUTPUT:aBtwyC/9wKybE
+END_TEST_DATA
+
+CRYPT_TEST_DATA_11
+// To test crypt() function - DES algorithm. Valid password with a "salt" which
+// is one-character in length. Output differs from that of Linux's
+PASSWORD       :OuEIW90I
+SALT           :a
+EXPECTED_OUTPUT:
+END_TEST_DATA
+
+CRYPT_TEST_DATA_12
+// To test crypt() function - DES algorithm. Valid password with a "salt" which
+// is longer two characters in length
+PASSWORD       :OuEIW90I
+SALT           :iKOI0
+EXPECTED_OUTPUT:iKr4GcNvuB/Wk
+END_TEST_DATA
+
+CRYPT_TEST_DATA_13
+// To test crypt() function - DES algorithm. A valid password and no "salt"
+// Output differs from that of Linux's
+PASSWORD       :uShyU7w9
+SALT           :
+EXPECTED_OUTPUT:
+END_TEST_DATA
+
+CRYPT_TEST_DATA_14
+// To test crypt() function. Both password and salt being
+// NULL. Output differs from that of Linux's
+PASSWORD       :
+SALT           :
+EXPECTED_OUTPUT:
+END_TEST_DATA
+
+CRYPT_TEST_DATA_15
+// To test crypt() function - MD5 algorithm. Both password and salt
+// are valid
+PASSWORD       :password
+SALT           :$1$
+EXPECTED_OUTPUT:$1$$I2o9Z7NcvQAKp7wyCTlia0
+END_TEST_DATA
+
+CRYPT_TEST_DATA_16
+// To test crypt() function - MD5 algorithm. Both password and salt
+// are valid with password being more than 8 characters in length
+PASSWORD       :passwordUEI091H
+SALT           :$1$
+EXPECTED_OUTPUT:$1$$V1X9nybzyUbSXdm8CAqve.
+END_TEST_DATA
+
+CRYPT_TEST_DATA_018
+// To test crypt() function - MD5 algorithm. Both password and salt
+// are valid with password being more than 8 characters in length, and
+// '/' embedded within the string. Salt consists of "$1$" followed
+// by eight characters, and terminated by "$"
+PASSWORD       :pass//rdI09Y.
+SALT           :$1$password$
+EXPECTED_OUTPUT:$1$password$PnpYLDVZ8stpwScDiSk170
+END_TEST_DATA
+
+CRYPT_TEST_DATA_17
+// To test crypt() function - MD5 algorithm. Both password and salt
+// are valid with password being more than 8 characters in length, and
+// '/' embedded within the string. Salt consists of "$1$" followed
+// by eight characters, and NOT terminated by "$"
+PASSWORD       :pass//rdI09Y.
+SALT           :$1$password
+EXPECTED_OUTPUT:$1$password$PnpYLDVZ8stpwScDiSk170
+END_TEST_DATA
+
+CRYPT_TEST_DATA_18
+// To test crypt() function - MD5 algorithm. Both password and salt
+// are valid with password being more than 8 characters in length, and
+// '/' embedded within the string. Salt consists of just "$1$"
+PASSWORD       :pass//rdI09Y.
+SALT           :$1$
+EXPECTED_OUTPUT:$1$$Q.yyUXhIuZxEiqLaLs9Yt/
+END_TEST_DATA
+
+CRYPT_TEST_DATA_19
+// To test crypt() function - MD5 algorithm. Both password and salt
+// are valid with the length of the password being less than 8.
+// Salt consists of just "$1$"
+PASSWORD       ://URi
+SALT           :$1$
+EXPECTED_OUTPUT:$1$$dNOmQGH620K312nN0mn1H/
+END_TEST_DATA
+
+CRYPT_TEST_DATA_20
+// To test crypt() function - MD5 algorithm. Both password and salt
+// are valid with the length of the password being less than 8.
+// Salt consists of "$1$" followed by a string, and terminated by
+// "$"
+PASSWORD       ://URi
+SALT           :$1$paU7$
+EXPECTED_OUTPUT:$1$paU7$L1IzpLbp2c1NZn1fI5ZF3/
+END_TEST_DATA
+
+CRYPT_TEST_DATA_21
+// To test crypt() function - MD5 algorithm. Both password and salt
+// are valid with the length of the password being less than 8.
+// Salt consists of "$1$" followed by a string, and NOT terminated by
+// "$"
+PASSWORD       ://URi
+SALT           :$1$paU7
+EXPECTED_OUTPUT:$1$paU7$L1IzpLbp2c1NZn1fI5ZF3/
+END_TEST_DATA
+
+CRYPT_TEST_DATA_22
+// To test crypt() function - MD5 algorithm. Both password and salt
+// are valid with the length of the password being less than 8.
+// Salt consists of just "$1$"
+PASSWORD       ://URi
+SALT           :$1$
+EXPECTED_OUTPUT:$1$$dNOmQGH620K312nN0mn1H/
+END_TEST_DATA
+
+CRYPT_TEST_DATA_23
+// To test crypt() function - MD5 algorithm. NULL as password and "$1$"
+// as salt
+PASSWORD       :
+SALT           :$1$
+EXPECTED_OUTPUT:$1$$qRPK7m23GJusamGpoGLby/
+END_TEST_DATA
+
+CRYPT_TEST_DATA_24
+// To test crypt() function - MD5 algorithm. NULL as password. Salt consists
+// of "$1$" followed by a string, and terminated by "$"
+PASSWORD       :
+SALT           :$1$oI./$
+EXPECTED_OUTPUT:$1$oI./$rZsQHWhxaiZQFk7TPVtZv0
+END_TEST_DATA
+
+CRYPT_TEST_DATA_25
+// To test crypt() function - MD5 algorithm. NULL as password. Salt consists
+// of "$1$" followed by a string with a "$" embedded within the string, and 
+// NOT terminated by "$"
+PASSWORD       :
+SALT           :$1$o$./
+EXPECTED_OUTPUT:$1$o$q44o3M/kTKnXAewu70WtZ/
+END_TEST_DATA
+
+CRYPT_TEST_DATA_26
+// To test crypt() function - MD5 algorithm. NULL as password. Salt consists
+// of "$1$" followed by a string, and NOT terminated by "$"
+PASSWORD       :
+SALT           :$1$oi8URVn
+EXPECTED_OUTPUT:$1$oi8URVn$f8o6zSdfLb/OggBchx70f0
+END_TEST_DATA
+

@@ -1,0 +1,51 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+*
+*/
+#ifndef __INITIALISELOCALETESTS_IBY__
+#define __INITIALISELOCALETESTS_IBY__
+
+#include "TestBed.iby"
+
+// batch file that runs all automatic bafl tests
+data=ZSYSTEM\test\initialiseLocaleTests.bat	TEST\initialiselocaletests.bat
+
+
+#ifndef SYMBIAN_DISTINCT_LOCALE_MODEL
+
+
+
+// Executables for tests
+file=ABI_DIR\BUILD_DIR\T_InitialiseLocale.EXE	Test\T_InitialiseLocale.EXE
+file=ABI_DIR\BUILD_DIR\T_LocaleFlexi.EXE	Test\T_LocaleFlexi.EXE
+file=ABI_DIR\BUILD_DIR\T_CorruptLocale.EXE	Test\T_CorruptLocale.EXE
+
+#else
+
+// Executables for tests
+file=ABI_DIR\BUILD_DIR\T_InitialiseLocale.EXE	Test\T_InitialiseLocale.EXE
+file=ABI_DIR\BUILD_DIR\t_NewLocaleModel.EXE	Test\t_NewLocaleModel.EXE
+file=ABI_DIR\BUILD_DIR\t_localeflexiNewLocaleModel.EXE	Test\t_localeflexiNewLocaleModel.EXE
+file=ABI_DIR\BUILD_DIR\t_rebootnewlocalemodel.EXE	Test\t_rebootnewlocalemodel.EXE
+file=ABI_DIR\BUILD_DIR\t_corruptlocale.EXE	Test\t_corruptlocale.EXE
+
+file=ABI_DIR\BUILD_DIR\t_OldAPIOldModel.EXE	Test\t_OldAPIOldModel.EXE
+file=ABI_DIR\BUILD_DIR\t_localeflexiOldLocaleModel.EXE	Test\t_localeflexiOldLocaleModel.EXE
+
+#endif
+
+
+
+#endif

@@ -1,0 +1,61 @@
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+#ifndef __FEATMGR_TESTCFG__ 
+TARGET featreg.dll
+UID 0x1000008d 0x102744CB
+#else
+TARGET test_featreg.dll
+UID 0x1000008d 0x102836F1
+#endif
+
+TARGETTYPE DLL
+
+
+CAPABILITY All -Tcb
+
+VENDORID 0x70000001
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+USERINCLUDE ../inc
+USERINCLUDE ../src/inc
+
+SOURCEPATH ../src/api
+
+#ifdef SYMBIAN_FEATURE_MANAGER
+
+
+SOURCE featreg_wrapper.cpp
+
+#ifndef __FEATMGR_TESTCFG__ 
+LIBRARY featdiscovery.lib
+#else
+LIBRARY test_featdiscovery.lib
+#endif
+
+DEFFILE featregw.def
+#else
+
+SOURCE featreg.cpp
+DEFFILE featreg.DEF
+
+#endif
+
+
+SOURCEPATH ../src/shared
+SOURCE featregcmn.cpp
+
+LIBRARY euser.lib 

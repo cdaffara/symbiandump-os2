@@ -1,0 +1,42 @@
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// Name        : bld.inf
+// Part of     : backend
+// This is a top level bld file that drives all sub-components
+// that make backend library
+//
+
+
+
+PRJ_PLATFORMS
+DEFAULT
+
+#include "../ipcserver/ipcsrv/group/bld.inf"
+#include "../test/group/bld.inf"
+
+PRJ_MMPFILES
+backend.mmp
+mcrt0.mmp
+wmcrt0.mmp
+StdioServer.mmp
+#ifdef SYMBIAN_OE_POSIX_SIGNALS
+signalserver.mmp
+#endif
+
+PRJ_EXPORTS
+
+// export config.ini for the stdioredirection server
+../inc/config.ini			/epoc32/winscw/c/system/data/config.ini
+
+//  End of File

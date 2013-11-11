@@ -1,0 +1,38 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  
+*
+*/
+
+
+#ifndef __PIPROFILER__
+#define __PIPROFILER__
+
+// PI Profiler Engine itself 
+file=ABI_DIR\BUILD_DIR\PIProfilerEngine.exe						sys\bin\PIProfilerEngine.exe
+file=ABI_DIR\BUILD_DIR\PIProfiler.exe							sys\bin\PIProfiler.exe
+
+// sampler plugins
+// NOTE: Mandatory kernel driver included in piprofiler_ldd.iby
+ECOM_PLUGIN(PIProfilerGenerals.dll, PIProfilerGenerals.rsc)
+ECOM_PLUGIN(PIProfilerPWR.dll, PIProfilerPWR.rsc)
+
+ECOM_PLUGIN(PIProfilerBUP.dll, PIProfilerBUP.rsc)
+file=ABI_DIR\BUILD_DIR\PIProfilerTouchEventAnim.dll				sys\bin\PIProfilerTouchEventAnim.dll
+
+// Writer plugins
+ECOM_PLUGIN(piprofilerdebugwriter.dll, piprofilerdebugwriter.rsc)
+ECOM_PLUGIN(piprofilerdiskwriter.dll, piprofilerdiskwriter.rsc)
+
+#endif //__PIPROFILER__

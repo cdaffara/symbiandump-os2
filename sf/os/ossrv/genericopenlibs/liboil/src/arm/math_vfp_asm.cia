@@ -1,0 +1,919 @@
+#if __ARMCC__
+
+#define __CPU_ARM 
+#define __CPU_HAS_VFP
+#include <arm_vfp.h>
+#include <e32std.h>
+
+
+extern "C" {
+
+EXPORT_C __NAKED__ void vfp_add_f32 (float *d, const float *s1, const float *s2, int n)
+    {
+    asm(" stmdb sp!, {fp, lr}"); 
+    asm("ands ip, r3, #7"); 
+    asm("beq vfp_add_f32_unroll");
+      
+   //asm("fldmias r1!, {s0}"); 
+   VFP_FLDMIAS(CC_AL,1,0,1);
+   
+   asm("vfp_add_f32_loop1: ");
+      
+   //asm("fldmias r2!, {s1}");    
+     VFP_FLDMIAS(CC_AL,2,1,1);
+ 
+    //asm("fadds s2, s0, s1");
+    VFP_FADDS(CC_AL,2,0,1);
+      
+    //asm("fstmias r0!, {s2}");
+    VFP_FSTMIAS(CC_AL,0,2,1);   
+    
+    asm("subs ip, ip, #1"); 
+    asm("bne vfp_add_f32_loop1 ");
+	asm("vfp_add_f32_unroll: movs ip, r3, lsr #3"); 
+    asm("beq vfp_add_f32_end");
+    
+    
+    //asm("fmrx lr, fpscr");  
+    VFP_FMRX(,14,VFP_XREG_FPSCR);
+    
+    
+    asm("mov fp, #7"); 
+    asm("orr fp, lr, fp, lsl #16"); 
+    
+    //asm("fmxr fpscr, fp"); 
+    VFP_FMXR(,VFP_XREG_FPSCR,11);
+        
+      
+    asm("vfp_add_f32_loop2:");
+  
+    //asm("fldmias r1!, {s8, s9, s10, s11, s12, s13, s14, s15}"); 
+        VFP_FLDMIAS(CC_AL,1,8,8);   
+ 
+    //asm("fldmias r2!, {s16, s17, s18, s19, s20, s21, s22, s23}");
+    VFP_FLDMIAS(CC_AL,2,16,8);
+   
+    //asm("fadds s24, s8, s16"); 
+        VFP_FADDS(CC_AL,24,8,16);      
+   
+    asm("subs ip, ip, #1"); 
+    asm("bne vfp_add_f32_loop2"); 
+  
+    //asm("fmxr fpscr, lr"); 
+    VFP_FMXR(,VFP_XREG_FPSCR,14);
+      
+   asm("vfp_add_f32_end:");
+   asm ("ldmia sp!, {fp, pc}");
+    
+    }
+
+
+EXPORT_C __NAKED__ void vfp_divide_f32 (float *d, const float *s1, const float *s2, int n)
+    {
+    asm(" stmdb sp!, {fp, lr}"); 
+    asm("ands ip, r3, #7"); 
+    asm("beq vfp_divide_f32_unroll");
+      
+   //asm("fldmias r1!, {s0}"); 
+   VFP_FLDMIAS(CC_AL,1,0,1);
+   
+   asm("vfp_divide_f32_loop1:");
+      
+   //asm("fldmias r2!, {s1}");    
+     VFP_FLDMIAS(CC_AL,2,1,1);
+ 
+    //asm("fadds s2, s0, s1");
+    VFP_FDIVS(CC_AL,2,0,1);
+      
+    //asm("fstmias r0!, {s2}");
+    VFP_FSTMIAS(CC_AL,0,2,1);   
+    
+    asm("subs ip, ip, #1"); 
+    asm("bne vfp_divide_f32_loop1");
+    asm("vfp_divide_f32_unroll: movs ip, r3, lsr #3"); 
+    asm("beq vfp_divide_f32_end");
+    
+    
+    //asm("fmrx lr, fpscr");  
+    VFP_FMRX(,14,VFP_XREG_FPSCR);
+    
+    
+    asm("mov fp, #7"); 
+    asm("orr fp, lr, fp, lsl #16"); 
+    
+    //asm("fmxr fpscr, fp"); 
+    VFP_FMXR(,VFP_XREG_FPSCR,11);
+        
+      
+    asm("vfp_divide_f32_loop2:");
+  
+    //asm("fldmias r1!, {s8, s9, s10, s11, s12, s13, s14, s15}"); 
+        VFP_FLDMIAS(CC_AL,1,8,8);   
+ 
+    //asm("fldmias r2!, {s16, s17, s18, s19, s20, s21, s22, s23}");
+    VFP_FLDMIAS(CC_AL,2,16,8);
+   
+    //asm("fadds s24, s8, s16"); 
+        VFP_FDIVS(CC_AL,24,8,16);      
+   
+    asm("subs ip, ip, #1"); 
+    asm("bne vfp_divide_f32_loop2"); 
+  
+    //asm("fmxr fpscr, lr"); 
+    VFP_FMXR(,VFP_XREG_FPSCR,14);
+      
+   asm("vfp_divide_f32_end:");
+   asm ("ldmia sp!, {fp, pc}");
+    
+    }
+
+EXPORT_C __NAKED__ void vfp_multiply_f32 (float *d, const float *s1, const float *s2, int n)
+    {
+    asm(" stmdb sp!, {fp, lr}"); 
+    asm("ands ip, r3, #7"); 
+    asm("beq vfp_multiply_f32_unroll");
+      
+   //asm("fldmias r1!, {s0}"); 
+   VFP_FLDMIAS(CC_AL,1,0,1);
+   
+   asm("vfp_multiply_f32_loop1:");
+      
+   //asm("fldmias r2!, {s1}");    
+     VFP_FLDMIAS(CC_AL,2,1,1);
+ 
+    //asm("fadds s2, s0, s1");
+    VFP_FMULS(CC_AL,2,0,1);
+      
+    //asm("fstmias r0!, {s2}");
+    VFP_FSTMIAS(CC_AL,0,2,1);   
+    
+    asm("subs ip, ip, #1"); 
+    asm("bne vfp_multiply_f32_loop1");
+    asm("vfp_multiply_f32_unroll: movs ip, r3, lsr #3"); 
+    asm("beq vfp_multiply_f32_end");
+    
+    
+    //asm("fmrx lr, fpscr");  
+    VFP_FMRX(,14,VFP_XREG_FPSCR);
+    
+    
+    asm("mov fp, #7"); 
+    asm("orr fp, lr, fp, lsl #16"); 
+    
+    //asm("fmxr fpscr, fp"); 
+    VFP_FMXR(,VFP_XREG_FPSCR,11);
+        
+      
+    asm("vfp_multiply_f32_loop2:");
+  
+    //asm("fldmias r1!, {s8, s9, s10, s11, s12, s13, s14, s15}"); 
+        VFP_FLDMIAS(CC_AL,1,8,8);   
+ 
+    //asm("fldmias r2!, {s16, s17, s18, s19, s20, s21, s22, s23}");
+    VFP_FLDMIAS(CC_AL,2,16,8);
+   
+    //asm("fadds s24, s8, s16"); 
+        VFP_FMULS(CC_AL,24,8,16);      
+   
+    asm("subs ip, ip, #1"); 
+    asm("bne vfp_multiply_f32_loop2"); 
+  
+    //asm("fmxr fpscr, lr"); 
+    VFP_FMXR(,VFP_XREG_FPSCR,14);
+      
+   asm("vfp_multiply_f32_end:");
+   asm ("ldmia sp!, {fp, pc}");
+    
+    }
+
+EXPORT_C __NAKED__ void vfp_subtract_f32 (float *d, const float *s1, const float *s2, int n)
+    {
+    asm(" stmdb sp!, {fp, lr}"); 
+    asm("ands ip, r3, #7"); 
+    asm("beq vfp_subtract_f32_unroll");
+      
+   //asm("fldmias r1!, {s0}"); 
+   VFP_FLDMIAS(CC_AL,1,0,1);
+   
+   asm("vfp_subtract_f32_loop1:");
+      
+   //asm("fldmias r2!, {s1}");    
+     VFP_FLDMIAS(CC_AL,2,1,1);
+ 
+    //asm("fadds s2, s0, s1");
+    VFP_FSUBS(CC_AL,2,0,1);
+      
+    //asm("fstmias r0!, {s2}");
+    VFP_FSTMIAS(CC_AL,0,2,1);   
+    
+    asm("subs ip, ip, #1"); 
+    asm("bne vfp_subtract_f32_loop1");
+    asm("vfp_subtract_f32_unroll: movs ip, r3, lsr #3"); 
+    asm("beq vfp_subtract_f32_end");
+    
+    
+    //asm("fmrx lr, fpscr");  
+    VFP_FMRX(,14,VFP_XREG_FPSCR);
+    
+    
+    asm("mov fp, #7"); 
+    asm("orr fp, lr, fp, lsl #16"); 
+    
+    //asm("fmxr fpscr, fp"); 
+    VFP_FMXR(,VFP_XREG_FPSCR,11);
+        
+      
+    asm("vfp_subtract_f32_loop2:");
+  
+    //asm("fldmias r1!, {s8, s9, s10, s11, s12, s13, s14, s15}"); 
+        VFP_FLDMIAS(CC_AL,1,8,8);   
+ 
+    //asm("fldmias r2!, {s16, s17, s18, s19, s20, s21, s22, s23}");
+    VFP_FLDMIAS(CC_AL,2,16,8);
+   
+    //asm("fadds s24, s8, s16"); 
+        VFP_FSUBS(CC_AL,24,8,16);      
+   
+    asm("subs ip, ip, #1"); 
+    asm("bne vfp_subtract_f32_loop2"); 
+  
+    //asm("fmxr fpscr, lr"); 
+    VFP_FMXR(,VFP_XREG_FPSCR,14);
+      
+   asm("vfp_subtract_f32_end:");
+   asm ("ldmia sp!, {fp, pc}");
+    
+    }
+
+EXPORT_C __NAKED__ void vfp_add_f64 (double *d, const double *s1, const double *s2, int n)
+{
+    asm("stmdb         sp!, {fp, lr}");            /* save registers to stack */     
+    asm("ands          ip, r3, #3");               /* ip = n % 3 */                 
+    asm("beq           vfp_add_f64_unroll"); /* if ip == 0 goto prep_loop2 */ 
+    asm("vfp_add_f64_loop1:");                                                   
+    
+    //asm("fldmiad       r1!, {d0}");   
+    VFP_FLDMIAD(CC_AL,1,0,1);
+                                                  
+    //asm("fldmiad       r2!, {d1}");       
+    VFP_FLDMIAD(CC_AL,2,1,1);         
+                                         
+    //asm("faddd  d2, d0, d1");       
+    VFP_FADDD(,2,0,1);
+                                             
+    //asm("fstmiad       r0!, {d2}");     
+    VFP_FSTMIAD(CC_AL,0,2,1);                                                     
+                                      
+    asm("subs          ip, ip, #1");                                                
+    asm("bne           vfp_add_f64_loop1");                                   
+    asm("vfp_add_f64_unroll:");                  /* unroll by 4 */                
+    asm("movs          ip, r3, lsr #2");           /* ip = n / 4 */                 
+    asm("  beq           vfp_add_f64_end");    /* if ip == 0 goto finish */     
+    
+    //asm("  fmrx          lr, fpscr");                /* read fpscr register into arm */
+    VFP_FMRX(,14,VFP_XREG_FPSCR);
+    
+    asm("mov           fp, #3");                                                    
+    asm("orr           fp, lr, fp, lsl #16");      /* set vector lenght to 8 */     
+    
+    //asm("fmxr          fpscr, fp");      
+    VFP_FMXR(,VFP_XREG_FPSCR,11);    
+                                               
+    asm("vfp_add_f64_loop2:");                                                    
+    
+    //asm("fldmiad       r1!, {d4, d5, d6, d7}");    
+    VFP_FLDMIAS(CC_AL,1,4,4);                                 
+
+    //asm("fldmiad       r2!, {d8, d9, d10, d11}");                                    
+    VFP_FLDMIAS(CC_AL,2,8,4);                                 
+    
+    //asm("faddd  d12, d4, d8");                                                
+    VFP_FADDD(,12,4,8);
+    
+    //asm("fstmiad       r0!, {d12, d13, d14, d15}");                                  
+    VFP_FSTMIAS(CC_AL,0,12,4);                                 
+    
+    asm("subs          ip, ip, #1");                                                
+    asm("bne           vfp_add_f64_loop2");                                   
+    
+    //asm("fmxr          fpscr, lr");                /* restore original fpscr */      
+    VFP_FMXR(,VFP_XREG_FPSCR,14);
+                                    
+    asm("vfp_add_f64_end:");                                                      
+    asm("ldmia         sp!, {fp, pc}");        /* recovering from stack and return */   
+}     
+  
+  
+
+  
+EXPORT_C __NAKED__  void vfp_abs_f32_f32_ns(float *d, const float *s, int n) 
+    {                                                         
+    asm("stmdb         sp!, {fp, lr}");            /* save registers to stack */    
+    asm("ands          ip, r2, #7");               /* ip = n % 8 */                 
+    asm("beq           vfp_abs_f32_f32_ns_unroll"); /* if ip == 0 goto prep_loop2 */ 
+  	asm("vfp_abs_f32_f32_ns_loop1:");                                                   
+   
+    //asm("fldmias       r1!, {s0}");  
+    VFP_FLDMIAS(CC_AL,1,0,1);
+                                                   
+    //asm("fabss  s2, s0");  
+    VFP_FABSS(CC_AL,2,0);
+                                                      
+    //asm("fstmias       r0!, {s2}");                                                 
+    VFP_FSTMIAS(CC_AL,0,2,1);   
+   
+    asm("subs          ip, ip, #1");                                                
+    asm("bne           vfp_abs_f32_f32_ns_loop1");                                   
+  	asm("vfp_abs_f32_f32_ns_unroll:");                 /* unroll by 8 */                
+    asm("movs          ip, r2, lsr #3");           /* ip = n / 8 */                 
+    asm("beq           vfp_abs_f32_f32_ns_end");    /* if ip == 0 goto finish */     
+   
+    //asm("fmrx          lr, fpscr");                /* read fpscr register into arm */
+    VFP_FMRX(,14,VFP_XREG_FPSCR);
+   
+    asm("mov           fp, #7");                                                    
+    asm("orr           fp, lr, fp, lsl #16");      /* set vector lenght to 8 */     
+  
+    //asm("fmxr          fpscr, fp");                                                 
+  	VFP_FMXR(,VFP_XREG_FPSCR,11); 
+  
+  	asm("vfp_abs_f32_f32_ns_loop2:");                                                   
+   
+    //asm("fldmias       r1!, {s8, s9, s10, s11, s12, s13, s14, s15}"); 
+    VFP_FLDMIAS(CC_AL,1,8,8);
+                   
+    //asm("fabss  s24, s8");                                                   
+    VFP_FABSS(CC_AL,2,0);
+   
+    //asm("fstmias       r0!, {s24, s25, s26, s27, s28, s29, s30, s31}");             
+    VFP_FSTMIAS(CC_AL,0,24,8);
+    
+    asm("subs          ip, ip, #1");                                                
+    asm("bne           vfp_abs_f32_f32_ns_loop2");                                   
+    
+    //asm("fmxr          fpscr, lr");                /* restore original fpscr */      
+  	VFP_FMXR(,VFP_XREG_FPSCR,14);
+  	 
+  	asm("vfp_abs_f32_f32_ns_end:");                                                      
+    asm("ldmia         sp!, {fp, pc}");        /* recovering from stack and return */ 
+	} 
+	
+EXPORT_C __NAKED__  void vfp_negative_f32(float *d, const float *s, int n)
+    {                                                         
+    asm("stmdb         sp!, {fp, lr}");            /* save registers to stack */    
+    asm("ands          ip, r2, #7");               /* ip = n % 8 */                 
+    asm("beq           vfp_negative_f32_unroll"); /* if ip == 0 goto prep_loop2 */ 
+  	asm("vfp_negative_f32_loop1:");                                                   
+    
+    //asm("fldmias       r1!, {s0}"); 
+    VFP_FLDMIAS(CC_AL,1,0,1);
+                                                    
+    //asm("fnegs  s2, s0");                                                    
+    VFP_FNEGS(CC_AL,2,0);
+     
+    //asm("fstmias       r0!, {s2}");                                                 
+    VFP_FSTMIAS(CC_AL,0,2,1); 
+    
+    asm("subs          ip, ip, #1");                                                
+    asm("bne           vfp_negative_f32_loop1");                                   
+  	asm("vfp_negative_f32_unroll:");                 /* unroll by 8 */                
+    asm("movs          ip, r2, lsr #3");           /* ip = n / 8 */                 
+    asm("beq           vfp_negative_f32_end");    /* if ip == 0 goto finish */     
+   
+    //asm("fmrx          lr, fpscr");                /* read fpscr register into arm */
+    VFP_FMRX(,14,VFP_XREG_FPSCR);
+   
+    asm("mov           fp, #7");                                                    
+    asm("orr           fp, lr, fp, lsl #16");      /* set vector lenght to 8 */     
+   
+   // asm("fmxr          fpscr, fp");                                                 
+  	VFP_FMXR(,VFP_XREG_FPSCR,11); 
+  	
+  	asm("vfp_negative_f32_loop2:");                                                   
+    
+    //asm("fldmias       r1!, {s8, s9, s10, s11, s12, s13, s14, s15}"); 
+    VFP_FLDMIAS(CC_AL,1,8,8);
+                   
+    //asm("fnegs  s24, s8");                                                   
+    VFP_FNEGS(CC_AL,2,0);
+     
+    //asm("fstmias       r0!, {s24, s25, s26, s27, s28, s29, s30, s31}");   
+    VFP_FSTMIAS(CC_AL,0,24,8);
+              
+    asm("subs          ip, ip, #1");                                                
+    asm("bne           vfp_negative_f32_loop2");           
+                            
+    //asm("fmxr          fpscr, lr");                /* restore original fpscr */      
+  	VFP_FMXR(,VFP_XREG_FPSCR,14);
+  	
+  	asm("vfp_negative_f32_end:");                                                      
+    asm("ldmia         sp!, {fp, pc}");        /* recovering from stack and return */ 
+	} 
+		
+EXPORT_C __NAKED__ 	void vfp_abs_f64_f64_ns(double *d, const double *s, int n)
+	{                                                       
+   asm("stmdb         sp!, {fp, lr}");            /* save registers to stack */    
+   asm("ands          ip, r2, #3");               /* ip = n % 3 */                 
+   asm("beq           vfp_abs_f64_f64_ns_unroll"); /* if ip == 0 goto prep_loop2 */ 
+   asm("vfp_abs_f64_f64_ns_loop1:");                                                   
+
+   //asm("fldmiad       r1!, {d0}"); 
+   VFP_FLDMIAD(CC_AL,1,0,1);
+                                                   
+   //asm("fabsd  d2, d0"); 
+   VFP_FABSD(,2,0);
+                                                      
+   //asm("fstmiad       r0!, {d2}");                                                 
+   VFP_FSTMIAD(CC_AL,0,2,1);  
+    
+   asm("subs          ip, ip, #1");                                                
+   asm("bne           vfp_abs_f64_f64_ns_loop1");                                   
+   asm("vfp_abs_f64_f64_ns_unroll:");                 /* unroll by 4 */                
+   asm("movs          ip, r2, lsr #2");           /* ip = n / 4 */                 
+   asm("beq           vfp_abs_f64_f64_ns_end");    /* if ip == 0 goto finish */     
+   
+   //asm("fmrx          lr, fpscr");                /* read fpscr register into arm */
+ 	 VFP_FMRX(,14,VFP_XREG_FPSCR);
+   
+   asm("mov           fp, #3");                                                    
+   asm("orr           fp, lr, fp, lsl #16");      /* set vector lenght to 4 */     
+   
+   //asm("fmxr          fpscr, fp");                                                 
+   VFP_FMXR(,VFP_XREG_FPSCR,11); 
+   
+   asm("vfp_abs_f64_f64_ns_loop2:");                                                   
+                   
+                                                     
+   //asm("fldmiad       r1!, {d4, d5, d6, d7}");                                     
+   VFP_FLDMIAD(CC_AL,1,4,4);
+   
+   //asm("fabsd  d12, d4");   
+   VFP_FABSD(,12,4);
+                                                   
+   //asm("fstmiad       r0!, {d12, d13, d14, d15}");                                 
+   VFP_FSTMIAD(CC_AL,0,12,4);
+   
+   asm("subs          ip, ip, #1");                                                
+   asm("bne           vfp_abs_f64_f64_ns_loop2");                                   
+   
+  // asm("fmxr          fpscr, lr");                /* restore original fpscr */     
+   	VFP_FMXR(,VFP_XREG_FPSCR,14);
+   	
+   asm("vfp_abs_f64_f64_ns_end:");                                                     
+   asm("ldmia         sp!, {fp, pc}");        /* recovering from stack and return */   
+	}
+	
+	
+EXPORT_C __NAKED__ 	void vfp_negative_f64(double *d, const double *s, int n)
+	{                                                       
+   asm("stmdb         sp!, {fp, lr}");            /* save registers to stack */    
+   asm("ands          ip, r2, #3");               /* ip = n % 3 */                 
+   asm("beq           vfp_negative_f64_unroll"); /* if ip == 0 goto prep_loop2 */ 
+   asm("vfp_negative_f64_loop1:");                                                   
+   
+   //asm("fldmiad       r1!, {d0}");                                                 
+   VFP_FLDMIAD(CC_AL,1,0,1);
+   
+   //asm("fnegd  d2, d0");                                                    
+   VFP_FNEGD(,2,0);
+   
+   //asm("fstmiad       r0!, {d2}");                                                 
+   VFP_FSTMIAD(CC_AL,0,2,1);
+   
+   asm("subs          ip, ip, #1");                                                
+   asm("bne           vfp_negative_f64_loop1");                                   
+   asm("vfp_negative_f64_unroll:");                 /* unroll by 4 */                
+   asm("movs          ip, r2, lsr #2");           /* ip = n / 4 */                 
+   asm("beq           vfp_negative_f64_end");    /* if ip == 0 goto finish */     
+   
+   //asm("fmrx          lr, fpscr");                /* read fpscr register into arm */
+   VFP_FMRX(,14,VFP_XREG_FPSCR);
+   
+   asm("mov           fp, #3");                                                    
+   asm("orr           fp, lr, fp, lsl #16");      /* set vector lenght to 4 */     
+   
+   //asm("fmxr          fpscr, fp");                                                 
+   VFP_FMXR(,VFP_XREG_FPSCR,11); 
+  
+   asm("vfp_negative_f64_loop2:");           
+     
+   //asm("fldmiad       r1!, {d4, d5, d6, d7}");   
+   VFP_FLDMIAD(CC_AL,1,4,4);
+                                      
+   //asm("fnegd  d12, d4"); 
+   VFP_FNEGD(,12,4);
+                                                       
+   //asm("fstmiad       r0!, {d12, d13, d14, d15}");                                 
+   VFP_FSTMIAD(CC_AL,0,12,4);
+    
+   asm("subs          ip, ip, #1");                                                
+   asm("bne           vfp_negative_f64_loop2");                                   
+   
+   //asm("fmxr          fpscr, lr");                /* restore original fpscr */     
+   VFP_FMXR(,VFP_XREG_FPSCR,14);
+   	
+   asm("vfp_negative_f64_end:");                                                     
+   asm("ldmia         sp!, {fp, pc}");        /* recovering from stack and return */   
+	}
+		
+		
+//Rakhi changes
+EXPORT_C __NAKED__ void vfp_divide_f64 (double *d, const double *s1, const double *s2, int n)
+{
+    asm("stmdb         sp!, {fp, lr}");            /* save registers to stack */     
+    asm("ands          ip, r3, #3");               /* ip = n % 3 */                 
+    asm("beq           vfp_divide_f64_unroll"); /* if ip == 0 goto prep_loop2 */ 
+    asm("vfp_divide_f64_loop1:");                                                   
+    
+    //asm("fldmiad       r1!, {d0}");   
+    VFP_FLDMIAD(CC_AL,1,0,1);
+                                                  
+    //asm("fldmiad       r2!, {d1}");       
+    VFP_FLDMIAD(CC_AL,2,1,1);         
+                                         
+    //asm("faddd  d2, d0, d1");       
+    VFP_FDIVD(,2,0,1);
+                                             
+    //asm("fstmiad       r0!, {d2}");     
+    VFP_FSTMIAD(CC_AL,0,2,1);                                                     
+                                      
+    asm("subs          ip, ip, #1");                                                
+    asm("bne           vfp_divide_f64_loop1");                                   
+    asm("vfp_divide_f64_unroll:");                  /* unroll by 4 */                
+    asm("movs          ip, r3, lsr #2");           /* ip = n / 4 */                 
+    asm("  beq           vfp_divide_f64_end");    /* if ip == 0 goto finish */     
+    
+    //asm("  fmrx          lr, fpscr");                /* read fpscr register into arm */
+    VFP_FMRX(,14,VFP_XREG_FPSCR);
+    
+    asm("mov           fp, #3");                                                    
+    asm("orr           fp, lr, fp, lsl #16");      /* set vector lenght to 8 */     
+    
+    //asm("fmxr          fpscr, fp");      
+    VFP_FMXR(,VFP_XREG_FPSCR,11);    
+                                               
+    asm("vfp_divide_f64_loop2:");                                                    
+    
+    //asm("fldmiad       r1!, {d4, d5, d6, d7}");    
+    VFP_FLDMIAS(CC_AL,1,4,4);                                 
+
+    //asm("fldmiad       r2!, {d8, d9, d10, d11}");                                    
+    VFP_FLDMIAS(CC_AL,2,8,4);                                 
+    
+    //asm("faddd  d12, d4, d8");                                                
+    VFP_FDIVD(,12,4,8);
+    
+    //asm("fstmiad       r0!, {d12, d13, d14, d15}");                                  
+    VFP_FSTMIAS(CC_AL,0,12,4);                                 
+    
+    asm("subs          ip, ip, #1");                                                
+    asm("bne           vfp_divide_f64_loop2");                                   
+    
+    //asm("fmxr          fpscr, lr");                /* restore original fpscr */      
+    VFP_FMXR(,VFP_XREG_FPSCR,14);
+                                    
+    asm("vfp_divide_f64_end:");                                                      
+    asm("ldmia         sp!, {fp, pc}");        /* recovering from stack and return */   
+}     
+
+EXPORT_C __NAKED__ void vfp_multiply_f64 (double *d, const double *s1, const double *s2, int n)
+{
+    asm("stmdb         sp!, {fp, lr}");            /* save registers to stack */     
+    asm("ands          ip, r3, #3");               /* ip = n % 3 */                 
+    asm("beq           vfp_multiply_f64_unroll"); /* if ip == 0 goto prep_loop2 */ 
+    asm("vfp_multiply_f64_loop1:");                                                   
+    
+    //asm("fldmiad       r1!, {d0}");   
+    VFP_FLDMIAD(CC_AL,1,0,1);
+                                                  
+    //asm("fldmiad       r2!, {d1}");       
+    VFP_FLDMIAD(CC_AL,2,1,1);         
+                                         
+    //asm("faddd  d2, d0, d1");       
+    VFP_FMULD(,2,0,1);
+                                             
+    //asm("fstmiad       r0!, {d2}");     
+    VFP_FSTMIAD(CC_AL,0,2,1);                                                     
+                                      
+    asm("subs          ip, ip, #1");                                                
+    asm("bne           vfp_multiply_f64_loop1");                                   
+    asm("vfp_multiply_f64_unroll:");                  /* unroll by 4 */                
+    asm("movs          ip, r3, lsr #2");           /* ip = n / 4 */                 
+    asm("  beq           vfp_multiply_f64_end");    /* if ip == 0 goto finish */     
+    
+    //asm("  fmrx          lr, fpscr");                /* read fpscr register into arm */
+    VFP_FMRX(,14,VFP_XREG_FPSCR);
+    
+    asm("mov           fp, #3");                                                    
+    asm("orr           fp, lr, fp, lsl #16");      /* set vector lenght to 8 */     
+    
+    //asm("fmxr          fpscr, fp");      
+    VFP_FMXR(,VFP_XREG_FPSCR,11);    
+                                               
+    asm("vfp_multiply_f64_loop2:");                                                    
+    
+    //asm("fldmiad       r1!, {d4, d5, d6, d7}");    
+    VFP_FLDMIAS(CC_AL,1,4,4);                                 
+
+    //asm("fldmiad       r2!, {d8, d9, d10, d11}");                                    
+    VFP_FLDMIAS(CC_AL,2,8,4);                                 
+    
+    //asm("faddd  d12, d4, d8");                                                
+    VFP_FMULD(,12,4,8);
+    
+    //asm("fstmiad       r0!, {d12, d13, d14, d15}");                                  
+    VFP_FSTMIAS(CC_AL,0,12,4);                                 
+    
+    asm("subs          ip, ip, #1");                                                
+    asm("bne           vfp_multiply_f64_loop2");                                   
+    
+    //asm("fmxr          fpscr, lr");                /* restore original fpscr */      
+    VFP_FMXR(,VFP_XREG_FPSCR,14);
+                                    
+    asm("vfp_multiply_f64_end:");                                                      
+    asm("ldmia         sp!, {fp, pc}");        /* recovering from stack and return */   
+}   
+
+EXPORT_C __NAKED__ void vfp_subtract_f64 (double *d, const double *s1, const double *s2, int n)
+{
+    asm("stmdb         sp!, {fp, lr}");            /* save registers to stack */     
+    asm("ands          ip, r3, #3");               /* ip = n % 3 */                 
+    asm("beq           vfp_subtract_f64_unroll"); /* if ip == 0 goto prep_loop2 */ 
+    asm("vfp_subtract_f64_loop1:");                                                   
+    
+    //asm("fldmiad       r1!, {d0}");   
+    VFP_FLDMIAD(CC_AL,1,0,1);
+                                                  
+    //asm("fldmiad       r2!, {d1}");       
+    VFP_FLDMIAD(CC_AL,2,1,1);         
+                                         
+    //asm("faddd  d2, d0, d1");       
+    VFP_FSUBD(,2,0,1);
+                                             
+    //asm("fstmiad       r0!, {d2}");     
+    VFP_FSTMIAD(CC_AL,0,2,1);                                                     
+                                      
+    asm("subs          ip, ip, #1");                                                
+    asm("bne           vfp_subtract_f64_loop1");                                   
+    asm("vfp_subtract_f64_unroll:");                  /* unroll by 4 */                
+    asm("movs          ip, r3, lsr #2");           /* ip = n / 4 */                 
+    asm("  beq           vfp_subtract_f64_end");    /* if ip == 0 goto finish */     
+    
+    //asm("  fmrx          lr, fpscr");                /* read fpscr register into arm */
+    VFP_FMRX(,14,VFP_XREG_FPSCR);
+    
+    asm("mov           fp, #3");                                                    
+    asm("orr           fp, lr, fp, lsl #16");      /* set vector lenght to 8 */     
+    
+    //asm("fmxr          fpscr, fp");      
+    VFP_FMXR(,VFP_XREG_FPSCR,11);    
+                                               
+    asm("vfp_subtract_f64_loop2:");                                                    
+    
+    //asm("fldmiad       r1!, {d4, d5, d6, d7}");    
+    VFP_FLDMIAS(CC_AL,1,4,4);                                 
+
+    //asm("fldmiad       r2!, {d8, d9, d10, d11}");                                    
+    VFP_FLDMIAS(CC_AL,2,8,4);                                 
+    
+    //asm("faddd  d12, d4, d8");                                                
+    VFP_FSUBD(,12,4,8);
+    
+    //asm("fstmiad       r0!, {d12, d13, d14, d15}");                                  
+    VFP_FSTMIAS(CC_AL,0,12,4);                                 
+    
+    asm("subs          ip, ip, #1");                                                
+    asm("bne           vfp_subtract_f64_loop2");                                   
+    
+    //asm("fmxr          fpscr, lr");                /* restore original fpscr */      
+    VFP_FMXR(,VFP_XREG_FPSCR,14);
+                                    
+    asm("vfp_subtract_f64_end:");                                                      
+    asm("ldmia         sp!, {fp, pc}");        /* recovering from stack and return */   
+}     
+
+EXPORT_C __NAKED__ void vfp_scalaradd_f32_ns (float *d, const float *s1, const float *s2_1, int n)
+{
+    asm("stmdb         sp!, {fp, lr}");            /* save registers to stack */   
+    
+    //asm("fldmias       r2, {s1}");                 /* load scalar value */      
+    VFP_FLDMIAS(CC_AL,2,1,1);
+    
+    asm("ands          ip, r3, #7");               /* ip = n % 8 */                
+    asm("beq           vfp_scalaradd_f32_ns_unroll"); /* if ip == 0 goto prep_loop2 */
+    asm("vfp_scalaradd_f32_ns_loop1:");                                                  
+    
+    //asm("fldmias       r1!, {s0}");
+    VFP_FLDMIAS(CC_AL,1,0,1);
+    
+    //asm("FADDS  s2, s0, s1");   
+    VFP_FADDS(CC_AL,2,0,1);
+    
+    //asm("fstmias       r0!, {s2}");
+    VFP_FSTMIAS(CC_AL,0,2,8);
+    
+    asm("subs          ip, ip, #1");                                               
+    asm("bne           vfp_scalaradd_f32_ns_loop1");                                  
+    asm("vfp_scalaradd_f32_ns_unroll:");                 /* unroll by 8 */               
+    asm("movs          ip, r3, lsr #3");           /* ip = n / 8 */                
+    asm("beq           vfp_scalaradd_f32_ns_end");    /* if ip == 0 goto finish */    
+    
+    //asm("fmrx          lr, fpscr");                /* read fpscr register into arm */\
+    VFP_FMRX(,14,VFP_XREG_FPSCR);
+    
+    asm("mov           fp, #7");                                                   
+    asm("orr           fp, lr, fp, lsl #16");      /* set vector lenght to 8 */    
+    
+    //asm("fmxr          fpscr, fp");                                                
+    VFP_FMXR(,VFP_XREG_FPSCR,11);
+    
+    asm("vfp_scalaradd_f32_ns_loop2:");                                                  
+    //asm("fldmias       r1!, {s8, s9, s10, s11, s12, s13, s14, s15}");   
+    VFP_FLDMIAS(CC_AL,1,8,8);
+    
+    //asm("FADDS  s24, s8, s1");    
+    VFP_FADDS(CC_AL,24,8,1);
+    
+    //asm("fstmias       r0!, {s24, s25, s26, s27, s28, s29, s30, s31}");     
+    VFP_FSTMIAS(CC_AL,0,24,8);
+    
+    asm("subs          ip, ip, #1");                                               
+    asm("bne           vfp_scalaradd_f32_ns_loop2");      
+    
+    //asm("fmxr          fpscr, lr");                /* restore original fpscr */    
+    VFP_FMXR(,VFP_XREG_FPSCR,14);
+    
+    asm("vfp_scalaradd_f32_ns_end:");                                                    
+    asm("ldmia         sp!, {fp, pc}");        /* recovering from stack and return */   
+}    
+
+EXPORT_C __NAKED__ void vfp_scalarmultiply_f32_ns (float *d, const float *s1, const float *s2_1, int n)
+{
+    asm("stmdb         sp!, {fp, lr}");            /* save registers to stack */   
+    
+    //asm("fldmias       r2, {s1}");                 /* load scalar value */      
+    VFP_FLDMIAS(CC_AL,2,1,1);
+    
+    asm("ands          ip, r3, #7");               /* ip = n % 8 */                
+    asm("beq           vfp_scalarmultiply_f32_ns_unroll"); /* if ip == 0 goto prep_loop2 */
+    asm("vfp_scalarmultiply_f32_ns_loop1:");                                                  
+    
+    //asm("fldmias       r1!, {s0}");
+    VFP_FLDMIAS(CC_AL,1,0,1);
+    
+    //asm("FADDS  s2, s0, s1");   
+    VFP_FMULS(CC_AL,2,0,1);
+    
+    //asm("fstmias       r0!, {s2}");
+    VFP_FSTMIAS(CC_AL,0,2,8);
+    
+    asm("subs          ip, ip, #1");                                               
+    asm("bne           vfp_scalarmultiply_f32_ns_loop1");                                  
+    asm("vfp_scalarmultiply_f32_ns_unroll:");                 /* unroll by 8 */               
+    asm("movs          ip, r3, lsr #3");           /* ip = n / 8 */                
+    asm("beq           vfp_scalarmultiply_f32_ns_end");    /* if ip == 0 goto finish */    
+    
+    //asm("fmrx          lr, fpscr");                /* read fpscr register into arm */\
+    VFP_FMRX(,14,VFP_XREG_FPSCR);
+    
+    asm("mov           fp, #7");                                                   
+    asm("orr           fp, lr, fp, lsl #16");      /* set vector lenght to 8 */    
+    
+    //asm("fmxr          fpscr, fp");                                                
+    VFP_FMXR(,VFP_XREG_FPSCR,11);
+    
+    asm("vfp_scalarmultiply_f32_ns_loop2:");                                                  
+    //asm("fldmias       r1!, {s8, s9, s10, s11, s12, s13, s14, s15}");   
+    VFP_FLDMIAS(CC_AL,1,8,8);
+    
+    //asm("FADDS  s24, s8, s1");    
+    VFP_FMULS(CC_AL,24,8,1);
+    
+    //asm("fstmias       r0!, {s24, s25, s26, s27, s28, s29, s30, s31}");     
+    VFP_FSTMIAS(CC_AL,0,24,8);
+    
+    asm("subs          ip, ip, #1");                                               
+    asm("bne           vfp_scalarmultiply_f32_ns_loop2");      
+    
+    //asm("fmxr          fpscr, lr");                /* restore original fpscr */    
+    VFP_FMXR(,VFP_XREG_FPSCR,14);
+    
+    asm("vfp_scalarmultiply_f32_ns_end:");                                                    
+    asm("ldmia         sp!, {fp, pc}");        /* recovering from stack and return */   
+}    
+
+EXPORT_C __NAKED__ void vfp_scalaradd_f64_ns (double *d, const double *s1, const double *s2_1, int n)
+{                                                       
+    asm("stmdb         sp!, {fp, lr}");            /* save registers to stack */   
+    
+    //asm("fldmiad       r2, {d1}");                 /* load scalar value */  
+     VFP_FLDMIAD(CC_AL,2,1,1);
+    
+    asm("ands          ip, r3, #3");               /* ip = n % 3 */                
+    asm("beq           vfp_scalaradd_f64_ns_unroll"); /* if ip == 0 goto prep_loop2 */
+    asm("vfp_scalaradd_f64_ns_loop1:");                                                  
+    //asm("fldmiad       r1!, {d0}");   
+    VFP_FLDMIAD(CC_AL,1,0,1);
+    
+    //asm("VFP_FADDD  d2, d0, d1");    
+    VFP_FADDD(,2,0,1);
+    
+    //asm("fstmiad       r0!, {d2}");
+    VFP_FSTMIAD(CC_AL,0,2,1);
+    
+    asm("subs          ip, ip, #1");                                               
+    asm("bne           vfp_scalaradd_f64_ns_loop1");                                  
+    asm("vfp_scalaradd_f64_ns_unroll:");                 /* unroll by 4 */               
+    asm("movs          ip, r3, lsr #2");           /* ip = n / 4 */                
+    asm("beq           vfp_scalaradd_f64_ns_end");    /* if ip == 0 goto finish */    
+    
+    //asm("fmrx          lr, fpscr");                /* read fpscr register into arm */\
+    VFP_FMRX(,14,VFP_XREG_FPSCR);
+    
+    asm("mov           fp, #3");                                                   
+    asm("orr           fp, lr, fp, lsl #16");      /* set vector lenght to 4 */    
+    
+    //asm("fmxr          fpscr, fp");                                                
+    VFP_FMXR(,VFP_XREG_FPSCR,11);
+    
+    asm("vfp_scalaradd_f64_ns_loop2:");                                                  
+    
+    //asm("fldmiad       r1!, {d4, d5, d6, d7}"); 
+    VFP_FLDMIAD(CC_AL,1,4,4);
+    
+    //asm("VFP_FADDD  d12, d4, d1");   
+    VFP_FADDD(,12,4,1);
+    
+    //asm("fstmiad       r0!, {d12, d13, d14, d15}"); 
+    VFP_FSTMIAD(CC_AL,0,12,4);
+    
+    asm("subs          ip, ip, #1");                                               
+    asm("bne           vfp_scalaradd_f64_ns_loop2");                                  
+    
+    //asm("fmxr          fpscr, lr");                /* restore original fpscr */    
+    VFP_FMXR(,VFP_XREG_FPSCR,14);
+    
+    asm("vfp_scalaradd_f64_ns_end:");                                                    
+    asm("ldmia         sp!, {fp, pc}");        /* recovering from stack and return */   
+}   
+	
+EXPORT_C __NAKED__ void vfp_scalarmultiply_f64_ns (double *d, const double *s1, const double *s2_1, int n)
+{
+	                                                       
+    asm("stmdb         sp!, {fp, lr}");            /* save registers to stack */   
+    
+    //asm("fldmiad       r2, {d1}");                 /* load scalar value */  
+     VFP_FLDMIAD(CC_AL,2,1,1);
+    
+    asm("ands          ip, r3, #3");               /* ip = n % 3 */                
+    asm("beq           vfp_scalarmultiply_f64_ns_unroll"); /* if ip == 0 goto prep_loop2 */
+    asm("vfp_scalarmultiply_f64_ns_loop1:");                                                  
+    //asm("fldmiad       r1!, {d0}");   
+    VFP_FLDMIAD(CC_AL,1,0,1);
+    
+    //asm("VFP_FADDD  d2, d0, d1");    
+    VFP_FMULD(,2,0,1);
+    
+    //asm("fstmiad       r0!, {d2}");
+    VFP_FSTMIAD(CC_AL,0,2,1);
+    
+    asm("subs          ip, ip, #1");                                               
+    asm("bne           vfp_scalarmultiply_f64_ns_loop1");                                  
+    asm("vfp_scalarmultiply_f64_ns_unroll:");                 /* unroll by 4 */               
+    asm("movs          ip, r3, lsr #2");           /* ip = n / 4 */                
+    asm("beq           vfp_scalarmultiply_f64_ns_end");    /* if ip == 0 goto finish */    
+    
+    //asm("fmrx          lr, fpscr");                /* read fpscr register into arm */\
+    VFP_FMRX(,14,VFP_XREG_FPSCR);
+    
+    asm("mov           fp, #3");                                                   
+    asm("orr           fp, lr, fp, lsl #16");      /* set vector lenght to 4 */    
+    
+    //asm("fmxr          fpscr, fp");                                                
+    VFP_FMXR(,VFP_XREG_FPSCR,11);
+    
+    asm("vfp_scalarmultiply_f64_ns_loop2:");                                                  
+    
+    //asm("fldmiad       r1!, {d4, d5, d6, d7}"); 
+    VFP_FLDMIAD(CC_AL,1,4,4);
+    
+    //asm("VFP_FADDD  d12, d4, d1");   
+    VFP_FMULD(,12,4,1);
+    
+    //asm("fstmiad       r0!, {d12, d13, d14, d15}"); 
+    VFP_FSTMIAD(CC_AL,0,12,4);
+    
+    asm("subs          ip, ip, #1");                                               
+    asm("bne           vfp_scalarmultiply_f64_ns_loop2");                                  
+    
+    //asm("fmxr          fpscr, lr");                /* restore original fpscr */    
+    VFP_FMXR(,VFP_XREG_FPSCR,14);
+    
+    asm("vfp_scalarmultiply_f64_ns_end:");                                                    
+    asm("ldmia         sp!, {fp, pc}");        /* recovering from stack and return */  
+
+}
+	
+		
+}
+#endif

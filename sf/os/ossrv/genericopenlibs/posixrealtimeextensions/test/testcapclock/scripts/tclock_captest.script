@@ -1,0 +1,38 @@
+// Copyright (c) 2008-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+CONSECUTIVE
+
+START_TESTCASE OPENENV-LIBRT-CIT-TESTCAPCLOCK-OE-0001
+PRINT --------  Testing clock_settime ,Capability set to None
+RUN_PROGRAM -1 setcap.exe tcapclock.exe 000000  tcapclock1.exe
+LOAD_SUITE tcapclock1
+//! @SYMTestCaseID OPENENV-LIBRT-CIT-TESTCAPCLOCK-OE-0001
+//! @SYMTestStatus 	3.Released
+RUN_TEST_STEP  !PanicString="KERN-EXEC" !PanicCode=46 tcapclock1 Testcapclocksettime1
+END_TESTCASE  OPENENV-LIBRT-CIT-TESTCAPCLOCK-OE-0001
+
+
+START_TESTCASE OPENENV-LIBRT-CIT-TESTCAPCLOCK-OE-0002
+PRINT --------  Testing clock_settime ,Capability set to WriteDeviceData
+RUN_PROGRAM -1 setcap.exe tcapclock.exe 000020  tcapclock2.exe
+LOAD_SUITE tcapclock2
+//! @SYMTestCaseID OPENENV-LIBRT-CIT-TESTCAPCLOCK-OE-0002
+//! @SYMTestStatus 	3.Released
+RUN_TEST_STEP !Result=0 tcapclock2 Testcapclocksettime1
+END_TESTCASE  OPENENV-LIBRT-CIT-TESTCAPCLOCK-OE-0002
+
+
+

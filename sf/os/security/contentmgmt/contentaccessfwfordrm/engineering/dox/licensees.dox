@@ -1,0 +1,68 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// \n
+// The Content Access Framework has several configurable aspects that can
+// be altered at build time.
+// <hr>
+// The F32 Agent by default has no user interface. Its interface is implemented
+// by a separate <code>F32AGENTUI.DLL</code>. This DLL can be replace with a DLL that actually
+// does display information on the screen.
+// <hr>
+// The content types that CAF is allowed to map to <code>x-caf-contentMimeType</code> are given
+// in the <code>RECCAF.DLL</code> configuration file. This file is located in the apparc server's
+// private directory as  <code>\\private\\10003a3f\\RecCaf\\RecCafMimeTypes.txt</code>.
+// Licensees should check to be sure all required MIME types are included in the file.
+// <hr>
+// The Content Access Framework's default resolution behaviour on target devices 
+// results in Content Access Agents (CAAs) only being loaded from the ROM drive. 
+// This behaviour increases the security and reliability of the Content Access 
+// Framework and is in addition to the Platform Security capabilities system.  
+// If a licensee wishes to produce a more open device relying only on capabilities 
+// to allow post production agents to be installed this default resolution 
+// behaviour can be overidden. When it is overidden CAF will load all CAAs visible 
+// to the ECOM service regardless of the drive that contains them. To do this the 
+// macro <code>CAF_LOAD_POST_PRODUCTION_AGENTS</code> will need to be defined at 
+// ROM build. In the emulator platform the default resolution behaviour is as if 
+// this macro is always defined.
+// The definition of this macro will patch a data variable in the 
+// <code>caf.dll</code> at ROM build-time. See 
+// <code>\\epoc32\\include\\caf\\patchdata.h</code> and 
+// <code>\\epoc32\\rom\\include\\caf.iby</code>.
+// <hr>
+// It is possible for device integrators to choose whether to support both protected and unprotected content or just unprotected content with the definition of the SYMBIAN_EXCLUDE_DRM_AGENT_PLUGINS macro at the ROM build stage.
+// Licensee UI platforms that wish to support this feature will need to honour this macro in the obey files of the Content Access Agents that are integrate into their platform. For example:
+// oma_caa.iby file:
+// <code>
+//
+
+// ##ifndef __OMA_CAA_IBY__ 
+// ##define __OMA_CAA_IBY__
+// ##ifndef SYMBIAN_EXCLUDE_DRM_AGENT_PLUGINS
+// ECOM_PLUGIN(omacaa_plugin.dll,10111213.rsc)
+// file=ABI_DIR\\BUILD_DIR\\omacaa_server.exe	omacaa_server.exe
+// data=DATAZ_\\private\\10111210\\settings.ini   \\private\\10111210\\settings.ini
+// ##endif
+// ##endif
+// </code>
+// This optionality was introduced in Symbian OS v9.3 to allow easy customisation of Symbian OS. See the files RemovableFeatures.iby and feature.iby in <code>\\epoc32\\rom\\include</code>.
+//
+
+/**
+ @page CAFLicensees Considerations for Licensees using CAF
+ @section licenseesF32AgentUi F32 Agent User Interface
+ @see ContentAccess::TF32AgentUiFactory
+ @section licenseesRECCAF CAF Recognizer Mime Types
+ @section licenseesROMOnly Allowing CAF to load non-ROM based agents
+ @section licenseesExcludeAgents Omitting Content Access Agents from ROMs
+*/

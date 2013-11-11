@@ -1,0 +1,55 @@
+// Copyright (c) 2005-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+// This is only defined for OOM testing of caching functionality. 
+MACRO CACHE_OOM_TESTABILITY
+
+CAPABILITY AllFiles ReadDeviceData WriteDeviceData
+VENDORID 0x70000001
+
+SMPSAFE
+
+// Use this UID instead of standard cenrepserv.exe UID to avoid
+// clashes by using a different data cage
+UID 0 0x102081E4
+
+target t_cenrep_back_rest.exe
+targettype exe
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_LIBC_SYSTEMINCLUDE 
+
+USERINCLUDE ../cenrepsrv ../common/inc
+
+SOURCEPATH ../test
+SOURCE t_cenrep_back_rest.cpp testabclient.cpp
+SOURCEPATH ../cenrepsrv
+SOURCE backup.cpp sessnotf.cpp shrepos.cpp srvres.cpp
+SOURCE clientrequest.cpp cachemgr.cpp rstrepos.cpp
+SOURCE obsrvr_noc.cpp srvrepos_noc.cpp
+SOURCEPATH ../common/src
+SOURCE cregen.cpp datatype.cpp inifile.cpp panic.cpp heaprepos.cpp  
+
+LIBRARY euser.lib
+LIBRARY efsrv.lib
+LIBRARY charconv.lib
+LIBRARY estor.lib
+LIBRARY bafl.lib
+LIBRARY	bsulinifile.lib
+#ifdef SYMBIAN_BAFL_SYSUTIL
+LIBRARY sysutil.lib
+#endif
+LIBRARY estlib.lib
+LIBRARY t_cenrep_helper.lib

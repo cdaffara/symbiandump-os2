@@ -1,0 +1,129 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+*
+*/
+
+
+#include <data_caging_paths.hrh>
+#include <platform_paths.hrh>
+
+TARGET          memspyengine.dll
+TARGETTYPE      dll
+UID             0x1000008d 0x2002129A
+VENDORID		VID_DEFAULT
+SMPSAFE
+
+#include		"../../group/MemSpyCapabilities.mmh"
+
+SOURCEPATH      ../Source
+SOURCE          MemSpyEngine.cpp
+SOURCE          MemSpyEngineImp.cpp
+SOURCE          MemSpyEngineUtils.cpp
+SOURCE			MemSpyEngineProcessMemoryTracker.cpp
+SOURCE          MemSpyEngineTwiddlableItemArray.cpp
+
+SOURCEPATH      ../Source/DeviceWideOps
+SOURCE          MemSpyDeviceWideOperations.cpp
+
+SOURCEPATH		../Source/ClientServer
+SOURCE          MemSpyEngineServer.cpp
+
+SOURCEPATH		../Source/ThreadAndProcess
+SOURCE          MemSpyEngineObject.cpp
+SOURCE          MemSpyEngineObjectProcess.cpp
+SOURCE          MemSpyEngineObjectContainer.cpp
+SOURCE          MemSpyEngineObjectThread.cpp
+SOURCE          MemSpyEngineObjectThreadInfoContainer.cpp
+SOURCE          MemSpyEngineObjectThreadInfoObjects.cpp
+
+SOURCEPATH		../Source/Sink
+SOURCE			MemSpyEngineOutputList.cpp
+SOURCE			MemSpyEngineOutputListItem.cpp
+SOURCE          MemSpyEngineOutputSink.cpp
+SOURCE          MemSpyEngineOutputSinkDebug.cpp
+SOURCE          MemSpyEngineOutputSinkFile.cpp
+
+SOURCEPATH		../Source/Helpers
+SOURCE          MemSpyEngineHelperHeap.cpp
+SOURCE          MemSpyEngineHelperStack.cpp
+SOURCE          MemSpyEngineHelperCodeSegment.cpp
+SOURCE          MemSpyEngineHelperFbServ.cpp
+SOURCE          MemSpyEngineHelperChunk.cpp
+SOURCE          MemSpyEngineHelperThread.cpp
+SOURCE          MemSpyEngineHelperProcess.cpp
+SOURCE          MemSpyEngineHelperServer.cpp
+SOURCE          MemSpyEngineHelperActiveObject.cpp
+SOURCE          MemSpyEngineHelperKernelContainers.cpp
+SOURCE			MemSpyEngineHelperFileSystem.cpp
+SOURCE			MemSpyEngineHelperECom.cpp
+SOURCE			MemSpyEngineHelperROM.cpp
+SOURCE			MemSpyEngineHelperRAM.cpp
+SOURCE          MemSpyEngineHelperCondVar.cpp
+
+SOURCEPATH      ../Source/SysMemTracker
+SOURCE			MemSpyEngineHelperSysMemTracker.cpp
+SOURCE			MemSpyEngineHelperSysMemTrackerImp.cpp
+SOURCE			MemSpyEngineHelperSysMemTrackerEntryManager.cpp
+SOURCE			MemSpyEngineHelperSysMemTrackerOutputFormatter.cpp
+SOURCE			MemSpyEngineHelperSysMemTrackerCycle.cpp
+SOURCE			MemSpyEngineHelperSysMemTrackerCycleChange.cpp
+SOURCE			MemSpyEngineHelperSysMemTrackerEntries.cpp
+SOURCE			MemSpyEngineHelperSysMemTrackerEntryHeap.cpp
+SOURCE			MemSpyEngineHelperSysMemTrackerEntryChunk.cpp
+SOURCE			MemSpyEngineHelperSysMemTrackerEntryRamDrive.cpp
+SOURCE			MemSpyEngineHelperSysMemTrackerEntryStack.cpp
+SOURCE			MemSpyEngineHelperSysMemTrackerEntryGlobalData.cpp
+SOURCE			MemSpyEngineHelperSysMemTrackerEntryCode.cpp
+SOURCE			MemSpyEngineHelperSysMemTrackerEntryHandleGeneric.cpp
+SOURCE			MemSpyEngineHelperSysMemTrackerEntryHandlePAndS.cpp
+SOURCE			MemSpyEngineHelperSysMemTrackerEntryOpenFile.cpp
+SOURCE			MemSpyEngineHelperSysMemTrackerEntryDiskSpace.cpp
+SOURCE			MemSpyEngineHelperSysMemTrackerEntryBitmap.cpp
+SOURCE			MemSpyEngineHelperSysMemTrackerEntryFbserv.cpp
+SOURCE			MemSpyEngineHelperSysMemTrackerEntryFileServerCache.cpp
+SOURCE			MemSpyEngineHelperSysMemTrackerEntrySystemMemory.cpp
+SOURCE			MemSpyEngineHelperSysMemTrackerEntryWindowServer.cpp
+
+SOURCEPATH      ../Source/EventHandlers
+SOURCE          MemSpyEngineUndertaker.cpp
+SOURCE          MemSpyEngineMidwife.cpp
+SOURCE          MemSpyEngineChunkWatcher.cpp
+
+
+USERINCLUDE		../Include
+USERINCLUDE		../Include/Helpers
+USERINCLUDE		../Include/Sink
+USERINCLUDE		../Include/SysMemTracker
+USERINCLUDE		../Include/ClientServer
+USERINCLUDE		../Include/ThreadAndProcess
+USERINCLUDE		../Include/EventHandlers
+USERINCLUDE		../Include/Logger
+
+OS_LAYER_SYSTEMINCLUDE
+
+
+LIBRARY			euser.lib 
+LIBRARY			MemSpyDriverClient.lib hal.lib estor.lib
+LIBRARY			efsrv.lib bafl.lib fbscli.lib
+LIBRARY			ecom.lib xmlframework.lib charconv.lib
+LIBRARY			apgrfx.lib
+LIBRARY	 		ws32.lib
+
+
+#include "MemSpyEngine.config"
+
+//EXPORTUNFROZEN
+
+

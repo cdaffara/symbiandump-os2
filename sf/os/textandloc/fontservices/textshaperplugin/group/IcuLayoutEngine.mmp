@@ -1,0 +1,143 @@
+/*
+* Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* Builds the ICU layoutEngine into a Symbian Shaper DDL 
+* Symbian Shaper dll
+*
+*/
+
+
+/**
+ @file
+*/
+
+target			iculayoutengine.dll
+targettype		PLUGIN
+
+CAPABILITY All -Tcb
+
+userinclude		../source
+userinclude 	../IcuSource/common
+userinclude 	../IcuSource/layout
+userinclude 	../IcuSource
+userinclude 	../include 
+OS_LAYER_ESTLIB_SYSTEMINCLUDE
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+uid				0x10009D8D 0x10274DB8
+VENDORID 0x70000001
+
+
+// Switch off some warnings for the following files,
+// which are imported source code that needs to be
+// kept unchanged as far as possible to ease porting
+// of upgrades or fixes.
+// N.B. As a siIcuLayoutEngine.cpp, Shaper.cpp, 
+// SymbianFontInstance.cpp and Umemory.cpp (our wrapper code)
+// so it should be re-checked with the warnings back on if changes
+// are made to it.
+OPTION ARMCC -W
+
+// Symbian sources
+sourcepath 	../source
+source 		Umemory.cpp
+source		shaper.cpp
+source 		IcuLayoutEngine.cpp
+source 		SymbianFontInstance.cpp
+source 		FontTableCache.cpp
+source 		cmaps.cpp
+
+// Icu layout sources
+sourcepath	../IcuSource/layout
+source	AlternateSubstSubtables.cpp
+source	AnchorTables.cpp
+source	ArabicLayoutEngine.cpp
+source	ArabicShaping.cpp
+source	CanonData.cpp
+source	CanonShaping.cpp
+source	ClassDefinitionTables.cpp
+source	ContextualGlyphSubstProc.cpp
+source	ContextualSubstSubtables.cpp
+source	CoverageTables.cpp
+source	CursiveAttachmentSubtables.cpp
+source	DeviceTables.cpp
+source	ExtensionSubtables.cpp
+source	Features.cpp
+source	GDEFMarkFilter.cpp
+source	GlyphDefinitionTables.cpp
+source	GlyphIterator.cpp
+source	GlyphLookupTables.cpp
+source	GlyphPositionAdjustments.cpp
+source	GlyphPositioningTables.cpp
+source	GlyphPosnLookupProc.cpp
+source	GlyphSubstitutionTables.cpp
+source	GlyphSubstLookupProc.cpp
+source	GXLayoutEngine.cpp
+source	HanLayoutEngine.cpp
+source	IndicClassTables.cpp
+source	IndicLayoutEngine.cpp
+source	IndicRearrangementProcessor.cpp
+source	IndicReordering.cpp
+source	KernTable.cpp
+source	KhmerLayoutEngine.cpp
+source	KhmerReordering.cpp
+source	LayoutEngine.cpp
+source	LEFontInstance.cpp
+source	LEGlyphStorage.cpp
+source	LEInsertionList.cpp
+source	LigatureSubstProc.cpp
+source	LigatureSubstSubtables.cpp
+source	LookupProcessor.cpp
+source	Lookups.cpp
+source	LookupTables.cpp
+source	MarkArrays.cpp
+source	MarkToBasePosnSubtables.cpp
+source	MarkToLigaturePosnSubtables.cpp
+source	MarkToMarkPosnSubtables.cpp
+source	MorphTables.cpp
+source	MPreFixups.cpp
+source	MultipleSubstSubtables.cpp
+source	NonContextualGlyphSubstProc.cpp
+source	OpenTypeLayoutEngine.cpp
+source	OpenTypeUtilities.cpp
+source	PairPositioningSubtables.cpp
+source	ScriptAndLanguage.cpp
+source	ScriptAndLanguageTags.cpp
+source	SegmentArrayProcessor.cpp
+source	SegmentSingleProcessor.cpp
+source	SimpleArrayProcessor.cpp
+source	SinglePositioningSubtables.cpp
+source	SingleSubstitutionSubtables.cpp
+source	SingleTableProcessor.cpp
+source	StateTableProcessor.cpp
+source	SubstitutionLookups.cpp
+source	SubtableProcessor.cpp
+source	ThaiLayoutEngine.cpp
+source	ThaiShaping.cpp
+source	ThaiStateTables.cpp
+source	TrimmedArrayProcessor.cpp
+source	ValueRecords.cpp
+
+library		euser.lib
+library		estlib.lib
+library		ecom.lib
+library		fntstr.lib
+
+sourcepath		../source
+start resource	IcuLayoutEngine.RSS
+target			iculayoutengine.rsc
+lang			sc
+end
+
+SMPSAFE

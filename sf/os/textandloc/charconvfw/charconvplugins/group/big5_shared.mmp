@@ -1,0 +1,48 @@
+/*
+* Copyright (c) 2000-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* big5_shared.dll Big5 charset conversion implementation
+*
+*/
+
+
+/**
+ @file
+*/
+
+TARGET			big5_shared.dll
+CAPABILITY		All -Tcb
+TARGETTYPE		dll
+
+DEFFILE			big5_shared.def
+
+UID				0x1000008d 0x102044EA
+VENDORID		0x70000001
+
+USERINCLUDE ../inc
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+SOURCEPATH		../src/shared
+SOURCE			big5_shared.cpp
+
+SOURCEPATH		/epoc32/build/generatedcpp/charconv
+SOURCE			g_big5.cpp
+
+LIBRARY			euser.lib
+
+START WINS
+				baseaddress 0x7d4c0000
+END
+
+SMPSAFE

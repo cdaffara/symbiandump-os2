@@ -1,0 +1,41 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+*
+*/
+
+TARGET			t_fdf.exe
+TARGETTYPE		EXE
+// UID2 = 0x0 for plain exes
+// UID3 = 0
+UID 			0x0 0x101fe1db
+//0x101fe1db to pretend to be usbman
+
+
+// The same capabilities as USBSVR, which uses usbhoststack.lib.
+CAPABILITY		CommDD NetworkControl NetworkServices LocalServices ProtServ
+
+SOURCE			activetest.cpp
+SOURCE			activeconsole.cpp
+SOURCE			testbase.cpp
+SOURCE			FdfTest.cpp
+
+SYSTEMINCLUDE	\epoc32\include
+
+LIBRARY			EUSER.LIB
+LIBRARY			usbhoststack.lib
+
+//MACRO	__TEST_FDF__
+
+#include <usb/usblogger.mmh>

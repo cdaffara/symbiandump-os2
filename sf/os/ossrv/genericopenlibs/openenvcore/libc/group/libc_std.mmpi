@@ -1,0 +1,94 @@
+/*
+* Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  This is a project specific include file for building the 
+*                stdio as part of libc library.
+*
+*/
+
+
+
+// Macro definitions
+//#define MRT_LOG_ENABLE
+//macro _EXTERNALIZE_CTYPE_INLINES_
+
+//option
+//option CW -wchar_t on
+
+// Module specific source files
+
+SOURCEPATH     ../src/gen
+SOURCE  arc4random.c
+SOURCE  assert.c
+SOURCE  confstr.c
+SOURCE  err.c
+SOURCE  getprogname.c
+SOURCE  setprogname.c
+SOURCE  fts.c
+SOURCE  ftw.c
+
+SOURCEPATH     ../src
+SOURCE  abort.c 
+SOURCE  exitsyscall.cpp
+SOURCE  fpathconf.c
+SOURCE  getcwd.cpp
+SOURCE  gettimeofday.cpp
+SOURCE  isatty_e.c
+SOURCE  issetugid.c
+SOURCE  isthreaded.c
+SOURCE  system.cpp
+SOURCE  ualloc.cpp 
+SOURCE  alloca.c
+SOURCE	glob.c
+SOURCE  getlogin.c
+
+
+#ifdef WINS
+SOURCE	jmp_wins.cpp
+#endif
+#ifdef MARM
+#ifdef EKA2
+SOURCE	jmp_marm.cia
+#else
+SOURCE	jmp_marm.cpp
+#endif
+#endif
+#ifdef X86GCC
+SOURCE  jmp_x86gcc.cia
+#endif
+
+
+SOURCEPATH     ../src/stdlib
+SOURCE  abs.c
+SOURCE  atexit.c exit.c _exit.c
+SOURCE	bsearch.c qsort.c
+SOURCE  calloc.c reallocf.c
+SOURCE  div.c ldiv.c labs.c llabs.c lldiv.c 
+SOURCE  getenv.c setenv.c putenv.c 
+SOURCE  getopt.c getopt_long.c
+SOURCE  rand.c
+SOURCE  realpath.c
+SOURCE  strtol.c strtoul.c atoi.c atol.c atoll.c atof.c
+
+SOURCEPATH ../src
+SOURCE 	random.c scandir.c
+
+SOURCEPATH     ../src/stdio
+SOURCE  _flock_stub.c
+SOURCE  mktemp.c
+SOURCE  perror.c
+SOURCE  tmpfile.c tmpnam.c 
+
+
+// End of File
+

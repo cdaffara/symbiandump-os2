@@ -1,0 +1,601 @@
+/** @file ../include/net/if.h
+@internalComponent
+*/
+
+
+/** @def IF_NAMESIZE	
+
+Length of interface external name, including terminating '\\0'.
+Limitation: IAP names in P.I.P.S. are restricted to 49 bytes in ASCII. For names in languages with a multi-byte character set,
+you can go upto 24 characters for 2-byte and 16 characters for 3-byte representations. 
+All lengths are excluding the terminal NULL character.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn  if_freenameindex(struct if_nameindex *ptr)
+@param ptr
+
+Refer to if_nametoindex() for the documentation
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @fn  if_nameindex(void)
+
+Refer to if_nametoindex() for the documentation
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @fn  if_indextoname(unsigned int ifindex, char *ifname)
+@param ifindex
+@param ifname
+
+Refer to if_nametoindex() for the documentation
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+/** @fn  if_nametoindex(const char *ifname)
+@param ifname
+
+Note: This description also covers the following functions -
+ if_indextoname()  if_nameindex()  if_freenameindex() 
+
+@return   Upon successful completion, if_nametoindex returns the index number of the interface.
+If the interface is not found, a value of 0 is returned and errno is set to ENXIO. Upon successful completion, if_indextoname returns ifname. If the interface is not found, a NULL pointer is returned and errno is set to ENXIO. The if_nameindex returns a NULL pointer if sufficient memory cannot be allocated.
+
+  The if_nametoindex function maps the interface name specified in ifname to its corresponding index.
+If the specified interface does not exist, it returns 0.
+
+ The if_indextoname function maps the interface index specified in ifindex to it corresponding name, which is copied into the
+buffer pointed to by ifname, which must be of at least IFNAMSIZ bytes.
+This pointer is also the return value of the function.
+If there is no interface corresponding to the specified
+index, NULL is returned.
+
+@code
+ The if_nameindex function returns an array of if_nameindex structures, one structure per interface, as defined in the include 
+  file #include <net/if.h>; 
+  The if_nameindex structure contains at least the following entries: 
+  unsigned int   if_index;  /* 1, 2, ... */
+    char          *if_name;   /* null terminated name: "le0", ... */
+@endcode
+
+ The end of the array of structures is indicated by a structure with an if_index of 0 and an if_name of NULL. A NULL pointer is returned upon an error.
+
+ The if_freenameindex function frees the dynamic memory that was
+allocated by if_nameindex.
+
+
+
+
+
+ 
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+
+
+/** @struct if_nameindex
+
+Includes the following members,
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @var if_nameindex::if_index
+
+Numeric index of the interface. 
+
+*/
+
+/** @var if_nameindex::if_name
+
+Null-terminated name of the interface. 
+
+*/
+
+/** @struct if_clonereq
+
+Structure used to query names of interface cloners.
+
+@publishedAll
+@released
+*/
+
+/** @var if_clonereq::ifcr_total
+
+total cloners (out)
+
+*/
+
+/** @var if_clonereq::ifcr_count
+
+room for this many in user buffer
+
+*/
+
+/** @var if_clonereq::ifcr_buffer
+
+buffer for cloner names
+
+*/
+
+/** @struct if_data
+
+Structure describing information about an interface which may be of interest to management entities.
+
+@publishedAll
+@released
+*/
+
+/** @var if_data::ifi_type
+
+generic interface information. 
+ethernet, tokenring, etc
+
+*/
+
+/** @var if_data::ifi_physical
+
+generic interface information
+e.g., AUI, Thinnet, 10base-T, etc
+
+*/
+
+/** @var if_data::ifi_addrlen
+
+generic interface information
+media address length 
+
+*/
+
+/** @var if_data::ifi_hdrlen
+
+generic interface information
+media header length
+
+*/
+
+/** @var if_data::ifi_link_state
+
+generic interface information
+current link state
+
+*/
+
+/** @var if_data::ifi_recvquota
+
+generic interface information
+polling quota for receive intrs
+
+*/
+
+/** @var if_data::ifi_xmitquota
+
+generic interface information
+polling quota for xmit intrs
+
+*/
+
+/** @var if_data::ifi_datalen
+
+generic interface information
+length of this data struct 
+
+*/
+
+/** @var if_data::ifi_mtu
+
+generic interface information
+maximum transmission unit
+
+*/
+
+/** @var if_data::ifi_metric
+
+generic interface information
+routing metric (external only)
+
+*/
+
+/** @var if_data::ifi_baudrate
+
+generic interface information
+linespeed
+
+*/
+
+/** @var if_data::ifi_ipackets
+
+volatile statistics.
+packets received on interface 
+
+*/
+/** @var if_data::ifi_ierrors
+
+volatile statistics.
+input errors on interface
+
+*/
+
+/** @var if_data::ifi_opackets
+
+volatile statistics.
+packets sent on interface.
+
+*/
+
+/** @var if_data::ifi_oerrors
+
+volatile statistics.
+output errors on interface.
+
+*/
+
+/** @var if_data::ifi_collisions
+
+volatile statistics.
+collisions on csma interfaces.
+
+*/
+
+/** @var if_data::ifi_ibytes
+
+volatile statistics.
+total number of octets received.
+
+*/
+
+/** @var if_data::ifi_obytes
+
+volatile statistics.
+total number of octets sent.
+
+*/
+
+/** @var if_data::ifi_imcasts
+
+volatile statistics.
+packets received via multicast.
+
+*/
+
+/** @var if_data::ifi_omcasts
+
+volatile statistics.
+packets sent via multicast
+
+*/
+
+/** @var if_data::ifi_iqdrops
+
+volatile statistics.
+dropped on input, this interface.
+
+*/
+
+/** @var if_data::ifi_noproto
+
+volatile statistics.
+destined for unsupported protocol.
+
+*/
+
+/** @var if_data::ifi_hwassist
+
+volatile statistics.
+HW offload capabilities
+
+*/
+
+/** @var if_data::ifi_epoch
+
+volatile statistics.
+uptime at attach or stat reset.
+
+*/
+
+/** @var if_data::ifi_timepad
+
+volatile statistics.
+time_t is int, not long on alpha.
+
+*/
+
+/** @var if_data::ifi_lastchange
+
+volatile statistics.
+time of last administrative change
+
+*/
+
+/** @struct if_msghdr
+
+Message format for use in obtaining information about interfaces from getkerninfo and the routing socket
+
+@publishedAll
+@released
+*/
+
+/** @struct ifa_msghdr
+
+Message format for use in obtaining information about interface addresses from getkerninfo and the routing socket
+
+@publishedAll
+@released
+*/
+
+/** @var ifa_msghdr::ifam_msglen
+
+to skip over non-understood messages
+
+*/
+
+/** @var ifa_msghdr::ifam_version
+
+future binary compatibility
+
+*/
+
+/** @var ifa_msghdr::ifam_type
+
+message type
+
+*/
+
+/** @var ifa_msghdr::ifam_addrs
+
+like rtm_addrs
+
+*/
+
+/** @var ifa_msghdr::ifam_flags
+
+value of ifa_flags
+
+*/
+
+/** @var ifa_msghdr::ifam_index
+
+index for associated ifp
+
+*/
+
+/** @var ifa_msghdr::ifam_metric
+
+index for associated ifp
+
+*/
+
+/** @struct ifma_msghdr
+
+Message format for use in obtaining information about multicast addresses from the routing socket
+
+@publishedAll
+@released
+*/
+
+/** @var ifma_msghdr::ifmam_msglen
+
+to skip over non-understood messages
+
+*/
+
+/** @var ifma_msghdr::ifmam_version
+
+future binary compatibility
+
+*/
+
+/** @var ifma_msghdr::ifmam_type
+
+message type
+
+*/
+
+/** @var ifma_msghdr::ifmam_addrs
+
+like rtm_addrs
+
+*/
+
+/** @var ifma_msghdr::ifmam_flags
+
+value of ifa_flags
+
+*/
+
+/** @var ifma_msghdr::ifmam_index
+
+index for associated ifp
+
+*/
+
+
+/** @struct if_announcemsghdr
+
+Message format announcing the arrival or departure of a network interface.
+
+@publishedAll
+@released
+*/
+
+/** @var if_announcemsghdr::ifan_msglen
+
+to skip over non-understood messages
+
+*/
+
+/** @var if_announcemsghdr::ifan_version
+
+future binary compatibility
+
+*/
+
+/** @var if_announcemsghdr::ifan_type
+
+message type
+
+*/
+
+/** @var if_announcemsghdr::ifan_index
+
+index for associated ifp
+
+*/
+
+/** @var if_announcemsghdr::ifan_name
+
+if name, e.g. "en0"
+
+*/
+
+/** @var if_announcemsghdr::ifan_what
+
+what type of announcement
+
+*/
+
+
+/** @struct ifreq
+
+Interface request structure used for socket ioctl's.  
+All interface ioctl's must have parameter definitions which begin with ifr_name.  The remainder may be interface specific.
+
+@publishedAll
+@released
+*/
+
+/** @struct ifconf
+
+Structure used in SIOCGIFCONF request.
+Used to retrieve interface configuration for machine (useful for programs which must know all networks accessible).
+
+@publishedAll
+@released
+*/
+
+
+/** @struct if_laddrreq
+
+Structure for SIOC[AGD]LIFADDR
+
+@publishedAll
+@released
+*/
+
+
+/** @fn  int setdefaultif( const struct ifreq* ifrequest )
+@param ifrequest
+
+@return   The  setdefaultif returns 0 on success and -1 on failure.
+Specifically, if the interface is not found, -1 is returned and errno is set to ENOENT.
+
+The setdefaultif function can be used to set (or remove) a default network interface (either IAP or SNAP) for the application. 
+This default interface, if set, will be used by all the further socket related function calls (connect, send, write etc)
+and all the host resolver function calls (getaddrinfo, getnameinfo, gethostbyname, getaddrbyname etc).
+
+If there is a default interface set using setdefaultif and if there is a separate interface set on a socket 
+using the ioctl system call, network operations on that socket will not use the default one, 
+but the socket specific interface.
+
+To remove the default interace, pass NULL as the argument.  
+
+To set an IAP name as the default interface, the 'ifr_name' member of the 'ifreq' structure must be filled with 
+the IAP name to be set. Unicode IAP names can also be set by converting them to UTF8 format before passing them to 
+this API. See the example below:
+
+@code
+#include <stdio.h>
+#include <string.h>
+#include <net/if.h>
+
+int main()
+	{
+	struct ifreq ifReq;
+	int ret;
+	
+	/* Set the default interface using IAP name */
+	strcpy( ifReq.ifr_name, "Example Interface Name" );
+	ret = setdefaultif( &ifReq );
+	if( ret == -1 )
+		printf( "Setting default interface failed with errno = %d", errno );
+	
+	/* Perform network operations */
+	/* ... */
+	
+	/* Remove the default interface */
+	ret = setdefaultif( NULL );
+	if( ret == -1 )
+		printf( "Removing default interface failed with errno = %d", errno );
+	
+	return 0;
+	}
+@endcode 
+
+To set a SNAP id as the default interface, the 'ifr_name' member of the 'ifreq' structure must be an empty string.
+In this case, the 'snap_id' member of the 'ifr_ifru' union in the parameter should contain the SNAP id to be set.
+It is recommended to zero initialize the 'ifreq' structure in this case. See the example below. 
+
+@code
+#include <stdio.h>
+#include <string.h>
+#include <net/if.h>
+
+int main()
+	{
+	struct ifreq ifReq;
+	int ret;
+	unsigned int snapId = /* Get the SNAP id to be set from the application settings */
+	
+	/* Set the default interface using SNAP id */
+	
+	/* memset the ifreq to make sure that the interface name is an empty string */
+	memset(&ifReq, 0, sizeof(struct ifreq));
+	ifReq.ifr_ifru.snap_id = snapId;
+	
+	ret = setdefaultif( &ifReq );
+	if( ret == -1 )
+		printf( "Setting default interface failed with errno = %d", errno );
+	
+	/* Perform network operations */
+	/* ... */
+	
+	/* Remove the default interface */
+	ret = setdefaultif( NULL );
+	if( ret == -1 )
+		printf( "Removing default interface failed with errno = %d", errno );
+	
+	return 0;
+	}
+@endcode 
+
+The setdefaultif is not guaranteed to be thread safe.
+
+@publishedAll
+@released
+*/

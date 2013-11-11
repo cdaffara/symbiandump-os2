@@ -1,0 +1,36 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+PRINT Run all tpadding tests 
+//
+LOAD_SUITE tpaddingServer
+//
+
+//! @SYMTestCaseID SEC-CRYPTO-PADDING-0006
+//! @SYMTestCaseDesc Checks the unpadding for PKCS7 by giving different blocksize, textsize
+//					 and valid and invalid padding byte.
+//! 		     (UnpadCorruptPKCS7)
+//! @SYMDEF	     DEF079604 
+//! @SYMTestPriority Low
+//! @SYMTestStatus   Implemented
+//! @SYMTestActions  ASSERT ECryptoPanicOutputDescriptorOverflow if given wrong padding byte.
+//! @SYMTestExpectedResults The unpadding of data for PKCS7 should be proper.
+//! @SYMDevelopedForRelease Argus
+START_TESTCASE SEC-CRYPTO-PADDING-0006
+
+RUN_PANIC_STEP_RESULT 1 CRYPTO-LIB 100 tpaddingServer UnpadCorruptPKCS7 c:\tpadding\tpadpkcs7.ini InValid_PaddingByte1
+
+END_TESTCASE SEC-CRYPTO-PADDING-0006

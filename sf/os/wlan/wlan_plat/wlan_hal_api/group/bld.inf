@@ -1,0 +1,43 @@
+/*
+* Copyright (c) 2006-2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  File that exports the files belonging to 
+*                WLAN HAL API
+*
+*/
+
+/*
+* %version: tr1cfwln#7 %
+*/
+
+#include <platform_paths.hrh>
+
+PRJ_PLATFORMS
+DEFAULT
+
+PRJ_EXPORTS
+
+#if !defined(RD_WLAN_DDK)
+../inc/wha.inl              OS_LAYER_PLATFORM_EXPORT_PATH(wha.inl)
+../inc/wha_types.h          OS_LAYER_PLATFORM_EXPORT_PATH(wha_types.h)
+../inc/wha.h                OS_LAYER_PLATFORM_EXPORT_PATH(wha.h)
+../inc/wha_mib.h            OS_LAYER_PLATFORM_EXPORT_PATH(wha_mib.h)
+../inc/whanamespace.h       OS_LAYER_PLATFORM_EXPORT_PATH(whanamespace.h)
+#else
+../inc/wlanwha.h            OS_LAYER_PLATFORM_EXPORT_PATH(wlanwha.h)
+../inc/wlanwha.inl          OS_LAYER_PLATFORM_EXPORT_PATH(wlanwha.inl)
+../inc/wlanwha_mib.h        OS_LAYER_PLATFORM_EXPORT_PATH(wlanwha_mib.h)
+../inc/wlanwha_types.h      OS_LAYER_PLATFORM_EXPORT_PATH(wlanwha_types.h)
+../inc/wlanwhanamespace.h   OS_LAYER_PLATFORM_EXPORT_PATH(wlanwhanamespace.h)
+../inc/wlanpddiface.h       OS_LAYER_PLATFORM_EXPORT_PATH(wlanpddiface.h)
+#endif

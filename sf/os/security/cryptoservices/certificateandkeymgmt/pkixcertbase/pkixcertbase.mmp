@@ -1,0 +1,43 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+/**
+@file
+
+@SYMPurpose pkixcert.dll PKIX validation
+*/
+
+TARGET	pkixcertbase.dll
+TARGETTYPE	dll
+CAPABILITY All
+DEFFILE PKIXCertBase_v2.DEF
+
+UID 0x1000008d 0x10005e0c
+VENDORID 0x70000001
+
+SOURCEPATH	.
+
+SOURCE pkixCertChain.cpp pkixcons.cpp pkixCertState.cpp pkixcerts.cpp
+SOURCE pkixcertchainao.cpp pkixvalidationresult.cpp Pkixchainbuilder.cpp
+
+USERINCLUDE ../../../crypto/weakcrypto/inc
+USERINCLUDE ../inc
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+LIBRARY	euser.lib x500.lib x509.lib crypto.lib
+LIBRARY ctframework.lib estor.lib
+SMPSAFE

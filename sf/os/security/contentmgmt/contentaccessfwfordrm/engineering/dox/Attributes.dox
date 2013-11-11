@@ -1,0 +1,161 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// Each of these objects may have properties or attributes associated with it. This section
+// outlines how applications can retrieve these using the CAF API.
+// <hr>
+// Different agents may use different terms to describe the same concept. Generic attributes provide a 
+// way for applications to query standardised information about a content object. 
+// These standardised attributes are given by the enumeration <code>ContentAccess::TAttribute</code>. It is possible 
+// for agents to extend this set of attributes, starting from <code>EAgentSpecificAttributeBase</code>. 
+// The attribute functions are implemented in <code>ContentAccess::CContent</code>, <code>ContentAccess::CData</code> and 
+// <code>ContentAccess::CManager</code>.
+// <b> Retrieving a Single Attribute </b>
+// The attributes of one content object in a file may not necessarily be the same as the
+// attributes of other content objects within the same file. Attributes relate to a single
+// content object within a file. 
+// It is possible that the attribute may not make sense for a particular content object. In that 
+// case the agent will return an error <code>KErrCANotSupported</code>. If an attempt is made to 
+// retrieve the attributes of a content object that does not exist the agent will return <code>KErrNotFound</code>.
+// The following code fragment illustrates how to retrieve an attribute for a particular
+// object within a content file.
+// CContent* content = CContent::NewL(uri);
+// // check if DRM rights are pending for the object specified by uniqueId
+// TInt attributeValue;
+// TInt err = content->GetAttribute(ERightsPending, attributeValue, uniqueId);
+// if(err == KErrNone)
+// // Check the value of the attribute
+// if(attributeValue == ETrue)
+// // Rights are pending, display waiting for rights countdown
+// else if(attributeValue == EFalse)
+// // Rights are not pending
+// else if(err == KErrCANotSupported)
+// // This attribute does not apply to this content object
+// else if(err == KErrNotFound)
+// // Cannot find the object specified by the given uniqueId
+// else if (err != KErrPermissionDenied)
+// // Unknown error
+// User::Leave(err);
+// <b> Retrieving Several Attributes </b>
+// For some agent implementations it may be more efficient to retrieve all the attributes for a content
+// object in one function call. The <code>ContentAccess::RAttributeSet</code> object is used here to provide a way to
+// request and store several attributes.
+// Querying two attributes using the CManager API would look like the following:
+// // Agent manager
+// CManager *manager = CManager::NewLC();
+// // Prepare the attributes to query using the CAttributeSet object
+// RAttributeSet attributeSet;
+// CleanupClosePushL(attributeSet);
+// attributeSet.AddL(EProtected);
+// attributeSet.AddL(ECanView);
+// // Retrieve the attribute values from the agent
+// User::LeaveIfError(manager->GetAttributeSet(attributeSet, virtualPath));
+// // Check if the content object is protected
+// TInt attributeValue;
+// TInt err = attributeSet.GetValue(EProtected, attributeValue);
+// if(err == KErrNone && attributeValue)
+// // content object is DRM protected
+// // Check if the content object can be display on screen
+// TInt err = attributeSet.GetValue(ECanView, attributeValue);
+// if(err == KErrNone && attributeValue)
+// // content object has rights that allow it to be displayed on screen
+// // Finished	
+// CleanupStack::PopAndDestroy(2);		// manager, attributeSet
+// <hr>
+// String attributes are similar to the attributes described above except the value associated
+// with the attribute is a string. A good example of where a string attribute is required is the
+// MIME type of a content object within a file. 
+// The string attributes are standardised by the <code>ContentAccess::TStringAttribute</code> enumeration. This
+// allows applications to request information such as the MIME type in a generic way for all agents.
+// Agents can extend this mechanism to provide agent specific attributes starting at 
+// <code>EAgentSpecificStringAttributeBase</code>.
+// The following example finds the author of a content object.
+// CContent* content = CContent::NewL(uri);
+// // define a buffer to store the attribute value string
+// TBuf <100> buf;
+// // retrieve the attribute
+// err = content->GetAttribute(EAuthor, authorBuffer, uniqueId);
+// // Display the authors name on screen
+// if (err == KErrNone)
+// DisplayAuthor(buf);
+// If the Agent does not support this attribute, it will return <code>KErrCANotSupported</code>.
+// <b> Retrieving Several String Attributes </b>
+// For some agent implementations it may be more efficient to retrieve several string attributes for a content
+// object in one function call. The <code>ContentAccess::RStringAttributeSet</code> object is used here to provide a way to
+// request and store several attributes.
+// Querying three attributes using the CManager API would look like the following:
+// CManager *manager = CManager::NewLC();
+// // Prepare the attributes to query using the CAttributeSet object
+// RStringAttributeSet stringAttributeSet;
+// CleanupClosePushL(stringAttributeSet);
+// stringAttributeSet.AddL(ETitle);
+// stringAttributeSet.AddL(EAuthor);
+// stringAttributeSet.AddL(EDescription);
+// // Retrieve the attribute values from the agent
+// User::LeaveIfError(manager->GetStringAttributeSet(stringAttributeSet, virtualPath));
+// // Display the values
+// TBuf <256> value;
+// TInt err = stringAttributeSet.GetValue(ETitle, value);
+// if(err == KErrNone)
+// Printf("Title       : %s", value);
+// err = stringAttributeSet.GetValue(EAuthor, value);
+// if(err == KErrNone)
+// Printf("Author      : %s", value);
+// err = stringAttributeSet.GetValue(EDescription, value);
+// if(err == KErrNone)
+// Printf("Description : %s", value);
+// // Finished
+// CleanupStack::PopAndDestroy(2);		// manager, stringAttributeSet
+// <hr>
+// Some agents may expose meta data so they can be read using a \c CData object. The format 
+// of these meta-data objects is not specified by the Content Access Framework but could 
+// be useful for applications familiar with the agent to read meta data this way.
+// \c CData objects for agent specific meta-data can be opened in the same way content objects
+// are opened using the <code>ContentAccess::CContent::OpenContentL()</code> function.
+// CContent* content = CContent::NewLC(uri);
+// // Create an array to store the embedded objects 
+// RStreamablePtrArray<CEmbeddedObject> myArray;
+// CleanupClosePushL(myArray);
+// // Get the embedded "Agent Specific" objects in the current container
+// content->GetEmbeddedObjectsL(myArray, EAgentSpecificObject);
+// // Get the unique Id of the first meta-data object
+// TPtrC aUniqueId = myArray[0]->UniqueId();
+// // create a CData object to read the meta data
+// CData *myMetaData = content->OpenContentLC(EPeek, aUniqueId);
+// // Do something with the data
+// // Finished
+// CleanupStack::PopAndDestroy(3);		// content, myArray, myMetaData
+// <hr>
+// 
+//
+
+/**
+ @page ContentAttributes Content Object Attributes
+ As shown in the @ref CContentAPI "Consumer API", a file may consist of many content and container objects.
+ - @ref CAFAttributes
+ - @ref CAFStringAttributes
+ - @ref CAFAgentSpecificMetaData 
+ @section CAFAttributes Generic Attributes
+ @code
+ @endcode
+ @code
+ @endcode
+ @section CAFStringAttributes Generic String attributes
+ @code
+ @endcode
+ @code
+ @endcode
+ @section CAFAgentSpecificMetaData Agent specific meta-data
+ @code
+ @endcode
+*/

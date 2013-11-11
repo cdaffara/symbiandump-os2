@@ -1,0 +1,96 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+PRINT Legendary RUN_TEST_STEP steps for confirming backward compatibility
+//
+PRINT Run all Sample Tests 
+//
+LOAD_SUITE SampleServer
+//
+#
+MkDir ${SYSDRIVE}\SampleTest\
+CopyFile z:\SampleTest\SampleTest1.script ${SYSDRIVE}\SampleTestt\SampleTest1.Script
+CopyFile z:\SampleTest\SampleTest.ini ${SYSDRIVE}\SampleTestt\SampleTest.ini
+CopyFile z:\SampleTest\SampleTest1.script ${SYSDRIVE}\SampleTest\SampleTest1.Script
+CopyFile z:\SampleTest\SampleTest.ini ${SYSDRIVE}\SampleTest\SampleTest.ini
+MakeReadWrite ${SYSDRIVE}\SampleTest\SampleTest1.Script
+MakeReadWrite ${SYSDRIVE}\SampleTest\SampleTest.ini
+REMOVE_PREFIX
+
+START_TESTCASE TC012344
+START_REPEAT ${SYSDRIVE}\sampletest\sampletest.ini SectionOne
+RUN_TEST_STEP 100 SampleServer SampleStep1  ${SYSDRIVE}\sampletest\sampleTest.ini SectionTwo
+RUN_TEST_STEP 100 SampleServer SampleStep1  ${SYSDRIVE}\sampletest\sampleTest.ini SectionTwo
+END_REPEAT
+
+CONCURRENT
+START_TESTCASE TC012346
+START_REPEAT ${SYSDRIVE}\sampletest\sampletest.ini SectionOne repeatParam
+RUN_PROGRAM EPanic.exe
+END_REPEAT
+RUN_PANIC_STEP_RESULT 2 SampleServer 100 SampleServer SampleStep1  ${SYSDRIVE}\sampletest\SampleTest.ini SectionTwo
+RUN_PANIC_STEP_RESULT 1 SampleStep 100 SampleServer SampleStep1  ${SYSDRIVE}\sampletest\SampleTest.ini SectionTwo
+END_TESTCASE TC012346
+
+PREFIX RUN_PANIC_STEP 100 SampleServer SampleStep1  ${SYSDRIVE}\sampletestt\sampleTest.ini
+SectionTwo
+SectionTwo
+REMOVE_PREFIX
+
+PRINT RUN_TEST_STEP with !TEF Parameters
+
+PRINT Test that !Error works correctly when the test step result sets the incorrect error return value
+RUN_TEST_STEP !Error=43 100 SampleServer SampleStep4  ${SYSDRIVE}\sampletest\sampleTest.ini SectionOne
+
+PRINT Test that !Error and !Result in combination causes a TEF error in the log file
+RUN_TEST_STEP !Error=-43 !Result=Fail 100 SampleServer SampleStep4  ${SYSDRIVE}\sampletest\sampleTest.ini SectionOne
+
+PRINT Test that !Error works correctly when the test step does not return an error
+RUN_TEST_STEP !Error=-43 100 SampleServer SampleStep1  ${SYSDRIVE}\sampletest\sampleTest.ini SectionTwo
+
+PRINT Test that !Panic works correctly when the test step panics with a non-matching panic string
+RUN_TEST_STEP !PanicString=Sample 100 SampleServer SampleStep1  ${SYSDRIVE}\sampletest\sampleTest.ini SectionTwo
+RUN_TEST_STEP !PanicString="Sample" 100 SampleServer SampleStep1  ${SYSDRIVE}\sampletest\sampleTest.ini SectionTwo
+RUN_TEST_STEP !PanicCode=2 100 SampleServer SampleStep1  ${SYSDRIVE}\sampletest\sampleTest.ini SectionTwo
+
+PRINT Test that !Panic works correctly when the test step does not panic
+RUN_TEST_STEP !PanicString=SampleServer 100 SampleServer SampleStep1  ${SYSDRIVE}\sampletest\sampleTest.ini SectionOne
+RUN_TEST_STEP !PanicString="SampleServer" 100 SampleServer SampleStep1  ${SYSDRIVE}\sampletest\sampleTest.ini SectionOne
+RUN_TEST_STEP !PanicCode=1 100 SampleServer SampleStep1  ${SYSDRIVE}\sampletest\sampleTest.ini SectionOne
+
+PRINT Test that !Result works as RUN_TEST_STEP_RESULT
+RUN_TEST_STEP !Result=Abort 1 SampleServer SampleStep4  ${SYSDRIVE}\sampletest\sampleTest.ini SectionOne
+RUN_TEST_STEP !Result=Fail 100 SampleServer SampleStep1  ${SYSDRIVE}\sampletest\sampleTest.ini SectionOne
+RUN_TEST_STEP !Result=Inconclusive 100 SampleServer SampleStep4  ${SYSDRIVE}\sampletest\sampleTest.ini SectionOne
+RUN_TEST_STEP !Result=Pass 100 SampleServer SampleStep1  ${SYSDRIVE}\sampletest\sampleTest.ini SectionTwo
+
+PRINT Test various combinations of TEF parameters being passed in
+RUN_TEST_STEP !PanicString=Sample !PanicCode=1 100 SampleServer SampleStep1  ${SYSDRIVE}\sampletest\sampleTest.ini SectionTwo
+RUN_TEST_STEP !PanicString=SampleServer !PanicCode=2 100 SampleServer SampleStep1  ${SYSDRIVE}\sampletest\sampleTest.ini SectionTwo
+RUN_TEST_STEP !Error=-43 !PanicString=SampleServer 100 SampleServer SampleStep2  ${SYSDRIVE}\sampletest\sampleTest.ini SectionOne
+RUN_TEST_STEP !Error=-43 !PanicCode=1 100 SampleServer SampleStep2  ${SYSDRIVE}\sampletest\sampleTest.ini SectionOne
+RUN_TEST_STEP !Error=-43 !Heap=0x10000 100 SampleServer SampleStep2  ${SYSDRIVE}\sampletest\sampleTest.ini SectionOne
+RUN_TEST_STEP !PanicString=SampleServer !Result=Fail 100 SampleServer SampleStep1  ${SYSDRIVE}\sampletest\sampleTest.ini SectionTwo
+RUN_TEST_STEP !PanicCode=1 !Result=Fail 100 SampleServer SampleStep1  ${SYSDRIVE}\sampletest\sampleTest.ini SectionTwo
+RUN_TEST_STEP !PanicString=SampleServer !PanicCode=1 !Result=Fail 100 SampleServer SampleStep1  ${SYSDRIVE}\sampletest\sampleTest.ini SectionTwo
+
+PRINT Test a range of edge conditions where multiple TEF parameter entries
+RUN_TEST_STEP !PanicString=SampleServer !Heap=0x10000 !PanicString=SampleServ 100 SampleServer SampleStep1  ${SYSDRIVE}\sampletest\sampleTest.ini SectionTwo
+RUN_TEST_STEP !Result=Fail !Result=Fail 100 SampleServer SampleStep1  ${SYSDRIVE}\sampletest\sampleTest.ini SectionOne
+RUN_TEST_STEP !Error=43 !Error=-43 100 SampleServer SampleStep2  ${SYSDRIVE}\sampletest\sampleTest.ini SectionOne
+RUN_TEST_STEP !PanicCode=1 !PanicCode=2 100 SampleServer SampleStep1  ${SYSDRIVE}\sampletest\sampleTest.ini SectionTwo
+RUN_TEST_STEP !Heap=0x10000 !Heap=0x1000 100 SampleServer SampleStep2  ${SYSDRIVE}\sampletest\sampleTest.ini SectionOne
+

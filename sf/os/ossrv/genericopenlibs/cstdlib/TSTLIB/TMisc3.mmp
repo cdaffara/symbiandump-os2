@@ -1,0 +1,37 @@
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+CAPABILITY	None
+VENDORID 0x70000001
+
+// In winscw urel CW links libc math functions to its own math library
+// instead of calling those in estlib.dll.
+OPTION CW -opt nointrinsics
+
+TARGET	tmisc3.exe		//RTEST
+TARGETTYPE	exe
+
+USERINCLUDE		../INC
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_ESTLIB_SYSTEMINCLUDE
+
+SOURCEPATH	../TSTLIB
+SOURCE	TMisc3.cpp
+
+LIBRARY	euser.lib 
+LIBRARY	estlib.lib
+
+SMPSAFE

@@ -1,0 +1,258 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+#ifndef __SECURITYTESTS_IBY__
+#define __SECURITYTESTS_IBY__
+
+// We need bigger ROFS files for tests with TBAS
+rofssize=0x2100000
+
+// conditionally included to avoid to be included in vasco image creation but needed in h4/h6 image creation
+#ifdef _SERIAL_DOWNLOAD
+// Save build details in ROM
+data=\buildid.txt                 \buildid.txt
+#endif
+
+// This should be included in the Techview.oby file
+// All test data and scripts gets copied to the root of ROM drive.
+// This should be copied to the relevant directory on the C drive.
+
+// platsec.oby should be included, but a problem in rombuild prevents build with watchers disabled and PlatSecEnforceSysBin ON
+//#include "platsec.oby"
+ROM_IMAGE[0] {
+PlatSecDiagnostics ON
+PlatSecEnforcement ON
+PlatSecEnforceSysBin ON
+PlatSecProcessIsolation ON
+}
+
+#include "setcap.iby"
+
+#include "testexecute.iby"
+#include "t_testhandler.iby"
+#include "testutil.iby"
+//#include "xml.iby" // Needed for security tests
+
+#include "securityframeworktestserver.iby"
+
+#if defined SYMBIAN_KEYSTORE_USE_AUTH_SERVER || defined SDP_ROM1
+	#include "ups.iby"
+	#include "tups.iby"
+	#include "asnpkcstests.iby"
+	#include "certmantests.iby"
+	#include "tpkcs7server.iby"     
+	#include "tpkcs12integrationserver.iby"  	
+	#include "ctframeworktests.iby"
+	// conditionally included to avoid to be included in vasco image creation but needed in h4/h6 image creation
+	// temp added
+	#ifndef _SERIAL_DOWNLOAD
+		#include "streamingcaf.iby"
+		// iby files for caf
+		#include "caf.iby"
+		#include "caftest.iby"
+		#include "reccafconfig.iby"
+		#include "rta.iby"
+		#include "rtatest.iby"
+		#include "cryptotests.iby"
+		#include "tscaf.iby"	
+		#include "randomtests.iby"
+		#include "hashtests.iby"
+
+		#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+		#include "mtputils.iby"
+		#include "mtputilstest.iby"
+		#include "refcafhelper.iby"
+		#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+	#endif
+
+#else
+	#include "streamingcaf.iby"
+	// iby files for caf
+	#include "caf.iby"
+	#include "caftest.iby"
+	#include "reccafconfig.iby"
+	#include "rta.iby"
+	#include "rtatest.iby"
+	#include "cryptotests.iby"
+	#include "tscaf.iby"	
+	#include "randomtests.iby"
+	#include "hashtests.iby"
+
+	#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+	#include "mtputils.iby"
+	#include "mtputilstest.iby"
+	#include "refcafhelper.iby"
+	#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+	// conditionally included to avoid to be included in vasco image creation but needed in h4/h6 image creation
+	// temp added
+	#ifndef _SERIAL_DOWNLOAD
+		#include "ups.iby"
+		#include "tups.iby"
+		#include "asnpkcstests.iby"
+		#include "certmantests.iby"
+		#include "tpkcs7server.iby"     
+		#include "tpkcs12integrationserver.iby"  	
+		#include "ctframeworktests.iby"		
+	#endif 
+
+#endif 
+	
+// Common utils libraries
+#include "securitycommonutils.iby"
+#include "securitytestframework.iby"	
+#include "secutiltests.iby"
+
+//filetokens and authserver run in both the images.
+#include "filetokenstests.iby"
+
+
+#ifdef SYMBIAN_AUTH_SERVER
+	#include "tAuthSvr.iby"
+	#include "authserver.iby"
+	#include "pinplugin.iby"
+#endif // SYMBIAN_AUTH_SERVER
+
+
+define ZDRIVE \epoc32\winscw\c
+// This is the bat file to run the security tests automatically
+// comms configuration (and configuration using sim.tsy)
+// temp addeed the next line
+#ifndef _SERIAL_DOWNLOAD
+data = ZDRIVE\auto.cfg                 \buildid.txt
+#endif
+data = ZDRIVE\auto.cfg					\auto.cfg
+data = ZDRIVE\auto_broken.cfg					\auto_broken.cfg
+data = ZDRIVE\autosimtsy.cfg					\autosimtsy.cfg
+data = ZDRIVE\prompt.cfg					\prompt.cfg
+data = ZDRIVE\private\10202be9\persists\cccccc00_wifi.cre	\private\10202be9\persists\cccccc00_wifi.cre
+
+
+// This the file which used to redirect the request from cam-ocsptest01 to ban-ocsptest01
+data = ZDRIVE\autohardware\hosts		     \hosts
+
+
+#ifdef __AUTO_HARDWARE_TESTS__
+	data = ZDRIVE\autohardware\autoexec.bat		\autoexec.bat
+#endif
+
+
+data = ZDRIVE\autohardware\runcertman.bat			\runcertman.bat
+data = ZDRIVE\autohardware\runasnpkcs.bat			\runasnpkcs.bat
+data = ZDRIVE\autohardware\runcryptotokens.bat		\runcryptotokens.bat
+data = ZDRIVE\autohardware\runupstests.bat			\runupstests.bat
+data = ZDRIVE\autohardware\runpkcs12tests.bat		\runpkcs12tests.bat
+
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+	data = ZDRIVE\autohardware\runcaftests_wmdrm.bat		\runcaftests.bat
+#else
+	data = ZDRIVE\autohardware\runcaftests.bat		\runcaftests.bat
+#endif
+
+
+
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+	data = ZDRIVE\autohardware\runcrypto_wmdrm.bat	               	\runcrypto.bat
+#else
+	data = ZDRIVE\autohardware\runcrypto.bat	               	\runcrypto.bat
+#endif
+
+
+
+data = ZDRIVE\autohardware\testsecurityperformance_cryptalg.bat	\testsecurityperformance_cryptalg.bat
+data = ZDRIVE\autohardware\testsecurityperformance_crypto.bat	\testsecurityperformance_crypto.bat
+
+#ifdef SYMBIAN_AUTH_SERVER
+#ifdef SYMBIAN_ENABLE_POST_MARKET_AUTHENTICATION_PLUGINS
+	data = ZDRIVE\autohardware\runauthtests_macroenabled.bat		\runauthtests.bat
+#else
+	data = ZDRIVE\autohardware\runauthtests.bat				\runauthtests.bat
+#endif	//SYMBIAN_ENABLE_POST_MARKET_AUTHENTICATION_PLUGINS
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	data = ZDRIVE\autohardware\runfiletokens_useauth.bat		\runfiletokens.bat
+#else
+	#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+		data = ZDRIVE\autohardware\runfiletokens_disableauth_with_wmdrm.bat		\runfiletokens.bat
+	#else
+		data = ZDRIVE\autohardware\runfiletokens_disableauth.bat		\runfiletokens.bat
+	#endif
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+#else
+	data = ZDRIVE\autohardware\runfiletokens.bat		\runfiletokens.bat
+#endif // SYMBIAN_AUTH_SERVER
+
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER 
+	data = ZDRIVE\autohardware\testsecurity_sdp_auth.bat		\testsecurity.bat
+#else
+#ifdef SDP_ROM1
+	data = ZDRIVE\autohardware\testsecurity_sdp_newrom.bat		\testsecurity.bat
+#else
+	data = ZDRIVE\autohardware\testsecurity_sdp.bat			\testsecurity.bat
+#endif
+#endif
+	
+
+
+
+//estor.dll is put in ROFS by deafult but we need to put it into CORE as well
+//core version will be used; see DEF113303 for details
+#ifdef __SECURITY_TEST_ROM__
+#ifdef _INTERNAL_MMC
+ROM_IMAGE[0] {
+file = \epoc32\release\armv5\urel\estor.dll \sys\bin\estor.dll
+}
+#else
+#ifdef _NAND2
+ROM_IMAGE[0] {
+file = \epoc32\release\armv5\urel\estor.dll \sys\bin\estor.dll
+}
+#endif
+#endif
+#endif
+
+REM ---------- Comms-Infras ----------
+// ced is not included in release builds by default (in commdb.iby)
+// so we include it explicitly here if _DEBUG is NOT defined
+file=ABI_DIR\BUILD_DIR\ced.exe                      System\Libs\ced.exe
+data=EPOCROOT##epoc32\data\z\system\data\meshpreface1.cfg		system\data\meshpreface1.cfg
+
+file=ABI_DIR\BUILD_DIR\ceddump.exe                  System\Programs\ceddump.exe
+
+file=ABI_DIR\BUILD_DIR\RUNTESTS.EXE                 System\Programs\RUNTESTS.EXE
+
+// conditionally included to avoid to be included in vasco image creation but needed in h4/h6 image creation
+#ifdef _SERIAL_DOWNLOAD
+#include "thindump.iby"
+#endif
+#include "sntpclient.iby"
+
+// *** Additional includes and configuration for SSM Requirements ***
+#ifdef _SSMSTARTUPMODE
+data=MULTI_LINGUIFY(RSC EPOCROOT##epoc32\data\z\private\2000d75b\startup\0\eshell  private\2000d75b\startup\0\eshell)
+
+// Addition IBY's required
+#include "aplp.iby"
+#include "amastart.iby"
+#include "shma.iby"
+#include "ssrefplugins.iby" 
+#endif
+
+
+// DEF139848 fix - Forward Propogation from Symtb9.1 - Illegal dependency from OCSP to HTTP.
+#include "ocsp.iby" 
+#include "ocsptests.iby"
+
+#endif

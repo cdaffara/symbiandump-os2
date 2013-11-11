@@ -1,0 +1,70 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  The .mmp file for AToolMemoryHook.
+*
+*/
+
+#include <platform_paths.hrh>
+#include "../../symbian_version.hrh"
+
+TARGET        atoolmemoryhook.dll
+TARGETTYPE    dll
+UID           0x1000008d 0x2001242F
+CAPABILITY    ALL -TCB
+
+#if ( SYMBIAN_VERSION_SUPPORT >= SYMBIAN_3 )
+EPOCALLOWDLLDATA
+#endif
+
+SMPSAFE
+
+SOURCEPATH    ../src
+
+SOURCE        analyzetooleventhandler.cpp
+SOURCE        codeblock.cpp
+SOURCE        threadstack.cpp
+SOURCE        customuser.cpp
+SOURCE        analyzetoolmemoryallocator.cpp
+SOURCE        analyzetoolmainallocator.cpp
+SOURCE        analyzetoolallocator.cpp
+SOURCE        analyzetoolfastlog.cpp
+SOURCE        atdriveinfo.cpp
+SOURCE        analyzetoolfilelog.cpp
+
+USERINCLUDE   ../inc
+USERINCLUDE   ../../inc
+USERINCLUDE   ../../analyzetool_plat/analyzetool_api/inc/analyzetool
+
+#ifdef WINSCW
+APP_LAYER_SYSTEMINCLUDE
+#endif
+
+OS_LAYER_SYSTEMINCLUDE
+
+LIBRARY       efsrv.lib 
+LIBRARY       euser.lib
+LIBRARY       flogger.lib
+LIBRARY       charconv.lib 
+LIBRARY       platformenv.lib
+LIBRARY       sysutil.lib 
+LIBRARY       estor.lib 
+#ifdef WINSCW
+LIBRARY        cone.lib
+#endif
+
+#if ( SYMBIAN_VERSION_SUPPORT >= SYMBIAN_3 )
+MACRO	USE_CLEANER_DLL
+#endif
+
+// End of File

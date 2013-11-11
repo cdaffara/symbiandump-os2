@@ -1,0 +1,94 @@
+// Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// e32test/group/bld.inf
+// Kernel and User library test code
+// 
+//
+
+/**
+ @file
+*/
+
+
+PRJ_PLATFORMS
+
+BASEDEFAULT
+
+PRJ_TESTEXPORTS
+
+./t_rmdebug_tests.iby					/epoc32/rom/include/t_rmdebug_tests.iby
+./mytraces_rm_debug_ekern.txt			/epoc32/rombuild/mytraces_rm_debug_ekern.txt
+./mytraces_rm_debug.txt					/epoc32/rombuild/mytraces_rm_debug.txt
+
+./rmdebug.iby							/epoc32/rom/include/rmdebug.iby
+../scripts/tef_execute_rtests.script	z:/scripts/tef_execute_rtests.script
+
+
+PRJ_TESTMMPFILES
+
+/******************************************************************************
+ Put all device drivers here. These build both SMP and non-SMP variants.
+ User side code builds a single variant for both.
+ *NOTE: Base BTB will build properly any kernel-side test code embedded within 
+ positive check ( #ifdef SMP ), however these binaries will not be included in BTB 
+ autotest images for SMP platforms. Refer to DTW-KHS BTB00055 for more details.
+ ******************************************************************************/
+
+/******************************************************************************
+ User side code here - builds a single variant for both SMP and non-SMP.
+ ******************************************************************************/
+
+#if defined(MARM_ARMV5)
+./t_rmdebug_app support
+./t_rmdebug_app1 support
+./t_rmdebug_app2 support
+./t_rmdebug_app3 support
+./t_rmdebug_app4 support
+./t_rmdebug_app5 support
+./t_rmdebug_app6 support
+./t_rmdebug_app7 support
+./t_rmdebug_app8 support
+./t_rmdebug_app9 support
+./t_rmdebug_app10 support
+
+./t_rmdebug_dll support
+
+./t_rmdebug_security0 support
+./t_rmdebug_security1 support
+./t_rmdebug_security2 support
+./t_rmdebug_security3 support
+
+./t_rmdebug2.mmp
+
+./t_rmdebug2_oem.mmp
+./t_rmdebug2_oemtoken support
+
+./t_rmdebug2_oem2.mmp
+./t_rmdebug2_oemtoken2 support
+
+./t_rmdebug2_allcaps.mmp
+./t_rmdebug2_allcapstoken support
+
+./t_rmdebug_target_launcher support
+./t_rmdebug_multi_target.mmp
+
+./t_rmdebug_multi_agent support
+./t_multi_agent_launcher.mmp
+
+./t_rmdebug_performance_allcapstoken
+./t_performance_test.mmp
+
+#endif
+
+

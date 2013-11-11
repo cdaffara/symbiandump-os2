@@ -1,0 +1,81 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* Policy file 0, used by integration test
+*
+*/
+
+
+#include <ups/policies.rh>
+
+UID2 KUidUpsPolicyResourceFile
+UID3 0x101F7F1F
+
+// Test policy file for integration test (wild cards question mark only) 
+RESOURCE POLICIES testpolicies
+	{
+	header = POLICY_HEADER
+		{
+		// use default client config 
+		policyevaluator = 0xe1111e31;
+		dialogcreator = 0xe1111d31;
+		majorversion = 1;
+		minorversion = 1;
+		};
+	policies = 
+		{
+		POLICY
+			{
+			// prompts options for to "0?00"  
+			sid_list = {0x80001234};   // sid for client 2          
+			destination = "0?00";
+			options = KNo|KYes|KAlways|KNever;
+			flags = 0x01;
+			},
+		POLICY
+			{
+			// prompts options for to "0?001"
+			sid_list = {0x80001234};  // sid for client 2           
+			destination = "0?001";
+			options = KAlways|KNever;
+			flags = 0x02;
+			},
+		POLICY
+			{
+			// prompts options for to "0?00"  
+			sid_list = {0x101F7784};   // sid for client 1          
+			destination = "0?00";
+			options = KNo|KYes|KAlways|KNever;
+			flags = 0x03;
+			},
+		POLICY
+			{
+			// prompts options for to "118???"
+			sid_list = {0x101F7784};  // sid for client 1           
+			destination = "118???";
+			options = KNo;
+			flags = 0x04;
+			},
+		POLICY
+			{
+			// Any oter  
+			sid_classes = KAllSids;            
+			destination = "*";
+			options = KYes|KAlways|KNever;
+			flags = 0x05;
+			} 
+				
+		};
+	}
+

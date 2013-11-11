@@ -1,0 +1,41 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SERVER te_RegBlockTestSuite -SharedData
+
+START_TESTCASE DT-TEF-TestBlock-0007
+//! @SYMTestCaseID          DT-TEF-TestBlock-0007
+//! @SYMCreationDate        03-07-2008
+//! @SYMAuthor              DavidZhang
+//! @SYMTestType            CT
+//! @SYMTestPriority        Medium
+//! @SYMTestCaseDesc        Create a number of objects in the first block. Make sure that the objects are not accessible in the dictionary in the second block.
+//! @SYMTestExpectedResults The data wrappers that were created in the first block are not accessible in the second block.
+//!                         The test result should be pass.
+//! @SYMTestActions         1. In the first test block create two data wrappers.
+//!                         2. In the second block check that the data wrappers are not accessible anymore.
+	START_TEST_BLOCK	100 te_RegBlockTestSuite ${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini
+		CREATE_OBJECT	te_RegBlockTestWrapper	TestCase020_obj
+		CREATE_OBJECT	te_RegBlockTestWrapper	TestCase020_obja
+		COMMAND		TestCase020_obj			DummyFunction
+		COMMAND		TestCase020_obja		DummyFunction
+	END_TEST_BLOCK
+	START_TEST_BLOCK	100 te_RegBlockTestSuite ${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini
+		CREATE_OBJECT	te_RegBlockTestWrapper	TestCase020_objb
+		COMMAND		!Error=-1 TestCase020_objb	GetDataObject		TestCase020_obj_is_null
+		COMMAND		!Error=-1 TestCase020_objb	GetDataObject		TestCase020_obja_is_null
+	END_TEST_BLOCK
+END_TESTCASE DT-TEF-TestBlock-0007

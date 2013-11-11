@@ -1,0 +1,173 @@
+===============================================================================
+
+RELEASE NOTES - MEMSPY v2.2.2
+RELEASED 21th September 2010 
+
+SUPPORTS S60 5.0+
+
+===============================================================================
+
+Product Description:
+====================
+MemSpy is a tracing application running on an S60 device. MemSpy is typically
+used to narrow down the field of investigation. Once you know where the problem
+is (e.g. the thread or process), you can use other tools to perform more
+detailed inspection. 
+
+Main Features:
+==============
+- RAM usage of a thread or process
+- Amount of stack each thread has
+- Active objects for a given thread
+- Files that are open in a system, or files that have been opened by a thread
+- Device RAM / ROM configuration
+- Servers that are running (and their sessions)
+- Any memory chunks
+- Heap memory changes over time
+- Bitmaps loaded by the font & bitmap server
+
+===============================================================================
+
+What's New in v2.2.2
+====================
+- Fix: SWMT crash when heap dumps without filter are enabled.
+- Fix: Memory leaks.
+- UI change: Results subview removed from SMWT view.
+- UI change: Wait dialog when opening KernelContainers and KernelObjects Avkon view.
+
+===============================================================================
+
+Installation Notes:
+===================
+MemSpy is typically preinstalled on ROM. If not, it can be added to the
+ROM with the .iby file. Alternatively, a .sis file can be found under the sis-
+directory, but the user needs to sign it with their own developer certificate.
+In Nokia R&D environment, you can use directly the R&D-signed .sis file under 
+the internal\sis directory.
+
+When signing with own developer certificate, the following capabilities are
+needed:
+  TCB
+  CommDD
+  PowerMgmt
+  MultimediaDD
+  ReadDeviceData
+  WriteDeviceData
+  DRM
+  TrustedUI
+  ProtServ
+  DiskAdmin
+  NetworkControl
+  AllFiles
+  SwEvent
+  NetworkServices
+  LocalServices
+  ReadUserData
+  WriteUserData
+  Location
+  SurroundingsDD
+  UserEnvironment
+
+===============================================================================
+
+System Requirements:
+====================
+Basic Requirements:
+- Any S60 5.x device or emulator environment
+
+===============================================================================
+
+Compatibility Issues:
+=====================
+N/A
+
+===============================================================================
+
+Known Issues:
+=============
+- Following command line functions do not work: CmdUI_Background,
+  CmdUI_Foreground, CmdUI_Exit.
+- Command line function CmdSWMT_ForceUpdate does not work correctly when using
+  different category settings in sequential CmdSWMT_ForceUpdate functions.
+- Exporting FBS bitmaps does not work if E: drive is not available.
+
+===============================================================================
+
+Version History:
+================
+
+Version 2.2.1 - 7th September 2010
+----------------------------------
+- Feature: Window Groups view to display window server items.
+- Fix: SWMT Timer status mismatch.
+- Fix: Non-supported SWMT categories removed.
+- Fix: Options - Open in Servers view not working.
+
+Version 2.2.0 - 24th August 2010
+--------------------------------
+- Feature: Servers view to display a list of running servers.
+- Feature: ECom view to display ECom categories, interfaces and implementations.
+- Feature: Processes can be now terminated.
+
+Version 2.1.0 - 15th June 2010 
+------------------------------
+- Feature: Folder where log files are saved can now be set in settings.
+- Feature: Introduced new Orbit based user interface.
+- Change: Servers, Ecom, Window groups, System info and Automatic Capture were
+  removed.
+- Change: Console interface was removed.
+- Change: Command line interface commands were changed to be more user 
+  friendly.
+
+Version 1.2.0 - 27th October 2009 
+---------------------------------
+- Feature: Tracking modes introduced for simplify System Wide Memory Tracking
+  settings.
+- Feature: System Wide Memory Tracking categories can now be selected.
+- Feature: Heap data captured during System Wide Memory Tracking can be
+  filtered by thread name.
+- Feature: Shared heaps can now be detected with S60 UI and trace output.
+- Feature: Batch files for running MemSpy functions can now be executed from
+  command line.
+- Change: Command line interface documented in User's Guide.
+
+Version 1.1.0 - 22nd July 2009
+------------------------------
+- Fix: Browsing chunk list resulted in a crash.
+- Feature: Details of Kernel Objects can be now displayed on S60 UI.
+- Feature: Process and Thread Kernel Objects can be now terminated and
+  switched to.
+- Feature: Window Groups view for displaying Window Group details, terminating
+  and switching to a Window Group.
+- Feature: Window Groups can be now tracked with SWMT.
+
+Version 1.0.2 - 13th May 2009
+-----------------------------
+- Fix: Correction for rapid insertion & removal of USB cable when viewing
+  kernel containers.
+- Fix: Prevent SWMT from locking MemSpy UI by disallowing too short SWMT
+  timer intervals.
+- Fix: Prevent saving bitmaps with zero-pixel dimensions to disk.    
+- Change: Remove dependency on TimeZoneServer
+
+Version 1.0.1 - 16th March 2009
+------------------------------
+- Feature: Client <-> Server interface now works with console UI as well as 
+  S60 UI.
+- Fix: Process memory tracking values now update correctly in S60 UI.
+- Fix: Navigating back from some views resulted in a crash.
+- Fix: Unable to obtain heap data for some threads which contain lots of 
+  free cells.
+
+Version 1.0.0 - 4th March 2009
+------------------------------
+- Initial release for Symbian Foundation
+
+===============================================================================
+
+Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+All rights reserved.
+
+This component and the accompanying materials are made available under the
+terms of "Eclipse Public License v1.0" which accompanies this distribution,
+and is available at the URL "http://www.eclipse.org/legal/epl-v10.html".

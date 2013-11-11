@@ -1,0 +1,124 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+START_TESTCASE                SEC-CAPABILITY_USEAUTH-0001
+
+//! @SYMTestCaseID            SEC-CAPABILITY_USEAUTH-0001
+
+//! @SYMTestCaseDesc          Script 2: Test new apis for create, import and setting authentication policy
+
+//!                           
+
+//!                           //////////////////////////////////////////////////////////////////////////////
+
+//!                           0. Initialisation
+
+//!                           //////////////////////////////////////////////////////////////////////////////
+
+//!                           
+
+//!                           First we delete the keystore data file, so that we know we are setting the
+
+//!                           passphrase with our first key add operation.
+
+//!                           Then we set up some keys for the rest of the test script to use:
+
+//!                           
+
+//!                           Key:     Type:
+
+//!                           banana	RSA
+
+//!                           mango	DSA
+
+//!                           tomato	DH
+
+//!                           
+
+//!                           todo
+
+//!                           test passphrase timeout affects all keys, and all processes
+
+//! @SYMTestActions           1) 0.1, Delete keystore data file
+
+//!                           2) 0.2, Opening key store in manager mode
+
+//!                           3) Add key banana
+
+RUN_TEST_STEP                 -1    CTestHandler        deletekeystoredata  
+
+RUN_TEST_STEP                 -1    CTestHandler        init                   capability_useauth.ini   SEC-CAPABILITY_USEAUTH-0001-002
+
+RUN_TEST_STEP                 -1    CTestHandler        addkey                 capability_useauth.ini   SEC-CAPABILITY_USEAUTH-0001-003
+
+END_TESTCASE                  SEC-CAPABILITY_USEAUTH-0001
+
+
+
+
+
+START_TESTCASE                SEC-CAPABILITY_USEAUTH-0002
+
+//! @SYMTestCaseID            SEC-CAPABILITY_USEAUTH-0002
+
+//! @SYMTestCaseDesc          1. Capability testing
+
+//! @SYMTestActions           1) 6.3.1, Test use policy enforcement for SID and capabilities
+
+//!                           2) 6.3.2, Test use policy enforcement setting authentication policy
+
+//!                           3) 6.3.2, Test use policy enforcement setting authentication policy
+
+RUN_TEST_STEP                 -1    CTestHandler        policytest             capability_useauth.ini   SEC-CAPABILITY_USEAUTH-0002-001
+
+RUN_TEST_STEP                 -1    CTestHandler        policytest             capability_useauth.ini   SEC-CAPABILITY_USEAUTH-0002-002
+
+RUN_TEST_STEP                 -1    CTestHandler        policytest             capability_useauth.ini   SEC-CAPABILITY_USEAUTH-0002-003
+
+END_TESTCASE                  SEC-CAPABILITY_USEAUTH-0002
+
+
+
+
+
+START_TESTCASE                SEC-CAPABILITY_USEAUTH-0003
+
+//! @SYMTestCaseID            SEC-CAPABILITY_USEAUTH-0003
+
+//! @SYMTestCaseDesc          //////////////////////////////////////////////////////////////////////////////
+
+//!                           Cleanup
+
+//!                           //////////////////////////////////////////////////////////////////////////////
+
+//! @SYMTestActions           1) 8.2, Close key store
+
+//!                           2) 8.3, Sleep 5 seconds
+
+//!                           3) 8.4, Check for server heap error
+
+RUN_TEST_STEP                 -1    CTestHandler        delete              
+
+RUN_TEST_STEP                 -1    CTestHandler        sleep                  capability_useauth.ini   SEC-CAPABILITY_USEAUTH-0003-002
+
+RUN_TEST_STEP                 -1    CTestHandler        checkserverheaperror
+
+END_TESTCASE                  SEC-CAPABILITY_USEAUTH-0003
+
+
+
+
+

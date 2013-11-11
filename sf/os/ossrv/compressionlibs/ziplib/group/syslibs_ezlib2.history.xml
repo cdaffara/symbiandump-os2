@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<relnotes schema="1.0.0" name="Zip Compression Library" purpose="" type="component">
+  <purpose>
+    Symbian OS port of the zlib compression library (ZLIB, DEFLATE, GZIP) for ZIP compression and decompression.
+  </purpose>
+  <defect number="DEF139847" title="[Coverity]:SYMBIAN.CLEANUP_STACK,RESOURCE_LEAK,CHECKED_RETURN " revision="022">
+    Added appropriate comments for the corresponding coverity checker
+  </defect>
+  <defect number="DEF139746" title="CEZGZipToFile::InflateL() crashes at second attempt to unzip a gzip file" revision="021">
+    Reverted the code done to make gzip handle multi-member gzip file as part of defect fix DEF128714
+  </defect>
+  <defect number="DEF138753" title="ZipTestManual crashes" revision="020">
+    Rectified the incorrect usage of RFile API causing the crash
+  </defect>
+  <defect number="DEF138752" title="ZipTest crashing in tb92sf" revision="019">
+    Rectified the incorrect usage of RFile API
+  </defect>
+   <defect number="DEF128714" title="CEZGZipToFile fails to inflate first member of multi-member gzip files" revision="018">
+    Implemented logic to handle inflation of first member of multi-member gzip file.
+  </defect>
+  <defect number="PDEF125759" title="EZLib test ZIPs distribute unlicensed PGP PDF file" revision="017">
+    Removed unnecessary zip package files
+  </defect>
+  <defect number="DEF119023" title="McAfee virus scan reports (Non-Critical) errors: Hello_Reset.gz" revision="016">
+    Removed Hello_Reset.gz and Hello_Reset.txt as they were not used by any tests.
+  </defect>
+  <defect number="DEF118876" title="CEZCompressor inline comment" revision="015">
+    Inline comments for EFiltered and EHuffmanOnly have been swapped as they were the wrong way round.
+  </defect>
+  <deliverystep number="692" name="System Libraries: OE: Add zlib library" osproject="sphinx" revision="014">
+    <milestone project="GT0334" number="3.11"/>
+    <preq number="1583" title="OE: Add zlib library">
+      Integrate OE version of ZLib (NOT their final version!). Branched from DV3 changelist number 992843. 
+      Ezlib code added to Ezlib2, changelist number 1006866. 
+      Changed comments in zipfile.cpp i.e. removed extra word (sufficient). 
+      Changed return type LOCAL_C to static in zipfile.cpp as LOCAL_C is deprecated. 
+      Fixed leave scan errors and warnings
+    </preq>
+  </deliverystep>
+  <defect number="DEF112672" title="Panic ZLIB 11 - when installing the sisx file." revision="013">
+    The EZlib component modified to leave with KErrCorrupt if the file is corrupted (instead of panic).
+  </defect>
+  <defect number="PDEF111660" title="Fix Lint warning 424 in Syslibs components" revision="012">
+    FileBuffer modified to use "delete[]" to match "new[]".
+  </defect>
+  <defect number="PDEF110555" title="ZIPTEST Failing when run on its own" revision="011">
+    Included required CP850 resource into ezlibtest.iby for ZIPTEST.
+  </defect>
+  <minorchange revision="010">
+    Upgraded interface access and status tags for identifiers used by partners.
+  </minorchange>
+  <defect number="DEF106839" title="[System Build]: GT compilation errors in M04229 v9.4, M04230 vFuture,v9.5" revision="009">
+    Reverted changes associated with BR2108 (renaming of RZipFileMemberReaderStream) - class is now back to its original name
+  </defect>
+  <defect number="DEF105995" title="inflateInit2 is not checked for errors in RZipFileMemberReaderStream constructor" revision="008">
+    Changed RZipFileMemberReaderStream to use 2 phase construction, which will Leave if there is an OOM error during initialisation. Renamed RZipFileMemberReaderStream to CZipFileMemberReaderStream as it was incorrectly named as a R class.
+  </defect>
+  <deliverystep number="639" name="Improve performance of PNG ImageDecoder plug-in - EZlib optimisation" osproject="Naiad" revision="007">
+    <milestone project="" number="3.11"/>
+    <cr number="0984" title="Improve performance of PNG ImageDecoder plug-in">
+    Implemantation of CR0984 which requires EZlib decompression library to be compiled with the options for the best performance. This change does not affect any interfaces or behaviors and is a pure binary optimisation.
+  </cr>
+  </deliverystep>
+  <defect number="PDEF105900" title="RZipFileMemberReaderStream::Read returns incorrect error code under OOM" revision="006">
+    Modified Ezlib code to return error code.
+  </defect>
+  <defect number="DEF103850" title="Ezlib TOOLS2 target should be libzlib.a" revision="005">
+    Correcting the zlib tools2 target to be libzlib.a and not zlib.lib.
+  </defect>
+  <deliverystep number="559" name="Porting of tools to TOOLS2" osproject="Oghma" revision="004">
+    <milestone project="GT0329" number="3.12"/>
+    <preq number="1182" title="GNU Make-based build system">
+    Updating the EZLIB tool (zlib.lib) to build under the TOOLS2 platform.
+  </preq>
+  </deliverystep>
+  <deliverystep number="557" name="Filename policy changes" osproject="Oghma" revision="003">
+    <milestone project="GT0329" number="3.11"/>
+    <preq number="1182" title="GNU Make-based build system">
+    Updating the component source files to comply with the Symbian filename policy.
+  </preq>
+  </deliverystep>
+  <minorchange revision="002">
+    Symbian OS v9.3 component branched from common codeline
+  </minorchange>
+  <minorchange revision="001">
+    Removing unused DEF files
+  </minorchange>
+</relnotes>

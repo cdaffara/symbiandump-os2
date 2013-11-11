@@ -1,0 +1,233 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+LOAD_SUITE tef_ssnd
+LOAD_SUITE BURTestServer
+LOAD_SUITE TEFPlatSec
+
+//! make up a .wav file
+RUN_UTILS MkDir c:\tef_bafl\
+RUN_UTILS CopyFile z:\tef_bafl\tef_ssnd.ini c:\tef_bafl\tef_ssnd.wav
+RUN_UTILS MakeReadWrite c:\tef_bafl\tef_ssnd.wav
+
+START_TESTCASE SYSLIB-BAFL-CT-3354 //CapabilityTest
+//!@SYMTestCaseID 			SYSLIB-BAFL-CT-3354
+//!@SYMTestCaseDesc  		Test BaSystemSound::SetSoundL enforces caller has WDD capability
+//!@SYMTestPriority  		High
+//!@SYMTestActions   		1. Invoke SetSoundL from the original test server.
+//!							2. Use setcap to make a test server without WDD.
+//!							3. Invoke SetSoundL from the setcap test server.
+//!@SYMTestExpectedResults	The original server successfully sets the sound while the
+//!							setcap one fails with -46 KErrPermissionDenied.
+//! @SYMDEF					DEF095280
+	RUN_TEST_STEP 100 tef_ssnd ResetDb
+	RUN_TEST_STEP 100 tef_ssnd SetSound z:\tef_bafl\tef_ssnd.ini Sound1
+	RUN_TEST_STEP 100 TEFPlatSec SetCapabilities z:\tef_bafl\tef_ssnd.ini Missing_WDD
+	DELAY 1000
+	LOAD_SUITE tef_ssnd_nocap
+	RUN_TEST_STEP !Error=-46 100 tef_ssnd_nocap SetSound z:\tef_bafl\tef_ssnd.ini Sound2
+	RUN_TEST_STEP 100 TEFPlatSec Cleanup z:\tef_bafl\tef_ssnd.ini Missing_WDD
+END_TESTCASE  SYSLIB-BAFL-CT-3354 //CapabilityTest
+
+START_TESTCASE SYSLIB-BAFL-CT-3355 //CONCURRENT_SET_SameID
+//!@SYMTestCaseID 			SYSLIB-BAFL-CT-3355
+//!@SYMTestCaseDesc  		Test coping with transaction commit fail
+//!							when two threads set the same sound at the same time.
+//!@SYMTestPriority  		High
+//!@SYMTestActions   		Run 2 concurrent threads to set two sounds with the same BaSystemSoundType, i.e. same ID.
+//!@SYMTestExpectedResults	1. Both threads use SetSoundL successfully. 
+//!                         2. One of them encounters transaction commit fail and must retry.
+//!							3. The two sounds are saved in the same key slot in CentRep
+//!							   because they have the same ID.
+//! @SYMDEF					DEF095280
+
+	RUN_TEST_STEP 100 tef_ssnd ResetDb
+	CONCURRENT
+	RUN_TEST_STEP 100 tef_ssnd ConcurrentSetSound z:\tef_bafl\tef_ssnd.ini MasterSameSsndId
+	RUN_TEST_STEP 100 tef_ssnd ConcurrentSetSound z:\tef_bafl\tef_ssnd.ini SameSsndIdWorker1
+	RUN_TEST_STEP 100 tef_ssnd ConcurrentSetSound z:\tef_bafl\tef_ssnd.ini SameSsndIdWorker2
+	CONSECUTIVE
+END_TESTCASE SYSLIB-BAFL-CT-3355 //CONCURRENT_SET_SameID
+
+START_TESTCASE SYSLIB-BAFL-CT-3356 //CONCURRENT_SET_DiffID
+//!@SYMTestCaseID 			SYSLIB-BAFL-CT-3356
+//!@SYMTestCaseDesc  		Test coping with transaction commit fail when three
+//!							threads set different sounds simultaneously.
+//!@SYMTestPriority  		High
+//!@SYMTestActions   		Run 3 concurrent threads to set three sounds with different IDs.
+//!@SYMTestExpectedResults	1. All threads use SetSoundL successfully.
+//!							2. Two workers encounter transaction commit fail and must retry.
+//!							3. The three sounds are saved in different key slots in CentRep.
+//! @SYMDEF					DEF095280
+
+	RUN_TEST_STEP 100 tef_ssnd ResetDb
+
+	CONCURRENT
+	RUN_TEST_STEP 100 tef_ssnd ConcurrentSetSound z:\tef_bafl\tef_ssnd.ini MasterDifferentSsndId
+	RUN_TEST_STEP 100 tef_ssnd ConcurrentSetSound z:\tef_bafl\tef_ssnd.ini DifferentSsndIdWorker1
+	RUN_TEST_STEP 100 tef_ssnd ConcurrentSetSound z:\tef_bafl\tef_ssnd.ini DifferentSsndIdWorker2
+	RUN_TEST_STEP 100 tef_ssnd ConcurrentSetSound z:\tef_bafl\tef_ssnd.ini DifferentSsndIdWorker3
+	CONSECUTIVE
+END_TESTCASE  SYSLIB-BAFL-CT-3356 //CONCURRENT_SET_DiffID
+
+START_TESTCASE SYSLIB-BAFL-CT-3357 //CONCURRENT_SET_EXISTING
+//!@SYMTestCaseID 			SYSLIB-BAFL-CT-3357
+//!@SYMTestCaseDesc  		When CentRep transaction is used, first one to commit will fail 
+//!							all other transactions on the same repository. This test guards
+//!							future maintenance work from re-engineering the set sound algorithm
+//!							on writes that seem to have no dependency on other writes.
+//!@SYMTestPriority  		High
+//!@SYMTestActions   		Run 3 concurrent threads to set three existing sounds.
+//!@SYMTestExpectedResults	1. All threads use SetSoundL successfully.
+//!							2. Two workers encounter transaction commit fail and must retry.
+//!							3. The three sounds are saved in different key slots in CentRep.
+//! @SYMDEF					DEF095280
+	RUN_TEST_STEP 100 tef_ssnd ResetDb
+	RUN_TEST_STEP 100 tef_ssnd SetSound z:\tef_bafl\tef_ssnd.ini SetupSsndIdWorker1
+	RUN_TEST_STEP 100 tef_ssnd SetSound z:\tef_bafl\tef_ssnd.ini SetupSsndIdWorker2
+	RUN_TEST_STEP 100 tef_ssnd SetSound z:\tef_bafl\tef_ssnd.ini SetupSsndIdWorker3
+
+	CONCURRENT
+	RUN_TEST_STEP 100 tef_ssnd ConcurrentSetSound z:\tef_bafl\tef_ssnd.ini MasterDifferentSsndId
+	RUN_TEST_STEP 100 tef_ssnd ConcurrentSetSound z:\tef_bafl\tef_ssnd.ini DifferentSsndIdWorker3
+	RUN_TEST_STEP 100 tef_ssnd ConcurrentSetSound z:\tef_bafl\tef_ssnd.ini DifferentSsndIdWorker1
+	RUN_TEST_STEP 100 tef_ssnd ConcurrentSetSound z:\tef_bafl\tef_ssnd.ini DifferentSsndIdWorker2
+	CONSECUTIVE
+END_TESTCASE  SYSLIB-BAFL-CT-3357 //CONCURRENT_SET_EXISTING
+
+START_TESTCASE SYSLIB-BAFL-CT-3388 //BackupRestore
+//!@SYMTestCaseID 			SYSLIB-BAFL-CT-3388
+//!@SYMTestCaseDesc  		Test sound settings are saved and restored by Backup Restore.
+//!@SYMTestPriority  		High
+//!@SYMTestActions   		Create some sounds, backup, reset repository and
+//!							check the sounds are not there.
+//!							Restore and check the sounds are there. 
+//!@SYMTestExpectedResults	After reset, the sound is not in CentRep. Restore brings it back.
+//! @SYMDEF					DEF095280
+
+
+	RUN_TEST_STEP 100 tef_ssnd ResetDb
+	RUN_TEST_STEP 100 tef_ssnd SetSound z:\tef_bafl\tef_ssnd.ini Sound1
+	RUN_TEST_STEP 100 tef_ssnd SetSound z:\tef_bafl\tef_ssnd.ini DifferentSsndIdWorker3
+	RUN_TEST_STEP -1 BURTestServer TestBackup z:\tef_bafl\tef_ssnd.ini ForBURServer
+	RUN_TEST_STEP 100 tef_ssnd ResetDb
+	RUN_TEST_STEP !Error=-1 100 tef_ssnd GetSound z:\tef_bafl\tef_ssnd.ini Sound1
+	RUN_TEST_STEP !Error=-1 100 tef_ssnd GetSound z:\tef_bafl\tef_ssnd.ini DifferentSsndIdWorker3
+	RUN_TEST_STEP -1 BURTestServer TestRestore z:\tef_bafl\tef_ssnd.ini ForBURServer
+	RUN_TEST_STEP 100 tef_ssnd GetSound z:\tef_bafl\tef_ssnd.ini Sound1
+	RUN_TEST_STEP 100 tef_ssnd GetSound z:\tef_bafl\tef_ssnd.ini DifferentSsndIdWorker3
+END_TESTCASE  SYSLIB-BAFL-CT-3388 //BackupRestore
+
+START_TESTCASE SYSLIB-BAFL-CT-3389 //LockoutByBackup
+//!@SYMTestCaseID 			SYSLIB-BAFL-CT-3389
+//!@SYMTestCaseDesc  		Test correct error code is returned to clients when CentRep server is
+//!							locked out by Backup.
+//!@SYMTestPriority  		High
+//!@SYMTestActions   		Run a thread to continuously set a series of sounds and read them back.
+//!							Start secure backup concurrently. 
+//!@SYMTestExpectedResults	All reads are successful. Some SetSoundL encounter KErrServerBusy.
+//! @SYMDEF					DEF095280
+
+	RUN_TEST_STEP 100 tef_ssnd ResetDb
+	RUN_TEST_STEP 100 tef_ssnd SetSound z:\tef_bafl\tef_ssnd.ini LockoutTestSound
+
+	CONCURRENT
+	RUN_TEST_STEP 240 BURTestServer TestBackup z:\tef_bafl\tef_ssnd.ini ForBURServer
+	RUN_TEST_STEP 240 tef_ssnd LockoutTest
+	CONSECUTIVE
+
+	RUN_TEST_STEP 100 tef_ssnd ResetDb
+END_TESTCASE  SYSLIB-BAFL-CT-3389 //LockoutByBackup
+
+START_TESTCASE SYSLIB-BAFL-CT-3390 //LockoutByRestore
+//!@SYMTestCaseID 			SYSLIB-BAFL-CT-3390
+//!@SYMTestCaseDesc  		Test correct error code is returned to clients when CentRep server is
+//!							locked out by Restore.
+//!@SYMTestPriority  		High
+//!@SYMTestActions   		Run a thread to continuously set a series of sounds and read them back.
+//!							Start Restore concurrently. 
+//!@SYMTestExpectedResults	Bothe Get and Set encounter KErrServerBusy.
+//! @SYMDEF					DEF095280
+
+	RUN_TEST_STEP 100 tef_ssnd ResetDb
+	RUN_TEST_STEP 100 tef_ssnd SetSound z:\tef_bafl\tef_ssnd.ini LockoutTestSound
+
+	CONCURRENT
+	RUN_TEST_STEP 240 BURTestServer TestRestore z:\tef_bafl\tef_ssnd.ini ForBURServer
+	RUN_TEST_STEP 240 tef_ssnd LockoutTest
+	CONSECUTIVE
+
+	RUN_TEST_STEP 100 tef_ssnd ResetDb
+END_TESTCASE SYSLIB-BAFL-CT-3390 //LockoutByRestore
+
+START_TESTCASE  SYSLIB-BAFL-CT-3391 //CorruptedEntry
+//!@SYMTestCaseID 			SYSLIB-BAFL-CT-3391
+//!@SYMTestCaseDesc  		Test GetSound can detect corrupted or tempered entries in repository.
+//!@SYMTestPriority  		High
+//!@SYMTestActions   		1. Add a sound in repository.
+//!							2. Fetch the setting from CentRep.
+//!							3. Corrupt the soundtype field and save it in CentRep.
+//!							4. Call GetSound.
+//!							5. Repeat steps 3 and 4 on the sound category field.
+//!							6. Repeat steps 3 and 4 on the path length field.
+//!							7. Restore the original setting and call GetSound.
+//!@SYMTestExpectedResults	The GetSound at step 7 is successful. All the other
+//!                         GetSound calls fail with KErrCorrupt
+//! @SYMDEF					DEF095280
+
+	RUN_TEST_STEP 100 tef_ssnd ResetDb
+	RUN_TEST_STEP 100 tef_ssnd CorruptSound z:\tef_bafl\tef_ssnd.ini DifferentSsndIdWorker3
+	RUN_TEST_STEP 100 tef_ssnd ResetDb
+END_TESTCASE  SYSLIB-BAFL-CT-3391 //CorruptedEntry
+
+START_TESTCASE SYSLIB-BAFL-CT-3392 //SystemSoundFileAPI
+//!@SYMTestCaseID 			SYSLIB-BAFL-CT-3392
+//!@SYMTestCaseDesc  		Test BaSystemSound::SystemSoundFile still return the old filename.
+//!@SYMTestPriority  		High
+//!@SYMTestActions   		Call the API.
+//!@SYMTestExpectedResults	C:\system\data\syssnd.dat is returned.
+//! @SYMDEF					DEF095280
+
+	RUN_TEST_STEP 100 tef_ssnd SystemSoundFileTest
+END_TESTCASE SYSLIB-BAFL-CT-3392 //SystemSoundFileAPI
+
+START_TESTCASE SYSLIB-BAFL-CT-3393 //RepositoryHasGap
+//!@SYMTestCaseID 			SYSLIB-BAFL-CT-3393
+//!@SYMTestCaseDesc  		Test BaSystemSound can detect rogue applications creating extra entries
+//!                         which will interfere with SetSoundL.
+//!@SYMTestPriority  		High
+//!@SYMTestActions   		Create a entry at key position 7 and then call SetSoundL.
+//!@SYMTestExpectedResults	SetSoundL fails with KErrCorrupt.
+//! @SYMDEF					DEF095280
+
+	RUN_TEST_STEP 100 tef_ssnd ResetDb
+	RUN_TEST_STEP 100 tef_ssnd GapTest
+	RUN_TEST_STEP 100 tef_ssnd ResetDb
+END_TESTCASE SYSLIB-BAFL-CT-3393 //RepositoryHasGap
+
+START_TESTCASE SYSLIB-BAFL-CT-3394 //SoundFileWithNoPath
+//!@SYMTestCaseID 			SYSLIB-BAFL-CT-3394
+//!@SYMTestCaseDesc  		Test BaSystemSound::SetSoundL panic if sound filename has no path info.
+//!@SYMTestPriority  		High
+//!@SYMTestActions   		Setup a file based sound with no path info in the filename.
+//!							Then invoke SetSoundL.
+//!@SYMTestExpectedResults	Panic 14
+//! @SYMDEF					DEF095280
+
+	RUN_PANIC_STEP 100 tef_ssnd SoundFileNoPathTest
+END_TESTCASE SYSLIB-BAFL-CT-3394 //SoundFileWithNoPath
+
+// cleanup
+RUN_UTILS DeleteFile c:\tef_bafl\tef_ssnd.wav

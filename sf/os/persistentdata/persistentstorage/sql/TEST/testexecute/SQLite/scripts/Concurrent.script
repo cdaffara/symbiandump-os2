@@ -1,0 +1,107 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// @file
+// 
+//
+
+//! @SYMTestSuiteName PDS-TEF-SQL-SUITE
+//! @SYMScriptTestEnvironment TEF
+//! @internalComponent
+//! @test
+
+PRINT Run SQL Tests
+
+LOAD_SUITE te_SQL_Suite
+
+RUN_UTILS MkDir c:\private\
+
+START_TESTCASE SYSLIB-SQL-CIT-1748
+//! @SYMTestCaseID    SYSLIB-SQL-CIT-1748
+//! @SYMTestCaseDesc  Dynamically creates a database, adding various data to
+//!                  a new table. This is done in eight concurrent threads
+//!                  which are deliberately not synchronized. The data should
+//!                  successfully write into the table in an undefined order.
+//! @SYMTestPriority  High
+//! @SYMTestActions   See description and the config file.
+//! @SYMTestExpectedResults
+//!                  The data should successfully write into the table in
+//!                  an undefined order.
+//! @SYMREQ           REQ5793
+
+CONCURRENT
+	RUN_TEST_STEP 1000 te_SQL_Suite CSQLCDT z:\TEF_SQL\Concurrent.ini Thread2
+  	RUN_TEST_STEP 1000 te_SQL_Suite CSQLCDT z:\TEF_SQL\Concurrent.ini Thread3
+	RUN_TEST_STEP 1000 te_SQL_Suite CSQLCDT z:\TEF_SQL\Concurrent.ini Thread4
+	RUN_TEST_STEP 1000 te_SQL_Suite CSQLCDT z:\TEF_SQL\Concurrent.ini Thread5
+	RUN_TEST_STEP 1000 te_SQL_Suite CSQLCDT z:\TEF_SQL\Concurrent.ini Thread6
+	RUN_TEST_STEP 1000 te_SQL_Suite CSQLCDT z:\TEF_SQL\Concurrent.ini Thread7
+	RUN_TEST_STEP 1000 te_SQL_Suite CSQLCDT z:\TEF_SQL\Concurrent.ini Thread8
+	RUN_TEST_STEP 1000 te_SQL_Suite CSQLCDT z:\TEF_SQL\Concurrent.ini Thread1
+END_TESTCASE SYSLIB-SQL-CIT-1748
+
+START_TESTCASE SYSLIB-SQL-CIT-1749
+//! @SYMTestCaseID    SYSLIB-SQL-CIT-1749
+//! @SYMTestCaseDesc  Now read back the table CONSECUTIVELY to check the
+//!                  table created above has been written correctly.
+//! @SYMTestPriority  High
+//! @SYMTestActions   See description and the config file.
+//! @SYMTestExpectedResults
+//!                  Each step checks the data written by a given thread
+//!                  in the test above. This is done consecutively in case
+//!                  the check below (which does the check concurrently) fails.
+//!                  
+//! @SYMREQ           REQ5793
+
+CONSECUTIVE
+	RUN_TEST_STEP 1000 te_SQL_Suite CSQLCDT z:\TEF_SQL\Concurrent.ini Check1
+	RUN_TEST_STEP 1000 te_SQL_Suite CSQLCDT z:\TEF_SQL\Concurrent.ini Check2
+	RUN_TEST_STEP 1000 te_SQL_Suite CSQLCDT z:\TEF_SQL\Concurrent.ini Check3
+	RUN_TEST_STEP 1000 te_SQL_Suite CSQLCDT z:\TEF_SQL\Concurrent.ini Check4
+	RUN_TEST_STEP 1000 te_SQL_Suite CSQLCDT z:\TEF_SQL\Concurrent.ini Check5
+	RUN_TEST_STEP 1000 te_SQL_Suite CSQLCDT z:\TEF_SQL\Concurrent.ini Check6
+	RUN_TEST_STEP 1000 te_SQL_Suite CSQLCDT z:\TEF_SQL\Concurrent.ini Check7
+	RUN_TEST_STEP 1000 te_SQL_Suite CSQLCDT z:\TEF_SQL\Concurrent.ini Check8
+END_TESTCASE SYSLIB-SQL-CIT-1749
+
+START_TESTCASE SYSLIB-SQL-CIT-1750
+//! @SYMTestCaseID    SYSLIB-SQL-CIT-1750
+//! @SYMTestCaseDesc  Read back the table CONCURRENTLY in sixteen
+//!                  threads.
+//! @SYMTestPriority  High
+//! @SYMTestActions   See description and the config file.
+//! @SYMTestExpectedResults
+//!                  Each step checks the data written by a given thread
+//!                  in the test above. There are only eight sets of data
+//!                  to check, but there's no harm in doing this more
+//!                  than eight times to verify concurrency on read.
+//!
+//! @SYMREQ           REQ5793
+
+CONCURRENT
+	RUN_TEST_STEP 1000 te_SQL_Suite CSQLCDT z:\TEF_SQL\Concurrent.ini Check1
+	RUN_TEST_STEP 1000 te_SQL_Suite CSQLCDT z:\TEF_SQL\Concurrent.ini Check2
+	RUN_TEST_STEP 1000 te_SQL_Suite CSQLCDT z:\TEF_SQL\Concurrent.ini Check3
+	RUN_TEST_STEP 1000 te_SQL_Suite CSQLCDT z:\TEF_SQL\Concurrent.ini Check4
+	RUN_TEST_STEP 1000 te_SQL_Suite CSQLCDT z:\TEF_SQL\Concurrent.ini Check5
+	RUN_TEST_STEP 1000 te_SQL_Suite CSQLCDT z:\TEF_SQL\Concurrent.ini Check6
+	RUN_TEST_STEP 1000 te_SQL_Suite CSQLCDT z:\TEF_SQL\Concurrent.ini Check7
+	RUN_TEST_STEP 1000 te_SQL_Suite CSQLCDT z:\TEF_SQL\Concurrent.ini Check8
+	RUN_TEST_STEP 1000 te_SQL_Suite CSQLCDT z:\TEF_SQL\Concurrent.ini Check1
+	RUN_TEST_STEP 1000 te_SQL_Suite CSQLCDT z:\TEF_SQL\Concurrent.ini Check2
+	RUN_TEST_STEP 1000 te_SQL_Suite CSQLCDT z:\TEF_SQL\Concurrent.ini Check3
+	RUN_TEST_STEP 1000 te_SQL_Suite CSQLCDT z:\TEF_SQL\Concurrent.ini Check4
+END_TESTCASE SYSLIB-SQL-CIT-1750
+
+RUN_UTILS DeleteFile c:\Concurrent.db
+

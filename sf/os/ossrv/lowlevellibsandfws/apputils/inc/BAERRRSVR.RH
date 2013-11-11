@@ -1,0 +1,47 @@
+// Copyright (c) 2003-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+/**
+ @file
+ @publishedAll
+ @released
+*/
+
+#if !defined(__BAERRRSVR_RH__)
+#define __BAERRRSVR_RH__
+
+// Error Resolver
+
+STRUCT ERROR_SET
+	{
+	WORD dummy = 0x0;
+	WORD version = 0x02;
+	STRUCT errorarrays[];
+	}
+
+STRUCT ERROR_ARRAY
+	{
+	LLINK title=0;
+	LONG startError;
+	LLINK errors;
+	}
+
+STRUCT SINGLE_ERROR
+	{
+	BYTE flags=0;
+	LLINK text=0;
+	}
+
+#endif

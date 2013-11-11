@@ -1,0 +1,33 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SUITE	te_RegStepTestSuite -SharedData
+
+START_TESTCASE DT-TEF-TestStep-0028
+//! @SYMTestCaseID          DT-TEF-TestStep-0028
+//! @SYMCreationDate        09-12-2008
+//! @SYMAuthor              extjasonzhou
+//! @SYMTestType            CT
+//! @SYMTestPriority        Medium
+//! @SYMTestCaseDesc        OOM test of test step with server -SharedData.
+//! @SYMTestExpectedResults The memory allocation should as expected.
+//!                         The test result should be pass.
+//! @SYMTestActions         1. Do memory allocation several times (n).
+//!                         2. Check the allocation count.
+	RUN_TEST_STEP !OOM 100 te_RegStepTestSuite OOMTestStep ${SYSDRIVE}\testdata\configs\OOMTest.ini OOMSection0
+	RUN_TEST_STEP !OOM 100 te_RegStepTestSuite OOMTestStep ${SYSDRIVE}\testdata\configs\OOMTest.ini OOMSection1
+	RUN_TEST_STEP !OOM 100 te_RegStepTestSuite OOMTestStep ${SYSDRIVE}\testdata\configs\OOMTest.ini OOMSection2
+END_TESTCASE DT-TEF-TestStep-0028

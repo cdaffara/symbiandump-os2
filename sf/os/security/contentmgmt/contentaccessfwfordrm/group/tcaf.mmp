@@ -1,0 +1,79 @@
+/*
+* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+TARGET		tcaf.exe
+
+CAPABILITY	DRM
+
+UID			0x101F777C
+VENDORID	0x70000001
+TARGETTYPE	exe
+
+SOURCEPATH	../../referencedrmagent/tcaf/source
+SOURCE		cafserver.cpp
+SOURCE		cafstep.cpp	
+SOURCE		bitsetstep.cpp
+SOURCE		Consumerstep.cpp
+SOURCE		Contentstep.cpp
+SOURCE		RecognizerStep.cpp
+SOURCE		ManagerStep.cpp
+SOURCE		RightsManagerStep.cpp
+SOURCE		SupplierStep.cpp
+SOURCE		OomStep.cpp
+SOURCE		CafutilsStep.cpp
+SOURCE		CleanupStep.cpp
+SOURCE		namespacestep.cpp
+
+USERINCLUDE		../../referencedrmagent/RefTestAgent/inc
+USERINCLUDE		../../referencedrmagent
+USERINCLUDE		../../referencedrmagent/contentiterator 
+USERINCLUDE		../source/reccaf 
+USERINCLUDE		../source/caf
+USERINCLUDE		../inc
+
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+USERINCLUDE		../../referencedrmagent/refcafhelper/inc
+#endif
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_LIBC_SYSTEMINCLUDE
+
+LIBRARY		euser.lib
+LIBRARY		testexecuteutils.lib
+LIBRARY		efsrv.lib
+LIBRARY		testexecutelogclient.lib
+LIBRARY		estor.lib
+LIBRARY		charconv.lib
+LIBRARY		apmime.lib
+LIBRARY		ecom.lib
+LIBRARY		caf.lib
+LIBRARY		cafutils.lib
+LIBRARY		contentiterator.lib
+LIBRARY		bafl.lib
+LIBRARY		inetprotutil.lib
+LIBRARY		apparc.lib
+LIBRARY		fbscli.lib
+LIBRARY		apgrfx.lib
+LIBRARY		hal.lib
+
+#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
+LIBRARY		http.lib
+#endif
+
+SMPSAFE

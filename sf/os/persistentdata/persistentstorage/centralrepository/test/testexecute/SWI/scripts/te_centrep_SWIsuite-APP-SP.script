@@ -1,0 +1,81 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// @file
+// 
+//
+
+//! @SYMTestSuiteName PDS-TEF-CENTREP-SWISUITE
+//! @SYMScriptTestEnvironment TEF
+//! @internalComponent
+//! @test
+
+PRINT Run complete APP installation, upgrade and uninstall te_centrep_SWI Suite Tests
+
+LOAD_SUITE te_centrep_SWISuite
+
+//RUN_UTILS MkDir c:\private\
+//RUN_UTILS DeleteFile c:\private\10202be9\E02819fc.cre
+//RUN_UTILS DeleteFile c:\private\10202be9\persists\E02819fc.cre
+
+
+START_TESTCASE SYSLIB-CENTRALREPOSITORY-SWI-CIT-APP-SP-3249
+//! @SYMTestCaseID SYSLIB-CENTRALREPOSITORY-SWI-CIT-APP-SP-3249
+//! @SYMTestCaseDesc  Verify that complete APP installation upgrade and uninstall
+//!                  succeeds
+//! @SYMTestPriority  High
+//! @SYMTestActions   APPY is installed with an keyspace in an embedded SP 
+//!                  APPY is uninstalled
+//!		     APPY is reinstalled 
+//!                  APPY is upgraded to APPY1 with a new keyspace in an embedded SP 
+//!                  Keyspace is uninstalled by uninstalling app
+//!
+//!                  APPY is installed with an keyspace in an embedded SP to 
+//!                  APPY is upgraded to APPY1 with a new keyspace in an embedded SP 
+//!                  APPY1 is upgraded to APPY2 with a new keyspace in an embedded SP 
+//!                  Keyspace is uninstalled by uninstalling app
+//!
+//! @SYMTestExpectedResults
+//!                  All install events and uninstall events should succeed
+
+//! @SYMDEF           PDEF094783
+
+	RUN_TEST_STEP 100 te_centrep_SWISuite InstallStep 	z:\TEF_CentralRepository\SWI-APP-SP.ini Install_APPY
+	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryCheck 	z:\TEF_CentralRepository\SWI-APP-SP.ini Install_APPY
+
+	RUN_TEST_STEP 100 te_centrep_SWISuite UninstallAugStep	z:\TEF_CentralRepository\SWI-APP-SP.ini UnInstallAPPY
+
+	RUN_TEST_STEP 100 te_centrep_SWISuite InstallStep 	z:\TEF_CentralRepository\SWI-APP-SP.ini Install_APPY
+	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryCheck 	z:\TEF_CentralRepository\SWI-APP-SP.ini Install_APPY
+
+	RUN_TEST_STEP 100 te_centrep_SWISuite InstallStep 	z:\TEF_CentralRepository\SWI-APP-SP.ini Install_APPY1
+	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryCheck 	z:\TEF_CentralRepository\SWI-APP-SP.ini Install_APPY1
+
+	RUN_TEST_STEP 100 te_centrep_SWISuite UninstallAugStep	z:\TEF_CentralRepository\SWI-APP-SP.ini UnInstallAPPY
+
+	RUN_TEST_STEP 100 te_centrep_SWISuite InstallStep 	z:\TEF_CentralRepository\SWI-APP-SP.ini Install_APPY
+	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryCheck 	z:\TEF_CentralRepository\SWI-APP-SP.ini Install_APPY
+
+	RUN_TEST_STEP 100 te_centrep_SWISuite InstallStep 	z:\TEF_CentralRepository\SWI-APP-SP.ini Install_APPY1
+	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryCheck 	z:\TEF_CentralRepository\SWI-APP-SP.ini Install_APPY1
+
+	RUN_TEST_STEP 100 te_centrep_SWISuite InstallStep 	z:\TEF_CentralRepository\SWI-APP-SP.ini Install_APPY2
+	RUN_TEST_STEP 100 te_centrep_SWISuite RepositoryCheck 	z:\TEF_CentralRepository\SWI-APP-SP.ini Install_APPY2
+
+	RUN_TEST_STEP 100 te_centrep_SWISuite UninstallAugStep	z:\TEF_CentralRepository\SWI-APP-SP.ini UnInstallAPPY
+
+END_TESTCASE SYSLIB-CENTRALREPOSITORY-SWI-CIT-APP-SP-3249
+
+RUN_UTILS DeleteFile c:\private\10202be9\E02819fc.cre
+RUN_UTILS DeleteFile c:\private\10202be9\persists\E02819fc.cre
+

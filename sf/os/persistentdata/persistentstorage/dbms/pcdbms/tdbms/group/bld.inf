@@ -1,0 +1,229 @@
+// Copyright (c) 2008-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+PRJ_PLATFORMS
+TOOLS2
+WINSCW
+
+PRJ_TESTEXPORTS
+
+// WINSCW test files
+../src/T_SCRIPT.TXT 				/epoc32/data/z/system/test/t_script.txt
+../src/T_SCRIPT.TXT 				/epoc32/winscw/c/dbms-tst/t_script.txt
+
+../src/TypeTextKTests44.dat	z:/test/data/typetextktests44.dat
+../src/TypeTextKTests46.dat	z:/test/data/typetextktests46.dat
+../src/TypeTextKTests47.dat	z:/test/data/typetextktests47.dat
+
+// Tools2 Test files
+../src/T_SCRIPT.TXT 	/epoc32/release/tools2/deb/dbms-tst/t_script.txt
+../src/T_SCRIPT.TXT 	/epoc32/release/tools2/rel/dbms-tst/t_script.txt
+
+// Work around for DEF063276
+../src/TypeTextKTests44.dat	/epoc32/release/tools2/deb/dbms-tst/typetextktests44.dat
+../src/TypeTextKTests46.dat	/epoc32/release/tools2/deb/dbms-tst/typetextktests46.dat
+../src/TypeTextKTests47.dat	/epoc32/release/tools2/deb/dbms-tst/typetextktests47.dat
+../src/TypeTextKTests44.dat	/epoc32/release/tools2/rel/dbms-tst/typetextktests44.dat
+../src/TypeTextKTests46.dat	/epoc32/release/tools2/rel/dbms-tst/typetextktests46.dat
+../src/TypeTextKTests47.dat	/epoc32/release/tools2/rel/dbms-tst/typetextktests47.dat
+
+// For Linux test
+../src/T_SCRIPT.TXT 	/epoc32/release/tools2/linux-i386/deb/dbms-tst/t_script.txt
+../src/T_SCRIPT.TXT 	/epoc32/release/tools2/linux-i386/rel/dbms-tst/t_script.txt
+../src/TypeTextKTests44.dat	/epoc32/release/tools2/linux-i386/deb/dbms-tst/typetextktests44.dat
+../src/TypeTextKTests46.dat	/epoc32/release/tools2/linux-i386/deb/dbms-tst/typetextktests46.dat
+../src/TypeTextKTests47.dat	/epoc32/release/tools2/linux-i386/deb/dbms-tst/typetextktests47.dat
+../src/TypeTextKTests44.dat	/epoc32/release/tools2/linux-i386/rel/dbms-tst/typetextktests44.dat
+../src/TypeTextKTests46.dat	/epoc32/release/tools2/linux-i386/rel/dbms-tst/typetextktests46.dat
+../src/TypeTextKTests47.dat	/epoc32/release/tools2/linux-i386/rel/dbms-tst/typetextktests47.dat
+
+PRJ_TESTMMPFILES
+
+#ifdef WINSCW
+
+t_alterpc.mmp
+t_benchpc.mmp
+t_bigpc.mmp
+t_bugpc.mmp
+t_clientpc.mmp
+t_comppc.mmp  // depends on output from t_bench
+t_dbmspc.mmp
+t_dbmsscriptpc.mmp
+t_dbmsstrcomppc.mmp
+t_defectpc.mmp 
+t_failpc.mmp
+t_indexpc.mmp
+t_limitpc.mmp
+t_longcolpc.mmp
+t_panicpc.mmp
+t_sqlpc.mmp
+t_transpc.mmp
+t_windowpc.mmp
+
+#endif // WINSCW
+
+PRJ_TESTEXTENSIONS
+
+#ifdef TOOLS2
+
+// t_alter
+start extension tools/x86tool
+option TARGET_NAME t_alter
+option TARGET_TYPE exe
+option SOURCE ../src/t_alter.cpp ../src/crccheck.cpp
+option LIBS symdbms symstore symfile symuser
+end
+
+// t_bench
+start extension tools/x86tool
+option TARGET_NAME t_bench
+option TARGET_TYPE exe
+option SOURCE ../src/t_bench.cpp ../src/crccheck.cpp
+option LIBS symdbms symstore symfile symuser
+end
+
+// t_big
+start extension tools/x86tool
+option TARGET_NAME t_big
+option TARGET_TYPE exe
+option SOURCE ../src/t_big.cpp ../src/crccheck.cpp
+option LIBS symdbms symstore symfile symuser
+end
+
+// t_bug
+// cut-down a bit,  two tests currently excluded.
+start extension tools/x86tool
+option TARGET_NAME t_bug
+option TARGET_TYPE exe
+option MACROS TOOLS2_VARIANT
+option SOURCE ../src/t_bug.cpp ../src/crccheck.cpp
+option LIBS symdbms symstore symfile symuser
+end
+
+// t_client
+start extension tools/x86tool
+option TARGET_NAME t_client
+option TARGET_TYPE exe
+option SOURCE ../src/t_client.cpp ../src/crccheck.cpp
+option LIBS symdbms symstore symfile symuser
+end
+
+// t_comp
+start extension tools/x86tool
+option TARGET_NAME t_comp
+option TARGET_TYPE exe
+option SOURCE ../src/t_comp.cpp ../src/crccheck.cpp
+option LIBS symdbms symstore symfile symuser
+end
+
+// t_dbms
+start extension tools/x86tool
+option TARGET_NAME t_dbms
+option TARGET_TYPE exe
+option SOURCE ../src/t_dbms.cpp ../src/crccheck.cpp
+option LIBS symdbms symstore symfile symuser
+end
+
+// t_dbmsscript
+start extension tools/x86tool
+option TARGET_NAME t_dbmsscript
+option TARGET_TYPE exe
+option SOURCE ../src/t_dbmsscript.cpp ../src/crccheck.cpp
+option LIBS symdbms symstore symfile symuser
+end
+
+// t_dbmsstrcomp
+start extension tools/x86tool
+option TARGET_NAME t_dbmsstrcomp
+option TARGET_TYPE exe
+option SOURCE ../src/t_dbmsstrcomp.cpp ../src/crccheck.cpp
+option LIBS symdbms symstore symfile symuser
+end
+
+// t_defect
+start extension tools/x86tool
+option TARGET_NAME t_defect
+option TARGET_TYPE exe
+option MACROS TOOLS2_VARIANT
+option SOURCE ../src/t_defect.cpp ../src/crccheck.cpp
+option LIBS symdbms symstore symfile symuser
+end
+
+// t_fail
+start extension tools/x86tool
+option TARGET_NAME t_fail
+option TARGET_TYPE exe
+option SOURCE ../src/t_fail.cpp ../src/crccheck.cpp
+option LIBS symdbms symstore symfile symuser
+end
+
+// t_index
+start extension tools/x86tool
+option TARGET_NAME t_index
+option TARGET_TYPE exe
+option INCLUDES ../../inc
+option SOURCE ../src/t_index.cpp ../src/crccheck.cpp
+option LIBS symdbms symstore symfile symuser
+end
+
+// t_limit
+start extension tools/x86tool
+option TARGET_NAME t_limit
+option TARGET_TYPE exe
+option SOURCE ../src/t_limit.cpp ../src/crccheck.cpp
+option LIBS symdbms symstore symfile symuser
+end
+
+// t_longcol 
+start extension tools/x86tool
+option TARGET_NAME t_longcol
+option TARGET_TYPE exe
+option SOURCE ../src/t_longcol.cpp ../src/crccheck.cpp
+option LIBS symdbms symstore symfile symuser
+end
+
+// t_panic
+start extension tools/x86tool
+option TARGET_NAME t_panic
+option TARGET_TYPE exe
+option SOURCE ../src/t_panic.cpp ../src/crccheck.cpp
+option LIBS symdbms symstore symfile symuser
+end
+
+// t_sql
+start extension tools/x86tool
+option TARGET_NAME t_sql
+option TARGET_TYPE exe
+option SOURCE ../src/t_sql.cpp ../src/crccheck.cpp
+option LIBS symdbms symstore symfile symuser
+end
+
+// t_trans
+start extension tools/x86tool
+option TARGET_NAME t_trans
+option TARGET_TYPE exe
+option SOURCE ../src/t_trans.cpp ../src/crccheck.cpp
+option LIBS symdbms symstore symfile symuser
+end
+
+// t_window
+start extension tools/x86tool
+option TARGET_NAME t_window
+option TARGET_TYPE exe
+option SOURCE ../src/t_window.cpp ../src/crccheck.cpp
+option LIBS symdbms symstore symfile symuser
+end
+
+#endif

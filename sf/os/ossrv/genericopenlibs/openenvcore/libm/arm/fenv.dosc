@@ -1,0 +1,227 @@
+/** @file ../arm/fenv.h
+@internalComponent
+*/
+
+/** @typedef typedef __uint32_t	fenv_t;
+
+Represents the entire floating-point environment. The floating-point environment refers collectively to any floating-point status flags and control modes supported by the implementation.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @typedef typedef __uint32_t	fexcept_t;
+
+Represents the floating-point status flags collectively, including any status the implementation associates with the flags. A floating-point status flag is a system variable whose value is set (but never cleared) when a floating-point exception is raised, which occurs as a side effect of exceptional floating-point arithmetic to provide auxiliary information. A floating-point control mode is a system variable whose value may be set by the user to affect the subsequent behavior of floating-point arithmetic.
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def FE_INVALID
+
+Exception flags
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def FE_DIVBYZERO
+
+Exception flags
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def FE_OVERFLOW
+
+Exception flags
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def FE_UNDERFLOW
+
+Exception flags
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def FE_INEXACT
+
+Exception flags
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def FE_ALL_EXCEPT
+
+Exception flags
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def FE_TONEAREST
+
+Rounding modes
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def FE_TOWARDZERO
+
+Rounding modes
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def FE_UPWARD
+
+Rounding modes
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def FE_DOWNWARD
+
+Rounding modes
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def FE_DFL_ENV
+
+Default floating-point environment
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @def _FPUSW_SHIFT
+
+We need to be able to map status flag positions to mask flag positions
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn feclearexcept(int __excepts)
+
+clear floating-point exception
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn fesetexceptflag(const fexcept_t *__flagp, int __excepts)
+
+set floating-point status flags
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn fetestexcept(int __excepts)
+
+test floating-point exception flags
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn feraiseexcept(int __excepts)
+
+raise floating-point exception
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn fegetround(void)
+
+get current rounding direction
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn fesetround(int __round)
+
+set current rounding direction
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn fegetenv(fenv_t *__envp)
+
+get current floating-point environment
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn feholdexcept(fenv_t *__envp)
+
+save current floating-point environment
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn fesetenv(const fenv_t *__envp)
+
+set current floating-point environment
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn feupdateenv(const fenv_t *__envp)
+
+update floating-point environment
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn feenableexcept(int __mask)
+
+enable floating-point exception
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn fedisableexcept(int __mask)
+
+disable floating-point exception
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn fegetexcept(void)
+
+get floating-point status flags
+
+@publishedAll
+@externallyDefinedApi
+*/
+
+/** @fn fegetexceptflag(fexcept_t *__flagp, int __excepts)
+
+get floating-point status flags
+
+@publishedAll
+@externallyDefinedApi
+*/

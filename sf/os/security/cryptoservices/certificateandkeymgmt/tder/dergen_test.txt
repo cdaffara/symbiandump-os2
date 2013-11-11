@@ -1,0 +1,86 @@
+// Test file for dergen.pl that includes lots of different types
+SEQ
+	BOOLEAN=1
+	BOOL=t
+	BOOL=true
+	BOOL=0
+	BOOL=f
+	BOOL=false
+	UTCTIME=060112173242Z
+	SET	
+		BITSTRING=
+		BITSTRING=1
+		BITSTRING=1111111
+		BITSTRING=11111111
+		BITSTRING=011011100101110111
+	END
+	BITSTRING_WRAPPER
+		SEQ	
+			INTEGER=1
+			INTEGER=-1
+		END
+	END
+	BIGINTEGER {
+		00 9C F7 7E 42 2B C1 73 E3 CD 26 6A 5A 40 9F 50
+		20 8A 3E 7E C5 22 B6 1C B7 6D 41 99 CB 52 49 75
+		96 9D D8 00 40 C9 65 97 51 2D BF E4 E0 B6 0F C9
+		85 1B 55 B8 B6 7D 6D 16 5B 29 5D C3 F0 6E ED F2
+		33
+	}
+	SEQ
+		OID=PKCS7_DATA
+		OID=1.2.3.4
+	END
+	BMPSTRING=This is an ASCII string that will get coverted to a BMPSTRING.
+	IA5STRING=This is an ASCII string that will get coverted to an IA5STRING.
+	IA5STRING_FILE=dergen_test.txt
+	PRINTABLESTRING=This is an ASCII string that will get converted to a PRINTABLESTRING.
+	UTF8STRING=This is an ASCII string that will get coverted to a UTF8STRING.
+	UTF8STRING_FILE=dergen_test.txt
+
+	// Execute shell command
+	SHELL=DIR,>,dir.txt
+	UTF8STRING_FILE=dir.txt
+
+	// Check the tag number is encoded in an explicit 
+	EXPLICIT=
+		INTEGER=0
+	END
+	EXPLICIT=1,PRIVATE
+		INTEGER=1
+	END
+	EXPLICIT=2,CONTEXT-SPECIFIC
+		INTEGER=2
+	END
+	EXPLICIT=3,APPLICATION
+		INTEGER=3
+	END
+	EXPLICIT=4,UNIVERSAL
+		INTEGER=4
+	END
+
+	// Check encoding of implicitly tagged types
+	IMPLICIT=0
+		OCTETSTRING
+			INTEGER=1
+		END
+	END
+	IMPLICIT=1,PRIVATE
+		SEQ
+			INTEGER=1
+		END
+	END
+	IMPLICIT=2,APPLICATION
+		SET
+			INTEGER=2
+		END
+	END
+	IMPLICIT=3,UNIVERSAL
+		INTEGER=3
+	END
+	OCTETSTRING
+		RAW=00:0A:0B:0C
+		RAW=00 0a 0b 0c
+		RAW=00aabbccddeeff
+	END
+END

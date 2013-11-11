@@ -1,0 +1,59 @@
+/*
+* Copyright (c) 2003-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* Builds strong cryptography
+*
+*/
+
+
+/**
+ @file
+*/
+
+PRJ_PLATFORMS
+default
+
+PRJ_EXPORTS
+../inc/bigint.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(bigint.h)
+../inc/asymmetric.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(asymmetric.h)
+../inc/asymmetric.inl SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(asymmetric.inl)
+../inc/asymmetrickeys.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(asymmetrickeys.h)
+../inc/padding.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(padding.h)
+../inc/pbebase.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(pbebase.h)
+../inc/pbe.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(pbe.h)
+../inc/pbedata.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(pbedata.h)
+../inc/3des.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(3des.h)
+../inc/arc4.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(arc4.h)
+../inc/blocktransformation.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(blocktransformation.h)
+../inc/bufferedtransformation.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(bufferedtransformation.h)
+../inc/cbcmode.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(cbcmode.h)
+../inc/des.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(des.h)
+../inc/nullcipher.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(nullcipher.h)
+../inc/rc2.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(rc2.h)
+../inc/rijndael.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(rijndael.h)
+../inc/streamcipher.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(streamcipher.h)
+../inc/msymmetriccipher.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(msymmetriccipher.h)
+../inc/mode.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(mode.h)
+../inc/cryptostrength.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(cryptostrength.h)
+
+#ifndef TOOLS // Don't build anything for tools
+#ifndef TOOLS2 // Don't build anything for tools2
+
+PRJ_MMPFILES
+#ifndef MARM_THUMB
+strong_crypto.mmp	BUILD_AS_ARM //	Don't build for thumb
+#endif
+
+#endif // TOOLS2
+#endif // TOOLS

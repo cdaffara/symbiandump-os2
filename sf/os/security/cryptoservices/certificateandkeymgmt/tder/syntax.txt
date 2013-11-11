@@ -1,0 +1,145 @@
+dergen.pl
+*********
+This Perl application recursively parses a set of text files translating the
+contents into a DER encoding.  This should now support all of the ASN.1
+tags required to create a PKCS#12 file.
+
+Syntax:
+
+* key value format
+* one key per line
+* tabs + whitespace up to command ignored
+* comment is //
+* $1 .. $N for textual substitution of args
+* escape character is \ 
+* case insensitive
+
+Simple types are of the form
+SIMPLE_COMMAND=arg1,arg2,arg3
+
+simple types
+************
+BITSTRING
+		Output an DER bit string 
+		ARG0=A sequence of 0s and 1s. 
+BMPSTRING
+		Encodes ascii text as BMPSTRING
+		ARG0=ascii text to encode
+BMPSTRING_FILE
+		Includes a BMPSTRING file as a BMPSTRING element
+		ARG0=name of file to include
+ENUMERATED
+		Encodes and enumerated value
+		ARG0=integer value of enum
+IA5STRING
+		Encodes ascii text as BMPSTRING
+		ARG0=ascii text to encode
+IA5STRING_FILE
+		Includes a IA5STRING file as an IA5STRING element
+		ARG0=name of file to include
+INCLUDE_BINARY_FILE
+		Includes raw binary data from a file
+		ARG0=filename to include
+INTEGER|INT
+		Outputs an integer
+		ARG0=Integer in decimal or hex format (leading 0x)
+NULL
+		A null entry (no args)
+OID
+		An ASN.1 object identifier
+		ARG0=Raw form (1.2.840.113549.1) or one of the defined key words (look in the source)
+PRINTABLESTRING
+		Encodes ascii text as PRINTABLESTRING
+		ARG0=ascii text to encode
+UTF8STRING_FILE
+		Includes a UTF8STRING file as an UTF8STRING element
+		ARG0=name of file to include
+RAW
+		Allows raw hex to be inserted into the file
+		ARG0=AA:BB:CC:DD:EE:FF
+UTCTIME
+		Encodes a utc time. N.B. no attempt is made to validate the format of the time.
+		ARG0=time in ascii
+UTF8STRING
+		Encodes ascii text as UTF8STRING
+		ARG0=ascii text to encode
+UTF8STRING_FILE
+		Includes a UTF8STRING file as an UTF8STRING element
+		ARG0=name of file to include
+**********
+
+Compound types are of the form and apply an encoding to the result of
+recursively concatenating the embedded types.
+
+COMPOUND_TYPE
+		SIMPLE_TYPE
+		COMPOUND_TYPE
+				SIMPLE_TYPE
+		END
+		SIMPLE_TYPE
+END
+
+compound types
+**************
+BITSTRING_WRAPPER
+		Wraps the nested content inside a BITSTRING
+INCLUDE
+		Allows nesting of dergen script file. Arguments may also be passed for textual substitution. Refer to arguments as $1 .. $N
+		ARG0=filename to include
+		ARG1 (optional)=argument to subtitute for $1 in include file
+		ARGN (optional)=argument
+
+IMPLICIT			
+		Changes the tag of the embedded type according to the tag number and class arguments. 
+		The default tag number is 0 and the default class is CONTEXT-SPECIFIC.
+		ARG1 (optional)=tag nummber (in hex)
+		ARG2 (optional)=class (UNIVERSAL,APPLICATION,CONTEXT-SPECIFIC,PRIVATE)
+
+ENCRYPT
+		Encrypts the nested data. (Requires OpenSSL)
+		ARG0=cipher (as defined by openssl without the leading hyphen)
+		ARG1=key (in hex)
+		ARG2=iv (in hex)
+EXPLICIT
+		Wraps the embedded type with a new tag defined by the tag number and class arguments. 
+		The default tag number is 0 and the default class is CONTEXT-SPECIFIC.
+		ARG0 (optional)=tag nummber (in hex)
+		ARG1 (optional)class (UNIVERSAL,APPLICATION,CONTEXT-SPECIFIC,PRIVATE)
+HASH
+		Embeds the hash of the nested data. (Requries OpenSSL)
+		ARG0=algorithm (as defined by OpenSSL without the leading hyphen)
+HMAC
+		Embeds a HMAC for the nested data.
+		ARG0=algorithm (SHA1|MD5)
+		ARG1=key (in kex)
+OCTETSTRING
+		Wraps the nested content in an OCTETSTRING tag
+OUTPUT_BINARY_FILE
+		Outputs the nested data in binary form to the named file and optionally includes the nested data in the 
+		encoding stream as well. 
+		ARG0=The filename to write the data to
+		ARG1=Set this to 1 to also include the binary content int he output stream (Optional)
+SEQ
+		Embeds content in a SEQ tag
+SIGN	Creates a PKCS#7 signed data object of the nested data using OpenSSL's SMIME command
+		ARG0=signing certificate filename (PEM format)
+		ARG1=signing key filename (PEM format)
+SET
+		Embeds content in a SET tag
+SHELL	
+		Executes an arbitrary shell command
+		ARG0=program to run
+		ARG1 (optional)=first argument to shell command
+		ARGN (optional)=last largument to shell command
+
+command line arguments
+**********************
+--in  <filename>		: script file
+--out <filename>		: output file
+--hex					: output hex instead of binary
+--debug					: set the debug level. 0=off,1=parsing information,2=parsing & encoding information,3=everything
+
+other
+****
+If it doesn't work then then try setting the DEBUG global variable to 1 (or 2
+or 3 for more increased verbosity)

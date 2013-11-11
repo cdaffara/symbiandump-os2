@@ -1,0 +1,51 @@
+//
+// Copyright (c) 2008-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+// FNTSTORETEST_T_FNT.SCRIPT
+// 
+//
+
+PRINT Run All Font Store tests
+//
+LOAD_SUITE TFntStoreServer
+RUN_TEST_STEP 300 TFntStoreServer TFnt
+RUN_TEST_STEP 100 TFntStoreServer TFntMem
+RUN_TEST_STEP 100 TFntStoreServer TFontBitmap
+RUN_TEST_STEP 100 TFntStoreServer TFsOpen
+RUN_TEST_STEP 200 TFntStoreServer TGlyphTreeDel
+RUN_TEST_STEP 100 TFntStoreServer TMatchFonts
+RUN_TEST_STEP 100 TFntStoreServer TOpenFontTypes
+RUN_TEST_STEP 100 TFntStoreServer TFontMetrics
+RUN_TEST_STEP 100 TFntStoreServer TGetNearestFont
+
+RUN_TEST_STEP 100 TFntStoreServer TCorruptFonts
+RUN_TEST_STEP 300 TFntStoreServer TShaperCache
+RUN_TEST_STEP 300 TFntStoreServer TCacheDeletion
+RUN_TEST_STEP 300 TFntStoreServer TFontSessionCache
+RUN_TEST_STEP !PanicCode=-40 !PanicString="FBSERV" 100 TFntStoreServer TSetDefaultTypefaceName
+RUN_TEST_STEP 100 TFntStoreServer TLinkedFonts
+RUN_TEST_STEP 100 TFntStoreServer TGetNearestFontCapability
+
+// Set test server to have only WriteDeviceData(00000020) Capabilitities
+RUN_PROGRAM -1 setcap TFntStoreServer.exe 00000020 TFntStoreServer0020.exe
+PRINT Run TGetNearestFont0020 Font Store test 
+// Run server tests and check we do not get a panic
+LOAD_SUITE TFntStoreServer0020
+RUN_TEST_STEP 100 TFntStoreServer0020 TGetNearestFontCapability
+// Set test server to have no Capabilitities
+RUN_PROGRAM -1 setcap TFntStoreServer.exe 00000000 TFntStoreServer0000.exe
+PRINT Run TGetNearestFont0000 Font Store test 
+// Run server tests and check we do get the correct panic
+LOAD_SUITE TFntStoreServer0000
+RUN_TEST_STEP !PanicCode=47 !PanicString="E32USER-CBase" 100 TFntStoreServer0000 TGetNearestFontCapability

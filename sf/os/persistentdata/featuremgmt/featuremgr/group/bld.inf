@@ -1,0 +1,56 @@
+// Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+
+
+
+PRJ_PLATFORMS
+DEFAULT
+
+
+PRJ_EXPORTS
+
+../inc/featmgr.h                OS_LAYER_PLATFORM_EXPORT_PATH(featmgr/featmgr.h)
+../inc/featurecontrol.h         OS_LAYER_PLATFORM_EXPORT_PATH(featmgr/featurecontrol.h)
+../inc/featurenotifier.h        OS_LAYER_PLATFORM_EXPORT_PATH(featmgr/featurenotifier.h)
+../inc/featurecmn.h             OS_LAYER_PLATFORM_EXPORT_PATH(featmgr/featurecmn.h)
+../inc/featdiscovery.h          OS_LAYER_PUBLIC_EXPORT_PATH(featdiscovery.h)
+../inc/featureinfoplugin.h      OS_LAYER_PLATFORM_EXPORT_PATH(featmgr/featureinfoplugin.h)
+../inc/featureinfoplugin.inl    OS_LAYER_PLATFORM_EXPORT_PATH(featmgr/featureinfoplugin.inl)
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+../inc/featurepanics.h          /epoc32/include/featmgr/featurepanics.h
+#endif
+./featmgr.iby                   /epoc32/rom/include/featmgr.iby
+
+/* export the backup and restore registration file 
+ * to Z drive both for emulator and target device 
+ */
+backup_registration.xml   z:/private/10205054/backup_registration.xml
+
+
+PRJ_MMPFILES
+
+./featmgr.mmp
+./featdiscovery.mmp
+./featmgrserver.mmp
+
+
+PRJ_TESTMMPFILES
+
+#include "../tools/group/bld.inf"
+#include "../test/group/bld.inf"
+
+
+//  End of File  

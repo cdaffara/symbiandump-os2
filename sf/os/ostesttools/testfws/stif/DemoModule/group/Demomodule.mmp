@@ -1,0 +1,46 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+* 
+* Description: MMP file for STIF Test Framework's Demomodule.
+*
+*/
+
+#include <platform_paths.hrh>
+
+SMPSAFE
+
+TARGET      Demomodule.dll
+TARGETTYPE  dll
+DEFFILE     Demomodule.def
+
+CAPABILITY	ALL -TCB
+VENDORID 	0x101FB657
+SECUREID        0x102073DB
+
+USERINCLUDE     ../inc 
+USERINCLUDE     ../../inc
+
+OS_LAYER_SYSTEMINCLUDE
+
+SOURCEPATH      ../src
+
+SOURCE          DemoModule.cpp
+SOURCE          Demomodulecases.cpp
+
+LIBRARY     euser.lib
+LIBRARY     stiftestinterface.lib
+LIBRARY     stiftestengine.lib
+
+// First UID is DLL UID, Second UID is STIF Test Framework UID
+UID             0x1000008D 0x101FB3E7
+// End of File

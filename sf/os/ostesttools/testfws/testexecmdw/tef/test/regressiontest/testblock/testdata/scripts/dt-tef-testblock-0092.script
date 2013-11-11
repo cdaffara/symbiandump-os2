@@ -1,0 +1,34 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+LOAD_SERVER te_RegBlockTestSuite 
+
+START_TESTCASE DT-TEF-TestBlock-0092
+//! @SYMTestCaseID          DT-TEF-TestBlock-0092
+//! @SYMCreationDate        03-07-2008
+//! @SYMAuthor              DavidZhang
+//! @SYMTestType            CT
+//! @SYMTestPriority        Medium
+//! @SYMTestCaseDesc        Check that ASYNC_DELAY delays the execution for the correct time interval.
+//! @SYMTestExpectedResults The delay is as long as expected.
+//! @SYMTestActions         Create a test block and call ASYNC_DELAY 5000000 command, check the interval is longer than 4 and shorter than 6.
+	START_TEST_BLOCK	100 te_RegBlockTestSuite ${SYSDRIVE}\testdata\configs\te_RegBlockTestSuite.ini
+		CREATE_OBJECT	te_RegBlockTestWrapper DummyObj
+		COMMAND		DummyObj			StartTimer
+		ASYNC_DELAY	5000000
+		COMMAND		DummyObj			CheckTimer			TestCase033_delay
+	END_TEST_BLOCK
+END_TESTCASE DT-TEF-TestBlock-0092

@@ -1,0 +1,204 @@
+/** @file ../inc/liblogger.h
+@internalComponent
+*/
+
+/** @fn  LibTracer(TLibTraceMessageType aLogMessageType,char *aFileName,int aLine,char *aFormat,...)
+
+@param aLogMessageType Type of the log message
+@param aFileName pointer to the file name 
+@param aLine line number
+@param aFormat pointer to the message format and ... Variable arguments
+
+Description:
+This is a message logging interface.
+
+@return   Upon successful completion it returns number to bytes write into the file .
+
+
+@publishedAll
+@externallyDefinedApi
+
+*/
+/** @fn  LibTracerMarkerList(TLibTraceMessageType aLogMessageType,char *aFileName,int aLine,char *aFormat,VA_LIST* aMarkerList)
+
+@param aLogMessageType Type of the log message
+@param aFileName pointer to the file name 
+@param aLine line number
+@param aFormat pointer to the message format
+@param aMarkerList Variable list
+
+Description:
+This is a message logging interface.
+
+@return   Upon successful completion it returns number to bytes write into the file .
+
+@publishedAll
+@externallyDefinedApi
+
+*/
+
+/** @fn  LibTracerPartialHexDump(TLibTraceMessageType aLogMessageType,char *aFileName,int aLine,char *aMessage,char *aStr,int aStrLen)
+
+@param aLogMessageType Type of the log message
+@param aFileName pointer to the file name 
+@param aLine line number
+@param aMessage pointer to the message as first line
+@param aStr Dump string.  
+@param aStrLen Dump string length. 
+
+Description:
+It dumps the message in hex format of specific dumps.
+
+@return   Upon successful completion it returns number to bytes write into the file .
+
+@publishedAll
+@externallyDefinedApi
+
+*/
+
+/** @fn  LibTracerHexDump(TLibTraceMessageType aLogMessageType,char *aFileName,int aLine,char *aMessage,char *aFormat,...)
+
+@param aLogMessageType Type of the log message
+@param aFileName pointer to the file name 
+@param aLine line number
+@param aMessage pointer to the message as first line
+@param aFormat pointer to the message format and ... Variable arguments
+
+
+Description:
+It dumps the message in hex format.
+
+@return   Upon successful completion it returns number to bytes write into the file .
+
+@publishedAll
+@externallyDefinedApi
+
+*/
+
+/** @fn  LibTracerHexDumpMarkerList(TLibTraceMessageType aLogMessageType,char *aFileName,int aLine,char *aMessage,char *aFormat,VA_LIST* aMarkerList)
+
+@param aLogMessageType Type of the log message
+@param aFileName pointer to the file name 
+@param aLine line number
+@param aMessage pointer to the message as first line
+@param aFormat pointer to the message format 
+@param aMarkerList Variable list
+
+
+Description:
+It dumps the message in hex format.
+
+@return   Upon successful completion it returns number to bytes write into the file .
+
+@publishedAll
+@externallyDefinedApi
+
+*/
+
+/** @fn  LibLineExecTracer(char *aFileName, int aLine)
+
+@param aFileName pointer to the file name 
+@param aLine line number
+
+Description:
+It Only logs filename and line no with timestamp.
+
+@return   Upon successful completion it returns number to bytes write into the file .
+
+@publishedAll
+@externallyDefinedApi
+
+*/
+
+
+/** @fn  LibMessageTracer(TLibTraceMessageType aLogMessageType,char *aFormat,VA_LIST* aMarkerList)
+
+@param aLogMessageType Type of the log message
+@param aFormat pointer to the message format 
+@param aMarkerList Variable list
+
+Description:
+It Only logs/traces message without timestamp
+
+@return   Upon successful completion it returns number to bytes write into the file .
+
+@publishedAll
+@externallyDefinedApi
+
+*/
+
+
+/** @fn  LibHexDumpMessagePartTracer(TLibTraceMessageType aLogMessageType,char* aMessage,char *aFormat,VA_LIST* aMarkerList)
+
+@param aLogMessageType Type of the log message
+@param aMessage pointer to the message as first line
+@param aFormat pointer to the message format 
+@param aMarkerList Variable list
+
+Description:
+It Only logs/traces message without timestamp
+
+@return   Upon successful completion it returns number to bytes write into the file .
+
+@publishedAll
+@externallyDefinedApi
+
+*/
+
+/** @typedef typedef enum TLibTraceMessageType TLibTraceMessageType
+
+enums,defines log message type (Info/Minor/Major/Critical)
+
+@publishedAll
+@released
+*/
+
+/** @def LOG_BITS
+
+only logging for critical/major
+
+@publishedAll
+@released
+*/
+
+/** @def LOG_FILE_NAME_LINE
+
+This macro will be used for file and line no.
+
+@publishedAll
+@released
+*/
+
+
+/** @def LIB_TRACE
+
+Usage:
+@code
+LIB_TRACE(<messagetype>{ELibTraceTypeInfo|ELibTraceTypeMinor|ELibTraceTypeMajor|ELibTraceTypeCritical},format,args);
+@endcode
+
+@publishedAll
+@released
+*/
+
+/** @def LIB_TRACE_DUMP
+
+Usage:
+@code
+LIB_TRACE_DUMP(<messagetype>{ELibTraceTypeInfo|ELibTraceTypeMinor|ELibTraceTypeMajor|ELibTraceTypeCritical},message, // user wants to add any message before dump, (i.e. TCP message)format,args);@publishedAll
+@endcode
+
+@released
+*/
+
+
+/** @def LIB_TRACE_DUMP_LEN
+
+Usage:
+@code
+LIB_TRACE_DUMP_LEN(<messagetype>{ELibTraceTypeInfo|ELibTraceTypeMinor|ELibTraceTypeMajor|ELibTraceTypeCritical},message, // user wants to add any message before dump, (i.e. TCP message)umpstring,stringlength);
+@endcode
+
+@publishedAll
+@released
+*/

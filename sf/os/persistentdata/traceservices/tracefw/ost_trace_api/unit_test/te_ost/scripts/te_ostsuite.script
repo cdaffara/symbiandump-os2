@@ -1,0 +1,140 @@
+// Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+//! @file
+//! @SYMTestSuiteName               	ostv2-api-unit-test-suite.script
+//! @SYMScriptTestEnvironment       	TEF
+
+
+PRINT Running te_ost_multipart_trace
+LOAD_SUITE te_ost_multipart_trace
+
+START_TESTCASE			DT-DEBUG-TRACE-OSTv2-APIMultiTrace-0001
+//! @SYMTestCaseID		DT-DEBUG-TRACE-OSTv2-APIMultiTrace-0001
+//! @SYMTestCaseDesc     Run test for multi-parting functionality of the API
+//! @SYMTestPriority     Critical
+//! @SYMTestActions    For various size payloads inducing multi-parting of the trace packet (>80bytes) test the data contained in the trace packets
+//! @SYMTestExpectedResults     Verify that the trace packet contain payload data multiparted as expected
+//! @SYMTestType         UT
+//! @SYMTestStatus   Implemented
+//! @SYMPREQ                 PREQ2390
+//! @SYMREQ                    12115 12144 12761 12825 
+RUN_TEST_STEP 100 te_ost_multipart_trace CMultiTraceTestStep z:\testdata\configs\te_ost_trace_user.ini variability
+END_TESTCASE			DT-DEBUG-TRACE-OSTv2-APIMultiTrace-0001
+
+
+PRINT Running te_ost_enabled
+LOAD_SUITE te_ost_enabled
+
+START_TESTCASE			DT-DEBUG-TRACE-OSTv2-APICheckBuildVariabilityEnabled-0001
+//! @SYMTestCaseID		DT-DEBUG-TRACE-OSTv2-APICheckBuildVariabilityEnabled-0001
+//! @SYMTestCaseDesc     Run test to check for build time variability of the API with trace compiled in at build time 
+//! @SYMTestPriority     Critical
+//! @SYMTestActions    For trace compiled in at build time, instrument and output trace points 
+//! @SYMTestExpectedResults     Verify that trace is implemented and output as expected
+//! @SYMTestType         UT
+//! @SYMTestStatus   Implemented
+//! @SYMPREQ                 PREQ2390
+//! @SYMREQ                    12115 12144 12761 12825
+RUN_TEST_STEP 100 te_ost_enabled CCheckBuildVariabilityStep z:\testdata\configs\te_ost_trace_user.ini variability
+END_TESTCASE			DT-DEBUG-TRACE-OSTv2-APICheckBuildVariabilityEnabled-0001
+
+
+PRINT Running te_ost_disabled
+LOAD_SUITE te_ost_disabled
+
+START_TESTCASE			DT-DEBUG-TRACE-OSTv2-APICheckBuildVariabilityDisabled-0001
+//! @SYMTestCaseID		DT-DEBUG-TRACE-OSTv2-APICheckBuildVariabilityDisabled-0001
+//! @SYMTestCaseDesc     Run test to check for build time variability of the API with trace compiled out at build time 
+//! @SYMTestPriority     Critical
+//! @SYMTestActions    For trace compiled out at build time, instrument and output trace points 
+//! @SYMTestExpectedResults     Verify that trace is implemented and not output as expected
+//! @SYMTestType         UT
+//! @SYMTestStatus   Implemented
+//! @SYMPREQ                 PREQ2390
+//! @SYMREQ                    12115 12144 12761 12825
+RUN_TEST_STEP 100 te_ost_disabled CCheckBuildVariabilityStep z:\testdata\configs\te_ost_trace_user.ini variability
+END_TESTCASE			DT-DEBUG-TRACE-OSTv2-APICheckBuildVariabilityDisabled-0001
+
+
+PRINT Running te_ost_record_content
+LOAD_SUITE te_ost_record_content
+
+// this test currently fails due to problem in RUlogger
+START_TESTCASE			DT-DEBUG-TRACE-OSTv2-APICheckRecordContent-0001
+//! @SYMTestCaseID		DT-DEBUG-TRACE-OSTv2-APICheckRecordContent-0001
+//! @SYMTestCaseDesc     Run test to check the trace packet is correct 
+//! @SYMTestPriority     Medium
+//! @SYMTestActions    Check record content of logged trace packets is as expected for the sent packet 
+//! @SYMTestExpectedResults     Verify that trace is implemented and output as expected
+//! @SYMTestType         UT
+//! @SYMTestStatus   Implemented
+//! @SYMPREQ                 PREQ2390
+//! @SYMREQ                    12115 12144 12761 12825
+RUN_TEST_STEP 100 te_ost_record_content CCheckRecordContentStep z:\testdata\configs\te_ost_trace_user.ini variability
+END_TESTCASE			DT-DEBUG-TRACE-OSTv2-APICheckRecordContent-0001
+
+DELAY 10000
+
+PRINT Running te_ost_record_content
+LOAD_SUITE te_ost_record_content
+
+// this one passes on h4 - but due to hang on emulator fix implemented which means emulator figures not valid
+START_TESTCASE			DT-DEBUG-TRACE-OSTv2-APICheckPerformance-0001
+//! @SYMTestCaseID		DT-DEBUG-TRACE-OSTv2-APICheckPerformance-0001
+//! @SYMTestCaseDesc     Run test to test the API performance
+//! @SYMTestPriority     Medium
+//! @SYMTestActions    Measure the trace time of the implemented APIs
+//! @SYMTestExpectedResults     Verify that performance of the trace APIs are not significantly more intrusive than previous implementations  
+//! @SYMTestType         UT
+//! @SYMTestStatus   Implemented
+//! @SYMPREQ                 PREQ2390
+//! @SYMREQ                    12115 12144 12761 12825
+RUN_TEST_STEP 100 te_ost_record_content CCheckPerformanceStep z:\testdata\configs\te_ost_trace_user.ini variability
+END_TESTCASE			DT-DEBUG-TRACE-OSTv2-APICheckPerformance-0001
+
+
+// unit tests for OST macros (macros only and not UTFv2 like functions)
+PRINT Running OST macros enabled unit tests
+LOAD_SUITE te_ost_macros_enabled
+START_TESTCASE			 DT-DEBUG-TRACE-OSTv2-APIUNITTEST-0001
+//! @SYMTestCaseID		DT-DEBUG-TRACE-OSTv2-APIUNITTEST-0001
+//! @SYMTestCaseDesc     Run test to test enabled OST macros (macros only and not UTFv2 like functions)
+//! @SYMTestPriority     Medium
+//! @SYMTestActions    Test the implemented OSTv1-style APIs when compiled in
+//! @SYMTestExpectedResults     Verify that the OSTv1-style trace APIs return trace packets as expected by the instrumentation 
+//! @SYMTestType         UT
+//! @SYMTestStatus   Implemented
+//! @SYMPREQ                 PREQ2390
+//! @SYMREQ                    12115 12144 12761 12825
+RUN_TEST_STEP 100 te_ost_macros_enabled COstMacrosEnabledStep z:\testdata\configs\te_ost_trace_user.ini variability
+END_TESTCASE			DT-DEBUG-TRACE-OSTv2-APIUNITTEST-0001
+
+
+// unit tests for OST macros (macros only and not UTFv2 like functions)
+PRINT Running OST macros disabled unit tests
+LOAD_SUITE te_ost_macros_disabled
+START_TESTCASE			 DT-DEBUG-TRACE-OSTv2-APIUNITTEST-0002
+//! @SYMTestCaseID		DT-DEBUG-TRACE-OSTv2-APIUNITTEST-0002
+//! @SYMTestCaseDesc     Run test to test disabled OST macros (macros only and not UTFv2 like functions)
+//! @SYMTestPriority     Medium
+//! @SYMTestActions    Test the implemented OSTv1-style APIs when compiled out
+//! @SYMTestExpectedResults     Verify that the OSTv1-style trace APIs don't return trace packets as expected by the instrumentation 
+//! @SYMTestType         UT
+//! @SYMTestStatus   Implemented
+//! @SYMPREQ                 PREQ2390
+//! @SYMREQ                    12115 12144 12761 12825
+RUN_TEST_STEP 100 te_ost_macros_disabled COstMacrosDisabledStep z:\testdata\configs\te_ost_trace_user.ini variability
+END_TESTCASE			DT-DEBUG-TRACE-OSTv2-APIUNITTEST-0002

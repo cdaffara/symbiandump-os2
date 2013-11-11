@@ -1,0 +1,39 @@
+// Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// This file provides instructions on how to do manual testing for 
+// the feature manager component using configured feature manager server 
+// create folders for the emulated data cages
+//
+// @file
+//
+
+//! @SYMTestSuiteName SYSLIB-TEF-EFM-CONFIGURED
+//! @internalComponent
+//! @test
+
+//! @SYMTestCaseID      SYSLIB-EFM-CT-4029
+//! @SYMTestCaseDesc    Patchable constant test
+//! @SYMTestPriority    Medium 
+//! @SYMTestActions    	1) This is a manual test.
+			2) Run tef_efm_configured.script on the ROM image built without any additional .iby files (i.e. with featmgr_test.iby only)   
+			3) Make sure that there are no test failures in HangingPluginTest and CombinationNHPluginTest tests by checking log in c:\logs\testexecute\tef_efm_configured.htm file  
+//		      	4) Use a pre-created .iby file that patches the plugin timeout constant for the configured featare manager server "patch_featmgr_timeout_constant.iby"
+//		      	5) Build rom image with the abobe .iby file included	
+//                    	6) Start a hardware board using the produced ROM image 
+//		      	7) Once the board is stared, run tef_efm_configured.script	
+//		      	8) Get the test results from c:\logs\testexecute\tef_efm_configured.htm file
+//                    	9) There should be test failures in HangingPluginTest and CombinationNHPluginTest tests
+//!@SYMTestExpectedResults      Test failures in HangingPluginTest and CombinationNHPluginTest confirm that the timeout constant has been patched
+//!@SYMPREQ            PREQ1645
+//!@SYMREQ             REQ8356

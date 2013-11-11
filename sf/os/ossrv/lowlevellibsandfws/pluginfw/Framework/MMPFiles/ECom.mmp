@@ -1,0 +1,52 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// ecom.dll Plug-in server framework client dll
+// When macro defined trace messages are compiled in and sent to RDebug
+// This line must always be commented before submitting to the MCL. See EComDebug.h
+// MACRO ECOM_TRACE
+// 
+//
+
+/**
+ @file
+*/
+
+//This macro is used to configure out classes that are shared by the client and server
+//example CEComEntry
+MACRO ECOM_CLIENT
+
+TARGET ecom.dll
+CAPABILITY All -Tcb
+TARGETTYPE dll
+
+// Dynamic Dll UID followed by the unique UID for this dll
+UID 0x1000008D 0x10009D8E
+VENDORID 0x70000001
+
+SOURCEPATH	../../Framework/frame
+
+// Client side
+SOURCE		EComSession.cpp ImplementationInformation.cpp
+SOURCE		UnloadPolicy.cpp LoadManager.cpp
+SOURCE		EComEntry.cpp TlsData.cpp
+
+USERINCLUDE ../../Framework/inc ../../Test_Bed/inc
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+LIBRARY euser.lib estor.lib efsrv.lib 
+LIBRARY ecompatchdata.lib
+
+DEFFILE ECom.def
+
+SMPSAFE

@@ -1,0 +1,49 @@
+// Copyright (c) 2003-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// wbxmlparser.dll wbxml parser
+// 
+//
+
+/**
+ @file
+*/
+
+TARGET			wbxmlparser.dll
+CAPABILITY 		All -Tcb
+TARGETTYPE		plugin
+
+// ECom Plugin Dll UID followed by the unique UID for this dll
+// Assigned to UID2 and UID3 respectively
+UID 			0x10009D8D 0x101FB6F2
+VENDORID 		0x70000001
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+USERINCLUDE 	../src/wbxmlparser
+USERINCLUDE 	../../xmlfw/inc
+
+SOURCEPATH		../src/wbxmlparser
+SOURCE			wbxmlparser.cpp
+SOURCE			descriptordatasource.cpp
+SOURCE			wbxmlparsererrors.cpp
+
+START RESOURCE 	101FB6F2.rss
+TARGET 			wbxmlparser.rsc
+END
+
+LIBRARY			bafl.lib  		 // for RStringPool
+LIBRARY 		euser.lib
+LIBRARY			xmlframework.lib
+
+SMPSAFE

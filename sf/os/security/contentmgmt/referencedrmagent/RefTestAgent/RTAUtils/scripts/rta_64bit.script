@@ -1,0 +1,143 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+
+PRINT Run all RTA tests 
+PRINT
+
+LOAD_SUITE RTAUtils
+
+RUN_UTILS MkDir c:\rta\
+RUN_UTILS MkDir c:\rta\testdata\
+
+RUN_UTILS CopyFile z:\rta\testdata\*.* c:\rta\testdata\*.*
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RTA-0027
+//! @SYMTestCaseDesc 		Create a Drm archive
+//!				(CreateArchive)
+//! @SYMPREQ			REQ3678
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Constructs a DRM archive from the content and rights xml files provided
+//! @SYMTestExpectedResults	A .contentrights file is produced
+//! @SYMTestType		UT
+START_TESTCASE SEC-CAF-RTA-0027
+RUN_TEST_STEP 100 RTAUtils CreateDrmArchive z:\rta\rta.ini CreateDrmArchive
+END_TESTCASE SEC-CAF-RTA-0027
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RTA-0028
+//! @SYMTestCaseDesc 		Import a Drm archive
+//!				(ImportArchive)
+//! @SYMPREQ			REQ3678
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Imports a DRM archive producing a .content file and adding rights to the rights database
+//! @SYMTestExpectedResults	A .content file is produced
+//! @SYMTestType		UT
+START_TESTCASE SEC-CAF-RTA-0028
+RUN_TEST_STEP 100 RTAUtils ImportDrmArchive z:\rta\rta.ini ImportDrmArchive
+END_TESTCASE SEC-CAF-RTA-0028
+
+LOAD_SUITE tcaf
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RTA-0029
+//! @SYMTestCaseDesc 		Compare the size of the content with the size of the original content
+//!				(Size_64bit)
+//! @SYMPREQ			REQ10579
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Compare the size of the content using CAF and RFile
+//! @SYMTestExpectedResults	Sizes are identical
+//! @SYMTestType		IT
+START_TESTCASE SEC-CAF-RTA-0029
+RUN_TEST_STEP 100 tcaf CAFSizeStep64 z:\rta\rta.ini  CompareContentF32Agent
+END_TESTCASE SEC-CAF-RTA-0029
+
+//! @file
+//! @SYMTestCaseID 		SEC-CAF-RTA-0030
+//! @SYMTestCaseDesc 		Compare the content with the original content
+//!				(ReadSeek_64bit)
+//! @SYMPREQ			REQ10579
+//! @SYMTestStatus		Implemented
+//! @SYMTestPriority		Normal
+//! @SYMTestActions		Compare the content using CAF and RFile
+//! @SYMTestExpectedResults	Content is identical
+//! @SYMTestType		IT
+START_TESTCASE SEC-CAF-RTA-0030
+RUN_TEST_STEP 100 tcaf CAFSeekReadStep64 z:\rta\rta.ini  CompareContentF32Agent
+END_TESTCASE SEC-CAF-RTA-0030
+
+
+// Following lines should be uncommented for the below mentioned manual test case
+//RUN_UTILS Delete c:\imported.content
+//RUN_UTILS Delete c:\output.contentrights
+
+//!@file
+//!SYMTestCaseID 		SEC-CAF-RTA-0031
+//!SYMTestCaseDesc 		Create a Drm archive with a filesize greater than 2GB
+//!SYMPREQ				REQ3678
+//!SYMTestStatus		Implemented
+//!SYMTestPriority		Medium
+//!SYMTestActions		Constructs a DRM archive from the content and rights xml files provided
+//!SYMTestExpectedResults	A .contentrights file is produced
+//!SYMTestType			UT
+// Manual Test - Create relevant files before running this test
+//RUN_TEST_STEP -1 RTAUtils CreateDrmArchive z:\rta\rta.ini Create2GBDrmArchive
+
+//!@file
+//!SYMTestCaseID 		SEC-CAF-RTA-0032
+//!SYMTestCaseDesc 		Import a Drm archive (Size greater than 2GB)
+//!SYMPREQ				REQ3678
+//!SYMTestStatus		Implemented
+//!SYMTestPriority		Medium
+//!SYMTestActions		Imports a DRM archive producing a .content file and adding rights to the rights database
+//!SYMTestExpectedResults	A .content file is produced
+//!SYMTestType			UT
+// Manual Test - Create relevant files before running this test
+// RUN_TEST_STEP -1 RTAUtils ImportDrmArchive z:\rta\rta.ini ImportDrmArchive
+
+//!@file
+//!SYMTestCaseID 		SEC-CAF-RTA-0033
+//!SYMTestCaseDesc 		Compare the size of the content (Size greater than 2GB) with the size of the original content
+//!SYMPREQ				REQ10579
+//!SYMTestStatus		Implemented
+//!SYMTestPriority		Medium
+//!SYMTestActions		Compare the size of the content using CAF and RFile
+//!SYMTestExpectedResults	Sizes are identical
+//!SYMTestType			IT
+// Manual Test - Create relevant files before running this test
+//RUN_TEST_STEP 100 tcaf CAFSizeStep64 z:\rta\rta.ini  Compare2GBContentF32Agent
+
+//!@file
+//!SYMTestCaseID 		SEC-CAF-RTA-0034
+//!SYMTestCaseDesc 		Compare the content with the original content (Size greater than 2GB)
+//!SYMPREQ				REQ10579
+//!SYMTestStatus		Implemented
+//!SYMTestPriority		Medium
+//!SYMTestActions		Compare the content using CAF and RFile
+//!SYMTestExpectedResults	Content is identical
+//!SYMTestType			IT
+// Manual Test - Create relevant files before running this test
+//RUN_TEST_STEP 100 tcaf CAFSeekReadStep64 z:\rta\rta.ini  Compare2GBContentF32Agent
+
+
+RUN_UTILS Delete c:\imported.content
+RUN_UTILS Delete c:\output.contentrights
+
+RUN_SCRIPT z:\tcaf\testcleanupstep.script

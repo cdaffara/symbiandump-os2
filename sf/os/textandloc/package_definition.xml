@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SystemDefinition schema="3.0.0">
+  <package id="textandloc" name="Text and Localisation Services" levels="encoding util fonts tools text">
+    <collection id="charconvfw" name="Character Conversion" level="encoding">
+      <component id="charconv_fw" name="Character Encoding and Conversion Framework" purpose="mandatory" filter="api_test"> <!-- both production and api_test-->
+    	<meta rel="testbuild">
+          <group name="test.syslibs_charconv"/>
+        </meta>
+        <unit bldFile="charconvfw/charconv_fw/group" mrp="charconvfw/charconv_fw/group/syslibs_charconv.mrp"/>
+      </component>
+      <component id="charconvplugins" name="Character Encoding and Conversion Plugins" purpose="optional" class="plugin" filter="apit_test">  <!-- both production and api_test-->
+    	<meta rel="testbuild">
+          <group name="test.syslibs_charconv_plugins"/>
+        </meta>
+        <unit bldFile="charconvfw/charconvplugins/group" mrp="charconvfw/charconvplugins/group/syslibs_charconv_plugins.mrp"/>
+      </component>
+      <component id="fatfilenameconversionplugins" name="FAT Filename Conversion Plugins" introduced="9.1" purpose="optional" class="plugin" filter="api_test">   <!-- both production and api_test-->
+    	<meta rel="testbuild">
+          <group name="test.syslibs_fatcharsetconv"/>
+        </meta>
+        <unit bldFile="charconvfw/fatfilenameconversionplugins/group" mrp="charconvfw/fatfilenameconversionplugins/group/syslibs_FATCharsetConv.mrp"/>
+      </component>      
+    </collection>
+    <collection id="fontandtxtsrv" name="Font and Text Services" level="fonts">
+      <component id="iculayoutengine" name="ICU Layout Engine" introduced="9.2" purpose="optional" class="plugin">
+        <unit bldFile="fontservices/textshaperplugin/group" mrp="fontservices/textshaperplugin/group/graphics_iculayoutengine.mrp"/>
+      </component>
+      <component id="fontstore" name="Font Store" purpose="mandatory" filter="api_test"> <!-- both production and api_test-->
+`        <unit bldFile="fontservices/fontstore/group" mrp="fontservices/fontstore/group/graphics_fntstore.mrp"/>
+      </component>
+     <component id="textbase" name="Text Base" purpose="mandatory">
+	<unit bldFile="fontservices/textbase/group" mrp="fontservices/textbase/group/textbase.mrp" /> 
+     </component>      
+      <component id="freetypefontrasteriser" name="FreeType Font Rasteriser" purpose="optional" class="plugin">
+        <unit bldFile="fontservices/freetypefontrasteriser/group" mrp="fontservices/freetypefontrasteriser/group/graphics_freetype.mrp"/>
+      </component>
+      <component id="referencefonts" name="Reference Fonts" introduced="6.0" purpose="optional">
+        <unit bldFile="fontservices/referencefonts/group" mrp="fontservices/referencefonts/group/graphics_fonts.mrp"/>
+      </component>
+    </collection>
+    <collection id="textlayout" name="Text Layout" level="text">
+      <component id="texthandling" name="Text Handling" purpose="optional" deprecated="^4">
+        <unit bldFile="textrendering/texthandling/group" mrp="textrendering/texthandling/group/app-framework_etext.mrp"/>
+      </component>
+      <component id="textformatting" name="Text Formatting" purpose="optional" deprecated="^4">
+        <unit bldFile="textrendering/textformatting/group" mrp="textrendering/textformatting/group/app-framework_form.mrp"/>
+      </component>
+      <component id="word" name="Word" purpose="development" filter="test">
+        <unit mrp="textrendering/word/group/app-framework_word.mrp" bldFile="textrendering/word/group"/>
+      </component>
+    </collection>
+    <collection id="textandlocutils" name="Text and Localisation Utils" level="util">
+      <component id="numbergrouping" name="Number Grouping" deprecated="^4">
+        <unit bldFile="textandlocutils/numbergrouping/group" mrp="textandlocutils/numbergrouping/group/tls_numbergrouping.mrp"/>
+      </component>
+      <component id="jplangutil" name="Japanese Language Utilities" deprecated="^4">
+        <unit bldFile="textandlocutils/jplangutil/group" mrp="textandlocutils/jplangutil/group/tls_jplangutil.mrp"/>
+      </component>
+      <component id="sortutil" name="Sorting Utility" deprecated="^4">
+        <unit bldFile="textandlocutils/sortutil/group" mrp="textandlocutils/sortutil/group/tls_sortutil.mrp"/>
+      </component>
+      <component id="inlinetext" name="Inline Text" deprecated="^4">
+        <unit bldFile="textandlocutils/inlinetext/group" mrp="textandlocutils/inlinetext/group/tls_inlinetext.mrp"/>
+     </component>
+      <component id="numberformatting" name="Number Formatting" introduced="7.0s" purpose="optional">
+        <unit bldFile="textrendering/numberformatting/group" mrp="textrendering/numberformatting/group/app-framework_numberconversion.mrp"/>
+      </component>
+      <component id="nearestlangutils" name="Nearest Language Utils">
+        <unit bldFile="textandlocutils/nearestlangutils/group" mrp="textandlocutils/nearestlangutils/group/langutils.mrp"/>
+      </component>
+    </collection>
+    <collection id="localesupport" name="Locale Support" level="util">
+      <component id="reflocales" name="Reference Locales"  purpose="optional" class="plugin">
+        <unit bldFile="localisation/localesupport" mrp="localisation/localesupport/mmpfiles/base_loce32.mrp"/>
+      </component>
+     <component id="initlocale" name="Initialise Locale" introduced="^2" purpose="mandatory">
+     	<!-- placeholder for split from bafl -->
+     </component>
+    </collection>
+    <collection id="textandloctools" name="Text and Localisation Tools"  level="tools">
+      <component id="fontcompiler" name="Font Compiler" purpose="development" target="desktop">
+        <!-- placeholder for split from GDI Tools -->
+      </component>
+      <component id="bitmapfonttools" name="Bitmap Font Tools" purpose="development" target="desktop">
+        <unit bldFile="../graphics/graphicstools/bitmapfonttools/group" mrp="../graphics/graphicstools/bitmapfonttools/group/graphics_gdtran.mrp"/>
+      </component>
+    </collection>    
+    <collection id="textandloc_info" name="Text and Localisation Info" level="text">
+      <component id="textandloc_metadata" name="Text and Localisation Metadata" class="config" introduced="^2" purpose="development" target="desktop">
+        <unit mrp="textandloc_info/textandloc_metadata/textandloc_metadata.mrp"/>
+      </component>
+      <component id="textandloc_graphicstestharness" name="Graphics Test Harness" introduced="8.1" purpose="development" filter="test,api_test">
+	  	<!-- this is not part of this package, it should not be refrerenced here -->
+    	<meta rel="testbuild">
+          <group name="test.graphics_testharness"/>
+        </meta>
+        <unit bldFile="../graphics/graphicstest/graphicstestharness/group"/>
+      </component>
+    </collection>
+  </package>
+</SystemDefinition>

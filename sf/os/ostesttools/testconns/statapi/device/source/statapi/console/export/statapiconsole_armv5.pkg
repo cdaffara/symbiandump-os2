@@ -1,0 +1,38 @@
+;
+; Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+; All rights reserved.
+; This component and the accompanying materials are made available
+; under the terms of "Eclipse Public License v1.0"
+; which accompanies this distribution, and is available
+; at the URL "http://www.eclipse.org/legal/epl-v10.html".
+;
+; Initial Contributors:
+; Nokia Corporation - initial contribution.
+;
+; Contributors:
+;
+; Description: 
+;
+&EN
+
+; standard SIS file header
+; not same is mmp, or the icon will become same.
+#{"statapi"},(0x10210D4F),1,0,0
+
+;Localised Vendor name
+%{"Sybiman-EN"}
+
+;Unique Vendor name
+:"Symbian"
+
+;Files to install
+"\epoc32\release\armv5\urel\statapi.exe" -"!:\sys\bin\statapi.exe"
+if NOT exists("z:\sys\bin\iniparser.dll") AND NOT exists("c:\sys\bin\iniparser.dll")
+"\EPOC32\RELEASE\ARMV5\UREL\iniparser.dll"-"!:\sys\bin\iniparser.dll"
+endif
+
+"\epoc32\data\z\system\data\stat.ini" -"!:\system\data\stat.ini"
+
+"\epoc32\data\z\private\10003a3f\apps\statapi_reg.rsc" -"!:\private\10003a3f\import\apps\statapi_reg.rsc"
+"\epoc32\data\z\resource\apps\statapi_loc.rsc" -"!:\resource\apps\statapi_loc.rsc"
+"\epoc32\data\z\resource\apps\statapiicon.mbm" -"!:\resource\apps\statapiicon.mbm"

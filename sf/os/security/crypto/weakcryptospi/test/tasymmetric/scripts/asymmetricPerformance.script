@@ -1,0 +1,510 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+START_TESTCASE                SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0001
+
+//! @SYMTestCaseID            SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0001
+
+//! @SYMTestCaseDesc          ///////////////////////////////////////////////////////////////////////
+
+//!                           Switch on performance testing
+
+//!                           ////////////////////////////////////////////////////////////////////////
+
+//! @SYMTestActions           1) Switch on performance testing
+
+RUN_TEST_STEP                 -1    CTestHandler        PerformanceTestSettings   asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0001-001
+
+END_TESTCASE                  SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0001
+
+
+
+
+
+START_TESTCASE                SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0002
+
+//! @SYMTestCaseID            SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0002
+
+//! @SYMTestCaseDesc          ///////////////////////////////////////////////////////////////////////
+
+//!                           It should be noted that the time period specified denotes one of
+
+//!                           the three steps key creation, signing and verification of keys.
+
+//!                           So total execution time can be three times as long.
+
+//!                           <iterations> is actually the amount of time the test will run
+
+//!                           and should perhaps be changed to something like <iterationtime>.
+
+//!                           ///////////////////////////////////////////////////////////////////////
+
+//!                           
+
+//!                           ////////////////////////////////////////////////////////////////////////
+
+//!                           Forward-backward self tests (standard and CRT)
+
+//!                           ////////////////////////////////////////////////////////////////////////
+
+//! @SYMTestActions           1) DH key agreement
+
+//!                           2) Forward-backward self test RSA encrypt&decrypt: 512 bit key, standard, 15 sec
+
+//!                           3) Forward-backward self test RSA encrypt&decrypt: 1024 bit key, standard, 30 sec
+
+//!                           4) Forward-backward self test RSA encrypt&decrypt: 2048 bit key, standard, 60 sec
+
+//!                           5) Forward-backward self test RSA encrypt&decrypt: 512 bit key, CRT, 10 sec
+
+//!                           6) Forward-backward self test RSA encrypt&decrypt: 1024 bit key, CRT, 30 sec
+
+//!                           7) Forward-backward self test RSA encrypt&decrypt: 2048 bit key, CRT, 60 sec
+
+//!                           8) Forward-backward self test RSA sign&verify: 512 bit key, standard, 10 seconds
+
+//!                           9) Forward-backward self test RSA sign&verify: 1024 bit key, standard, 15 seconds
+
+//!                           10) Forward-backward self test RSA sign&verify: 2048 bit key, standard, 30 seconds
+
+//!                           11) Forward-backward self test RSA sign&verify : 512 bit key, CRT, 10 seconds
+
+//!                           12) Forward-backward self test RSA sign&verify : 1024 bit key, CRT, 15 seconds
+
+//!                           13) Forward-backward self test RSA sign&verify : 2048 bit key, CRT, 30 seconds
+
+RUN_TEST_STEP                 -1    CTestHandler        DHVector               asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0002-001
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptStandardAndCRTFB   asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0002-002
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptStandardAndCRTFB   asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0002-003
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptStandardAndCRTFB   asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0002-004
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptStandardAndCRTFB   asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0002-005
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptStandardAndCRTFB   asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0002-006
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptStandardAndCRTFB   asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0002-007
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignStandardAndCRTFB   asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0002-008
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignStandardAndCRTFB   asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0002-009
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignStandardAndCRTFB   asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0002-010
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignStandardAndCRTFB   asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0002-011
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignStandardAndCRTFB   asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0002-012
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignStandardAndCRTFB   asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0002-013
+
+END_TESTCASE                  SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0002
+
+
+
+
+
+START_TESTCASE                SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0003
+
+//! @SYMTestCaseID            SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0003
+
+//! @SYMTestCaseDesc          ////////////////////////////////////////////////////////////////////////
+
+//!                           Vector Test RSA: encrypt
+
+//!                           ////////////////////////////////////////////////////////////////////////
+
+//! @SYMTestActions           1) Vector Test RSA: Encrypt e = 0x3, 512 bit key, standard, 1 sec
+
+//!                           2) Vector Test RSA: Encrypt e = 0x11, 512 bit key, standard, 1 sec
+
+//!                           3) Vector Test RSA: Encrypt e = 0x010001, 512 bit key, standard, 1 sec
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptVector       asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0003-001
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptVector       asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0003-002
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptVector       asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0003-003
+
+END_TESTCASE                  SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0003
+
+
+
+
+
+START_TESTCASE                SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0004
+
+//! @SYMTestCaseID            SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0004
+
+//! @SYMTestCaseDesc          ////////////////////////////////////////////////////////////////////////
+
+//!                           Vector Test RSA: standard decrypt
+
+//!                           ////////////////////////////////////////////////////////////////////////
+
+//! @SYMTestActions           1) Vector Test RSA: Decrypt, 512 bit key, standard, 1 sec
+
+RUN_TEST_STEP                 -1    CTestHandler        RSADecryptVector       asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0004-001
+
+END_TESTCASE                  SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0004
+
+
+
+
+
+START_TESTCASE                SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0005
+
+//! @SYMTestCaseID            SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0005
+
+//! @SYMTestCaseDesc          ////////////////////////////////////////////////////////////////////////
+
+//!                           Vector Test RSA: CRT decrypt
+
+//!                           ////////////////////////////////////////////////////////////////////////
+
+//! @SYMTestActions           1) Vector Test RSA: Decrypt, 512 bit key, CRT, 1 sec
+
+RUN_TEST_STEP                 -1    CTestHandler        RSADecryptVectorCRT    asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0005-001
+
+END_TESTCASE                  SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0005
+
+
+
+
+
+START_TESTCASE                SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0006
+
+//! @SYMTestCaseID            SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0006
+
+//! @SYMTestCaseDesc          ////////////////////////////////////////////////////////////////////////
+
+//!                           More Vector Tests RSA: standard encrypt & decrypt
+
+//!                           ////////////////////////////////////////////////////////////////////////
+
+//! @SYMTestActions           1) Vector Test 2 RSA: Encrypt e = 0x3, 512 bit key, standard, 1 sec
+
+//!                           2) Vector Test 3 RSA: Encrypt e = 0x3, 512 bit key, standard, 1 sec
+
+//!                           3) Vector Test 4 RSA: Encrypt e = 0x3, 512 bit key, standard, 1 sec
+
+//!                           4) Vector Test 5 RSA: Encrypt e = 0x3, 512 bit key, standard, 1 sec
+
+//!                           5) Vector Test 6 RSA: Encrypt e = 0x11, 512 bit key, standard, 1 sec
+
+//!                           6) Vector Test 7 RSA: Encrypt e = 0x11, 512 bit key, standard, 1 sec
+
+//!                           7) Vector Test 8 RSA: Encrypt e = 0x11, 512 bit key, standard, 1 sec
+
+//!                           8) Vector Test 9 RSA: Encrypt e = 0x11, 512 bit key, standard, 1 sec
+
+//!                           9) Vector Test 10 RSA: Encrypt e = 0x11, 512 bit key, standard, 1 sec
+
+//!                           10) Vector Test 11 RSA: Encrypt e = 0x010001, 512 bit key, standard, 1 sec
+
+//!                           11) Vector Test 12 RSA: Encrypt e = 0x010001, 512 bit key, standard, 1 sec
+
+//!                           12) Vector Test 13 RSA: Encrypt e = 0x010001, 512 bit key, standard, 1 sec
+
+//!                           13) Vector Test 14 RSA: Encrypt e = 0x010001, 512 bit key, standard, 1 sec
+
+//!                           14) Vector Test 15 RSA: Encrypt e = 0x010001, 512 bit key, standard, 1 sec
+
+//!                           15) Vector Test 2 RSA: Decrypt, 512 bit key, standard, 1 sec
+
+//!                           16) Vector Test 3 RSA: Decrypt, 512 bit key, standard, 1 sec
+
+//!                           17) Vector Test 4 RSA: Decrypt, 512 bit key, standard, 1 sec
+
+//!                           18) Vector Test 5 RSA: Decrypt, 512 bit key, standard, 1 sec
+
+//!                           19) Vector Test 6 RSA: Decrypt, 512 bit key, standard, 1 sec
+
+//!                           20) Vector Test 7 RSA: Decrypt, 512 bit key, standard, 1 sec
+
+//!                           21) Vector Test 8 RSA: Decrypt, 512 bit key, standard, 1 sec
+
+//!                           22) Vector Test 9 RSA: Decrypt, 512 bit key, standard, 1 sec
+
+//!                           23) Vector Test 10 RSA: Decrypt, 512 bit key, standard, 1 sec
+
+//!                           24) Vector Test 11 RSA: Decrypt, 512 bit key, standard, 1 sec
+
+//!                           25) Vector Test 12 RSA: Decrypt, 512 bit key, standard, 1 sec
+
+//!                           26) Vector Test 13 RSA: Decrypt, 512 bit key, standard, 1 sec
+
+//!                           27) Vector Test 14 RSA: Decrypt, 512 bit key, standard, 1 sec
+
+//!                           28) Vector Test 15 RSA: Decrypt, 512 bit key, standard, 1 sec
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptVector       asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0006-001
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptVector       asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0006-002
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptVector       asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0006-003
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptVector       asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0006-004
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptVector       asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0006-005
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptVector       asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0006-006
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptVector       asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0006-007
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptVector       asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0006-008
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptVector       asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0006-009
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptVector       asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0006-010
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptVector       asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0006-011
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptVector       asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0006-012
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptVector       asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0006-013
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAEncryptVector       asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0006-014
+
+RUN_TEST_STEP                 -1    CTestHandler        RSADecryptVector       asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0006-015
+
+RUN_TEST_STEP                 -1    CTestHandler        RSADecryptVector       asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0006-016
+
+RUN_TEST_STEP                 -1    CTestHandler        RSADecryptVector       asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0006-017
+
+RUN_TEST_STEP                 -1    CTestHandler        RSADecryptVector       asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0006-018
+
+RUN_TEST_STEP                 -1    CTestHandler        RSADecryptVector       asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0006-019
+
+RUN_TEST_STEP                 -1    CTestHandler        RSADecryptVector       asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0006-020
+
+RUN_TEST_STEP                 -1    CTestHandler        RSADecryptVector       asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0006-021
+
+RUN_TEST_STEP                 -1    CTestHandler        RSADecryptVector       asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0006-022
+
+RUN_TEST_STEP                 -1    CTestHandler        RSADecryptVector       asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0006-023
+
+RUN_TEST_STEP                 -1    CTestHandler        RSADecryptVector       asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0006-024
+
+RUN_TEST_STEP                 -1    CTestHandler        RSADecryptVector       asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0006-025
+
+RUN_TEST_STEP                 -1    CTestHandler        RSADecryptVector       asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0006-026
+
+RUN_TEST_STEP                 -1    CTestHandler        RSADecryptVector       asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0006-027
+
+RUN_TEST_STEP                 -1    CTestHandler        RSADecryptVector       asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0006-028
+
+END_TESTCASE                  SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0006
+
+
+
+
+
+START_TESTCASE                SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0007
+
+//! @SYMTestCaseID            SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0007
+
+//! @SYMTestCaseDesc          ////////////////////////////////////////////////////////////////////////
+
+//!                           Vector Test RSA: Standard Sign
+
+//!                           ////////////////////////////////////////////////////////////////////////
+
+//! @SYMTestActions           1) Vector Test RSA: Sign, 512 bit key, Standard, 1 sec
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignVector          asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0007-001
+
+END_TESTCASE                  SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0007
+
+
+
+
+
+START_TESTCASE                SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0008
+
+//! @SYMTestCaseID            SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0008
+
+//! @SYMTestCaseDesc          ////////////////////////////////////////////////////////////////////////
+
+//!                           Vector Test RSA: CRT Sign
+
+//!                           ////////////////////////////////////////////////////////////////////////
+
+//!                           Test vector from cryptopp "Everybody gets Friday off"
+
+//! @SYMTestActions           1) Vector Test RSA: Sign, 512 bit key, CRT, 1 sec
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignVectorCRT       asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0008-001
+
+END_TESTCASE                  SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0008
+
+
+
+
+
+START_TESTCASE                SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0009
+
+//! @SYMTestCaseID            SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0009
+
+//! @SYMTestCaseDesc          ////////////////////////////////////////////////////////////////////////
+
+//!                           Vector Test RSA: Verify
+
+//!                           ////////////////////////////////////////////////////////////////////////
+
+//! @SYMTestActions           1) Vector Test RSA: Verify, e = 0x3 512 bit key, 1 sec
+
+//!                           2) Vector Test RSA: Verify, e = 0x11 512 bit key, 1 sec
+
+//!                           3) Vector Test RSA: Verify, e = 0x10001 512 bit key, 1 sec
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAVerifyVector        asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0009-001
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAVerifyVector        asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0009-002
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAVerifyVector        asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0009-003
+
+END_TESTCASE                  SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0009
+
+
+
+
+
+START_TESTCASE                SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0010
+
+//! @SYMTestCaseID            SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0010
+
+//! @SYMTestCaseDesc          ////////////////////////////////////////////////////////////////////////
+
+//!                           More Vector Tests RSA: standard sign & verify
+
+//!                           ////////////////////////////////////////////////////////////////////////
+
+//! @SYMTestActions           1) Vector Test 2 RSA: Sign, 512 bit key, Standard, 1 sec
+
+//!                           2) Vector Test 3 RSA: Sign, 512 bit key, Standard, 1 sec
+
+//!                           3) Vector Test 4 RSA: Sign, 512 bit key, Standard, 1 sec
+
+//!                           4) Vector Test 5 RSA: Sign, 512 bit key, Standard, 1 sec
+
+//!                           5) Vector Test 6 RSA: Sign, 512 bit key, Standard, 1 sec
+
+//!                           6) Vector Test 7 RSA: Sign, 512 bit key, Standard, 1 sec
+
+//!                           7) Vector Test 8 RSA: Sign, 512 bit key, Standard, 1 sec
+
+//!                           8) Vector Test 9 RSA: Sign, 512 bit key, Standard, 1 sec
+
+//!                           9) Vector Test 10 RSA: Sign, 512 bit key, Standard, 1 sec
+
+//!                           10) Vector Test 11 RSA: Sign, 512 bit key, Standard, 1 sec
+
+//!                           11) Vector Test 12 RSA: Sign, 512 bit key, Standard, 1 sec
+
+//!                           12) Vector Test 13 RSA: Sign, 512 bit key, Standard, 1 sec
+
+//!                           13) Vector Test 14 RSA: Sign, 512 bit key, Standard, 1 sec
+
+//!                           14) Vector Test 15 RSA: Sign, 512 bit key, Standard, 1 sec
+
+//!                           15) Vector Test 2 RSA: Verify, e = 0x3 512 bit key, 1 sec
+
+//!                           16) Vector Test 3 RSA: Verify, e = 0x3 512 bit key, 1 sec
+
+//!                           17) Vector Test 4 RSA: Verify, e = 0x3 512 bit key, 1 sec
+
+//!                           18) Vector Test 5 RSA: Verify, e = 0x3 512 bit key, 1 sec
+
+//!                           19) Vector Test 6 RSA: Verify, e = 0x11 512 bit key, 1 sec
+
+//!                           20) Vector Test 7 RSA: Verify, e = 0x11 512 bit key, 1 sec
+
+//!                           21) Vector Test 8 RSA: Verify, e = 0x11 512 bit key, 1 sec
+
+//!                           22) Vector Test 9 RSA: Verify, e = 0x11 512 bit key, 1 sec
+
+//!                           23) Vector Test 10 RSA: Verify, e = 0x10001 512 bit key, 1 sec
+
+//!                           24) Vector Test 11 RSA: Verify, e = 0x10001 512 bit key, 1 sec
+
+//!                           25) Vector Test 12 RSA: Verify, e = 0x10001 512 bit key, 1 sec
+
+//!                           26) Vector Test 13 RSA: Verify, e = 0x10001 512 bit key, 1 sec
+
+//!                           27) Vector Test 14 RSA: Verify, e = 0x10001 512 bit key, 1 sec
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignVector          asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0010-001
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignVector          asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0010-002
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignVector          asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0010-003
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignVector          asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0010-004
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignVector          asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0010-005
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignVector          asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0010-006
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignVector          asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0010-007
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignVector          asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0010-008
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignVector          asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0010-009
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignVector          asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0010-010
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignVector          asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0010-011
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignVector          asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0010-012
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignVector          asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0010-013
+
+RUN_TEST_STEP                 -1    CTestHandler        RSASignVector          asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0010-014
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAVerifyVector        asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0010-015
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAVerifyVector        asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0010-016
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAVerifyVector        asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0010-017
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAVerifyVector        asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0010-018
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAVerifyVector        asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0010-019
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAVerifyVector        asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0010-020
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAVerifyVector        asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0010-021
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAVerifyVector        asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0010-022
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAVerifyVector        asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0010-023
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAVerifyVector        asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0010-024
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAVerifyVector        asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0010-025
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAVerifyVector        asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0010-026
+
+RUN_TEST_STEP                 -1    CTestHandler        RSAVerifyVector        asymmetricPerformance.ini   SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0010-027
+
+END_TESTCASE                  SEC-CRYPTOSPI-ASYMMETRICPERFORMANCE-0010
+
+
+
+
+

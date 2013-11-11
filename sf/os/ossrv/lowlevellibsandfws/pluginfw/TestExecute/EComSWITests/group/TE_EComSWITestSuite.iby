@@ -1,0 +1,59 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// IBY file for TEF ECOm SWI Tests on Hardware
+// 
+//
+
+
+#ifndef __TE_ECOM_SWI_SUITE_IBY__
+#define __TE_ECOM_SWI_SUITE_IBY__
+
+#include <testexecute.iby>
+#include <tefplatsec.iby>
+#include <swicertstoredat.iby>
+#include <ecomtestutils.iby>
+#include <ecomtestcommon.iby>
+
+//Main Test Suite EXE
+// use data because this exe is subject to setcap manipulation
+data=ABI_DIR\BUILD_DIR\TE_EComSWITestSuite.exe							sys\bin\TE_EComSWITestSuite.exe	
+
+//Example Plugin that must be in the ROM
+ECOM_PLUGIN(EComSWITestPluginThree.dll,EComSWITestPluginThree.rsc)
+
+//TEF Script Files
+data=EPOCROOT##Epoc32\data\z\TEF_EComSWI\TE_EComSWITestARM.script		TEF_EComSWI\TE_EComSWITestARM.script
+
+
+//TEF INI Files
+data=EPOCROOT##Epoc32\data\z\TEF_EComSWI\ECom-SWI-Install.ini			TEF_EComSWI\ECom-SWI-Install.ini
+data=EPOCROOT##Epoc32\data\z\TEF_EComSWI\ECom-SWI-CheckPlugin.ini		TEF_EComSWI\ECom-SWI-CheckPlugin.ini
+data=EPOCROOT##Epoc32\data\z\TEF_EComSWI\ECom-SWI-UsePlugin.ini			TEF_EComSWI\ECom-SWI-UsePlugin.ini
+
+
+//Signed SIS File - ECom Plugins
+data=EPOCROOT##Epoc32\data\z\TEF_EComSWI\EComPlugin1ARMs.sis			TEF_EComSWI\EComPlugin1ARMs.sis
+data=EPOCROOT##Epoc32\data\z\TEF_EComSWI\EComPlugin1UpgARMs.sis			TEF_EComSWI\EComPlugin1UpgARMs.sis
+data=EPOCROOT##Epoc32\data\z\TEF_EComSWI\EComPlugin2ARMs.sis			TEF_EComSWI\EComPlugin2ARMs.sis
+data=EPOCROOT##Epoc32\data\z\TEF_EComSWI\EComPlugin3UpgARMs.sis			TEF_EComSWI\EComPlugin3UpgARMs.sis
+
+data=DATAZ_\tef_ecomswi\DEBUG_DIR\cachedresolverupg2signed.sis			tef_ecomswi\cachedresolverupg2signed.sis
+data=DATAZ_\tef_ecomswi\DEBUG_DIR\cachedresolverupg9signed.sis			tef_ecomswi\cachedresolverupg9signed.sis
+
+//Stub
+data=EPOCROOT##Epoc32\data\z\System\Install\EComPluginStub.sis			System\Install\EComPluginStub.sis
+data=DATAZ_\tef_ecomswi\cachedresolverstub.sis							system\install\cachedresolverstub.sis
+
+
+#endif //__TE_ECOM_SWI_SUITE_IBY__

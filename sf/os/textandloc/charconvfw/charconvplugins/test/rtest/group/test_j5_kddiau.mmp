@@ -1,0 +1,76 @@
+/*
+* Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* TEST KDDI/AU version.
+* This is a test build of the "KDDI/AU" version of the J5 character conversion plugin,
+* which uses a test UID (0x10000002) in place of the usual J5 UID. 
+* The kddi/au version differs from the Docomo version by using shiftjis_kddiau_shared.dll
+* rather than shiftjis_docomo_shared.dll, so the only difference is the kddi/au specific shiftjis
+* conversions.
+* This can then be tested by tj5_kddiau which loads
+* this plug-in rather than J5_docomo by refering to the test UID
+* Character conversion method that can convert from any of the following:
+* character sets: Windows-31J (Microsoft code page 932), JIS (ISO-2022-JP-1), 
+* EUC, UTF8, and UCS2.
+* kddiau test version of j5.cpl converter
+*
+*/
+
+
+/**
+ @file
+*/
+
+TARGET			test_j5_kddiau.dll
+TARGETTYPE		PLUGIN
+
+MACRO KDDIAU_TEST
+
+CAPABILITY		All -Tcb
+
+UID				0x10009D8D 0x01000003
+VENDORID		0x70000001
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+USERINCLUDE		../../../inc
+USERINCLUDE		../../
+USERINCLUDE		../../../src/inc
+
+SOURCEPATH		../../../src/plugins
+SOURCE			j5.cpp
+SOURCE			j5eucjp.cpp
+
+SOURCEPATH		../tsrc/main
+START RESOURCE	test_j5_kddiau.rss
+TARGETPATH		/resource/charconv
+LANG			sc
+END
+
+START RESOURCE	01000002.rss
+TARGET			test_j5_kddiau.rsc
+END
+
+LIBRARY			euser.lib
+LIBRARY			ecom.lib
+LIBRARY			convutils.lib
+LIBRARY			shiftjis_kddiau_shared.lib
+LIBRARY			jisbase_shared.lib
+LIBRARY			charconv.lib 
+LIBRARY			jisx0201.lib
+LIBRARY			jisx0208.lib
+LIBRARY			jisx0212.lib
+LIBRARY			featmgr.lib
+
+SMPSAFE

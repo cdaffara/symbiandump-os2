@@ -1,0 +1,114 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+// This example script demonstrates how complex ASN.1 may be imported, edited
+// and exported.
+// This was generated from the output of importdumpasn1.pl and the signature
+// was changed to be generated dynamically. It is now possible to edit arbitrary
+// parts of the certificate and still have a valid signature
+SEQUENCE
+OUTPUT_BINARY_FILE=_tosign.bin,1
+   SEQUENCE
+      EXPLICIT=0
+         INTEGER=2
+      END
+      INTEGER=8
+      SEQUENCE
+         OID=1.2.840.113549.1.1.4
+         NULL
+      END
+      SEQUENCE
+         SET
+            SEQUENCE
+               OID=2.5.4.10
+               PRINTABLESTRING=Symbian Software Ltd
+            END
+         END
+         SET
+            SEQUENCE
+               OID=2.5.4.3
+               PRINTABLESTRING=Root5-RSA
+            END
+         END
+      END
+      SEQUENCE
+         UTCTIME=040303163454Z
+         UTCTIME=140301163454Z
+      END
+      SEQUENCE
+         SET
+            SEQUENCE
+               OID=2.5.4.10
+               PRINTABLESTRING=Symbian Software Ltd
+            END
+         END
+         SET
+            SEQUENCE
+               OID=2.5.4.3
+               PRINTABLESTRING=GoodAIA-R5
+            END
+         END
+      END
+      SEQUENCE
+         SEQUENCE
+            OID=1.2.840.113549.1.1.1
+            NULL
+         END
+         BITSTRING_WRAPPER
+            SEQUENCE
+               BIGINTEGER {
+                              00 E2 8F 16 EC 7C F4 AE D4 ED FD 68 C8 21 E1 33
+                              47 CD D6 75 7B 84 9F 38 48 19 EF D1 D0 AA 34 A1
+                              6A 19 F9 90 C7 99 EA 14 A3 76 67 7E B6 22 02 5F
+                              AA BB E5 31 51 3A 5B 0A B0 A5 E1 EC 68 19 62 4F
+                              9E 18 8E 61 ED 24 6F 05 87 50 1C 06 9A 79 82 CD
+                              B3 0F D0 3F 63 EE 49 72 DA AB 3A EA BC 00 F0 87
+                              07 A2 DE 49 50 CD 1D 83 BC 30 20 3E FF 50 B0 79
+                              4C BD 7D 0A 03 E9 64 A1 D3 71 E4 64 5B 82 B9 ED
+                              05
+                  
+               }
+               INTEGER=65537
+            END
+         END
+      END
+      EXPLICIT=3
+         SEQUENCE
+            SEQUENCE
+               OID=1.3.6.1.5.5.7.1.1
+               OCTETSTRING
+                  SEQUENCE
+                     SEQUENCE
+                        OID=1.3.6.1.5.5.7.48.1
+                        IMPLICIT=6
+                           PRINTABLESTRING=http://lon-sysbuild03.intra:19003
+                        END
+                     END
+                  END
+               END
+            END
+         END
+      END
+   END
+END
+   SEQUENCE
+      OID=1.2.840.113549.1.1.4
+      NULL
+   END
+   BITSTRING_WRAPPER
+	  SHELL=cmd,/C,"openssl dgst -binary -sign root5ca_key.pem -md5 _tosign.bin > _signature.der"
+	  INCLUDE_BINARY_FILE=_signature.der
+   END
+END
